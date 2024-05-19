@@ -135,8 +135,6 @@
 
                     document.getElementById('sunrise').textContent = 'Soluppgång: ' + sunriseLocal;
                     document.getElementById('sunset').textContent = 'Solnedgång: ' + sunsetLocal;
-
-                    createMap(latitude, longitude);
                 })
                 .catch(error => {
                     console.log('Error fetching sunrise/sunset data:', error);
@@ -146,7 +144,7 @@
         }
 
         const getWeatherForecast = (latitude, longitude) => {
-            const forecastAPIURL = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`;
+            const forecastAPIURL = `https://api.met.noconst forecastAPIURL = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`;
 
             fetch(forecastAPIURL)
                 .then(response => response.json())
@@ -162,7 +160,7 @@
                         const weather = translateWeatherSymbol(timeseries[i].data.next_1_hours?.summary?.symbol_code);
 
                         if (weather !== currentWeather) {
-                              if (startTime !== null) {
+                            if (startTime !== null) {
                                 endTime = time;
                                 weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
                             }
@@ -189,17 +187,23 @@
             return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
         }
 
+        let mapInitialized = false; // Variabel för att kontrollera om kartan redan har initialiserats
+
         const createMap = (latitude, longitude) => {
-            const map = L.map('map').setView([latitude, longitude], 13);
+            if (!mapInitialized) { // Kontrollera om kartan redan har initialiserats
+                const map = L.map('map').setView([latitude, longitude], 13);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
 
-            L.marker([latitude, longitude]).addTo(map)
-                .bindPopup('Din plats')
-                .openPopup();
+                L.marker([latitude, longitude]).addTo(map)
+                    .bindPopup('Din plats')
+                    .openPopup();
+
+                mapInitialized = true; // Sätt flaggan till true för att indikera att kartan har initialiserats
+            }
         }
 
         navigator.geolocation.getCurrentPosition(position => {
