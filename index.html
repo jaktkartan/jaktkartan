@@ -76,7 +76,46 @@
     <script>
         const translateWeatherSymbol = (symbolCode) => {
             switch(symbolCode) {
-                // Dina översättningar här
+                case 'clearsky_day':
+                    return 'klart väder (dag)';
+                case 'clearsky_night':
+                    return 'klart väder (natt)';
+                case 'partlycloudy_day':
+                    return 'delvis molnigt (dag)';
+                case 'partlycloudy_night':
+                    return 'delvis molnigt (natt)';
+                case 'cloudy':
+                    return 'molnigt';
+                case 'fair_day':
+                    return 'växlande molnighet (dag)';
+                case 'fair_night':
+                    return 'växlande molnighet (natt)';
+                case 'rain':
+                    return 'regn';
+                case 'lightrain_showers_day':
+                    return 'lätt regnskurar (dag)';
+                case 'lightrain_showers_night':
+                    return 'lätt regnskurar (natt)';
+                case 'rain_showers_day':
+                    return 'regnskurar (dag)';
+                case 'rain_showers_night':
+                    return 'regnskurar (natt)';
+                case 'thunderstorm':
+                    return 'åska';
+                case 'sleet':
+                    return 'snöblandat regn';
+                case 'snow':
+                    return 'snö';
+                case 'sleet_showers_day':
+                    return 'snöblandade regnskurar (dag)';
+                case 'sleet_showers_night':
+                    return 'snöblandade regnskurar (natt)';
+                case 'snow_showers_day':
+                    return 'snöskurar (dag)';
+                case 'snow_showers_night':
+                    return 'snöskurar (natt)';
+                default:
+                    return 'okänt väder';
             }
         }
 
@@ -86,7 +125,7 @@
             fetch(sunriseSunsetAPIURL)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Sunrise/Sunset data:', data);
+                    console.log('Sunrise/Sunset data:', data); // Debugging line
                     const sunrise = new Date(data.results.sunrise);
                     const sunset = new Date(data.results.sunset);
 
@@ -97,8 +136,7 @@
                     document.getElementById('sunrise').textContent = 'Soluppgång: ' + sunriseLocal;
                     document.getElementById('sunset').textContent = 'Solnedgång: ' + sunsetLocal;
 
-                    getWeatherForecast(latitude, longitude);
-                    createMap(latitude, longitude, position.coords.accuracy);
+                    createMap(latitude, longitude);
                 })
                 .catch(error => {
                     console.log('Error fetching sunrise/sunset data:', error);
@@ -124,7 +162,7 @@
                         const weather = translateWeatherSymbol(timeseries[i].data.next_1_hours?.summary?.symbol_code);
 
                         if (weather !== currentWeather) {
-                            if (startTime !== null) {
+                              if (startTime !== null) {
                                 endTime = time;
                                 weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
                             }
@@ -151,22 +189,13 @@
             return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
         }
 
-        const createMap = (latitude, longitude, accuracy) => {
+        const createMap = (latitude, longitude) => {
             const map = L.map('map').setView([latitude, longitude], 13);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
-
-            const radius = accuracy / 2;
-
-            L.circle([latitude, longitude], {
-                color: 'blue',
-                fillColor: '#cce6ff',
-                fillOpacity: 0.3,
-                radius: radius
-            }).addTo(map).bindPopup('Din position');
 
             L.marker([latitude, longitude]).addTo(map)
                 .bindPopup('Din plats')
@@ -178,6 +207,8 @@
             const longitude = position.coords.longitude;
 
             getSunriseSunset(latitude, longitude);
+            getWeatherForecast(latitude, longitude);
+            createMap(latitude, longitude);
         }, error => {
             console.log('Fel vid hämtning av plats:', error);
             document.getElementById('weather-text').textContent = 'Kunde inte hämta din plats.';
@@ -185,3 +216,4 @@
     </script>
 </body>
 </html>
+
