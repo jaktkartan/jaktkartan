@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Väder och Soluppgång/Solnedgång</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .info-container {
+            margin-bottom: 40px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #325e58;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        h1 img {
+            height: 70px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <h1><a href="http://www.jaktkartan.se"><img src="https://github.com/timothylevin/Vader-soluppgang-solnedgang/raw/main/logo.png" alt="Jaktkartan.se logotyp" style="height: 70px;"></a></h1>
+    <div class="container">
+        <div class="info-container" id="sunrise-sunset-info">
+            <h2>Soluppgång/Solnedgång</h2>
+            <p id="sunrise">Laddar soluppgång...</p>
+            <p id="sunset">Laddar solnedgång...</p>
+        </div>
+
+        <div class="info-container" id="weather-info">
+            <h2>Väderleksrapport</h2>
+            <div id="weather-text">Laddar väder...</div>
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const translateWeatherSymbol = (symbolCode) => {
+            switch(symbolCode) {
+                // Dina översättningar här
+            }
+        }
+
+        const getSunriseSunset = (latitude, longitude) => {
+            const sunriseSunsetAPIURL = 'https://api.sunrise-sunset.org/json?lat=' + latitude + '&lng=' + longitude + '&formatted=0';
+
+            fetch(sunriseSunsetAPIURL)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Sunrise/Sunset data:', data);
+                    const sunrise = new Date(data.results.sunrise);
+                    const sunset = new Date(data.results.sunset);
+
+                    const options = {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, hour: '2-digit', minute: '2-digit'};
+                    const sunriseLocal = sunrise.toLocaleString('sv-SE', options);
+                    const sunsetLocal = sunset.toLocaleString('sv-SE', options);
+
+                    document.getElementById('sunrise').textContent = 'Soluppgång: ' + sunriseLocal;
+                    document.getElementById('sunset').textContent = 'Solnedgång: ' + sunsetLocal;
+
+                    getWeatherForecast(latitude, longitude);
+                    createMap(latitude, longitude, position.coords.accuracy);
+                })
+                .catch(error => {
+                    console.log('Error fetching sunrise/sunset data:', error);
+                    document.getElementById('sunrise').textContent = 'Kunde inte hämta soluppgång/solnedgångstider.';
+                    document.getElementById('sunset').textContent = 'Kunde inte hämta soluppgång/solnedgångstider.';
+                });
+        }
+
+        const getWeatherForecast = (latitude, longitude) => {
+            const forecastAPIURL = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`;
+
+            fetch(forecastAPIURL)
+                .then(response => response.json())
+                .then(data => {
+                    const timeseries = data.properties.timeseries;
+
+                    let weatherForecast = '';
+                    let currentWeather = '';
+                    let startTime = null;
+                    let endTime = null;
+                    for (let i = 0; i < timeseries.length; i++) {
+                        const time = new Date(timeseries[i].time);
+                        const weather = translateWeatherSymbol(timeseries[i].data.next_1_hours?.summary?.symbol_code);
+
+                        if (weather !== currentWeather) {
+                            if (startTime !== null) {
+                                endTime = time;
+                                weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
+                            }
+                            currentWeather = weather;
+                            startTime = time;
+                        }
+                    }
+
+                    // Hantera det sista väderförhållandet
+                    if (startTime !== null) {
+                        endTime = new Date(timeseries[timeseries.length - 1].time);
+                        weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
+                    }
+
+                    document.getElementById('weather-text').innerHTML = '24-timmars prognos: <br>' + weatherForecast;
+                })
+                .catch(error => {
+                    console.log('Fel vid hämtning av väderprognos:', error);
+                    document.getElementById('weather-text').textContent = 'Kunde inte hämta väderprognos.';
+                });
+        }
+
+        const formatTime = (time) => {
+            return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        const createMap = (latitude, longitude, accuracy) => {
+            const map = L.map('map').setView([latitude, longitude], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            const radius = accuracy / 2;
+
+            L.circle([latitude, longitude], {
+                color: 'blue',
+                fillColor: '#cce6ff',
+                fillOpacity: 0.3,
+                radius: radius
+            }).addTo(map).bindPopup('Din position');
+
+            L.marker([latitude, longitude]).addTo(map)
+                .bindPopup('Din plats')
+                .openPopup();
+        }
+
+        navigator.geolocation.getCurrentPosition(position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            getSunriseSunset(latitude, longitude);
+        }, error => {
+            console.log('Fel vid hämtning av plats:', error);
+            document.getElementById('weather-text').textContent = 'Kunde inte hämta din plats.';
+        });
+    </script>
+</body>
+</html>
