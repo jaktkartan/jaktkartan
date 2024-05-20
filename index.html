@@ -95,27 +95,34 @@
             }
         }
 
-        // Geolocation funktion för realtidsuppdatering
+        function getPositionFromIP() {
+            axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                .then(function(response) {
+                    var loc = response.data.loc.split(',');
+                    var lat = parseFloat(loc[0]);
+                    var lon = parseFloat(loc[1]);
+                    updateUserPosition(lat, lon, "IP");
+                })
+                .catch(function(error) {
+                    console.log("IP Geolocation failed: " + error.message);
+                });
+        }
+
         if (navigator.geolocation) {
+            var gpsTimeout = setTimeout(function() {
+                getPositionFromIP();
+            }, 5000); // 5 sekunders timeout för att försöka få GPS-position
+
             navigator.geolocation.watchPosition(
                 function(position) {
+                    clearTimeout(gpsTimeout); // Rensa timeout om GPS fungerar
                     var lat = position.coords.latitude;
                     var lon = position.coords.longitude;
                     updateUserPosition(lat, lon, "GPS");
                 },
                 function(error) {
                     console.log("Geolocation failed: " + error.message);
-                    // Fall back to IP-based geolocation if GPS fails
-                    axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                        .then(function(response) {
-                            var loc = response.data.loc.split(',');
-                            var lat = parseFloat(loc[0]);
-                            var lon = parseFloat(loc[1]);
-                            updateUserPosition(lat, lon, "IP");
-                        })
-                        .catch(function(error) {
-                            console.log("IP Geolocation failed: " + error.message);
-                        });
+                    getPositionFromIP();
                 },
                 {
                     enableHighAccuracy: true,
