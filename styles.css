@@ -44,14 +44,12 @@ html, body {
 
 /* Styla markören */
 .leaflet-marker-icon {
-    /* Lägg till önskade stilar för markören */
-    margin-left: -12px;
-    margin-top: -41px;
+    background-image: url('path/to/your/marker/image.png'); /* Ange sökväg till din markörsbild */
+    background-size: cover;
     width: 25px;
     height: 41px;
-    transform: translate3d(710px, 308px, 0px);
-    z-index: 308;
-    outline: none;
+    margin-left: -12px;
+    margin-top: -41px;
 }
 
 /* Styla popup-stängknappen */
