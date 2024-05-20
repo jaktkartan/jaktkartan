@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <!-- Länk till separat CSS-fil för anpassade stilar -->
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Inbäddad CSS-kod */
+        #map { height: 100vh; }
+    </style>
 </head>
 <body>
     <div id="map"></div>
@@ -18,7 +22,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Inbäddad JavaScript-kod -->
     <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map');
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -35,6 +39,7 @@
             } else {
                 userMarker.setLatLng([lat, lon]);
                 userMarker.getPopup().setContent("You are here!<br>Positioning method: " + method).openOn(map);
+                map.panTo([lat, lon]); // Pan to the updated marker position
             }
         }
 
