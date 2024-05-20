@@ -1,5 +1,3 @@
-/* styles.css */
-
 /* Ta bort marginaler från <html> och <body> */
 html, body {
     margin: 0;
@@ -43,19 +41,8 @@ html, body {
 }
 
 /* Styla markören */
-.user-location {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #007bff;
-    animation: pulse 1.5s infinite;
-}
-
-/* Definiera pulserande animation */
-@keyframes pulse {
-    0% { transform: scale(0.9); }
-    50% { transform: scale(1); }
-    100% { transform: scale(0.9); }
+.leaflet-marker-icon {
+    /* Lägg till önskade stilar för markören */
 }
 
 /* Styla popup-stängknappen */
@@ -71,4 +58,20 @@ html, body {
     line-height: 20px;
     text-align: center;
     font-weight: bold;
+}
+
+/* Styla punkten för användarens position */
+.user-location {
+    width: 20px; /* Ange storleken på punkten */
+    height: 20px;
+    border-radius: 50%; /* Gör den rund */
+    background-color: #007bff; /* Standardfärg */
+    animation: pulse 1.5s infinite; /* Använd pulserande animation */
+}
+
+/* Definiera pulserande animation */
+@keyframes pulse {
+    0% { transform: scale(0.9); }
+    50% { transform: scale(1); }
+    100% { transform: scale(0.9); }
 }
