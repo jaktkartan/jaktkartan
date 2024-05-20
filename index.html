@@ -38,20 +38,25 @@
         var accuracyCircle;
 
         function updateUserPosition(lat, lon, accuracy) {
-            if (!userMarker) {
-                // Skapa en punkt för användarens position
-                userMarker = L.marker([lat, lon]).addTo(map);
-                // Skapa en cirkel för noggrannhet runt användarens position
-                accuracyCircle = L.circle([lat, lon], {
-                    radius: accuracy,
-                    fillColor: 'blue',
-                    fillOpacity: 0.2,
-                    stroke: false
-                }).addTo(map);
-            } else {
-                userMarker.setLatLng([lat, lon]);
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
+            // Ta bort den tidigare skapade markören och cirkeln, om de finns
+            if (userMarker) {
+                map.removeLayer(userMarker);
             }
+            if (accuracyCircle) {
+                map.removeLayer(accuracyCircle);
+            }
+            
+            // Skapa en punkt för användarens position
+            userMarker = L.marker([lat, lon]).addTo(map);
+            
+            // Skapa en cirkel för noggrannhet runt användarens position
+            accuracyCircle = L.circle([lat, lon], {
+                radius: accuracy,
+                fillColor: getColor(accuracy), // Få färg baserad på noggrannheten
+                fillOpacity: 0.2,
+                stroke: false
+            }).addTo(map);
+
             // Uppdatera kartvyn till användarens position
             map.setView([lat, lon], 13);
         }
@@ -73,6 +78,16 @@
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
             updateUserPosition(lat, lon, position.coords.accuracy.toFixed(2));
+        }
+
+        function getColor(accuracy) {
+            if (accuracy <= 10) {
+                return 'green';
+            } else if (accuracy <= 20) {
+                return 'orange';
+            } else {
+                return 'red';
+            }
         }
 
         if (navigator.geolocation) {
