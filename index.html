@@ -121,6 +121,20 @@
                 });
         }
 
+        function handleGeolocation(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            var accuracy = position.coords.accuracy;
+
+            if (accuracy <= 100) { // GPS-noggrannhet kan ofta vara under 100 meter
+                updateUserPosition(lat, lon, "GPS");
+            } else if (accuracy <= 1000) { // Om noggrannheten är under 1000 meter, antag att det fortfarande är GPS men med sämre precision
+                updateUserPosition(lat, lon, "Assisted GPS or Wi-Fi");
+            } else {
+                getPositionFromIP();
+            }
+        }
+
         if (navigator.geolocation) {
             var gpsTimeout = setTimeout(function () {
                 getPositionFromIP();
@@ -129,14 +143,7 @@
             navigator.geolocation.getCurrentPosition(
                 function (position) {
                     clearTimeout(gpsTimeout); // Rensa timeout om GPS fungerar
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-                    var accuracy = position.coords.accuracy;
-                    if (accuracy < 1000) { // Om noggrannheten är mindre än 1000 meter, anta att det är GPS
-                        updateUserPosition(lat, lon, "GPS");
-                    } else {
-                        getPositionFromIP();
-                    }
+                    handleGeolocation(position);
                 },
                 function (error) {
                     console.log("Geolocation failed: " + error.message);
@@ -151,9 +158,7 @@
 
             navigator.geolocation.watchPosition(
                 function (position) {
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-                    updateUserPosition(lat, lon, "GPS");
+                    handleGeolocation(position);
                 },
                 function (error) {
                     console.log("Geolocation failed: " + error.message);
