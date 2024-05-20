@@ -21,8 +21,7 @@
         <title></title>
     </head>
     <body>
-        <div id="map">
-        </div>
+        <div id="map"></div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
         <script src="js/L.Control.Layers.Tree.min.js"></script>
@@ -40,6 +39,7 @@
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        
         function removeEmptyRowsFromPopupContent(content, feature) {
          var tempDiv = document.createElement('div');
          tempDiv.innerHTML = content;
@@ -53,6 +53,7 @@
          }
          return tempDiv.innerHTML;
         }
+
         document.querySelector(".leaflet-popup-pane").addEventListener("load", function(event) {
           var tagName = event.target.tagName,
             popup = map._popup;
@@ -62,9 +63,11 @@
             popup.update();
           }
         }, true);
+
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
+        
         map.createPane('pane_OSMStandard_0');
         map.getPane('pane_OSMStandard_0').style.zIndex = 400;
         var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -76,8 +79,39 @@
             minNativeZoom: 0,
             maxNativeZoom: 19
         });
-        layer_OSMStandard_0;
         map.addLayer(layer_OSMStandard_0);
+
+        var userMarker;
+        
+        // Geolocation funktion för realtidsuppdatering
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                function(position) {
+                    var lat = position.coords.latitude;
+                    var lon = position.coords.longitude;
+                    
+                    if (!userMarker) {
+                        userMarker = L.marker([lat, lon]).addTo(map)
+                            .bindPopup("You are here!")
+                            .openPopup();
+                        map.setView([lat, lon], 13);
+                    } else {
+                        userMarker.setLatLng([lat, lon]);
+                    }
+                },
+                function(error) {
+                    alert("Geolocation failed: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+
         setBounds();
         </script>
     </body>
