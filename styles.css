@@ -1,5 +1,11 @@
 /* styles.css */
 
+/* Ta bort marginaler och paddingar från <body> */
+body {
+    margin: 0;
+    padding: 0;
+}
+
 /* Styla kartbehållaren */
 #map {
     height: 100vh !important;
