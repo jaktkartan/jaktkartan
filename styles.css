@@ -2,7 +2,7 @@
 
 /* Styla kartbehållaren */
 #map {
-    height: 100vh;
+    height: 100vh !important;
 }
 
 /* Lägg till önskade stilar för popup-fönster */
