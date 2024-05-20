@@ -22,7 +22,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Inbäddad JavaScript-kod -->
     <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map');
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -36,7 +36,6 @@
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
-            map.setView([lat, lon], 13);
             // Visa en popup för att informera användaren om positioneringen
             var message = method === "GPS" ? "GPS" : "Network";
             userMarker.bindPopup("You are here!<br>Positioning method: " + message).openPopup();
@@ -49,6 +48,8 @@
                     var lat = parseFloat(loc[0]);
                     var lon = parseFloat(loc[1]);
                     updateUserPosition(lat, lon, "Network");
+                    // Flytta kartvyn till användarens position
+                    map.setView([lat, lon], 13);
                 })
                 .catch(function (error) {
                     console.log("IP Geolocation failed: " + error.message);
@@ -59,6 +60,8 @@
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
             updateUserPosition(lat, lon, "GPS");
+            // Flytta kartvyn till användarens position
+            map.setView([lat, lon], 13);
         }
 
         if (navigator.geolocation) {
