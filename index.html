@@ -31,8 +31,6 @@
             border-radius: 50%;
             background-color: #007bff;
             animation: pulse 1.5s infinite;
-            position: absolute; /* Säkerställ att den placeras korrekt */
-            z-index: 1000; /* Säkerställ att markören visas över kartan */
         }
         /* Definiera pulserande animation */
         @keyframes pulse {
@@ -75,17 +73,20 @@
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
                     radius: accuracy,
+                    fillColor: getColor(accuracy),
+                    color: getColor(accuracy),
                     fillOpacity: 0.5
                 }).addTo(map);
             } else {
                 accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
+                accuracyCircle.setStyle({
+                    fillColor: getColor(accuracy),
+                    color: getColor(accuracy)
+                });
             }
             // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
-
-            // Uppdatera noggrannhetscirkelns färg baserat på noggrannheten
-            updateAccuracyCircleColor(accuracy);
 
             // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
@@ -111,48 +112,15 @@
             updateUserPosition(lat, lon, accuracy.toFixed(2));
         }
 
-        function updateAccuracyCircleColor(accuracy) {
+        function getColor(accuracy) {
             if (accuracy <= 10) {
-                accuracyCircle.setStyle({ color: 'green', fillColor: 'green' });
+                return 'green';
             } else if (accuracy <= 20) {
-                accuracyCircle.setStyle({ color: 'yellow', fillColor: 'yellow' });
+                return 'yellow';
             } else {
-                accuracyCircle.setStyle({ color: 'red', fillColor: 'red' });
+                return 'red';
             }
         }
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                    getPositionFromIP();
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-
-            navigator.geolocation.watchPosition(
-                function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        } else {
-            getPositionFromIP();
-        }
-    </script>
-</body>
-</html>
