@@ -44,36 +44,14 @@ html, body {
 
 /* Styla markören */
 .leaflet-marker-icon {
-    background-image: url('path/to/your/marker/image.png'); /* Ange sökväg till din markörsbild */
-    background-size: cover;
-    width: 25px;
-    height: 41px;
-    margin-left: -12px;
-    margin-top: -41px;
-}
-
-/* Styla popup-stängknappen */
-.leaflet-popup-close-button {
-    top: 8px;
-    right: 8px;
     width: 20px;
     height: 20px;
-    background-color: #fff;
-    border: 2px solid #333;
     border-radius: 50%;
-    color: #333;
-    line-height: 20px;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* Styla punkten för användarens position */
-.user-location {
-    width: 20px; /* Ange storleken på punkten */
-    height: 20px;
-    border-radius: 50%; /* Gör den rund */
-    background-color: #007bff; /* Standardfärg */
-    animation: pulse 1.5s infinite; /* Använd pulserande animation */
+    background-color: #007bff;
+    animation: pulse 1.5s infinite;
+    margin-left: -10px; /* Justera horisontell placering */
+    margin-top: -10px; /* Justera vertikal placering */
+    z-index: 1000; /* Säkerställ att markören visas över kartan */
 }
 
 /* Definiera pulserande animation */
@@ -81,20 +59,4 @@ html, body {
     0% { transform: scale(0.9); }
     50% { transform: scale(1); }
     100% { transform: scale(0.9); }
-}
-
-/* Definiera färgerna för noggrannhetscirkeln */
-.green-circle {
-    fill: green;
-    stroke: green;
-}
-
-.yellow-circle {
-    fill: yellow;
-    stroke: yellow;
-}
-
-.red-circle {
-    fill: red;
-    stroke: red;
 }
