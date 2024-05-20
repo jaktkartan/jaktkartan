@@ -50,7 +50,21 @@ html, body {
     height: 41px;
     margin-left: -12px;
     margin-top: -41px;
-    z-index: 1000; /* Säkerställ att markören visas över kartan */
+}
+
+/* Styla popup-stängknappen */
+.leaflet-popup-close-button {
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid #333;
+    border-radius: 50%;
+    color: #333;
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
 }
 
 /* Styla punkten för användarens position */
@@ -60,15 +74,6 @@ html, body {
     border-radius: 50%; /* Gör den rund */
     background-color: #007bff; /* Standardfärg */
     animation: pulse 1.5s infinite; /* Använd pulserande animation */
-    position: absolute; /* Säkerställ att den placeras korrekt */
-    z-index: 1000; /* Säkerställ att markören visas över kartan */
-}
-
-/* Stila noggrannhetscirkeln */
-.leaflet-accuracy-circle {
-    fill-opacity: 0.5;
-    stroke-opacity: 0.8;
-    stroke-width: 2;
 }
 
 /* Definiera pulserande animation */
@@ -76,4 +81,20 @@ html, body {
     0% { transform: scale(0.9); }
     50% { transform: scale(1); }
     100% { transform: scale(0.9); }
+}
+
+/* Definiera färgerna för noggrannhetscirkeln */
+.green-circle {
+    fill: green;
+    stroke: green;
+}
+
+.yellow-circle {
+    fill: yellow;
+    stroke: yellow;
+}
+
+.red-circle {
+    fill: red;
+    stroke: red;
 }
