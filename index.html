@@ -36,7 +36,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Inbäddad JavaScript-kod -->
     <script>
-        var map = L.map('map');
+        var map = L.map('map').setView([0, 0], 2);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -46,11 +46,12 @@
         var accuracyCircle;
 
         function updateUserPosition(lat, lon, accuracy) {
+            console.log('Update position:', lat, lon, accuracy);
             if (!userMarker) {
                 userMarker = L.marker([lat, lon], {
                     icon: L.divIcon({
-                        className: 'user-location',
-                        iconSize: [20, 20]
+                        className: 'user-location', // Använd definierad CSS-klass för punkten
+                        iconSize: [20, 20] // Storlek på ikonen
                     })
                 }).addTo(map);
                 accuracyCircle = L.circle([lat, lon], {
@@ -58,7 +59,7 @@
                     fillColor: getColor(accuracy),
                     color: getColor(accuracy),
                     fillOpacity: 0.5,
-                    weight: 1 // Lägg till vikt för att hantera kantlinjens bredd
+                    weight: 1
                 }).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
