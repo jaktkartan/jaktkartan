@@ -46,22 +46,17 @@
         var accuracyCircle;
 
         function updateUserPosition(lat, lon, accuracy) {
-            if (!userMarker) {
-                userMarker = L.marker([lat, lon]).addTo(map);
-                accuracyCircle = L.circle([lat, lon], {
-                    radius: accuracy,
-                    fillColor: getColor(accuracy),
-                    color: getColor(accuracy),
-                    fillOpacity: 0.5
-                }).addTo(map);
-            } else {
-                userMarker.setLatLng([lat, lon]);
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
-                accuracyCircle.setStyle({
-                    fillColor: getColor(accuracy),
-                    color: getColor(accuracy)
-                });
+            // Ta bort den befintliga markören om den finns
+            if (userMarker) {
+                map.removeLayer(userMarker);
             }
+            // Skapa den pulserande punkten med rätt klass och lägg till den på kartan
+            userMarker = L.divIcon({
+                className: 'user-location',
+                iconSize: [10, 10]
+            });
+            L.marker([lat, lon], {icon: userMarker}).addTo(map);
+
             // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
