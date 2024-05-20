@@ -123,4 +123,37 @@
         }
 
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
+            navigator.geolocation.getCurrentPosition(function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                    getPositionFromIP();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+
+            navigator.geolocation.watchPosition(
+                function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            getPositionFromIP();
+        }
+    </script>
+</body>
+</html>
+
