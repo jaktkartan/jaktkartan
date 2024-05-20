@@ -30,7 +30,7 @@
 
         var userMarker;
 
-        function updateUserPosition(lat, lon, method) {
+        function updateUserPosition(lat, lon, method, accuracy) {
             if (!userMarker) {
                 userMarker = L.marker([lat, lon]).addTo(map);
             } else {
@@ -43,6 +43,8 @@
             } else {
                 message = "Network position";
             }
+            // Lägg till noggrannheten i popup-meddelandet
+            message += "<br>Accuracy: " + accuracy + " meters";
             userMarker.bindPopup("You are here!<br>Positioning method: " + message).openPopup();
         }
 
@@ -52,7 +54,7 @@
                     var loc = response.data.loc.split(',');
                     var lat = parseFloat(loc[0]);
                     var lon = parseFloat(loc[1]);
-                    updateUserPosition(lat, lon, "Network");
+                    updateUserPosition(lat, lon, "Network", "N/A");
                     // Flytta kartvyn till användarens position
                     map.setView([lat, lon], 13);
                 })
@@ -64,7 +66,7 @@
         function handleGeolocation(position) {
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
-            updateUserPosition(lat, lon, "GPS");
+            updateUserPosition(lat, lon, "GPS", position.coords.accuracy);
             // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
         }
