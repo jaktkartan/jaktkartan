@@ -10,10 +10,25 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Inbäddad CSS-kod */
-        #map { height: 100vh; }
+        #map { height: calc(100vh - 40px); } /* Justera höjden på kartan för att passa informationspanelen */
+        .info-panel {
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Se till att panelen är över kartan */
+        }
     </style>
 </head>
 <body>
+    <div class="info-panel" id="infoPanel">
+        <span id="accuracyInfo">Noggrannhet: -</span>
+    </div>
+
     <div id="map"></div>
 
     <!-- Länk till Leaflet JavaScript -->
@@ -30,12 +45,15 @@
 
         var userMarker;
 
-        function updateUserPosition(lat, lon, method) {
+        function updateUserPosition(lat, lon, method, accuracy) {
             if (!userMarker) {
                 userMarker = L.marker([lat, lon]).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
+            // Visa noggrannhetsinformationen i informationspanelen
+            var accuracyMessage = "Noggrannhet: " + accuracy + " meter";
+            document.getElementById("accuracyInfo").textContent = accuracyMessage;
             // Visa en popup för att informera användaren om positioneringen
             var message;
             if (method === "GPS") {
@@ -43,8 +61,6 @@
             } else {
                 message = "Network position";
             }
-            // Lägg till noggrannheten i popup-meddelandet
-            // message += "<br>Accuracy: " + accuracy + " meters";
             userMarker.bindPopup("You are here!<br>Positioning method: " + message).openPopup();
         }
 
@@ -54,7 +70,8 @@
                     var loc = response.data.loc.split(',');
                     var lat = parseFloat(loc[0]);
                     var lon = parseFloat(loc[1]);
-                    updateUserPosition(lat, lon, "Network");
+                    var accuracy = response.data.accuracy ? response.data.accuracy : "-";
+                    updateUserPosition(lat, lon, "Network", accuracy);
                     // Flytta kartvyn till användarens position
                     map.setView([lat, lon], 13);
                 })
@@ -66,7 +83,8 @@
         function handleGeolocation(position) {
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
-            updateUserPosition(lat, lon, "GPS");
+            var accuracy = position.coords.accuracy ? position.coords.accuracy : "-";
+            updateUserPosition(lat, lon, "GPS", accuracy);
             // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
         }
