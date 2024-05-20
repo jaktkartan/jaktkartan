@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Inbäddad CSS-kod */
-        #map { height: 100vh; }
+        #map { height: 100vh !important; }
     </style>
 </head>
 <body>
@@ -22,7 +22,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Inbäddad JavaScript-kod -->
     <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map');
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -31,22 +31,14 @@
         var userMarker;
 
         function updateUserPosition(lat, lon, method) {
-            var methodText;
-            if (method === "GPS") {
-                methodText = "GPS";
-            } else {
-                methodText = "Network";
-            }
-
             if (!userMarker) {
                 userMarker = L.marker([lat, lon]).addTo(map)
-                    .bindPopup("You are here!<br>Positioning method: " + methodText)
+                    .bindPopup("You are here!<br>Positioning method: " + method)
                     .openPopup();
                 map.setView([lat, lon], 13);
             } else {
                 userMarker.setLatLng([lat, lon]);
-                userMarker.getPopup().setContent("You are here!<br>Positioning method: " + methodText).openOn(map);
-                map.panTo([lat, lon]); // Pan to the updated marker position
+                userMarker.getPopup().setContent("You are here!<br>Positioning method: " + method).openOn(map);
             }
         }
 
@@ -56,7 +48,7 @@
                     var loc = response.data.loc.split(',');
                     var lat = parseFloat(loc[0]);
                     var lon = parseFloat(loc[1]);
-                    updateUserPosition(lat, lon, "IP");
+                    updateUserPosition(lat, lon, "Network");
                 })
                 .catch(function (error) {
                     console.log("IP Geolocation failed: " + error.message);
@@ -69,38 +61,42 @@
             updateUserPosition(lat, lon, "GPS");
         }
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                    getPositionFromIP();
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
+        function getPosition() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                        getPositionFromIP();
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
 
-            navigator.geolocation.watchPosition(
-                function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        } else {
-            getPositionFromIP();
+                navigator.geolocation.watchPosition(
+                    function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                getPositionFromIP();
+            }
         }
+
+        getPosition();
     </script>
 </body>
 </html>
