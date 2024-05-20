@@ -17,6 +17,37 @@
         #map {
             height: 100%;
         }
+        /* Stil för punkten för användarens position */
+        .user-location {
+            width: 20px;
+            height: 20px;
+            background-color: #007bff;
+            border-radius: 50%;
+            position: relative;
+        }
+        .user-location::after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            border: 2px solid #007bff;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: pulse 1.5s infinite;
+            box-sizing: border-box;
+        }
+        /* Definiera pulserande animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -38,18 +69,20 @@
         var accuracyCircle;
 
         function updateUserPosition(lat, lon, accuracy) {
-            // Ta bort den tidigare skapade markören och cirkeln, om de finns
             if (userMarker) {
                 map.removeLayer(userMarker);
             }
             if (accuracyCircle) {
                 map.removeLayer(accuracyCircle);
             }
-            
-            // Skapa en punkt för användarens position
-            userMarker = L.marker([lat, lon]).addTo(map);
-            
-            // Skapa en cirkel för noggrannhet runt användarens position
+
+            userMarker = L.marker([lat, lon], {
+                icon: L.divIcon({
+                    className: 'user-location', // Använd definierad CSS-klass för punkten
+                    iconSize: [20, 20] // Storlek på ikonen
+                })
+            }).addTo(map);
+
             accuracyCircle = L.circle([lat, lon], {
                 radius: accuracy,
                 fillColor: getColor(accuracy), // Få färg baserad på noggrannheten
@@ -57,7 +90,6 @@
                 stroke: false
             }).addTo(map);
 
-            // Uppdatera kartvyn till användarens position
             map.setView([lat, lon], 13);
         }
 
@@ -98,6 +130,20 @@
                 function (error) {
                     console.log("Geolocation failed: " + error.message);
                     getPositionFromIP();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+
+            navigator.geolocation.watchPosition(
+                function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
                 },
                 {
                     enableHighAccuracy: true,
