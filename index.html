@@ -111,14 +111,19 @@
         if (navigator.geolocation) {
             var gpsTimeout = setTimeout(function() {
                 getPositionFromIP();
-            }, 5000); // 5 sekunders timeout för att försöka få GPS-position
+            }, 10000); // 10 sekunders timeout för att försöka få GPS-position
 
-            navigator.geolocation.watchPosition(
+            navigator.geolocation.getCurrentPosition(
                 function(position) {
                     clearTimeout(gpsTimeout); // Rensa timeout om GPS fungerar
                     var lat = position.coords.latitude;
                     var lon = position.coords.longitude;
-                    updateUserPosition(lat, lon, "GPS");
+                    var accuracy = position.coords.accuracy;
+                    if (accuracy < 1000) { // Om noggrannheten är mindre än 1000 meter, anta att det är GPS
+                        updateUserPosition(lat, lon, "GPS");
+                    } else {
+                        getPositionFromIP();
+                    }
                 },
                 function(error) {
                     console.log("Geolocation failed: " + error.message);
@@ -126,7 +131,23 @@
                 },
                 {
                     enableHighAccuracy: true,
-                    timeout: 5000,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+
+            navigator.geolocation.watchPosition(
+                function(position) {
+                    var lat = position.coords.latitude;
+                    var lon = position.coords.longitude;
+                    updateUserPosition(lat, lon, "GPS");
+                },
+                function(error) {
+                    console.log("Geolocation failed: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
                     maximumAge: 0
                 }
             );
