@@ -24,6 +24,20 @@
             z-index: 1000;
             text-align: center;
         }
+        /* Stil för punkten för användarens position */
+        .user-location {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #007bff;
+            animation: pulse 1.5s infinite;
+        }
+        /* Definiera pulserande animation */
+        @keyframes pulse {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.9); }
+        }
     </style>
 </head>
 <body>
@@ -36,19 +50,39 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Inbäddad JavaScript-kod -->
     <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map');
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
         var userMarker;
+        var accuracyCircle;
 
         function updateUserPosition(lat, lon, accuracy) {
             if (!userMarker) {
-                userMarker = L.marker([lat, lon]).addTo(map);
+                userMarker = L.marker([lat, lon], {
+                    icon: L.divIcon({
+                        className: 'user-location', // Använd definierad CSS-klass för punkten
+                        iconSize: [20, 20] // Storlek på ikonen
+                    })
+                }).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
+            }
+            if (!accuracyCircle) {
+                accuracyCircle = L.circle([lat, lon], {
+                    radius: accuracy,
+                    fillColor: getColor(accuracy),
+                    color: getColor(accuracy),
+                    fillOpacity: 0.5
+                }).addTo(map);
+            } else {
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
+                accuracyCircle.setStyle({
+                    fillColor: getColor(accuracy),
+                    color: getColor(accuracy)
+                });
             }
             // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
@@ -58,16 +92,68 @@
             map.setView([lat, lon], 13);
         }
 
-        // Simulera användarens position med slumpmässiga koordinater
-        function simulateUserPosition() {
-            var lat = 51.5 + Math.random() * 0.1 - 0.05;
-            var lon = -0.09 + Math.random() * 0.1 - 0.05;
-            var accuracy = Math.random() * 50; // Slumpmässig noggrannhet upp till 50 meter
+        function getPositionFromIP() {
+            axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                .then(function (response) {
+                    var loc = response.data.loc.split(',');
+                    var lat = parseFloat(loc[0]);
+                    var lon = parseFloat(loc[1]);
+                    updateUserPosition(lat, lon, "Unknown");
+                })
+                .catch(function (error) {
+                    console.log("IP Geolocation failed: " + error.message);
+                });
+        }
+
+        function handleGeolocation(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            var accuracy = position.coords.accuracy;
             updateUserPosition(lat, lon, accuracy.toFixed(2));
         }
 
-        // Uppdatera användarens position varje sekund för simulering
-        setInterval(simulateUserPosition, 1000);
+        function getColor(accuracy) {
+            if (accuracy <= 10) {
+                return 'green';
+            } else if (accuracy <= 20) {
+                return 'yellow';
+            } else {
+                return 'red';
+            }
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                    getPositionFromIP();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+
+            navigator.geolocation.watchPosition(
+                function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            getPositionFromIP();
+        }
     </script>
 </body>
 </html>
