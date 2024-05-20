@@ -11,10 +11,25 @@
     <style>
         /* Inbäddad CSS-kod */
         #map { height: 100vh; }
+        /* Stil för informationspanelen */
+        #info-panel {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
     <div id="map"></div>
+
+    <!-- Information Panel -->
+    <div id="info-panel"></div>
 
     <!-- Länk till Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -29,29 +44,19 @@
         }).addTo(map);
 
         var userMarker;
-        var accuracyCircle;
 
-        function updateUserPositionWithAccuracy(lat, lon, method, accuracy) {
+        function updateUserPosition(lat, lon, method, accuracy) {
             if (!userMarker) {
                 userMarker = L.marker([lat, lon]).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
+            // Visa noggrannhetsinformation i informationspanelen
+            var infoPanel = document.getElementById('info-panel');
+            infoPanel.innerHTML = "Positioning method: " + method + "<br>Accuracy: " + accuracy + " meters";
 
-            // Visa en popup för att informera användaren om positioneringen och noggrannheten
-            var message = method === "GPS" ? "GPS position" : "Network position";
-            userMarker.bindPopup("You are here!<br>Positioning method: " + message + "<br>Accuracy: " + accuracy + " meters").openPopup();
-
-            // Uppdatera noggrannhetscirkeln
-            if (accuracyCircle) {
-                map.removeLayer(accuracyCircle);
-            }
-            accuracyCircle = L.circle([lat, lon], {
-                radius: accuracy,
-                color: 'blue',
-                opacity: 0.5,
-                fillOpacity: 0.2
-            }).addTo(map);
+            // Flytta kartvyn till användarens position
+            map.setView([lat, lon], 13);
         }
 
         function getPositionFromIP() {
@@ -60,9 +65,7 @@
                     var loc = response.data.loc.split(',');
                     var lat = parseFloat(loc[0]);
                     var lon = parseFloat(loc[1]);
-                    var accuracy = parseInt(response.data.accuracy);
-                    updateUserPositionWithAccuracy(lat, lon, "Network", accuracy);
-                    map.setView([lat, lon], 13);
+                    updateUserPosition(lat, lon, "Network", "Unknown");
                 })
                 .catch(function (error) {
                     console.log("IP Geolocation failed: " + error.message);
@@ -73,8 +76,7 @@
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
-            updateUserPositionWithAccuracy(lat, lon, "GPS", accuracy);
-            map.setView([lat, lon], 13);
+            updateUserPosition(lat, lon, "GPS", accuracy.toFixed(2));
         }
 
         if (navigator.geolocation) {
