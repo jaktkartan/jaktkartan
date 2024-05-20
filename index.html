@@ -22,7 +22,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Inbäddad JavaScript-kod -->
     <script>
-        var map = L.map('map');
+        var map = L.map('map').setView([51.505, -0.09], 13);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -31,14 +31,21 @@
         var userMarker;
 
         function updateUserPosition(lat, lon, method) {
+            var methodText;
+            if (method === "GPS") {
+                methodText = "GPS";
+            } else {
+                methodText = "Network";
+            }
+
             if (!userMarker) {
                 userMarker = L.marker([lat, lon]).addTo(map)
-                    .bindPopup("You are here!<br>Positioning method: " + method)
+                    .bindPopup("You are here!<br>Positioning method: " + methodText)
                     .openPopup();
                 map.setView([lat, lon], 13);
             } else {
                 userMarker.setLatLng([lat, lon]);
-                userMarker.getPopup().setContent("You are here!<br>Positioning method: " + method).openOn(map);
+                userMarker.getPopup().setContent("You are here!<br>Positioning method: " + methodText).openOn(map);
                 map.panTo([lat, lon]); // Pan to the updated marker position
             }
         }
