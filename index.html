@@ -32,14 +32,14 @@
 
         function updateUserPosition(lat, lon, method) {
             if (!userMarker) {
-                userMarker = L.marker([lat, lon]).addTo(map)
-                    .bindPopup("You are here!<br>Positioning method: " + method)
-                    .openPopup();
-                map.setView([lat, lon], 13);
+                userMarker = L.marker([lat, lon]).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
-                userMarker.getPopup().setContent("You are here!<br>Positioning method: " + method).openOn(map);
             }
+            map.setView([lat, lon], 13);
+            // Visa en popup för att informera användaren om positioneringen
+            var message = method === "GPS" ? "GPS" : "Network";
+            userMarker.bindPopup("You are here!<br>Positioning method: " + message).openPopup();
         }
 
         function getPositionFromIP() {
