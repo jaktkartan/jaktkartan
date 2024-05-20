@@ -43,12 +43,24 @@
         }).addTo(map);
 
         var userMarker;
+        var accuracyCircle;
 
         function updateUserPosition(lat, lon, accuracy) {
             if (!userMarker) {
                 userMarker = L.marker([lat, lon]).addTo(map);
+                accuracyCircle = L.circle([lat, lon], {
+                    radius: accuracy,
+                    fillColor: getColor(accuracy),
+                    color: getColor(accuracy),
+                    fillOpacity: 0.5
+                }).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
+                accuracyCircle.setStyle({
+                    fillColor: getColor(accuracy),
+                    color: getColor(accuracy)
+                });
             }
             // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
@@ -76,6 +88,16 @@
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             updateUserPosition(lat, lon, accuracy.toFixed(2));
+        }
+
+        function getColor(accuracy) {
+            if (accuracy <= 10) {
+                return 'green';
+            } else if (accuracy <= 20) {
+                return 'yellow';
+            } else {
+                return 'red';
+            }
         }
 
         if (navigator.geolocation) {
