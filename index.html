@@ -24,20 +24,6 @@
             z-index: 1000;
             text-align: center;
         }
-        /* Stil för punkten för användarens position */
-        .user-location {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: #007bff;
-            animation: pulse 1.5s infinite;
-        }
-        /* Definiera pulserande animation */
-        @keyframes pulse {
-            0% { transform: scale(0.9); }
-            50% { transform: scale(1); }
-            100% { transform: scale(0.9); }
-        }
     </style>
 </head>
 <body>
@@ -63,15 +49,16 @@
             if (!userMarker) {
                 userMarker = L.marker([lat, lon], {
                     icon: L.divIcon({
-                        className: 'user-location', // Använd definierad CSS-klass för punkten
-                        iconSize: [20, 20] // Storlek på ikonen
+                        className: 'user-location',
+                        iconSize: [20, 20]
                     })
                 }).addTo(map);
                 accuracyCircle = L.circle([lat, lon], {
                     radius: accuracy,
                     fillColor: getColor(accuracy),
                     color: getColor(accuracy),
-                    fillOpacity: 0.5
+                    fillOpacity: 0.5,
+                    weight: 1 // Lägg till vikt för att hantera kantlinjens bredd
                 }).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
@@ -81,11 +68,10 @@
                     color: getColor(accuracy)
                 });
             }
-            // Uppdatera noggrannhetsinformation i informationspanelen
+
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
-            // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
         }
 
