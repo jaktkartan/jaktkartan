@@ -1,14 +1,15 @@
 /* styles.css */
 
-/* Ta bort marginaler och paddingar från <body> */
-body {
+/* Ta bort marginaler från <html> och <body> */
+html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 /* Styla kartbehållaren */
 #map {
-    height: 100vh !important;
+    height: 100%;
 }
 
 /* Lägg till önskade stilar för popup-fönster */
