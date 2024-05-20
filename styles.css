@@ -1,3 +1,5 @@
+/* styles.css */
+
 /* Ta bort marginaler från <html> och <body> */
 html, body {
     margin: 0;
@@ -43,6 +45,13 @@ html, body {
 /* Styla markören */
 .leaflet-marker-icon {
     /* Lägg till önskade stilar för markören */
+    margin-left: -12px;
+    margin-top: -41px;
+    width: 25px;
+    height: 41px;
+    transform: translate3d(710px, 308px, 0px);
+    z-index: 308;
+    outline: none;
 }
 
 /* Styla popup-stängknappen */
