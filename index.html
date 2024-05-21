@@ -8,13 +8,18 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <!-- Stilar för kartans container -->
     <style>
-        /* Inbäddad CSS-kod */
+        /* Ta bort marginaler från <html> och <body> */
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
         }
-        #map { height: calc(100vh - 30px); position: relative; }
+
+        /* Styla kartbehållaren */
+        #map {
+            height: 100%;
+        }
+
         /* Stil för informationspanelen */
         #info-panel {
             position: absolute;
@@ -28,6 +33,21 @@
             z-index: 1000;
             text-align: center;
         }
+
+        /* Stilar för pulserande punkt */
+        .pulse {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #007bff;
+            animation: pulse 1.5s infinite;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
         /* Definiera pulserande animation */
         @keyframes pulse {
             0% { transform: scale(0.9); }
@@ -54,6 +74,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
+        var accuracyCircle;
         var userMarker;
 
         function updateUserPosition(lat, lon, accuracy) {
@@ -62,6 +83,21 @@
             // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
+
+            // Skapa eller uppdatera noggrannhetscirkeln
+            if (!accuracyCircle) {
+                accuracyCircle = L.circle([lat, lon], {
+                    radius: accuracy,
+                    fillColor: 'blue',
+                    fillOpacity: 0.5,
+                    stroke: false
+                }).addTo(map);
+            } else {
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
+            }
+
+            // Flytta kartvyn till användarens position
+            map.setView([lat, lon], 13);
 
             // Skapa eller uppdatera användarens markör med pulserande punkt
             if (!userMarker) {
