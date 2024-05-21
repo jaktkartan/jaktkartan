@@ -41,11 +41,6 @@
             border-radius: 50%;
             background-color: #007bff;
             animation: pulse 1.5s infinite;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
         }
 
         /* Definiera pulserande animation */
@@ -96,9 +91,6 @@
                 accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
             }
 
-            // Flytta kartvyn till användarens position
-            map.setView([lat, lon], 13);
-
             // Skapa eller uppdatera användarens markör med pulserande punkt
             if (!userMarker) {
                 var pulseIcon = L.divIcon({
@@ -109,6 +101,9 @@
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
+
+            // Flytta kartvyn till användarens position
+            map.setView([lat, lon], 13);
         }
 
         function getPositionFromIP() {
