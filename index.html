@@ -6,6 +6,7 @@
     <title>Interaktiv karta</title>
     <!-- Länk till Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Stilar för kartans container -->
     <style>
         /* Inbäddad CSS-kod */
         html, body {
@@ -26,21 +27,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             text-align: center;
-        }
-        /* Styla markören */
-        .user-location {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: #007bff;
-            animation: pulse 1.5s infinite;
-            z-index: 1000; /* Säkerställ att markören visas över kartan */
-        }
-        /* Definiera pulserande animation */
-        @keyframes pulse {
-            0% { transform: scale(0.9); }
-            50% { transform: scale(1); }
-            100% { transform: scale(0.9); }
         }
     </style>
 </head>
@@ -70,10 +56,10 @@
 
             if (!userMarker) {
                 userMarker = L.marker([lat, lon], {
-                    icon: L.divIcon({
-                        className: 'user-location',
-                        iconSize: [20, 20],
-                        iconAnchor: [10, 10] // Placera ankarpunkten i mitten av markören
+                    icon: L.icon({
+                        iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41], // Placera ankarpunkten i mitten av markören
                     })
                 }).addTo(map);
             } else {
