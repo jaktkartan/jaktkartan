@@ -29,7 +29,7 @@
             text-align: center;
         }
         /* Stil för pulserande punkt */
-        #pulse {
+        .pulse {
             position: absolute;
             width: 20px;
             height: 20px;
@@ -37,7 +37,6 @@
             background-color: #007bff;
             animation: pulse 1.5s infinite;
             z-index: 1000; /* Säkerställ att punkten visas över kartan */
-            pointer-events: none; /* För att undvika att punkten fångar klickhändelser */
         }
         /* Definiera pulserande animation */
         @keyframes pulse {
@@ -50,7 +49,7 @@
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
     <div id="map"></div>
-    <div id="pulse"></div>
+    <div id="pulse" class="pulse"></div>
 
     <!-- Länk till Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -66,7 +65,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var pulse = document.getElementById('pulse');
+        var accuracyCircle;
 
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
@@ -75,14 +74,27 @@
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
-            // Flytta kartvyn till användarens position
-            map.setView([lat, lon], 13);
+            // Skapa eller uppdatera noggrannhetscirkeln
+            if (!accuracyCircle) {
+                accuracyCircle = L.circle([lat, lon], {
+                    radius: accuracy,
+                    fillColor: 'blue',
+                    fillOpacity: 0.5,
+                    stroke: false
+                }).addTo(map);
+            } else {
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
+            }
 
-            // Uppdatera positionen för pulserande punkten
+            // Uppdatera pulserande punktens position
+            var pulse = document.getElementById('pulse');
             var mapContainer = document.getElementById('map');
-            var point = map.latLngToContainerPoint([lat, lon]);
-            pulse.style.left = point.x - pulse.offsetWidth / 2 + 'px';
-            pulse.style.top = point.y - pulse.offsetHeight / 2 + 'px';
+            var mapWidth = mapContainer.offsetWidth;
+            var mapHeight = mapContainer.offsetHeight;
+            var screenX = (lon + 180) * (mapWidth / 360);
+            var screenY = (90 - lat) * (mapHeight / 180);
+            pulse.style.left = screenX - 10 + 'px';
+            pulse.style.top = screenY - 10 + 'px';
         }
 
         function getPositionFromIP() {
