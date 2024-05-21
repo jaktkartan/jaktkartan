@@ -54,6 +54,16 @@ html, body {
     z-index: 1000; /* Säkerställ att markören visas över kartan */
 }
 
+/* Stil för punkten för användarens position */
+.user-location {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #007bff;
+    animation: pulse 1.5s infinite;
+    z-index: 1000; /* Säkerställ att markören visas över kartan */
+}
+
 /* Definiera pulserande animation */
 @keyframes pulse {
     0% { transform: scale(0.9); }
