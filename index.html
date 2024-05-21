@@ -29,6 +29,7 @@
 
         var accuracyCircle;
         var userMarker;
+        var pulsingDotMarker;
 
         function createPulsingDot() {
             var pulsingDot = L.divIcon({
@@ -79,10 +80,10 @@
             }
 
             // Skapa eller uppdatera den pulserande punkten
-            if (!userMarker.pulsingDot) {
-                userMarker.pulsingDot = L.marker([lat, lon], { icon: createPulsingDot(), interactive: false }).addTo(map);
+            if (!pulsingDotMarker) {
+                pulsingDotMarker = L.marker([lat, lon], { icon: createPulsingDot(), interactive: false }).addTo(map);
             } else {
-                userMarker.pulsingDot.setLatLng([lat, lon]);
+                pulsingDotMarker.setLatLng([lat, lon]);
             }
         }
 
