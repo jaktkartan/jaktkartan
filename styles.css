@@ -10,46 +10,18 @@ html, body {
     height: 100%;
 }
 
-/* Lägg till önskade stilar för popup-fönster */
-.leaflet-popup-content {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    background-color: #fff;
-}
-
-/* Lägg till stilar för popup-fönstrets rubrik */
-.leaflet-popup-content h3 {
-    margin-top: 0;
-    font-size: 16px;
-    color: #333;
-}
-
-/* Lägg till stilar för popup-fönstrets text */
-.leaflet-popup-content p {
-    margin-bottom: 0;
-}
-
-/* Lägg till stilar för popup-fönstrets länkar */
-.leaflet-popup-content a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* Styla markören */
-.user-location {
+/* Stilar för pulserande punkt */
+.pulse {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     background-color: #007bff;
     animation: pulse 1.5s infinite;
-    margin-left: -10px; /* Justera horisontell placering */
-    margin-top: -10px; /* Justera vertikal placering */
-    z-index: 1000; /* Säkerställ att markören visas över kartan */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
 }
 
 /* Definiera pulserande animation */
