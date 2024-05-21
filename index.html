@@ -29,9 +29,18 @@
 
         var accuracyCircle;
         var userMarker;
-        var pulsingDot = document.createElement('div');
-        pulsingDot.className = 'pulsing-dot';
-        document.body.appendChild(pulsingDot);
+        var pulsingDot;
+
+        function createPulsingDot() {
+            var pulsingDotElement = document.createElement('div');
+            pulsingDotElement.className = 'pulsing-dot';
+            return L.divIcon({
+                className: 'pulsing-dot-container',
+                html: pulsingDotElement.outerHTML,
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+        }
 
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
@@ -65,17 +74,12 @@
             // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
 
-            // Skapa eller uppdatera användarens markör med standardikon
+            // Skapa eller uppdatera användarens markör med pulserande punkt
             if (!userMarker) {
-                userMarker = L.marker([lat, lon]).addTo(map);
+                userMarker = L.marker([lat, lon], { icon: createPulsingDot() }).addTo(map);
             } else {
-                userMarker.setLatLng([lat, lon]);
+                userMarker.setLatLng([lat, lon]).setIcon(createPulsingDot());
             }
-
-            // Positionera den pulserande punkten
-            var markerPos = map.latLngToContainerPoint([lat, lon]);
-            pulsingDot.style.left = `${markerPos.x}px`;
-            pulsingDot.style.top = `${markerPos.y}px`;
         }
 
         function getPositionFromIP() {
