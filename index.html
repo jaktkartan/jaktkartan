@@ -58,16 +58,26 @@
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
+            // Uppdatera färgen för noggrannhetscirkeln baserat på noggrannheten
+            var fillColor;
+            if (accuracy < 10) {
+                fillColor = 'green'; // Bra noggrannhet
+            } else if (accuracy < 20) {
+                fillColor = 'orange'; // Mellannoggrannhet
+            } else {
+                fillColor = 'red'; // Dålig noggrannhet
+            }
+
             // Skapa eller uppdatera noggrannhetscirkeln
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
                     radius: accuracy,
-                    fillColor: 'blue',
+                    fillColor: fillColor,
                     fillOpacity: 0.5,
                     stroke: false
                 }).addTo(map);
             } else {
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
             }
 
             // Flytta kartvyn till användarens position
