@@ -6,7 +6,7 @@
     <title>Interaktiv karta</title>
     <!-- Länk till Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <!-- Länk till separat CSS-fil för markörens stilar -->
+    <!-- Länk till separat CSS-fil för anpassade stilar -->
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Inbäddad CSS-kod */
@@ -36,6 +36,8 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Inbäddad JavaScript-kod -->
     <script>
+        console.log("Initializing map...");
+
         var map = L.map('map').setView([0, 0], 2);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -46,17 +48,24 @@
         var accuracyCircle;
 
         function updateUserPosition(lat, lon, accuracy) {
+            console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
+
             if (!userMarker) {
+                console.log("Creating new user marker...");
                 userMarker = L.marker([lat, lon], {
                     icon: L.divIcon({
-                        className: 'user-location', // Använd definierad CSS-klass för punkten
-                        iconSize: [20, 20] // Storlek på ikonen
+                        className: 'user-location',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
                     })
                 }).addTo(map);
             } else {
+                console.log("Updating existing user marker...");
                 userMarker.setLatLng([lat, lon]);
             }
+
             if (!accuracyCircle) {
+                console.log("Creating new accuracy circle...");
                 accuracyCircle = L.circle([lat, lon], {
                     radius: accuracy,
                     fillColor: getColor(accuracy),
@@ -64,12 +73,14 @@
                     fillOpacity: 0.5
                 }).addTo(map);
             } else {
+                console.log("Updating existing accuracy circle...");
                 accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
                 accuracyCircle.setStyle({
                     fillColor: getColor(accuracy),
                     color: getColor(accuracy)
                 });
             }
+
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
@@ -77,6 +88,7 @@
         }
 
         function getPositionFromIP() {
+            console.log("Fetching position from IP...");
             axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
                 .then(function (response) {
                     var loc = response.data.loc.split(',');
@@ -85,7 +97,7 @@
                     updateUserPosition(lat, lon, "Unknown");
                 })
                 .catch(function (error) {
-                    console.error("IP Geolocation failed: " + error.message);
+                    console.log("IP Geolocation failed: " + error.message);
                 });
         }
 
@@ -107,11 +119,13 @@
         }
 
         if (navigator.geolocation) {
+            console.log("Attempting to get geolocation...");
             navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log("Geolocation success!");
                     handleGeolocation(position);
                 },
                 function (error) {
-                    console.error("Geolocation failed: " + error.message);
+                    console.log("Geolocation failed: " + error.message);
                     getPositionFromIP();
                 },
                 {
@@ -123,10 +137,11 @@
 
             navigator.geolocation.watchPosition(
                 function (position) {
+                    console.log("Geolocation update received.");
                     handleGeolocation(position);
                 },
                 function (error) {
-                    console.error("Geolocation failed: " + error.message);
+                    console.log("Geolocation update failed: " + error.message);
                 },
                 {
                     enableHighAccuracy: true,
@@ -135,9 +150,9 @@
                 }
             );
         } else {
+            console.log("Geolocation not supported, using IP geolocation.");
             getPositionFromIP();
         }
     </script>
 </body>
 </html>
-
