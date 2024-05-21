@@ -31,9 +31,7 @@ html, body {
     height: 10px;
     border-radius: 50%;
     background-color: red;
-    position: absolute;
     animation: pulse 1.5s infinite;
-    z-index: 1000; /* Ensures the dot is above other elements */
 }
 
 @keyframes pulse {
@@ -49,6 +47,16 @@ html, body {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+/* Container för pulserande punkt */
+.pulsing-dot-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1000; /* Ensures the dot is above other elements */
 }
 
 /* Lägg till önskade stilar för popup-fönster */
