@@ -25,7 +25,7 @@ html, body {
     text-align: center;
 }
 
-/* Stilar för pulserande punkt */
+/* Den gamla stilen för pulserande punkt - kan tas bort */
 .pulsing-dot {
     width: 20px;
     height: 20px;
@@ -35,6 +35,7 @@ html, body {
     animation: pulsing 1.5s infinite;
 }
 
+/* Den gamla animationsnyckeln - kan tas bort */
 @keyframes pulsing {
     0% {
         transform: scale(1);
