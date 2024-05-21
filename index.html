@@ -14,7 +14,7 @@
             padding: 0;
             height: 100%;
         }
-        #map { height: calc(100vh - 30px); }
+        #map { height: calc(100vh - 30px); position: relative; }
         /* Stil för informationspanelen */
         #info-panel {
             position: absolute;
@@ -28,11 +28,28 @@
             z-index: 1000;
             text-align: center;
         }
+        /* Stil för pulserande punkt */
+        .pulse {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #007bff;
+            animation: pulse 1.5s infinite;
+            z-index: 1000; /* Säkerställ att punkten visas över kartan */
+        }
+        /* Definiera pulserande animation */
+        @keyframes pulse {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.9); }
+        }
     </style>
 </head>
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
     <div id="map"></div>
+    <div id="pulse"></div>
 
     <!-- Länk till Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -48,30 +65,34 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var userMarker;
         var accuracyCircle;
 
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
-            if (!userMarker) {
-                userMarker = L.marker([lat, lon], {
-                    icon: L.icon({
-                        iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41], // Placera ankarpunkten i mitten av markören
-                    })
-                }).addTo(map);
-            } else {
-                userMarker.setLatLng([lat, lon]);
-            }
-
             // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
+            // Skapa eller uppdatera noggrannhetscirkeln
+            if (!accuracyCircle) {
+                accuracyCircle = L.circle([lat, lon], {
+                    radius: accuracy,
+                    fillColor: 'blue',
+                    fillOpacity: 0.5,
+                    stroke: false
+                }).addTo(map);
+            } else {
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
+            }
+
             // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
+
+            // Uppdatera pulserande punktens position
+            var pulse = document.getElementById('pulse');
+            pulse.style.left = map.latLngToLayerPoint([lat, lon]).x - 10 + 'px';
+            pulse.style.top = map.latLngToLayerPoint([lat, lon]).y - 10 + 'px';
         }
 
         function getPositionFromIP() {
