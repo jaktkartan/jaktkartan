@@ -36,7 +36,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Inbäddad JavaScript-kod -->
     <script>
-        var map = L.map('map');
+        var map = L.map('map').setView([0, 0], 2);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -49,9 +49,9 @@
             if (!userMarker) {
                 userMarker = L.marker([lat, lon], {
                     icon: L.divIcon({
-                        className: 'user-location', // Använd definierad CSS-klass för punkten
-                        iconSize: [20, 20], // Storlek på ikonen
-                        iconAnchor: [10, 10] // Centrera ikonen på koordinaten
+                        className: 'user-location',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
                     })
                 }).addTo(map);
             } else {
@@ -71,11 +71,9 @@
                     color: getColor(accuracy)
                 });
             }
-            // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
-            // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
         }
 
@@ -119,7 +117,7 @@
                 },
                 {
                     enableHighAccuracy: true,
-                    timeout: 10000, // Timeout inställd till 10 sekunder
+                    timeout: 10000,
                     maximumAge: 0
                 }
             );
@@ -133,7 +131,7 @@
                 },
                 {
                     enableHighAccuracy: true,
-                    timeout: 10000, // Timeout inställd till 10 sekunder
+                    timeout: 10000,
                     maximumAge: 0
                 }
             );
