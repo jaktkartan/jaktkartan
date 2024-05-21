@@ -1,4 +1,4 @@
-/* Ta bort marginaler från <html> och <body> */
+/* Ta bort marginer från <html> och <body> */
 html, body {
     margin: 0;
     padding: 0;
@@ -23,52 +23,4 @@ html, body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     text-align: center;
-}
-
-/* Den gamla stilen för pulserande punkt - kan tas bort */
-.pulsing-dot {
-    /* width: 20px;
-    height: 20px;
-    background-color: rgba(255, 0, 0, 0.5);
-    border-radius: 50%;
-    position: absolute;
-    animation: pulsing 1.5s infinite; */
-}
-
-/* Den gamla animationsnyckeln - kan tas bort */
-/* @keyframes pulsing {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.5);
-    }
-    100% {
-        transform: scale(1);
-    }
-} */
-
-/* Stilar för den nya pulserande punkten */
-.pulsing-circle {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(0, 128, 0, 0.7); /* Grön nyans med lite genomskinlighet */
-    border-radius: 50%;
-    position: absolute;
-    animation: pulse 2s ease-out infinite; /* Jämnare och långsammare pulsation */
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(0.8);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.2);
-        opacity: 0.7;
-    }
-    100% {
-        transform: scale(0.8);
-        opacity: 1;
-    }
 }
