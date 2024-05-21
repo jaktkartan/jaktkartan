@@ -5,9 +5,18 @@ html, body {
     height: 100%;
 }
 
-/* Styla kartbehållaren */
-#map {
-    height: 100%;
+/* Stilar för pulserande punkt */
+.pulse {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #007bff;
+    animation: pulse 1.5s infinite;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
 }
 
 /* Lägg till önskade stilar för popup-fönster */
@@ -47,9 +56,11 @@ html, body {
     border-radius: 50%;
     background-color: #007bff;
     animation: pulse 1.5s infinite;
-    margin-left: -10px; /* Justera horisontell placering */
-    margin-top: -10px; /* Justera vertikal placering */
-    z-index: 1000; /* Säkerställ att markören visas över kartan */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
 }
 
 /* Definiera pulserande animation */
