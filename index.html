@@ -6,29 +6,8 @@
     <title>Interaktiv karta</title>
     <!-- Länk till Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <!-- Stilar för kartans container -->
-    <style>
-        /* Inbäddad CSS-kod */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        #map { height: calc(100vh - 30px); position: relative; }
-        /* Stil för informationspanelen */
-        #info-panel {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px 20px;
-            border-bottom: 1px solid #ccc;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            text-align: center;
-        }
-    </style>
+    <!-- Länk till egen CSS-fil -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
@@ -50,6 +29,9 @@
 
         var accuracyCircle;
         var userMarker;
+        var pulsingDot = document.createElement('div');
+        pulsingDot.className = 'pulsing-dot';
+        document.body.appendChild(pulsingDot);
 
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
@@ -89,6 +71,11 @@
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
+
+            // Positionera den pulserande punkten
+            var markerPos = map.latLngToContainerPoint([lat, lon]);
+            pulsingDot.style.left = `${markerPos.x}px`;
+            pulsingDot.style.top = `${markerPos.y}px`;
         }
 
         function getPositionFromIP() {
