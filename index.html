@@ -83,7 +83,9 @@
             if (!pulsingDotMarker) {
                 pulsingDotMarker = L.marker([lat, lon], { icon: createPulsingDot(), interactive: false }).addTo(map);
             } else {
-                pulsingDotMarker.setLatLng([lat, lon]);
+                // Använd markörens koordinater som utgångspunkt för den pulserande punkten
+                var markerPos = userMarker.getLatLng();
+                pulsingDotMarker.setLatLng(markerPos);
             }
         }
 
