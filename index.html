@@ -78,12 +78,13 @@
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
                     radius: accuracy,
-                    fillColor: 'blue',
+                    fillColor: getAccuracyColor(accuracy),
                     fillOpacity: 0.5,
                     stroke: false
                 }).addTo(map);
             } else {
                 accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
+                accuracyCircle.setStyle({ fillColor: getAccuracyColor(accuracy) });
             }
 
             // Flytta kartvyn till användarens position
@@ -113,6 +114,16 @@
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             updateUserPosition(lat, lon, accuracy.toFixed(2));
+        }
+
+        function getAccuracyColor(accuracy) {
+            if (accuracy < 10) {
+                return 'green';
+            } else if (accuracy >= 10 && accuracy < 30) {
+                return 'yellow';
+            } else {
+                return 'red';
+            }
         }
 
         if (navigator.geolocation) {
