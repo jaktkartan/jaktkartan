@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interaktiv karta</title>
+    <!-- Länk till Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Stilar för kartans container -->
     <style>
+        /* Inbäddad CSS-kod */
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
-            width: 100%;
         }
-        #map {
-            height: 100vh;
-            width: 100%;
-        }
+        #map { height: calc(100vh - 30px); position: relative; }
         /* Stil för informationspanelen */
         #info-panel {
             position: absolute;
@@ -29,13 +28,43 @@
             z-index: 1000;
             text-align: center;
         }
+        /* Gör den befintliga markören osynlig */
+        .leaflet-marker-icon {
+            display: none !important;
+        }
+        /* Stil för pulserande punkt */
+        .pulse {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #007bff;
+            animation: pulse 1.5s infinite;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+        /* Definiera pulserande animation */
+        @keyframes pulse {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.9); }
+        }
     </style>
 </head>
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
     <div id="map"></div>
+
+    <!-- Länk till Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Länk till Axios JavaScript -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Inbäddad JavaScript-kod -->
     <script>
+        console.log("Initializing map...");
+
         var map = L.map('map').setView([0, 0], 2);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -46,9 +75,13 @@
         var userMarker;
 
         function updateUserPosition(lat, lon, accuracy) {
+            console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
+
+            // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
+            // Skapa eller uppdatera noggrannhetscirkeln
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
                     radius: accuracy,
@@ -60,20 +93,39 @@
                 accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
             }
 
+            // Flytta kartvyn till användarens position
+            map.setView([lat, lon], 13);
+
+            // Skapa eller uppdatera användarens markör med pulserande punkt
             if (!userMarker) {
-                userMarker = L.marker([lat, lon]).addTo(map);
+                var pulseIcon = L.divIcon({
+                    className: 'pulse',
+                    iconSize: [20, 20]
+                });
+                userMarker = L.marker([lat, lon], { icon: pulseIcon }).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
+        }
 
-            map.setView([lat, lon], 13);
+        function getPositionFromIP() {
+            axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                .then(function (response) {
+                    var loc = response.data.loc.split(',');
+                    var lat = parseFloat(loc[0]);
+                    var lon = parseFloat(loc[1]);
+                    updateUserPosition(lat, lon, "Unknown");
+                })
+                .catch(function (error) {
+                    console.log("IP Geolocation failed: " + error.message);
+                });
         }
 
         function handleGeolocation(position) {
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
-            updateUserPosition(lat, lon, accuracy);
+            updateUserPosition(lat, lon, accuracy.toFixed(2));
         }
 
         if (navigator.geolocation) {
@@ -82,6 +134,7 @@
                 },
                 function (error) {
                     console.log("Geolocation failed: " + error.message);
+                    getPositionFromIP();
                 },
                 {
                     enableHighAccuracy: true,
@@ -104,7 +157,7 @@
                 }
             );
         } else {
-            console.log("Geolocation is not supported by this browser.");
+            getPositionFromIP();
         }
     </script>
 </body>
