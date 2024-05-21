@@ -98,9 +98,9 @@
                     className: 'pulse',
                     iconSize: [20, 20]
                 });
-                userMarker = L.marker([lat, lon], { icon: pulseIcon }).addTo(map);
+                userMarker = L.marker(accuracyCircle.getLatLng(), { icon: pulseIcon }).addTo(map);
             } else {
-                userMarker.setLatLng([lat, lon]);
+                userMarker.setLatLng(accuracyCircle.getLatLng());
             }
         }
 
@@ -158,4 +158,3 @@
     </script>
 </body>
 </html>
-
