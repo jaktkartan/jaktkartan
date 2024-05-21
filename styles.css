@@ -25,6 +25,29 @@ html, body {
     text-align: center;
 }
 
+/* Den gamla stilen för pulserande punkt - kan tas bort */
+.pulsing-dot {
+    /* width: 20px;
+    height: 20px;
+    background-color: rgba(255, 0, 0, 0.5);
+    border-radius: 50%;
+    position: absolute;
+    animation: pulsing 1.5s infinite; */
+}
+
+/* Den gamla animationsnyckeln - kan tas bort */
+/* @keyframes pulsing {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+} */
+
 /* Stilar för den nya pulserande punkten */
 .pulsing-circle {
     width: 20px;
