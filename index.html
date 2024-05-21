@@ -31,6 +31,9 @@
             border-radius: 50%;
             background-color: #007bff;
             animation: pulse 1.5s infinite;
+            margin-left: -10px; /* Justera horisontell placering */
+            margin-top: -10px; /* Justera vertikal placering */
+            z-index: 1000; /* Säkerställ att markören visas över kartan */
         }
         /* Definiera pulserande animation */
         @keyframes pulse {
@@ -64,7 +67,8 @@
                 userMarker = L.marker([lat, lon], {
                     icon: L.divIcon({
                         className: 'user-location', // Använd definierad CSS-klass för punkten
-                        iconSize: [20, 20] // Storlek på ikonen
+                        iconSize: [20, 20], // Storlek på ikonen
+                        iconAnchor: [10, 10] // Centrera ikonen på koordinaten
                     })
                 }).addTo(map);
             } else {
@@ -156,4 +160,3 @@
     </script>
 </body>
 </html>
-
