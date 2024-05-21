@@ -30,7 +30,6 @@
         }
         /* Stil för pulserande punkt */
         .pulse {
-            position: absolute;
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -49,7 +48,6 @@
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
     <div id="map"></div>
-    <div id="pulse" class="pulse"></div>
 
     <!-- Länk till Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -66,6 +64,7 @@
         }).addTo(map);
 
         var accuracyCircle;
+        var userMarker;
 
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
@@ -86,15 +85,19 @@
                 accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
             }
 
-            // Uppdatera pulserande punktens position
-            var pulse = document.getElementById('pulse');
-            var mapContainer = document.getElementById('map');
-            var mapWidth = mapContainer.offsetWidth;
-            var mapHeight = mapContainer.offsetHeight;
-            var screenX = (lon + 180) * (mapWidth / 360);
-            var screenY = (90 - lat) * (mapHeight / 180);
-            pulse.style.left = screenX - 10 + 'px';
-            pulse.style.top = screenY - 10 + 'px';
+            // Skapa eller uppdatera användarens markör med pulserande punkt
+            if (!userMarker) {
+                var pulseIcon = L.divIcon({
+                    className: 'pulse',
+                    iconSize: [20, 20]
+                });
+                userMarker = L.marker([lat, lon], { icon: pulseIcon }).addTo(map);
+            } else {
+                userMarker.setLatLng([lat, lon]);
+            }
+
+            // Flytta kartvyn till användarens position
+            map.setView([lat, lon], 13);
         }
 
         function getPositionFromIP() {
