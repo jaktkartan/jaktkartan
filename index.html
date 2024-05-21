@@ -98,9 +98,9 @@
                     className: 'pulse',
                     iconSize: [20, 20]
                 });
-                userMarker = L.marker(accuracyCircle.getLatLng(), { icon: pulseIcon }).addTo(map);
+                userMarker = L.marker([lat, lon], { icon: pulseIcon }).addTo(map);
             } else {
-                userMarker.setLatLng(accuracyCircle.getLatLng());
+                userMarker.setLatLng([lat, lon]);
             }
         }
 
@@ -113,16 +113,16 @@
                     updateUserPosition(lat, lon, "Unknown");
                 })
                 .catch(function (error) {
-                    console.log("IP Geolocation failed: "                + error.message);
+                    console.log("IP Geolocation failed: " + error.message);
                 });
         }
 
         function handleGeolocation(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-            var accuracy = position.coords.accuracy;
-            updateUserPosition(lat, lon, accuracy.toFixed(2));
-        }
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    var accuracy = position.coords.accuracy;
+    updateUserPosition(lat, lon, accuracy.toFixed(2));
+}
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
