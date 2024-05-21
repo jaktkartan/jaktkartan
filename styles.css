@@ -27,16 +27,16 @@ html, body {
 
 /* Den gamla stilen för pulserande punkt - kan tas bort */
 .pulsing-dot {
-    width: 20px;
+    /* width: 20px;
     height: 20px;
     background-color: rgba(255, 0, 0, 0.5);
     border-radius: 50%;
     position: absolute;
-    animation: pulsing 1.5s infinite;
+    animation: pulsing 1.5s infinite; */
 }
 
 /* Den gamla animationsnyckeln - kan tas bort */
-@keyframes pulsing {
+/* @keyframes pulsing {
     0% {
         transform: scale(1);
     }
@@ -45,5 +45,30 @@ html, body {
     }
     100% {
         transform: scale(1);
+    }
+} */
+
+/* Stilar för den nya pulserande punkten */
+.pulsing-circle {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 128, 0, 0.7); /* Grön nyans med lite genomskinlighet */
+    border-radius: 50%;
+    position: absolute;
+    animation: pulse 2s ease-out infinite; /* Jämnare och långsammare pulsation */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 1;
     }
 }
