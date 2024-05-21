@@ -49,6 +49,7 @@
         }).addTo(map);
 
         var accuracyCircle;
+        var userMarker;
 
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
@@ -71,6 +72,13 @@
 
             // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
+
+            // Skapa eller uppdatera användarens markör med standardikon
+            if (!userMarker) {
+                userMarker = L.marker([lat, lon]).addTo(map);
+            } else {
+                userMarker.setLatLng([lat, lon]);
+            }
         }
 
         function getPositionFromIP() {
