@@ -29,7 +29,7 @@
             text-align: center;
         }
         /* Stil för pulserande punkt */
-        .pulse {
+        #pulse {
             position: absolute;
             width: 20px;
             height: 20px;
@@ -37,6 +37,7 @@
             background-color: #007bff;
             animation: pulse 1.5s infinite;
             z-index: 1000; /* Säkerställ att punkten visas över kartan */
+            pointer-events: none; /* För att undvika att punkten fångar klickhändelser */
         }
         /* Definiera pulserande animation */
         @keyframes pulse {
@@ -65,7 +66,7 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var accuracyCircle;
+        var pulse = document.getElementById('pulse');
 
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
@@ -74,26 +75,14 @@
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
-            // Skapa eller uppdatera noggrannhetscirkeln
-            if (!accuracyCircle) {
-                accuracyCircle = L.circle([lat, lon], {
-                    radius: accuracy,
-                    fillColor: getAccuracyColor(accuracy),
-                    fillOpacity: 0.5,
-                    stroke: false
-                }).addTo(map);
-            } else {
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
-                accuracyCircle.setStyle({ fillColor: getAccuracyColor(accuracy) });
-            }
-
             // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
 
-            // Uppdatera pulserande punktens position
-            var pulse = document.getElementById('pulse');
-            pulse.style.left = map.latLngToLayerPoint([lat, lon]).x - 10 + 'px';
-            pulse.style.top = map.latLngToLayerPoint([lat, lon]).y - 10 + 'px';
+            // Uppdatera positionen för pulserande punkten
+            var mapContainer = document.getElementById('map');
+            var point = map.latLngToContainerPoint([lat, lon]);
+            pulse.style.left = point.x - pulse.offsetWidth / 2 + 'px';
+            pulse.style.top = point.y - pulse.offsetHeight / 2 + 'px';
         }
 
         function getPositionFromIP() {
@@ -114,16 +103,6 @@
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             updateUserPosition(lat, lon, accuracy.toFixed(2));
-        }
-
-        function getAccuracyColor(accuracy) {
-            if (accuracy < 10) {
-                return 'green';
-            } else if (accuracy >= 10 && accuracy < 30) {
-                return 'yellow';
-            } else {
-                return 'red';
-            }
         }
 
         if (navigator.geolocation) {
