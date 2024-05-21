@@ -6,10 +6,13 @@
     <title>Interaktiv karta</title>
     <!-- Länk till Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <!-- Länk till separat CSS-fil för anpassade stilar -->
-    <link rel="stylesheet" href="styles.css">
     <style>
         /* Inbäddad CSS-kod */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
         #map { height: calc(100vh - 30px); }
         /* Stil för informationspanelen */
         #info-panel {
@@ -23,6 +26,21 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             text-align: center;
+        }
+        /* Styla markören */
+        .user-location {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #007bff;
+            animation: pulse 1.5s infinite;
+            z-index: 1000; /* Säkerställ att markören visas över kartan */
+        }
+        /* Definiera pulserande animation */
+        @keyframes pulse {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.9); }
         }
     </style>
 </head>
