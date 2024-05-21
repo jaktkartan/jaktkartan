@@ -69,45 +69,25 @@
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
             if (!userMarker) {
-                console.log("Creating new user marker...");
                 userMarker = L.marker([lat, lon], {
                     icon: L.divIcon({
                         className: 'user-location',
                         iconSize: [20, 20],
-                        iconAnchor: [10, 10],  // Centrerar markören korrekt
-                        popupAnchor: [0, -10]  // Justerar popup-positionen
                     })
                 }).addTo(map);
             } else {
-                console.log("Updating existing user marker...");
                 userMarker.setLatLng([lat, lon]);
             }
 
-            if (!accuracyCircle) {
-                console.log("Creating new accuracy circle...");
-                accuracyCircle = L.circle([lat, lon], {
-                    radius: accuracy,
-                    fillColor: getColor(accuracy),
-                    color: getColor(accuracy),
-                    fillOpacity: 0.5
-                }).addTo(map);
-            } else {
-                console.log("Updating existing accuracy circle...");
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy);
-                accuracyCircle.setStyle({
-                    fillColor: getColor(accuracy),
-                    color: getColor(accuracy)
-                });
-            }
-
+            // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
+            // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
         }
 
         function getPositionFromIP() {
-            console.log("Fetching position from IP...");
             axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
                 .then(function (response) {
                     var loc = response.data.loc.split(',');
@@ -127,20 +107,8 @@
             updateUserPosition(lat, lon, accuracy.toFixed(2));
         }
 
-        function getColor(accuracy) {
-            if (accuracy <= 10) {
-                return 'green';
-            } else if (accuracy <= 20) {
-                return 'yellow';
-            } else {
-                return 'red';
-            }
-        }
-
         if (navigator.geolocation) {
-            console.log("Attempting to get geolocation...");
             navigator.geolocation.getCurrentPosition(function (position) {
-                    console.log("Geolocation success!");
                     handleGeolocation(position);
                 },
                 function (error) {
@@ -156,11 +124,10 @@
 
             navigator.geolocation.watchPosition(
                 function (position) {
-                    console.log("Geolocation update received.");
                     handleGeolocation(position);
                 },
                 function (error) {
-                    console.log("Geolocation update failed: " + error.message);
+                    console.log("Geolocation failed: " + error.message);
                 },
                 {
                     enableHighAccuracy: true,
@@ -169,7 +136,6 @@
                 }
             );
         } else {
-            console.log("Geolocation not supported, using IP geolocation.");
             getPositionFromIP();
         }
     </script>
