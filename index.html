@@ -85,7 +85,7 @@
                     updateUserPosition(lat, lon, "Unknown");
                 })
                 .catch(function (error) {
-                    console.log("IP Geolocation failed: " + error.message);
+                    console.error("IP Geolocation failed: " + error.message);
                 });
         }
 
@@ -111,7 +111,7 @@
                     handleGeolocation(position);
                 },
                 function (error) {
-                    console.log("Geolocation failed: " + error.message);
+                    console.error("Geolocation failed: " + error.message);
                     getPositionFromIP();
                 },
                 {
@@ -126,7 +126,7 @@
                     handleGeolocation(position);
                 },
                 function (error) {
-                    console.log("Geolocation failed: " + error.message);
+                    console.error("Geolocation failed: " + error.message);
                 },
                 {
                     enableHighAccuracy: true,
@@ -140,3 +140,4 @@
     </script>
 </body>
 </html>
+
