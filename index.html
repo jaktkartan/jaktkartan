@@ -31,13 +31,32 @@
         var userMarker;
         var pulsingDotMarker;
 
-        function createPulsingDot() {
-            var pulsingDot = L.divIcon({
-                className: 'pulsing-dot',
-                iconSize: [20, 20],
-                iconAnchor: [10, 10]
-            });
-            return pulsingDot;
+        function createPulsingCircle(lat, lon) {
+            var pulsingCircle = L.circleMarker([lat, lon], {
+                radius: 10,
+                color: 'red',
+                fillColor: 'red',
+                fillOpacity: 0.5
+            }).addTo(map);
+
+            pulsingCircle._radius = 10; // Initial radius
+
+            pulsingCircle.animatePulse = function() {
+                var circle = this;
+                var radius = circle._radius;
+
+                setInterval(function() {
+                    radius += 2; // Increase radius
+                    if (radius > 20) {
+                        radius = 10; // Reset radius
+                    }
+                    circle.setRadius(radius);
+                }, 300); // Adjust animation speed as needed
+            }
+
+            pulsingCircle.animatePulse(); // Start animation
+
+            return pulsingCircle;
         }
 
         function updateUserPosition(lat, lon, accuracy) {
@@ -79,13 +98,11 @@
                 userMarker.setLatLng([lat, lon]);
             }
 
-            // Skapa eller uppdatera den pulserande punkten
+            // Skapa eller uppdatera den pulserande cirkeln
             if (!pulsingDotMarker) {
-                pulsingDotMarker = L.marker([lat, lon], { icon: createPulsingDot(), interactive: false }).addTo(map);
+                pulsingDotMarker = createPulsingCircle(lat, lon);
             } else {
-                // Använd markörens koordinater som utgångspunkt för den pulserande punkten
-                var markerPos = userMarker.getLatLng();
-                pulsingDotMarker.setLatLng(markerPos);
+                pulsingDotMarker.setLatLng([lat, lon]);
             }
         }
 
