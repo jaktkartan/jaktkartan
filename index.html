@@ -98,9 +98,9 @@
                     className: 'pulse',
                     iconSize: [20, 20]
                 });
-                userMarker = L.marker(accuracyCircle.getLatLng(), { icon: pulseIcon }).addTo(map);
+                userMarker = L.marker(accuracyCircle.getCenter(), { icon: pulseIcon }).addTo(map);
             } else {
-                userMarker.setLatLng(accuracyCircle.getLatLng());
+                userMarker.setLatLng(accuracyCircle.getCenter());
             }
         }
 
