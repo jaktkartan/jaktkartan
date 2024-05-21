@@ -1,5 +1,3 @@
-/* styles.css */
-
 /* Ta bort marginaler från <html> och <body> */
 html, body {
     margin: 0;
@@ -49,6 +47,9 @@ html, body {
     border-radius: 50%;
     background-color: #007bff;
     animation: pulse 1.5s infinite;
+    margin-left: -10px; /* Justera horisontell placering */
+    margin-top: -10px; /* Justera vertikal placering */
+    z-index: 1000; /* Säkerställ att markören visas över kartan */
 }
 
 /* Definiera pulserande animation */
@@ -57,5 +58,3 @@ html, body {
     50% { transform: scale(1); }
     100% { transform: scale(0.9); }
 }
-
-/* Om du vill inkludera fler stilar för andra element, lägg till dem här */
