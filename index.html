@@ -28,29 +28,6 @@
             z-index: 1000;
             text-align: center;
         }
-        /* Gör den befintliga markören osynlig */
-        .leaflet-marker-icon {
-            display: none !important;
-        }
-        /* Stil för pulserande punkt */
-        .pulse {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: #007bff;
-            animation: pulse 1.5s infinite;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-        }
-        /* Definiera pulserande animation */
-        @keyframes pulse {
-            0% { transform: scale(0.9); }
-            50% { transform: scale(1); }
-            100% { transform: scale(0.9); }
-        }
     </style>
 </head>
 <body>
@@ -72,7 +49,6 @@
         }).addTo(map);
 
         var accuracyCircle;
-        var userMarker;
 
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
@@ -95,17 +71,6 @@
 
             // Flytta kartvyn till användarens position
             map.setView([lat, lon], 13);
-
-            // Skapa eller uppdatera användarens markör med pulserande punkt
-            if (!userMarker) {
-                var pulseIcon = L.divIcon({
-                    className: 'pulse',
-                    iconSize: [20, 20]
-                });
-                userMarker = L.marker([lat, lon], { icon: pulseIcon }).addTo(map);
-            } else {
-                userMarker.setLatLng([lat, lon]);
-            }
         }
 
         function getPositionFromIP() {
