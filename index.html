@@ -56,7 +56,8 @@
                     icon: L.divIcon({
                         className: 'user-location',
                         iconSize: [20, 20],
-                        iconAnchor: [10, 10]
+                        iconAnchor: [10, 10],  // Centrerar markören korrekt
+                        popupAnchor: [0, -10]  // Justerar popup-positionen
                     })
                 }).addTo(map);
             } else {
