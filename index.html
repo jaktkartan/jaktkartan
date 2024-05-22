@@ -126,9 +126,6 @@
                 accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
             }
 
-            // Flytta kartvyn till användarens position
-            map.setView([lat, lon], 13);
-
             // Skapa eller uppdatera användarens markör med standardikon
             if (!userMarker) {
                 userMarker = L.marker([lat, lon]).addTo(map);
@@ -195,6 +192,17 @@
         } else {
             getPositionFromIP();
         }
+
+        // Inaktivera automatiskt centrerande av kartan till GPS-markörens position vid panorering
+        map.dragging.disable();
+
+        // Lyssna efter kartpanorering och zoomändringar och uppdatera GPS-markörens position
+        map.on('move', function(e) {
+            if (userMarker) {
+                var latlng = map.getCenter();
+                userMarker.setLatLng(latlng);
+            }
+        });
     </script>
 </body>
 </html>
