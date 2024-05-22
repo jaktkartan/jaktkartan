@@ -67,7 +67,7 @@
         }
 
         /* Dölj endast standardmarkören */
-        .leaflet-marker-icon {
+        .leaflet-marker-icon[src*="marker-icon.png"] {
             display: none;
         }
     </style>
@@ -186,18 +186,18 @@
                     handleGeolocation(position);
                 },
                 function (error) {
-            console.log("Geolocation failed: " + error.message);
+                    console.log("Geolocation failed: " + error.message);
                 },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        } else {
-            // Visa Sverige i sin helhet som startposition om användaren inte delar sin position
-            map.setView([62.0, 15.0], 5);
-        }
-    </script>
+               {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0
+}
+);
+} else {
+    // Visa Sverige i sin helhet som startposition om användaren inte delar sin position
+    map.setView([62.0, 15.0], 5);
+}
+</script>
 </body>
 </html>
