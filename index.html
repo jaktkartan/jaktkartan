@@ -66,10 +66,9 @@
             }
         }
 
-        /* Ändra storleken på standardmarkören till 0 */
-        .leaflet-marker-icon[src*="marker-icon.png"] {
-            width: 0;
-            height: 0;
+        /* Dölj endast standardmarkören */
+        .leaflet-marker-icon {
+            display: none;
         }
     </style>
 </head>
@@ -132,9 +131,9 @@
                 accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
             }
 
-            // Skapa eller uppdatera användarens markör med standardikon
+            // Skapa eller uppdatera användarens markör med transparent bild som standardikon
             if (!userMarker) {
-                userMarker = L.marker([lat, lon]).addTo(map);
+                userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
@@ -187,7 +186,7 @@
                     handleGeolocation(position);
                 },
                 function (error) {
-                    console.log("Geolocation failed: " + error.message);
+            console.log("Geolocation failed: " + error.message);
                 },
                 {
                     enableHighAccuracy: true,
