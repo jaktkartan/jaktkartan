@@ -65,6 +65,11 @@
                 opacity: 0;
             }
         }
+
+        /* Dölj standardikon */
+        .leaflet-marker-icon {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -146,7 +151,8 @@
                 .then(function (response) {
                     var loc = response.data.loc.split(',');
                     var lat = parseFloat(loc[0]);
-                    var lon = parseFloat(loc[1]);
+                    var lon = parseFloat(loc[1
+]);
                     updateUserPosition(lat, lon, "Unknown");
                 })
                 .catch(function (error) {
@@ -178,21 +184,21 @@
 
             navigator.geolocation.watchPosition(
                 function (position) {
-    handleGeolocation(position);
-},
-function (error) {
-    console.log("Geolocation failed: " + error.message);
-},
-{
-    enableHighAccuracy: true,
-    timeout: 10000,
-    maximumAge: 0
-}
-);
-} else {
-    // Visa Sverige i sin helhet som startposition om användaren inte delar sin position
-    map.setView([62.0, 15.0], 5);
-}
-</script>
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            // Visa Sverige i sin helhet som startposition om användaren inte delar sin position
+            map.setView([62.0, 15.0], 5);
+        }
+    </script>
 </body>
 </html>
