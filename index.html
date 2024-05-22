@@ -70,11 +70,6 @@
         .leaflet-marker-icon[src*="marker-icon.png"] {
             display: none;
         }
-
-        /* Ta bort skuggningseffekt från standardmarkören */
-        .leaflet-marker-icon[src*="marker-icon.png"].leaflet-zoom-animated {
-            filter: none;
-        }
     </style>
 </head>
 <body>
@@ -138,7 +133,7 @@
 
             // Skapa eller uppdatera användarens markör med standardikon
             if (!userMarker) {
-                userMarker = L.marker([lat, lon], {className: "custom-marker"}).addTo(map);
+                userMarker = L.marker([lat, lon]).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
