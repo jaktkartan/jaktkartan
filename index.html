@@ -79,6 +79,7 @@
     <script>
         console.log("Initializing map...");
 
+        // Sätt en startposition och zoomnivå för kartan
         var map = L.map('map').setView([0, 0], 2);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -176,31 +177,34 @@
                 }
             );
 
-            navigator.geolocation.watchPosition(
-                function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        } else {
-            getPositionFromIP();
-        }
+            navigator.geolocation.watchPosition(function (position) {
+    handleGeolocation(position);
+},
+function (error) {
+    console.log("Geolocation failed: " + error.message);
+    getPositionFromIP();
+},
+{
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0
+}
+);
+} else {
+getPositionFromIP();
+}
 
-        // Lyssna efter kartpanorering och zoomändringar
-        map.on('move', function(e) {
-            if (userMarker && pulsingDotMarker) {
-                var latlng = map.getCenter();
-                userMarker.setLatLng(latlng);
-                pulsingDotMarker.setLatLng(latlng);
-            }
-        });
-    </script>
+// Lyssna efter kartpanorering och zoomändringar
+map.on('move', function(e) {
+    // Uppdatera markörerna endast om användaren delar sin position
+    if (userMarker && pulsingDotMarker) {
+        var latlng = map.getCenter();
+        userMarker.setLatLng(latlng);
+        pulsingDotMarker.setLatLng(latlng);
+    }
+});
+</script>
 </body>
 </html>
+
+               
