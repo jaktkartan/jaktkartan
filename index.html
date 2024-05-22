@@ -69,7 +69,11 @@
         /* Dölj endast standardmarkören */
         .leaflet-marker-icon[src*="marker-icon.png"] {
             display: none;
-            filter: none; /* Ta bort skuggningseffekt */
+        }
+
+        /* Ta bort skuggningseffekt från standardmarkören */
+        .leaflet-marker-icon[src*="marker-icon.png"].leaflet-zoom-animated {
+            filter: none;
         }
     </style>
 </head>
@@ -134,7 +138,7 @@
 
             // Skapa eller uppdatera användarens markör med standardikon
             if (!userMarker) {
-                userMarker = L.marker([lat, lon]).addTo(map);
+                userMarker = L.marker([lat, lon], {className: "custom-marker"}).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
@@ -152,8 +156,7 @@
                 .then(function (response) {
                     var loc = response.data.loc.split(',');
                     var lat = parseFloat(loc[0]);
-                    var lon = parseFloat(loc[1
-]);
+                    var lon = parseFloat(loc[1]);
                     updateUserPosition(lat, lon, "Unknown");
                 })
                 .catch(function (error) {
