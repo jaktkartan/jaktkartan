@@ -66,9 +66,10 @@
             }
         }
 
-        /* Dölj standardikon */
-        .leaflet-marker-icon {
+        /* Dölj endast standardmarkören */
+        .leaflet-marker-icon[src*="marker-icon.png"] {
             display: none;
+            filter: none; /* Ta bort skuggningseffekt */
         }
     </style>
 </head>
