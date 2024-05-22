@@ -6,6 +6,34 @@
     <title>Interaktiv karta</title>
     <!-- Länk till Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* Ta bort marginer från <html> och <body> */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* Stilar för kartans container */
+        #map {
+            height: calc(100vh - 30px);
+            position: relative;
+        }
+
+        /* Stil för informationspanelen */
+        #info-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 20px;
+            border-bottom: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
@@ -32,8 +60,8 @@
         function createPulsingCircle(lat, lon) {
             var pulsingCircle = L.circleMarker([lat, lon], {
                 radius: 8,
-                color: 'blue', // Ändra färgen till blå
-                fillColor: 'blue', // Ändra färgen till blå
+                color: '#FF5733', // Ändra färgen till orange
+                fillColor: '#FF5733', // Ändra färgen till orange
                 fillOpacity: 0.5
             }).addTo(map);
 
@@ -56,7 +84,7 @@
                         radius = 8; // Återställ radien
                     }
                     circle.setRadius(radius);
-                }, 300); // Ändra hastigheten till 300 ms
+                }, 300); // Ändra animationshastigheten till 300 ms
             }
 
             pulsingCircle.animatePulse(); // Starta animationen
