@@ -33,6 +33,30 @@
             z-index: 1000;
             text-align: center;
         }
+
+        .pulsing-signal {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: green;
+            border-radius: 50%;
+            animation: signalPulse 2s infinite ease-out;
+        }
+
+        @keyframes signalPulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -55,49 +79,17 @@
 
         var accuracyCircle;
         var userMarker;
-        var pulsingDotMarker;
+        var pulsingSignalMarker;
 
-        function createPulsingCircle(lat, lon) {
-            var pulsingCircle = L.circleMarker([lat, lon], {
-                radius: 5, // Mindre radie
-                color: 'green', // Färgen på cirkeln
-                fillColor: 'green', // Färgen inuti cirkeln
-                fillOpacity: 0.5
-            }).addTo(map);
-
-            pulsingCircle._originalRadius = 5; // Original radius
-
-            pulsingCircle.setStyle({
-                weight: 2, // Tjockleken på cirkeln
-                opacity: 1, // Opacitet
-                dashArray: '', // Streckad linje
-                fillOpacity: 0.5 // Opacitet för fyllningen
+        function createPulsingSignal(lat, lon) {
+            var signalIcon = L.divIcon({
+                className: 'pulsing-signal',
+                iconSize: [10, 10]
             });
 
-            pulsingCircle.animatePulse = function() {
-                var circle = this;
-                var maxRadius = 10; // Maximal radie
-                var minRadius = circle._originalRadius;
-                var growing = true;
+            var pulsingSignal = L.marker([lat, lon], { icon: signalIcon }).addTo(map);
 
-                setInterval(function() {
-                    if (growing) {
-                        circle.setRadius(circle._radius + 0.5);
-                        if (circle._radius >= maxRadius) {
-                            growing = false;
-                        }
-                    } else {
-                        circle.setRadius(circle._radius - 0.5);
-                        if (circle._radius <= minRadius) {
-                            growing = true;
-                        }
-                    }
-                }, 50); // Anpassa animationshastigheten för smidighet
-            }
-
-            pulsingCircle.animatePulse(); // Starta animationen
-
-            return pulsingCircle;
+            return pulsingSignal;
         }
 
         function updateUserPosition(lat, lon, accuracy) {
@@ -139,11 +131,11 @@
                 userMarker.setLatLng([lat, lon]);
             }
 
-            // Skapa eller uppdatera den pulserande cirkeln
-            if (!pulsingDotMarker) {
-                pulsingDotMarker = createPulsingCircle(lat, lon);
+            // Skapa eller uppdatera den pulserande signalen
+            if (!pulsingSignalMarker) {
+                pulsingSignalMarker = createPulsingSignal(lat, lon);
             } else {
-                pulsingDotMarker.setLatLng([lat, lon]);
+                pulsingSignalMarker.setLatLng([lat, lon]);
             }
         }
 
