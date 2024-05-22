@@ -6,34 +6,6 @@
     <title>Interaktiv karta</title>
     <!-- Länk till Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-        /* Ta bort marginer från <html> och <body> */
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
-        /* Stilar för kartans container */
-        #map {
-            height: calc(100vh - 30px);
-            position: relative;
-        }
-
-        /* Stil för informationspanelen */
-        #info-panel {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px 20px;
-            border-bottom: 1px solid #ccc;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
@@ -59,13 +31,13 @@
 
         function createPulsingCircle(lat, lon) {
             var pulsingCircle = L.circleMarker([lat, lon], {
-                radius: 8,
-                color: '#FF5733', // Ändra färgen till orange
-                fillColor: '#FF5733', // Ändra färgen till orange
+                radius: 5, // Mindre radie
+                color: 'green', // Färgen på cirkeln
+                fillColor: 'green', // Färgen inuti cirkeln
                 fillOpacity: 0.5
             }).addTo(map);
 
-            pulsingCircle._radius = 8; // Initial radius
+            pulsingCircle._originalRadius = 5; // Original radius
 
             pulsingCircle.setStyle({
                 weight: 2, // Tjockleken på cirkeln
@@ -76,15 +48,23 @@
 
             pulsingCircle.animatePulse = function() {
                 var circle = this;
-                var radius = circle._radius;
+                var maxRadius = 10; // Maximal radie
+                var minRadius = circle._originalRadius;
+                var growing = true;
 
                 setInterval(function() {
-                    radius += 2; // Öka radien
-                    if (radius > 20) {
-                        radius = 8; // Återställ radien
+                    if (growing) {
+                        circle.setRadius(circle._radius + 0.5);
+                        if (circle._radius >= maxRadius) {
+                            growing = false;
+                        }
+                    } else {
+                        circle.setRadius(circle._radius - 0.5);
+                        if (circle._radius <= minRadius) {
+                            growing = true;
+                        }
                     }
-                    circle.setRadius(radius);
-                }, 300); // Ändra animationshastigheten till 300 ms
+                }, 50); // Anpassa animationshastigheten för smidighet
             }
 
             pulsingCircle.animatePulse(); // Starta animationen
