@@ -32,8 +32,8 @@
         function createPulsingCircle(lat, lon) {
             var pulsingCircle = L.circleMarker([lat, lon], {
                 radius: 8,
-                color: '#1f77b4', // Blå ton
-                fillColor: '#1f77b4', // Blå ton
+                color: 'blue', // Ändra färgen till blå
+                fillColor: 'blue', // Ändra färgen till blå
                 fillOpacity: 0.5
             }).addTo(map);
 
@@ -56,7 +56,7 @@
                         radius = 8; // Återställ radien
                     }
                     circle.setRadius(radius);
-                }, 300); // Återställ animationshastigheten här
+                }, 300); // Ändra hastigheten till 300 ms
             }
 
             pulsingCircle.animatePulse(); // Starta animationen
