@@ -50,7 +50,7 @@
             position: absolute;
             top: -50%;
             left: -50%;
-            background: rgba(0, 0, 255, 1);
+            background: rgba(0, 255, 0, 0.5);
             border-radius: 50%;
             animation: pulse 1.5s infinite;
         }
@@ -104,7 +104,7 @@
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
-            // Uppdatera färgen för noggrannhetscirkeln baserat på noggrannheten
+            // Bestäm färgen för noggrannhetscirkeln baserat på noggrannheten
             var fillColor;
             if (accuracy < 10) {
                 fillColor = 'green'; // Bra noggrannhet
