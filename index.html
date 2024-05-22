@@ -6,6 +6,66 @@
     <title>Interaktiv karta</title>
     <!-- Länk till Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* Ta bort marginer från <html> och <body> */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* Stilar för kartans container */
+        #map {
+            height: calc(100vh - 30px);
+            position: relative;
+        }
+
+        /* Stil för informationspanelen */
+        #info-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 20px;
+            border-bottom: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        /* Pulserande cirkel animation */
+        .pulsing-circle {
+            width: 8px;
+            height: 8px;
+            background: blue;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pulsing-circle::before {
+            content: '';
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            background: rgba(0, 255, 0, 0.5);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
@@ -30,46 +90,11 @@
         var pulsingDotMarker;
 
         function createPulsingCircle(lat, lon) {
-            var pulsingCircle = L.circleMarker([lat, lon], {
-                radius: 5, // Mindre radie
-                color: 'blue', // Färgen på cirkeln
-                fillColor: 'blue', // Färgen inuti cirkeln
-                fillOpacity: 0.5
-            }).addTo(map);
-
-            pulsingCircle._originalRadius = 5; // Original radius
-
-            pulsingCircle.setStyle({
-                weight: 2, // Tjockleken på cirkeln
-                opacity: 1, // Opacitet
-                dashArray: '', // Streckad linje
-                fillOpacity: 0.5 // Opacitet för fyllningen
+            var divIcon = L.divIcon({
+                className: 'pulsing-circle',
+                iconSize: [12, 12]
             });
-
-            pulsingCircle.animatePulse = function() {
-                var circle = this;
-                var maxRadius = 10; // Maximal radie
-                var minRadius = circle._originalRadius;
-                var growing = true;
-
-                setInterval(function() {
-                    if (growing) {
-                        circle.setRadius(circle._radius + 0.5);
-                        if (circle._radius >= maxRadius) {
-                            growing = false;
-                        }
-                    } else {
-                        circle.setRadius(circle._radius - 0.5);
-                        if (circle._radius <= minRadius) {
-                            growing = true;
-                        }
-                    }
-                }, 50); // Anpassa animationshastigheten för smidighet
-            }
-
-            pulsingCircle.animatePulse(); // Starta animationen
-
-            return pulsingCircle;
+            return L.marker([lat, lon], { icon: divIcon }).addTo(map);
         }
 
         function updateUserPosition(lat, lon, accuracy) {
