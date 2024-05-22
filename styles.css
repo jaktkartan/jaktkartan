@@ -24,3 +24,8 @@ html, body {
     z-index: 1000;
     text-align: center;
 }
+
+/* Dölj standardikon */
+.leaflet-marker-icon {
+    display: none;
+}
