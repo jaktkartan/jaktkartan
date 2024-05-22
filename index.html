@@ -79,8 +79,7 @@
     <script>
         console.log("Initializing map...");
 
-        // Sätt en startposition och zoomnivå för kartan
-        var map = L.map('map').setView([0, 0], 2);
+        var map = L.map('map').setView([62.0, 15.0], 5); // Generell startposition: Sverige
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -177,34 +176,20 @@
                 }
             );
 
-            navigator.geolocation.watchPosition(function (position) {
-    handleGeolocation(position);
-},
-function (error) {
-    console.log("Geolocation failed: " + error.message);
-    getPositionFromIP();
-},
-{
-    enableHighAccuracy: true,
-    timeout: 10000,
-    maximumAge: 0
-}
+navigator.geolocation.watchPosition(
+    function (position) {
+        handleGeolocation(position);
+    },
+    function (error) {
+        console.log("Geolocation failed: " + error.message);
+    },
+    {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    }
 );
 } else {
-getPositionFromIP();
+// Visa Sverige i sin helhet som startposition om användaren inte delar sin position
+map.setView([62.0, 15.0], 5);
 }
-
-// Lyssna efter kartpanorering och zoomändringar
-map.on('move', function(e) {
-    // Uppdatera markörerna endast om användaren delar sin position
-    if (userMarker && pulsingDotMarker) {
-        var latlng = map.getCenter();
-        userMarker.setLatLng(latlng);
-        pulsingDotMarker.setLatLng(latlng);
-    }
-});
-</script>
-</body>
-</html>
-
-               
