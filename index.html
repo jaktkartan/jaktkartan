@@ -34,26 +34,34 @@
             text-align: center;
         }
 
-        .pulsing-signal {
-            position: absolute;
-            width: 10px;
-            height: 10px;
+        /* Pulserande cirkel animation */
+        .pulsing-circle {
+            width: 12px;
+            height: 12px;
             background: green;
             border-radius: 50%;
-            animation: signalPulse 2s infinite ease-out;
+            position: relative;
         }
 
-        @keyframes signalPulse {
+        .pulsing-circle::before {
+            content: '';
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            background: rgba(0, 255, 0, 0.5);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
             0% {
-                transform: scale(1);
+                transform: scale(0.5);
                 opacity: 1;
             }
-            50% {
-                transform: scale(5);
-                opacity: 0;
-            }
             100% {
-                transform: scale(1);
+                transform: scale(2);
                 opacity: 0;
             }
         }
@@ -79,17 +87,14 @@
 
         var accuracyCircle;
         var userMarker;
-        var pulsingSignalMarker;
+        var pulsingDotMarker;
 
-        function createPulsingSignal(lat, lon) {
-            var signalIcon = L.divIcon({
-                className: 'pulsing-signal',
-                iconSize: [10, 10]
+        function createPulsingCircle(lat, lon) {
+            var divIcon = L.divIcon({
+                className: 'pulsing-circle',
+                iconSize: [12, 12]
             });
-
-            var pulsingSignal = L.marker([lat, lon], { icon: signalIcon }).addTo(map);
-
-            return pulsingSignal;
+            return L.marker([lat, lon], { icon: divIcon }).addTo(map);
         }
 
         function updateUserPosition(lat, lon, accuracy) {
@@ -131,11 +136,11 @@
                 userMarker.setLatLng([lat, lon]);
             }
 
-            // Skapa eller uppdatera den pulserande signalen
-            if (!pulsingSignalMarker) {
-                pulsingSignalMarker = createPulsingSignal(lat, lon);
+            // Skapa eller uppdatera den pulserande cirkeln
+            if (!pulsingDotMarker) {
+                pulsingDotMarker = createPulsingCircle(lat, lon);
             } else {
-                pulsingSignalMarker.setLatLng([lat, lon]);
+                pulsingDotMarker.setLatLng([lat, lon]);
             }
         }
 
