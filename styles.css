@@ -46,7 +46,7 @@
 
         .hamburger-menu button {
             background: none;
-            border: none;
+            border: 1px solid #000;
             margin: 5px 0;
             cursor: pointer;
         }
@@ -90,7 +90,6 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         console.log("Initializing map...");
 
@@ -100,68 +99,8 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Resten av din befintliga JavaScript-kod
-
-        function updateUserPosition(lat, lon, accuracy) {
-            console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
-
-            var infoPanel = document.getElementById('info-panel');
-            infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
-
-            // Lägg till logik för att uppdatera användarens position på kartan
-        }
-
-        function getPositionFromIP() {
-            axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                .then(function (response) {
-                    var loc = response.data.loc.split(',');
-                    var lat = parseFloat(loc[0]);
-                    var lon = parseFloat(loc[1]);
-                    updateUserPosition(lat, lon, "Unknown");
-                })
-                .catch(function (error) {
-                    console.log("IP Geolocation failed: " + error.message);
-                });
-        }
-
-        function handleGeolocation(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-            var accuracy = position.coords.accuracy;
-            updateUserPosition(lat, lon, accuracy.toFixed(2));
-        }
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                    getPositionFromIP();
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-
-            navigator.geolocation.watchPosition(
-                function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        } else {
-            map.setView([62.0, 15.0], 5);
-        }
+        // Lägg till en enkel markör för att verifiera att kartan fungerar
+        L.marker([62.0, 15.0]).addTo(map).bindPopup('Central position').openPopup();
     </script>
 </body>
 </html>
