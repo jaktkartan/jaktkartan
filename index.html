@@ -6,14 +6,21 @@
     <title>Interaktiv karta</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
+    <style>
+        /* Lägg till en klass för att justera storleken på ikonerna */
+        .sun-icon {
+            height: 1.5em; /* Justera höjden efter behov */
+            margin-right: 5px; /* Justera marginalen mellan ikonen och texten */
+        }
+    </style>
     <script src="https://unpkg.com/suncalc/suncalc.js"></script> <!-- Lägg till SunCalc-biblioteket -->
 </head>
 <body>
     <div id="info-panel">
         <div id="accuracy">Lägesnoggrannhet: Unknown</div>
         <div id="sunrise-sunset">
-            <span>Soluppgång: <span id="sunrise"></span><img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">, </span>
-            <span>Solnedgång: <span id="sunset"></span><img id="sunset-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;"> </span>
+            <span>Soluppgång: <img id="sunrise-icon" class="sun-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon"> <span id="sunrise"></span>, </span>
+            <span>Solnedgång: <img id="sunset-icon" class="sun-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon"> <span id="sunset"></span> </span>
         </div>
     </div>
     <div id="map"></div>
@@ -62,12 +69,9 @@
             var sunriseSpan = document.getElementById('sunrise');
             var sunsetSpan = document.getElementById('sunset');
 
-            sunriseSpan.innerHTML = sunrise;
-            sunsetSpan.innerHTML = sunset;
-
-            // Visa soltider som ikoner
-            sunriseSpan.innerHTML += '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">';
-            sunsetSpan.innerHTML += '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;">';
+            // Flytta ikonerna innan soluppgång och solnedgång
+            sunriseSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" class="sun-icon">' + sunrise;
+            sunsetSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" class="sun-icon">' + sunset;
 
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
@@ -96,6 +100,8 @@
         function getPositionFromIP() {
             axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
                 .then(function (response) {
+                                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                .then(function (response) {
                     var loc = response.data.loc.split(',');
                     var lat = parseFloat(loc[0]);
                     var lon = parseFloat(loc[1]);
@@ -114,7 +120,7 @@
         }
 
         function toggleFABMenu() {
-                        var menu = document.getElementById('menu');
+            var menu = document.getElementById('menu');
             if (menu.style.display === 'none' || menu.style.display === '') {
                 menu.style.display = 'block';
             } else {
