@@ -10,6 +10,7 @@
 </head>
 <body>
     <div id="info-panel">
+        <div id="accuracy">Lägesnoggrannhet: Unknown</div>
         <div id="sunrise-sunset">
             <img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">
             <span id="sunrise"></span>
@@ -79,30 +80,18 @@
                 pulsingDotMarker.setLatLng([lat, lon]);
             }
 
-            // Beräkna soltider och uppdatera ikoner och tider
+            // Beräkna soltider och uppdatera tiderna
             var times = SunCalc.getTimes(new Date(), lat, lon);
-            updateSunriseIcon();
-            updateSunsetIcon();
-        }
-
-        function updateSunriseIcon() {
+            var sunrise = times.sunrise.toLocaleTimeString();
+            var sunset = times.sunset.toLocaleTimeString();
             var sunriseSpan = document.getElementById('sunrise');
-            sunriseSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">';
-        }
-
-        function updateSunriseTime(time) {
-            var sunriseSpan = document.getElementById('sunrise');
-            sunriseSpan.innerHTML += ' ' + time.toLocaleTimeString();
-        }
-
-        function updateSunsetIcon() {
             var sunsetSpan = document.getElementById('sunset');
-            sunsetSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;">';
-        }
 
-        function updateSunsetTime(time) {
-            var sunsetSpan = document.getElementById('sunset');
-            sunsetSpan.innerHTML += ' ' + time.toLocaleTimeString();
+            // Uppdatera soluppgångstid
+            sunriseSpan.innerHTML = sunrise;
+
+            // Uppdatera solnedgångstid
+            sunsetSpan.innerHTML = sunset;
         }
 
         function getPositionFromIP() {
@@ -150,22 +139,21 @@
             );
 
             navigator.geolocation.watchPosition(
-function (position) {
-handleGeolocation(position);
-},
-function (error) {
-console.log("Geolocation failed: " + error.message);
-},
-{
-enableHighAccuracy: true,
-timeout: 10000,
-maximumAge: 0
-}
-);
-} else {
-map.setView([62.0, 15.0], 5);
-}
-</script>
-
+                function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            map.setView([62.0, 15.0], 5);
+        }
+    </script>
 </body>
 </html>
