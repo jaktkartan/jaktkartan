@@ -113,7 +113,7 @@
         }
 
         function loadAndShowData() {
-            axios.get('https://raw.githubusercontent.com/timothylevin/Jaktkartan_Daggdjur/main/daggdjur.geojson')
+            axios.get('https://raw.githubusercontent.com/timothylevin/Jaktkartan_Daggdjur/main/data/daggdjur.geojson')
                 .then(function (response) {
                     var data = response.data;
                     if (geojsonLayer) {
