@@ -42,6 +42,8 @@
         var accuracyCircle;
         var userMarker;
         var pulsingDotMarker;
+        var sunriseIconAdded = false;
+        var sunsetIconAdded = false;
 
         function createPulsingCircle(lat, lon) {
             var divIcon = L.divIcon({
@@ -65,8 +67,14 @@
             var sunsetSpan = document.getElementById('sunset');
 
             // Visa soltider som ikoner
-            sunriseSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;"> ' + sunrise;
-            sunsetSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;"> ' + sunset;
+            if (!sunriseIconAdded) {
+                sunriseSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;"> ' + sunrise;
+                sunriseIconAdded = true;
+            }
+            if (!sunsetIconAdded) {
+                sunsetSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;"> ' + sunset;
+                sunsetIconAdded = true;
+            }
 
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
