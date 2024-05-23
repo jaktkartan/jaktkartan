@@ -12,8 +12,8 @@
     <div id="info-panel">
         <div id="accuracy">Lägesnoggrannhet: Unknown</div>
         <div id="sunrise-sunset">
-            <span id="sunrise-icon"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;"></span>
-            <span id="sunset-icon"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;"></span>
+            <span id="sunrise"></span><img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">
+            <span id="sunset"></span><img id="sunset-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;">
         </div>
     </div>
     <div id="map"></div>
@@ -59,11 +59,15 @@
             var sunrise = times.sunrise.toLocaleTimeString();
             var sunset = times.sunset.toLocaleTimeString();
 
-            var sunriseIconSpan = document.getElementById('sunrise-icon');
-            var sunsetIconSpan = document.getElementById('sunset-icon');
+            var sunriseSpan = document.getElementById('sunrise');
+            var sunsetSpan = document.getElementById('sunset');
 
-            sunriseIconSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">';
-            sunsetIconSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;">';
+            sunriseSpan.innerHTML = sunrise;
+            sunsetSpan.innerHTML = sunset;
+
+            // Visa soltider som ikoner
+            sunriseSpan.innerHTML += '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">';
+            sunsetSpan.innerHTML += '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;">';
 
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
