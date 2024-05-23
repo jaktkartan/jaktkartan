@@ -16,6 +16,10 @@
             <span id="sunrise"></span>
             <img id="sunset-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 24px;">
             <span id="sunset"></span>
+            <div class="expand-toggle" onclick="togglePanel()">Väderprognos <span class="arrow">&#9660;</span></div>
+            <div id="weather-info" style="display: none;">
+                <!-- Här kan du lägga till din väderprognosinformation -->
+            </div>
         </div>
     </div>
     <div id="map"></div>
@@ -135,6 +139,15 @@
             }
         }
 
+        function togglePanel() {
+            var weatherInfo = document.getElementById('weather-info');
+            if (weatherInfo.style.display === 'none') {
+                weatherInfo.style.display = 'block';
+            } else {
+                weatherInfo.style.display = 'none';
+            }
+        }
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                     handleGeolocation(position);
@@ -154,7 +167,7 @@
                 function (position) {
                     handleGeolocation(position);
                 },
-               function (error) {
+                function (error) {
                     console.log("Geolocation failed: " + error.message);
                 },
                 {
