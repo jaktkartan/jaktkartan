@@ -4,23 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interaktiv karta</title>
-    <!-- Länk till Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        /* Ta bort marginer från <html> och <body> */
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
         }
 
-        /* Stilar för kartans container */
         #map {
-            height: calc(100vh - 30px);
+            height: calc(100vh - 60px);
             position: relative;
         }
 
-        /* Stil för informationspanelen */
         #info-panel {
             position: absolute;
             top: 0;
@@ -34,116 +30,81 @@
             text-align: center;
         }
 
-        /* Pulserande cirkel animation */
-        .pulsing-circle {
-            width: 8px;
-            height: 8px;
-            background: blue;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .pulsing-circle::before {
-            content: '';
-            width: 200%;
-            height: 200%;
+        .hamburger-menu {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            background: rgba(0, 0, 255, 0.5); /* Blå puls */
+            top: 10px;
+            right: 10px;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .hamburger-menu button {
+            background: none;
+            border: 1px solid #000;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        .fab {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .fab button {
+            background-color: #007bff;
+            color: white;
+            border: none;
             border-radius: 50%;
-            animation: pulse 1.5s infinite;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(0.5);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-
-        /* Dölj endast standardmarkören */
-        .leaflet-marker-icon[src*="marker-icon.png"] {
-            display: none;
+        .fab button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
     <div id="map"></div>
+    <div class="hamburger-menu">
+        <button onclick="alert('Layer button clicked')">Layer</button>
+        <button onclick="alert('Info button clicked')">Info</button>
+    </div>
+    <div class="fab">
+        <button onclick="alert('FAB button clicked')">+</button>
+    </div>
 
-    <!-- Länk till Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <!-- Länk till Axios JavaScript -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!-- Inbäddad JavaScript-kod -->
     <script>
         console.log("Initializing map...");
 
-        var map = L.map('map').setView([62.0, 15.0], 5); // Generell startposition: Sverige
+        var map = L.map('map').setView([62.0, 15.0], 5);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var accuracyCircle;
-        var userMarker;
-        var pulsingDotMarker;
-
-        function createPulsingCircle(lat, lon) {
-            var divIcon = L.divIcon({
-                className: 'pulsing-circle',
-                iconSize: [12, 12]
-            });
-            return L.marker([lat, lon], { icon: divIcon }).addTo(map);
-        }
-
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
-            // Uppdatera noggrannhetsinformation i informationspanelen
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
-
-            // Bestäm färgen för noggrannhetscirkeln baserat på noggrannheten
-            var fillColor;
-            if (accuracy < 10) {
-                fillColor = 'green'; // Bra noggrannhet
-            } else if (accuracy < 20) {
-                fillColor = 'orange'; // Mellannoggrannhet
-            } else {
-                fillColor = 'red'; // Dålig noggrannhet
-            }
-
-            // Skapa eller uppdatera noggrannhetscirkeln
-            if (!accuracyCircle) {
-                accuracyCircle = L.circle([lat, lon], {
-                    radius: accuracy,
-                    fillColor: fillColor,
-                    fillOpacity: 0.5,
-                    stroke: false
-                }).addTo(map);
-            } else {
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
-            }
-
-            // Skapa eller uppdatera användarens markör med transparent bild som standardikon
-            if (!userMarker) {
-                userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
-            } else {
-                userMarker.setLatLng([lat, lon]);
-            }
-
-            // Skapa eller uppdatera den pulserande cirkeln
-            if (!pulsingDotMarker) {
-                pulsingDotMarker = createPulsingCircle(lat, lon);
-            } else {
-                pulsingDotMarker.setLatLng([lat, lon]);
-            }
         }
 
         function getPositionFromIP() {
@@ -188,16 +149,15 @@
                 function (error) {
                     console.log("Geolocation failed: " + error.message);
                 },
-               {
-    enableHighAccuracy: true,
-    timeout: 10000,
-    maximumAge: 0
-}
-);
-} else {
-    // Visa Sverige i sin helhet som startposition om användaren inte delar sin position
-    map.setView([62.0, 15.0], 5);
-}
-</script>
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            map.setView([62.0, 15.0], 5);
+        }
+    </script>
 </body>
 </html>
