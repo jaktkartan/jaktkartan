@@ -12,8 +12,8 @@
     <div id="info-panel">
         <div id="accuracy">Lägesnoggrannhet: Unknown</div>
         <div id="sunrise-sunset">
-            <span>Soluppgång: <span id="sunrise"></span><img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;"> </span>
-            <span>Solnedgång: <span id="sunset"></span><img id="sunset-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;"> </span>
+            <span>Soluppgång: <span id="sunrise"></span></span>
+            <span>Solnedgång: <span id="sunset"></span></span>
         </div>
     </div>
     <div id="map"></div>
@@ -49,6 +49,12 @@
             return L.marker([lat, lon], { icon: divIcon }).addTo(map);
         }
 
+        // Lägg till ikonerna för soluppgång och solnedgång en gång när sidan laddas
+        var sunriseIcon = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">';
+        var sunsetIcon = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;">';
+        document.getElementById('sunrise').innerHTML = sunriseIcon;
+        document.getElementById('sunset').innerHTML = sunsetIcon;
+
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
@@ -64,10 +70,6 @@
 
             sunriseSpan.innerHTML = sunrise;
             sunsetSpan.innerHTML = sunset;
-
-            // Visa soltider som ikoner
-            sunriseSpan.innerHTML += '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">';
-            sunsetSpan.innerHTML += '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;">';
 
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
@@ -142,8 +144,7 @@
                     handleGeolocation(position);
                 },
                 function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                },
+                    console.log("Geolocation failed: " + error.message);                },
                 {
                     enableHighAccuracy: true,
                     timeout: 10000,
@@ -152,8 +153,8 @@
             );
         } else {
             map.setView([62.0, 15.0], 5);
-}
-</script>
-
+        }
+    </script>
 </body>
 </html>
+
