@@ -43,12 +43,6 @@
         var userMarker;
         var pulsingDotMarker;
 
-        // Visa ikoner för soluppgång och solnedgång från början
-        var sunriseIcon = document.getElementById('sunrise-icon');
-        var sunsetIcon = document.getElementById('sunset-icon');
-        sunriseIcon.style.display = 'inline-block';
-        sunsetIcon.style.display = 'inline-block';
-
         function createPulsingCircle(lat, lon) {
             var divIcon = L.divIcon({
                 className: 'pulsing-circle',
@@ -62,17 +56,6 @@
 
             var accuracyInfo = document.getElementById('accuracy');
             accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
-
-            var times = SunCalc.getTimes(new Date(), lat, lon);
-            var sunrise = times.sunrise.toLocaleTimeString();
-            var sunset = times.sunset.toLocaleTimeString();
-
-            var sunriseSpan = document.getElementById('sunrise');
-            var sunsetSpan = document.getElementById('sunset');
-
-            // Uppdatera soltider när de är tillgängliga
-            sunriseSpan.innerHTML = sunrise;
-            sunsetSpan.innerHTML = sunset;
 
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
@@ -96,6 +79,19 @@
             } else {
                 pulsingDotMarker.setLatLng([lat, lon]);
             }
+
+            // Beräkna soltider och uppdatera ikoner och tider
+            var times = SunCalc.getTimes(new Date(), lat, lon);
+            var sunrise = times.sunrise.toLocaleTimeString();
+            var sunset = times.sunset.toLocaleTimeString();
+            var sunriseSpan = document.getElementById('sunrise');
+            var sunsetSpan = document.getElementById('sunset');
+
+            // Uppdatera soluppgångsikon och tid
+            sunriseSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;"> ' + sunrise;
+
+            // Uppdatera solnedgångsikon och tid
+            sunsetSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;"> ' + sunset;
         }
 
         function getPositionFromIP() {
@@ -161,3 +157,4 @@
     </script>
 </body>
 </html>
+
