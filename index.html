@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interaktiv karta</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/suncalc/suncalc.js"></script> <!-- Lägg till SunCalc-biblioteket -->
 </head>
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
@@ -16,7 +17,7 @@
             <a href="https://timothylevin.github.io/Jaktkartan_Daggdjur/#5/62.989/17.564">Allmän jakt: Däggdjur</a>
             <a href="https://timothylevin.github.io/Jaktkartan_fagel/#5/62.989/17.564">Allmän jakt: Fågel</a>
             <a href="https://timothylevin.github.io/Algjaktskarta_jakttider/#5/63.005/18.325">Älgjaktskartan</a>
-            <a href="#">Gryning & Skymning</a> <!-- Lägger till fler menyalternativ här -->
+            <a href="#" onclick="showSunTimes()">Gryning & Skymning</a> <!-- Lägg till menyalternativ för soluppgång/solnedgång -->
         </div>
     </div>
 
@@ -35,6 +36,7 @@
         var userMarker;
         var pulsingDotMarker;
         var geojsonLayer;
+        var userPosition; // Variabel för att lagra användarens position
 
         function createPulsingCircle(lat, lon) {
             var divIcon = L.divIcon({
@@ -46,6 +48,7 @@
 
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
+            userPosition = { lat: lat, lon: lon }; // Uppdatera användarens position
 
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
@@ -67,11 +70,11 @@
                     stroke: false
                 }).addTo(map);
             } else {
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({ fillColor: fillColor });
             }
 
             if (!userMarker) {
-                userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+                userMarker = L.marker([lat, lon], { icon: L.divIcon({ className: 'transparent-marker-icon' }) }).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
@@ -112,25 +115,23 @@
             }
         }
 
-        function loadAndShowData() {
-            axios.get('https://raw.githubusercontent.com/timothylevin/Jaktkartan_Daggdjur/main/data/daggdjur.geojson')
-                .then(function (response) {
-                    var data = response.data;
-                    if (geojsonLayer) {
-                        map.removeLayer(geojsonLayer);
-                    }
-                    geojsonLayer = L.geoJSON(data).addTo(map);
-                    map.fitBounds(geojsonLayer.getBounds());
-                })
-                .catch(function (error) {
-                    console.log("Error loading GeoJSON data: " + error.message);
-                });
+        function showSunTimes() {
+            if (!userPosition) {
+                alert("User position is not available.");
+                return;
+            }
+
+            var times = SunCalc.getTimes(new Date(), userPosition.lat, userPosition.lon);
+            var sunrise = times.sunrise.toLocaleTimeString();
+            var sunset = times.sunset.toLocaleTimeString();
+
+            alert(`Sunrise: ${sunrise}\nSunset: ${sunset}`);
         }
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                    handleGeolocation(position);
-                },
+                handleGeolocation(position);
+            },
                 function (error) {
                     console.log("Geolocation failed: " + error.message);
                     getPositionFromIP();
@@ -157,6 +158,7 @@
             );
         } else {
             map.setView([62.0, 15.0], 5);
+            getPositionFromIP();
         }
     </script>
 </body>
