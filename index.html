@@ -42,6 +42,18 @@
         var accuracyCircle;
         var userMarker;
         var pulsingDotMarker;
+        var sunriseIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
+            iconSize: [20, 20],
+            iconAnchor: [10, 10],
+            popupAnchor: [0, 0],
+        });
+        var sunsetIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
+            iconSize: [20, 20],
+            iconAnchor: [10, 10],
+            popupAnchor: [0, 0],
+        });
 
         function createPulsingCircle(lat, lon) {
             var divIcon = L.divIcon({
@@ -80,18 +92,18 @@
                 pulsingDotMarker.setLatLng([lat, lon]);
             }
 
-            // Beräkna soltider och uppdatera ikoner och tider
+            // Beräkna soltider och uppdatera tiderna
             var times = SunCalc.getTimes(new Date(), lat, lon);
             var sunrise = times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             var sunset = times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             var sunriseSpan = document.getElementById('sunrise');
             var sunsetSpan = document.getElementById('sunset');
 
-            // Uppdatera soluppgångsikon och tid
-            sunriseSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;"> ' + sunrise;
+            // Uppdatera soluppgångstid
+            sunriseSpan.innerHTML = sunrise;
 
-            // Uppdatera solnedgångsikon och tid
-            sunsetSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;"> ' + sunset;
+            // Uppdatera solnedgångstid
+            sunsetSpan.innerHTML = sunset;
         }
 
         function getPositionFromIP() {
@@ -142,7 +154,7 @@
                 function (position) {
                     handleGeolocation(position);
                 },
-                function (error) {
+               function (error) {
                     console.log("Geolocation failed: " + error.message);
                 },
                 {
