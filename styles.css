@@ -1,17 +1,14 @@
-/* Ta bort marginer från <html> och <body> */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
 }
 
-/* Stilar för kartans container */
 #map {
-    height: calc(100vh - 30px);
+    height: calc(100vh - 60px);
     position: relative;
 }
 
-/* Stil för informationspanelen */
 #info-panel {
     position: absolute;
     top: 0;
@@ -25,7 +22,92 @@ html, body {
     text-align: center;
 }
 
-/* Dölj standardikon */
-.leaflet-marker-icon {
+.fab {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001;
+}
+
+.fab button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.fab button:hover {
+    background-color: #0056b3;
+}
+
+.pulsing-circle {
+    width: 8px;
+    height: 8px;
+    background: blue;
+    border-radius: 50%;
+    position: relative;
+}
+
+.pulsing-circle::before {
+    content: '';
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    background: rgba(0, 0, 255, 0.5);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.leaflet-marker-icon[src*="marker-icon.png"] {
     display: none;
+}
+
+.fab-menu {
+    position: absolute;
+    bottom: 90px;
+    right: 20px;
+    z-index: 1001;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    display: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+.fab:hover .fab-menu {
+    display: block;
+}
+
+.fab-menu a {
+    display: block;
+    padding: 5px 10px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.fab-menu a:hover {
+    background-color: #f0f0f0;
 }
