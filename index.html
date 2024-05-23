@@ -9,7 +9,11 @@
     <script src="https://unpkg.com/suncalc/suncalc.js"></script> <!-- Lägg till SunCalc-biblioteket -->
 </head>
 <body>
-    <div id="info-panel">Accuracy: Unknown</div>
+    <div id="info-panel">
+        <div id="accuracy">Lägesnoggrannhet: Unknown</div>
+        <div id="sunrise">Soluppgång: -</div>
+        <div id="sunset">Solnedgång: -</div>
+    </div>
     <div id="map"></div>
     <div class="fab">
         <button onclick="toggleFABMenu()">+</button>
@@ -17,7 +21,6 @@
             <a href="https://timothylevin.github.io/Jaktkartan_Daggdjur/#5/62.989/17.564">Allmän jakt: Däggdjur</a>
             <a href="https://timothylevin.github.io/Jaktkartan_fagel/#5/62.989/17.564">Allmän jakt: Fågel</a>
             <a href="https://timothylevin.github.io/Algjaktskarta_jakttider/#5/63.005/18.325">Älgjaktskartan</a>
-            <a href="#" onclick="showSunTimes()">Gryning & Skymning</a> <!-- Lägg till menyalternativ för soluppgång/solnedgång -->
         </div>
     </div>
 
@@ -35,7 +38,6 @@
         var accuracyCircle;
         var userMarker;
         var pulsingDotMarker;
-        var geojsonLayer;
         var userPosition; // Variabel för att lagra användarens position
 
         function createPulsingCircle(lat, lon) {
@@ -50,8 +52,11 @@
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
             userPosition = { lat: lat, lon: lon }; // Uppdatera användarens position
 
-            var infoPanel = document.getElementById('info-panel');
-            infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
+            var accuracyDiv = document.getElementById('accuracy');
+            var sunriseDiv = document.getElementById('sunrise');
+            var sunsetDiv = document.getElementById('sunset');
+
+            accuracyDiv.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
 
             var fillColor;
             if (accuracy < 10) {
@@ -84,6 +89,14 @@
             } else {
                 pulsingDotMarker.setLatLng([lat, lon]);
             }
+
+            // Uppdatera tider för soluppgång och solnedgång
+            var times = SunCalc.getTimes(new Date(), lat, lon);
+            var sunrise = times.sunrise.toLocaleTimeString();
+            var sunset = times.sunset.toLocaleTimeString();
+
+            sunriseDiv.innerHTML = "Soluppgång: " + sunrise;
+            sunsetDiv.innerHTML = "Solnedgång: " + sunset;
         }
 
         function getPositionFromIP() {
@@ -113,19 +126,6 @@
             } else {
                 menu.style.display = 'none';
             }
-        }
-
-        function showSunTimes() {
-            if (!userPosition) {
-                alert("User position is not available.");
-                return;
-            }
-
-            var times = SunCalc.getTimes(new Date(), userPosition.lat, userPosition.lon);
-            var sunrise = times.sunrise.toLocaleTimeString();
-            var sunset = times.sunset.toLocaleTimeString();
-
-            alert(`Sunrise: ${sunrise}\nSunset: ${sunset}`);
         }
 
         if (navigator.geolocation) {
