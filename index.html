@@ -80,18 +80,18 @@
                 pulsingDotMarker.setLatLng([lat, lon]);
             }
 
-            // Beräkna soltider och uppdatera tiderna
+            // Beräkna soltider och uppdatera ikoner och tider
             var times = SunCalc.getTimes(new Date(), lat, lon);
-            var sunrise = times.sunrise.toLocaleTimeString();
-            var sunset = times.sunset.toLocaleTimeString();
+            var sunrise = times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            var sunset = times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             var sunriseSpan = document.getElementById('sunrise');
             var sunsetSpan = document.getElementById('sunset');
 
-            // Uppdatera soluppgångstid
-            sunriseSpan.innerHTML = sunrise;
+            // Uppdatera soluppgångsikon och tid
+            sunriseSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;"> ' + sunrise;
 
-            // Uppdatera solnedgångstid
-            sunsetSpan.innerHTML = sunset;
+            // Uppdatera solnedgångsikon och tid
+            sunsetSpan.innerHTML = '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;"> ' + sunset;
         }
 
         function getPositionFromIP() {
