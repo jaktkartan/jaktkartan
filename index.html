@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
 </head>
 <body>
-    <div id="info-panel">Lägesnoggrannhet: Unknown</div>
+    <div id="info-panel">Lägesnoggrannhet: Unknown<br>Soluppgång: --:--<br>Solnedgång: --:--</div>
     <div id="map"></div>
     <div class="fab">
         <button onclick="toggleFABMenu()">+</button>
@@ -47,7 +47,7 @@
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
             var infoPanel = document.getElementById('info-panel');
-            infoPanel.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
+            infoPanel.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters<br>Soluppgång: --:--<br>Solnedgång: --:--";
 
             var fillColor;
             if (accuracy < 10) {
@@ -91,7 +91,7 @@
                     updateUserPosition(lat, lon, "Unknown");
                 })
                 .catch(function (error) {
-                    console.log("IP Geolocation failed: " + error.message);
+                                        console.log("IP Geolocation failed: " + error.message);
                 });
         }
 
