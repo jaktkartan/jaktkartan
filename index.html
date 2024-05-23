@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
 </head>
 <body>
-    <div id="info-panel">Lägesnoggrannhet: Unknown<br>Soluppgång: --:--<br>Solnedgång: --:--</div>
+    <div id="info-panel">
+        <div id="accuracy">Lägesnoggrannhet: Unknown</div>
+        <div id="sunrise-sunset">Soluppgång: <span id="sunrise"></span>, Solnedgång: <span id="sunset"></span></div>
+    </div>
     <div id="map"></div>
     <div class="fab">
         <button onclick="toggleFABMenu()">+</button>
@@ -16,7 +19,6 @@
             <a href="https://timothylevin.github.io/Jaktkartan_Daggdjur/#5/62.989/17.564">Allmän jakt: Däggdjur</a>
             <a href="https://timothylevin.github.io/Jaktkartan_fagel/#5/62.989/17.564">Allmän jakt: Fågel</a>
             <a href="https://timothylevin.github.io/Algjaktskarta_jakttider/#5/63.005/18.325">Älgjaktskartan</a>
-            <a href="#">Gryning & Skymning</a> <!-- Lägger till fler menyalternativ här -->
         </div>
     </div>
 
@@ -46,27 +48,18 @@
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
-            var infoPanel = document.getElementById('info-panel');
-            infoPanel.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters<br>Soluppgång: --:--<br>Solnedgång: --:--";
-
-            var fillColor;
-            if (accuracy < 10) {
-                fillColor = 'green';
-            } else if (accuracy < 20) {
-                fillColor = 'orange';
-            } else {
-                fillColor = 'red';
-            }
+            var accuracyInfo = document.getElementById('accuracy');
+            accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
 
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
                     radius: accuracy,
-                    fillColor: fillColor,
+                    fillColor: 'green',
                     fillOpacity: 0.5,
                     stroke: false
                 }).addTo(map);
             } else {
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
             }
 
             if (!userMarker) {
@@ -91,7 +84,7 @@
                     updateUserPosition(lat, lon, "Unknown");
                 })
                 .catch(function (error) {
-                                        console.log("IP Geolocation failed: " + error.message);
+                    console.log("IP Geolocation failed: " + error.message);
                 });
         }
 
