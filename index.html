@@ -76,6 +76,41 @@
         .fab button:hover {
             background-color: #0056b3;
         }
+
+        .pulsing-circle {
+            width: 8px;
+            height: 8px;
+            background: blue;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pulsing-circle::before {
+            content: '';
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            background: rgba(0, 0, 255, 0.5);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .leaflet-marker-icon[src*="marker-icon.png"] {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -100,11 +135,55 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
+        var accuracyCircle;
+        var userMarker;
+        var pulsingDotMarker;
+
+        function createPulsingCircle(lat, lon) {
+            var divIcon = L.divIcon({
+                className: 'pulsing-circle',
+                iconSize: [12, 12]
+            });
+            return L.marker([lat, lon], { icon: divIcon }).addTo(map);
+        }
+
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
             var infoPanel = document.getElementById('info-panel');
             infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
+
+            var fillColor;
+            if (accuracy < 10) {
+                fillColor = 'green';
+            } else if (accuracy < 20) {
+                fillColor = 'orange';
+            } else {
+                fillColor = 'red';
+            }
+
+            if (!accuracyCircle) {
+                accuracyCircle = L.circle([lat, lon], {
+                    radius: accuracy,
+                    fillColor: fillColor,
+                    fillOpacity: 0.5,
+                    stroke: false
+                }).addTo(map);
+            } else {
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
+            }
+
+            if (!userMarker) {
+                userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+            } else {
+                userMarker.setLatLng([lat, lon]);
+            }
+
+            if (!pulsingDotMarker) {
+                pulsingDotMarker = createPulsingCircle(lat, lon);
+            } else {
+                pulsingDotMarker.setLatLng([lat, lon]);
+            }
         }
 
         function getPositionFromIP() {
