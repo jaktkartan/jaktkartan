@@ -11,7 +11,10 @@
 <body>
     <div id="info-panel">
         <div id="accuracy">Lägesnoggrannhet: Unknown</div>
-        <div id="sunrise-sunset">Soluppgång: <span id="sunrise"></span>, Solnedgång: <span id="sunset"></span></div>
+        <div id="sunrise-sunset">
+            <span>Soluppgång: <span id="sunrise"></span><img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">, </span>
+            <span>Solnedgång: <span id="sunset"></span><img id="sunset-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;"> </span>
+        </div>
     </div>
     <div id="map"></div>
     <div class="fab">
@@ -62,6 +65,10 @@
             sunriseSpan.innerHTML = sunrise;
             sunsetSpan.innerHTML = sunset;
 
+            // Visa soltider som ikoner
+            sunriseSpan.innerHTML += '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 1em;">';
+            sunsetSpan.innerHTML += '<img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 1em;">';
+
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
                     radius: accuracy,
@@ -107,7 +114,7 @@
         }
 
         function toggleFABMenu() {
-            var menu = document.getElementById('menu');
+                        var menu = document.getElementById('menu');
             if (menu.style.display === 'none' || menu.style.display === '') {
                 menu.style.display = 'block';
             } else {
