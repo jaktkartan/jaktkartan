@@ -30,34 +30,6 @@
             text-align: center;
         }
 
-        .hamburger-menu {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 1001;
-            cursor: pointer;
-        }
-
-        .menu {
-            display: none;
-            position: absolute;
-            top: 40px;
-            right: 10px;
-            z-index: 1002;
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .menu button {
-            background: none;
-            border: 1px solid #000;
-            margin: 5px 0;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-
         .fab {
             position: absolute;
             bottom: 20px;
@@ -123,14 +95,6 @@
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
     <div id="map"></div>
-    <div class="hamburger-menu" onclick="toggleMenu()">
-        &#9776;
-    </div>
-    <div class="menu" id="menu">
-        <button onclick="alert('Layer button clicked')">Layer</button>
-        <button onclick="alert('Info button clicked')">Info</button>
-        <button onclick="loadAndShowData()">Allmän jakt: Däggdjur</button>
-    </div>
     <div class="fab">
         <button onclick="toggleFABMenu()">+</button>
     </div>
@@ -149,6 +113,7 @@
         var accuracyCircle;
         var userMarker;
         var pulsingDotMarker;
+        var geojsonLayer;
 
         function createPulsingCircle(lat, lon) {
             var divIcon = L.divIcon({
@@ -161,8 +126,8 @@
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
-         var infoPanel = document.getElementById('info-panel');
-infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
+            var infoPanel = document.getElementById('info-panel');
+            infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
             var fillColor;
             if (accuracy < 10) {
@@ -174,15 +139,16 @@ infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
             }
 
             if (!accuracyCircle) {
-                accuracyCircle = L.circle([lat, lon], {
-                    radius: accuracy,
-                    fillColor: fillColor,
-                    fillOpacity: 0.5,
-                    stroke: false
-                }).addTo(map);
-            } else {
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
-            }
+    accuracyCircle = L.circle([lat, lon], {
+        radius: accuracy,
+        fillColor: fillColor,
+        fillOpacity: 0.5,
+        stroke: false
+    }).addTo(map);
+} else {
+    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
+}
+
 
             if (!userMarker) {
                 userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
@@ -217,7 +183,7 @@ infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
             updateUserPosition(lat, lon, accuracy.toFixed(2));
         }
 
-        function toggleMenu() {
+        function toggleFABMenu() {
             var menu = document.getElementById('menu');
             if (menu.style.display === 'none' || menu.style.display === '') {
                 menu.style.display = 'block';
@@ -239,15 +205,6 @@ infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
                 .catch(function (error) {
                     console.log("Error loading GeoJSON data: " + error.message);
                 });
-        }
-
-        function toggleFABMenu() {
-            var menu = document.getElementById('menu');
-            if (menu.style.display === 'none' || menu.style.display === '') {
-                menu.style.display = 'block';
-            } else {
-                menu.style.display = 'none';
-            }
         }
 
         if (navigator.geolocation) {
