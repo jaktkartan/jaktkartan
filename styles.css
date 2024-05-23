@@ -93,7 +93,8 @@ html, body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     padding: 10px;
     display: none;
-    white-space: nowrap; /* Gör så att knapparna visas på en rad */
+    width: auto; /* Låt bredden vara automatisk för att anpassa sig till innehållet */
+    white-space: nowrap; /* Förhindra radbrytning */
 }
 
 .fab:hover .fab-menu {
@@ -101,7 +102,7 @@ html, body {
 }
 
 .fab-menu a {
-    display: inline-block; /* Visar knapparna horisontellt */
+    display: block; /* Visa varje knapp på en egen rad */
     padding: 5px 10px;
     color: #333;
     text-decoration: none;
