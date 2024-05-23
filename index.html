@@ -139,16 +139,15 @@
             }
 
             if (!accuracyCircle) {
-    accuracyCircle = L.circle([lat, lon], {
-        radius: accuracy,
-        fillColor: fillColor,
-        fillOpacity: 0.5,
-        stroke: false
-    }).addTo(map);
-} else {
-    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
-}
-
+                accuracyCircle = L.circle([lat, lon], {
+                    radius: accuracy,
+                                        fillColor: fillColor,
+                    fillOpacity: 0.5,
+                    stroke: false
+                }).addTo(map);
+            } else {
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: fillColor});
+            }
 
             if (!userMarker) {
                 userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
