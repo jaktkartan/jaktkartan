@@ -1,31 +1,289 @@
-/* Ta bort marginer från <html> och <body> */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktiv karta</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
 
-/* Stilar för kartans container */
-#map {
-    height: calc(100vh - 30px);
-    position: relative;
-}
+        #map {
+            height: calc(100vh - 60px);
+            position: relative;
+        }
 
-/* Stil för informationspanelen */
-#info-panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 5px 20px;
-    border-bottom: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    text-align: center;
-}
+        #info-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 20px;
+            border-bottom: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+        }
 
-/* Dölj standardikon */
-.leaflet-marker-icon {
-    display: none;
-}
+        .pulsing-circle {
+            width: 8px;
+            height: 8px;
+            background: blue;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pulsing-circle::before {
+            content: '';
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            background: rgba(0, 0, 255, 0.5);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .leaflet-marker-icon[src*="marker-icon.png"] {
+            display: none;
+        }
+
+        .hamburger-menu {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .hamburger-menu button {
+            background: none;
+            border: none;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        .fab {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .fab button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .fab button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 600px) {
+            #map {
+                height: calc(100vh - 40px);
+            }
+
+            #info-panel {
+                padding: 5px 10px;
+            }
+
+            .hamburger-menu {
+                padding: 5px;
+            }
+
+            .fab button {
+                width: 48px;
+                height: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="info-panel">Accuracy: Unknown</div>
+    <div id="map"></div>
+    <div class="hamburger-menu">
+        <button onclick="toggleLayer()">Layer</button>
+        <button onclick="toggleInfo()">Info</button>
+    </div>
+    <div class="fab">
+        <button onclick="zoomIn()">+</button>
+        <button onclick="zoomOut()">-</button>
+        <button onclick="locateUser()">📍</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        console.log("Initializing map...");
+
+        var map = L.map('map').setView([62.0, 15.0], 5);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var accuracyCircle;
+        var userMarker;
+        var pulsingDotMarker;
+
+        function createPulsingCircle(lat, lon) {
+            var divIcon = L.divIcon({
+                className: 'pulsing-circle',
+                iconSize: [12, 12]
+            });
+            return L.marker([lat, lon], { icon: divIcon }).addTo(map);
+        }
+
+        function updateUserPosition(lat, lon, accuracy) {
+            console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
+
+            var infoPanel = document.getElementById('info-panel');
+            infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
+
+            var fillColor;
+            if (accuracy < 10) {
+                fillColor = 'green';
+            } else if (accuracy < 20) {
+                fillColor = 'orange';
+            } else {
+                fillColor = 'red';
+            }
+
+            if (!accuracyCircle) {
+                accuracyCircle = L.circle([lat, lon], {
+                    radius: accuracy,
+                    fillColor: fillColor,
+                    fillOpacity: 0.5,
+                    stroke: false
+                }).addTo(map);
+            } else {
+                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({ fillColor: fillColor });
+            }
+
+            if (!userMarker) {
+                userMarker = L.marker([lat, lon], { icon: L.divIcon({ className: 'transparent-marker-icon' }) }).addTo(map);
+            } else {
+                userMarker.setLatLng([lat, lon]);
+            }
+
+            if (!pulsingDotMarker) {
+                pulsingDotMarker = createPulsingCircle(lat, lon);
+            } else {
+                pulsingDotMarker.setLatLng([lat, lon]);
+            }
+        }
+
+        function getPositionFromIP() {
+            axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                .then(function (response) {
+                    var loc = response.data.loc.split(',');
+                    var lat = parseFloat(loc[0]);
+                    var lon = parseFloat(loc[1]);
+                    updateUserPosition(lat, lon, "Unknown");
+                })
+                .catch(function (error) {
+                    console.log("IP Geolocation failed: " + error.message);
+                });
+        }
+
+        function handleGeolocation(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            var accuracy = position.coords.accuracy;
+            updateUserPosition(lat, lon, accuracy.toFixed(2));
+        }
+
+        function zoomIn() {
+            map.zoomIn();
+        }
+
+        function zoomOut() {
+            map.zoomOut();
+        }
+
+        function locateUser() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                        getPositionFromIP();
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            }
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                    getPositionFromIP();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+
+            navigator.geolocation.watchPosition(
+                function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            map.setView([62.0, 15.0], 5);
+        }
+    </script>
+</body>
+</html>
