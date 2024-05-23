@@ -35,19 +35,26 @@
             top: 10px;
             right: 10px;
             z-index: 1001;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            cursor: pointer;
+        }
+
+        .menu {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 10px;
+            z-index: 1002;
             background-color: #fff;
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        .hamburger-menu button {
+        .menu button {
             background: none;
             border: 1px solid #000;
             margin: 5px 0;
+            padding: 5px 10px;
             cursor: pointer;
         }
 
@@ -116,7 +123,10 @@
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
     <div id="map"></div>
-    <div class="hamburger-menu">
+    <div class="hamburger-menu" onclick="toggleMenu()">
+        &#9776;
+    </div>
+    <div class="menu" id="menu">
         <button onclick="alert('Layer button clicked')">Layer</button>
         <button onclick="alert('Info button clicked')">Info</button>
     </div>
@@ -204,6 +214,15 @@
             var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             updateUserPosition(lat, lon, accuracy.toFixed(2));
+        }
+
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'none' || menu.style.display === '') {
+                menu.style.display = 'block';
+            } else {
+                menu.style.display = 'none';
+            }
         }
 
         if (navigator.geolocation) {
