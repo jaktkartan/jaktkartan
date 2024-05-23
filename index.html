@@ -90,6 +90,35 @@
         .leaflet-marker-icon[src*="marker-icon.png"] {
             display: none;
         }
+
+        .fab-menu {
+            position: absolute;
+            bottom: 90px;
+            right: 20px;
+            z-index: 1001;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            display: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .fab:hover .fab-menu {
+            display: block;
+        }
+
+        .fab-menu a {
+            display: block;
+            padding: 5px 10px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .fab-menu a:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
@@ -97,10 +126,10 @@
     <div id="map"></div>
     <div class="fab">
         <button onclick="toggleFABMenu()">+</button>
-    </div>
-    <div class="menu" id="menu">
-        <button onclick="loadAndShowData()">Allmän jakt: Däggdjur</button>
-        <!-- Lägg till fler menyalternativ här -->
+        <div class="fab-menu" id="menu">
+            <a href="#" onclick="loadAndShowData()">Allmän jakt: Däggdjur</a>
+            <!-- Lägg till fler menyalternativ här -->
+        </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -131,7 +160,7 @@
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
             var infoPanel = document.getElementById('info-panel');
-            infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
+infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
             var fillColor;
             if (accuracy < 10) {
