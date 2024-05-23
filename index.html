@@ -5,121 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interaktiv karta</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
-        #map {
-            height: calc(100vh - 60px);
-            position: relative;
-        }
-
-        #info-panel {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px 20px;
-            border-bottom: 1px solid #ccc;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            text-align: center;
-        }
-
-        .fab {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1001;
-        }
-
-        .fab button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 56px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-        }
-
-        .fab button:hover {
-            background-color: #0056b3;
-        }
-
-        .pulsing-circle {
-            width: 8px;
-            height: 8px;
-            background: blue;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .pulsing-circle::before {
-            content: '';
-            width: 200%;
-            height: 200%;
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            background: rgba(0, 0, 255, 0.5);
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(0.5);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-
-        .leaflet-marker-icon[src*="marker-icon.png"] {
-            display: none;
-        }
-
-        .fab-menu {
-            position: absolute;
-            bottom: 90px;
-            right: 20px;
-            z-index: 1001;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            display: none;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .fab:hover .fab-menu {
-            display: block;
-        }
-
-        .fab-menu a {
-            display: block;
-            padding: 5px 10px;
-            color: #333;
-            text-decoration: none;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .fab-menu a:hover {
-            background-color: #f0f0f0;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css" /> <!-- Länkar till din style.css-fil -->
 </head>
 <body>
     <div id="info-panel">Accuracy: Unknown</div>
@@ -128,7 +14,9 @@
         <button onclick="toggleFABMenu()">+</button>
         <div class="fab-menu" id="menu">
             <a href="#" onclick="loadAndShowData()">Allmän jakt: Däggdjur</a>
-            <!-- Lägg till fler menyalternativ här -->
+            <a href="#">Allmän jakt: Fågel</a>
+            <a href="#">Älgjaktskartan</a>
+            <a href="#">Gryning & Skymning</a> <!-- Lägger till fler menyalternativ här -->
         </div>
     </div>
 
@@ -160,7 +48,7 @@
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
             var infoPanel = document.getElementById('info-panel');
-infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
+            infoPanel.innerHTML = "Accuracy: " + accuracy + " meters";
 
             var fillColor;
             if (accuracy < 10) {
