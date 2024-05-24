@@ -78,8 +78,8 @@ const getWeatherForecast = (latitude, longitude) => {
                     prevStartTime = startTime;
                 }
 
-                // Lägg till det sista prognostiserade vädret i prognosen
-                if (index === timeseries.length - 1) {
+                // Lägg till det sista prognostiserade vädret i prognosen, om det finns
+                if (index === timeseries.length - 2) {
                     weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${weather}<br>`;
                 }
             });
