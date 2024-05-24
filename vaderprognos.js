@@ -1,191 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktkartan.se</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
-    <script src="https://unpkg.com/suncalc/suncalc.js"></script> <!-- Lägg till SunCalc-biblioteket -->
-    <script src="vaderprognos.js"></script> <!-- Länk till din JavaScript-fil -->
-</head>
-<body>
-    <div id="info-panel">
-        <div id="accuracy">Lägesnoggrannhet: Unknown</div>
-        <div id="sunrise-sunset">
-            <img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 24px;">
-            <span id="sunrise"></span>
-            <img id="sunset-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 24px;">
-            <span id="sunset"></span>
-            <div class="expand-toggle" onclick="togglePanel()">Väderprognos <span class="arrow">&#9660;</span></div>
-            <div id="weather-info" style="display: none;">
-                <div id="weather-text">Laddar väder...</div>
-            </div>
-        </div>
-    </div>
-    <div id="map"></div>
-    <div class="fab">
-        <button onclick="toggleFABMenu()">+</button>
-        <div class="fab-menu" id="menu">
-            <a href="https://timothylevin.github.io/Jaktkartan_Daggdjur/#5/62.989/17.564">Allmän jakt: Däggdjur</a>
-            <a href="https://timothylevin.github.io/Jaktkartan_fagel/#5/62.989/17.564">Allmän jakt: Fågel</a>
-            <a href="https://timothylevin.github.io/Algjaktskarta_jakttider/#5/63.005/18.325">Älgjaktskartan</a>
-        </div>
-    </div>
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-        console.log("Initializing map...");
-
-        var map = L.map('map').setView([62.0, 15.0], 5);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        var accuracyCircle;
-        var userMarker;
-        var pulsingDotMarker;
-        var sunriseIcon = L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
-            iconSize: [20, 20],
-            iconAnchor: [10, 10],
-            popupAnchor: [0, 0],
-        });
-        var sunsetIcon = L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
-            iconSize: [20, 20],
-            iconAnchor: [10, 10],
-            popupAnchor: [0, 0],
-        });
-
-        function createPulsingCircle(lat, lon) {
-            var divIcon = L.divIcon({
-                className: 'pulsing-circle',
-                iconSize: [12, 12]
+// En funktion som översätter vädersymbolkoder till förståeliga strängar på svenska.
+const translateWeatherSymbol = (symbolCode) => {
+    switch(symbolCode) {
+        case 'clearsky_day':
+            return 'klart väder (dag)';
+        case 'clearsky_night':
+            return 'klart väder (natt)';
+        case 'partlycloudy_day':
+            return 'delvis molnigt (dag)';
+        case 'partlycloudy_night':
+            return 'delvis molnigt (natt)';
+        case 'cloudy':
+            return 'molnigt';
+        case 'fair_day':
+            return 'växlande molnighet (dag)';
+        case 'fair_night':
+            return 'växlande molnighet (natt)';
+        case 'rain':
+            return 'regn';
+        case 'lightrain':
+            return 'lätt regn';
+        case 'lightrain_showers_day':
+            return 'lätt regnskurar (dag)';
+        case 'lightrain_showers_night':
+            return 'lätt regnskurar (natt)';
+        case 'rain_showers_day':
+            return 'regnskurar (dag)';
+        case 'rain_showers_night':
+            return 'regnskurar (natt)';
+        case 'heavyrain':
+            return 'kraftigt regn';
+        case 'thunderstorm':
+            return 'åska';
+        case 'sleet':
+            return 'snöblandat regn';
+        case 'snow':
+            return 'snö';
+        case 'sleet_showers_day':
+            return 'snöblandade regnskurar (dag)';
+        case 'sleet_showers_night':
+            return 'snöblandade regnskurar (natt)';
+        case 'snow_showers_day':
+            return 'snöskurar (dag)';
+        case 'snow_showers_night':
+            return 'snöskurar (natt)';
+        case 'fog':
+            return 'dimma';
+        default:
+            return symbolCode ? `okänt väder (${symbolCode})` : 'okänt väder';
+    }
+}
+// Funktion för att hämta väderprognosen från en väder-API baserat på givna latitud- och longitudvärden.
+const getWeatherForecast = (latitude, longitude) => {
+    console.log('Hämtar väderprognos för lat:', latitude, 'lon:', longitude);
+    const forecastAPIURL = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`;
+    fetch(forecastAPIURL)
+        .then(response => {
+            console.log('Svar mottagen från API');
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data parsad');
+            const timeseries = data.properties.timeseries;
+            console.log('Timeseries:', timeseries);
+            if (!timeseries || timeseries.length === 0) {
+                throw new Error('Ingen väderprognos tillgänglig.');
+            }
+            let weatherForecast = '';
+            let prevWeather = null;
+            let prevTime = null;
+            let endTime = null;
+            // Hämta tid för 24 timmar framåt
+            const twentyFourHoursFromNow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+            timeseries.forEach((forecast, index) => {
+                // Kontrollera om 'forecast' är definierat och har 'time' egenskapen
+                if (!forecast || !forecast.time) {
+                    return; // Hoppa över denna iteration om 'forecast' saknar 'time'
+                }
+                const startTime = new Date(forecast.time);
+                console.log('Forecast startTime:', startTime);
+                // Kontrollera om prognosen är inom de kommande 24 timmarna
+                if (startTime > twentyFourHoursFromNow) {
+                    return; // Hoppa över prognoser som är längre än 24 timmar framåt
+                }
+                const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
+                console.log('Weather:', weather);
+                // Kolla om det är första prognosen eller om vädret har ändrats
+                if (prevWeather === null || weather !== prevWeather) {
+                    if (prevTime !== null) {
+                        // Lägg till slutiden för det föregående vädret
+                        weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${prevWeather}<br>`;
+                    }
+                    prevWeather = weather;
+                    prevTime = startTime;
+                }
+                // Om det inte är sista prognosen, lägg till väderprognos
+                if (index !== timeseries.length - 1) {
+                    endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
+                    weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
+                } else {
+                    // Uppdatera slutiden för det aktuella vädret
+                    if (index + 1 < timeseries.length) {
+                    // Uppdatera slutiden för det aktuella vädret baserat på nästa prognos
+                    if (timeseries[index + 1] && timeseries[index + 1].time) {
+                        endTime = new Date(new Date(timeseries[index + 1].time).getTime() - 1); // Nästa tidsstämpel minus 1 millisekund
+                    } else {
+                        endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
+                    }
+                    weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
+                }
             });
-            return L.marker([lat, lon], { icon: divIcon }).addTo(map);
-        }
-
-        function updateUserPosition(lat, lon, accuracy) {
-            console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
-
-            var accuracyInfo = document.getElementById('accuracy');
-            accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
-
-            if (!accuracyCircle) {
-                accuracyCircle = L.circle([lat, lon], {
-                    radius: accuracy,
-                    fillColor: 'green',
-                    fillOpacity: 0.5,
-                    stroke: false
-                }).addTo(map);
-            } else {
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
-            }
-
-            if (!userMarker) {
-                userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
-            } else {
-                userMarker.setLatLng([lat, lon]);
-            }
-
-            if (!pulsingDotMarker) {
-                pulsingDotMarker = createPulsingCircle(lat, lon);
-            } else {
-                pulsingDotMarker.setLatLng([lat, lon]);
-            }
-
-            // Beräkna soltider och uppdatera tiderna
-            var times = SunCalc.getTimes(new Date(), lat, lon);
-            var sunrise = times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            var sunset = times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            var sunriseSpan = document.getElementById('sunrise');
-            var sunsetSpan = document.getElementById('sunset');
-
-            // Uppdatera soluppgångstid
-            sunriseSpan.innerHTML = sunrise;
-
-            // Uppdatera solnedgångstid
-            sunsetSpan.innerHTML = sunset;
-        }
-
-        function getPositionFromIP() {
-            axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                .then(function (response) {
-                    var loc = response.data.loc.split(',');
-                    var lat = parseFloat(loc[0]);
-                    var lon = parseFloat(loc[1]);
-                    updateUserPosition(lat, lon, "Unknown");
-                })
-                .catch(function (error) {
-                    console.log("IP Geolocation failed: " + error.message);
-                });
-        }
-
-        function handleGeolocation(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-            var accuracy = position.coords.accuracy;
-            updateUserPosition(lat, lon, accuracy.toFixed(2));
-        }
-
-        function toggleFABMenu() {
-            var menu = document.getElementById('menu');
-            if (menu.style.display === 'none' || menu.style.display === '') {
-                menu.style.display = 'block';
-            } else {
-                menu.style.display = 'none';
-            }
-        }
-
-        function togglePanel() {
-            var weatherInfo = document.getElementById('weather-info');
-            if (weatherInfo.style.display === 'none') {
-                weatherInfo.style.display = 'block';
-                // Hämta väderprognosen när panelen öppnas
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
-                    getWeatherForecast(latitude, longitude);
-                });
-            } else {
-                weatherInfo.style.display = 'none';
-            }
-        }
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                    getPositionFromIP();
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-
-            navigator.geolocation.watchPosition(
-                function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        } else {
-            map.setView([62.0, 15.0], 5);
-        }
-    </script>
-</body>
-</html>
+            document.getElementById('weather-text').innerHTML = 'Väderprognos för de kommande 24 timmarna:<br>' + weatherForecast;
+        })
+        .catch(error => {
+            console.log('Fel vid hämtning av väderprognos:', error);
+            document.getElementById('weather-text').textContent = 'Kunde inte hämta väderprognos.';
+        });
+}
+// Hjälpfunktion för att formatera tiden i ett läsbart format.
+const formatTime = (time) => {
+    return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+}
+// Hämta användarens position och väderprognos när sidan laddas
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log('User position:', latitude, longitude);
+        getWeatherForecast(latitude, longitude);
+    },
+    function (error) {
+        console.log("Geolocation failed: " + error.message);
+        getPositionFromIP();
+    },
+    {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    });
+} else
