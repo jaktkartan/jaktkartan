@@ -61,26 +61,26 @@ const getWeatherForecast = (latitude, longitude) => {
 
             let weatherForecast = '';
             let prevWeather = null;
-            let prevStartTime = null;
+            let prevTime = null;
 
             timeseries.forEach((forecast, index) => {
                 const startTime = new Date(forecast.time);
-                const endTime = new Date(timeseries[index + 1]?.time);
+                const endTime = new Date(forecast.time + forecast.data.instant.details.duration);
+
                 const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
 
-                // Kolla om vädret har ändrats eller om det är första prognosen
-                if (prevWeather !== weather || prevWeather === null) {
-                    // Lägg bara till tidigare perioder om det är ett väder att lägga till
-                    if (prevWeather !== null) {
-                        weatherForecast += `${formatTime(prevStartTime)}-${formatTime(startTime)}: ${prevWeather}<br>`;
+                // Kolla om det är första prognosen eller om vädret har ändrats
+                if (prevWeather === null || weather !== prevWeather) {
+                    if (prevTime !== null) {
+                        weatherForecast += `${formatTime(prevTime)}-${formatTime(startTime)}: ${prevWeather}<br>`;
                     }
                     prevWeather = weather;
-                    prevStartTime = startTime;
+                    prevTime = startTime;
                 }
 
-                // Lägg till det sista prognostiserade vädret i prognosen, om det finns
-                if (index === timeseries.length - 2) {
-                    weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${weather}<br>`;
+                // Om det är sista prognosen, lägg till det sista vädret i prognosen
+                if (index === timeseries.length - 1) {
+                    weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
                 }
             });
 
