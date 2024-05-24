@@ -109,8 +109,8 @@ const getWeatherForecast = (latitude, longitude) => {
                     endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
                     weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
                 } else {
-                    // Uppdatera slutiden för det aktuella vädret
-                    if (index + 1 < timeseries.length) {
+                    // Uppdatera slutiden för det aktuella vädret baserat på nästa prognos
+                    if (timeseries[index + 1] && timeseries[index + 1].time) {
                         endTime = new Date(new Date(timeseries[index + 1].time).getTime() - 1); // Nästa tidsstämpel minus 1 millisekund
                     } else {
                         endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
