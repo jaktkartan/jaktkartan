@@ -74,6 +74,9 @@ const getWeatherForecast = (latitude, longitude) => {
             let prevTime = null;
             let endTime = null;
 
+            // Hämta tid för 24 timmar framåt
+            const twentyFourHoursFromNow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
             timeseries.forEach((forecast, index) => {
                 // Kontrollera om 'forecast' är definierat och har 'time' egenskapen
                 if (!forecast || !forecast.time) {
@@ -82,6 +85,11 @@ const getWeatherForecast = (latitude, longitude) => {
 
                 const startTime = new Date(forecast.time);
                 console.log('Forecast startTime:', startTime);
+
+                // Kontrollera om prognosen är inom de kommande 24 timmarna
+                if (startTime > twentyFourHoursFromNow) {
+                    return; // Hoppa över prognoser som är längre än 24 timmar framåt
+                }
 
                 const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
                 console.log('Weather:', weather);
@@ -111,7 +119,7 @@ const getWeatherForecast = (latitude, longitude) => {
                 }
             });
 
-            document.getElementById('weather-text').innerHTML = 'Väderprognos:<br>' + weatherForecast;
+            document.getElementById('weather-text').innerHTML = 'Väderprognos för de kommande 24 timmarna:<br>' + weatherForecast;
         })
         .catch(error => {
             console.log('Fel vid hämtning av väderprognos:', error);
@@ -141,6 +149,4 @@ if (navigator.geolocation) {
         timeout: 10000,
         maximumAge: 0
     });
-} else {
-    map.setView([62.0, 15.0], 5);
-}
+} else
