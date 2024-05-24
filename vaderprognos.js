@@ -65,12 +65,21 @@ const getWeatherForecast = (latitude, longitude) => {
             const timeseries = data.properties.timeseries;
             console.log('Timeseries:', timeseries);
 
+            if (!timeseries || timeseries.length === 0) {
+                throw new Error('Ingen väderprognos tillgänglig.');
+            }
+
             let weatherForecast = '';
             let prevWeather = null;
             let prevTime = null;
             let endTime = null;
 
             timeseries.forEach((forecast, index) => {
+                // Kontrollera om 'forecast' är definierat och har 'time' egenskapen
+                if (!forecast || !forecast.time) {
+                    return; // Hoppa över denna iteration om 'forecast' saknar 'time'
+                }
+
                 const startTime = new Date(forecast.time);
                 console.log('Forecast startTime:', startTime);
 
