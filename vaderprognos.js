@@ -75,7 +75,7 @@ const getWeatherForecast = (latitude, longitude) => {
                         weatherForecast += `${formatTime(prevTime)}-${formatTime(startTime)}: ${prevWeather}<br>`;
                     }
                     prevWeather = weather;
-                    prevTime = startTime;
+                    prevTime = endTime;
                 }
 
                 // Om det är sista prognosen, lägg till det sista vädret i prognosen
