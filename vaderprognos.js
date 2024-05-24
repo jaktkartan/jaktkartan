@@ -26,7 +26,7 @@ const translateWeatherSymbol = (symbolCode) => {
         case 'rain_showers_night':
             return 'regnskurar (natt)';
         case 'heavyrain':
-            return 'tungt regn';
+            return 'kraftigt regn';
         case 'thunderstorm':
             return 'åska';
         case 'sleet':
