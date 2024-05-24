@@ -61,31 +61,26 @@ const getWeatherForecast = (latitude, longitude) => {
 
             let weatherForecast = '';
             let prevWeather = null;
-            let prevTime = null;
+            let prevStartTime = null;
 
             timeseries.forEach((forecast, index) => {
-                const time = new Date(forecast.time);
+                const startTime = new Date(forecast.time);
+                const endTime = new Date(timeseries[index + 1]?.time);
                 const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
 
-                // Om det är första prognosen, sätt starttiden
-                if (prevTime === null) {
-                    prevTime = time;
-                }
-
-                // Kolla om vädret har ändrats
-                if (prevWeather !== weather) {
-                    // Lägg till den tidigare perioden till prognosen
+                // Kolla om vädret har ändrats eller om det är första prognosen
+                if (prevWeather !== weather || prevWeather === null) {
+                    // Lägg bara till tidigare perioder om det är ett väder att lägga till
                     if (prevWeather !== null) {
-                        weatherForecast += `${formatTime(prevTime)}-${formatTime(time)}: ${prevWeather}<br>`;
+                        weatherForecast += `${formatTime(prevStartTime)}-${formatTime(startTime)}: ${prevWeather}<br>`;
                     }
-                    // Uppdatera starttiden för nästa period
-                    prevTime = time;
                     prevWeather = weather;
+                    prevStartTime = startTime;
                 }
 
                 // Lägg till det sista prognostiserade vädret i prognosen
                 if (index === timeseries.length - 1) {
-                    weatherForecast += `${formatTime(prevTime)}-${formatTime(time)}: ${weather}<br>`;
+                    weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${weather}<br>`;
                 }
             });
 
