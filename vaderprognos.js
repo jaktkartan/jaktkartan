@@ -68,12 +68,11 @@ const getWeatherForecast = (latitude, longitude) => {
             let weatherForecast = '';
             let prevWeather = null;
             let prevTime = null;
+            let endTime = null;
 
             timeseries.forEach((forecast, index) => {
                 const startTime = new Date(forecast.time);
                 console.log('Forecast startTime:', startTime);
-                const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
-                console.log('Forecast endTime:', endTime);
 
                 const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
                 console.log('Weather:', weather);
@@ -81,15 +80,20 @@ const getWeatherForecast = (latitude, longitude) => {
                 // Kolla om det är första prognosen eller om vädret har ändrats
                 if (prevWeather === null || weather !== prevWeather) {
                     if (prevTime !== null) {
-                        weatherForecast += `${formatTime(prevTime)}-${formatTime(startTime)}: ${prevWeather}<br>`;
+                        // Lägg till slutiden för det föregående vädret
+                        weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${prevWeather}<br>`;
                     }
                     prevWeather = weather;
                     prevTime = startTime;
                 }
 
-                // Om det är sista prognosen, lägg till det sista vädret i prognosen
-                if (index === timeseries.length - 1) {
+                // Om det inte är sista prognosen, lägg till väderprognos
+                if (index !== timeseries.length - 1) {
+                    endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
                     weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
+                } else {
+                    // Uppdatera slutiden för det aktuella vädret
+                    endTime = new Date(new Date(timeseries[index + 1].time).getTime() - 1); // Nästa tidsstämpel minus 1 millisekund
                 }
             });
 
@@ -126,4 +130,3 @@ if (navigator.geolocation) {
 } else {
     map.setView([62.0, 15.0], 5);
 }
-
