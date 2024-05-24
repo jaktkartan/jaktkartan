@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             console.log("Latitude and longitude are not valid.");
         }
-    } else {
+        } else {
         console.log("Latitude and/or longitude elements not found in index.html.");
     }
 });
