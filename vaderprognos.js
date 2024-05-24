@@ -25,6 +25,8 @@ const translateWeatherSymbol = (symbolCode) => {
             return 'regnskurar (dag)';
         case 'rain_showers_night':
             return 'regnskurar (natt)';
+        case 'heavyrain':
+            return 'tungt regn';
         case 'thunderstorm':
             return 'åska';
         case 'sleet':
@@ -43,7 +45,6 @@ const translateWeatherSymbol = (symbolCode) => {
             return `okänt väder (${symbolCode})`;
     }
 }
-
 // Funktion för att hämta väderprognosen från en väder-API baserat på givna latitud- och longitudvärden.
 const getWeatherForecast = (latitude, longitude) => {
     const forecastAPIURL = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`;
