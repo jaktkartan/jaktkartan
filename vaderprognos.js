@@ -17,6 +17,8 @@ const translateWeatherSymbol = (symbolCode) => {
             return 'växlande molnighet (natt)';
         case 'rain':
             return 'regn';
+        case 'lightrain':
+            return 'lätt regn';
         case 'lightrain_showers_day':
             return 'lätt regnskurar (dag)';
         case 'lightrain_showers_night':
@@ -65,6 +67,7 @@ const getWeatherForecast = (latitude, longitude) => {
                 const time = new Date(timeseries[i].time);
                 const weather = translateWeatherSymbol(timeseries[i].data.next_1_hours?.summary?.symbol_code);
 
+                // Endast lägg till tid och väder om det faktiska vädret har ändrats
                 if (weather !== currentWeather) {
                     if (startTime !== null) {
                         weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
@@ -72,11 +75,11 @@ const getWeatherForecast = (latitude, longitude) => {
                     currentWeather = weather;
                     startTime = time;
                 }
-                // Spara den aktuella tidsstämpeln som slutet
+                // Uppdatera slutetiden för det aktuella vädret
                 endTime = time;
             }
 
-            // Hantera det sista väderförhållandet
+            // Lägg till det sista vädret i prognosen
             if (startTime !== null) {
                 weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
             }
