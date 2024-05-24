@@ -99,69 +99,31 @@ const getWeatherForecast = (latitude, longitude) => {
                 // Uppdatera endast slutiden om vädret faktiskt förändras
                 if (weather !== prevWeather) {
                     endTime = startTime;
-                }
-                // Uppdatera slutiden för det aktuella vädret om det är sista prognosen
-                if (index === timeseries.length - 1) {
-                    endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
-                    weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
-                }
-            });
-            document.getElementById('weather-text').innerHTML = 'Väderprognos för de kommande 24 timmarna:<br>' + weatherForecast;
-        })
-        .catch(error => {
-            console.log('Fel vid hämtning av väderprognos:', error);
-            document.getElementById('weather-text').textContent = 'Kunde inte hämta väderprognos.';
-        });
+// Funktion för att hämta användarens position baserat på IP-adress om geolokalisering inte är tillgänglig.
+const getPositionFromIP = () => {
+    // Implementera logik för att hämta position från IP-adress här
+    console.log("Getting user position from IP address...");
 }
-
-// Hjälpfunktion för att formatera tiden i ett läsbart format.
-const formatTime = (time) => {
-    // Lägg till en kontroll för att säkerställa att tiden är korrekt definierad
-    if (time instanceof Date && !isNaN(time.getTime())) {
-        return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
-    } else {
-        return "Invalid time";
-    }
-}
-
-// Ändra denna funktion för att anropa getWeatherForecast
-document.addEventListener("DOMContentLoaded", function() {
-    var latitudeElement = document.getElementById('latitude');
-    var longitudeElement = document.getElementById('longitude');
-
-    // Kontrollera om elementen är korrekt definierade innan vi försöker läsa deras text
-    if (latitudeElement && longitudeElement) {
-        var latitude = parseFloat(latitudeElement.innerText);
-        var longitude = parseFloat(longitudeElement.innerText);
-
-        if (!isNaN(latitude) && !isNaN(longitude)) {
-            console.log("Latitude:", latitude, "Longitude:", longitude);
-            getWeatherForecast(latitude, longitude); // Anropa getWeatherForecast här istället för att logga
-        } else {
-            console.log("Latitude and longitude are not valid.");
-        }
-        } else {
-        console.log("Latitude and/or longitude elements not found in index.html.");
-    }
-});
 
 // Hämta användarens position och väderprognos när sidan laddas
 if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        console.log('User position:', latitude, longitude);
-        getWeatherForecast(latitude, longitude);
-    },
-    function (error) {
-        console.log("Geolocation failed: " + error.message);
-        getPositionFromIP();
-    },
-    {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-    });
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log('User position:', latitude, longitude);
+            getWeatherForecast(latitude, longitude);
+        },
+        function(error) {
+            console.log("Geolocation failed: " + error.message);
+            getPositionFromIP();
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+    );
 } else {
-    // Implementera getPositionFromIP() om det behövs
+    getPositionFromIP(); // Implementera getPositionFromIP() om det behövs
 }
