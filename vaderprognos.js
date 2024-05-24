@@ -102,7 +102,12 @@ const getWeatherForecast = (latitude, longitude) => {
                     weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
                 } else {
                     // Uppdatera slutiden för det aktuella vädret
-                    endTime = new Date(new Date(timeseries[index + 1].time).getTime() - 1); // Nästa tidsstämpel minus 1 millisekund
+                    if (index + 1 < timeseries.length) {
+                        endTime = new Date(new Date(timeseries[index + 1].time).getTime() - 1); // Nästa tidsstämpel minus 1 millisekund
+                    } else {
+                        endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
+                    }
+                    weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
                 }
             });
 
