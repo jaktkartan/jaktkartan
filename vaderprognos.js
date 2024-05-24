@@ -40,7 +40,7 @@ const translateWeatherSymbol = (symbolCode) => {
         case 'snow_showers_night':
             return 'snöskurar (natt)';
         default:
-            return 'okänt väder';
+            return `okänt väder (${symbolCode})`;
     }
 }
 
