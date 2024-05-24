@@ -1,4 +1,6 @@
-// En funktion som översätter vädersymbolkoder till förståeliga strängar på svenska.
+console.log("Initializing weather forecast...");
+
+// Funktion som översätter vädersymbolkoder till förståeliga strängar på svenska.
 const translateWeatherSymbol = (symbolCode) => {
     switch(symbolCode) {
         case 'clearsky_day':
@@ -49,6 +51,7 @@ const translateWeatherSymbol = (symbolCode) => {
             return symbolCode ? `okänt väder (${symbolCode})` : 'okänt väder';
     }
 }
+
 // Funktion för att hämta väderprognosen från en väder-API baserat på givna latitud- och longitudvärden.
 const getWeatherForecast = (latitude, longitude) => {
     console.log('Hämtar väderprognos för lat:', latitude, 'lon:', longitude);
@@ -100,13 +103,14 @@ const getWeatherForecast = (latitude, longitude) => {
                 } else {
                     // Uppdatera slutiden för det aktuella vädret
                     if (index + 1 < timeseries.length) {
-                    // Uppdatera slutiden för det aktuella vädret baserat på nästa prognos
-                    if (timeseries[index + 1] && timeseries[index + 1].time) {
-                        endTime = new Date(new Date(timeseries[index + 1].time).getTime() - 1); // Nästa tidsstämpel minus 1 millisekund
-                    } else {
-                        endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
+                        // Uppdatera slutiden för det aktuella vädret baserat på nästa prognos
+                        if (timeseries[index + 1] && timeseries[index + 1].time) {
+                            endTime = new Date(new Date(timeseries[index + 1].time).getTime() - 1); // Nästa tidsstämpel minus 1 millisekund
+                        } else {
+                            endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
+                        }
+                        weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
                     }
-                    weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${weather}<br>`;
                 }
             });
             document.getElementById('weather-text').innerHTML = 'Väderprognos för de kommande 24 timmarna:<br>' + weatherForecast;
@@ -116,10 +120,25 @@ const getWeatherForecast = (latitude, longitude) => {
             document.getElementById('weather-text').textContent = 'Kunde inte hämta väderprognos.';
         });
 }
+
 // Hjälpfunktion för att formatera tiden i ett läsbart format.
 const formatTime = (time) => {
     return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
 }
+
+// Ändra denna funktion för att anropa getWeatherForecast
+document.addEventListener("DOMContentLoaded", function() {
+    var latitude = parseFloat(document.getElementById('latitude').innerText);
+    var longitude = parseFloat(document.getElementById('longitude').innerText);
+
+    if (!isNaN(latitude) && !isNaN(longitude)) {
+        console.log("Latitude:", latitude, "Longitude:", longitude);
+                getWeatherForecast(latitude, longitude); // Anropa getWeatherForecast här istället för att logga
+    } else {
+        console.log("Latitude and longitude not found in index.html.");
+    }
+});
+
 // Hämta användarens position och väderprognos när sidan laddas
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -137,4 +156,6 @@ if (navigator.geolocation) {
         timeout: 10000,
         maximumAge: 0
     });
-} else
+} else {
+    // Implementera getPositionFromIP() om det behövs
+}
