@@ -41,6 +41,8 @@ const translateWeatherSymbol = (symbolCode) => {
             return 'snöskurar (dag)';
         case 'snow_showers_night':
             return 'snöskurar (natt)';
+        case 'fog':
+            return 'dimma';
         default:
             return symbolCode ? `okänt väder (${symbolCode})` : 'okänt väder';
     }
@@ -65,15 +67,7 @@ const getWeatherForecast = (latitude, longitude) => {
 
                 if (weather !== currentWeather) {
                     if (startTime !== null) {
-                        endTime = time;
-                        // Hämta nästa väder för att beräkna tiden tills nästa väder
-                        const nextWeatherTime = new Date(timeseries[i].time);
-                        const timeDiff = nextWeatherTime - endTime;
-                        const hoursDiff = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
-                        const minutesDiff = Math.floor((timeDiff / (1000 * 60)) % 60);
-                        const duration = `${hoursDiff}h ${minutesDiff}m`;
-
-                        weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather} (${duration})<br>`;
+                        weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
                     }
                     currentWeather = weather;
                     startTime = time;
@@ -84,10 +78,6 @@ const getWeatherForecast = (latitude, longitude) => {
 
             // Hantera det sista väderförhållandet
             if (startTime !== null) {
-                // Kontrollera om det är den sista tidsstämpeln
-                if (endTime === null) {
-                    endTime = new Date(timeseries[timeseries.length - 1].time);
-                }
                 weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
             }
 
@@ -103,4 +93,3 @@ const getWeatherForecast = (latitude, longitude) => {
 const formatTime = (time) => {
     return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
 }
-
