@@ -67,16 +67,23 @@ const getWeatherForecast = (latitude, longitude) => {
                 const time = new Date(forecast.time);
                 const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
 
-                // Kolla om det är första prognosen eller om vädret har ändrats
-                if (prevWeather === null || weather !== prevWeather) {
-                    if (prevTime !== null) {
-                        weatherForecast += `${formatTime(prevTime)}-${formatTime(time)}: ${prevWeather}<br>`;
-                    }
-                    prevWeather = weather;
+                // Om det är första prognosen, sätt starttiden
+                if (prevTime === null) {
                     prevTime = time;
                 }
 
-                // Om det är sista prognosen, lägg till det sista vädret i prognosen
+                // Kolla om vädret har ändrats
+                if (prevWeather !== weather) {
+                    // Lägg till den tidigare perioden till prognosen
+                    if (prevWeather !== null) {
+                        weatherForecast += `${formatTime(prevTime)}-${formatTime(time)}: ${prevWeather}<br>`;
+                    }
+                    // Uppdatera starttiden för nästa period
+                    prevTime = time;
+                    prevWeather = weather;
+                }
+
+                // Lägg till det sista prognostiserade vädret i prognosen
                 if (index === timeseries.length - 1) {
                     weatherForecast += `${formatTime(prevTime)}-${formatTime(time)}: ${weather}<br>`;
                 }
