@@ -52,13 +52,18 @@ const translateWeatherSymbol = (symbolCode) => {
 
 // Funktion för att hämta väderprognosen från en väder-API baserat på givna latitud- och longitudvärden.
 const getWeatherForecast = (latitude, longitude) => {
+    console.log('Hämtar väderprognos för lat:', latitude, 'lon:', longitude);
     const forecastAPIURL = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`;
 
     fetch(forecastAPIURL)
-        .then(response => response.json())
+        .then(response => {
+            console.log('Svar mottagen från API');
+            return response.json();
+        })
         .then(data => {
+            console.log('Data parsad');
             const timeseries = data.properties.timeseries;
-            console.log(timeseries); // Logga timeseries för att se dess struktur och innehåll
+            console.log('Timeseries:', timeseries);
 
             let weatherForecast = '';
             let prevWeather = null;
@@ -66,9 +71,12 @@ const getWeatherForecast = (latitude, longitude) => {
 
             timeseries.forEach((forecast, index) => {
                 const startTime = new Date(forecast.time);
-                const endTime = new Date(forecast.time + forecast.data.instant.details.duration);
+                console.log('Forecast startTime:', startTime);
+                const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Lägg till 1 timme till startTime
+                console.log('Forecast endTime:', endTime);
 
                 const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
+                console.log('Weather:', weather);
 
                 // Kolla om det är första prognosen eller om vädret har ändrats
                 if (prevWeather === null || weather !== prevWeather) {
@@ -76,7 +84,7 @@ const getWeatherForecast = (latitude, longitude) => {
                         weatherForecast += `${formatTime(prevTime)}-${formatTime(startTime)}: ${prevWeather}<br>`;
                     }
                     prevWeather = weather;
-                    prevTime = endTime;
+                    prevTime = startTime;
                 }
 
                 // Om det är sista prognosen, lägg till det sista vädret i prognosen
@@ -103,6 +111,7 @@ if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
+        console.log('User position:', latitude, longitude);
         getWeatherForecast(latitude, longitude);
     },
     function (error) {
@@ -117,3 +126,4 @@ if (navigator.geolocation) {
 } else {
     map.setView([62.0, 15.0], 5);
 }
+
