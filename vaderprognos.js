@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (!isNaN(latitude) && !isNaN(longitude)) {
         console.log("Latitude:", latitude, "Longitude:", longitude);
-                getWeatherForecast(latitude, longitude); // Anropa getWeatherForecast här istället för att logga
+        getWeatherForecast(latitude, longitude); // Anropa getWeatherForecast här istället för att logga
     } else {
         console.log("Latitude and longitude not found in index.html.");
     }
