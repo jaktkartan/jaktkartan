@@ -89,12 +89,3 @@ const getWeatherForecast = (latitude, longitude) => {
 const formatTime = (time) => {
     return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
 }
-
-// Funktion för att visa väderprognos baserat på kartans centrum
-const showWeatherForecast = (map) => {
-    var center = map.getCenter();
-    var lat = center.lat;
-    var lon = center.lng;
-
-    getWeatherForecast(lat, lon);
-}
