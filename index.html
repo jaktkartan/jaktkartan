@@ -34,7 +34,7 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://github.com/timothylevin/Testmiljo/blob/main/vaderprognos"></script> <!-- Uppdaterat till att inkludera vaderprognos -->
+    <script src="https://github.com/timothylevin/Testmiljo/blob/main/vaderprognos.js"></script> <!-- Uppdaterat till att inkludera vaderprognos -->
     <script>
         console.log("Initializing map...");
 
@@ -94,10 +94,7 @@
             if (!pulsingDotMarker) {
                 pulsingDotMarker = createPulsingCircle(lat, lon);
             } else {
-                pulsingDotMarker.setLatLng([lat, lon]);
-            }
-            } else {
-                pulsingDotMarker.setLatLng([lat, lon]);
+            pulsingDotMarker.setLatLng([lat, lon]);
             }
 
             // Beräkna soltider och uppdatera tiderna
