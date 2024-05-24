@@ -1,4 +1,3 @@
-// En funktion som översätter vädersymbolkoder till förståeliga strängar på svenska.
 const translateWeatherSymbol = (symbolCode) => {
     switch(symbolCode) {
         case 'clearsky_day':
