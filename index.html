@@ -94,7 +94,7 @@
             if (!pulsingDotMarker) {
                 pulsingDotMarker = createPulsingCircle(lat, lon);
             } else {
-            pulsingDotMarker.setLatLng([lat, lon]);
+                pulsingDotMarker.setLatLng([lat, lon]);
             }
 
             // Beräkna soltider och uppdatera tiderna
@@ -132,11 +132,10 @@
         }
 
         function toggleFABMenu() {
-            var menu = document.getElementById
-('menu');
+            var menu = document.getElementById('menu');
             if (menu.style.display === 'none' || menu.style.display === '') {
                 menu.style.display = 'block';
-                       } else {
+            } else {
                 menu.style.display = 'none';
             }
         }
@@ -190,4 +189,3 @@
     </script>
 </body>
 </html>
-blev det rätt?
