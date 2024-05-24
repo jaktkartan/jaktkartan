@@ -18,7 +18,7 @@
             <span id="sunset"></span>
             <div class="expand-toggle" onclick="togglePanel()">Väderprognos <span class="arrow">&#9660;</span></div>
             <div id="weather-info" style="display: none;">
-                <!-- Här kan du lägga till din väderprognosinformation -->
+                <div id="weather-text">Laddar väder...</div>
             </div>
         </div>
     </div>
@@ -144,6 +144,12 @@
             var weatherInfo = document.getElementById('weather-info');
             if (weatherInfo.style.display === 'none') {
                 weatherInfo.style.display = 'block';
+                // Hämta väderprognosen när panelen öppnas
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    getWeatherForecast(latitude, longitude);
+                });
             } else {
                 weatherInfo.style.display = 'none';
             }
