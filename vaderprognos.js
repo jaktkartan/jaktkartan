@@ -58,6 +58,7 @@ const getWeatherForecast = (latitude, longitude) => {
         .then(response => response.json())
         .then(data => {
             const timeseries = data.properties.timeseries;
+            console.log(timeseries); // Logga timeseries för att se dess struktur och innehåll
 
             let weatherForecast = '';
             let prevWeather = null;
