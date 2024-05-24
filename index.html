@@ -34,7 +34,7 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/vaderprognos"></script>
+    <script src="vaderprognos.js"></script> <!-- Uppdaterat till att inkludera vaderprognos.js -->
     <script>
         console.log("Initializing map...");
 
@@ -93,6 +93,9 @@
 
             if (!pulsingDotMarker) {
                 pulsingDotMarker = createPulsingCircle(lat, lon);
+            } else {
+                pulsingDotMarker.setLatLng([lat, lon]);
+            }
             } else {
                 pulsingDotMarker.setLatLng([lat, lon]);
             }
