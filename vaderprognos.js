@@ -60,31 +60,29 @@ const getWeatherForecast = (latitude, longitude) => {
             const timeseries = data.properties.timeseries;
 
             let weatherForecast = '';
-            let currentWeather = '';
-            let startTime = null;
-            let endTime = null;
-            for (let i = 0; i < timeseries.length; i++) {
-                const time = new Date(timeseries[i].time);
-                const weather = translateWeatherSymbol(timeseries[i].data.next_1_hours?.summary?.symbol_code);
+            let prevWeather = null;
+            let prevTime = null;
 
-                // Endast lägg till tid och väder om det faktiska vädret har ändrats
-                if (weather !== currentWeather) {
-                    if (startTime !== null) {
-                        weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
+            timeseries.forEach((forecast, index) => {
+                const time = new Date(forecast.time);
+                const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
+
+                // Kolla om det är första prognosen eller om vädret har ändrats
+                if (prevWeather === null || weather !== prevWeather) {
+                    if (prevTime !== null) {
+                        weatherForecast += `${formatTime(prevTime)}-${formatTime(time)}: ${prevWeather}<br>`;
                     }
-                    currentWeather = weather;
-                    startTime = time;
+                    prevWeather = weather;
+                    prevTime = time;
                 }
-                // Uppdatera slutetiden för det aktuella vädret
-                endTime = time;
-            }
 
-            // Lägg till det sista vädret i prognosen
-            if (startTime !== null) {
-                weatherForecast += `${formatTime(startTime)}-${formatTime(endTime)}: ${currentWeather}<br>`;
-            }
+                // Om det är sista prognosen, lägg till det sista vädret i prognosen
+                if (index === timeseries.length - 1) {
+                    weatherForecast += `${formatTime(prevTime)}-${formatTime(time)}: ${weather}<br>`;
+                }
+            });
 
-            document.getElementById('weather-text').innerHTML = '24-timmars prognos: <br>' + weatherForecast;
+            document.getElementById('weather-text').innerHTML = 'Väderprognos:<br>' + weatherForecast;
         })
         .catch(error => {
             console.log('Fel vid hämtning av väderprognos:', error);
@@ -95,4 +93,24 @@ const getWeatherForecast = (latitude, longitude) => {
 // Hjälpfunktion för att formatera tiden i ett läsbart format.
 const formatTime = (time) => {
     return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+}
+
+// Hämta användarens position och väderprognos när sidan laddas
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        getWeatherForecast(latitude, longitude);
+    },
+    function (error) {
+        console.log("Geolocation failed: " + error.message);
+        getPositionFromIP();
+    },
+    {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    });
+} else {
+    map.setView([62.0, 15.0], 5);
 }
