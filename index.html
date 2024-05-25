@@ -127,30 +127,30 @@
 
         function handleGeolocation(position) {
             var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
+           var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             updateUserPosition(lat, lon, accuracy.toFixed(2));
         }
 
-                function togglePanel() {
-    console.log("Toggling weather panel...");
-    var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.style.display === 'none') {
-        console.log("Showing weather panel...");
-        weatherInfo.style.display = 'block';
-        // Hämta väderprognosen när panelen öppnas
-        navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Getting current position...");
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            console.log("Current position:", latitude, longitude);
-            getWeatherForecast(latitude, longitude);
-        });
-    } else {
-        console.log("Hiding weather panel...");
-        weatherInfo.style.display = 'none';
-    }
-}
+        function togglePanel() {
+            console.log("Toggling weather panel...");
+            var weatherInfo = document.getElementById('weather-info');
+            if (weatherInfo.style.display === 'none') {
+                console.log("Showing weather panel...");
+                weatherInfo.style.display = 'block';
+                // Hämta väderprognosen när panelen öppnas
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log("Getting current position...");
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    console.log("Current position:", latitude, longitude);
+                    getWeatherForecast(latitude, longitude);
+                });
+            } else {
+                console.log("Hiding weather panel...");
+                weatherInfo.style.display = 'none';
+            }
+        }
 
         function toggleFABMenu() {
             var menu = document.getElementById('menu');
@@ -195,4 +195,3 @@
     </script>
 </body>
 </html>
-
