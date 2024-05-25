@@ -69,11 +69,6 @@ const getWeatherForecast = (latitude, longitude) => {
                 throw new Error('Ingen väderprognos tillgänglig.');
             }
             let weatherForecast = '';
-            let prevWeather = null;
-            let prevTime = null;
-            let endTime = null;
-            // Hämta tid för 24 timmar framåt
-            const twentyFourHoursFromNow = new Date(Date.now() + 24 * 60 * 60 * 1000);
             timeseries.forEach((forecast, index) => {
                 // Kontrollera om 'forecast' är definierat och har 'time' egenskapen
                 if (!forecast || !forecast.time) {
@@ -81,30 +76,10 @@ const getWeatherForecast = (latitude, longitude) => {
                 }
                 const startTime = new Date(forecast.time);
                 console.log('Forecast startTime:', startTime);
-                // Kontrollera om prognosen är inom de kommande 24 timmarna
-                if (startTime > twentyFourHoursFromNow) {
-                    return; // Hoppa över prognoser som är längre än 24 timmar framåt
-                }
                 const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
                 console.log('Weather:', weather);
-                // Kolla om det är första prognosen eller om vädret har ändrats
-                if (prevWeather === null || weather !== prevWeather) {
-                    if (prevTime !== null && endTime !== null) {
-                        // Lägg till slutiden för det föregående vädret
-                        weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${prevWeather}<br>`;
-                    }
-                    prevWeather = weather;
-                    prevTime = startTime;
-                }
-                // Uppdatera endast slutiden om vädret faktiskt förändras
-                if (weather !== prevWeather) {
-                    endTime = startTime;
-                }
+                weatherForecast += `${startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}: ${weather}<br>`;
             });
-            // Lägg till den sista väderprognosen om det finns data kvar
-            if (prevWeather !== null && prevTime !== null && endTime !== null) {
-                weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${prevWeather}<br>`;
-            }
             document.getElementById('weather-text').innerHTML = weatherForecast;
         })
         .catch(error => {
@@ -113,19 +88,4 @@ const getWeatherForecast = (latitude, longitude) => {
         });
 }
 
-// Funktion för att formatera tid till HH:MM-format
-const formatTime = (time) => {
-    try {
-        // Kontrollera om tiden är null innan vi använder toLocaleTimeString
-        if (time !== null) {
-            return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        } else {
-            console.error('Time is null.');
-            return 'NULL1';
-        }
-    } catch (error) {
-        console.error('Fel vid formatering av tid:', error);
-        return 'NULL2';
-    }
-}
 console.log("Weather forecast initialized.");
