@@ -20,6 +20,8 @@ html, body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     text-align: center;
+    font-family: 'Arial', sans-serif; /* Lägg till elegant typsnitt */
+    font-size: 16px; /* Lite större textstorlek */
 }
 
 .fab {
@@ -30,7 +32,7 @@ html, body {
 }
 
 .fab button {
-    background-color: #007bff;
+    background-color: #4CAF50; /* Grön färg */
     color: white;
     border: none;
     border-radius: 50%;
@@ -40,20 +42,19 @@ html, body {
     align-items: center;
     justify-content: center;
     margin: 10px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lätt skugga */
     cursor: pointer;
+    transition: background-color 0.3s ease; /* Mjuk övergång */
 }
 
 .fab button:hover {
-    background-color: #0056b3;
+    background-color: #45a049; /* Lite mörkare grön vid hover */
 }
 
 .pulsing-circle {
-    width: 8px;
-    height: 8px;
-    background: blue;
-    border-radius: 50%;
-    position: relative;
+    width: 6px; /* Mindre storlek för pulsande cirklar */
+    height: 6px;
+    background: rgba(0, 0, 255, 0.8); /* Lite mörkare blå färg */
 }
 
 .pulsing-circle::before {
@@ -103,12 +104,12 @@ html, body {
 
 .fab-menu a {
     display: block; /* Visa varje knapp på en egen rad */
-    padding: 5px 10px;
-    color: #333;
+    padding: 8px 20px; /* Lite mer utrymme runt texten */
+    color: #444; /* Mörkgrå färg */
     text-decoration: none;
-    transition: background-color 0.3s ease-in-out;
 }
 
 .fab-menu a:hover {
     background-color: #f0f0f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Lätt skugga */
 }
