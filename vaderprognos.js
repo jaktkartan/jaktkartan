@@ -116,11 +116,16 @@ const getWeatherForecast = (latitude, longitude) => {
 // Funktion för att formatera tid till HH:MM-format
 const formatTime = (time) => {
     try {
-        return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        // Kontrollera om tiden är null innan vi använder toLocaleTimeString
+        if (time !== null) {
+            return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } else {
+            console.error('Time is null.');
+            return '00:00';
+        }
     } catch (error) {
         console.error('Fel vid formatering av tid:', error);
         return '00:00';
     }
 }
-
 console.log("Weather forecast initialized.");
