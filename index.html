@@ -132,16 +132,7 @@
             updateUserPosition(lat, lon, accuracy.toFixed(2));
         }
 
-                function toggleFABMenu() {
-            var menu = document.getElementById('menu');
-            if (menu.style.display === 'none' || menu.style.display === '') {
-                menu.style.display = 'block';
-            } else {
-                menu.style.display = 'none';
-            }
-        }
-
-        function togglePanel() {
+                function togglePanel() {
             var weatherInfo = document.getElementById('weather-info');
             if (weatherInfo.style.display === 'none') {
                 weatherInfo.style.display = 'block';
@@ -153,6 +144,15 @@
                 });
             } else {
                 weatherInfo.style.display = 'none';
+            }
+        }
+
+        function toggleFABMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'none' || menu.style.display === '') {
+                menu.style.display = 'block';
+            } else {
+                menu.style.display = 'none';
             }
         }
 
