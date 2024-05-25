@@ -69,16 +69,18 @@ const getWeatherForecast = (latitude, longitude) => {
                 throw new Error('Ingen väderprognos tillgänglig.');
             }
             let weatherForecast = '';
+            const now = new Date();
+            const twentyFourHoursLater = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 timmar senare
             timeseries.forEach((forecast, index) => {
                 // Kontrollera om 'forecast' är definierat och har 'time' egenskapen
                 if (!forecast || !forecast.time) {
                     return; // Hoppa över denna iteration om 'forecast' saknar 'time'
                 }
-                const startTime = new Date(forecast.time);
-                console.log('Forecast startTime:', startTime);
-                const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
-                console.log('Weather:', weather);
-                weatherForecast += `${startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}: ${weather}<br>`;
+                const forecastTime = new Date(forecast.time);
+                if (forecastTime <= twentyFourHoursLater) {
+                    const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
+                    weatherForecast += `${forecastTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}: ${weather}<br>`;
+                }
             });
             document.getElementById('weather-text').innerHTML = weatherForecast;
         })
@@ -89,3 +91,4 @@ const getWeatherForecast = (latitude, longitude) => {
 }
 
 console.log("Weather forecast initialized.");
+
