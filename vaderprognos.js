@@ -1,5 +1,3 @@
-console.log("Initializing weather forecast...");
-
 // Funktion som översätter vädersymbolkoder till förståeliga strängar på svenska.
 const translateWeatherSymbol = (symbolCode) => {
     switch(symbolCode) {
