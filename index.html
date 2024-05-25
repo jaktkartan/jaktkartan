@@ -133,19 +133,24 @@
         }
 
                 function togglePanel() {
-            var weatherInfo = document.getElementById('weather-info');
-            if (weatherInfo.style.display === 'none') {
-                weatherInfo.style.display = 'block';
-                // Hämta väderprognosen när panelen öppnas
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
-                    getWeatherForecast(latitude, longitude);
-                });
-            } else {
-                weatherInfo.style.display = 'none';
-            }
-        }
+    console.log("Toggling weather panel...");
+    var weatherInfo = document.getElementById('weather-info');
+    if (weatherInfo.style.display === 'none') {
+        console.log("Showing weather panel...");
+        weatherInfo.style.display = 'block';
+        // Hämta väderprognosen när panelen öppnas
+        navigator.geolocation.getCurrentPosition(function (position) {
+            console.log("Getting current position...");
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log("Current position:", latitude, longitude);
+            getWeatherForecast(latitude, longitude);
+        });
+    } else {
+        console.log("Hiding weather panel...");
+        weatherInfo.style.display = 'none';
+    }
+}
 
         function toggleFABMenu() {
             var menu = document.getElementById('menu');
