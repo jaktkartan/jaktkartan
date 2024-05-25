@@ -25,7 +25,7 @@
     </div>
     <div id="map"></div>
     <div class="fab">
-        <button onclick="toggleFABMenu()">+</button>
+        <button onclick="toggleFABMenu()">FUNKTIONER</button>
         <div class="fab-menu" id="menu">
             <a href="https://timothylevin.github.io/Jaktkartan_Daggdjur/#5/62.989/17.564">Allmän jakt: Däggdjur</a>
             <a href="https://timothylevin.github.io/Jaktkartan_fagel/#5/62.989/17.564">Allmän jakt: Fågel</a>
@@ -127,14 +127,14 @@
 
         function handleGeolocation(position) {
             var lat = position.coords.latitude;
-           var lon = position.coords.longitude;
+            var lon = position.coords.longitude;
             var accuracy = position.coords.accuracy;
             updateUserPosition(lat, lon, accuracy.toFixed(2));
         }
 
         function togglePanel() {
             console.log("Toggling weather panel...");
-            var weatherInfo = document.getElementById('weather-info');
+                        var weatherInfo = document.getElementById('weather-info');
             if (weatherInfo.style.display === 'none') {
                 console.log("Showing weather panel...");
                 weatherInfo.style.display = 'block';
