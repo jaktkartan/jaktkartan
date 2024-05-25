@@ -89,7 +89,7 @@ const getWeatherForecast = (latitude, longitude) => {
                 console.log('Weather:', weather);
                 // Kolla om det är första prognosen eller om vädret har ändrats
                 if (prevWeather === null || weather !== prevWeather) {
-                    if (prevTime !== null) {
+                    if (prevTime !== null && endTime !== null) {
                         // Lägg till slutiden för det föregående vädret
                         weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${prevWeather}<br>`;
                     }
@@ -102,7 +102,7 @@ const getWeatherForecast = (latitude, longitude) => {
                 }
             });
             // Lägg till den sista väderprognosen om det finns data kvar
-            if (prevWeather !== null) {
+            if (prevWeather !== null && prevTime !== null && endTime !== null) {
                 weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${prevWeather}<br>`;
             }
             document.getElementById('weather-text').innerHTML = weatherForecast;
@@ -115,7 +115,12 @@ const getWeatherForecast = (latitude, longitude) => {
 
 // Funktion för att formatera tid till HH:MM-format
 const formatTime = (time) => {
-    return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    try {
+        return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch (error) {
+        console.error('Fel vid formatering av tid:', error);
+        return '00:00';
+    }
 }
 
 console.log("Weather forecast initialized.");
