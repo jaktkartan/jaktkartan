@@ -46,13 +46,13 @@ html, body {
     transition: background-color 0.3s ease-in-out;
 }
 
-.fab:hover button {
+.fab button:hover {
     background-color: #0056b3;
 }
 
 .pulsing-circle {
-    width: 8px;
-    height: 8px;
+    width: 16px; /* Dubbel storlek */
+    height: 16px; /* Dubbel storlek */
     background: blue;
     border-radius: 50%;
     position: relative;
@@ -63,12 +63,12 @@ html, body {
     width: 200%;
     height: 200%;
     position: absolute;
-    top: 50%; /* Centrera utgångspunkten för animationen vertikalt */
-    left: 50%; /* Centrera utgångspunkten för animationen horisontellt */
+    top: 50%;
+    left: 50%;
     background: rgba(0, 0, 255, 0.5);
     border-radius: 50%;
     animation: pulse 1.5s infinite;
-    transform: translate(-50%, -50%); /* Centrera animationen relativt till föräldernoden */
+    transform: translate(-50%, -50%);
 }
 
 @keyframes pulse {
