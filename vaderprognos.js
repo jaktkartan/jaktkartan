@@ -121,11 +121,11 @@ const formatTime = (time) => {
             return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         } else {
             console.error('Time is null.');
-            return '00:00';
+            return 'NULL1';
         }
     } catch (error) {
         console.error('Fel vid formatering av tid:', error);
-        return '00:00';
+        return 'NULL2';
     }
 }
 console.log("Weather forecast initialized.");
