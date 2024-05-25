@@ -106,4 +106,3 @@ const getWeatherForecast = (latitude, longitude) => {
             document.getElementById('weather-text').innerHTML = 'Misslyckades att hämta väderprognos.';
         });
 }
-
