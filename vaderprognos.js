@@ -4,31 +4,31 @@ console.log("Initializing weather forecast...");
 const translateWeatherSymbol = (symbolCode) => {
     switch(symbolCode) {
         case 'clearsky_day':
-            return 'klart väder (dag)';
+            return 'klart väder';
         case 'clearsky_night':
-            return 'klart väder (natt)';
+            return 'klart väder';
         case 'partlycloudy_day':
-            return 'delvis molnigt (dag)';
+            return 'delvis molnigt';
         case 'partlycloudy_night':
-            return 'delvis molnigt (natt)';
+            return 'delvis molnigt';
         case 'cloudy':
             return 'molnigt';
         case 'fair_day':
-            return 'växlande molnighet (dag)';
+            return 'växlande molnighet';
         case 'fair_night':
-            return 'växlande molnighet (natt)';
+            return 'växlande molnighet';
         case 'rain':
             return 'regn';
         case 'lightrain':
             return 'lätt regn';
         case 'lightrain_showers_day':
-            return 'lätt regnskurar (dag)';
+            return 'lätt regnskurar';
         case 'lightrain_showers_night':
-            return 'lätt regnskurar (natt)';
+            return 'lätt regnskurar';
         case 'rain_showers_day':
-            return 'regnskurar (dag)';
+            return 'regnskurar';
         case 'rain_showers_night':
-            return 'regnskurar (natt)';
+            return 'regnskurar';
         case 'heavyrain':
             return 'kraftigt regn';
         case 'thunderstorm':
@@ -38,13 +38,13 @@ const translateWeatherSymbol = (symbolCode) => {
         case 'snow':
             return 'snö';
         case 'sleet_showers_day':
-            return 'snöblandade regnskurar (dag)';
+            return 'snöblandade regnskurar';
         case 'sleet_showers_night':
-            return 'snöblandade regnskurar (natt)';
+            return 'snöblandade regnskurar';
         case 'snow_showers_day':
-            return 'snöskurar (dag)';
+            return 'snöskurar';
         case 'snow_showers_night':
-            return 'snöskurar (natt)';
+            return 'snöskurar';
         case 'fog':
             return 'dimma';
         default:
@@ -91,4 +91,3 @@ const getWeatherForecast = (latitude, longitude) => {
 }
 
 console.log("Weather forecast initialized.");
-
