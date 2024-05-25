@@ -66,6 +66,9 @@ const getWeatherForecast = (latitude, longitude) => {
             if (!timeseries || timeseries.length === 0) {
                 throw new Error('Ingen väderprognos tillgänglig.');
             }
+            let currentWeather = null;
+            let weatherIntervalStart = null;
+            let weatherIntervalEnd = null;
             let weatherForecast = '';
             const now = new Date();
             const twentyFourHoursLater = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 timmar senare
@@ -77,9 +80,25 @@ const getWeatherForecast = (latitude, longitude) => {
                 const forecastTime = new Date(forecast.time);
                 if (forecastTime <= twentyFourHoursLater) {
                     const weather = translateWeatherSymbol(forecast.data.next_1_hours?.summary?.symbol_code);
-                    weatherForecast += `${forecastTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}: ${weather}<br>`;
+                    if (weather !== currentWeather) {
+                        if (currentWeather !== null) {
+                            // Slutet av föregående väderintervall
+                            weatherForecast += `${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}-${weatherIntervalEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}: ${currentWeather}<br>`;
+                        }
+                        // Början av nytt väderintervall
+                        currentWeather = weather;
+                        weatherIntervalStart = forecastTime;
+                        weatherIntervalEnd = forecastTime;
+                    } else {
+                        // Fortsättning av samma väderintervall
+                        weatherIntervalEnd = forecastTime;
+                    }
                 }
             });
+            // Lägg till sista väderintervallet
+            if (currentWeather !== null) {
+                weatherForecast += `${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}-${weatherIntervalEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}: ${currentWeather}<br>`;
+            }
             document.getElementById('weather-text').innerHTML = weatherForecast;
         })
         .catch(error => {
@@ -88,4 +107,3 @@ const getWeatherForecast = (latitude, longitude) => {
         });
 }
 
-console.log("Weather forecast initialized.");
