@@ -14,10 +14,10 @@ html, body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #f8f9fa; /* Ändrat till en ljusare grå ton */
-    padding: 10px 20px; /* Ökad padding för bättre utseende */
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 20px;
     border-bottom: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ljusare skugga för mer subtil effekt */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     text-align: center;
 }
@@ -30,7 +30,7 @@ html, body {
 }
 
 .fab button {
-    background-color: #28a745; /* Ändrat till grön färg */
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 50%;
@@ -45,14 +45,15 @@ html, body {
 }
 
 .fab button:hover {
-    background-color: #218838; /* Mörkare grön vid hover */
+    background-color: #0056b3;
 }
 
 .pulsing-circle {
-    width: 6px; /* Bredden på den pulserande cirkeln */
-    height: 6px; /* Höjden på den pulserande cirkeln */
-    background: rgba(0, 0, 255, 0.8); /* Blå färg med viss genomskinlighet */
-    border-radius: 50%; /* Ger cirkelform */
+    width: 8px;
+    height: 8px;
+    background: blue;
+    border-radius: 50%;
+    position: relative;
 }
 
 .pulsing-circle::before {
@@ -62,8 +63,8 @@ html, body {
     position: absolute;
     top: -50%;
     left: -50%;
-    background: rgba(0, 0, 255, 0.5); /* Lite ljusare blå färg för pulserande effekt */
-    border-radius: 50%; /* Ger cirkelform */
+    background: rgba(0, 0, 255, 0.5);
+    border-radius: 50%;
     animation: pulse 1.5s infinite;
 }
 
@@ -76,6 +77,10 @@ html, body {
         transform: scale(2);
         opacity: 0;
     }
+}
+
+.leaflet-marker-icon[src*="marker-icon.png"] {
+    display: none;
 }
 
 .fab-menu {
