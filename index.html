@@ -112,26 +112,6 @@
             sunsetSpan.innerHTML = sunset;
         }
 
-        function getPositionFromIP() {
-            axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                .then(function (response) {
-                    var loc = response.data.loc.split(',');
-                    var lat = parseFloat(loc[0]);
-                    var lon = parseFloat(loc[1]);
-                    updateUserPosition(lat, lon, "Unknown");
-                })
-                .catch(function (error) {
-                    console.log("IP Geolocation failed: " + error.message);
-                });
-        }
-
-        function handleGeolocation(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-            var accuracy = position.coords.accuracy;
-            updateUserPosition(lat, lon, accuracy.toFixed(2));
-        }
-
         function toggleFABMenu() {
             var menu = document.getElementById('menu');
             if (menu.style.display === 'none' || menu.style.display === '') {
@@ -154,38 +134,6 @@
             } else {
                 weatherInfo.style.display = 'none';
             }
-        }
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                    getPositionFromIP();
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-
-            navigator.geolocation.watchPosition(
-                function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        } else {
-            map.setView([62.0, 15.0], 5);
         }
     </script>
 </body>
