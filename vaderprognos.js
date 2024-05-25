@@ -99,10 +99,37 @@ const getWeatherForecast = (latitude, longitude) => {
                 // Uppdatera endast slutiden om vädret faktiskt förändras
                 if (weather !== prevWeather) {
                     endTime = startTime;
+                }
+            });
+            // Lägg till den sista väderprognosen om det finns data kvar
+            if (prevWeather !== null) {
+                weatherForecast += `${formatTime(prevTime)}-${formatTime(endTime)}: ${prevWeather}<br>`;
+            }
+            document.getElementById('weather-text').innerHTML = weatherForecast;
+        })
+        .catch(error => {
+            console.error('Fel vid hämtning av väderprognos:', error);
+            document.getElementById('weather-text').innerHTML = 'Misslyckades att hämta väderprognos.';
+        });
+}
+
+// Funktion för att formatera tid till HH:MM-format
+const formatTime = (date) => {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
 // Funktion för att hämta användarens position baserat på IP-adress om geolokalisering inte är tillgänglig.
-const getPositionFromIP = () => {
-    // Implementera logik för att hämta position från IP-adress här
-    console.log("Getting user position from IP address...");
+const getPositionFromIP = () => {}
+    axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+        .then(function (response) {
+            var loc = response.data.loc.split(',');
+            var lat = parseFloat(loc[0]);
+            var lon = parseFloat(loc[1]);
+            getWeatherForecast(lat, lon);
+        })
+        .catch(function (error) {
+            console.log("IP Geolocation failed: " + error.message);
+        });
 }
 
 // Hämta användarens position och väderprognos när sidan laddas
