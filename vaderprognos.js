@@ -115,7 +115,7 @@ const getWeatherForecast = (latitude, longitude) => {
 
 // Funktion för att formatera tid till HH:MM-format
 const formatTime = (time) => {
-    return time.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+    return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 console.log("Weather forecast initialized.");
