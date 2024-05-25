@@ -119,7 +119,7 @@ const formatTime = (date) => {
 }
 
 // Funktion för att hämta användarens position baserat på IP-adress om geolokalisering inte är tillgänglig.
-const getPositionFromIP = () => {}
+const getPositionFromIP = () => {
     axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
         .then(function (response) {
             var loc = response.data.loc.split(',');
@@ -130,27 +130,4 @@ const getPositionFromIP = () => {}
         .catch(function (error) {
             console.log("IP Geolocation failed: " + error.message);
         });
-}
-
-// Hämta användarens position och väderprognos när sidan laddas
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            console.log('User position:', latitude, longitude);
-            getWeatherForecast(latitude, longitude);
-        },
-        function(error) {
-            console.log("Geolocation failed: " + error.message);
-            getPositionFromIP();
-        },
-        {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-        }
-    );
-} else {
-    getPositionFromIP(); // Implementera getPositionFromIP() om det behövs
 }
