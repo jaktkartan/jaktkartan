@@ -63,11 +63,12 @@
         function createPulsingCircle(lat, lon) {
             var divIcon = L.divIcon({
                 className: 'pulsing-circle',
-                iconSize: [12, 12]
+                iconSize: [12, 12],
+                html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>` // Lägg till data-lat och data-lon attribut
             });
             return L.marker([lat, lon], { icon: divIcon }).addTo(map);
         }
-
+        
         function updateUserPosition(lat, lon, accuracy) {
             console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
