@@ -114,20 +114,8 @@ const getWeatherForecast = (latitude, longitude) => {
 }
 
 // Funktion för att formatera tid till HH:MM-format
-const formatTime = (date) => {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const formatTime = (time) => {
+    return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-// Funktion för att hämta användarens position baserat på IP-adress om geolokalisering inte är tillgänglig.
-const getPositionFromIP = () => {
-    axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-        .then(function (response) {
-            var loc = response.data.loc.split(',');
-            var lat = parseFloat(loc[0]);
-            var lon = parseFloat(loc[1]);
-            getWeatherForecast(lat, lon);
-        })
-        .catch(function (error) {
-            console.log("IP Geolocation failed: " + error.message);
-        });
-}
+console.log("Weather forecast initialized.");
