@@ -14,14 +14,12 @@ html, body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 5px 20px;
+    background-color: #f8f9fa; /* Ändrat till en ljusare grå ton */
+    padding: 10px 20px; /* Ökad padding för bättre utseende */
     border-bottom: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ljusare skugga för mer subtil effekt */
     z-index: 1000;
     text-align: center;
-    font-family: 'Arial', sans-serif; /* Lägg till elegant typsnitt */
-    font-size: 16px; /* Lite större textstorlek */
 }
 
 .fab {
@@ -32,7 +30,7 @@ html, body {
 }
 
 .fab button {
-    background-color: #4CAF50; /* Grön färg */
+    background-color: #28a745; /* Ändrat till grön färg */
     color: white;
     border: none;
     border-radius: 50%;
@@ -42,19 +40,19 @@ html, body {
     align-items: center;
     justify-content: center;
     margin: 10px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lätt skugga */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Mjuk övergång */
 }
 
 .fab button:hover {
-    background-color: #45a049; /* Lite mörkare grön vid hover */
+    background-color: #218838; /* Mörkare grön vid hover */
 }
 
 .pulsing-circle {
-    width: 6px; /* Mindre storlek för pulsande cirklar */
-    height: 6px;
-    background: rgba(0, 0, 255, 0.8); /* Lite mörkare blå färg */
+    width: 6px; /* Bredden på den pulserande cirkeln */
+    height: 6px; /* Höjden på den pulserande cirkeln */
+    background: rgba(0, 0, 255, 0.8); /* Blå färg med viss genomskinlighet */
+    border-radius: 50%; /* Ger cirkelform */
 }
 
 .pulsing-circle::before {
@@ -64,8 +62,8 @@ html, body {
     position: absolute;
     top: -50%;
     left: -50%;
-    background: rgba(0, 0, 255, 0.5);
-    border-radius: 50%;
+    background: rgba(0, 0, 255, 0.5); /* Lite ljusare blå färg för pulserande effekt */
+    border-radius: 50%; /* Ger cirkelform */
     animation: pulse 1.5s infinite;
 }
 
@@ -78,10 +76,6 @@ html, body {
         transform: scale(2);
         opacity: 0;
     }
-}
-
-.leaflet-marker-icon[src*="marker-icon.png"] {
-    display: none;
 }
 
 .fab-menu {
@@ -104,12 +98,12 @@ html, body {
 
 .fab-menu a {
     display: block; /* Visa varje knapp på en egen rad */
-    padding: 8px 20px; /* Lite mer utrymme runt texten */
-    color: #444; /* Mörkgrå färg */
+    padding: 5px 10px;
+    color: #333;
     text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .fab-menu a:hover {
     background-color: #f0f0f0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Lätt skugga */
 }
