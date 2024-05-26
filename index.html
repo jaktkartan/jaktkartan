@@ -8,6 +8,20 @@
     <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
     <script src="https://unpkg.com/suncalc/suncalc.js"></script> <!-- Lägg till SunCalc-biblioteket -->
     <script src="vaderprognos.js"></script> <!-- Länk till din JavaScript-fil -->
+    <style>
+        #weather-info {
+            width: 90%; /* Justera bredden efter behov */
+            max-width: 600px; /* Maximal bredd för att undvika att sträcka sig för långt */
+            margin: 0 auto; /* Centrera horisontellt */
+            background-color: rgba(50, 94, 88, 0.8); /* #325e58 med 80% genomskinlighet */
+            color: white; /* Textfärg vit */
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <div id="info-panel">
