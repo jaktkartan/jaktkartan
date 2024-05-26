@@ -8,47 +8,6 @@
     <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
     <script src="https://unpkg.com/suncalc/suncalc.js"></script> <!-- Lägg till SunCalc-biblioteket -->
     <script src="vaderprognos.js"></script> <!-- Länk till din JavaScript-fil -->
-    
-    <!-- Lägg till följande stilregel för att dölja info-panelen från början -->
-    <style>
-        #info-panel {
-            display: none;
-            width: 100%;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.5); /* Justera bakgrundsfärg och transparens */
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        #sunrise-sunset {
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Centrera innehållet horisontellt */
-            flex-direction: column; /* Visa elementen på separata rader */
-        }
-
-        .expand-toggle {
-            cursor: pointer;
-            color: white;
-            margin-left: 10px; /* Öka marginalen för enkel användning */
-            font-size: 18px; /* Justera textstorleken */
-        }
-
-        .expand-toggle:hover {
-            color: #ddd; /* Lite ljusare färg vid hover-effekt */
-        }
-
-        #weather-info {
-            display: none; /* Panelen är dold som standard */
-            padding: 10px; /* Lägg till lite mellanrum */
-            background-color: rgba(0, 0, 0, 0.8); /* Justera bakgrundsfärg och transparens */
-            border-radius: 5px; /* Runda hörn för en snyggare utseende */
-            margin-top: 5px; /* Justera avståndet till knappen */
-            font-size: 14px; /* Justera textstorleken */
-        }
-    </style>
 </head>
 <body>
     <div id="info-panel">
@@ -80,17 +39,11 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        // JavaScript
         function togglePanel() {
             console.log("Toggling weather panel...");
-            var panel = document.getElementById('info-panel');
             var weatherInfo = document.getElementById('weather-info');
-            
-            if (panel.classList.contains('expanded')) {
-                panel.classList.remove('expanded');
-                weatherInfo.style.display = 'none';
-            } else {
-                panel.classList.add('expanded');
+            if (weatherInfo.style.display === 'none') {
+                console.log("Showing weather panel...");
                 weatherInfo.style.display = 'block';
                 // Hämta väderprognosen när panelen öppnas
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -100,15 +53,12 @@
                     console.log("Current position:", latitude, longitude);
                     getWeatherForecast(latitude, longitude);
                 });
+            } else {
+                console.log("Hiding weather panel...");
+                weatherInfo.style.display = 'none';
             }
         }
 
-        // Lägg till följande JavaScript-kod för att visa info-panelen när sidan är klar att laddas
-        document.addEventListener("DOMContentLoaded", function() {
-            var infoPanel = document.getElementById("info-panel");
-            infoPanel.style.display = "block";
-        });
-        
         function toggleFABMenu() {
             var menu = document.getElementById('menu');
             if (menu.style.display === 'none' || menu.style.display === '') {
@@ -133,9 +83,9 @@
             var pulsingDotMarker;
             var sunriseIcon = L.icon({
                 iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
-                icon.Size: [20, 20],
-                IconAnchor: [10, 10],
-                PopupAnchor: [0, 0],
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
             });
             var sunsetIcon = L.icon({
                 iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
