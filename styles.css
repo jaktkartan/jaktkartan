@@ -12,7 +12,10 @@
 #sunrise-sunset {
     display: flex;
     align-items: center;
+    justify-content: center; /* Centrera innehållet horisontellt */
+    flex-direction: column; /* Visa elementen på separata rader */
 }
+
 
 .expand-toggle {
     cursor: pointer;
