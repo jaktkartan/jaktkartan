@@ -43,7 +43,7 @@ html, body {
 .fab button {
     background-color: #325e58; /* Bakgrundsfärg */
     color: white; /* Textfärg vit */
-    border: none;
+    border: 1px solid white; /* Lägg till en tunn vit linje runt knappen */
     border-radius: 50%;
     width: 56px;
     height: 56px;
