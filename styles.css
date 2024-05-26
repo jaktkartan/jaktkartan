@@ -68,7 +68,10 @@ html, body {
 
 /* Lägg till stilar för att inkludera en bild i fab-menyn */
 .fab-menu {
-    display: none;
+    display: none; /* Dölj menyn från början */
+    position: absolute; /* Positionera relativt till den förälderfab */
+    bottom: calc(100% + 10px); /* Justera vertikal position */
+    right: 0; /* Justera horisontell position */
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -77,10 +80,28 @@ html, body {
 
 .fab-menu img {
     display: block;
-    width: 100%;
+    width: 50px; /* Ändra bildstorlek efter behov */
     border-bottom: 1px solid #ccc;
     margin-bottom: 10px;
     padding-bottom: 10px;
+}
+
+/* Gör knapparna i FAB-menyn snyggare */
+.fab-menu a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    margin: 5px 0; /* Lägg till lite mellanrum mellan knapparna */
+    background-color: #4CAF50; /* Bakgrundsfärg */
+    color: white; /* Textfärg */
+    text-decoration: none;
+    border-radius: 5px; /* Rundade hörn */
+    transition: background-color 0.3s; /* Smidig övergång för bakgrundsfärg */
+}
+
+/* Ändra bakgrundsfärgen när knappen är i hover-läge */
+.fab-menu a:hover {
+    background-color: #45a049; /* Lite mörkare nyans för hover-effekt */
 }
 
 /* Stilar för den pulserande markören */
