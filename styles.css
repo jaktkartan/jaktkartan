@@ -5,8 +5,14 @@ html, body {
 }
 
 #map {
-    height: calc(100vh - 60px);
-    position: relative;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #info-panel {
@@ -42,12 +48,42 @@ html, body {
     margin: 10px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    font-size: 24px; /* Större storlek på "+"-tecknet */
+    transition: transform 0.2s ease-in-out;
 }
 
 .fab button:hover {
+    transform: scale(1.1);
     background-color: #0056b3;
 }
 
+.fab button:focus {
+    outline: none;
+}
+
+.fab button span {
+    display: inline-block;
+    line-height: 1;
+}
+
+/* Lägg till stilar för att inkludera en bild i fab-menyn */
+.fab-menu {
+    display: none;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+}
+
+.fab-menu img {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+/* Stilar för den pulserande markören */
 .pulsing-circle {
     width: 8px;
     height: 8px;
@@ -79,43 +115,7 @@ html, body {
     }
 }
 
+/* Dölj standard Leaflet markörsymbol */
 .leaflet-marker-icon[src*="marker-icon.png"] {
     display: none;
-}
-
-.fab {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1001;
-}
-
-.fab button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 56px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    font-size: 24px; /* Större storlek på "+"-tecknet */
-    transition: transform 0.2s ease-in-out;
-}
-
-.fab button:hover {
-    transform: scale(1.1);
-}
-
-.fab button:focus {
-    outline: none;
-}
-
-.fab button span {
-    display: inline-block;
-    line-height: 1;
 }
