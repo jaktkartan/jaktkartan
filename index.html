@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktkartan.se</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
-    <script src="https://unpkg.com/suncalc/suncalc.js"></script> <!-- Lägg till SunCalc-biblioteket -->
-    <script src="vaderprognos.js"></script> <!-- Länk till din JavaScript-fil -->
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/suncalc/suncalc.js"></script>
+    <script src="vaderprognos.js"></script>
     <style>
         /* Anpassad CSS för att ändra zoomkontrollernas position */
         .leaflet-top.leaflet-left {
-            top: 70px !important;
+            top: 80px !important;
             left: 10px !important;
         }
     </style>
@@ -33,15 +33,13 @@
     <div class="fab">
         <button onclick="toggleFABMenu()">+</button>
         <div class="fab-menu" id="menu">
-            <!-- Lägg till bild i fab-menyn -->
             <img src="bilder/logo vit.png" alt="Menu Image" style="width: 100%; padding: 10px 0;">
-            <!-- Lägg till dina länkar här -->
             <a href="https://timothylevin.github.io/Jaktkartan_Daggdjur/#5/62.989/17.564">Allmän jakt: Däggdjur</a>
             <a href="https://timothylevin.github.io/Jaktkartan_fagel/#5/62.989/17.564">Allmän jakt: Fågel</a>
             <a href="https://timothylevin.github.io/Algjaktskarta_jakttider/#5/63.005/18.325">Älgjaktskartan</a>
         </div>
     </div>
-    <div id="map"></div> <!-- Flyttade detta upp här -->
+    <div id="map"></div>
     
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -52,7 +50,6 @@
             if (weatherInfo.style.display === 'none') {
                 console.log("Showing weather panel...");
                 weatherInfo.style.display = 'block';
-                // Hämta väderprognosen när panelen öppnas
                 navigator.geolocation.getCurrentPosition(function (position) {
                     console.log("Getting current position...");
                     var latitude = position.coords.latitude;
@@ -76,7 +73,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Här lägger du din kartinitialiseringskod
             console.log("Initializing map...");
 
             var map = L.map('map', {
@@ -84,7 +80,7 @@
             }).setView([62.0, 15.0], 5);
 
             L.control.zoom({
-                position: 'bottomright' // Ändra positionen på zoomkontrollerna
+                position: 'topleft' // Ändra positionen på zoomkontrollerna
             }).addTo(map);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -111,7 +107,7 @@
                 var divIcon = L.divIcon({
                     className: 'pulsing-circle',
                     iconSize: [12, 12],
-                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>` // Lägg till data-lat och data-lon attribut
+                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
                 });
                 return L.marker([lat, lon], { icon: divIcon }).addTo(map);
             }
@@ -145,17 +141,13 @@
                     pulsingDotMarker.setLatLng([lat, lon]);
                 }
 
-                // Beräkna soltider och uppdatera tiderna
                 var times = SunCalc.getTimes(new Date(), lat, lon);
                 var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
                 var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
                 var sunriseSpan = document.getElementById('sunrise');
                 var sunsetSpan = document.getElementById('sunset');
 
-                // Uppdatera soluppgångstid
                 sunriseSpan.innerHTML = sunrise;
-
-                // Uppdatera solnedgångstid
                 sunsetSpan.innerHTML = sunset;
             }
 
