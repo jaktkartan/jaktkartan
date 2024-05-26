@@ -41,6 +41,11 @@ html, body {
 #info-panel * {
     color: white; /* Textfärg vit för alla element i #info-panel */
 }
+#info-panel {
+    /* Din befintliga CSS */
+    display: none;
+}
+
 
 .fab {
     position: absolute;
