@@ -54,6 +54,8 @@ const translateWeatherSymbol = (symbolCode) => {
 const getWeatherForecast = (latitude, longitude) => {
     console.log('Hämtar väderprognos för lat:', latitude, 'lon:', longitude);
     const forecastAPIURL = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`;
+    document.getElementById('weather-text').innerHTML = 'Laddar väderprognos...'; // Laddningsindikator
+
     fetch(forecastAPIURL)
         .then(response => {
             console.log('Svar mottagen från API');
@@ -105,4 +107,31 @@ const getWeatherForecast = (latitude, longitude) => {
             console.error('Fel vid hämtning av väderprognos:', error);
             document.getElementById('weather-text').innerHTML = 'Misslyckades att hämta väderprognos.';
         });
-}
+};
+
+// Funktion för att hämta och visa väderprognosen baserat på användarens position
+const showWeatherForecast = () => {
+    if (navigator.geolocation) {
+        const geoOptions = {
+            enableHighAccuracy: false, // Använd mindre exakt men snabbare positionshämtning
+            timeout: 10000, // Vänta högst 10 sekunder på att få en position
+            maximumAge: 30000 // Använd en cachelagrad position som är upp till 30 sekunder gammal
+        };
+        const geoSuccess = (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            getWeatherForecast(latitude, longitude);
+        };
+        const geoError = (error) => {
+            console.error('Fel vid hämtning av position:', error);
+            document.getElementById('weather-text').innerHTML = 'Misslyckades att hämta position.';
+        };
+        navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+    } else {
+        console.error('Geolocation är inte tillgängligt.');
+        document.getElementById('weather-text').innerHTML = 'Geolocation är inte tillgängligt.';
+    }
+};
+
+// Kör funktionen för att hämta väderprognosen när sidan laddas
+window.onload = showWeatherForecast;
