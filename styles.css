@@ -100,9 +100,9 @@ html, body {
     background-color: #325e58; /* Bakgrundsfärg */
     color: white; /* Textfärg vit */
     text-decoration: none;
+    border: 1px solid white; /* Vit kant */
     border-radius: 5px; /* Rundade hörn */
     transition: background-color 0.3s; /* Smidig övergång för bakgrundsfärg */
-    border: 1px solid white; /* Vit kant runt knapparna */
 }
 
 /* Ändra bakgrundsfärgen när knappen är i hover-läge */
@@ -147,7 +147,14 @@ html, body {
     display: none;
 }
 
-/* Justera zoomknappens position baserat på fliken för väderprognos */
+/* Förhåll zoom-knappen till väderprognosfliken */
+#info-panel .leaflet-control-container {
+    position: absolute;
+    top: 40px; /* Justera detta värde för att skapa avstånd */
+    left: 10px;
+    z-index: 1001;
+}
+
 .leaflet-control-zoom {
-    margin-top: 120px; /* Justera här efter behov */
+    margin-top: 5px; /* Skapar ett litet respektavstånd till väderprognosfliken */
 }
