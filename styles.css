@@ -147,14 +147,21 @@ html, body {
     display: none;
 }
 
-/* Förhåll zoom-knappen till väderprognosfliken */
-#info-panel .leaflet-control-container {
+/* Anpassa Leaflet zoom-knappar för att förhålla sig till väderprognosfliken */
+.leaflet-top.leaflet-left {
+    top: auto;
+    bottom: auto;
     position: absolute;
-    top: 40px; /* Justera detta värde för att skapa avstånd */
-    left: 10px;
-    z-index: 1001;
+    left: 10px; /* Justera detta värde för avstånd från vänsterkanten */
 }
 
-.leaflet-control-zoom {
-    margin-top: 5px; /* Skapar ett litet respektavstånd till väderprognosfliken */
+.weather-forecast-tab {
+    position: relative;
+    z-index: 1002;
+}
+
+.weather-forecast-tab + .leaflet-control-zoom {
+    margin-top: 10px; /* Justera detta värde för avstånd från fliken */
+    position: absolute;
+    top: calc(100% + 10px); /* Flytta zoom-knapparna precis under fliken */
 }
