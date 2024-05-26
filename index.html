@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
     <script src="https://unpkg.com/suncalc/suncalc.js"></script> <!-- Lägg till SunCalc-biblioteket -->
     <script src="vaderprognos.js"></script> <!-- Länk till din JavaScript-fil -->
+    
+    <!-- Lägg till följande stilregel för att dölja info-panelen från början -->
+    <style>
+        #info-panel {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div id="info-panel">
@@ -58,7 +65,13 @@
                 weatherInfo.style.display = 'none';
             }
         }
-
+        
+        // Lägg till följande JavaScript-kod för att visa info-panelen när sidan är klar att laddas
+        document.addEventListener("DOMContentLoaded", function() {
+            var infoPanel = document.getElementById("info-panel");
+            infoPanel.style.display = "block";
+        });
+        
         function toggleFABMenu() {
             var menu = document.getElementById('menu');
             if (menu.style.display === 'none' || menu.style.display === '') {
@@ -201,3 +214,4 @@
     </script>
 </body>
 </html>
+
