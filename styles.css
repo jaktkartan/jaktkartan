@@ -20,12 +20,17 @@ html, body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(50, 94, 88, 0.8); /* #325e58 med 80% genomskinlighet */
+    color: white; /* Textfärg vit */
     padding: 5px 20px;
     border-bottom: 1px solid #ccc;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     text-align: center;
+}
+
+#info-panel * {
+    color: white; /* Textfärg vit för alla element i #info-panel */
 }
 
 .fab {
@@ -36,8 +41,8 @@ html, body {
 }
 
 .fab button {
-    background-color: #007bff;
-    color: white;
+    background-color: #325e58; /* Bakgrundsfärg */
+    color: white; /* Textfärg vit */
     border: none;
     border-radius: 50%;
     width: 56px;
@@ -54,7 +59,6 @@ html, body {
 
 .fab button:hover {
     transform: scale(1.1);
-    background-color: #0056b3;
 }
 
 .fab button:focus {
@@ -72,7 +76,8 @@ html, body {
     position: absolute; /* Positionera relativt till den förälderfab */
     bottom: calc(100% + 10px); /* Justera vertikal position */
     right: 0; /* Justera horisontell position */
-    background: white;
+    background: #325e58; /* Bakgrundsfärg */
+    color: white; /* Textfärg vit */
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     padding: 10px;
@@ -92,8 +97,8 @@ html, body {
     text-align: center;
     padding: 10px;
     margin: 5px 0; /* Lägg till lite mellanrum mellan knapparna */
-    background-color: #4CAF50; /* Bakgrundsfärg */
-    color: white; /* Textfärg */
+    background-color: #325e58; /* Bakgrundsfärg */
+    color: white; /* Textfärg vit */
     text-decoration: none;
     border-radius: 5px; /* Rundade hörn */
     transition: background-color 0.3s; /* Smidig övergång för bakgrundsfärg */
@@ -101,7 +106,7 @@ html, body {
 
 /* Ändra bakgrundsfärgen när knappen är i hover-läge */
 .fab-menu a:hover {
-    background-color: #45a049; /* Lite mörkare nyans för hover-effekt */
+    background-color: #2c534d; /* Lite mörkare nyans för hover-effekt */
 }
 
 /* Stilar för den pulserande markören */
