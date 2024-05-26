@@ -146,9 +146,3 @@ html, body {
 .leaflet-marker-icon[src*="marker-icon.png"] {
     display: none;
 }
-
-<style>
-    .leaflet-control-zoom {
-        bottom: 100px; /* Justera detta värde efter behov */
-    }
-</style>
