@@ -19,10 +19,6 @@ html, body {
     color: white; /* Textfärg vit för alla element i #info-panel */
 }
 
-#info-panel {
-    opacity: 1; /* Sätt opacitet till 1 för att ta bort eventuell ärftlig opacitet */
-}
-
 .fab {
     position: absolute;
     bottom: 20px;
