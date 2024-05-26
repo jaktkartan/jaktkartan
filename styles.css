@@ -15,6 +15,29 @@ html, body {
     padding: 0;
 }
 
+#info-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(50, 94, 88, 0.8); /* #325e58 med 80% genomskinlighet */
+    color: white; /* Textfärg vit */
+    padding: 5px 20px;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+
+    /* Förändringar för att visa och dölja panelen */
+    height: 50px;
+    overflow: hidden; /* Dölj innehåll som sträcker sig utöver panelens höjd */
+    transition: height 0.3s ease-in-out; /* Lägg till en smidig övergång vid ändring av höjden */
+}
+
+#info-panel.visible {
+    height: auto; /* Visa allt innehåll när panelen är synlig */
+}
+
 #info-panel * {
     color: white; /* Textfärg vit för alla element i #info-panel */
 }
@@ -131,14 +154,4 @@ html, body {
 /* Dölj standard Leaflet markörsymbol */
 .leaflet-marker-icon[src*="marker-icon.png"] {
     display: none;
-}
-
-/* Endast förändringen i #info-panel bakgrundsfärg och genomskinlighet */
-#info-panel {
-    background-color: rgba(50, 94, 88, 0.8); /* #325e58 med 80% genomskinlighet */
-    padding: 5px 20px;
-    border-bottom: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    text-align: center;
 }
