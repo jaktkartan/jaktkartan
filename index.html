@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="styles.css" /> <!-- Länkar till din styles.css-fil -->
     <script src="https://unpkg.com/suncalc/suncalc.js"></script> <!-- Lägg till SunCalc-biblioteket -->
     <script src="vaderprognos.js"></script> <!-- Länk till din JavaScript-fil -->
+    <style>
+        /* Anpassad CSS för att ändra zoomkontrollernas position */
+        .leaflet-bottom.leaflet-right {
+            bottom: 50px !important;
+            right: 10px !important;
+        }
+    </style>
 </head>
 <body>
     <div id="info-panel">
@@ -72,7 +79,13 @@
             // Här lägger du din kartinitialiseringskod
             console.log("Initializing map...");
 
-            var map = L.map('map').setView([62.0, 15.0], 5);
+            var map = L.map('map', {
+                zoomControl: false // Ta bort standardzoomkontrollerna
+            }).setView([62.0, 15.0], 5);
+
+            L.control.zoom({
+                position: 'bottomright' // Ändra positionen på zoomkontrollerna
+            }).addTo(map);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
