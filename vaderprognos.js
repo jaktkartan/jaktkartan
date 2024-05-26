@@ -85,7 +85,7 @@ const getWeatherForecast = (latitude, longitude) => {
                     if (weather !== currentWeather) {
                         if (currentWeather !== null) {
                             // Slutet av föregående väderintervall
-                            weatherForecast += `${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit' })}-${weatherIntervalEnd.toLocaleTimeString([], { "" })}: ${currentWeather}<br>`;
+                            weatherForecast += `${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit' })}-${weatherIntervalEnd.toLocaleTimeString([], { hour: '2-digit' })}: ${currentWeather}<br>`;
                         }
                         // Början av nytt väderintervall
                         currentWeather = weather;
@@ -99,7 +99,7 @@ const getWeatherForecast = (latitude, longitude) => {
             });
             // Lägg till sista väderintervallet
             if (currentWeather !== null) {
-                weatherForecast += `${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit' })}-${weatherIntervalEnd.toLocaleTimeString([], { "" })}: ${currentWeather}<br>`;
+                weatherForecast += `${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit' })}-${weatherIntervalEnd.toLocaleTimeString([], { hour: '2-digit' })}: ${currentWeather}<br>`;
             }
             document.getElementById('weather-text').innerHTML = weatherForecast;
         })
