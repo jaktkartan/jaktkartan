@@ -83,32 +83,39 @@ html, body {
     display: none;
 }
 
-.fab-menu {
+.fab {
     position: absolute;
-    bottom: 90px;
+    bottom: 20px;
     right: 20px;
     z-index: 1001;
-    background-color: #fff;
-    border-radius: 5px;
+}
+
+.fab button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    padding: 10px;
-    display: none;
-    width: auto; /* Låt bredden vara automatisk för att anpassa sig till innehållet */
-    white-space: nowrap; /* Förhindra radbrytning */
+    cursor: pointer;
+    font-size: 24px; /* Större storlek på "+"-tecknet */
+    transition: transform 0.2s ease-in-out;
 }
 
-.fab:hover .fab-menu {
-    display: block;
+.fab button:hover {
+    transform: scale(1.1);
 }
 
-.fab-menu a {
-    display: block; /* Visa varje knapp på en egen rad */
-    padding: 5px 10px;
-    color: #333;
-    text-decoration: none;
-    transition: background-color 0.3s ease-in-out;
+.fab button:focus {
+    outline: none;
 }
 
-.fab-menu a:hover {
-    background-color: #f0f0f0;
+.fab button span {
+    display: inline-block;
+    line-height: 1;
 }
