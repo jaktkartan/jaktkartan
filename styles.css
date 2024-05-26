@@ -5,10 +5,10 @@ html, body {
 }
 
 #map {
-    height: 100%;
+    height: calc(100% - 50px); /* Justerad höjd för kartan efter panelens höjd */
     width: 100%;
     position: fixed;
-    top: 0;
+    top: 50px; /* Höjden på panelen */
     left: 0;
     z-index: 0;
     margin: 0;
@@ -16,10 +16,11 @@ html, body {
 }
 
 #info-panel {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    height: 50px; /* Panelens ursprungliga höjd */
     background-color: rgba(50, 94, 88, 0.8); /* #325e58 med 80% genomskinlighet */
     color: white; /* Textfärg vit */
     padding: 5px 20px;
@@ -43,7 +44,7 @@ html, body {
 .fab button {
     background-color: #325e58; /* Bakgrundsfärg */
     color: white; /* Textfärg vit */
-    border: 1px solid white; /* Lägg till en tunn vit linje runt knappen */
+    border: none;
     border-radius: 50%;
     width: 56px;
     height: 56px;
@@ -83,15 +84,6 @@ html, body {
     padding: 10px;
 }
 
-.fab-menu img {
-    display: block;
-    width: 50px; /* Ändra bildstorlek efter behov */
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-}
-
-/* Gör knapparna i FAB-menyn snyggare */
 .fab-menu a {
     display: block;
     text-align: center;
@@ -100,6 +92,7 @@ html, body {
     background-color: #325e58; /* Bakgrundsfärg */
     color: white; /* Textfärg vit */
     text-decoration: none;
+    border: 1px solid white; /* Lägg till en vit kant runt knappen */
     border-radius: 5px; /* Rundade hörn */
     transition: background-color 0.3s; /* Smidig övergång för bakgrundsfärg */
 }
