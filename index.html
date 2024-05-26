@@ -39,6 +39,35 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
+        function togglePanel() {
+            console.log("Toggling weather panel...");
+            var weatherInfo = document.getElementById('weather-info');
+            if (weatherInfo.style.display === 'none') {
+                console.log("Showing weather panel...");
+                weatherInfo.style.display = 'block';
+                // Hämta väderprognosen när panelen öppnas
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log("Getting current position...");
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    console.log("Current position:", latitude, longitude);
+                    getWeatherForecast(latitude, longitude);
+                });
+            } else {
+                console.log("Hiding weather panel...");
+                weatherInfo.style.display = 'none';
+            }
+        }
+
+        function toggleFABMenu() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'none' || menu.style.display === '') {
+                menu.style.display = 'block';
+            } else {
+                menu.style.display = 'none';
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             // Här lägger du din kartinitialiseringskod
             console.log("Initializing map...");
@@ -103,7 +132,7 @@
                     pulsingDotMarker.setLatLng([lat, lon]);
                 }
 
-                                // Beräkna soltider och uppdatera tiderna
+                // Beräkna soltider och uppdatera tiderna
                 var times = SunCalc.getTimes(new Date(), lat, lon);
                 var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
                 var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
@@ -135,35 +164,6 @@
                 var lon = position.coords.longitude;
                 var accuracy = position.coords.accuracy;
                 updateUserPosition(lat, lon, accuracy.toFixed(2));
-            }
-
-            function togglePanel() {
-                console.log("Toggling weather panel...");
-                var weatherInfo = document.getElementById('weather-info');
-                if (weatherInfo.style.display === 'none') {
-                    console.log("Showing weather panel...");
-                    weatherInfo.style.display = 'block';
-                    // Hämta väderprognosen när panelen öppnas
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        console.log("Getting current position...");
-                        var latitude = position.coords.latitude;
-                        var longitude = position.coords.longitude;
-                        console.log("Current position:", latitude, longitude);
-                        getWeatherForecast(latitude, longitude);
-                    });
-                } else {
-                    console.log("Hiding weather panel...");
-                    weatherInfo.style.display = 'none';
-                }
-            }
-
-            function toggleFABMenu() {
-                var menu = document.getElementById('menu');
-                if (menu.style.display === 'none' || menu.style.display === '') {
-                    menu.style.display = 'block';
-                } else {
-                    menu.style.display = 'none';
-                }
             }
 
             if (navigator.geolocation) {
@@ -201,3 +201,4 @@
     </script>
 </body>
 </html>
+
