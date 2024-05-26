@@ -15,20 +15,6 @@ html, body {
     padding: 0;
 }
 
-#info-panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(50, 94, 88, 0.8); /* #325e58 med 80% genomskinlighet */
-    color: white; /* Textfärg vit */
-    padding: 5px 20px;
-    border-bottom: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    text-align: center;
-}
-
 #info-panel * {
     color: white; /* Textfärg vit för alla element i #info-panel */
 }
