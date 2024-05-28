@@ -81,7 +81,7 @@ html, body {
 .tab-pane {
     width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
 }
-
+/* Stilar för panelen allra högst upp på sidan */
 #info-panel {
     position: absolute;
     top: 0;
