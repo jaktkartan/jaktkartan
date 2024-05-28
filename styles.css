@@ -49,8 +49,8 @@ html, body {
 }
 
 #tab-content {
-    position: absolute;
-    bottom: 100%; /* Placera tab-innehållet ovanför bottom-panelen */
+    position: fixed;
+    bottom: calc(100% + 10px); /* Placera tab-innehållet ovanför bottom-panelen */
     left: 0;
     right: 0;
     background-color: white;
