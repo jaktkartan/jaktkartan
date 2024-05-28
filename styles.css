@@ -49,12 +49,12 @@ html, body {
     height: 55px;
 }
 
-#tab-content {
+#tab-content { /* är detta för nedre tabellen? */
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 120px; /* Anpassa höjden efter behov */
+    height: 220px; /* Anpassa höjden efter behov */
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
