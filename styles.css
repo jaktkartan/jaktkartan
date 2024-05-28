@@ -40,6 +40,7 @@ html, body {
 .panel-button {
     margin-top: 1px; /* Justera avståndet från bottenpanelens övre padding */
     margin-right: 1px; /* Lägg till marginal mellan bilderna */
+    border: none; /* Ta bort kantlinjen */
 }
 
 .panel-button:last-child {
