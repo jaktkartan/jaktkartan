@@ -40,7 +40,8 @@ html, body {
 .panel-button {
     margin-top: 1px; /* Justera avståndet från bottenpanelens övre padding */
     margin-right: 1px; /* Lägg till marginal mellan bilderna */
-    border: none; /* Ta bort kantlinjen */
+    border: 1px solid rgb(50, 94, 88); /* Lägga till en kantlinje */
+    border-radius: 25px; /* Ange ett värde för rundning av hörnen */
 }
 
 .panel-button:last-child {
