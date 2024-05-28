@@ -19,11 +19,11 @@ html, body {
 }
 
 #map {
-    flex: 1; /* Fyller utrymmet mellan info-panel och bottom-panel */
-    width: 100%;
+    flex: 1;
     position: relative;
     z-index: 0;
-    overflow: hidden; /* Förhindrar att kartan orsakar scrollning */
+    overflow: hidden;
+    height: calc(100vh - 110px); /* Subtrahera höjden på den nedre panelen */
 }
 
 #bottom-panel {
