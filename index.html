@@ -30,18 +30,6 @@
             </div>
         </div>
     </div>
-    <div class="fab">
-        <button onclick="toggleFABMenu()">+</button>
-        <div class="fab-menu" id="menu">
-            <img src="bilder/logo vit.png" alt="Menu Image" style="width: 100%; padding: 10px 0;">
-            <a href="https://timothylevin.github.io/Jaktkartan_Daggdjur/#5/62.989/17.564">Allmän jakt: Däggdjur</a>
-            <a href="https://timothylevin.github.io/Jaktkartan_fagel/#5/62.989/17.564">Allmän jakt: Fågel</a>
-            <a href="https://timothylevin.github.io/Algjaktskarta_jakttider/#5/63.005/18.325">Älgjaktskartan</a>
-            <hr>
-            <a href="https://jaktkartan.se/Jaktbart-idag/">Jaktbart idag</a>
-            <a href="https://jaktkartan.se/Kaliberkrav/">Kaliberkrav</a>
-        </div>
-    </div>
     <div id="map"></div>
     
     <div id="bottom-panel">
@@ -62,7 +50,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        function togglePanel() {m
+        function togglePanel() {
             console.log("Toggling weather panel...");
             var weatherInfo = document.getElementById('weather-info');
             if (weatherInfo.style.display === 'none') {
@@ -78,15 +66,6 @@
             } else {
                 console.log("Hiding weather panel...");
                 weatherInfo.style.display = 'none';
-            }
-        }
-
-        function toggleFABMenu() {
-            var menu = document.getElementById('menu');
-            if (menu.style.display === 'none' || menu.style.display === '') {
-                menu.style.display = 'block';
-            } else {
-                menu.style.display = 'none';
             }
         }
 
@@ -148,7 +127,7 @@
                 popupAnchor: [0, 0],
             });
 
-            function createPulsingCircle(lat, lon) {
+                        function createPulsingCircle(lat, lon) {
                 var divIcon = L.divIcon({
                     className: 'pulsing-circle',
                     iconSize: [12, 12],
