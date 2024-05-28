@@ -4,12 +4,7 @@ html, body {
     height: 100%;
     display: flex;
     flex-direction: column;
-}
-
-#container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    overflow: hidden; /* Förhindrar scrollning på body */
 }
 
 #info-panel {
@@ -28,6 +23,7 @@ html, body {
     width: 100%;
     position: relative;
     z-index: 0;
+    overflow: hidden; /* Förhindrar att kartan orsakar scrollning */
 }
 
 #bottom-panel {
