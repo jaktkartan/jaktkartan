@@ -38,7 +38,7 @@ html, body {
 }
 
 .panel-button {
-    margin-top: 1px; /* Justera avståndet från bottenpanelens övre kant */
+    margin-top: 1px; /* Justera avståndet från bottenpanelens övre padding */
     margin-right: 0.5px; /* Lägg till marginal mellan bilderna */
 }
 
