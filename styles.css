@@ -198,9 +198,9 @@ html, body {
 }
 
 /* Media queries för att justera stilar för mobila enheter */
-@media (max-height: 700px) {
+@media (max-width: 768px) {
     #map {
-        height: calc(100% - 100px); /* Mindre höjd för kartan på kortare skärmar */
+        height: calc(100% - 80px); /* Mindre höjd för kartan på mobila enheter */
     }
 
     .fab {
