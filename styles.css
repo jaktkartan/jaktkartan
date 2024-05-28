@@ -69,6 +69,7 @@ html, body {
 
 .tab-pane {
     display: none;
+    width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
 }
 
 #info-panel {
