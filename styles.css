@@ -49,8 +49,8 @@ html, body {
 }
 
 #tab-content {
-    position: fixed;
-    bottom: calc(80% + 10px); /* Lägg till lite extra utrymme under kartan */
+    position: absolute;
+    bottom: 100%; /* Placera tab-innehållet ovanför bottom-panelen */
     left: 0;
     right: 0;
     background-color: white;
@@ -58,6 +58,8 @@ html, body {
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
     display: none; /* Initially hidden */
     z-index: 1000;
+    transform: translateY(-100%); /* Flytta tab-innehållet uppåt med motsatt höjd på bottom-panelen */
+    transition: transform 0.3s ease; /* Lägg till en övergångseffekt för smidig animering */
 }
 
 .tab-pane {
