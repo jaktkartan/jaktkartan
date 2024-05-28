@@ -43,7 +43,7 @@ html, body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100px;
+    height: 125px;
 }
 
 .panel-button {
@@ -57,7 +57,7 @@ html, body {
 .panel-button img {
     max-width: 100%; /* Låt bilderna ta upp all tillgänglig bredd inom knappen */
     height: auto; /* Låt höjden anpassas automatiskt */
-    max-height: 100%; /* Förhindra att bilderna överstiger knappens höjd */
+    max-height: 90%; /* Sätt maxhöjd till 90% av bottenpanelens höjd */
     object-fit: contain; /* Förhindra att bilderna blir förvrängda */
 }
 
