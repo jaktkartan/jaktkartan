@@ -2,7 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden; /* Hindra scrollning på hela sidan */
+    overflow-x: hidden; /* Förhindra sidoskrollning */
 }
 
 #map {
@@ -14,7 +14,7 @@ html, body {
     z-index: 0;
     margin: 0;
     padding: 0;
-    overflow: auto; /* Aktivera scrollning endast för kartan */
+    overflow: hidden; /* Förhindra vertikal skrollning vid kartan */
 }
 
 #info-panel {
@@ -42,6 +42,7 @@ html, body {
     padding: 10px;
     z-index: 1000;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    width: 100%; /* Fyll hela bredden på mobila enheter */
 }
 
 .panel-button {
