@@ -35,6 +35,7 @@ html, body {
     padding: 10px;
     z-index: 1000;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    margin-top: -20px; /* Justera bilderna i panelen uppåt */
 }
 
 .panel-button {
