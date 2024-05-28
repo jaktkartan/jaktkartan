@@ -39,13 +39,13 @@ html, body {
 
 .panel-button {
     margin-top: 1px; /* Justera avståndet från bottenpanelens övre padding */
-    margin-right: 1px; /* Lägg till marginal mellan bilderna */
+    margin-right: 3px; /* Lägg till marginal mellan bilderna */
     border: 1px solid rgb(50, 94, 88); /* Lägga till en kantlinje */
     border-radius: 5px; /* Ange ett värde för rundning av hörnen */
 }
 
 .panel-button:last-child {
-    margin-right: 1; /* Ta bort marginalen från den sista bilden */
+    margin-right: 3px; /* Ta bort marginalen från den sista bilden */
 }
 
 .panel-button img {
