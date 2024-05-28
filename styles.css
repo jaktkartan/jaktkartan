@@ -22,7 +22,7 @@ html, body {
 }
 
 #bottom-panel {
-    height: 200px; /* Höjden är inställd på 200px */
+    height: 110px;
     position: fixed;
     bottom: 0;
     left: 0;
