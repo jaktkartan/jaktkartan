@@ -2,10 +2,11 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    overflow: hidden; /* Förhindra skrollning */
 }
 
 #map {
-    height: 100%;
+    height: calc(100% - 60px); /* Justera höjden så att kartan inte täcker bottenpanelen */
     width: 100%;
     position: fixed;
     top: 0;
@@ -144,5 +145,54 @@ html, body {
 
 /* Dölj standard Leaflet markörsymbol */
 .leaflet-marker-icon[src*="marker-icon.png"] {
+    display: none;
+}
+
+/* Anpassad CSS för att ändra zoomkontrollernas position */
+.leaflet-top.leaflet-left {
+    top: 80px !important;
+    left: 10px !important;
+}
+
+#bottom-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.panel-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0 5px;
+}
+
+.panel-button img {
+    width: 55px;
+    height: 55px;
+}
+
+#tab-content {
+    position: fixed;
+    bottom: 60px; /* Just above the bottom panel */
+    left: 0;
+    right: 0;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    display: none; /* Initially hidden */
+    z-index: 1000;
+    max-height: calc(100% - 60px); /* Prevent overflow */
+    overflow-y: auto; /* Allow vertical scroll if needed */
+}
+
+.tab-pane {
     display: none;
 }
