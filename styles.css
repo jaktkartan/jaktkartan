@@ -12,7 +12,7 @@ html, body {
 }
 
 #map {
-    height: 100%;
+    height: calc(100% - 120px); /* Justerad höjd för att rymma bottenpanelen */
     width: 100%;
     position: fixed;
     top: 0;
@@ -51,7 +51,7 @@ html, body {
 
 #tab-content {
     position: absolute;
-    bottom: 0px; 
+    bottom: 0;
     left: 0;
     right: 0;
     height: 120px; /* Anpassa höjden efter behov */
@@ -59,7 +59,7 @@ html, body {
     color: rgb(50, 94, 88);
     padding: 10px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    display: none; /* Initially hidden */
+    display: none; /* Initialt dold */
     z-index: 1000;
 }
 
@@ -121,3 +121,4 @@ html, body {
 .leaflet-marker-icon[src*="marker-icon.png"] {
     display: none;
 }
+
