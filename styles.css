@@ -22,7 +22,7 @@ html, body {
 }
 
 #bottom-panel {
-    height: 150px;
+    height: 120px;
     position: fixed;
     bottom: 0;
     left: 0;
