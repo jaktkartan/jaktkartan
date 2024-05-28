@@ -30,7 +30,7 @@ html, body {
     right: 0;
     background-color: rgba(255, 255, 255, 0.9);
     display: flex;
-    justify-content: space-around;
+    justify-content: center; /* Centrera barnen horisontellt från mitten */
     align-items: flex-start; /* Justera vertikalt till flex-start (högst upp) */
     padding: 10px;
     z-index: 1000;
