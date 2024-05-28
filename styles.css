@@ -29,36 +29,38 @@ html, body {
 }
 
 #bottom-panel {
-    height: 125px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(255, 255, 255, 0.9);
     display: flex;
     justify-content: center; /* Centrera barnen horisontellt från mitten */
-    align-items: flex-start; /* Justera vertikalt till flex-start (högst upp) */
+    align-items: center; /* Centrera barnen vertikalt */
+    flex-wrap: nowrap; /* Förhindra ombrytning av innehållet */
+    overflow: hidden; /* Dölj överflödigt innehåll om det går utanför */
     padding: 3px;
     z-index: 1000;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
     width: 100%; /* Använd relativ bredd */
+    background-color: rgba(255, 255, 255, 0.9);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
 }
 
 .panel-button {
-    margin-top: 1px; /* Justera avståndet från bottenpanelens övre padding */
-    margin-right: 3px; /* Lägg till marginal mellan bilderna */
-    border: 1px solid rgb(50, 94, 88); /* Lägga till en kantlinje */
-    border-radius: 5px; /* Ange ett värde för rundning av hörnen */
-}
-
-.panel-button:last-child {
-    margin-right: 3px; /* Ta bort marginalen från den sista bilden */
+    flex: 1; /* Låt knapparna ta upp lika mycket plats */
+    margin: 0 3px; /* Lägg till horisontell marginal mellan knapparna */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .panel-button img {
-    width: 40px; /* Justera bredden efter behov */
+    max-width: 100%; /* Låt bilderna ta upp all tillgänglig bredd inom knappen */
     height: auto; /* Låt höjden anpassas automatiskt */
+    max-height: 100%; /* Förhindra att bilderna överstiger knappens höjd */
+    object-fit: contain; /* Förhindra att bilderna blir förvrängda */
 }
+
 /* Stilar för informationen osm kommer upp efter man tryckt på en knapp i bottenmenyn */
 #tab-content { 
     position: absolute;
