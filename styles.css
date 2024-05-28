@@ -38,7 +38,7 @@ html, body {
 }
 
 .panel-button {
-    margin-top: 2px; /* Justera avståndet från bottenpanelens övre kant */
+    margin-top: 1px; /* Justera avståndet från bottenpanelens övre kant */
 }
 
 .panel-button img {
