@@ -1,78 +1,30 @@
-html, body {
-    margin: 0;
+.panel-button {
+    background: none;
+    border: none;
     padding: 0;
-    height: 100%;
+    margin: 0 5px;
 }
 
-#map {
-    height: calc(100% - 100px);
-    width: 100%;
+.panel-button img {
+    width: 55px;
+    height: 55px;
+}
+
+#tab-content {
     position: fixed;
-    top: 0;
+    bottom: 60px; /* Just above the bottom panel */
     left: 0;
-    z-index: 0;
-    margin: 0;
-    padding: 0;
-}
-
-#info-panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(50, 94, 88, 0.8); /* #325e58 med 80% genomskinlighet */
-    color: white; /* Textfärg vit */
-    padding: 5px 20px;
-    border-bottom: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    right: 0;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    display: none; /* Initially hidden */
     z-index: 1000;
-    text-align: center;
 }
 
-#info-panel * {
-    color: white; /* Textfärg vit för alla element i #info-panel */
+.tab-pane {
+    display: none;
 }
-
-#bottom-panel {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(255, 255, 255, 0.9);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px;
-            z-index: 1000;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .panel-button {
-            background: none;
-            border: none;
-            padding: 0;
-            margin: 0 5px;
-        }
-
-        .panel-button img {
-            width: 55px;
-            height: 55px;
-        }
-
-        #tab-content {
-            position: fixed;
-            bottom: 60px; /* Just above the bottom panel */
-            left: 0;
-            right: 0;
-            background-color: white;
-            padding: 10px;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-            display: none; /* Initially hidden */
-            z-index: 1000;
-        }
-
-        .tab-pane {
-            display: none;
-        }
 
 .fab {
     position: absolute;
