@@ -1,85 +1,200 @@
-body, html {
-    height: 100%;
+/* Anpassad CSS för att ändra zoomkontrollernas position */
+.leaflet-top.leaflet-left {
+    top: 80px !important;
+    left: 10px !important;
+}
+
+html, body {
     margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
 }
 
 #map {
-    height: calc(100% - 100px);
-}
-
-#info-panel {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1000;
-    background: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #bottom-panel {
-    position: absolute;
+    height: 120px;
+    position: fixed;
     bottom: 0;
     left: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.9);
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.9);
     display: flex;
     justify-content: space-around;
-    padding: 10px 0;
+    align-items: flex-start; /* Justera vertikalt till flex-start (högst upp) */
+    padding: 10px;
     z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .panel-button {
     background: none;
     border: none;
-    outline: none;
-    cursor: pointer;
+    padding: 0;
+    margin: 0 5px;
 }
 
 .panel-button img {
-    height: 50px;
-    width: 50px;
+    width: 55px;
+    height: 55px;
 }
 
 #tab-content {
     position: absolute;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    width: 80%;
+    bottom: 0px; 
+    left: 0;
+    right: 0;
+    height: 120px; /* Anpassa höjden efter behov */
+    background-color: white;
+    color: rgb(50, 94, 88);
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    display: none; /* Initially hidden */
     z-index: 1000;
-    padding: 20px;
-    display: none;
 }
 
 .tab-pane {
     display: none;
 }
 
-.pulsing-circle {
+#info-panel {
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background-color: rgba(0, 255, 0, 0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: rgb(50, 94, 88);
+    padding: 5px 20px;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+}
+
+#info-panel * {
+    color: rgb(50, 94, 88);
+}
+
+.fab {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001;
+}
+
+.fab button {
+    background-color: #325e58; /* Bakgrundsfärg */
+    color: white; /* Textfärg vit */
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    font-size: 24px; /* Större storlek på "+"-tecknet */
+    transition: transform 0.2s ease-in-out;
+}
+
+.fab button:hover {
+    transform: scale(1.1);
+}
+
+.fab button:focus {
+    outline: none;
+}
+
+.fab button span {
+    display: inline-block;
+    line-height: 1;
+}
+
+/* Lägg till stilar för att inkludera en bild i fab-menyn */
+.fab-menu {
+    display: none; /* Dölj menyn från början */
+    position: absolute; /* Positionera relativt till den förälderfab */
+    bottom: calc(100% + 10px); /* Justera vertikal position */
+    right: 0; /* Justera horisontell position */
+    background: #325e58; /* Bakgrundsfärg */
+    color: white; /* Textfärg vit */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+}
+
+.fab-menu img {
+    display: block;
+    width: 50px; /* Ändra bildstorlek efter behov */
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+/* Gör knapparna i FAB-menyn snyggare */
+.fab-menu a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    margin: 5px 0; /* Lägg till lite mellanrum mellan knapparna */
+    background-color: #325e58; /* Bakgrundsfärg */
+    color: white; /* Textfärg vit */
+    text-decoration: none;
+    border-radius: 5px; /* Rundade hörn */
+    transition: background-color 0.3s; /* Smidig övergång för bakgrundsfärg */
+    border: 1px solid white; /* Vit kant runt knapparna */
+}
+
+/* Ändra bakgrundsfärgen när knappen är i hover-läge */
+.fab-menu a:hover {
+    background-color: #2c534d; /* Lite mörkare nyans för hover-effekt */
+}
+
+/* Stilar för den pulserande markören */
+.pulsing-circle {
+    width: 8px;
+    height: 8px;
+    background: blue;
+    border-radius: 50%;
+    position: relative;
+}
+
+.pulsing-circle::before {
+    content: '';
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    background: rgba(0, 0, 255, 0.5);
     border-radius: 50%;
     animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
     0% {
-        transform: scale(1);
+        transform: scale(0.5);
         opacity: 1;
-    }
-    50% {
-        transform: scale(1.5);
-        opacity: 0.5;
     }
     100% {
-        transform: scale(1);
-        opacity: 1;
+        transform: scale(2);
+        opacity: 0;
     }
+}
+
+/* Dölj standard Leaflet markörsymbol */
+.leaflet-marker-icon[src*="marker-icon.png"] {
+    display: none;
 }
