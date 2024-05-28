@@ -32,7 +32,7 @@ html, body {
     display: flex;
     justify-content: center; /* Centrera barnen horisontellt från mitten */
     align-items: flex-start; /* Justera vertikalt till flex-start (högst upp) */
-    padding: 10px;
+    padding: 3px;
     z-index: 1000;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
 }
