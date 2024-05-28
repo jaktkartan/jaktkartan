@@ -51,10 +51,10 @@ html, body {
 
 #tab-content {
     position: absolute;
-    bottom: 130px; /* Fast höjd precis ovanför bottom-panel */
+    bottom: 0px; 
     left: 0;
     right: 0;
-    height: 100px; /* Anpassa höjden efter behov */
+    height: 120px; /* Anpassa höjden efter behov */
     background-color: white;
     padding: 10px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
