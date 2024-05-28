@@ -2,11 +2,10 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden; /* Förhindra skrollning */
 }
 
 #map {
-    height: calc(100% - 60px); /* Justera höjden så att kartan inte täcker bottenpanelen */
+    height: 100%;
     width: 100%;
     position: fixed;
     top: 0;
@@ -146,77 +145,4 @@ html, body {
 /* Dölj standard Leaflet markörsymbol */
 .leaflet-marker-icon[src*="marker-icon.png"] {
     display: none;
-}
-
-/* Anpassad CSS för att ändra zoomkontrollernas position */
-.leaflet-top.leaflet-left {
-    top: 80px !important;
-    left: 10px !important;
-}
-
-#bottom-panel {
-    position: fixed;
-    bottom: env(safe-area-inset-bottom, 0); /* Justera för att ta hänsyn till safe area på mobila enheter */
-    left: 0;
-    right: 0;
-    background-color: rgba(255, 255, 255, 0.9);
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    z-index: 1000;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.panel-button {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0 5px;
-}
-
-.panel-button img {
-    width: 55px;
-    height: 55px;
-}
-
-#tab-content {
-    position: fixed;
-    bottom: calc(60px + env(safe-area-inset-bottom, 0)); /* Just above the bottom panel */
-    left: 0;
-    right: 0;
-    background-color: white;
-    padding: 10px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    display: none; /* Initially hidden */
-    z-index: 1000;
-    max-height: calc(100% - 60px); /* Prevent overflow */
-    overflow-y: auto; /* Allow vertical scroll if needed */
-}
-
-.tab-pane {
-    display: none;
-}
-
-/* Media queries för att justera stilar för mobila enheter */
-@media (max-width: 768px) {
-    #map {
-        height: calc(100% - 80px); /* Mindre höjd för kartan på mobila enheter */
-    }
-
-    .fab {
-        bottom: 10px; /* Justera FAB-knappens position */
-    }
-
-    .fab-menu {
-        bottom: calc(100% + 5px); /* Justera FAB-menyns position */
-    }
-
-    #bottom-panel {
-        padding: 5px; /* Minska padding i bottenpanelen */
-    }
-
-    .panel-button img {
-        width: 45px; /* Minska storleken på bilderna i bottenpanelen */
-        height: 45px; /* Minska storleken på bilderna i bottenpanelen */
-    }
 }
