@@ -8,20 +8,19 @@ html, body {
 
 /* Kartan ska ta upp allt utom bottenpanelens höjd */
 #map {
-    height: calc(100% - 100px);
+    height: calc(100vh - 200px); /* Använd viewport height minus höjden på både topp- och bottenpanelen */
     width: 100%;
     position: fixed;
-    top: 0;
+    top: 100px; /* Justera positionen av kartan baserat på höjden på toppanelen */
     left: 0;
     z-index: 0;
     margin: 0;
     padding: 0;
-    overflow: auto; /* Aktivera scrollning endast för kartan */
+    overflow: hidden; /* Dölj sidscrollning */
 }
 
-/* Översta infopanelen */
 #info-panel {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -34,7 +33,6 @@ html, body {
     text-align: center;
 }
 
-/* Navigeringsknappar för att öppna olika flikar i bottenpanelen */
 #bottom-panel {
     position: fixed;
     bottom: 0;
@@ -46,6 +44,7 @@ html, body {
     padding: 10px;
     z-index: 1000;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    width: 100%; /* Använd hela skärmbredden */
 }
 
 /* Utseendet på flikknapparna */
