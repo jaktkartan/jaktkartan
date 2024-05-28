@@ -30,19 +30,15 @@ html, body {
     right: 0;
     background-color: rgba(255, 255, 255, 0.9);
     display: flex;
-    justify-content: center; /* Centrera barnen horisontellt från mitten */
-    align-items: center; /* Centrera barnen vertikalt */
+    justify-content: space-around;
+    align-items: flex-start; /* Justera vertikalt till flex-start (högst upp) */
     padding: 10px;
     z-index: 1000;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    margin-top: -20px; /* Justera bilderna i panelen uppåt */
 }
 
 .panel-button {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0 5px;
+    margin-top: 5px; /* Justera avståndet från bottenpanelens övre kant */
 }
 
 .panel-button img {
