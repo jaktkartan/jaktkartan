@@ -30,18 +30,6 @@
             </div>
         </div>
     </div>
-    <div class="fab">
-        <button onclick="toggleFABMenu()">+</button>
-        <div class="fab-menu" id="menu">
-            <img src="bilder/logo vit.png" alt="Menu Image" style="width: 100%; padding: 10px 0;">
-            <a href="https://timothylevin.github.io/Jaktkartan_Daggdjur/#5/62.989/17.564">Allmän jakt: Däggdjur</a>
-            <a href="https://timothylevin.github.io/Jaktkartan_fagel/#5/62.989/17.564">Allmän jakt: Fågel</a>
-            <a href="https://timothylevin.github.io/Algjaktskarta_jakttider/#5/63.005/18.325">Älgjaktskartan</a>
-            <hr>
-            <a href="https://jaktkartan.se/Jaktbart-idag/">Jaktbart idag</a>
-            <a href="https://jaktkartan.se/Kaliberkrav/">Kaliberkrav</a>
-        </div>
-    </div>
     <div id="map"></div>
     
     <div id="bottom-panel">
@@ -51,9 +39,18 @@
         <button class="panel-button" onclick="openTab('tab4')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Ammunition"></button>
         <button class="panel-button" onclick="openTab('tab5')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
     </div>
+    
     <div id="tab-content" style="display:none;">
         <div id="tab1" class="tab-pane">Upptäck innehåll här...</div>
-        <div id="tab2" class="tab-pane">Kartor innehåll här...</div>
+        <div id="tab2" class="tab-pane">
+            <img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/logo vit.png" alt="Menu Image" style="width: 100%; padding: 10px 0;">
+            <a href="https://timothylevin.github.io/Jaktkartan_Daggdjur/#5/62.989/17.564">Allmän jakt: Däggdjur</a>
+            <a href="https://timothylevin.github.io/Jaktkartan_fagel/#5/62.989/17.564">Allmän jakt: Fågel</a>
+            <a href="https://timothylevin.github.io/Algjaktskarta_jakttider/#5/63.005/18.325">Älgjaktskartan</a>
+            <hr>
+            <a href="https://jaktkartan.se/Jaktbart-idag/">Jaktbart idag</a>
+            <a href="https://jaktkartan.se/Kaliberkrav/">Kaliberkrav</a>
+        </div>
         <div id="tab3" class="tab-pane">Jaktbart idag innehåll här...</div>
         <div id="tab4" class="tab-pane">Kaliberkrav innehåll här...</div>
         <div id="tab5" class="tab-pane">Jaktkollen innehåll här...</div>
@@ -78,15 +75,6 @@
             } else {
                 console.log("Hiding weather panel...");
                 weatherInfo.style.display = 'none';
-            }
-        }
-
-        function toggleFABMenu() {
-            var menu = document.getElementById('menu');
-            if (menu.style.display === 'none' || menu.style.display === '') {
-                menu.style.display = 'block';
-            } else {
-                menu.style.display = 'none';
             }
         }
 
@@ -171,11 +159,12 @@
                         stroke: false
                     }).addTo(map);
                 } else {
-                    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
+                    accuracyCircle.setLatLng([lat, lon]);
+                    accuracyCircle.setRadius(accuracy);
                 }
 
                 if (!userMarker) {
-                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+                    userMarker = L.marker([lat, lon]).addTo(map);
                 } else {
                     userMarker.setLatLng([lat, lon]);
                 }
@@ -185,68 +174,45 @@
                 } else {
                     pulsingDotMarker.setLatLng([lat, lon]);
                 }
+            }
+
+            function onLocationFound(e) {
+                var lat = e.latitude;
+                var lon = e.longitude;
+                var accuracy = e.accuracy;
+
+                updateUserPosition(lat, lon, accuracy);
 
                 var times = SunCalc.getTimes(new Date(), lat, lon);
-                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunriseSpan = document.getElementById('sunrise');
-                var sunsetSpan = document.getElementById('sunset');
 
-                sunriseSpan.innerHTML = sunrise;
-                sunsetSpan.innerHTML = sunset;
+                var sunrise = times.sunrise;
+                var sunset = times.sunset;
+
+                var sunriseElement = document.getElementById('sunrise');
+                var sunsetElement = document.getElementById('sunset');
+
+                sunriseElement.innerHTML = "Soluppgång: " + sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                sunsetElement.innerHTML = "Solnedgång: " + sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                var sunriseLatLng = [lat + 0.01, lon];
+                var sunsetLatLng = [lat - 0.01, lon];
+
+                L.marker(sunriseLatLng, { icon: sunriseIcon }).addTo(map)
+                    .bindPopup("Soluppgång: " + sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
+                    .openPopup();
+
+                L.marker(sunsetLatLng, { icon: sunsetIcon }).addTo(map)
+                    .bindPopup("Solnedgång: " + sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
+                    .openPopup();
             }
 
-            function getPositionFromIP() {
-                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                    .then(function (response) {
-                        var loc = response.data.loc.split(',');
-                        var lat = parseFloat(loc[0]);
-                        var lon = parseFloat(loc[1]);
-                        updateUserPosition(lat, lon, "Unknown");
-                    })
-                    .catch(function (error) {
-                        console.log("IP Geolocation failed: " + error.message);
-                    });
+            function onLocationError(e) {
+                console.error("Location error:", e.message);
             }
 
-            function handleGeolocation(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-                var accuracy = position.coords.accuracy;
-                updateUserPosition(lat, lon, accuracy.toFixed(2));
-            }
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                        getPositionFromIP();
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-
-                navigator.geolocation.watchPosition(
-                    function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-            } else {
-                map.setView([62.0, 15.0], 5);
-            }
+            map.locate({ setView: true, maxZoom: 16, watch: true });
+            map.on('locationfound', onLocationFound);
+            map.on('locationerror', onLocationError);
         });
     </script>
 </body>
