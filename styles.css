@@ -156,7 +156,7 @@ html, body {
 
 #bottom-panel {
     position: fixed;
-    bottom: 0;
+    bottom: env(safe-area-inset-bottom, 0); /* Justera för att ta hänsyn till safe area på mobila enheter */
     left: 0;
     right: 0;
     background-color: rgba(255, 255, 255, 0.9);
@@ -181,7 +181,7 @@ html, body {
 
 #tab-content {
     position: fixed;
-    bottom: 60px; /* Just above the bottom panel */
+    bottom: calc(60px + env(safe-area-inset-bottom, 0)); /* Just above the bottom panel */
     left: 0;
     right: 0;
     background-color: white;
