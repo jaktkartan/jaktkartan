@@ -1,3 +1,49 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Hindra scrollning på hela sidan */
+}
+
+#map {
+    height: calc(100% - 100px);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    margin: 0;
+    padding: 0;
+    overflow: auto; /* Aktivera scrollning endast för kartan */
+}
+
+#info-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(50, 94, 88, 0.8); /* #325e58 med 80% genomskinlighet */
+    color: white; /* Textfärg vit */
+    padding: 5px 20px;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+}
+
+#bottom-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+}
+
 .panel-button {
     background: none;
     border: none;
