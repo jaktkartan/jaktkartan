@@ -59,7 +59,7 @@ html, body {
     width: 40px; /* Justera bredden efter behov */
     height: auto; /* Låt höjden anpassas automatiskt */
 }
-
+/* Stilar för informationen osm kommer upp efter man tryckt på en knapp i bottenmenyn */
 #tab-content { 
     position: absolute;
     bottom: 0;
