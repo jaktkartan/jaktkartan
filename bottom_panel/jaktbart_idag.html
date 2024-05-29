@@ -36,10 +36,7 @@
         .iframe-container iframe {
             width: 100%;
             height: 500px; /* Justera höjden efter behov */
-            border: none; /* Ta bort ramen runt iframen */
-        }
-        .irs-header {
-            display: none !important; /* Dölj överskriften på Google Sheets */
+            border: 1px solid #ccc;
         }
     </style>
 
@@ -51,6 +48,18 @@
             iframe.src = url;
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('scrolling', 'no');
+
+            // Lägg till en händelselyssnare för att dölja onödigt innehåll efter att iframen har laddats
+            iframe.onload = function() {
+                // Dölj rubriken längst upp
+                iframe.contentDocument.querySelector('.docs-title-menu').style.display = 'none';
+                // Dölj den sista raden med metadata
+                var lastRow = iframe.contentDocument.querySelector('body > div:last-child');
+                if (lastRow) {
+                    lastRow.style.display = 'none';
+                }
+            };
+
             iframeContainer.innerHTML = '';
             iframeContainer.appendChild(iframe);
             countyButtons.style.display = 'none'; // Dölj knappen när iframe visas
@@ -62,7 +71,7 @@
     <h1>Jaktbart Idag</h1>
     <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
-    <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
+        <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
         <!-- Lägg till liknande knappar för andra län här -->
     </div>
     <div class="iframe-container" id="iframe-container">
