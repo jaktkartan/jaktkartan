@@ -39,17 +39,6 @@
             border: 1px solid #ccc;
         }
     </style>
-</head>
-<body>
-    <h1>Jaktbart Idag</h1>
-    <p>Information om vad som är jaktbart idag i olika län.</p>
-    <div id="county-buttons">
-        <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=false&widget=false&headers=false&chrome=false')">Blekinge län</a>
-        <!-- Lägg till liknande knappar för andra län här -->
-    </div>
-    <div class="iframe-container" id="iframe-container">
-        <!-- iframe visas här -->
-    </div>
 
     <script>
         function showIframe(url) {
@@ -65,5 +54,16 @@
             iframeContainer.style.display = 'block';
         }
     </script>
+</head>
+<body>
+    <h1>Jaktbart Idag</h1>
+    <p>Information om vad som är jaktbart idag i olika län.</p>
+    <div id="county-buttons">
+        <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=false&widget=false&headers=false&chrome=false')">Blekinge län</a>
+        <!-- Lägg till liknande knappar för andra län här -->
+    </div>
+    <div class="iframe-container" id="iframe-container">
+        <!-- iframe visas här -->
+    </div>
 </body>
 </html>
