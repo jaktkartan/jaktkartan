@@ -7,20 +7,28 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: rgb(50, 94, 88);
+            padding: 20px;
+        }
         .county-button {
-            display: inline-block;
-            margin: 5px;
-            padding: 10px 15px;
-            font-size: 16px;
-            color: white;
-            background-color: #007bff;
-            border: none;
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 18px;
+            color: rgb(50, 94, 88);
+            background-color: #f0f0f0;
+            border: 2px solid rgb(50, 94, 88);
             border-radius: 5px;
             text-decoration: none;
             text-align: center;
+            transition: background-color 0.3s, color 0.3s;
         }
         .county-button:hover {
-            background-color: #0056b3;
+            background-color: rgb(50, 94, 88);
+            color: white;
         }
     </style>
 </head>
