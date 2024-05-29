@@ -4,10 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        .county-button {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .county-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h1>Jaktbart Idag</h1>
-    <p>Information om vad som är jaktbart idag.</p>
-    <!-- Lägg till mer innehåll här -->
+    <p>Information om vad som är jaktbart idag i olika län.</p>
+    <div id="county-buttons">
+        <a href="#" class="county-button">Blekinge län</a>
+        <a href="#" class="county-button">Dalarnas län</a>
+        <a href="#" class="county-button">Gotlands län</a>
+        <a href="#" class="county-button">Gävleborgs län</a>
+        <a href="#" class="county-button">Hallands län</a>
+        <a href="#" class="county-button">Jämtlands län</a>
+        <a href="#" class="county-button">Jönköpings län</a>
+        <a href="#" class="county-button">Kalmar län</a>
+        <a href="#" class="county-button">Kronobergs län</a>
+        <a href="#" class="county-button">Norrbottens län</a>
+        <a href="#" class="county-button">Skåne län</a>
+        <a href="#" class="county-button">Stockholms län</a>
+        <a href="#" class="county-button">Södermanlands län</a>
+        <a href="#" class="county-button">Uppsala län</a>
+        <a href="#" class="county-button">Värmlands län</a>
+        <a href="#" class="county-button">Västerbottens län</a>
+        <a href="#" class="county-button">Västernorrlands län</a>
+        <a href="#" class="county-button">Västmanlands län</a>
+        <a href="#" class="county-button">Västra Götalands län</a>
+        <a href="#" class="county-button">Örebro län</a>
+        <a href="#" class="county-button">Östergötlands län</a>
+    </div>
 </body>
 </html>
