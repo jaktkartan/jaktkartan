@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            color: rgb(50, 94, 88);
-            padding: 20px;
-        }
+        /* Stilsättning för iframe-container */
         #iframe-container {
             display: none;
             margin-top: 20px;
         }
+        /* Stilsättning för iframe */
         #sheet-iframe {
             width: 100%;
             height: 500px;
@@ -21,11 +18,7 @@
     </style>
 </head>
 <body>
-    <div id="county-buttons">
-        <button class="county-button" onclick="loadIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</button>
-        <!-- Lägg till liknande knappar för andra län här -->
-    </div>
-
+    <!-- Iframe-container -->
     <div id="iframe-container">
         <iframe id="sheet-iframe" src="" frameborder="0"></iframe>
     </div>
