@@ -6,6 +6,7 @@
     <title>Jaktbart Idag</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
+    <!--
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,11 +36,11 @@
         }
         .iframe-container iframe {
             width: 100%;
-            height: 500px; /* Justera höjden efter behov */
+            height: 500px; // Justera höjden efter behov
             border: 1px solid #ccc;
         }
     </style>
-
+    -->
     <script>
         function showIframe(url) {
             var iframeContainer = document.getElementById('iframe-container');
@@ -48,16 +49,6 @@
             iframe.src = url;
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('scrolling', 'no');
-            iframe.onload = function() {
-                // Åtkomma innehållet i iframen
-                var iframeDocument = iframe.contentWindow.document;
-
-                // Dölja oönskat innehåll
-                var unwantedElements = iframeDocument.querySelectorAll('.title, .docs-sheet-widget-topbar, .docs-sheet-widget-bottombar');
-                unwantedElements.forEach(function(element) {
-                    element.style.display = 'none';
-                });
-            };
             iframeContainer.innerHTML = '';
             iframeContainer.appendChild(iframe);
             countyButtons.style.display = 'none'; // Dölj knappen när iframe visas
