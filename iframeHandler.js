@@ -5,7 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
     <style>
-        /* Din CSS-stil här */
+        body {
+            font-family: Arial, sans-serif;
+            color: rgb(50, 94, 88);
+            padding: 20px;
+        }
+        .county-button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 18px;
+            color: rgb(50, 94, 88);
+            background-color: #f0f0f0;
+            border: 2px solid rgb(50, 94, 88);
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .county-button:hover {
+            background-color: rgb(50, 94, 88);
+            color: white;
+        }
+        /* Stilsättning för iframe */
+        #iframe-container {
+            display: none;
+            margin-top: 20px;
+        }
+        #sheet-iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
     </style>
 </head>
 <body>
