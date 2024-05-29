@@ -30,33 +30,29 @@
             background-color: rgb(50, 94, 88);
             color: white;
         }
+        #iframe-container {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <h1>Jaktbart Idag</h1>
     <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
-        <a href="#" class="county-button">Blekinge län</a>
-        <a href="#" class="county-button">Dalarnas län</a>
-        <a href="#" class="county-button">Gotlands län</a>
-        <a href="#" class="county-button">Gävleborgs län</a>
-        <a href="#" class="county-button">Hallands län</a>
-        <a href="#" class="county-button">Jämtlands län</a>
-        <a href="#" class="county-button">Jönköpings län</a>
-        <a href="#" class="county-button">Kalmar län</a>
-        <a href="#" class="county-button">Kronobergs län</a>
-        <a href="#" class="county-button">Norrbottens län</a>
-        <a href="#" class="county-button">Skåne län</a>
-        <a href="#" class="county-button">Stockholms län</a>
-        <a href="#" class="county-button">Södermanlands län</a>
-        <a href="#" class="county-button">Uppsala län</a>
-        <a href="#" class="county-button">Värmlands län</a>
-        <a href="#" class="county-button">Västerbottens län</a>
-        <a href="#" class="county-button">Västernorrlands län</a>
-        <a href="#" class="county-button">Västmanlands län</a>
-        <a href="#" class="county-button">Västra Götalands län</a>
-        <a href="#" class="county-button">Örebro län</a>
-        <a href="#" class="county-button">Östergötlands län</a>
+        <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=false&widget=false&headers=false&chrome=false')">Blekinge län</a>
+        <!-- Lägg till liknande knappar för andra län här -->
     </div>
+    <div id="iframe-container">
+        <iframe id="county-iframe" width="100%" height="500" frameborder="1" scrolling="no"></iframe>
+    </div>
+
+    <script>
+        function showIframe(url) {
+            var iframeContainer = document.getElementById('iframe-container');
+            var iframe = document.getElementById('county-iframe');
+            iframe.src = url;
+            iframeContainer.style.display = 'block';
+        }
+    </script>
 </body>
 </html>
