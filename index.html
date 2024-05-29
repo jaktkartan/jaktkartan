@@ -42,18 +42,28 @@
     <div id="map"></div>
     
     <div id="bottom-panel">
-        <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
-        <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
-        <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
-        <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Ammunition"></button>
-        <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
+        <button class="panel-button" onclick="openTab('tab1')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
+        <button class="panel-button" onclick="openTab('tab2')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
+        <button class="panel-button" onclick="openTab('tab3')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
+        <button class="panel-button" onclick="openTab('tab4')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Ammunition"></button>
+        <button class="panel-button" onclick="openTab('tab5')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
     </div>
     <div id="tab-content" style="display:none;">
-        <div id="tab1" class="tab-pane"></div>
-        <div id="tab2" class="tab-pane"></div>
-        <div id="tab3" class="tab-pane"></div>
-        <div id="tab4" class="tab-pane"></div>
-        <div id="tab5" class="tab-pane"></div>
+        <div id="tab1" class="tab-pane">
+            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+        </div>
+        <div id="tab2" class="tab-pane">
+            <iframe src="https://another-url-for-tab2.com"></iframe>
+        </div>
+        <div id="tab3" class="tab-pane">
+            <iframe src="https://another-url-for-tab3.com"></iframe>
+        </div>
+        <div id="tab4" class="tab-pane">
+            <iframe src="https://another-url-for-tab4.com"></iframe>
+        </div>
+        <div id="tab5" class="tab-pane">
+            <iframe src="https://another-url-for-tab5.com"></iframe>
+        </div>
     </div>
     
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -78,7 +88,7 @@
             }
         }
 
-        function openTab(tabId, filePath) {
+        function openTab(tabId) {
             var tabContent = document.getElementById('tab-content');
             var tabs = document.getElementsByClassName('tab-pane');
 
@@ -90,15 +100,6 @@
             activeTab.style.display = 'block';
 
             tabContent.style.display = 'block';
-
-            // Ladda innehåll från extern fil
-            axios.get(filePath)
-                .then(function (response) {
-                    activeTab.innerHTML = response.data;
-                })
-                .catch(function (error) {
-                    console.log("Error loading tab content: " + error.message);
-                });
         }
 
         function closeTabContent() {
@@ -186,12 +187,7 @@
         });
 
         function getWeatherForecast(latitude, longitude) {
-            console.log("Fetching weather forecast for:", latitude, longitude);
-
-            var apiKey = '47a50669a0e799cdbef2d496a6b6f748';
-            var weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-
-            axios.get(weatherUrl)
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=YOUR_API_KEY`)
                 .then(function (response) {
                     var data = response.data;
                     console.log("Weather data received:", data);
@@ -199,28 +195,12 @@
                     var weatherText = document.getElementById('weather-text');
                     weatherText.innerHTML = `Väderprognos: ${data.weather[0].description}, Temperatur: ${data.main.temp} °C, Vindhastighet: ${data.wind.speed} m/s`;
 
-                    // Beräkna soluppgång och solnedgång
                     var times = SunCalc.getTimes(new Date(), latitude, longitude);
                     var sunrise = times.sunrise;
                     var sunset = times.sunset;
 
                     document.getElementById('sunrise').textContent = sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     document.getElementById('sunset').textContent = sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                    // Rensa tidigare markörer om de finns
-                    if (sunriseMarker) {
-                        map.removeLayer(sunriseMarker);
-                    }
-                    if (sunsetMarker) {
-                        map.removeLayer(sunsetMarker);
-                    }
-
-                    // Lägg till markörer på kartan
-                    sunriseMarker = L.marker([latitude, longitude], { icon: sunriseIcon }).addTo(map);
-                    sunsetMarker = L.marker([latitude, longitude], { icon: sunsetIcon }).addTo(map);
-
-                    console.log("Sunrise marker added at:", sunriseMarker.getLatLng());
-                    console.log("Sunset marker added at:", sunsetMarker.getLatLng());
                 })
                 .catch(function (error) {
                     console.log("Error fetching weather data:", error);
