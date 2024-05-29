@@ -45,25 +45,28 @@
             var iframeContainer = document.getElementById('iframe-container');
             var countyButtons = document.getElementById('county-buttons');
             var iframe = document.createElement('iframe');
-            iframe.src = url;
+            iframe.src = adjustIframeUrl(url); // Justera URL:en innan du sätter den som src
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('scrolling', 'no');
-
-            // Lägg till en händelselyssnare för att dölja onödigt innehåll efter att iframen har laddats
             iframe.onload = function() {
-                // Dölj rubriken längst upp
-                iframe.contentDocument.querySelector('.docs-title-menu').style.display = 'none';
-                // Dölj den sista raden med metadata
-                var lastRow = iframe.contentDocument.querySelector('body > div:last-child');
-                if (lastRow) {
-                    lastRow.style.display = 'none';
-                }
+                // Dölj rubriken och texten längst ned när iframen har laddats
+                iframe.contentDocument.querySelector('title').remove();
+                iframe.contentDocument.querySelector('div#docs-title').remove();
+                iframe.contentDocument.querySelector('div#m').remove();
             };
-
             iframeContainer.innerHTML = '';
             iframeContainer.appendChild(iframe);
             countyButtons.style.display = 'none'; // Dölj knappen när iframe visas
             iframeContainer.style.display = 'block';
+        }
+
+        function adjustIframeUrl(url) {
+            // Lägg till parametrar för att ta bort rubriken och texten längst ned från URL:en
+            var adjustedUrl = new URL(url);
+            adjustedUrl.searchParams.append('widget', 'false');
+            adjustedUrl.searchParams.append('headers', 'false');
+            adjustedUrl.searchParams.append('chrome', 'false');
+            return adjustedUrl.toString();
         }
     </script>
 </head>
