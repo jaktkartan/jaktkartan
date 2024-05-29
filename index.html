@@ -25,6 +25,17 @@
         }
     </style>
     <script>
+        function showSheet(sheetId) {
+            // Example implementation of showSheet function
+            console.log("Showing sheet with ID: " + sheetId);
+            var sheet = document.getElementById(sheetId);
+            if (sheet) {
+                sheet.style.display = 'block';
+            } else {
+                console.error("Sheet with ID " + sheetId + " not found.");
+            }
+        }
+
         function togglePanel() {
             console.log("Toggling weather panel...");
             var weatherInfo = document.getElementById('weather-info');
