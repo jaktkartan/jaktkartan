@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktbart Idag</title>
+    <title>Jaktbart Idag21:06</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,35 +29,6 @@
             color: white;
         }
     </style>
-    <script>
-        class GoogleSheetComponent extends HTMLElement {
-            constructor() {
-                super();
-            }
-
-            connectedCallback() {
-                const sheetId = this.getAttribute('sheet-id');
-                const sheetGid = this.getAttribute('sheet-gid');
-                const url = `https://docs.google.com/spreadsheets/d/e/${sheetId}/pubhtml?gid=${sheetGid}&single=true`;
-
-                fetch(url)
-                    .then(response => response.text())
-                    .then(html => {
-                        this.innerHTML = html;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching Google Sheets data:', error);
-                    });
-            }
-        }
-
-        customElements.define('google-sheet', GoogleSheetComponent);
-
-        function showSheet(sheetId, sheetGid) {
-            const sheetContent = document.getElementById('sheet-content');
-            sheetContent.innerHTML = `<google-sheet sheet-id="${sheetId}" sheet-gid="${sheetGid}"></google-sheet>`;
-        }
-    </script>
 </head>
 <body>
     <h1>Jaktbart Idag</h1>
@@ -69,5 +40,13 @@
     
     <!-- Sheet content -->
     <div id="sheet-content"></div>
+
+    <script>
+        function showSheet(sheetId, sheetGid) {
+            const sheetContent = document.getElementById('sheet-content');
+            sheetContent.innerHTML = `<google-sheet sheet-id="${sheetId}" sheet-gid="${sheetGid}"></google-sheet>`;
+        }
+    </script>
 </body>
 </html>
+
