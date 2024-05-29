@@ -134,117 +134,100 @@
             var pulsingDotMarker;
             var sunriseIcon = L.icon({
                 iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
-                iconSize: [20, 20],
-                iconAnchor: [10, 10],
-                popupAnchor: [0, 0],
+                iconSize: [24, 24]
             });
+
             var sunsetIcon = L.icon({
                 iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
-                iconSize: [20, 20],
-                iconAnchor: [10, 10],
-                popupAnchor: [0, 0],
+                iconSize: [24, 24]
             });
 
-                        function createPulsingCircle(lat, lon) {
-                var divIcon = L.divIcon({
-                    className: 'pulsing-circle',
+            map.on('locationfound', function (e) {
+                var radius = e.accuracy;
+                var location = e.latlng;
+
+                if (accuracyCircle) {
+                    map.removeLayer(accuracyCircle);
+                }
+
+                if (userMarker) {
+                    map.removeLayer(userMarker);
+                }
+
+                if (pulsingDotMarker) {
+                    map.removeLayer(pulsingDotMarker);
+                }
+
+                accuracyCircle = L.circle(location, radius, {
+                    color: 'blue',
+                    fillColor: '#3388ff',
+                    fillOpacity: 0.2
+                }).addTo(map);
+
+                userMarker = L.marker(location).addTo(map);
+
+                var pulsingDot = L.divIcon({
+                    className: 'pulsing-dot',
                     iconSize: [12, 12],
-                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
+                    html: '<div class="dot"></div><div class="pulse"></div>'
                 });
-                return L.marker([lat, lon], { icon: divIcon }).addTo(map);
-            }
 
-            function updateUserPosition(lat, lon, accuracy) {
-                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
+                pulsingDotMarker = L.marker(location, { icon: pulsingDot }).addTo(map);
 
-                var accuracyInfo = document.getElementById('accuracy');
-                accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
+                var accuracyElement = document.getElementById('accuracy');
+                accuracyElement.textContent = 'Lägesnoggrannhet: ' + Math.round(radius) + ' meter';
+            });
 
-                if (!accuracyCircle) {
-                    accuracyCircle = L.circle([lat, lon], {
-                        radius: accuracy,
-                        fillColor: 'green',
-                        fillOpacity: 0.5,
-                        stroke: false
-                    }).addTo(map);
-                } else {
-                    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
-                }
+            map.on('locationerror', function (e) {
+                console.log(e.message);
+            });
 
-                if (!userMarker) {
-                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
-                } else {
-                    userMarker.setLatLng([lat, lon]);
-                }
-
-                if (!pulsingDotMarker) {
-                    pulsingDotMarker = createPulsingCircle(lat, lon);
-                } else {
-                    pulsingDotMarker.setLatLng([lat, lon]);
-                }
-
-                var times = SunCalc.getTimes(new Date(), lat, lon);
-                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunriseSpan = document.getElementById('sunrise');
-                var sunsetSpan = document.getElementById('sunset');
-
-                sunriseSpan.innerHTML = sunrise;
-                sunsetSpan.innerHTML = sunset;
-            }
-
-            function getPositionFromIP() {
-                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                    .then(function (response) {
-                        var loc = response.data.loc.split(',');
-                        var lat = parseFloat(loc[0]);
-                        var lon = parseFloat(loc[1]);
-                        updateUserPosition(lat, lon, "Unknown");
-                    })
-                    .catch(function (error) {
-                        console.log("IP Geolocation failed: " + error.message);
-                    });
-            }
-
-            function handleGeolocation(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-                var accuracy = position.coords.accuracy;
-                updateUserPosition(lat, lon, accuracy.toFixed(2));
-            }
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                        getPositionFromIP();
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-
-                navigator.geolocation.watchPosition(
-                    function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-            } else {
-                map.setView([62.0, 15.0], 5);
-            }
+            map.locate({ setView: true, maxZoom: 16, watch: true });
         });
+
+        function getWeatherForecast(latitude, longitude) {
+            console.log("Fetching weather forecast for:", latitude, longitude);
+
+            var apiKey = '47a50669a0e799cdbef2d496a6b6f748';
+            var weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+            axios.get(weatherUrl)
+                .then(function (response) {
+                    var data = response.data;
+                    console.log("Weather data received:", data);
+
+                    var weatherText = document.getElementById('weather-text');
+                    weatherText.innerHTML = `Väderprognos: ${data.weather[0].description}, Temperatur: ${data.main.temp} °C, Vindhastighet: ${data.wind.speed} m/s`;
+
+                    // Beräkna soluppgång och solnedgång
+                    var times = SunCalc.getTimes(new Date(), latitude, longitude);
+                    var sunrise = times.sunrise;
+                    var sunset = times.sunset;
+
+                    document.getElementById('sunrise').textContent = sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    document.getElementById('sunset').textContent = sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    // Rensa tidigare markörer om de finns
+                    if (sunriseMarker) {
+                        map.removeLayer(sunriseMarker);
+                    }
+                    if (sunsetMarker) {
+                        map.removeLayer(sunsetMarker);
+                    }
+
+                    // Lägg till markörer på kartan
+                    sunriseMarker = L.marker([latitude, longitude], { icon: sunriseIcon }).addTo(map);
+                    sunsetMarker = L.marker([latitude, longitude], { icon: sunsetIcon }).addTo(map);
+
+                    console.log("Sunrise marker added at:", sunriseMarker.getLatLng());
+                    console.log("Sunset marker added at:", sunsetMarker.getLatLng());
+                })
+                .catch(function (error) {
+                    console.log("Error fetching weather data:", error);
+                    var weatherText = document.getElementById('weather-text');
+                    weatherText.innerHTML = "Kunde inte hämta väderdata.";
+                });
+        }
     </script>
 </body>
 </html>
