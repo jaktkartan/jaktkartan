@@ -5,12 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
     <style>
+        /* CSS-stilsättning för body och county-buttons */
         body {
             font-family: Arial, sans-serif;
             color: rgb(50, 94, 88);
             padding: 20px;
         }
-        /* Stilsättning för iframe */
+        .county-button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 18px;
+            color: rgb(50, 94, 88);
+            background-color: #f0f0f0;
+            border: 2px solid rgb(50, 94, 88);
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .county-button:hover {
+            background-color: rgb(50, 94, 88);
+            color: white;
+        }
+        /* CSS-stilsättning för iframe-container och sheet-iframe */
+        #iframe-container {
+            display: none;
+            margin-top: 20px;
+        }
         #sheet-iframe {
             width: 100%;
             height: 500px;
@@ -20,22 +43,21 @@
 </head>
 <body>
     <h1>Jaktbart Idag</h1>
-    <p>Information om vad som är jaktbart idag i olika län0006.</p>
+    <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
-        <button class="county-button" id="blekinge-button">Blekinge län</button>
+        <button class="county-button" onclick="loadIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</button>
         <!-- Lägg till liknande knappar för andra län här -->
     </div>
 
-    <script>
-        document.getElementById('blekinge-button').addEventListener('click', function() {
-            loadIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml');
-        });
+    <!-- Iframe-container -->
+    <div id="iframe-container">
+        <iframe id="sheet-iframe" src="" frameborder="0"></iframe>
+    </div>
 
+    <script>
         function loadIframe(url) {
-            // Byt ut allt HTML-innehåll med iframen
-            document.body.innerHTML = `
-                <iframe id="sheet-iframe" src="${url}" frameborder="0"></iframe>
-            `;
+            document.getElementById('sheet-iframe').src = url;
+            document.getElementById('iframe-container').style.display = 'block';
         }
     </script>
 </body>
