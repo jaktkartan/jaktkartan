@@ -24,40 +24,6 @@
             overflow-x: hidden; /* Dölj horisontell skrollning */
         }
     </style>
-</head>
-<body>
-    <div id="info-panel">
-        <div id="accuracy">Lägesnoggrannhet: Unknown</div>
-        <div id="sunrise-sunset">
-            <img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 24px;">
-            <span id="sunrise"></span>
-            <img id="sunset-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 24px;">
-            <span id="sunset"></span>
-            <div class="expand-toggle" onclick="togglePanel()">Väderprognos <span class="arrow">&#9660;</span></div>
-            <div id="weather-info" style="display: none;">
-                <div id="weather-text">Laddar väder...</div>
-            </div>
-        </div>
-    </div>
-    <div id="map"></div>
-    
-    <div id="bottom-panel">
-        <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
-        <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
-        <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
-        <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Ammunition"></button>
-        <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
-    </div>
-    <div id="tab-content" style="display:none;">
-        <div id="tab1" class="tab-pane"></div>
-        <div id="tab2" class="tab-pane"></div>
-        <div id="tab3" class="tab-pane"></div>
-        <div id="tab4" class="tab-pane"></div>
-        <div id="tab5" class="tab-pane"></div>
-    </div>
-    
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         function togglePanel() {
             console.log("Toggling weather panel...");
@@ -145,7 +111,7 @@
                 popupAnchor: [0, 0],
             });
 
-                        function createPulsingCircle(lat, lon) {
+            function createPulsingCircle(lat, lon) {
                 var divIcon = L.divIcon({
                     className: 'pulsing-circle',
                     iconSize: [12, 12],
@@ -215,36 +181,70 @@
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                        getPositionFromIP();
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                    getPositionFromIP();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
                 );
 
                 navigator.geolocation.watchPosition(
-                    function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
+                function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
                 );
             } else {
                 map.setView([62.0, 15.0], 5);
             }
         });
     </script>
+</head>
+<body>
+    <div id="info-panel">
+        <div id="accuracy">Lägesnoggrannhet: Unknown</div>
+        <div id="sunrise-sunset">
+            <img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 24px;">
+            <span id="sunrise"></span>
+            <img id="sunset-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 24px;">
+            <span id="sunset"></span>
+            <div class="expand-toggle" onclick="togglePanel()">Väderprognos <span class="arrow">&#9660;</span></div>
+            <div id="weather-info" style="display: none;">
+                <div id="weather-text">Laddar väder...</div>
+            </div>
+        </div>
+    </div>
+    <div id="map"></div>
+    
+    <div id="bottom-panel">
+        <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
+        <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
+        <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
+        <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Ammunition"></button>
+        <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
+    </div>
+    <div id="tab-content" style="display:none;">
+        <div id="tab1" class="tab-pane"></div>
+        <div id="tab2" class="tab-pane"></div>
+        <div id="tab3" class="tab-pane"></div>
+        <div id="tab4" class="tab-pane"></div>
+        <div id="tab5" class="tab-pane"></div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 </html>
