@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktbart Idag21:06</title>
+    <title>Jaktbart Idag</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,10 +29,45 @@
             color: white;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Tabletop.js/1.5.1/tabletop.min.js"></script>
+    <script>
+        function showSheet(sheetId, sheetGid) {
+            console.log("Showing sheet with ID: " + sheetId + " and GID: " + sheetGid);
+
+            Tabletop.init({
+                key: sheetId,
+                callback: function(data, tabletop) {
+                    const sheetData = tabletop.models[sheetGid].all();
+                    const sheetContent = document.getElementById('sheet-content');
+                    if (sheetContent) {
+                        sheetContent.innerHTML = generateTableHTML(sheetData);
+                    } else {
+                        console.error("Sheet content element not found.");
+                    }
+                },
+                simpleSheet: false
+            });
+        }
+
+        function generateTableHTML(data) {
+            let table = '<table border="1" cellspacing="0" cellpadding="5">';
+            data.forEach((row, rowIndex) => {
+                table += '<tr>';
+                for (let key in row) {
+                    table += rowIndex === 0
+                        ? `<th>${key}</th>`
+                        : `<td>${row[key]}</td>`;
+                }
+                table += '</tr>';
+            });
+            table += '</table>';
+            return table;
+        }
+    </script>
 </head>
 <body>
     <h1>Jaktbart Idag</h1>
-    <p>Information om vad som är jaktbart idag i olika län 22  .</p>
+    <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
         <a href="#" class="county-button" onclick="showSheet('1oATfmEvymVvgLMsvSQ2CgZOC9DgLPDGn', '1144895507')">Blekinge län</a>
         <!-- Lägg till liknande knappar för andra län här -->
@@ -40,12 +75,5 @@
     
     <!-- Sheet content -->
     <div id="sheet-content"></div>
-
-    <script>
-        function showSheet(sheetId, sheetGid) {
-            const sheetContent = document.getElementById('sheet-content');
-            sheetContent.innerHTML = `<google-sheet sheet-id="${sheetId}" sheet-gid="${sheetGid}"></google-sheet>`;
-        }
-    </script>
 </body>
 </html>
