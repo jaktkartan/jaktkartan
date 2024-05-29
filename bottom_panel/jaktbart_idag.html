@@ -5,20 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
     <style>
-        /* Stilsättning för jaktbart idag-sidan */
+        body {
+            font-family: Arial, sans-serif;
+            color: rgb(50, 94, 88);
+            padding: 20px;
+        }
+        /* Stilsättning för iframe */
+        #sheet-iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
     </style>
 </head>
 <body>
     <h1>Jaktbart Idag</h1>
     <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
-        <a href="#" class="county-button" onclick="loadIframe('https://docs.google.com/spreadsheets/d/e/1oATfmEvymVvgLMsvSQ2CgZOC9DgLPDGn/pubhtml?gid=1144895507')">Blekinge län</a>
+        <button class="county-button" onclick="loadIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</button>
         <!-- Lägg till liknande knappar för andra län här -->
     </div>
-    
-    <!-- Iframe för att visa Google Sheets -->
-    <iframe id="sheet-iframe"></iframe>
 
-    <script src="iframeHandler.js"></script>
+    <script>
+        function loadIframe(url) {
+            // Byt ut allt HTML-innehåll med iframen
+            document.body.innerHTML = `
+                <iframe id="sheet-iframe" src="${url}" frameborder="0"></iframe>
+            `;
+        }
+    </script>
 </body>
 </html>
