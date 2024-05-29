@@ -8,48 +8,64 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="https://unpkg.com/suncalc/suncalc.js"></script>
     <script src="vaderprognos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Tabletop.js/1.5.1/tabletop.min.js"></script>
     <style>
-        /* Anpassad CSS för att ändra zoomkontrollernas position */
         .leaflet-top.leaflet-left {
             top: 80px !important;
             left: 10px !important;
         }
-
         body {
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centrera innehållet horisontellt */
-            height: 100vh; /* Sätt höjden till fulla höjden av vyporten */
-            margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
-            overflow-x: hidden; /* Dölj horisontell skrollning */
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
         }
     </style>
     <script>
         function showSheet(sheetId, sheetGid) {
             console.log("Showing sheet with ID: " + sheetId + " and GID: " + sheetGid);
-            var sheetContent = document.getElementById('sheet-content');
-            if (sheetContent) {
-                sheetContent.innerHTML = `<google-sheet sheet-id="${sheetId}" sheet-gid="${sheetGid}"></google-sheet>`;
-            } else {
-                console.error("Sheet content element not found.");
-            }
+            Tabletop.init({
+                key: sheetId,
+                callback: function(data, tabletop) {
+                    const sheetData = tabletop.models[sheetGid].all();
+                    const sheetContent = document.getElementById('sheet-content');
+                    if (sheetContent) {
+                        sheetContent.innerHTML = generateTableHTML(sheetData);
+                    } else {
+                        console.error("Sheet content element not found.");
+                    }
+                },
+                simpleSheet: false
+            });
+        }
+
+        function generateTableHTML(data) {
+            let table = '<table border="1" cellspacing="0" cellpadding="5">';
+            data.forEach((row, rowIndex) => {
+                table += '<tr>';
+                for (let key in row) {
+                    table += rowIndex === 0
+                        ? `<th>${key}</th>`
+                        : `<td>${row[key]}</td>`;
+                }
+                table += '</tr>';
+            });
+            table += '</table>';
+            return table;
         }
 
         function togglePanel() {
-            console.log("Toggling weather panel...");
             var weatherInfo = document.getElementById('weather-info');
             if (weatherInfo.style.display === 'none') {
-                console.log("Showing weather panel...");
                 weatherInfo.style.display = 'block';
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    console.log("Getting current position...");
                     var latitude = position.coords.latitude;
                     var longitude = position.coords.longitude;
-                    console.log("Current position:", latitude, longitude);
                     getWeatherForecast(latitude, longitude);
                 });
             } else {
-                console.log("Hiding weather panel...");
                 weatherInfo.style.display = 'none';
             }
         }
@@ -67,7 +83,6 @@
 
             tabContent.style.display = 'block';
 
-            // Ladda innehåll från extern fil
             axios.get(filePath)
                 .then(function (response) {
                     activeTab.innerHTML = response.data;
@@ -82,7 +97,6 @@
             tabContent.style.display = 'none';
         }
 
-        // Close the tab content when clicking outside of it
         document.addEventListener('click', function(event) {
             var tabContent = document.getElementById('tab-content');
             if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
@@ -91,14 +105,12 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            console.log("Initializing map...");
-
             var map = L.map('map', {
-                zoomControl: false // Ta bort standardzoomkontrollerna
+                zoomControl: false
             }).setView([62.0, 15.0], 5);
 
             L.control.zoom({
-                position: 'topleft' // Ändra positionen på zoomkontrollerna
+                position: 'topleft'
             }).addTo(map);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -131,8 +143,6 @@
             }
 
             function updateUserPosition(lat, lon, accuracy) {
-                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
-
                 var accuracyInfo = document.getElementById('accuracy');
                 accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
 
