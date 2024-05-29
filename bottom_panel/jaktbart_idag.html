@@ -7,6 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
         }
         button {
             margin: 5px;
@@ -25,7 +27,7 @@
             height: 500px;
             border: 1px solid #ccc;
             margin-top: 20px;
-            overflow: auto;
+            display: none;
         }
     </style>
 </head>
@@ -33,7 +35,7 @@
     <div>
         <h2>Jaktbart Idag: välj län!</h2>
         <div id="buttons"></div>
-        <iframe id="contentFrame" src="" style="display:none;" scrolling="yes"></iframe>
+        <iframe id="contentFrame" src="" scrolling="yes"></iframe>
     </div>
 
     <script>
@@ -68,17 +70,16 @@
             'Östergötland': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895527&single=true&widget=true&headers=false'
         };
 
-        const buttonsDiv = document.getElementById('buttons');
-        const contentFrame = document.getElementById('contentFrame');
+        const buttonsContainer = document.getElementById('buttons');
 
         lanList.forEach(lan => {
             const button = document.createElement('button');
             button.textContent = lan;
-            button.addEventListener('click', () => {
-                contentFrame.src = lanUrls[lan]; // Hämta URL från lanUrls-objektet
-                contentFrame.style.display = 'block';
-            });
-            buttonsDiv.appendChild(button);
+            button.onclick = () => {
+                document.getElementById('contentFrame').src = lanUrls[lan];
+                document.getElementById('contentFrame').style.display = 'block';
+            };
+            buttonsContainer.appendChild(button);
         });
     </script>
 </body>
