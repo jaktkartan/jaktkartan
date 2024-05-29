@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" />
-    <!--
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,28 +28,34 @@
             background-color: rgb(50, 94, 88);
             color: white;
         }
-        .iframe-container {
-            display: none;
-        }
-        .iframe-container iframe {
-            width: 100%;
-            height: 500px; // Justera höjden efter behov
-            border: 1px solid #ccc;
-        }
     </style>
-    -->
     <script>
-        function showIframe(url) {
-            var iframeContainer = document.getElementById('iframe-container');
-            var countyButtons = document.getElementById('county-buttons');
-            var iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('scrolling', 'no');
-            iframeContainer.innerHTML = '';
-            iframeContainer.appendChild(iframe);
-            countyButtons.style.display = 'none'; // Dölj knappen när iframe visas
-            iframeContainer.style.display = 'block';
+        class GoogleSheetComponent extends HTMLElement {
+            constructor() {
+                super();
+            }
+
+            connectedCallback() {
+                const sheetId = this.getAttribute('sheet-id');
+                const sheetGid = this.getAttribute('sheet-gid');
+                const url = `https://docs.google.com/spreadsheets/d/e/${sheetId}/pubhtml?gid=${sheetGid}&single=true`;
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        this.innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching Google Sheets data:', error);
+                    });
+            }
+        }
+
+        customElements.define('google-sheet', GoogleSheetComponent);
+
+        function showSheet(sheetId, sheetGid) {
+            const sheetContent = document.getElementById('sheet-content');
+            sheetContent.innerHTML = `<google-sheet sheet-id="${sheetId}" sheet-gid="${sheetGid}"></google-sheet>`;
         }
     </script>
 </head>
@@ -60,11 +63,11 @@
     <h1>Jaktbart Idag</h1>
     <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
-    <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
+        <a href="#" class="county-button" onclick="showSheet('1oATfmEvymVvgLMsvSQ2CgZOC9DgLPDGn', '1144895507')">Blekinge län</a>
         <!-- Lägg till liknande knappar för andra län här -->
     </div>
-    <div class="iframe-container" id="iframe-container">
-        <!-- iframe visas här -->
-    </div>
+    
+    <!-- Sheet content -->
+    <div id="sheet-content"></div>
 </body>
 </html>
