@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag: välj län!</title>
     <style>
-        body {
+        #jaktbart-idag-container {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
         }
-        button {
+        #jaktbart-idag-container button {
             margin: 5px;
             padding: 10px;
             background-color: #007BFF;
@@ -19,10 +19,10 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        button:hover {
+        #jaktbart-idag-container button:hover {
             background-color: #0056b3;
         }
-        iframe {
+        #jaktbart-idag-container iframe {
             width: 100%;
             height: 500px;
             border: 1px solid #ccc;
@@ -32,7 +32,7 @@
     </style>
 </head>
 <body>
-    <div>
+    <div id="jaktbart-idag-container">
         <h2>Jaktbart Idag: välj län!</h2>
         <div id="buttons"></div>
         <iframe id="contentFrame" src="" scrolling="yes"></iframe>
@@ -47,7 +47,7 @@
         ];
 
         const lanUrls = {
-            'Blekinge': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=true&headers=false',
+            'Blekinge': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=false&widget=false&headers=false&chrome=false',
             'Dalarna': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895508&single=true&widget=true&headers=false',
             'Gotland': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895509&single=true&widget=true&headers=false',
             'Gävleborg': 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895510&single=true&widget=true&headers=false',
