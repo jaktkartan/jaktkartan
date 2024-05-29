@@ -1,4 +1,49 @@
-<div>
-    <h2>Jaktbart Idag</h2>
-    <p>Innehåll för jaktbart idag-fliken.</p>
-</div>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaktbart Idag: välj län!</title>
+    <style>
+        button {
+            margin: 5px;
+            padding: 10px;
+        }
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Jaktbart Idag: välj län!</h2>
+        <div id="buttons"></div>
+        <iframe id="contentFrame" src="" style="display:none;"></iframe>
+    </div>
+
+    <script>
+        const lanList = [
+            'Blekinge', 'Dalarna', 'Gotland', 'Gävleborg', 'Halland',
+            'Jämtland', 'Jönköping', 'Kalmar', 'Kronoberg', 'Norrbotten',
+            'Skåne', 'Stockholm', 'Södermanland', 'Uppsala', 'Värmland',
+            'Västerbotten', 'Västernorrland', 'Västmanland', 'Västra Götaland', 'Örebro', 'Östergötland'
+        ];
+
+        const buttonsDiv = document.getElementById('buttons');
+        const contentFrame = document.getElementById('contentFrame');
+
+        lanList.forEach(lan => {
+            const button = document.createElement('button');
+            button.textContent = lan;
+            button.addEventListener('click', () => {
+                contentFrame.src = `https://www.example.com/${lan}`; // Byt ut URL:en till den faktiska
+                contentFrame.style.display = 'block';
+            });
+            buttonsDiv.appendChild(button);
+        });
+    </script>
+</body>
+</html>
