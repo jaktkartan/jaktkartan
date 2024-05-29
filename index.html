@@ -25,13 +25,13 @@
         }
     </style>
     <script>
-        function showSheet(sheetId) {
-            console.log("Showing sheet with ID: " + sheetId);
-            var sheet = document.getElementById(sheetId);
-            if (sheet) {
-                sheet.style.display = 'block';
+        function showSheet(sheetId, sheetGid) {
+            console.log("Showing sheet with ID: " + sheetId + " and GID: " + sheetGid);
+            var sheetContent = document.getElementById('sheet-content');
+            if (sheetContent) {
+                sheetContent.innerHTML = `<google-sheet sheet-id="${sheetId}" sheet-gid="${sheetGid}"></google-sheet>`;
             } else {
-                console.error("Sheet with ID " + sheetId + " not found.");
+                console.error("Sheet content element not found.");
             }
         }
 
@@ -190,33 +190,11 @@
             }
 
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                    getPositionFromIP();
-                },
-                {
+                navigator.geolocation.getCurrentPosition(handleGeolocation, getPositionFromIP, {
                     enableHighAccuracy: true,
-                    timeout: 10000,
+                    timeout: 5000,
                     maximumAge: 0
-                }
-                );
-
-                navigator.geolocation.watchPosition(
-                function (position) {
-                    handleGeolocation(position);
-                },
-                function (error) {
-                    console.log("Geolocation failed: " + error.message);
-                },
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-                );
+                });
             } else {
                 map.setView([62.0, 15.0], 5);
             }
