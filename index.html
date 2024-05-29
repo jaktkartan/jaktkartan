@@ -42,28 +42,18 @@
     <div id="map"></div>
     
     <div id="bottom-panel">
-        <button class="panel-button" onclick="openTab('tab1')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
-        <button class="panel-button" onclick="openTab('tab2')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
-        <button class="panel-button" onclick="openTab('tab3')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
-        <button class="panel-button" onclick="openTab('tab4')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Ammunition"></button>
-        <button class="panel-button" onclick="openTab('tab5')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
+        <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
+        <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
+        <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
+        <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Ammunition"></button>
+        <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
     </div>
     <div id="tab-content" style="display:none;">
-        <div id="tab1" class="tab-pane">
-            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
-        </div>
-        <div id="tab2" class="tab-pane">
-            <iframe src="https://another-url-for-tab2.com"></iframe>
-        </div>
-        <div id="tab3" class="tab-pane">
-            <iframe src="https://another-url-for-tab3.com"></iframe>
-        </div>
-        <div id="tab4" class="tab-pane">
-            <iframe src="https://another-url-for-tab4.com"></iframe>
-        </div>
-        <div id="tab5" class="tab-pane">
-            <iframe src="https://another-url-for-tab5.com"></iframe>
-        </div>
+        <div id="tab1" class="tab-pane"></div>
+        <div id="tab2" class="tab-pane"></div>
+        <div id="tab3" class="tab-pane"></div>
+        <div id="tab4" class="tab-pane"></div>
+        <div id="tab5" class="tab-pane"></div>
     </div>
     
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -88,7 +78,7 @@
             }
         }
 
-        function openTab(tabId) {
+        function openTab(tabId, filePath) {
             var tabContent = document.getElementById('tab-content');
             var tabs = document.getElementsByClassName('tab-pane');
 
@@ -100,6 +90,15 @@
             activeTab.style.display = 'block';
 
             tabContent.style.display = 'block';
+
+            // Ladda innehåll från extern fil
+            axios.get(filePath)
+                .then(function (response) {
+                    activeTab.innerHTML = response.data;
+                })
+                .catch(function (error) {
+                    console.log("Error loading tab content: " + error.message);
+                });
         }
 
         function closeTabContent() {
@@ -135,79 +134,117 @@
             var pulsingDotMarker;
             var sunriseIcon = L.icon({
                 iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
-                iconSize: [24, 24]
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
             });
-
             var sunsetIcon = L.icon({
                 iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
-                iconSize: [24, 24]
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
             });
 
-            map.on('locationfound', function (e) {
-                var radius = e.accuracy;
-                var location = e.latlng;
-
-                if (accuracyCircle) {
-                    map.removeLayer(accuracyCircle);
-                }
-
-                if (userMarker) {
-                    map.removeLayer(userMarker);
-                }
-
-                if (pulsingDotMarker) {
-                    map.removeLayer(pulsingDotMarker);
-                }
-
-                accuracyCircle = L.circle(location, radius, {
-                    color: 'blue',
-                    fillColor: '#3388ff',
-                    fillOpacity: 0.2
-                }).addTo(map);
-
-                userMarker = L.marker(location).addTo(map);
-
-                var pulsingDot = L.divIcon({
-                    className: 'pulsing-dot',
+                        function createPulsingCircle(lat, lon) {
+                var divIcon = L.divIcon({
+                    className: 'pulsing-circle',
                     iconSize: [12, 12],
-                    html: '<div class="dot"></div><div class="pulse"></div>'
+                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
                 });
+                return L.marker([lat, lon], { icon: divIcon }).addTo(map);
+            }
 
-                pulsingDotMarker = L.marker(location, { icon: pulsingDot }).addTo(map);
+            function updateUserPosition(lat, lon, accuracy) {
+                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
-                var accuracyElement = document.getElementById('accuracy');
-                accuracyElement.textContent = 'Lägesnoggrannhet: ' + Math.round(radius) + ' meter';
-            });
+                var accuracyInfo = document.getElementById('accuracy');
+                accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
 
-            map.on('locationerror', function (e) {
-                console.log(e.message);
-            });
+                if (!accuracyCircle) {
+                    accuracyCircle = L.circle([lat, lon], {
+                        radius: accuracy,
+                        fillColor: 'green',
+                        fillOpacity: 0.5,
+                        stroke: false
+                    }).addTo(map);
+                } else {
+                    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
+                }
 
-            map.locate({ setView: true, maxZoom: 16, watch: true });
+                if (!userMarker) {
+                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+                } else {
+                    userMarker.setLatLng([lat, lon]);
+                }
+
+                if (!pulsingDotMarker) {
+                    pulsingDotMarker = createPulsingCircle(lat, lon);
+                } else {
+                    pulsingDotMarker.setLatLng([lat, lon]);
+                }
+
+                var times = SunCalc.getTimes(new Date(), lat, lon);
+                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunriseSpan = document.getElementById('sunrise');
+                var sunsetSpan = document.getElementById('sunset');
+
+                sunriseSpan.innerHTML = sunrise;
+                sunsetSpan.innerHTML = sunset;
+            }
+
+            function getPositionFromIP() {
+                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                    .then(function (response) {
+                        var loc = response.data.loc.split(',');
+                        var lat = parseFloat(loc[0]);
+                        var lon = parseFloat(loc[1]);
+                        updateUserPosition(lat, lon, "Unknown");
+                    })
+                    .catch(function (error) {
+                        console.log("IP Geolocation failed: " + error.message);
+                    });
+            }
+
+            function handleGeolocation(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                var accuracy = position.coords.accuracy;
+                updateUserPosition(lat, lon, accuracy.toFixed(2));
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                        getPositionFromIP();
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+
+                navigator.geolocation.watchPosition(
+                    function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                map.setView([62.0, 15.0], 5);
+            }
         });
-
-        function getWeatherForecast(latitude, longitude) {
-            axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=YOUR_API_KEY`)
-                .then(function (response) {
-                    var data = response.data;
-                    console.log("Weather data received:", data);
-
-                    var weatherText = document.getElementById('weather-text');
-                    weatherText.innerHTML = `Väderprognos: ${data.weather[0].description}, Temperatur: ${data.main.temp} °C, Vindhastighet: ${data.wind.speed} m/s`;
-
-                    var times = SunCalc.getTimes(new Date(), latitude, longitude);
-                    var sunrise = times.sunrise;
-                    var sunset = times.sunset;
-
-                    document.getElementById('sunrise').textContent = sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    document.getElementById('sunset').textContent = sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                })
-                .catch(function (error) {
-                    console.log("Error fetching weather data:", error);
-                    var weatherText = document.getElementById('weather-text');
-                    weatherText.innerHTML = "Kunde inte hämta väderdata.";
-                });
-        }
     </script>
 </body>
 </html>
