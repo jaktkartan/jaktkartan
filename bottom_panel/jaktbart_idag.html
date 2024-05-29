@@ -3,50 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktbart Idag21:06</title>
+    <title>Jaktkartan.se</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/suncalc/suncalc.js"></script>
+    <script src="vaderprognos.js"></script>
     <style>
+        /* Anpassad CSS för att ändra zoomkontrollernas position */
+        .leaflet-top.leaflet-left {
+            top: 80px !important;
+            left: 10px !important;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            color: rgb(50, 94, 88);
-            padding: 20px;
-        }
-        .county-button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 15px;
-            font-size: 18px;
-            color: rgb(50, 94, 88);
-            background-color: #f0f0f0;
-            border: 2px solid rgb(50, 94, 88);
-            border-radius: 5px;
-            text-decoration: none;
-            text-align: center;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .county-button:hover {
-            background-color: rgb(50, 94, 88);
-            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centrera innehållet horisontellt */
+            height: 100vh; /* Sätt höjden till fulla höjden av vyporten */
+            margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
+            overflow-x: hidden; /* Dölj horisontell skrollning */
         }
     </style>
+    <script>
+        function showSheet(sheetId) {
+            // Example implementation of showSheet function
+            console.log("Showing sheet with ID: " + sheetId);
+            var sheet = document.getElementById(sheetId);
+            if (sheet) {
+                sheet.style.display = 'block';
+            } else {
+                console.error("Sheet with ID " + sheetId + " not found.");
+            }
+        }
+
+        function togglePanel() {
+            console.log("Toggling weather panel...");
+            var weatherInfo = document.getElementById('weather-info');
+            if (weatherInfo.style.display === 'none') {
+                console.log("Showing weather panel...");
+                weatherInfo.style.display = 'block';
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log("Getting current position...");
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    console.log("Current position:", latitude, longitude);
+                    getWeatherForecast(latitude, longitude);
+                });
+            } else {
+                console.log("Hiding weather panel...");
+                weatherInfo.style.display = 'none';
+            }
+        }
+
+        function openTab(tabId, filePath) {
+            var tabContent = document.getElementById('tab-content');
+            var tabs = document.getElementsByClassName('tab-pane');
+
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = 'none';
+            }
+
+            var activeTab = document.getElementById(tabId);
+            activeTab.style.display = 'block';
+
+            tabContent.style.display = 'block';
+
+            // Ladda innehåll från extern fil
+            axios.get(filePath)
+                .then(function (response) {
+                    activeTab.innerHTML = response.data;
+                })
+                .catch(function (error) {
+                    console.log("Error loading tab content: " + error.message);
+                });
+        }
+
+        function closeTabContent() {
+            var tabContent = document.getElementById('tab-content');
+            tabContent.style.display = 'none';
+        }
+
+        // Close the tab content when clicking outside of it
+        document.addEventListener('click', function(event) {
+            var tabContent = document.getElementById('tab-content');
+            if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+                closeTabContent();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Initializing map...");
+
+            var map = L.map('map', {
+                zoomControl: false // Ta bort standardzoomkontrollerna
+            }).setView([62.0, 15.0], 5);
+
+            L.control.zoom({
+                position: 'topleft' // Ändra positionen på zoomkontrollerna
+            }).addTo(map);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var accuracyCircle;
+            var userMarker;
+            var pulsingDotMarker;
+            var sunriseIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
+            });
+            var sunsetIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
+            });
+
+            function createPulsingCircle(lat, lon) {
+                var divIcon = L.divIcon({
+                    className: 'pulsing-circle',
+                    iconSize: [12, 12],
+                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
+                });
+                return L.marker([lat, lon], { icon: divIcon }).addTo(map);
+            }
+
+            function updateUserPosition(lat, lon, accuracy) {
+                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
+
+                var accuracyInfo = document.getElementById('accuracy');
+                accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
+
+                if (!accuracyCircle) {
+                    accuracyCircle = L.circle([lat, lon], {
+                        radius: accuracy,
+                        fillColor: 'green',
+                        fillOpacity: 0.5,
+                        stroke: false
+                    }).addTo(map);
+                } else {
+                    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
+                }
+
+                if (!userMarker) {
+                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+                } else {
+                    userMarker.setLatLng([lat, lon]);
+                }
+
+                if (!pulsingDotMarker) {
+                    pulsingDotMarker = createPulsingCircle(lat, lon);
+                } else {
+                    pulsingDotMarker.setLatLng([lat, lon]);
+                }
+
+                var times = SunCalc.getTimes(new Date(), lat, lon);
+                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunriseSpan = document.getElementById('sunrise');
+                var sunsetSpan = document.getElementById('sunset');
+
+                sunriseSpan.innerHTML = sunrise;
+                sunsetSpan.innerHTML = sunset;
+            }
+
+            function getPositionFromIP() {
+                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                    .then(function (response) {
+                        var loc = response.data.loc.split(',');
+                        var lat = parseFloat(loc[0]);
+                        var lon = parseFloat(loc[1]);
+                        updateUserPosition(lat, lon, "Unknown");
+                    })
+                    .catch(function (error) {
+                        console.log("IP Geolocation failed: " + error.message);
+                    });
+            }
+
+            function handleGeolocation(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                var accuracy = position.coords.accuracy;
+                updateUserPosition(lat, lon, accuracy.toFixed(2));
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                    getPositionFromIP();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+                );
+
+                navigator.geolocation.watchPosition(
+                function (position) {
+                    handleGeolocation(position);
+                },
+                function (error) {
+                    console.log("Geolocation failed: " + error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+                );
+            } else {
+                map.setView([62.0, 15.0], 5);
+            }
+        });
+    </script>
 </head>
 <body>
-    <h1>Jaktbart Idag</h1>
-    <p>Information om vad som är jaktbart idag i olika län 21 :40  .</p>
-    <div id="county-buttons">
-        <a href="#" class="county-button" onclick="showSheet('1oATfmEvymVvgLMsvSQ2CgZOC9DgLPDGn', '1144895507')">Blekinge län</a>
-        <!-- Lägg till liknande knappar för andra län här -->
+    <div id="info-panel">
+        <div id="accuracy">Lägesnoggrannhet: Unknown</div>
+        <div id="sunrise-sunset">
+            <img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png" alt="Sunrise Icon" style="height: 24px;">
+            <span id="sunrise"></span>
+            <img id="sunset-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png" alt="Sunset Icon" style="height: 24px;">
+            <span id="sunset"></span>
+            <div class="expand-toggle" onclick="togglePanel()">Väderprognos <span class="arrow">&#9660;</span></div>
+            <div id="weather-info" style="display: none;">
+                <div id="weather-text">Laddar väder...</div>
+            </div>
+        </div>
+    </div>
+    <div id="map"></div>
+    
+    <div id="bottom-panel">
+        <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
+        <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
+        <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
+        <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Ammunition"></button>
+        <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
+    </div>
+    <div id="tab-content" style="display:none;">
+        <div id="tab1" class="tab-pane"></div>
+        <div id="tab2" class="tab-pane"></div>
+        <div id="tab3" class="tab-pane"></div>
+        <div id="tab4" class="tab-pane"></div>
+        <div id="tab5" class="tab-pane"></div>
     </div>
     
-    <!-- Sheet content -->
-    <div id="sheet-content"></div>
-
-    <script>
-        function showSheet(sheetId, sheetGid) {
-            const sheetContent = document.getElementById('sheet-content');
-            sheetContent.innerHTML = `<google-sheet sheet-id="${sheetId}" sheet-gid="${sheetGid}"></google-sheet>`;
-        }
-    </script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 </html>
-
