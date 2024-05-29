@@ -38,12 +38,6 @@
             height: 500px; /* Justera höjden efter behov */
             border: 1px solid #ccc;
         }
-        /* Dölj oönskad text i iframen */
-        .iframe-container iframe .title,
-        .iframe-container iframe .docs-sheet-widget-topbar,
-        .iframe-container iframe .docs-sheet-widget-bottombar {
-            display: none !important;
-        }
     </style>
 
     <script>
@@ -54,6 +48,16 @@
             iframe.src = url;
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('scrolling', 'no');
+            iframe.onload = function() {
+                // Åtkomma innehållet i iframen
+                var iframeDocument = iframe.contentWindow.document;
+
+                // Dölja oönskat innehåll
+                var unwantedElements = iframeDocument.querySelectorAll('.title, .docs-sheet-widget-topbar, .docs-sheet-widget-bottombar');
+                unwantedElements.forEach(function(element) {
+                    element.style.display = 'none';
+                });
+            };
             iframeContainer.innerHTML = '';
             iframeContainer.appendChild(iframe);
             countyButtons.style.display = 'none'; // Dölj knappen när iframe visas
