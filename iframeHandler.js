@@ -21,6 +21,9 @@ function showIframeAndHideButtons(url, county) {
     backButton.classList.remove('hidden'); // Visa tillbaka knappen
     backButton.style.display = 'block'; // Visa tillbaka knappen
     iframeContainer.style.display = 'block'; // Visa iframen
+
+    // Scrolla till flikens topp
+    iframeContainer.scrollIntoView({ behavior: 'smooth' });
 }
 
 function goBack() {
