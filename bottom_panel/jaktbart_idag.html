@@ -27,7 +27,104 @@
         .county-button:hover {
             background-color: rgb(50, 94, 88);
             color: white;
+        }<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaktbart Idag</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <style>
+        /* Dina befintliga stilregler för knappen */
+        .county-button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 18px;
+            color: rgb(50, 94, 88);
+            background-color: #f0f0f0;
+            border: 2px solid rgb(50, 94, 88);
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
         }
+        .county-button:hover {
+            background-color: rgb(50, 94, 88);
+            color: white;
+        }
+        /* Ny stilregel för laddningsikonen */
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none; /* Laddningsikonen är dold som standard */
+            width: 50px;
+            height: 50px;
+            background: url('bilder/ikon3.png') center center no-repeat; /* Lägg till din bild som bakgrund */
+            background-size: cover;
+            animation: spin 2s linear infinite; /* Lägg till rotationseffekten */
+        }
+        /* Justera storleken på iframen */
+        .iframe-container {
+            width: 100%;
+            border: 1px solid #ccc;
+            display: none; /* Dölj iframen som standard */
+        }
+    </style>
+
+    <script>
+        function showIframe(url) {
+            var iframeContainer = document.getElementById('iframe-container');
+            var loader = document.getElementById('loader'); // Hämta referensen till laddningsikonen
+            var countyButtons = document.getElementById('county-buttons');
+            var iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', 'no');
+
+            // Visa laddningsikonen när iframe börjar laddas
+            loader.style.display = 'block';
+
+            // Dölj knappen när iframe visas
+            countyButtons.style.display = 'none';
+
+            // När iframe-läsningen är klar
+            iframe.onload = function() {
+                // Dölj laddningsikonen
+                loader.style.display = 'none';
+                // Visa iframe
+                iframeContainer.innerHTML = '';
+                iframeContainer.appendChild(iframe);
+                iframeContainer.style.display = 'block';
+            };
+
+            // Lägg till iframe till HTML-dokumentet
+            iframeContainer.appendChild(iframe);
+        }
+    </script>
+</head>
+<body>
+    <h1>Jaktbart Idag</h1>
+    <p>Information om vad som är jaktbart idag i olika län.</p>
+    <div id="county-buttons">
+        <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
+        <!-- Lägg till liknande knappar för andra län här -->
+    </div>
+    <div class="iframe-container" id="iframe-container">
+        <!-- iframe visas här -->
+    </div>
+
+    <!-- Laddningsikon -->
+    <div id="loader" class="loader"></div>
+</body>
+</html>
+
         /* Ny stilregel för laddningsikonen */
         .loader {
             position: absolute;
