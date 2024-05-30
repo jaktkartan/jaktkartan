@@ -23,6 +23,11 @@
             });
         });
     </script>
+    <script>
+        function loadIframe(url) {
+            document.getElementById('sheet-iframe').src = url;
+            document.getElementById('iframe-container').style.display = 'block';
+        }
     <style>
         .leaflet-top.leaflet-left {
             top: 80px !important;
