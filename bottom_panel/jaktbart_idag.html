@@ -41,7 +41,7 @@
             display: none;
         }
         #back-button {
-            display: none; /* Dölj tillbaka-knappen från början */
+            display: none; /* Starta med att dölja tillbaka-knappen */
             margin: 20px auto;
             padding: 10px 20px;
             font-size: 18px;
@@ -65,8 +65,31 @@
     </div>
     <button id="back-button" class="hidden" onclick="goBack()">Tillbaka</button>
 
-    <script src="iframeHandler.js"></script>
     <script>
+        var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
+
+        function showIframeAndHideButtons(url, county) {
+            var iframeContainer = document.getElementById('iframe-container');
+            var countyButtons = document.getElementById('county-buttons');
+            var backButton = document.getElementById('back-button');
+            var mainTitle = document.getElementById('main-title');
+            var mainInfo = document.getElementById('main-info');
+
+            currentCounty = county; // Sätt det aktuella länet
+
+            var iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', 'no');
+            iframeContainer.innerHTML = '';
+            iframeContainer.appendChild(iframe);
+            countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
+            mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
+            mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
+            iframeContainer.style.display = 'block'; // Visa iframen
+            backButton.style.display = 'block'; // Visa tillbaka knappen
+        }
+
         function goBack() {
             var iframeContainer = document.getElementById('iframe-container');
             var countyButtons = document.getElementById('county-buttons');
@@ -80,7 +103,7 @@
             countyButtons.style.display = 'block'; // Visa knapparna igen
             mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
             mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
-            backButton.classList.add('hidden'); // Dölj tillbaka knappen
+            backButton.style.display = 'none'; // Dölj tillbaka knappen
         }
     </script>
 </body>
