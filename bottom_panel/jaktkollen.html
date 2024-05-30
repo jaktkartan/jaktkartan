@@ -12,7 +12,9 @@
 
     <script>
         document.getElementById('fetch-button').addEventListener('click', function() {
-            fetch('https://docs.google.com/document/d/1roZZRJ35Fd5z0wOrGltF7_mA1yLU9NnBDvnDl_2qHzA/export?format=txt')
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const targetUrl = 'https://docs.google.com/document/d/1roZZRJ35Fd5z0wOrGltF7_mA1yLU9NnBDvnDl_2qHzA/export?format=txt';
+            fetch(proxyUrl + targetUrl)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
