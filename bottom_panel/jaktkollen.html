@@ -13,12 +13,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-  fetch('Jaktkollen_drillinger.md')
-    .then(response => response.text())
-    .then(markdown => {
-      const markdownContent = document.getElementById('markdown-content');
-      markdownContent.innerHTML = marked(markdown);
-    });
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        var markdownContent = document.getElementById('markdown-content');
+        markdownContent.innerHTML = marked(xhr.responseText);
+      } else {
+        console.error('Failed to fetch Markdown content:', xhr.status);
+      }
+    }
+  };
+  xhr.open('GET', 'Jaktkollen_drillinger.md');
+  xhr.send();
 </script>
 
 </body>
