@@ -4,6 +4,11 @@
     left: 10px !important;
 }
 
+body, button, span, div {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+
 html, body {
     margin: 0;
     padding: 0;
