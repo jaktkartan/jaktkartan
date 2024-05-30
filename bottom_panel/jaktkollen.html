@@ -6,37 +6,26 @@
     <title>Jaktkollen</title>
 </head>
 <body>
+    <h2>Jaktkollen</h2>
+    <button id="fetch-button">Ladda innehåll</button>
     <div id="content"></div>
-    <div>
-    <h2>Kaliberkrav</h2>
-    <p>Innehåll för kaliberkrav-fliken.</p>
-    <script>
-        // Funktion för att hämta innehåll från Google Apps Script
-        function getContent() {
-            var url = 'https://script.google.com/macros/s/AKfycbwHuLrewiJYyAHyg8m1bue8Alxown5CnZ6Szr4xvNA/exec';
-            
-            console.log('Fetching content from URL:', url);
 
-            fetch(url)
-            .then(response => {
-                console.log('Response:', response);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
-            .then(data => {
-                console.log('Received data:', data);
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => console.error('Error fetching content:', error));
-        }
-        
-        // Anropa getContent-funktionen när sidan laddas
-        window.onload = function() {
-            console.log('Page loaded');
-            getContent();
-        };
+    <script>
+        document.getElementById('fetch-button').addEventListener('click', function() {
+            fetch('https://docs.google.com/document/d/1roZZRJ35Fd5z0wOrGltF7_mA1yLU9NnBDvnDl_2qHzA/export?format=txt')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('content').innerText = data;
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        });
     </script>
 </body>
 </html>
