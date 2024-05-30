@@ -8,7 +8,21 @@
     <link rel="stylesheet" href="styles.css" />
     <script src="https://unpkg.com/suncalc/suncalc.js"></script>
     <script src="vaderprognos.js"></script>
-    <script src="iframeHandler.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function loadIframe(url) {
+                document.getElementById('sheet-iframe').src = url;
+                document.getElementById('iframe-container').style.display = 'block';
+            }
+
+            const buttons = document.querySelectorAll('.county-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    loadIframe(this.dataset.url);
+                });
+            });
+        });
+    </script>
     <style>
         .leaflet-top.leaflet-left {
             top: 80px !important;
