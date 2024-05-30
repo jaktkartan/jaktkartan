@@ -16,24 +16,6 @@ function showIframeAndHideButtons(url, county) {
     countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
     iframeContainer.style.display = 'block';
     backButton.classList.remove('hidden'); // Visa tillbaka knappen
-
-    // Lägg till händelselyssnare för att dölja rubriken och andra texter när iframen har laddats
-    iframe.onload = function() {
-        var iframeDocument = iframe.contentWindow.document;
-        var header = iframeDocument.querySelector('header');
-        var footer = iframeDocument.querySelector('footer');
-        if (header) header.style.display = 'none';
-        if (footer) footer.style.display = 'none';
-
-        // Dölj switcherOuter, switcherContent och switcherArrows efter att iframen har laddats
-        var switcherOuter = iframeDocument.querySelector('.switcherOuter');
-        var switcherContent = iframeDocument.querySelector('.switcherContent');
-        var switcherArrows = iframeDocument.querySelector('.switcherArrows');
-        
-        if (switcherOuter) switcherOuter.style.display = 'none';
-        if (switcherContent) switcherContent.style.display = 'none';
-        if (switcherArrows) switcherArrows.style.display = 'none';
-    };
 }
 
 function goBack() {
