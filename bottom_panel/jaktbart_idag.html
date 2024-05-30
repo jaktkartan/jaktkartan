@@ -9,41 +9,54 @@
     <link rel="stylesheet" href="styles.css" />
     <style>
         .county-button {
-    display: inline-block;
-    margin: 5px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.county-button:hover {
-    background-color: #0056b3;
-}
-
-#back-button {
-    display: none;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.hidden {
-    display: none;
-}
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 18px;
+            color: rgb(50, 94, 88);
+            background-color: #f0f0f0;
+            border: 2px solid rgb(50, 94, 88);
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .county-button:hover {
+            background-color: rgb(50, 94, 88);
+            color: white;
+        }
+        .iframe-container {
+            display: none;
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 700px; /* Justera höjden efter behov */
+            border: 1px solid #ccc;
+        }
+        .hidden {
+            display: none;
+        }
+        .hide-on-selection {
+            display: none;
+        }
+        #back-button {
+            display: none; /* Starta med att dölja tillbaka-knappen */
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: rgb(50, 94, 88);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <div id="county-buttons">
     <h1 id="main-title">Jaktbart Idag</h1>
-    <p id="main-info">Välj län för information om vad som är jaktbart idag!</p>
+    <p id="main-info">Information om vad som är jaktbart idag i olika län.</p>
+    <div id="county-buttons">
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Blekinge län')">Blekinge län</a>
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Dalarnas län')">Dalarnas län</a>
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Gotlands län')">Gotlands län</a>
@@ -65,59 +78,53 @@
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTgFOYLMInhQ7SZDQ4SFE17OJBpcUYSZcyVeCY_q2zBKNsdc5hbSwoRNMoFOMIeag/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Västra Götalands län')">Västra Götalands län</a>
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTeXGD1OrUQ2L43q1pCdmt1clCZ5aCgbNSKaH2Bi_UOCrv8SXMOY_ePD5uzF7nBSQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Örebro län')">Örebro län</a>
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Östergötlands län')">Östergötlands län</a>
+
     </div>
     <div class="iframe-container" id="iframe-container">
-        <!-- Denna del ska bytas ut -->
         <!-- iframe visas här -->
-        <!-- Ska bytas ut med JavaScript-skapat iframe-element -->
     </div>
-    <!-- Hela nedanstående del ska läggas till -->
     <button id="back-button" class="hidden" onclick="goBack()">Tillbaka</button>
 
     <script>
-    var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
+        var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
 
-    function showIframeAndHideButtons(url, county) {
-        var iframeContainer = document.getElementById('iframe-container');
-        var countyButtons = document.getElementById('county-buttons');
-        var backButton = document.getElementById('back-button');
+        function showIframeAndHideButtons(url, county) {
+            var iframeContainer = document.getElementById('iframe-container');
+            var countyButtons = document.getElementById('county-buttons');
+            var backButton = document.getElementById('back-button');
+            var mainTitle = document.getElementById('main-title');
+            var mainInfo = document.getElementById('main-info');
 
-        currentCounty = county; // Sätt det aktuella länet
+            currentCounty = county; // Sätt det aktuella länet
 
-        var iframe = document.createElement('iframe');
-        iframe.src = url;
-        iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('scrolling', 'no');
-        iframeContainer.innerHTML = '';
-        iframeContainer.appendChild(iframe);
-        countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
-        iframeContainer.style.display = 'block'; // Visa iframen
-        backButton.style.display = 'block'; // Visa tillbaka knappen
+            var iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', 'no');
+            iframeContainer.innerHTML = '';
+            iframeContainer.appendChild(iframe);
+            countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
+            mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
+            mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
+            iframeContainer.style.display = 'block'; // Visa iframen
+            backButton.style.display = 'block'; // Visa tillbaka knappen
+        }
 
-        // Skrolla till toppen av sidan
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth' // Smidig scrollningseffekt
-        });
-    }
+        function goBack() {
+            var iframeContainer = document.getElementById('iframe-container');
+            var countyButtons = document.getElementById('county-buttons');
+            var backButton = document.getElementById('back-button');
+            var mainTitle = document.getElementById('main-title');
+            var mainInfo = document.getElementById('main-info');
 
-    function goBack() {
-        var iframeContainer = document.getElementById('iframe-container');
-        var countyButtons = document.getElementById('county-buttons');
-        var backButton = document.getElementById('back-button');
+            currentCounty = ""; // Nollställ det aktuella länet
 
-        currentCounty = ""; // Nollställ det aktuella länet
-
-        iframeContainer.innerHTML = ''; // Ta bort iframen
-        countyButtons.style.display = 'block'; // Visa knapparna igen
-        backButton.style.display = 'none'; // Dölj tillbaka knappen
-
-        // Skrolla till toppen av sidan
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth' // Smidig scrollningseffekt
-        });
-    }
+            iframeContainer.innerHTML = ''; // Ta bort iframen
+            countyButtons.style.display = 'block'; // Visa knapparna igen
+            mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
+            mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
+            backButton.style.display = 'none'; // Dölj tillbaka knappen
+        }
     </script>
 </body>
 </html>
