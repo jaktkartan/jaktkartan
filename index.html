@@ -10,24 +10,16 @@
     <script src="vaderprognos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            function loadIframe(url) {
-                document.getElementById('sheet-iframe').src = url;
-                document.getElementById('iframe-container').style.display = 'block';
-            }
-
             const buttons = document.querySelectorAll('.county-button');
             buttons.forEach(button => {
                 button.addEventListener('click', function() {
-                    loadIframe(this.dataset.url);
+                    const url = this.dataset.url;
+                    document.getElementById('sheet-iframe').src = url;
+                    document.getElementById('iframe-container').style.display = 'block';
                 });
             });
         });
     </script>
-    <script>
-        function loadIframe(url) {
-            document.getElementById('sheet-iframe').src = url;
-            document.getElementById('iframe-container').style.display = 'block';
-        }
     <style>
         .leaflet-top.leaflet-left {
             top: 80px !important;
@@ -174,7 +166,7 @@
                         var lon = parseFloat(loc[1]);
                         updateUserPosition(lat, lon, "Unknown");
                     })
-                    .catch(function (error) {
+                    .catch(function (error                    .catch(function (error) {
                         console.log("IP Geolocation failed: " + error.message);
                     });
             }
@@ -233,5 +225,4 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 </html>
-
 
