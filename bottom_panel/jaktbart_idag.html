@@ -35,6 +35,10 @@
             left: 50%;
             transform: translate(-50%, -50%);
             display: none; /* Laddningsikonen är dold som standard */
+            width: 50px;
+            height: 50px;
+            background: url('bilder/ikon3.png') center center no-repeat; /* Lägg till din bild som bakgrund */
+            background-size: cover;
         }
     </style>
 
@@ -81,9 +85,6 @@
     </div>
 
     <!-- Laddningsikon -->
-    <div id="loader" class="loader">
-        <!-- Här kan du lägga till din laddningsikon -->
-        <!-- Exempel: <img src="din-bild-url.jpg" alt="Laddningsikon"> -->
-    </div>
+    <div id="loader" class="loader"></div>
 </body>
 </html>
