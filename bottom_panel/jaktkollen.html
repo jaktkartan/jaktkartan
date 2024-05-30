@@ -12,14 +12,14 @@
 
     <script>
         document.getElementById('fetch-button').addEventListener('click', function() {
-            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-            const targetUrl = 'https://docs.google.com/document/d/1roZZRJ35Fd5z0wOrGltF7_mA1yLU9NnBDvnDl_2qHzA/export?format=txt';
-            fetch(proxyUrl + targetUrl)
+            const targetUrl = 'https://script.google.com/macros/s/AKfycbyUzglk53H8WacWISBdtIGPVIP4ZL0D2__jSGXvU4VSRkn5sgDiZJZURjbNkAV8J6aB/exec';
+            
+            fetch(targetUrl)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-                    return response.text();
+                    return response.text(); // Ändra till text() eftersom vi returnerar plain text
                 })
                 .then(data => {
                     document.getElementById('content').innerText = data;
