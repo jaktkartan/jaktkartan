@@ -4,10 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
-        /* Stil för att dölja iframen */
+        .county-button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 18px;
+            color: rgb(50, 94, 88);
+            background-color: #f0f0f0;
+            border: 2px solid rgb(50, 94, 88);
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .county-button:hover {
+            background-color: rgb(50, 94, 88);
+            color: white;
+        }
         .iframe-container {
             display: none;
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 500px; /* Justera höjden efter behov */
+            border: 1px solid #ccc;
         }
     </style>
 
@@ -15,27 +40,14 @@
         function showIframe(url) {
             var iframeContainer = document.getElementById('iframe-container');
             var countyButtons = document.getElementById('county-buttons');
-            var loader = document.getElementById('loader');
-
-            // Visa laddningsikonen
-            loader.style.display = 'block';
-
-            // Dölj knappen när iframen visas
-            countyButtons.style.display = 'none';
-
-            // Visa laddningsbilden i 2 sekunder
-            setTimeout(function() {
-                loader.style.display = 'none';
-                iframeContainer.style.display = 'block';
-            }, 2000);
-
-            // Ladda iframen i bakgrunden
             var iframe = document.createElement('iframe');
             iframe.src = url;
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('scrolling', 'no');
             iframeContainer.innerHTML = '';
             iframeContainer.appendChild(iframe);
+            countyButtons.style.display = 'none'; // Dölj knappen när iframe visas
+            iframeContainer.style.display = 'block';
         }
     </script>
 </head>
@@ -43,17 +55,11 @@
     <h1>Jaktbart Idag</h1>
     <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
-        <button onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</button>
+    <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
         <!-- Lägg till liknande knappar för andra län här -->
     </div>
     <div class="iframe-container" id="iframe-container">
-        <!-- Iframen visas här -->
-    </div>
-
-    <!-- Laddningsikonen -->
-    <div id="loader" style="display: none;">
-        <img src="bilder/ikon3.png" alt="Loading..." width="50" height="50">
+        <!-- iframe visas här -->
     </div>
 </body>
 </html>
-
