@@ -9,4 +9,13 @@ function showIframe(url) {
     iframeContainer.appendChild(iframe);
     countyButtons.style.display = 'none'; // Dölj knappen när iframe visas
     iframeContainer.style.display = 'block';
+
+    // Lägg till händelselyssnare för att dölja rubriken och andra texter när iframen har laddats
+    iframe.onload = function() {
+        var iframeDocument = iframe.contentWindow.document;
+        var header = iframeDocument.querySelector('header');
+        var footer = iframeDocument.querySelector('footer');
+        if (header) header.style.display = 'none';
+        if (footer) footer.style.display = 'none';
+    };
 }
