@@ -36,3 +36,4 @@ function goBack() {
     mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
     backButton.classList.add('hidden'); // Dölj tillbaka knappen
 }
+
