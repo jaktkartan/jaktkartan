@@ -13,14 +13,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
+  console.log('Start fetching Markdown content...');
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
+        console.log('Response:', xhr.responseText);
         var markdownContent = document.getElementById('markdown-content');
         markdownContent.innerHTML = marked(xhr.responseText);
+        console.log('Markdown content successfully displayed on the page.');
       } else {
-        console.error('Failed to fetch Markdown content:', xhr.status);
+        console.error('Error fetching Markdown content:', xhr.status);
       }
     }
   };
