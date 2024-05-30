@@ -19,6 +19,7 @@ function showIframeAndHideButtons(url, county) {
     mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
     mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
     backButton.classList.remove('hidden'); // Visa tillbaka knappen
+    backButton.style.display = 'block'; // Visa tillbaka knappen
     iframeContainer.style.display = 'block'; // Visa iframen
 }
 
@@ -35,5 +36,5 @@ function goBack() {
     countyButtons.style.display = 'block'; // Visa knapparna igen
     mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
     mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
-    backButton.classList.add('hidden'); // Dölj tillbaka knappen
+    backButton.style.display = 'none'; // Dölj tillbaka knappen
 }
