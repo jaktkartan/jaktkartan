@@ -109,7 +109,7 @@
         iframeContainer.style.display = 'block'; // Visa iframen
         backButton.style.display = 'block'; // Visa tillbaka knappen
 
-        // Skrolla till toppen av sidan
+        // Smidig skrollning till toppen av sidan
         window.scrollTo({
             top: 0,
             behavior: 'smooth' // Smidig scrollningseffekt
@@ -130,6 +130,12 @@
         mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
         mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
         backButton.style.display = 'none'; // Dölj tillbaka knappen
+
+        // Smidig skrollning till toppen av sidan
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Smidig scrollningseffekt
+        });
     }
 </script>
 
