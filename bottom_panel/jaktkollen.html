@@ -16,7 +16,9 @@
   console.log('Start fetching Markdown content...');
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
+    console.log('Ready state:', xhr.readyState);
     if (xhr.readyState === XMLHttpRequest.DONE) {
+      console.log('Response status:', xhr.status);
       if (xhr.status === 200) {
         console.log('Response:', xhr.responseText);
         var markdownContent = document.getElementById('markdown-content');
