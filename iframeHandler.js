@@ -17,14 +17,5 @@ function showIframe(url) {
         var footer = iframeDocument.querySelector('footer');
         if (header) header.style.display = 'none';
         if (footer) footer.style.display = 'none';
-
-        // Dölj switcherOuter, switcherContent och switcherArrows efter att iframen har laddats
-        var switcherOuter = iframeDocument.querySelector('.switcherOuter');
-        var switcherContent = iframeDocument.querySelector('.switcherContent');
-        var switcherArrows = iframeDocument.querySelector('.switcherArrows');
-        
-        if (switcherOuter) switcherOuter.style.display = 'none';
-        if (switcherContent) switcherContent.style.display = 'none';
-        if (switcherArrows) switcherArrows.style.display = 'none';
     };
 }
