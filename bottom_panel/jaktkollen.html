@@ -11,19 +11,23 @@
     <script>
         // Funktion för att hämta innehåll från Google Apps Script
         function getContent() {
-            // Ange URL till Google Apps Script
-            var url = 'https://script.google.com/macros/s/AKfycbwHuLrewiJYyAHyg8m1bue8Alxown5CnZ6Szr4xvNA/exec';
-            
-            // Logga URL till konsolen för felsökning
-            console.log('URL to fetch:', url);
+    var url = 'https://script.google.com/macros/s/AKfycbwHuLrewiJYyAHyg8m1bue8Alxown5CnZ6Szr4xvNA/exec';
+    
+    console.log('Fetching content from URL:', url);
 
-            // Gör ett HTTP GET-anrop till Google Apps Script
-            fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                // Visa innehållet på webbsidan
-                document.getElementById('content').innerHTML = data;
-            })
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        console.log('Received data:', data);
+        document.getElementById('content').innerHTML = data;
+    })
+    .catch(error => console.error('Error fetching content:', error));
+}
             .catch(error => console.error('Error:', error));
         }
         
