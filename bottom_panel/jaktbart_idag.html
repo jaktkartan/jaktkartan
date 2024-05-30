@@ -34,20 +34,50 @@
             height: 500px; /* Justera höjden efter behov */
             border: 1px solid #ccc;
         }
+        /* Stilregler för laddningsikonen */
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none; /* Laddningsikonen är dold som standard */
+            width: 50px;
+            height: 50px;
+            background: url('bilder/ikon3.png') center center no-repeat; /* Bakgrundsbild för laddningsikonen */
+            background-size: cover;
+            animation: spin 2s linear infinite; /* Rotationseffekten för laddningsikonen */
+        }
+        /* CSS-nyckelram för att rotera laddningsikonen */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 
     <script>
         function showIframe(url) {
             var iframeContainer = document.getElementById('iframe-container');
             var countyButtons = document.getElementById('county-buttons');
+            var loader = document.getElementById('loader');
+
+            // Visa laddningsikonen och dölj knappen
+            loader.style.display = 'block';
+            countyButtons.style.display = 'none';
+
+            // Simulera en laddningstid på 2 sekunder med setTimeout
+            setTimeout(function() {
+                // Dölj laddningsikonen och visa iframen
+                loader.style.display = 'none';
+                iframeContainer.style.display = 'block';
+            }, 2000);
+
+            // Skapa och ladda iframen (detta skulle normalt göras direkt utan timeout)
             var iframe = document.createElement('iframe');
             iframe.src = url;
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('scrolling', 'no');
             iframeContainer.innerHTML = '';
             iframeContainer.appendChild(iframe);
-            countyButtons.style.display = 'none'; // Dölj knappen när iframe visas
-            iframeContainer.style.display = 'block';
         }
     </script>
 </head>
@@ -55,11 +85,13 @@
     <h1>Jaktbart Idag</h1>
     <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
-    <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
+        <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
         <!-- Lägg till liknande knappar för andra län här -->
     </div>
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
     </div>
+    <!-- Laddningsikonen -->
+    <div id="loader" class="loader"></div>
 </body>
 </html>
