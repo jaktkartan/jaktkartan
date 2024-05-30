@@ -26,53 +26,54 @@
             background-color: rgb(50, 94, 88);
             color: white;
         }
-        .iframe-container {
-            display: none;
-        }
-        .iframe-container iframe {
-            width: 100%;
-            height: 500px; /* Justera höjden efter behov */
-            border: 1px solid #ccc;
-        }
-        /* Stilregler för laddningsikonen */
         .loader {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            display: none; /* Laddningsikonen är dold som standard */
+            display: none;
             width: 50px;
             height: 50px;
-            background: url('bilder/ikon3.png') center center no-repeat; /* Bakgrundsbild för laddningsikonen */
+            background: url('bilder/ikon3.png') center center no-repeat;
             background-size: cover;
-            animation: spin 2s linear infinite; /* Rotationseffekten för laddningsikonen */
+            animation: spin 2s linear infinite;
+        }
+        .iframe-container {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+            display: none;
         }
     </style>
 
     <script>
         function showIframe(url) {
             var iframeContainer = document.getElementById('iframe-container');
+            var loader = document.getElementById('loader');
             var countyButtons = document.getElementById('county-buttons');
-            var loader = document.getElementById('loader'); // Hämta referensen till laddningsikonen
-            var iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('scrolling', 'no');
 
-            // Visa laddningsikonen när knappen klickas
+            // Visa laddningsikonen
             loader.style.display = 'block';
 
-            // Dölj knappen när iframen visas
+            // Dölj knappen
             countyButtons.style.display = 'none';
 
-            // Visa laddningsbilden i 2 sekunder
+            // Visa laddningsikonen i 2 sekunder innan iframen visas
             setTimeout(function() {
+                // Dölj laddningsikonen efter 2 sekunder
                 loader.style.display = 'none';
-                iframeContainer.style.display = 'block'; // Visa iframen efter 2 sekunder
-            }, 2000);
 
-            // Lägg till iframen till HTML-dokumentet
-            iframeContainer.appendChild(iframe);
+                // Visa iframen
+                iframeContainer.style.display = 'block';
+
+                // Skapa och ladda iframen
+                var iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('scrolling', 'no');
+                iframeContainer.innerHTML = '';
+                iframeContainer.appendChild(iframe);
+            }, 2000);
         }
     </script>
 </head>
@@ -81,13 +82,8 @@
     <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
         <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
-        <!-- Lägg till liknande knappar för andra län här -->
     </div>
-    <div class="iframe-container" id="iframe-container">
-        <!-- Iframen visas här -->
-    </div>
-
-    <!-- Laddningsikonen -->
-    <div id="loader" class="loader"></div>
+    <div class="loader" id="loader"></div>
+    <div class="iframe-container" id="iframe-container"></div>
 </body>
 </html>
