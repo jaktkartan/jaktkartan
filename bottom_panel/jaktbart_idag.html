@@ -86,45 +86,52 @@
     <button id="back-button" class="hidden" onclick="goBack()">Tillbaka</button>
 
     <script>
-        var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
+    var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
 
-        function showIframeAndHideButtons(url, county) {
-            var iframeContainer = document.getElementById('iframe-container');
-            var countyButtons = document.getElementById('county-buttons');
-            var backButton = document.getElementById('back-button');
-            var mainTitle = document.getElementById('main-title');
-            var mainInfo = document.getElementById('main-info');
+    function showIframeAndHideButtons(url, county) {
+        var iframeContainer = document.getElementById('iframe-container');
+        var countyButtons = document.getElementById('county-buttons');
+        var backButton = document.getElementById('back-button');
+        var mainTitle = document.getElementById('main-title');
+        var mainInfo = document.getElementById('main-info');
 
-            currentCounty = county; // Sätt det aktuella länet
+        currentCounty = county; // Sätt det aktuella länet
 
-            var iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('scrolling', 'no');
-            iframeContainer.innerHTML = '';
-            iframeContainer.appendChild(iframe);
-            countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
-            mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
-            mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
-            iframeContainer.style.display = 'block'; // Visa iframen
-            backButton.style.display = 'block'; // Visa tillbaka knappen
-        }
+        var iframe = document.createElement('iframe');
+        iframe.src = url;
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('scrolling', 'no');
+        iframeContainer.innerHTML = '';
+        iframeContainer.appendChild(iframe);
+        countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
+        mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
+        mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
+        iframeContainer.style.display = 'block'; // Visa iframen
+        backButton.style.display = 'block'; // Visa tillbaka knappen
 
-        function goBack() {
-            var iframeContainer = document.getElementById('iframe-container');
-            var countyButtons = document.getElementById('county-buttons');
-            var backButton = document.getElementById('back-button');
-            var mainTitle = document.getElementById('main-title');
-            var mainInfo = document.getElementById('main-info');
+        // Skrolla till toppen av sidan
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Smidig scrollningseffekt
+        });
+    }
 
-            currentCounty = ""; // Nollställ det aktuella länet
+    function goBack() {
+        var iframeContainer = document.getElementById('iframe-container');
+        var countyButtons = document.getElementById('county-buttons');
+        var backButton = document.getElementById('back-button');
+        var mainTitle = document.getElementById('main-title');
+        var mainInfo = document.getElementById('main-info');
 
-            iframeContainer.innerHTML = ''; // Ta bort iframen
-            countyButtons.style.display = 'block'; // Visa knapparna igen
-            mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
-            mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
-            backButton.style.display = 'none'; // Dölj tillbaka knappen
-        }
-    </script>
+        currentCounty = ""; // Nollställ det aktuella länet
+
+        iframeContainer.innerHTML = ''; // Ta bort iframen
+        countyButtons.style.display = 'block'; // Visa knapparna igen
+        mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
+        mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
+        backButton.style.display = 'none'; // Dölj tillbaka knappen
+    }
+</script>
+
 </body>
 </html>
