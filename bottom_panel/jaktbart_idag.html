@@ -47,36 +47,31 @@
             background-size: cover;
             animation: spin 2s linear infinite; /* Rotationseffekten för laddningsikonen */
         }
-        /* CSS-nyckelram för att rotera laddningsikonen */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 
     <script>
         function showIframe(url) {
             var iframeContainer = document.getElementById('iframe-container');
             var countyButtons = document.getElementById('county-buttons');
-            var loader = document.getElementById('loader');
-
-            // Visa laddningsikonen och dölj knappen
-            loader.style.display = 'block';
-            countyButtons.style.display = 'none';
-
-            // Simulera en laddningstid på 2 sekunder med setTimeout
-            setTimeout(function() {
-                // Dölj laddningsikonen och visa iframen
-                loader.style.display = 'none';
-                iframeContainer.style.display = 'block';
-            }, 2000);
-
-            // Skapa och ladda iframen (detta skulle normalt göras direkt utan timeout)
+            var loader = document.getElementById('loader'); // Hämta referensen till laddningsikonen
             var iframe = document.createElement('iframe');
             iframe.src = url;
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('scrolling', 'no');
-            iframeContainer.innerHTML = '';
+
+            // Visa laddningsikonen när knappen klickas
+            loader.style.display = 'block';
+
+            // Dölj knappen när iframen visas
+            countyButtons.style.display = 'none';
+
+            // Visa laddningsbilden i 2 sekunder
+            setTimeout(function() {
+                loader.style.display = 'none';
+                iframeContainer.style.display = 'block'; // Visa iframen efter 2 sekunder
+            }, 2000);
+
+            // Lägg till iframen till HTML-dokumentet
             iframeContainer.appendChild(iframe);
         }
     </script>
@@ -89,8 +84,9 @@
         <!-- Lägg till liknande knappar för andra län här -->
     </div>
     <div class="iframe-container" id="iframe-container">
-        <!-- iframe visas här -->
+        <!-- Iframen visas här -->
     </div>
+
     <!-- Laddningsikonen -->
     <div id="loader" class="loader"></div>
 </body>
