@@ -34,7 +34,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            display: none; /* Laddningsikonen är dold som standard */
+            display: block; /* Visa laddningsikonen som standard */
             width: 50px;
             height: 50px;
             background: url('bilder/ikon3.png') center center no-repeat; /* Bakgrundsbild för laddningsikonen */
@@ -51,34 +51,35 @@
     </style>
 
     <script>
-    function showIframe(url) {
-        var iframeContainer = document.getElementById('iframe-container');
-        var loader = document.getElementById('loader'); // Hämta referensen till laddningsikonen
-        var countyButtons = document.getElementById('county-buttons');
-        var iframe = document.createElement('iframe');
-        iframe.src = url;
-        iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('scrolling', 'no');
+        function showIframe(url) {
+            var iframeContainer = document.getElementById('iframe-container');
+            var loader = document.getElementById('loader'); // Hämta referensen till laddningsikonen
+            var countyButtons = document.getElementById('county-buttons');
+            var iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', 'no');
 
-        // Dölj knappen när iframen visas
-        countyButtons.style.display = 'none';
+            // Visa laddningsikonen när knappen klickas
+            loader.style.display = 'block';
 
-        // Visa laddningsikonen när knappen klickas
-        loader.style.display = 'block';
+            // Dölj knappen när iframen visas
+            countyButtons.style.display = 'none';
 
-        // Lägg till event lyssnare för att dölja laddningssymbolen när iframen är klar med att ladda
-        iframe.onload = function() {
-            loader.style.display = 'none'; // Dölj laddningssymbolen
-            iframeContainer.innerHTML = ''; // Rensa innehållet i iframen
-            iframeContainer.appendChild(iframe); // Lägg till iframen
-            iframeContainer.style.display = 'block'; // Visa iframen
-        };
+            // När iframen är klar med att ladda
+            iframe.onload = function() {
+                // Dölj laddningsikonen
+                loader.style.display = 'none';
+                // Visa iframen
+                iframeContainer.innerHTML = '';
+                iframeContainer.appendChild(iframe);
+                iframeContainer.style.display = 'block';
+            };
 
-        // Lägg till iframen till HTML-dokumentet
-        iframeContainer.appendChild(iframe);
-    }
-</script>
-
+            // Lägg till iframen till HTML-dokumentet
+            iframeContainer.appendChild(iframe);
+        }
+    </script>
 </head>
 <body>
     <h1>Jaktbart Idag</h1>
