@@ -14,6 +14,9 @@
             // Ange URL till Google Apps Script
             var url = 'https://script.google.com/macros/s/AKfycbzijrFWtUbxjZ8bDhTGB2w5uS2N-K9G5xUD9Mzygw/exec';
             
+            // Logga URL till konsolen för felsökning
+            console.log('URL to fetch:', url);
+
             // Gör ett HTTP GET-anrop till Google Apps Script
             fetch(url)
             .then(response => response.text())
@@ -31,3 +34,4 @@
     </script>
 </body>
 </html>
+
