@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
+    <script src="iframeHandler.js"></script>
     <style>
         .county-button {
             display: block;
@@ -34,28 +35,16 @@
             height: 500px; /* Justera höjden efter behov */
             border: 1px solid #ccc;
         }
-    </style>
-
-    <script>
-        function showIframe(url) {
-            var iframeContainer = document.getElementById('iframe-container');
-            var countyButtons = document.getElementById('county-buttons');
-            var iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('scrolling', 'no');
-            iframeContainer.innerHTML = '';
-            iframeContainer.appendChild(iframe);
-            countyButtons.style.display = 'none'; // Dölj knappen när iframe visas
-            iframeContainer.style.display = 'block';
+        .hidden {
+            display: none;
         }
-    </script>
+    </style>
 </head>
 <body>
     <h1>Jaktbart Idag</h1>
     <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
-    <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
+        <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
         <!-- Lägg till liknande knappar för andra län här -->
     </div>
     <div class="iframe-container" id="iframe-container">
@@ -63,3 +52,4 @@
     </div>
 </body>
 </html>
+
