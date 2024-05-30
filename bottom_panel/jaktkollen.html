@@ -13,7 +13,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
+  alert('JavaScript is running'); // För att verifiera att koden körs
   console.log('Start fetching Markdown content...');
+  
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
     console.log('Ready state:', xhr.readyState);
