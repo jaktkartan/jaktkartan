@@ -1,33 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktkollen</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jaktkollen</title>
 </head>
 <body>
-    <h2>Jaktkollen</h2>
-    <button id="fetch-button">Ladda innehåll</button>
-    <div id="content"></div>
 
-    <script>
-        document.getElementById('fetch-button').addEventListener('click', function() {
-            const targetUrl = 'https://script.google.com/macros/s/AKfycbyUzglk53H8WacWISBdtIGPVIP4ZL0D2__jSGXvU4VSRkn5sgDiZJZURjbNkAV8J6aB/exec';
-            
-            fetch(targetUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text(); // Ändra till text() eftersom vi returnerar plain text
-                })
-                .then(data => {
-                    document.getElementById('content').innerText = data;
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
-        });
-    </script>
+<div id="markdown-content">
+  <!-- Markdown-innehållet kommer att infogas här -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  fetch('bottom_panel/Jaktkollen_drillinger.md')
+    .then(response => response.text())
+    .then(markdown => {
+      const markdownContent = document.getElementById('markdown-content');
+      markdownContent.innerHTML = marked(markdown);
+    });
+</script>
+
 </body>
 </html>
