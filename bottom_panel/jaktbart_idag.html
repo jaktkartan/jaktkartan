@@ -38,6 +38,9 @@
         .hidden {
             display: none;
         }
+        .hide-on-selection {
+            display: none;
+        }
         #back-button {
             display: block;
             margin: 20px auto;
@@ -52,30 +55,11 @@
     </style>
 </head>
 <body>
-    <h1>Jaktbart Idag</h1>
-    <p>Information om vad som är jaktbart idag i olika län.</p>
+    <h1 id="main-title">Jaktbart Idag</h1>
+    <p id="main-info">Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Blekinge län')">Blekinge län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_DALARNAS', 'Dalarnas län')">Dalarnas län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_GAVLEBORGS', 'Gävleborgs län')">Gävleborgs län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_GOTLANDS', 'Gotlands län')">Gotlands län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_HALLANDS', 'Hallands län')">Hallands län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_JAMTLANDS', 'Jämtlands län')">Jämtlands län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_JONKOPINGS', 'Jönköpings län')">Jönköpings län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_KALMAR', 'Kalmar län')">Kalmar län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_KRONOBERGS', 'Kronobergs län')">Kronobergs län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_NORRBOTTENS', 'Norrbottens län')">Norrbottens län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_SKANES', 'Skåne län')">Skåne län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_STOCKHOLM', 'Stockholms län')">Stockholms län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_SODERMANLANDS', 'Södermanlands län')">Södermanlands län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_UPPSALA', 'Uppsala län')">Uppsala län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_VARMLANDS', 'Värmlands län')">Värmlands län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_VASTERBOTTENS', 'Västerbottens län')">Västerbottens län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_VASTERNORRLANDS', 'Västernorrlands län')">Västernorrlands län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_VASTMANLANDS', 'Västmanlands län')">Västmanlands län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_VASTRA_GOTALANDS', 'Västra Götalands län')">Västra Götalands län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_OREBRO', 'Örebro län')">Örebro län</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('URL_TILL_GOOGLE_SHEET_OSTERGOTLANDS', 'Östergötlands län')">Östergötlands län</a>
+        <!-- Lägg till dina andra län här -->
     </div>
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
