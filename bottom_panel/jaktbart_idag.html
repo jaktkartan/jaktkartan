@@ -4,70 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" />
     <style>
-        .county-button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 15px;
-            font-size: 18px;
-            color: rgb(50, 94, 88);
-            background-color: #f0f0f0;
-            border: 2px solid rgb(50, 94, 88);
-            border-radius: 5px;
-            text-decoration: none;
-            text-align: center;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .county-button:hover {
-            background-color: rgb(50, 94, 88);
-            color: white;
-        }
-        /* Stilregler för laddningsikonen */
-        .loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none; /* Laddningsikonen är dold som standard */
-            width: 50px;
-            height: 50px;
-            background: url('bilder/ikon3.png') center center no-repeat; /* Bakgrundsbild för laddningsikonen */
-            background-size: cover;
-            animation: spin 2s linear infinite; /* Rotationseffekten för laddningsikonen */
-        }
-        /* Justera storleken på iframen */
+        /* Stil för att dölja iframen */
         .iframe-container {
-            width: 100%;
-            height: 500px; /* Justera höjden efter behov */
-            border: 1px solid #ccc;
-            display: none; /* Iframen är dold som standard */
+            display: none;
         }
     </style>
 
     <script>
         function showIframe(url) {
             var iframeContainer = document.getElementById('iframe-container');
-            var loader = document.getElementById('loader'); // Hämta referensen till laddningsikonen
             var countyButtons = document.getElementById('county-buttons');
+            var loader = document.getElementById('loader');
 
-            // Visa laddningsikonen när knappen klickas
+            // Visa laddningsikonen
             loader.style.display = 'block';
 
             // Dölj knappen när iframen visas
             countyButtons.style.display = 'none';
 
+            // Visa laddningsbilden i 2 sekunder
             setTimeout(function() {
-                // Dölj laddningsikonen efter 2 sekunder
                 loader.style.display = 'none';
-
-                // Visa iframen
                 iframeContainer.style.display = 'block';
-                iframeContainer.innerHTML = '<iframe src="' + url + '" frameborder="0" scrolling="no" style="width: 100%; height: 100%;"></iframe>';
-            }, 2000); // Visa iframen efter 2 sekunder
+            }, 2000);
+
+            // Ladda iframen i bakgrunden
+            var iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', 'no');
+            iframeContainer.innerHTML = '';
+            iframeContainer.appendChild(iframe);
         }
     </script>
 </head>
@@ -75,7 +43,7 @@
     <h1>Jaktbart Idag</h1>
     <p>Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
-        <a href="#" class="county-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</a>
+        <button onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml')">Blekinge län</button>
         <!-- Lägg till liknande knappar för andra län här -->
     </div>
     <div class="iframe-container" id="iframe-container">
@@ -83,6 +51,9 @@
     </div>
 
     <!-- Laddningsikonen -->
-    <div id="loader" class="loader"></div>
+    <div id="loader" style="display: none;">
+        <img src="bilder/ikon3.png" alt="Loading..." width="50" height="50">
+    </div>
 </body>
 </html>
+
