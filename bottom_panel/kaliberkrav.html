@@ -62,33 +62,37 @@
         <!-- Använda funktionen showIframeAndResetState för att visa iframen och återställa tillståndet -->
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false', 'Däggdjur')">Däggdjur</a>
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false', 'Fågel')">Fågel</a>
-    </div>
+     </div>
     <div class="iframe-container" id="iframe-container">
-        <!-- iframen visas här -->
+        <!-- iframe visas här -->
     </div>
     <button id="back-button" class="hidden" onclick="goBack()">Tillbaka</button>
 
     <script>
-        var currentCounty = ""; // Variabel för att hålla reda på det aktuella county
+        var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
 
-        // Funktion för att återställa relevanta variabler och tillstånd
-        function resetPageState() {
-            currentCounty = ""; // Återställ currentCounty-variabeln
-            // Återställ andra relevanta variabler och tillstånd här
+        function showIframeAndHideButtons(url, county) {
+            var iframeContainer = document.getElementById('iframe-container');
+            var countyButtons = document.getElementById('county-buttons');
+            var backButton = document.getElementById('back-button');
+            var mainTitle = document.getElementById('main-title');
+            var mainInfo = document.getElementById('main-info');
+
+            currentCounty = county; // Sätt det aktuella länet
+
+            var iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', 'no');
+            iframeContainer.innerHTML = '';
+            iframeContainer.appendChild(iframe);
+            countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
+            mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
+            mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
+            iframeContainer.style.display = 'block'; // Visa iframen
+            backButton.style.display = 'block'; // Visa tillbaka knappen
         }
 
-        // Funktion för att återställa iframe-tillståndet
-        function resetIframeState() {
-            // Lägg till kod för att återställa iframe-tillstånd om det behövs
-        }
-
-        // Funktion som körs när användaren klickar på en knapp för att visa iframen och återställa tillståndet
-        function showIframeAndResetState(url, county) {
-            resetIframeState(); // Återställ iframe-informationen
-            showIframeAndHideButtons(url, county); // Visa iframen och dölj knapparna
-        }
-
-        // Funktion som körs när användaren trycker på tillbaka-knappen
         function goBack() {
             var iframeContainer = document.getElementById('iframe-container');
             var countyButtons = document.getElementById('county-buttons');
@@ -96,7 +100,7 @@
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentCounty = ""; // Nollställ det aktuella county
+            currentCounty = ""; // Nollställ det aktuella länet
 
             iframeContainer.innerHTML = ''; // Ta bort iframen
             countyButtons.style.display = 'block'; // Visa knapparna igen
