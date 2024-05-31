@@ -7,13 +7,15 @@ axios.get('Upptack/upptack.geojson')
                 // Här kan du anpassa punkternas utseende baserat på egenskaperna (feature.properties)
                 var markerColor = getMarkerColor(feature.properties.TYP); // Hämta färg baserat på egenskapen TYP
 
-                return L.circleMarker(latlng, {
-                    radius: 8,
-                    fillColor: markerColor,
-                    color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: 'marker-icon.png',
+                        shadowUrl: 'marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    })
                 });
             },
             onEachFeature: function (feature, layer) {
@@ -41,4 +43,3 @@ function getMarkerColor(typ) {
         return "red";
     }
 }
-
