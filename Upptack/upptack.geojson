@@ -1,8 +1,7 @@
 {
-"type": "FeatureCollection",
-"name": "upptack",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
+    "type": "FeatureCollection",
+    "name": "upptack",
+    "features": [
 { "type": "Feature", "properties": { "id": null, "TYP": "Mässa", "BILD": null, "NAMN": "Swedish Game Fair", "DATUM_FRAN": "2024-05-31", "DATUM_TILL": "2024-06-02", "INFO": "Info här", "LINK": "https://swedishgamefair.se/?_gl=1%2A1028ghh%2A_ga%2AMjEyNjI1NDM0OC4xNzE2ODEwNTYz%2A_ga_V631EHX0D8%2AMTcxNjgxMjM4Mi4yLjAuMTcxNjgxMjM4Mi4wLjAuMA..%2A_ga_LZ1GD844NH%2AMTcxNjgxMjM4Mi4yLjAuMTcxNjgxMjM4Mi42MC4wLjEwMTcyNDA5MTY.", "VAGBESKRIV": "https://www.google.com/maps/dir/Current+Location/59.648620470601074,17.719069910819336", "AKTUALITET": "2024-05-27" }, "geometry": { "type": "Point", "coordinates": [ 17.714988357031846, 59.65832627913295 ] } },
 { "type": "Feature", "properties": { "id": null, "TYP": "Mässa", "BILD": null, "NAMN": "Västgård Game Fair", "DATUM_FRAN": "2024-07-26", "DATUM_TILL": "2024-07-28", "INFO": "info här", "LINK": "https://vastgardgamefair.se/", "VAGBESKRIV": "https://www.google.com/maps/dir/Current+Location/63.47535192032702,13.221122566949063", "AKTUALITET": "2024-05-27" }, "geometry": { "type": "Point", "coordinates": [ 13.221199084392396, 63.475364334829976 ] } },
 { "type": "Feature", "properties": { "id": null, "TYP": "Mässa", "BILD": null, "NAMN": "Nordmarken Game Fair", "DATUM_FRAN": "2024-08-02", "DATUM_TILL": "2024-08-04", "INFO": "Info här", "LINK": "https://www.nordmarkengamefair.se/", "VAGBESKRIV": "https://www.google.com/maps/dir/Current+Location/59.50754876339866,11.84248389020206", "AKTUALITET": "2024-05-27" }, "geometry": { "type": "Point", "coordinates": [ 11.8425512, 59.507802552940348 ] } },
