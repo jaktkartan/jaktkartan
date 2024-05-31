@@ -5,18 +5,7 @@ axios.get('Upptack/upptack.geojson')
         var geojsonLayer = L.geoJSON(response.data, {
             pointToLayer: function (feature, latlng) {
                 // Här kan du anpassa punkternas utseende baserat på egenskaperna (feature.properties)
-                var markerColor = getMarkerColor(feature.properties.TYP); // Hämta färg baserat på egenskapen TYP
-
-                return L.marker(latlng, {
-                    icon: L.icon({
-                        iconUrl: 'marker-icon.png',
-                        shadowUrl: 'marker-shadow.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                        shadowSize: [41, 41]
-                    })
-                });
+                return L.marker(latlng);
             },
             onEachFeature: function (feature, layer) {
                 // Här kan du lägga till popup-information för varje punkt
@@ -30,16 +19,3 @@ axios.get('Upptack/upptack.geojson')
     .catch(function (error) {
         console.log("Error fetching GeoJSON data:", error.message);
     });
-
-// Funktion för att bestämma markeringsfärg baserat på typ
-function getMarkerColor(typ) {
-    // Här kan du definiera olika färger för olika typer av händelser
-    // Exempel:
-    if (typ === "Mässa") {
-        return "blue";
-    } else if (typ === "Annat") {
-        return "green";
-    } else {
-        return "red";
-    }
-}
