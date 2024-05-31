@@ -59,7 +59,6 @@
     <div id="kaliber-buttons">
         <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false', 'Däggdjur')">Däggdjur</a>
         <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false', 'Fågel')">Fågel</a>
-
     </div>
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
@@ -67,7 +66,7 @@
     <button id="back-button" class="hidden" onclick="goBack()">Tillbaka</button>
 
     <script>
-        var currentkaliber = ""; // Variabel för att hålla reda på det aktuella kaliber
+        var currentKaliber = ""; // Variabel för att hålla reda på det aktuella kaliber
 
         function showIframeAndHideButtons(url, kaliber) {
             var iframeContainer = document.getElementById('iframe-container');
@@ -76,7 +75,7 @@
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentkaliber = kaliber; // Sätt det aktuella kaliber
+            currentKaliber = kaliber; // Sätt det aktuella kaliber
 
             var iframe = document.createElement('iframe');
             iframe.src = url;
@@ -88,6 +87,7 @@
             mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
             mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
             iframeContainer.style.display = 'block'; // Visa iframen
+            backButton.classList.remove('hidden'); // Visa tillbaka knappen
             backButton.style.display = 'block'; // Visa tillbaka knappen
         }
 
@@ -98,7 +98,7 @@
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentkaliber = ""; // Nollställ det aktuella kaliber, i detta fallet kaliberkrav
+            currentKaliber = ""; // Nollställ det aktuella kaliber
 
             iframeContainer.innerHTML = ''; // Ta bort iframen
             kaliberButtons.style.display = 'block'; // Visa knapparna igen
