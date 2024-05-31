@@ -15,6 +15,12 @@ axios.get('Upptack/upptack.geojson')
                 layer.bindPopup(popupContent);
             }
         }).addTo(map);
+
+        // Hämta alla standardmarkörer och ändra deras display-attribut till block för att göra dem synliga
+        var standardMarkers = document.querySelectorAll('.leaflet-marker-icon[src*="marker-icon.png"]');
+        standardMarkers.forEach(function(marker) {
+            marker.style.display = 'block';
+        });
     })
     .catch(function (error) {
         console.log("Error fetching GeoJSON data:", error.message);
