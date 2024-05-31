@@ -68,7 +68,7 @@
     <button id="back-button" class="hidden" onclick="goBack()">Tillbaka</button>
 
     <script>
-        var currentcounty = ""; // Variabel för att hålla reda på det aktuella county
+        var currentCounty = ""; // Variabel för att hålla reda på det aktuella county
 
         function showIframeAndHideButtons(url, county) {
             var iframeContainer = document.getElementById('iframe-container');
@@ -77,7 +77,7 @@
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentcounty = county; // Sätt det aktuella county
+            currentCounty = county; // Sätt det aktuella county
 
             var iframe = document.createElement('iframe');
             iframe.src = url;
@@ -100,7 +100,7 @@
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentcounty = ""; // Nollställ det aktuella county
+            currentCounty = ""; // Nollställ det aktuella county
 
             iframeContainer.innerHTML = ''; // Ta bort iframen
             countyButtons.style.display = 'block'; // Visa knapparna igen
