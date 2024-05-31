@@ -4,8 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown Content</title>
+    <style>
+        /* Maximal bredd för bilder */
+        img {
+            max-width: 100%; /* Bilder kommer att anpassa sig till förälderekten (body) */
+            height: auto; /* Bevara bildens proportioner */
+        }
+
+        /* Justera maximal bredd för bilder baserat på skärmstorlek */
+        @media only screen and (min-width: 768px) {
+            img {
+                max-width: 75%; /* På större skärmar kommer bilder att vara upp till 75% av förälderekten */
+            }
+        }
+    </style>
 </head>
 <body>
+
 
 
 
@@ -17,6 +32,7 @@
 Här kommer information om det senaste från <a href="http://www.jaktkartan.se">Jaktkartan</a> att synas men även andra jaktrelaterade nyheter kommer att finnas tillgängligt här.</p>
 <h2 id="senaste-blogginlägg">Senaste Blogginlägg</h2>
 <p>Jaktkollen kommer att innehålla en blogg för jaktintresserade. Håll ett öga här för att se de senaste blogginläggen!</p>
+
 
 
 
