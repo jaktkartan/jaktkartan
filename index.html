@@ -73,7 +73,7 @@
             tabs[i].style.display = 'none'; // Göm flikarna
             tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
         }
-                var tabContent = document.getElementById('tab-content');
+        var tabContent = document.getElementById('tab-content');
         tabContent.style.display = 'none'; // Göm flikinnehållet
     }
 
@@ -84,7 +84,7 @@
             resetTabs(); // Återställ flikarna om användaren klickar utanför dem
         }
     });
-
+    
     function togglePanel() {
         console.log("Toggling weather panel...");
         var weatherInfo = document.getElementById('weather-info');
@@ -105,7 +105,7 @@
     }
 
     function openTab(tabId, filePath) {
-        console.log("Opening tab:", tabId, "with file path:", 'Upptack/geojson/handelser.geojson');
+        console.log("Opening tab:", tabId, "with file path:", filePath);
         var tabContent = document.getElementById('tab-content');
         var tabs = document.getElementsByClassName('tab-pane');
 
@@ -122,11 +122,6 @@
             .then(function (response) {
                 console.log("Successfully fetched content for tab:", tabId);
                 activeTab.innerHTML = response.data;
-
-                // Add GeoJSON layer to the map
-                var geojsonData = response.data; // Assuming the response data is GeoJSON
-                var geojsonLayer = L.geoJSON(geojsonData).addTo(map);
-                map.fitBounds(geojsonLayer.getBounds()); // Fit the map to the bounds of the GeoJSON layer
             })
             .catch(function (error) {
                 console.log("Error fetching content for tab:", tabId, "Error message:", error.message);
@@ -160,6 +155,17 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+
+        // Lägg till GeoJSON-lager till kartan från början
+        axios.get('din_geojson_fil.geojson')
+            .then(function (response) {
+                console.log("Successfully fetched GeoJSON data:", response.data);
+                var geojsonLayer = L.geoJSON(response.data).addTo(map);
+                map.fitBounds(geojsonLayer.getBounds()); // Passa in kartan till GeoJSON-lagrets gränser
+            })
+            .catch(function (error) {
+                console.log("Error fetching GeoJSON data:", error.message);
+            });
 
         var accuracyCircle;
         var userMarker;
