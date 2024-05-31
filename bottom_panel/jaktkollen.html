@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
     }
-    #markdown-content {
+    #content {
       padding: 20px;
       border: 1px solid #ddd;
       margin: 20px auto;
@@ -20,8 +20,8 @@
 <body>
 
 <h2>Jaktkollen</h2>
-<div id="markdown-content">
-  <!-- Markdown-innehållet kommer att infogas här. -->
+<div id="content">
+  <!-- HTML-innehållet kommer att infogas här. -->
 </div>
 
 <script>
@@ -29,7 +29,7 @@
     fetch('bottom_panel/Jaktkollen_StackEdit.html')
       .then(response => response.text())
       .then(data => {
-        document.getElementById('markdown-content').innerHTML = data;
+        document.getElementById('content').innerHTML = data;
       })
       .catch(error => console.error('Error fetching the HTML content:', error));
   });
