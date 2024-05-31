@@ -271,8 +271,9 @@
         );
     } else {
         map.setView([62.0, 15.0], 5);
-    }
-        axios.get('Upptack/upptack.geojson')
+    });
+
+axios.get('Upptack/upptack.geojson')
     .then(function (response) {
         console.log("Successfully fetched GeoJSON data:", response.data);
         var geojsonLayer = L.geoJSON(response.data).addTo(map);
