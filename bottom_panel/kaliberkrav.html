@@ -67,7 +67,7 @@
     <button id="back-button" class="hidden" onclick="goBack()">Tillbaka</button>
 
     <script>
-        var currentkaliber = ""; // Variabel för att hålla reda på det aktuella länet
+        var currentkaliber = ""; // Variabel för att hålla reda på det aktuella kaliber
 
         function showIframeAndHideButtons(url, kaliber) {
             var iframeContainer = document.getElementById('iframe-container');
@@ -76,7 +76,7 @@
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentkaliber = kaliber; // Sätt det aktuella länet
+            currentkaliber = kaliber; // Sätt det aktuella kaliber
 
             var iframe = document.createElement('iframe');
             iframe.src = url;
@@ -98,7 +98,7 @@
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentkaliber = ""; // Nollställ det aktuella länet, i detta fallet kaliberkrav
+            currentkaliber = ""; // Nollställ det aktuella kaliber, i detta fallet kaliberkrav
 
             iframeContainer.innerHTML = ''; // Ta bort iframen
             kaliberButtons.style.display = 'block'; // Visa knapparna igen
