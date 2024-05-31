@@ -113,20 +113,20 @@
 
         // Funktion för att återställa sidan när användaren klickar på "Tillbaka"
         function goBack() {
-            var iframeContainer = document.getElementById('iframe-container');
-            var countyButtons = document.getElementById('county-buttons');
-            var backButton = document.getElementById('back-button');
-            var mainTitle = document.getElementById('main-title');
-            var mainInfo = document.getElementById('main-info');
+    var iframeContainer = document.getElementById('iframe-container');
+    var countyButtons = document.getElementById('county-buttons');
+    var backButton = document.getElementById('back-button');
+    var mainTitle = document.getElementById('main-title');
+    var mainInfo = document.getElementById('main-info');
 
-            currentCounty = ""; // Nollställ det aktuella länet
+    currentCounty = ""; // Nollställ det aktuella länet
 
-            iframeContainer.innerHTML = ''; // Ta bort iframen
-            countyButtons.style.display = 'block'; // Visa knapparna igen
-            mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
-            mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
-            backButton.style.display = 'none'; // Dölj tillbaka knappen
-        }
+    iframeContainer.innerHTML = ''; // Ta bort iframen
+    countyButtons.style.display = 'block'; // Visa knapparna igen
+    mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
+    mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
+    backButton.style.display = 'none'; // Dölj tillbaka knappen
+}
 
         // Funktion för att återställa sidan när användaren klickar utanför iframen
         document.addEventListener('click', function(event) {
