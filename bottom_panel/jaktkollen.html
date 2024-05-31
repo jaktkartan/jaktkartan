@@ -4,35 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jaktkollen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    #markdown-content {
+      padding: 20px;
+      border: 1px solid #ddd;
+      margin: 20px auto;
+      max-width: 800px;
+      background: #f9f9f9;
+    }
+  </style>
 </head>
 <body>
 
+<h2>Jaktkollen</h2>
 <div id="markdown-content">
   <!-- Markdown-innehållet kommer att infogas här. -->
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-  alert('JavaScript is running'); // För att verifiera att koden körs
-  console.log('Start fetching Markdown content...');
-  
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    console.log('Ready state:', xhr.readyState);
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      console.log('Response status:', xhr.status);
-      if (xhr.status === 200) {
-        console.log('Response:', xhr.responseText);
-        var markdownContent = document.getElementById('markdown-content');
-        markdownContent.innerHTML = marked(xhr.responseText);
-        console.log('Markdown content successfully displayed on the page.');
-      } else {
-        console.error('Error fetching Markdown content:', xhr.status);
-      }
-    }
-  };
-  xhr.open('GET', 'Jaktkollen_StackEdit.md');
-  xhr.send();
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('bottom_panel/Jaktkollen_StackEdit.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('markdown-content').innerHTML = data;
+      })
+      .catch(error => console.error('Error fetching the HTML content:', error));
+  });
 </script>
 
 </body>
