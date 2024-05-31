@@ -125,25 +125,6 @@
             mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
             backButton.style.display = 'none'; // Dölj tillbaka knappen
         }
-
-        // Global händelselyssnare för att stänga iframen när användaren klickar utanför den
-        window.addEventListener('click', function(event) {
-            var iframeContainer = document.getElementById('iframe-container');
-            var countyButtons = document.getElementById('county-buttons');
-            var backButton = document.getElementById('back-button');
-            var mainTitle = document.getElementById('main-title');
-            var mainInfo = document.getElementById('main-info');
-
-            // Kontrollera om klicket var utanför iframen och knapparna
-            if (!iframeContainer.contains(event.target) && !countyButtons.contains(event.target)) {
-                // Klicket var utanför iframen och knapparna, så stäng iframen
-                iframeContainer.innerHTML = ''; // Ta bort iframen
-                countyButtons.style.display = 'block'; // Visa knapparna igen
-                mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
-                mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
-                backButton.style.display = 'none'; // Dölj tillbaka knappen
-            }
- 
     </script>
 </body>
 </html>
