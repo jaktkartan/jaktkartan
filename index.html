@@ -269,9 +269,10 @@
                 maximumAge: 0
             }
         );
-    } else {
+        } else {
         map.setView([62.0, 15.0], 5);
-    });
+    }
+});
 
 axios.get('Upptack/upptack.geojson')
     .then(function (response) {
@@ -281,6 +282,7 @@ axios.get('Upptack/upptack.geojson')
     .catch(function (error) {
         console.log("Error fetching GeoJSON data:", error.message);
     });
+
 </script>
 </body>
 </html>
