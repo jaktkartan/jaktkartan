@@ -1,13 +1,13 @@
 var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
 
 function showIframeAndHideButtons(url, county) {
+    resetIframeState(); // Återställ iframe-informationen
+
     var iframeContainer = document.getElementById('iframe-container');
     var countyButtons = document.getElementById('county-buttons');
     var backButton = document.getElementById('back-button');
     var mainTitle = document.getElementById('main-title');
     var mainInfo = document.getElementById('main-info');
-
-    resetPageState(); // Återställ variabler och tillstånd
 
     currentCounty = county; // Sätt det aktuella länet
 
@@ -49,3 +49,6 @@ function resetPageState() {
     currentCounty = ""; // Återställ den aktuella länsvariabeln
 }
 
+function resetIframeState() {
+    // Add code here to reset iframe state if needed
+}
