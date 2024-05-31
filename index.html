@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktkartan.se</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <script src="https://unpkg.com/suncalc/suncalc.js"></script>
@@ -28,10 +27,9 @@
     </style>
 </head>
 <body>
-        /* jaktkartan logo längst upp i vänstra hörnet med länk till jaktkartan.se */
     <a href="http://www.jaktkartan.se" style="position: fixed; top: 15px; left: 10px; z-index: 9999;">
-    <img src="bilder/ikon3.png" alt="Jaktkartan.se" style="width: 50px; height: auto;">
-</a>
+        <img src="bilder/ikon3.png" alt="Jaktkartan.se" style="width: 50px; height: auto;">
+    </a>
 
     <div id="info-panel">
         <div id="accuracy">Lägesnoggrannhet: Unknown</div>
@@ -65,25 +63,26 @@
     
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="Upptack/map.js"></script>
     <script>
-    // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
-    function resetTabs() {
-        var tabs = document.getElementsByClassName('tab-pane');
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].style.display = 'none'; // Göm flikarna
-            tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+        // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+        function resetTabs() {
+            var tabs = document.getElementsByClassName('tab-pane');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = 'none'; // Göm flikarna
+                tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+            }
+            var tabContent = document.getElementById('tab-content');
+            tabContent.style.display = 'none'; // Göm flikinnehållet
         }
-        var tabContent = document.getElementById('tab-content');
-        tabContent.style.display = 'none'; // Göm flikinnehållet
-    }
 
-    // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
-    document.addEventListener('click', function(event) {
-        var tabContent = document.getElementById('tab-content');
-        if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-            resetTabs(); // Återställ flikarna om användaren klickar utanför dem
-        }
-    });
+        // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
+        document.addEventListener('click', function(event) {
+            var tabContent = document.getElementById('tab-content');
+            if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+                resetTabs(); // Återställ flikarna om användaren klickar utanför dem
+            }
+        });
         function togglePanel() {
             console.log("Toggling weather panel...");
             var weatherInfo = document.getElementById('weather-info');
