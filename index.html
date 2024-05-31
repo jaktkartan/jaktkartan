@@ -160,9 +160,12 @@
         axios.get('Upptack/geojson/handelser.geojson')
     .then(function (response) {
         console.log("Successfully fetched GeoJSON data:", response.data);
-        var geojsonLayer = L.geoJSON(response.data).addTo(map);
-        map.fitBounds(geojsonLayer.getBounds()); // Passa in kartan till GeoJSON-lagrets gränser
+        L.geoJSON(response.data).addTo(map);
     })
+    .catch(function (error) {
+        console.log("Error fetching GeoJSON data:", error.message);
+    });
+
     .catch(function (error) {
         console.log("Error fetching GeoJSON data:", error.message);
     });
