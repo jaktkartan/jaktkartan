@@ -157,15 +157,15 @@
         }).addTo(map);
 
         // Lägg till GeoJSON-lager till kartan från början
-        axios.get('din_geojson_fil.geojson')
-            .then(function (response) {
-                console.log("Successfully fetched GeoJSON data:", response.data);
-                var geojsonLayer = L.geoJSON(response.data).addTo(map);
-                map.fitBounds(geojsonLayer.getBounds()); // Passa in kartan till GeoJSON-lagrets gränser
-            })
-            .catch(function (error) {
-                console.log("Error fetching GeoJSON data:", error.message);
-            });
+        axios.get('Upptack/geojson/handelser.geojson')
+    .then(function (response) {
+        console.log("Successfully fetched GeoJSON data:", response.data);
+        var geojsonLayer = L.geoJSON(response.data).addTo(map);
+        map.fitBounds(geojsonLayer.getBounds()); // Passa in kartan till GeoJSON-lagrets gränser
+    })
+    .catch(function (error) {
+        console.log("Error fetching GeoJSON data:", error.message);
+    });
 
         var accuracyCircle;
         var userMarker;
