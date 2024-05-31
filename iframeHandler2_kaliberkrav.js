@@ -7,7 +7,7 @@ function showIframeAndHideButtons(url, kaliber) {
     var mainTitle = document.getElementById('main-title');
     var mainInfo = document.getElementById('main-info');
 
-    currentCounty = kaliber; // Sätt den aktuella kaliber
+    currentkaliber = kaliber; // Sätt den aktuella kaliber
 
     var iframe = document.createElement('iframe');
     iframe.src = url;
@@ -15,7 +15,7 @@ function showIframeAndHideButtons(url, kaliber) {
     iframe.setAttribute('scrolling', 'no');
     iframeContainer.innerHTML = '';
     iframeContainer.appendChild(iframe);
-    countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
+    kaliberButtons.style.display = 'none'; // Dölj knapparna när iframen visas
     mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
     mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
     backButton.classList.remove('hidden'); // Visa tillbaka knappen
