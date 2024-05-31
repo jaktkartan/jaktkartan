@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }).addTo(map);
 
     // Load the GeoJSON data
-    axios.get('Upptack/geojson/handelser.geojson')
+    axios.get('../Upptack/geojson/handelser.geojson')
         .then(function (response) {
             geojsonData = response.data;
             L.geoJSON(geojsonData).addTo(map);
@@ -35,4 +35,3 @@ document.addEventListener("DOMContentLoaded", function() {
         }).addTo(map);
     };
 });
-
