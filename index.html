@@ -157,7 +157,7 @@
         }).addTo(map);
 
         // Lägg till GeoJSON-lager till kartan från början
-        axios.get('Upptack/geojson/handelser.geojson')
+        axios.get('din_geojson_fil.geojson')
             .then(function (response) {
                 console.log("Successfully fetched GeoJSON data:", response.data);
                 var geojsonLayer = L.geoJSON(response.data).addTo(map);
@@ -286,6 +286,3 @@
 </script>
 </body>
 </html>
-               
-
-
