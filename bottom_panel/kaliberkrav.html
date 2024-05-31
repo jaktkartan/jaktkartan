@@ -77,10 +77,15 @@
             // Återställ andra relevanta variabler och tillstånd här
         }
 
+        // Funktion för att återställa iframe-tillståndet
+        function resetIframeState() {
+            // Lägg till kod för att återställa iframe-tillstånd om det behövs
+        }
+
         // Funktion som körs när användaren klickar på en knapp för att visa iframen och återställa tillståndet
         function showIframeAndResetState(url, county) {
-            showIframeAndHideButtons(url, county); // Anropa befintlig funktion för att visa iframen och dölja knapparna
-            resetPageState(); // Återställ sidans tillstånd innan du går vidare
+            resetIframeState(); // Återställ iframe-informationen
+            showIframeAndHideButtons(url, county); // Visa iframen och dölj knapparna
         }
 
         // Funktion som körs när användaren trycker på tillbaka-knappen
