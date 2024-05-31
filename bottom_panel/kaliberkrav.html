@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaliberkrav</title>
+    <title>kaliberkrav</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <script src="iframehandler.js"></script>
 
     <style>
-        .kaliber-button { /* Jag använder samma knappastil som för jaktbart idag */
+        .county-button { /* Jag använder samma knappastil som för jaktbart idag */
             display: block;
             width: 100%;
             margin: 10px 0;
@@ -24,7 +24,7 @@
             text-align: center;
             transition: background-color 0.3s, color 0.3s;
         }
-        .kaliber-button:hover {
+        .county-button:hover {
             background-color: rgb(50, 94, 88);
             color: white;
         }
@@ -56,11 +56,11 @@
     </style>
 </head>
 <body>
-    <h1 id="main-title">Kaliberkrav</h1>
-    <p id="main-info">Kaliberkrav och rekommenderad hagelstorlek för jakt</p>
-    <div id="kaliber-buttons">
-        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false', 'Däggdjur')">Däggdjur</a>
-        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false', 'Fågel')">Fågel</a>
+    <h1 id="main-title">countykrav</h1>
+    <p id="main-info">countykrav och rekommenderad hagelstorlek för jakt</p>
+    <div id="county-buttons">
+        <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false', 'Däggdjur')">Däggdjur</a>
+        <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false', 'Fågel')">Fågel</a>
     </div>
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
@@ -68,16 +68,16 @@
     <button id="back-button" class="hidden" onclick="goBack()">Tillbaka</button>
 
     <script>
-        var currentKaliber = ""; // Variabel för att hålla reda på det aktuella kaliber
+        var currentcounty = ""; // Variabel för att hålla reda på det aktuella county
 
-        function showIframeAndHideButtons(url, kaliber) {
+        function showIframeAndHideButtons(url, county) {
             var iframeContainer = document.getElementById('iframe-container');
-            var kaliberButtons = document.getElementById('kaliber-buttons');
+            var countyButtons = document.getElementById('county-buttons');
             var backButton = document.getElementById('back-button');
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentKaliber = kaliber; // Sätt det aktuella kaliber
+            currentcounty = county; // Sätt det aktuella county
 
             var iframe = document.createElement('iframe');
             iframe.src = url;
@@ -85,7 +85,7 @@
             iframe.setAttribute('scrolling', 'no');
             iframeContainer.innerHTML = '';
             iframeContainer.appendChild(iframe);
-            kaliberButtons.style.display = 'none'; // Dölj knapparna när iframen visas
+            countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
             mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
             mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
             iframeContainer.style.display = 'block'; // Visa iframen
@@ -95,15 +95,15 @@
 
         function goBack() {
             var iframeContainer = document.getElementById('iframe-container');
-            var kaliberButtons = document.getElementById('kaliber-buttons');
+            var countyButtons = document.getElementById('county-buttons');
             var backButton = document.getElementById('back-button');
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentKaliber = ""; // Nollställ det aktuella kaliber
+            currentcounty = ""; // Nollställ det aktuella county
 
             iframeContainer.innerHTML = ''; // Ta bort iframen
-            kaliberButtons.style.display = 'block'; // Visa knapparna igen
+            countyButtons.style.display = 'block'; // Visa knapparna igen
             mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
             mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
             backButton.style.display = 'none'; // Dölj tillbaka knappen
