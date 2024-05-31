@@ -1,5 +1,5 @@
 // Hämta GeoJSON-data och lägg till på kartan
-axios.get('Upptack/geojson/handelser.geojson')
+axios.get('Upptack/upptack.geojson')
     .then(function (response) {
         console.log("Successfully fetched GeoJSON data:", response.data);
         var geojsonLayer = L.geoJSON(response.data, {
