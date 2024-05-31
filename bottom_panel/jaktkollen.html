@@ -20,7 +20,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    fetch('Jaktkollen_StackEdit.html') // Hämta HTML-innehållet från Jaktkollen_StackEdit.html
+    fetch('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Jaktkollen_StackEdit.html') // Hämta HTML-innehållet från Jaktkollen_StackEdit.html
       .then(response => response.text()) // Konvertera svaret till textformat
       .then(data => {
         document.getElementById('content').innerHTML = data; // Infoga HTML-innehållet i div-taggen med id "content"
