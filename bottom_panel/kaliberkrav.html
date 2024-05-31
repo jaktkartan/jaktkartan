@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktbart Idag</title>
+    <title>kaliberkrav</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
@@ -63,7 +63,7 @@
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
     </div>
-    <button id="back-button" class="hidden" onclick="goBack()">Tillbaka</button>
+    <button id="back-button" class="hidden">Tillbaka</button>
 
     <script>
         var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
@@ -89,30 +89,27 @@
             mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
             iframeContainer.style.display = 'block'; // Visa iframen
             backButton.style.display = 'block'; // Visa tillbaka knappen
+            backButton.onclick = function() {
+                currentCounty = ""; // Nollställ det aktuella länet
+                iframeContainer.innerHTML = ''; // Ta bort iframen
+                countyButtons.style.display = 'block'; // Visa knapparna igen
+                mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
+                mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
+                backButton.style.display = 'none'; // Dölj tillbaka knappen
+            };
         }
-
-        // Funktion för att återställa sidan när användaren klickar på "Tillbaka"
-        function goBack() {
-    var iframeContainer = document.getElementById('iframe-container');
-    var countyButtons = document.getElementById('county-buttons');
-    var backButton = document.getElementById('back-button');
-    var mainTitle = document.getElementById('main-title');
-    var mainInfo = document.getElementById('main-info');
-
-    currentCounty = ""; // Nollställ det aktuella länet
-
-    iframeContainer.innerHTML = ''; // Ta bort iframen
-    countyButtons.style.display = 'block'; // Visa knapparna igen
-    mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
-    mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
-    backButton.style.display = 'none'; // Dölj tillbaka knappen
-}
 
         // Funktion för att återställa sidan när användaren klickar utanför iframen
         document.addEventListener('click', function(event) {
             var iframeContainer = document.getElementById('iframe-container');
-            if (!iframeContainer.contains(event.target)) {
-                goBack(); // Återställ sidan om användaren klickar utanför iframen
+            var backButton = document.getElementById('back-button');
+            if (!iframeContainer.contains(event.target) && !backButton.contains(event.target)) {
+                currentCounty = ""; // Nollställ det aktuella länet
+                iframeContainer.innerHTML = ''; // Ta bort iframen
+                document.getElementById('county-buttons').style.display = 'block'; // Visa knapparna igen
+                document.getElementById('main-title').classList.remove('hide-on-selection'); // Visa rubriken igen
+                document.getElementById('main-info').classList.remove('hide-on-selection'); // Visa informationsdelen igen
+                backButton.style.display = 'none'; // Dölj tillbaka knappen
             }
         });
     </script>
