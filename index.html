@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktkartan.se</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <script src="https://unpkg.com/suncalc/suncalc.js"></script>
@@ -24,14 +25,13 @@
             margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
             overflow-x: hidden; /* Dölj horisontell skrollning */
         }
-
-        #map { height: 100%; width: 100%; }
     </style>
 </head>
 <body>
+        /* jaktkartan logo längst upp i vänstra hörnet med länk till jaktkartan.se */
     <a href="http://www.jaktkartan.se" style="position: fixed; top: 15px; left: 10px; z-index: 9999;">
-        <img src="bilder/ikon3.png" alt="Jaktkartan.se" style="width: 50px; height: auto;">
-    </a>
+    <img src="bilder/ikon3.png" alt="Jaktkartan.se" style="width: 50px; height: auto;">
+</a>
 
     <div id="info-panel">
         <div id="accuracy">Lägesnoggrannhet: Unknown</div>
@@ -47,7 +47,7 @@
         </div>
     </div>
     <div id="map"></div>
-
+    
     <div id="bottom-panel">
         <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
         <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
@@ -62,30 +62,28 @@
         <div id="tab4" class="tab-pane"></div>
         <div id="tab5" class="tab-pane"></div>
     </div>
-
+    
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="Upptack/map.js"></script>
     <script>
-        // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
-        function resetTabs() {
-            var tabs = document.getElementsByClassName('tab-pane');
-            for (var i = 0; i < tabs.length; i++) {
-                tabs[i].style.display = 'none'; // Göm flikarna
-                tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
-            }
-            var tabContent = document.getElementById('tab-content');
-            tabContent.style.display = 'none'; // Göm flikinnehållet
+    // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+    function resetTabs() {
+        var tabs = document.getElementsByClassName('tab-pane');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].style.display = 'none'; // Göm flikarna
+            tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
         }
+        var tabContent = document.getElementById('tab-content');
+        tabContent.style.display = 'none'; // Göm flikinnehållet
+    }
 
-        // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
-        document.addEventListener('click', function(event) {
-            var tabContent = document.getElementById('tab-content');
-            if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-                resetTabs(); // Återställ flikarna om användaren klickar utanför dem
-            }
-        });
-
+    // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
+    document.addEventListener('click', function(event) {
+        var tabContent = document.getElementById('tab-content');
+        if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+            resetTabs(); // Återställ flikarna om användaren klickar utanför dem
+        }
+    });
         function togglePanel() {
             console.log("Toggling weather panel...");
             var weatherInfo = document.getElementById('weather-info');
@@ -106,28 +104,29 @@
         }
 
         function openTab(tabId, filePath) {
-            console.log("Opening tab:", tabId, "with file path:", filePath);
-            var tabContent = document.getElementById('tab-content');
-            var tabs = document.getElementsByClassName('tab-pane');
+    console.log("Opening tab:", tabId, "with file path:", filePath);
+    var tabContent = document.getElementById('tab-content');
+    var tabs = document.getElementsByClassName('tab-pane');
 
-            for (var i = 0; i < tabs.length; i++) {
-                tabs[i].style.display = 'none';
-            }
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = 'none';
+    }
 
-            var activeTab = document.getElementById(tabId);
-            activeTab.style.display = 'block';
+    var activeTab = document.getElementById(tabId);
+    activeTab.style.display = 'block';
 
-            tabContent.style.display = 'block';
+    tabContent.style.display = 'block';
 
-            axios.get(filePath)
-                .then(function (response) {
-                    console.log("Successfully fetched content for tab:", tabId);
-                    activeTab.innerHTML = response.data;
-                })
-                .catch(function (error) {
-                    console.log("Error fetching content for tab:", tabId, "Error message:", error.message);
-                });
-        }
+    axios.get(filePath)
+        .then(function (response) {
+            console.log("Successfully fetched content for tab:", tabId);
+            activeTab.innerHTML = response.data;
+        })
+        .catch(function (error) {
+            console.log("Error fetching content for tab:", tabId, "Error message:", error.message);
+        });
+}
+
 
         function closeTabContent() {
             var tabContent = document.getElementById('tab-content');
@@ -162,95 +161,116 @@
             var pulsingDotMarker;
             var sunriseIcon = L.icon({
                 iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
-                iconSize: [24, 24],
-                iconAnchor: [12, 12]
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
             });
             var sunsetIcon = L.icon({
                 iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
-                iconSize: [24, 24],
-                iconAnchor: [12, 12]
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
             });
 
-            function handleLocationError(e) {
-                console.error("Error getting location:", e.message);
-                document.getElementById('accuracy').textContent = 'Lägesnoggrannhet: Gick inte att fastställa position';
+                        function createPulsingCircle(lat, lon) {
+                var divIcon = L.divIcon({
+                    className: 'pulsing-circle',
+                    iconSize: [12, 12],
+                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
+                });
+                return L.marker([lat, lon], { icon: divIcon }).addTo(map);
             }
 
-            function handleLocationFound(e) {
-                var radius = e.accuracy / 2;
-                var latlng = e.latlng;
-                var sunriseSunsetTimes = SunCalc.getTimes(new Date(), latlng.lat, latlng.lng);
-                var sunriseTime = sunriseSunsetTimes.sunrise;
-                var sunsetTime = sunriseSunsetTimes.sunset;
+            function updateUserPosition(lat, lon, accuracy) {
+                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
-                document.getElementById('sunrise').textContent = 'Soluppgång: ' + sunriseTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                document.getElementById('sunset').textContent = 'Solnedgång: ' + sunsetTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                var accuracyInfo = document.getElementById('accuracy');
+                accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
 
-                if (accuracyCircle) {
-                    accuracyCircle.setLatLng(latlng);
-                    accuracyCircle.setRadius(radius);
-                } else {
-                    accuracyCircle = L.circle(latlng, radius, {
-                        color: 'blue',
-                        fillColor: '#3388ff',
-                        fillOpacity: 0.2
+                if (!accuracyCircle) {
+                    accuracyCircle = L.circle([lat, lon], {
+                        radius: accuracy,
+                        fillColor: 'green',
+                        fillOpacity: 0.5,
+                        stroke: false
                     }).addTo(map);
+                } else {
+                    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
                 }
 
-                if (userMarker) {
-                    userMarker.setLatLng(latlng);
+                if (!userMarker) {
+                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
                 } else {
-                    userMarker = L.marker(latlng).addTo(map);
+                    userMarker.setLatLng([lat, lon]);
                 }
 
                 if (!pulsingDotMarker) {
-                    pulsingDotMarker = L.circleMarker(latlng, {
-                        radius: 8,
-                        fillColor: '#3388ff',
-                        color: '#3388ff',
-                        weight: 1,
-                        opacity: 1,
-                        fillOpacity: 0.9,
-                        className: 'pulsing-dot' // Använd en CSS-klass för animationen
-                    }).addTo(map);
+                    pulsingDotMarker = createPulsingCircle(lat, lon);
                 } else {
-                    pulsingDotMarker.setLatLng(latlng);
+                    pulsingDotMarker.setLatLng([lat, lon]);
                 }
 
-                document.getElementById('accuracy').textContent = 'Lägesnoggrannhet: ' + radius.toFixed(1) + ' meter';
+                var times = SunCalc.getTimes(new Date(), lat, lon);
+                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunriseSpan = document.getElementById('sunrise');
+                var sunsetSpan = document.getElementById('sunset');
 
-                // Visa soluppgångs- och solnedgångsikoner på kartan
-                L.marker([latlng.lat, latlng.lng - 0.05], { icon: sunriseIcon }).addTo(map);
-                L.marker([latlng.lat, latlng.lng + 0.05], { icon: sunsetIcon }).addTo(map);
+                sunriseSpan.innerHTML = sunrise;
+                sunsetSpan.innerHTML = sunset;
             }
 
-            map.on('locationfound', handleLocationFound);
-            map.on('locationerror', handleLocationError);
+            function getPositionFromIP() {
+                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                    .then(function (response) {
+                        var loc = response.data.loc.split(',');
+                        var lat = parseFloat(loc[0]);
+                        var lon = parseFloat(loc[1]);
+                        updateUserPosition(lat, lon, "Unknown");
+                    })
+                    .catch(function (error) {
+                        console.log("IP Geolocation failed: " + error.message);
+                    });
+            }
 
-            map.locate({ setView: true, maxZoom: 16, watch: true });
+            function handleGeolocation(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                var accuracy = position.coords.accuracy;
+                updateUserPosition(lat, lon, accuracy.toFixed(2));
+            }
 
-            // Funktion för att animera den pulserande punkten
-            function animatePulsingDot() {
-                var radius = 8;
-                var maxRadius = 16;
-                var grow = true;
-
-                function step() {
-                    if (grow) {
-                        radius += 0.5;
-                        if (radius >= maxRadius) grow = false;
-                    } else {
-                        radius -= 0.5;
-                        if (radius <= 8) grow = true;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                        getPositionFromIP();
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
                     }
-                    if (pulsingDotMarker) pulsingDotMarker.setRadius(radius);
-                    requestAnimationFrame(step);
-                }
+                );
 
-                requestAnimationFrame(step);
+                navigator.geolocation.watchPosition(
+                    function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                map.setView([62.0, 15.0], 5);
             }
-
-            animatePulsingDot();
         });
     </script>
 </body>
