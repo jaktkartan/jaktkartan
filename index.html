@@ -278,17 +278,26 @@ axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/Upptack
     .then(function (response) {
         console.log("Successfully fetched GeoJSON data:", response.data);
 
-        // Kontrollera att response.data är ett objekt
-        if (typeof response.data === 'object') {
-            var geojsonLayer = L.geoJSON(response.data);
-            geojsonLayer.addTo(map);  // Lägg till GeoJSON-lagret på kartan
+        // Kontrollera att response.data är ett objekt och har korrekt struktur
+        if (response.data && typeof response.data === 'object' && response.data.type === 'FeatureCollection') {
+            try {
+                var geojsonLayer = L.geoJSON(response.data);
+                console.log("GeoJSON layer created:", geojsonLayer);
+
+                // Lägg till GeoJSON-lagret på kartan
+                geojsonLayer.addTo(map);
+                console.log("GeoJSON layer added to map.");
+            } catch (error) {
+                console.error("Error creating or adding GeoJSON layer:", error);
+            }
         } else {
-            console.error("GeoJSON data is not an object:", response.data);
+            console.error("GeoJSON data is not valid:", response.data);
         }
     })
     .catch(function (error) {
         console.log("Error fetching GeoJSON data:", error.message);
     });
+
 
 </script>
 </body>
