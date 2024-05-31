@@ -7,6 +7,8 @@ function showIframeAndHideButtons(url, county) {
     var mainTitle = document.getElementById('main-title');
     var mainInfo = document.getElementById('main-info');
 
+    resetPageState(); // Återställ variabler och tillstånd
+
     currentCounty = county; // Sätt det aktuella länet
 
     var iframe = document.createElement('iframe');
@@ -33,11 +35,16 @@ function goBack() {
     var mainTitle = document.getElementById('main-title');
     var mainInfo = document.getElementById('main-info');
 
-    currentCounty = ""; // Nollställ det aktuella länet
+    resetPageState(); // Återställ variabler och tillstånd
 
     iframeContainer.innerHTML = ''; // Ta bort iframen
     countyButtons.style.display = 'block'; // Visa knapparna igen
     mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
     mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
     backButton.style.display = 'none'; // Dölj tillbaka knappen
+}
+
+function resetPageState() {
+    // Add code here to reset any relevant variables or states
+    currentCounty = ""; // Återställ den aktuella länsvariabeln
 }
