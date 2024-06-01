@@ -1,28 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Hämta referens till flikknappen för Upptäck-fliken
-    var upptackTabButton = document.querySelector('#bottom-panel #tab1-button');
+document.addEventListener("DOMContentLoaded", function() {
+    var upptackTabButton = document.querySelector("#upptack-tab-button");
+    var upptackTabContent = document.querySelector("#tab1");
 
-    // Hämta referens till innehållet för Upptäck-fliken
-    var upptackTabContent = document.querySelector('#tab1');
-
-    // Lyssnare för klick på flikknappen
-    upptackTabButton.addEventListener('click', function() {
+    upptackTabButton.addEventListener("click", function() {
         // Visa Upptäck-fliken
-        upptackTabContent.style.display = 'block';
+        upptackTabContent.style.display = "block";
         
         // Dölj andra flikar om det behövs (beroende på din implementation)
-        // Exempel:
-        // hideOtherTabs();
+        hideOtherTabs(upptackTabContent);
     });
 
     // Funktion för att dölja andra flikar (om det behövs)
-    function hideOtherTabs() {
-        // Loopa genom andra flikar och dölj dem
-        // Exempel:
-        // var otherTabs = document.querySelectorAll('.tab-pane:not(#tab1)');
-        // otherTabs.forEach(function(tab) {
-        //     tab.style.display = 'none';
-        // });
+    function hideOtherTabs(activeTab) {
+        var allTabs = document.querySelectorAll(".tab-pane");
+        allTabs.forEach(function(tab) {
+            if (tab !== activeTab) {
+                tab.style.display = "none";
+            }
+        });
     }
 });
-
