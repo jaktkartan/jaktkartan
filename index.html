@@ -20,13 +20,142 @@
             left: 10px !important;
         }
 
-        body {
+        body, button, span, div {
+            font-family: 'Roboto', sans-serif !important;
+        }
+
+        .panel-button {
+            display: inline-flex;
+            align-items: center;
+            margin: 0 3px; /* Flyttade hit för att undvika dubbla deklarationer */
+        }
+
+        .panel-button img {
+            display: block; /* För att undvika extra utrymme runt bilden */
+            max-width: 100%; /* Låt bilderna ta upp all tillgänglig bredd inom knappen */
+            max-height: 90px; /* Maximal höjd för knapparna */
+            object-fit: contain; /* Förhindra att bilderna blir förvrängda */
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            box-sizing: border-box; /* Lägg till denna rad */
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit; /* Ärv box-sizing för alla element */
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Dölj eventuell överflödig bredd */
+        }
+
+        #bottom-panel {
             display: flex;
-            flex-direction: column;
-            align-items: center; /* Centrera innehållet horisontellt */
-            height: 100vh; /* Sätt höjden till fulla höjden av vyporten */
-            margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
-            overflow-x: hidden; /* Dölj horisontell skrollning */
+            justify-content: center;
+            align-items: stretch; /* Anpassa höjden baserat på höjden på barnen */
+            align-content: stretch; /* Anpassa höjden baserat på höjden på barnen */
+            flex-wrap: nowrap;
+            overflow: hidden;
+            padding: 3px;
+            z-index: 1000;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .tab-pane {
+            width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
+        }
+
+        /* Stilar för informationen som kommer upp efter man tryckt på en knapp i bottenmenyn */
+        #tab-content { 
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50vh; /* Anpassa höjden relativt till skärmens höjd */
+            background-color: white;
+            color: rgb(50, 94, 88);
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+            display: none; /* Initialt dold */
+            z-index: 1000;
+            overflow-y: auto; /* Lägg till scrollbar om innehållet är längre än höjden */
+            display: flex; /* Använd flexbox för att centrera innehållet vertikalt */
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Stilar för panelen allra högst upp på sidan */
+        #info-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: rgb(50, 94, 88);
+            padding: 5px 20px;
+            border-bottom: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        #info-panel * {
+            color: rgb(50, 94, 88);
+        }
+
+        /* Stilar för den pulserande markören */
+        .pulsing-circle {
+            width: 8px;
+            height: 8px;
+            background: blue;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pulsing-circle::before {
+            content: '';
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            background: rgba(0, 0, 255, 0.5);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Dölj standard Leaflet markörsymbol */
+        .leaflet-marker-icon[src*="marker-icon.png"] {
+            display: none;
         }
     </style>
 </head>
@@ -51,13 +180,13 @@
     </div>
     <div id="map" style="width: 100%; height: 100%;"></div>
     
-   <div id="bottom-panel">
-    <button class="panel-button special" onclick="openTab('tab1', 'bottom_panel/Upptack/Upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
-    <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/Kartor/Kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
-    <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/Jaktbart_idag/Jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
-    <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/Kaliberkrav/Kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Kaliberkrav"></button>
-    <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/Jaktkollen/Jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
-</div>
+    <div id="bottom-panel">
+        <button class="panel-button special" id="tab1-button">Upptäck</button>
+        <button class="panel-button" id="tab2-button">Kartor</button>
+        <button class="panel-button" id="tab3-button">Jaktbart idag</button>
+        <button class="panel-button" id="tab4-button">Kaliberkrav</button>
+        <button class="panel-button" id="tab5-button">Jaktkollen</button>
+    </div>
 
     <div id="tab-content" style="display:none;">
         <div id="tab1" class="tab-pane"></div>
@@ -67,217 +196,8 @@
         <div id="tab5" class="tab-pane"></div>
     </div>
     
-<script>
-    // Declare map as a global variable
-    var map;
-
-    // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
-    function resetTabs() {
-        var tabs = document.getElementsByClassName('tab-pane');
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].style.display = 'none'; // Göm flikarna
-            tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
-        }
-        var tabContent = document.getElementById('tab-content');
-        tabContent.style.display = 'none'; // Göm flikinnehållet
-    }
-
-    // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
-    document.addEventListener('click', function(event) {
-        var tabContent = document.getElementById('tab-content');
-        if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-            resetTabs(); // Återställ flikarna om användaren klickar utanför dem
-        }
-    });
-    
-    function togglePanel() {
-        console.log("Toggling weather panel...");
-        var weatherInfo = document.getElementById('weather-info');
-        if (weatherInfo.style.display === 'none') {
-            console.log("Showing weather panel...");
-            weatherInfo.style.display = 'block';
-            navigator.geolocation.getCurrentPosition(function (position) {
-                console.log("Getting current position...");
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-                console.log("Current position:", latitude, longitude);
-                getWeatherForecast(latitude, longitude);
-            });
-        } else {
-            console.log("Hiding weather panel...");
-            weatherInfo.style.display = 'none';
-        }
-    } // Här stängs togglePanel-funktionen
-
-    function openTab(tabId, filePath) {
-        console.log("Opening tab:", tabId, "with file path:", filePath);
-        var tabContent = document.getElementById('tab-content');
-        var tabs = document.getElementsByClassName('tab-pane');
-
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].style.display = 'none';
-        }
-
-        var activeTab = document.getElementById(tabId);
-        activeTab.style.display = 'block';
-
-        tabContent.style.display = 'block';
-
-        axios.get(filePath)
-            .then(function (response) {
-                console.log("Successfully fetched content for tab:", tabId);
-                activeTab.innerHTML = response.data;
-            })
-            .catch(function (error) {
-                console.log("Error fetching content for tab:", tabId, "Error message:", error.message);
-            });
-    }
-
-    function closeTabContent() {
-        var tabContent = document.getElementById('tab-content');
-        tabContent.style.display = 'none';
-    }
-
-    // Close the tab content when clicking outside of it
-    document.addEventListener('click', function(event) {
-        var tabContent = document.getElementById('tab-content');
-        if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-            closeTabContent();
-        }
-    });
-
-    document.addEventListener("DOMContentLoaded", function() {
-        console.log("Initializing map...");
-
-        map = L.map('map', {
-            zoomControl: false // Ta bort standardzoomkontrollerna
-        }).setView([62.0, 15.0], 5);
-
-        L.control.zoom({
-            position: 'topleft' // Ändra positionen på zoomkontrollerna
-        }).addTo(map);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        var accuracyCircle;
-        var userMarker;
-        var pulsingDotMarker;
-        var sunriseIcon = L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
-            iconSize: [20, 20],
-            iconAnchor: [10, 10],
-            popupAnchor: [0, 0],
-        });
-        var sunsetIcon = L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
-            iconSize: [20, 20],
-            iconAnchor: [10, 10],
-            popupAnchor: [0, 0],
-        });
-
-        function createPulsingCircle(lat, lon) {
-            var divIcon = L.divIcon({
-                className: 'pulsing-circle',
-                iconSize: [12, 12],
-                html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
-            });
-            return L.marker([lat, lon], { icon: divIcon }).addTo(map);
-        }
-
-        function updateUserPosition(lat, lon, accuracy) {
-            console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
-
-            var accuracyInfo = document.getElementById('accuracy');
-            accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
-
-            if (!accuracyCircle) {
-                accuracyCircle = L.circle([lat, lon], {
-                    radius: accuracy,
-                    fillColor: 'green',
-                    fillOpacity: 0.5,
-                    stroke: false
-                }).addTo(map);
-            } else {
-                accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
-            }
-
-            if (!userMarker) {
-                userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
-            } else {
-                userMarker.setLatLng([lat, lon]);
-            }
-
-            if (!pulsingDotMarker) {
-                pulsingDotMarker = createPulsingCircle(lat, lon);
-            } else {
-                pulsingDotMarker.setLatLng([lat, lon]);
-            }
-
-            var times = SunCalc.getTimes(new Date(), lat, lon);
-            var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-            var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-            var sunriseSpan = document.getElementById('sunrise');
-            var sunsetSpan = document.getElementById('sunset');
-
-            sunriseSpan.innerHTML = sunrise;
-            sunsetSpan.innerHTML = sunset;
-        }
-
-        function getPositionFromIP() {
-            axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                .then(function (response) {
-                    var loc = response.data.loc.split(',');
-                                        var lat = parseFloat(loc[0]);
-                    var lon = parseFloat(loc[1]);
-                    updateUserPosition(lat, lon, "Unknown");
-                })
-                .catch(function (error) {
-                    console.log("IP Geolocation failed: " + error.message);
-                });
-        }
-
-        function handleGeolocation(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-            var accuracy = position.coords.accuracy;
-            updateUserPosition(lat, lon, accuracy.toFixed(2));
-        }
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                    handleGeolocation(position);
-            },
-            function (error) {
-                console.log("Geolocation failed: " + error.message);
-                getPositionFromIP();
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            }
-        );
-
-        navigator.geolocation.watchPosition(
-            function (position) {
-                handleGeolocation(position);
-            },
-            function (error) {
-                console.log("Geolocation failed: " + error.message);
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            }
-        );
-        } else {
-            map.setView([62.0, 15.0], 5);
-        }
-    });
-</script>
-
+    <script>
+        // Här laddar vi in JS för varje flik separat
+        </script>
 </body>
 </html>
