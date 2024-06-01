@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
         // Visa Upptäck-fliken
         upptackTabContent.style.display = "block";
         
+        // Tillämpa CSS-klassen för höjd och andra egenskaper
+        upptackTabContent.classList.add("tab1");
+        
         // Dölj andra flikar om det behövs (beroende på din implementation)
         hideOtherTabs(upptackTabContent);
     });
