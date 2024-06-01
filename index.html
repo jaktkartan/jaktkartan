@@ -73,5 +73,141 @@
     <script src="bottom_panel/Kaliberkrav/Kaliberkrav_flikbeteende.js"></script>
     <script src="bottom_panel/Jaktkollen/Jaktkollen_flikbeteende.js"></script>
     <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
+    <script>
+        var map;
+
+        function resetTabs() {
+            var tabs = document.getElementsByClassName('tab-pane');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = 'none';
+                tabs[i].innerHTML = '';
+            }
+            var tabContent = document.getElementById('tab-content');
+            tabContent.style.display = 'none';
+        }
+
+        document.addEventListener('click', function(event) {
+            var tabContent = document.getElementById('tab-content');
+            if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+                resetTabs();
+            }
+        });
+        
+        function togglePanel() {
+            console.log("Toggling weather panel...");
+            var weatherInfo = document.getElementById('weather-info');
+            if (weatherInfo.style.display === 'none') {
+                console.log("Showing weather panel...");
+                weatherInfo.style.display = 'block';
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log("Getting current position...");
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    console.log("Current position:", latitude, longitude);
+                    getWeatherForecast(latitude, longitude);
+                });
+            } else {
+                console.log("Hiding weather panel...");
+                weatherInfo.style.display = 'none';
+            }
+        }
+
+        function openTab(tabId, filePath) {
+            console.log("Opening tab:", tabId, "with file path:", filePath);
+            var tabContent = document.getElementById('tab-content');
+            var tabs = document.getElementsByClassName('tab-pane');
+
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = 'none';
+            }
+
+            var activeTab = document.getElementById(tabId);
+            activeTab.style.display = 'block';
+
+            tabContent.style.display = 'block';
+
+            axios.get(filePath)
+                .then(function (response) {
+                    console.log("Successfully fetched content for tab:", tabId);
+                    activeTab.innerHTML = response.data;
+                })
+                .catch(function (error) {
+                    console.log("Error fetching content for tab:", tabId, "Error message:", error.message);
+                });
+        }
+
+        function closeTabContent() {
+            var tabContent = document.getElementById('tab-content');
+            tabContent.style.display = 'none';
+        }
+
+        document.addEventListener('click', function(event) {
+            var tabContent = document.getElementById('tab-content');
+            if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+                closeTabContent();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Initializing map...");
+
+            map = L.map('map', {
+                zoomControl: false
+            }).setView([62.0, 15.0], 5);
+
+            L.control.zoom({
+                position: 'topleft'
+            }).addTo(map);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var accuracyCircle;
+            var userMarker;
+            var pulsingDotMarker;
+            var sunriseIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/pulsating_dot.gif',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    console.log("User's location:", latitude, longitude);
+
+                    var userLocation = [latitude, longitude];
+                    map.setView(userLocation, 13);
+
+                    accuracyCircle = L.circle(userLocation, {
+                        color: 'blue',
+                        radius: position.coords.accuracy
+                    }).addTo(map);
+
+                    userMarker = L.marker(userLocation).addTo(map);
+                    pulsingDotMarker = L.marker(userLocation, {
+                        icon: sunriseIcon
+                    }).addTo(map);
+
+                    var times = SunCalc.getTimes(new Date(), latitude, longitude);
+                    var sunriseStr = times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    var sunsetStr = times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    document.getElementById("sunrise").textContent = sunriseStr;
+                    document.getElementById("sunset").textContent = sunsetStr;
+
+                    document.getElementById("accuracy").textContent = "Lägesnoggrannhet: " + position.coords.accuracy.toFixed(2) + " meter";
+
+                }, function(error) {
+                    console.error("Geolocation error:", error.message);
+                });
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        });
+    </script>
 </body>
 </html>
