@@ -11,9 +11,12 @@ body, button, span, div {
 .panel-button {
     display: inline-flex;
     align-items: center;
-    margin: 0 3px; /* Flyttade hit för att undvika dubbla deklarationer */
+    margin: 0 3px;
     position: relative; /* Lägg till position: relative för att placera knapparna överst */
     z-index: 1; /* Sätt z-index för att placera knapparna överst */
+    border: 1px solid rgb(50, 94, 88); /* Lägg till en solid ram runt knapparna */
+    border-radius: 5px; /* Avrunda hörnen på ramen */
+    padding: 5px; /* Lägg till padding för att skapa mellanrum mellan knappen och ramen */
 }
 
 .panel-button img {
@@ -36,10 +39,10 @@ html, body {
 }
 
 #map {
-    height: calc(100% - 80px); /* Ändra höjden för att kompensera för den fasta positionen för zoomkontrollerna */
+    height: 100%;
     width: 100%;
     position: fixed;
-    top: 80px; /* Justera för den fasta positionen för zoomkontrollerna */
+    top: 0;
     left: 0;
     z-index: 0;
     margin: 0;
