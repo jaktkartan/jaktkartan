@@ -75,6 +75,9 @@
     <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
     <script>
         var map;
+        var accuracyCircle;
+        var userMarker;
+        var pulsingDotMarker;
 
         function resetTabs() {
             var tabs = document.getElementsByClassName('tab-pane');
@@ -93,19 +96,7 @@
             }
         });
         
-        function togglePanel() {
-            console.log("Toggling weather panel...");
-            var weatherInfo = document.getElementById('weather-info');
-            if (weatherInfo.style.display === 'none') {
-                console.log("Showing weather panel...");
-                weatherInfo.style.display = 'block';
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    console.log("Getting current position...");
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
-                    console.log("Current position:", latitude, longitude);
-                    getWeatherForecast(latitude, longitude);
-                });
+       togglePanel();
             } else {
                 console.log("Hiding weather panel...");
                 weatherInfo.style.display = 'none';
@@ -229,4 +220,3 @@
     </script>
 </body>
 </html>
-
