@@ -36,10 +36,10 @@ html, body {
 }
 
 #map {
-    height: 100%;
+    height: calc(100% - 80px); /* Ändra höjden för att kompensera för den fasta positionen för zoomkontrollerna */
     width: 100%;
     position: fixed;
-    top: 0;
+    top: 80px; /* Justera för den fasta positionen för zoomkontrollerna */
     left: 0;
     z-index: 0;
     margin: 0;
