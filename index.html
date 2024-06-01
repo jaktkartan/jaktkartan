@@ -12,11 +12,6 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="iframeHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="bottom_panel/Upptack/Upptack_flikbeteende.js"></script>
-    <script src="bottom_panel/Kartor/Kartor_flikbeteende.js"></script>
-    <script src="bottom_panel/Kaliberkrav/Kaliberkrav_flikbeteende.js"></script>
-    <script src="bottom_panel/Jaktkollen/Jaktkollen_flikbeteende.js"></script>
-    <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
     <style>
         /* Anpassad CSS för att ändra zoomkontrollernas position */
         .leaflet-top.leaflet-left {
@@ -72,11 +67,6 @@
         <div id="tab5" class="tab-pane"></div>
     </div>
     
-    <script src="bottom_panel/Upptack/Upptack_flikbeteende.js"></script>
-    <script src="bottom_panel/Kartor/Kartor_flikbeteende.js"></script>
-    <script src="bottom_panel/Kaliberkrav/Kaliberkrav_flikbeteende.js"></script>
-    <script src="bottom_panel/Jaktkollen/Jaktkollen_flikbeteende.js"></script>
-    <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
     <script>
         // Declare map as a global variable
         var map;
@@ -86,7 +76,7 @@
             var tabs = document.getElementsByClassName('tab-pane');
             for (var i = 0; i < tabs.length; i++) {
                 tabs[i].style.display = 'none'; // Göm flikarna
-                                tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+                tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
             }
             var tabContent = document.getElementById('tab-content');
             tabContent.style.display = 'none'; // Göm flikinnehållet
@@ -291,5 +281,3 @@
 
 </body>
 </html>
-
-
