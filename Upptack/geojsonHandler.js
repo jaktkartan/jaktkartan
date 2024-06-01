@@ -1,4 +1,4 @@
-axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/Upptack/upptack.geojson')
+axios.get('https://drive.google.com/file/d/190QuTv41q5hT31dGKVl7yXMNUx_XvakL/view?usp=drive_link')
     .then(function (response) {
         console.log("Successfully fetched GeoJSON data:", response.data);
         var geojsonLayer = L.geoJSON(response.data, {
