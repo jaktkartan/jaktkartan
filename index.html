@@ -20,142 +20,36 @@
             left: 10px !important;
         }
 
-        body, button, span, div {
-            font-family: 'Roboto', sans-serif !important;
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centrera innehållet horisontellt */
+            height: 100vh; /* Sätt höjden till fulla höjden av vyporten */
+            margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
+            overflow-x: hidden; /* Dölj horisontell skrollning */
         }
 
+        /* Stilsättning för panelknappar */
         .panel-button {
             display: inline-flex;
             align-items: center;
             margin: 0 3px; /* Flyttade hit för att undvika dubbla deklarationer */
+            background-color: transparent; /* Transparent bakgrundsfärg */
+            border: none; /* Ingen kantlinje */
+            cursor: pointer; /* Muspekare ändras till pekhand */
+            outline: none; /* Inga fokusstilar */
         }
 
+        /* Stilsättning för knappbilder */
         .panel-button img {
-            display: block; /* För att undvika extra utrymme runt bilden */
             max-width: 100%; /* Låt bilderna ta upp all tillgänglig bredd inom knappen */
             max-height: 90px; /* Maximal höjd för knapparna */
             object-fit: contain; /* Förhindra att bilderna blir förvrängda */
         }
 
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            box-sizing: border-box; /* Lägg till denna rad */
-        }
-
-        *, *:before, *:after {
-            box-sizing: inherit; /* Ärv box-sizing för alla element */
-        }
-
-        #map {
-            height: 100%;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 0;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Dölj eventuell överflödig bredd */
-        }
-
-        #bottom-panel {
-            display: flex;
-            justify-content: center;
-            align-items: stretch; /* Anpassa höjden baserat på höjden på barnen */
-            align-content: stretch; /* Anpassa höjden baserat på höjden på barnen */
-            flex-wrap: nowrap;
-            overflow: hidden;
-            padding: 3px;
-            z-index: 1000;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.7);
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-
-        .tab-pane {
-            width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
-        }
-
-        /* Stilar för informationen som kommer upp efter man tryckt på en knapp i bottenmenyn */
-        #tab-content { 
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 50vh; /* Anpassa höjden relativt till skärmens höjd */
-            background-color: white;
-            color: rgb(50, 94, 88);
-            padding: 10px;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-            display: none; /* Initialt dold */
-            z-index: 1000;
-            overflow-y: auto; /* Lägg till scrollbar om innehållet är längre än höjden */
-            display: flex; /* Använd flexbox för att centrera innehållet vertikalt */
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Stilar för panelen allra högst upp på sidan */
-        #info-panel {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.7);
-            color: rgb(50, 94, 88);
-            padding: 5px 20px;
-            border-bottom: 1px solid #ccc;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            text-align: center;
-        }
-
-        #info-panel * {
-            color: rgb(50, 94, 88);
-        }
-
-        /* Stilar för den pulserande markören */
-        .pulsing-circle {
-            width: 8px;
-            height: 8px;
-            background: blue;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .pulsing-circle::before {
-            content: '';
-            width: 200%;
-            height: 200%;
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            background: rgba(0, 0, 255, 0.5);
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(0.5);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-
-        /* Dölj standard Leaflet markörsymbol */
-        .leaflet-marker-icon[src*="marker-icon.png"] {
-            display: none;
+        /* Pseudoelement för hover-effekt */
+        .panel-button:hover {
+            filter: brightness(90%); /* Ljusare effekt vid hover */
         }
     </style>
 </head>
@@ -181,12 +75,11 @@
     <div id="map" style="width: 100%; height: 100%;"></div>
     
     <div id="bottom-panel">
-        <button id="upptack-tab-button" class="panel-button">Upptäck</button>
-        <button id="kartor-tab-button" class="panel-button">Kartor</button>
-        <button id="kaliberkrav-tab-button" class="panel-button">Kaliberkrav</button>
-        <button id="jaktkollen-tab-button" class="panel-button">Jaktkollen</button>
-        <button id="jaktbart-idag-tab-button" class="panel-button">Jaktbart idag</button>
-
+        <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/Upptack/Upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
+        <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/Kartor/Kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
+        <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/Jaktbart_idag/Jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
+        <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/Kaliberkrav/Kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Kaliberkrav"></button>
+        <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/Jaktkollen/Jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
     </div>
 
     <div id="tab-content" style="display:none;">
