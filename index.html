@@ -181,11 +181,12 @@
     <div id="map" style="width: 100%; height: 100%;"></div>
     
     <div id="bottom-panel">
-        <button class="panel-button special" id="tab1-button">Upptäck</button>
-        <button class="panel-button" id="tab2-button">Kartor</button>
-        <button class="panel-button" id="tab3-button">Jaktbart idag</button>
-        <button class="panel-button" id="tab4-button">Kaliberkrav</button>
-        <button class="panel-button" id="tab5-button">Jaktkollen</button>
+        <button id="upptack-tab-button" class="panel-button">Upptäck</button>
+        <button id="kartor-tab-button" class="panel-button">Kartor</button>
+        <button id="kaliberkrav-tab-button" class="panel-button">Kaliberkrav</button>
+        <button id="jaktkollen-tab-button" class="panel-button">Jaktkollen</button>
+        <button id="jaktbart-idag-tab-button" class="panel-button">Jaktbart idag</button>
+
     </div>
 
     <div id="tab-content" style="display:none;">
@@ -196,8 +197,12 @@
         <div id="tab5" class="tab-pane"></div>
     </div>
     
-    <script>
-        // Här laddar vi in JS för varje flik separat
+    <script src="bottom_panel/Upptack/Upptack_flikbeteende.js"></script>
+    <script src="bottom_panel/Kartor/Kartor_flikbeteende.js"></script>
+    <script src="bottom_panel/Kaliberkrav/Kaliberkrav_flikbeteende.js"></script>
+    <script src="bottom_panel/Jaktkollen/Jaktkollen_flikbeteende.js"></script>
+    <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
+    
         </script>
 </body>
 </html>
