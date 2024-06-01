@@ -11,8 +11,8 @@
     <script src="vaderprognos.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="iframeHandler.js"></script>
-    <script src="Upptack/geojsonHandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="Upptack/geojsonHandler.js"></script>
     <style>
         /* Anpassad CSS för att ändra zoomkontrollernas position */
         .leaflet-top.leaflet-left {
@@ -67,12 +67,32 @@
     </div>
     
     <script>
-    var map; // Deklarera map som en global variabel
+    // Declare map as a global variable
+    var map;
 
+    // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+    function resetTabs() {
+        var tabs = document.getElementsByClassName('tab-pane');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].style.display = 'none'; // Göm flikarna
+            tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+        }
+        var tabContent = document.getElementById('tab-content');
+        tabContent.style.display = 'none'; // Göm flikinnehållet
+    }
+
+    // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
+    document.addEventListener('click', function(event) {
+        var tabContent = document.getElementById('tab-content');
+        if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+            resetTabs(); // Återställ flikarna om användaren klickar utanför dem
+        }
+    });
+    
     function togglePanel() {
         console.log("Toggling weather panel...");
         var weatherInfo = document.getElementById('weather-info');
-        if (weatherInfo.style.display = 'none') {
+        if (weatherInfo.style.display === 'none') {
             console.log("Showing weather panel...");
             weatherInfo.style.display = 'block';
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -85,8 +105,7 @@
         } else {
             console.log("Hiding weather panel...");
             weatherInfo.style.display = 'none';
-        }
-    }
+            }
 
     function openTab(tabId, filePath) {
         console.log("Opening tab:", tabId, "with file path:", filePath);
@@ -127,6 +146,7 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         console.log("Initializing map...");
+
         map = L.map('map', {
             zoomControl: false // Ta bort standardzoomkontrollerna
         }).setView([62.0, 15.0], 5);
