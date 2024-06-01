@@ -1,1 +1,2 @@
-
+exportera geojson i rätt koordinatsystem: EPSG: 4326 - WGS 84
+TA BORT EVENTUELL CRS KOD UR GEOJSON FILEN (Coordinate Reference System).
