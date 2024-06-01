@@ -8,6 +8,10 @@ body, button, span, div {
     font-family: 'Roboto', sans-serif !important;
 }
 
+.panel-button {
+    display: inline-flex;
+    align-items: center;
+}
 
 html, body {
     margin: 0;
