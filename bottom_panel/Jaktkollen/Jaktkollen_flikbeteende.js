@@ -1,28 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Hämta referens till flikknappen för Kartor-fliken
-    var kartorTabButton = document.querySelector('#bottom-panel #tab2-button');
+document.addEventListener("DOMContentLoaded", function() {
+    var jaktkollenTabButton = document.querySelector("#jaktkollen-tab-button");
+    var jaktkollenTabContent = document.querySelector("#tab5");
 
-    // Hämta referens till innehållet för Kartor-fliken
-    var kartorTabContent = document.querySelector('#tab2');
-
-    // Lyssnare för klick på flikknappen
-    kartorTabButton.addEventListener('click', function() {
-        // Visa Kartor-fliken
-        kartorTabContent.style.display = 'block';
+    jaktkollenTabButton.addEventListener("click", function() {
+        // Visa Jaktkollen-fliken
+        jaktkollenTabContent.style.display = "block";
         
         // Dölj andra flikar om det behövs (beroende på din implementation)
-        // Exempel:
-        // hideOtherTabs();
+        hideOtherTabs(jaktkollenTabContent);
     });
 
     // Funktion för att dölja andra flikar (om det behövs)
-    function hideOtherTabs() {
-        // Loopa genom andra flikar och dölj dem
-        // Exempel:
-        // var otherTabs = document.querySelectorAll('.tab-pane:not(#tab2)');
-        // otherTabs.forEach(function(tab) {
-        //     tab.style.display = 'none';
-        // });
+    function hideOtherTabs(activeTab) {
+        var allTabs = document.querySelectorAll(".tab-pane");
+        allTabs.forEach(function(tab) {
+            if (tab !== activeTab) {
+                tab.style.display = "none";
+            }
+        });
     }
 });
-
