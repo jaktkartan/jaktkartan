@@ -66,7 +66,7 @@
         <div id="tab5" class="tab-pane"></div>
     </div>
     
-    <script>
+<script>
     // Declare map as a global variable
     var map;
 
@@ -105,7 +105,8 @@
         } else {
             console.log("Hiding weather panel...");
             weatherInfo.style.display = 'none';
-            }
+        }
+    } // Här stängs togglePanel-funktionen
 
     function openTab(tabId, filePath) {
         console.log("Opening tab:", tabId, "with file path:", filePath);
@@ -227,7 +228,7 @@
             axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
                 .then(function (response) {
                     var loc = response.data.loc.split(',');
-                    var lat = parseFloat(loc[0]);
+                                        var lat = parseFloat(loc[0]);
                     var lon = parseFloat(loc[1]);
                     updateUserPosition(lat, lon, "Unknown");
                 })
@@ -272,9 +273,10 @@
             }
         );
         } else {
-        map.setView([62.0, 15.0], 5);
-    }
-});
+            map.setView([62.0, 15.0], 5);
+        }
+    });
 </script>
+
 </body>
 </html>
