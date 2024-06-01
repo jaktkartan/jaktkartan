@@ -47,20 +47,20 @@ html, body {
 
 #bottom-panel {
     display: flex;
-    justify-content: center; /* Centrera barnen horisontellt från mitten */
-    align-items: center; /* Centrera barnen vertikalt */
-    flex-wrap: nowrap; /* Förhindra ombrytning av innehållet */
-    overflow: hidden; /* Dölj överflödigt innehåll om det går utanför */
+    justify-content: center;
+    align-items: stretch; /* Anpassa höjden baserat på höjden på barnen */
+    align-content: stretch; /* Anpassa höjden baserat på höjden på barnen */
+    flex-wrap: nowrap;
+    overflow: hidden;
     padding: 3px;
     z-index: 1000;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    width: 100%; /* Använd relativ bredd */
+    width: 100%;
     background-color: rgba(255, 255, 255, 0.7);
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100px;
 }
 
 .tab-pane {
