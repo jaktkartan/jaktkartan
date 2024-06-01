@@ -8,11 +8,12 @@ axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/Upptack
                     alert("Invalid CRS type detected. Skipping this feature.");
                     return;
                 }
-                // Inkludera attributen "TYP", "BILD", "NAMN" etc. i popup-innehållet
-                var popupContent = '<h3>' + feature.properties.NAMN + '</h3>';
-                popupContent += '<p>' + feature.properties.TYP + '</p>';
-                popupContent += '<img src="' + feature.properties.BILD + '" alt="Bild" width="200">';
-                // Du kan inkludera fler attribut här på samma sätt
+                // Skapa popup-innehållet dynamiskt baserat på alla attribut i geojson-egenskaperna
+                var popupContent = '<div>';
+                for (var prop in feature.properties) {
+                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+                }
+                popupContent += '</div>';
                 layer.bindPopup(popupContent);
             }
         }).addTo(map);
@@ -20,4 +21,3 @@ axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/Upptack
     .catch(function (error) {
         console.log("Error fetching GeoJSON data:", error.message);
     });
-
