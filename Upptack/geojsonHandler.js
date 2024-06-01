@@ -9,14 +9,14 @@ axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/Upptack
                     return;
                 }
                 // Skapa popup-innehållet dynamiskt baserat på alla attribut i geojson-egenskaperna
-                var popupContent = '<div>';
+                var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
                 for (var prop in feature.properties) {
                     if (prop === 'BILD') {
                         // Lägg till en stil för att begränsa bildstorleken
                         popupContent += '<p><strong>' + prop + ':</strong> <img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
-                    } else if (prop === 'LINK') {
-                        // Lägg till target="_blank" för länkar för att öppnas i en ny flik
-                        popupContent += '<p><strong>' + prop + ':</strong> <a href="' + feature.properties[prop] + '" target="_blank">' + feature.properties[prop] + '</a></p>';
+                    } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                        // Visa "Länk" istället för URL:en
+                        popupContent += '<p><strong>Länk:</strong> ' + feature.properties[prop] + '</p>';
                     } else {
                         popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
                     }
