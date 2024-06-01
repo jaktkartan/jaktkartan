@@ -11,12 +11,15 @@ body, button, span, div {
 .panel-button {
     display: inline-flex;
     align-items: center;
+    margin: 0 3px; /* Flyttade hit för att undvika dubbla deklarationer */
 }
 
 .panel-button img {
     display: block; /* För att undvika extra utrymme runt bilden */
+    max-width: 100%; /* Låt bilderna ta upp all tillgänglig bredd inom knappen */
+    height: auto; /* Låt höjden anpassas automatiskt */
+    object-fit: contain; /* Förhindra att bilderna blir förvrängda */
 }
-
 
 html, body {
     margin: 0;
@@ -60,19 +63,8 @@ html, body {
     height: 100px;
 }
 
-.panel-button {
-    flex: 1; /* Låt knapparna ta upp lika mycket plats */
-    margin: 0 3px; /* Lägg till horisontell marginal mellan knapparna */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.panel-button img {
-    max-width: 100%; /* Låt bilderna ta upp all tillgänglig bredd inom knappen */
-    height: auto; /* Låt höjden anpassas automatiskt */
-    max-height: 80px; /* Sätt maxhöjd till 80px */
-    object-fit: contain; /* Förhindra att bilderna blir förvrängda */
+.tab-pane {
+    width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
 }
 
 /* Stilar för informationen osm kommer upp efter man tryckt på en knapp i bottenmenyn */
@@ -94,9 +86,6 @@ html, body {
     align-items: center;
 }
 
-.tab-pane {
-    width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
-}
 /* Stilar för panelen allra högst upp på sidan */
 #info-panel {
     position: absolute;
@@ -152,4 +141,3 @@ html, body {
 .leaflet-marker-icon[src*="marker-icon.png"] {
     display: none;
 }
-
