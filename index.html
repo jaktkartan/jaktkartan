@@ -160,54 +160,73 @@
             }).addTo(map);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                maxZoom: 19,
             }).addTo(map);
 
-            var accuracyCircle;
-            var userMarker;
-            var pulsingDotMarker;
-            var sunriseIcon = L.icon({
-                iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/pulsating_dot.gif',
-                iconSize: [20, 20],
-                iconAnchor: [10, 10],
-                popupAnchor: [0, 0],
-            });
+            // Enable high accuracy for geolocation
+            var options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            };
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
-                    console.log("User's location:", latitude, longitude);
+            function success(pos) {
+                var crd = pos.coords;
 
-                    var userLocation = [latitude, longitude];
-                    map.setView(userLocation, 13);
+                console.log('Your current position is:');
+                console.log('Latitude : ' + crd.latitude);
+                console.log('Longitude: ' + crd.longitude);
+                console.log('More or less ' + crd.accuracy + ' meters.');
 
-                    accuracyCircle = L.circle(userLocation, {
-                        color: 'blue',
-                        radius: position.coords.accuracy
+                updateUserPosition(crd.latitude, crd.longitude, crd.accuracy);
+            }
+
+            function error(err) {
+                console.warn('ERROR(' + err.code + '): ' + err.message);
+            }
+
+            navigator.geolocation.getCurrentPosition(success, error, options);
+
+            function updateUserPosition(lat, lon, accuracy) {
+                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
+
+                var accuracyInfo = document.getElementById('accuracy');
+                accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
+
+                if (!accuracyCircle) {
+                    accuracyCircle = L.circle([lat, lon], {
+                        radius: accuracy,
+                        fillColor: 'green',
+                        fillOpacity: 0.5,
+                        stroke: false
                     }).addTo(map);
+                } else {
+                    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
+                }
 
-                    userMarker = L.marker(userLocation).addTo(map);
-                    pulsingDotMarker = L.marker(userLocation, {
-                        icon: sunriseIcon
-                    }).addTo(map);
+                if (!userMarker) {
+                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+                } else {
+                    userMarker.setLatLng([lat, lon]);
+                }
 
-                    var times = SunCalc.getTimes(new Date(), latitude, longitude);
-                    var sunriseStr = times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    var sunsetStr = times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                if (!pulsingDotMarker) {
+                    pulsingDotMarker = createPulsingCircle(lat, lon);
+                } else {
+                    pulsingDotMarker.setLatLng([lat, lon]);
+                }
+            }
 
-                    document.getElementById("sunrise").textContent = sunriseStr;
-                    document.getElementById("sunset").textContent = sunsetStr;
-
-                    document.getElementById("accuracy").textContent = "Lägesnoggrannhet: " + position.coords.accuracy.toFixed(2) + " meter";
-
-                }, function(error) {
-                    console.error("Geolocation error:", error.message);
+            function createPulsingCircle(lat, lon) {
+                var divIcon = L.divIcon({
+                    className: 'pulsing-circle',
+                    iconSize: [12, 12],
+                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
                 });
-            } else {
-                console.error("Geolocation is not supported by this browser.");
+                return L.marker([lat, lon], { icon: divIcon }).addTo(map);
             }
         });
     </script>
 </body>
 </html>
+
