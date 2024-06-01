@@ -10,13 +10,25 @@ axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/Upptack
                 }
                 // Skapa popup-innehållet dynamiskt baserat på alla attribut i geojson-egenskaperna
                 var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+
+                // Lista över egenskaper som ska döljas helt
+                var hideProperties = ['id', 'Aktualitet'];
+                
+                // Lista över egenskaper där namnet ska döljas men data visas
+                var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
                 for (var prop in feature.properties) {
+                    if (hideProperties.includes(prop)) {
+                        continue; // Hoppa över dessa egenskaper helt
+                    }
                     if (prop === 'BILD') {
                         // Lägg till en stil för att begränsa bildstorleken
-                        popupContent += '<p><strong>' + prop + ':</strong> <img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+                        popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
                     } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
                         // Visa hyperlänken som "Länk"
-                        popupContent += '<p><strong>' + prop + ':</strong> <a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+                        popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+                    } else if (hideNameOnlyProperties.includes(prop)) {
+                        popupContent += '<p>' + feature.properties[prop] + '</p>';
                     } else {
                         popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
                     }
