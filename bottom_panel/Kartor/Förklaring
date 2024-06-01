@@ -1,2 +1,9 @@
 Kartorna administreras genom QGIS. lagren exporteras till geojson format och läggs in i mappen "geojson filer". export sker helst utan koordinatsystem då det annars kan skapa problem (CRS problem). en "handler.js"
 används för respektive karta för stilsättning. En popuphandler hanvänds också för att filtrera hur popupfönstret ska se ut.
+
+----
+
+Kartan använder koordinatsystem: EPSG: 4326 - WGS 84
+Om data inte skulle visas på kartan, prova att ta bort CRS koden manuellt och ladda in den i kartan.
+
+PROVA ATT EXPORTERA UTAN NÅGOT SATT KOORDINATSYSTEM REDAN I QGIS ANNARS.
