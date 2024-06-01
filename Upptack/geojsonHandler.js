@@ -15,8 +15,8 @@ axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/Upptack
                         // Lägg till en stil för att begränsa bildstorleken
                         popupContent += '<p><strong>' + prop + ':</strong> <img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
                     } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
-                        // Visa "Länk" istället för URL:en
-                        popupContent += '<p><strong>Länk:</strong> ' + feature.properties[prop] + '</p>';
+                        // Visa hyperlänken som "Länk"
+                        popupContent += '<p><strong>' + prop + ':</strong> <a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
                     } else {
                         popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
                     }
