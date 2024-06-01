@@ -12,13 +12,12 @@ body, button, span, div {
     display: inline-flex;
     align-items: center;
     margin: 0 3px; /* Flyttade hit för att undvika dubbla deklarationer */
-    max-height: 90px; /* Maximal höjd för knapparna */
 }
 
 .panel-button img {
     display: block; /* För att undvika extra utrymme runt bilden */
     max-width: 100%; /* Låt bilderna ta upp all tillgänglig bredd inom knappen */
-    height: auto; /* Låt höjden anpassas automatiskt */
+    max-height: 90px; /* Maximal höjd för knapparna */
     object-fit: contain; /* Förhindra att bilderna blir förvrängda */
 }
 
