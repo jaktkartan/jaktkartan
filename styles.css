@@ -13,6 +13,11 @@ body, button, span, div {
     align-items: center;
 }
 
+.panel-button img {
+    display: block; /* För att undvika extra utrymme runt bilden */
+}
+
+
 html, body {
     margin: 0;
     padding: 0;
