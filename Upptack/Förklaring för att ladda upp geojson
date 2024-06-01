@@ -1,3 +1,5 @@
-exportera geojson i rätt koordinatsystem: EPSG: 4326 - WGS 84
-TA BORT EVENTUELL CRS KOD UR GEOJSON FILEN (Coordinate Reference System).
-EVENTUELLT KANSKE MAN KAN EXPORTERA UTAN NÅGOT SATT KOORDINATSYSTEM? PROVA DET!
+GeojsonHandler.js ska vara inställd att ignorera CRS (Coordinate Reference System) för att få kartan att kunna visa filen på kartan.
+Kartan använder koordinatsystem: EPSG: 4326 - WGS 84
+Om data inte skulle visas på kartan, prova att ta bort CRS koden manuellt och ladda in den i kartan.
+
+PROVA ATT EXPORTERA UTAN NÅGOT SATT KOORDINATSYSTEM REDAN I QGIS ANNARS.
