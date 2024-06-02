@@ -72,23 +72,32 @@ html, body {
     width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
 }
 
-/* Stilar för informationen osm kommer upp efter man tryckt på en knapp i bottenmenyn */
-#tab-content { 
+/* Befintlig CSS-kod för #tab-content */
+#tab-content {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 50vh; /* Anpassa höjden relativt till skärmens höjd */
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    display: none; /* Initialt dold */
+    display: none;
     z-index: 1000;
-    overflow-y: auto; /* Lägg till scrollbar om innehållet är längre än höjden */
-    display: flex; /* Använd flexbox för att centrera innehållet vertikalt */
+    overflow-y: auto;
+    display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Nya CSS-klasser för flikarna */
+.tab-pane {
+    display: none; /* Dölj standardmässigt flikarna */
+}
+
+.tab1 {
+    height: calc(100vh - 15px - (3px + 15px)); /* Anpassa höjden för tab1 dynamiskt */
+    /* Lägg till andra egenskaper för tab1 */
 }
 
 /* Stilar för panelen allra högst upp på sidan */
