@@ -72,3 +72,6 @@
                 closeTabContent();
             }
         });
+document.addEventListener("DOMContentLoaded", function() {
+    openTab('tab1', 'bottom_panel/Upptack/Upptack.html'); // Aktivera Upptäck-fliken vid sidan start
+});
