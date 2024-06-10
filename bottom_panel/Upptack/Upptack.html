@@ -5,33 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Button Styling Example</title>
     <style>
-        .container {
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Förhindrar skrollning */
+            height: 100%;
             display: flex;
             justify-content: center; /* Centrera innehållet horisontellt */
-            align-items: center; /* Centrera innehållet vertikalt */
-            height: 100vh; /* Gör container lika hög som hela viewporten */
+            align-items: flex-start; /* Placera innehållet längst upp */
         }
 
         .button-container {
             display: inline-flex;
             align-items: center;
+            margin-top: 20px; /* Justera avståndet från toppen om så önskas */
         }
 
         .styled-button {
             margin: 0 3px;
-            position: relative; /* Placera knapparna överst */
-            z-index: 1; /* Placera knapparna överst */
-            border: 1px solid rgb(50, 94, 88); /* Lägg till en solid ram runt knapparna */
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgb(50, 94, 88);
+            border-radius: 5px;
+            padding: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="button-container">
-            <button class="styled-button" onclick="toggleLayer()">Mässor</button>
-            <button class="styled-button" onclick="anotherFunction()">Jaktmark</button>
-            <button class="styled-button" onclick="thirdFunction()">Jaktskyttebanor</button>
-        </div>
+    <div class="button-container">
+        <button class="styled-button" onclick="toggleLayer()">Mässor</button>
+        <button class="styled-button" onclick="anotherFunction()">Jaktmark</button>
+        <button class="styled-button" onclick="thirdFunction()">Jaktskyttebanor</button>
     </div>
 </body>
 </html>
+
