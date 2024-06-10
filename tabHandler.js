@@ -1,45 +1,77 @@
-// Uppdaterad openTab-funktion för att visa flikens innehåll och ladda dess data
-function openTab(tabId, filePath) {
-    console.log("Öppnar flik:", tabId, "med filväg:", filePath);
-    var tabContent = document.getElementById('tab-content');
-    var tabs = document.getElementsByClassName('tab-pane');
+        // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+        function resetTabs() {
+            var tabs = document.getElementsByClassName('tab-pane');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = 'none'; // Göm flikarna
+                tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+            }
+            var tabContent = document.getElementById('tab-content');
+            tabContent.style.display = 'none'; // Göm flikinnehållet
+        }
 
-    // Dölj alla flikar först
-    resetTabs();
-
-    // Visa den aktuella fliken
-    var activeTab = document.getElementById(tabId);
-    activeTab.style.display = 'block';
-
-    // Visa flikinnehållet
-    tabContent.style.display = 'block';
-
-    // Hämta och ladda flikens innehåll med hjälp av Axios
-    axios.get(filePath)
-        .then(function (response) {
-            console.log("Innehåll hämtat för flik:", tabId);
-            activeTab.innerHTML = response.data;
-        })
-        .catch(function (error) {
-            console.log("Fel vid hämtning av innehåll för flik:", tabId, "Felmeddelande:", error.message);
+        // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
+        document.addEventListener('click', function(event) {
+            var tabContent = document.getElementById('tab-content');
+            if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+                resetTabs(); // Återställ flikarna om användaren klickar utanför dem
+            }
         });
-}
 
-// Uppdaterad closeTabContent-funktion för att dölja flikinnehållet när man klickar utanför det
-function closeTabContent() {
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none';
-}
+        function togglePanel() {
+            console.log("Toggling weather panel...");
+            var weatherInfo = document.getElementById('weather-info');
+            if (weatherInfo.style.display === 'none') {
+                console.log("Showing weather panel...");
+                weatherInfo.style.display = 'block';
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log("Getting current position...");
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    console.log("Current position:", latitude, longitude);
+                    getWeatherForecast(latitude, longitude);
+                });
+            } else {
+                console.log("Hiding weather panel...");
+                weatherInfo.style.display = 'none';
+            }
+        } // Här stängs togglePanel-funktionen
 
-// Lägg till en händelselyssnare för att stänga flikinnehållet när man klickar utanför det
-document.addEventListener('click', function(event) {
-    var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-        closeTabContent();
-    }
-});
+        function openTab(tabId, filePath) {
+            console.log("Opening tab:", tabId, "with file path:", filePath);
+            var tabContent = document.getElementById('tab-content');
+            var tabs = document.getElementsByClassName('tab-pane');
 
-// Anropa openTab-funktionen när dokumentet har laddats för att öppna den första fliken
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = 'none';
+            }
+
+            var activeTab = document.getElementById(tabId);
+            activeTab.style.display = 'block';
+
+            tabContent.style.display = 'block';
+
+            axios.get(filePath)
+                .then(function (response) {
+                    console.log("Successfully fetched content for tab:", tabId);
+                    activeTab.innerHTML = response.data;
+                })
+                .catch(function (error) {
+                    console.log("Error fetching content for tab:", tabId, "Error message:", error.message);
+                });
+        }
+
+        function closeTabContent() {
+            var tabContent = document.getElementById('tab-content');
+            tabContent.style.display = 'none';
+        }
+
+        // Close the tab content when clicking outside of it
+        document.addEventListener('click', function(event) {
+            var tabContent = document.getElementById('tab-content');
+            if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+                closeTabContent();
+            }
+        });
 document.addEventListener("DOMContentLoaded", function() {
-    openTab('tab1', 'bottom_panel/Upptack/Upptack.html');
+    openTab('tab1', 'bottom_panel/Upptack/Upptack.html'); // Aktivera Upptäck-fliken vid sidan start
 });
