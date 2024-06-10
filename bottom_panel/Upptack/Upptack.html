@@ -1,17 +1,1 @@
-<button style="height: 8px;" onclick="loadGeojsonHandlerScript()">Mässor</button>
-<script>
-    function loadGeojsonHandlerScript() {
-        var script = document.createElement('script');
-        script.src = 'bottom_panel/Upptack/Upptack_geojsonHandler.js';
-        script.type = 'text/javascript';
-        script.onload = function() {
-            console.log("Script loaded successfully.");
-            // När scriptet är laddat kan du utföra resten av JavaScript-koden här
-            fetchGeoJSONDataAndCreateLayer();
-        };
-        script.onerror = function() {
-            console.error("Error loading script.");
-        };
-        document.head.appendChild(script);
-    }
-</script>
+<button style="height: 8px;" onclick="toggleLayer()">Mässor</button>
