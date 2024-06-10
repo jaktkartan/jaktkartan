@@ -12,7 +12,14 @@
             overflow: hidden; /* Förhindrar skrollning */
             display: flex;
             justify-content: center; /* Centrera innehållet horisontellt */
-            align-items: center; /* Centrera innehållet vertikalt */
+            align-items: flex-start; /* Placera innehållet längst upp */
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: center; /* Centrera innehållet horisontellt */
+            width: 100%; /* Se till att wrappern tar upp hela bredden */
+            margin-top: 20px; /* Justera avståndet från toppen om så önskas */
         }
 
         .button-container {
@@ -31,10 +38,12 @@
     </style>
 </head>
 <body>
-    <div class="button-container">
-        <button class="styled-button" onclick="toggleLayer()">Mässor</button>
-        <button class="styled-button" onclick="anotherFunction()">Jaktmark</button>
-        <button class="styled-button" onclick="thirdFunction()">Jaktskyttebanor</button>
+    <div class="wrapper">
+        <div class="button-container">
+            <button class="styled-button" onclick="toggleLayer()">Mässor</button>
+            <button class="styled-button" onclick="anotherFunction()">Jaktmark</button>
+            <button class="styled-button" onclick="thirdFunction()">Jaktskyttebanor</button>
+        </div>
     </div>
 </body>
 </html>
