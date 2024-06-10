@@ -1,25 +1,32 @@
-document.addEventListener("DOMContentLoaded", function() {
-    var upptackTabButton = document.querySelector("#upptack-tab-button");
-    var upptackTabContent = document.querySelector("#tab1");
+function openTab(tabId, filePath) {
+    console.log("Opening tab:", tabId, "with file path:", filePath);
 
-    upptackTabButton.addEventListener("click", function() {
-        // Visa Upptäck-fliken
-        upptackTabContent.style.display = "block";
-        
-        // Tillämpa CSS-klassen för höjd och andra egenskaper
-        upptackTabContent.classList.add("tab1");
-        
-        // Dölj andra flikar om det behövs (beroende på din implementation)
-        hideOtherTabs(upptackTabContent);
-    });
+    var tabContent = document.getElementById('tab-content');
+    var tabs = document.getElementsByClassName('tab-pane');
 
-    // Funktion för att dölja andra flikar (om det behövs)
-    function hideOtherTabs(activeTab) {
-        var allTabs = document.querySelectorAll(".tab-pane");
-        allTabs.forEach(function(tab) {
-            if (tab !== activeTab) {
-                tab.style.display = "none";
-            }
-        });
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = 'none';
     }
-});
+
+    var activeTab = document.getElementById(tabId);
+    if (!activeTab) {
+        console.error("No element found with id:", tabId);
+        return;
+    }
+
+    activeTab.style.display = 'block';
+    activeTab.classList.add(tabId);
+
+    tabContent.style.display = 'block';
+
+    console.log("Fetching content from:", filePath);
+    axios.get(filePath)
+        .then(function (response) {
+            console.log("Content fetched for tabId:", tabId);
+            console.log(response.data); // Log the fetched content
+            activeTab.innerHTML = response.data;
+        })
+        .catch(function (error) {
+            console.error("Error fetching content for tab:", tabId, "Error message:", error.message);
+        });
+}
