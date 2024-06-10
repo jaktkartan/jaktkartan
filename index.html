@@ -37,21 +37,6 @@
             overflow-x: hidden; /* Dölj horisontell skrollning */
         }
     </style>
-
-    <script>
-        function loadGeojsonHandlerScript() {
-            var script = document.createElement('script');
-            script.src = 'bottom_panel/Upptack/Upptack_geojsonHandler.js';
-            script.type = 'text/javascript';
-            script.onload = function() {
-                console.log("Script loaded successfully.");
-            };
-            script.onerror = function() {
-                console.error("Error loading script.");
-            };
-            document.head.appendChild(script);
-        }
-    </script>
 </head>
 <body>
     <!-- jaktkartan logo längst upp i vänstra hörnet med länk till jaktkartan.se -->
