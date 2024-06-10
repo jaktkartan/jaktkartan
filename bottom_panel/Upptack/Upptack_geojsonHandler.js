@@ -1,9 +1,13 @@
+// Deklarera en global variabel för att spåra lagrets tillstånd
+var layerIsActive = false;
+var geojsonLayer; // Deklarera geojsonLayer utanför funktionen för att den ska vara tillgänglig globalt
+
 // Funktion för att hämta GeoJSON-data och skapa lagret
 function fetchGeoJSONDataAndCreateLayer() {
     axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson')
         .then(function (response) {
             console.log("Successfully fetched GeoJSON data:", response.data);
-            var geojsonLayer = L.geoJSON(response.data, {
+            geojsonLayer = L.geoJSON(response.data, {
                 onEachFeature: function (feature, layer) {
                     if (feature.geometry.crs && feature.geometry.crs.type && feature.geometry.crs.type.toUpperCase() !== 'NAME') {
                         console.error("Invalid CRS type:", feature.geometry.crs.type);
@@ -47,11 +51,13 @@ function fetchGeoJSONDataAndCreateLayer() {
 
 // Funktion för att tända och släcka lagret
 function toggleLayer() {
-    var mapLayers = map._layers;
-    for (var layerId in mapLayers) {
-        if (mapLayers[layerId].options && mapLayers[layerId].options.className === 'leaflet-layer') {
-            map.removeLayer(mapLayers[layerId]);
-        }
+    if (!layerIsActive) {
+        // Om lagret inte är aktivt, lägg till lagret på kartan
+        fetchGeoJSONDataAndCreateLayer();
+        layerIsActive = true;
+    } else {
+        // Om lagret är aktivt, ta bort lagret från kartan
+        map.removeLayer(geojsonLayer);
+        layerIsActive = false;
     }
-    fetchGeoJSONDataAndCreateLayer(); // Ladda lagret på nytt
 }
