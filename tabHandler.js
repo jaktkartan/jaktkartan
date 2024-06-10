@@ -55,7 +55,7 @@ function openTab(tabId, filePath) {
             console.log("Successfully fetched content for tab:", tabId);
             activeTab.innerHTML = response.data;
 
-            // Dynamiskt justera höjden på fliken baserat på bottenpanelens höjd
+            // Dynamiskt justera bottenhöjden på tab1 (Upptäck) baserat på panel-button höjden
             if (tabId === 'tab1') {
                 var bottomPanelHeight = document.getElementById('bottom-panel').offsetHeight;
                 activeTab.style.bottom = bottomPanelHeight + 'px';
