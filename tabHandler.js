@@ -65,6 +65,8 @@ function openTab(tabId, filePath) {
         activeTab.style.bottom = bottomPanelHeight + 'px';
         activeTab.style.height = 'calc(100vh - ' + bottomPanelHeight + 'px)';
     }
+} // Här ska klammern stängas för funktionen openTab
+
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none';
