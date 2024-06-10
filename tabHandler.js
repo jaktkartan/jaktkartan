@@ -35,36 +35,6 @@ function togglePanel() {
         weatherInfo.style.display = 'none';
     }
 } // Här stängs togglePanel-funktionen
-
-function openTab(tabId, filePath) {
-    console.log("Opening tab:", tabId, "with file path:", filePath);
-    var tabContent = document.getElementById('tab-content');
-    var tabs = document.getElementsByClassName('tab-pane');
-
-    for (var i = 0; i < tabs.length; i++) {
-        tabs[i].style.display = 'none';
-    }
-
-    var activeTab = document.getElementById(tabId);
-    activeTab.style.display = 'block';
-
-    tabContent.style.display = 'block';
-
-    axios.get(filePath)
-        .then(function (response) {
-            console.log("Successfully fetched content for tab:", tabId);
-            activeTab.innerHTML = response.data;
-
-            // Dynamiskt justera bottenhöjden på tab1 (Upptäck) baserat på panel-button höjden
-            if (tabId === 'tab1') {
-                var bottomPanelHeight = document.getElementById('bottom-panel').offsetHeight;
-                activeTab.style.bottom = bottomPanelHeight + 'px';
-                activeTab.style.height = 'calc(100vh - ' + bottomPanelHeight + 'px)';
-            }
-        })
-        .catch(function (error) {
-            console.log("Error fetching content for tab:", tabId, "Error message:", error.message);
-        });
 }
 
 function closeTabContent() {
