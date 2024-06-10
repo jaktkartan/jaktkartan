@@ -3,9 +3,6 @@ var upptackGeoJSONLayer;
 
 // Funktion för att ladda upptack.geojson och lägga till lagret på kartan
 function loadUpptackGeoJSON() {
-    // Först, ta bort det befintliga lagret om det finns
-    removeUpptackGeoJSON();
-    
     axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson')
         .then(function (response) {
             console.log("Successfully fetched GeoJSON data:", response.data);
@@ -56,16 +53,7 @@ function removeUpptackGeoJSON() {
     if (upptackGeoJSONLayer) {
         map.removeLayer(upptackGeoJSONLayer);
         console.log("Removed Upptack GeoJSON layer from the map.");
-        // Återställ lagret till null efter borttagning
-        upptackGeoJSONLayer = null;
     } else {
         console.log("Upptack GeoJSON layer not found on the map.");
     }
-}
-
-// Lägg till felsökningsutskrift i openTab() för att säkerställa korrekt anrop av loadUpptackGeoJSON()
-function openTab(tabId, filePath) {
-    console.log("Opening tab:", tabId, "with file path:", filePath);
-    // Här kan du lägga till eventuell annan kod för hantering av fliköppning
-    loadUpptackGeoJSON(); // Se till att denna rad finns här och anropar loadUpptackGeoJSON() när "Upptäck"-fliken öppnas
 }
