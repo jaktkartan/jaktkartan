@@ -74,7 +74,6 @@ html, body {
 
 /* Gemensam basstil för alla flikar */
 .tab-pane {
-    /* Övriga stilar för flikar */
     position: absolute;
     bottom: var(--panel-button-height);
     left: 0;
@@ -89,10 +88,10 @@ html, body {
     max-height: 50px; /* Begränsa höjden på fliken */
     overflow-x: hidden; /* Dölj eventuell horisontell scrollning */
     white-space: nowrap; /* Förhindra att innehållet bryts */
+    align-items: flex-start; /* Justera så att innehållet börjar från toppen */
 }
 
 #tab1.tab-pane {
-    /* Andra stilar för flik 1 om det behövs */
     position: absolute;
     bottom: var(--panel-button-height);
     left: 0;
@@ -103,10 +102,10 @@ html, body {
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
     display: none;
     z-index: 1000;
-    overflow-y: auto;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end; /* Ändra align-items till flex-end för att fliken börjar vid övre kanten av bottenpanelen */
+    overflow-y: auto; /* Lägg till en scrollbar om innehållet är för högt */
+    max-height: 50px; /* Begränsa höjden på fliken */
+    overflow-x: hidden; /* Dölj eventuell horisontell scrollning */
+    white-space: nowrap; /* Förhindra att innehållet bryts */
 }
 
 
