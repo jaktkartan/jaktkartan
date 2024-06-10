@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Button Styling Example</title>
+    <title>Upptäck_html</title>
     <style>
         body, html {
             margin: 0;
@@ -12,14 +12,16 @@
             overflow: hidden; /* Förhindrar skrollning */
             display: flex;
             justify-content: center; /* Centrera innehållet horisontellt */
-            align-items: flex-start; /* Placera innehållet längst upp */
+            align-items: center; /* Centrera innehållet vertikalt */
         }
 
-        .wrapper {
+        .tab-pane {
+            height: 8vh; /* Justera höjden på fliken */
+            width: 100%;
             display: flex;
             justify-content: center; /* Centrera innehållet horisontellt */
-            width: 100%; /* Se till att wrappern tar upp hela bredden */
-            margin-top: 20px; /* Justera avståndet från toppen om så önskas */
+            align-items: center; /* Centrera innehållet vertikalt */
+            overflow: hidden; /* Förhindrar skrollning */
         }
 
         .button-container {
@@ -38,7 +40,7 @@
     </style>
 </head>
 <body>
-    <div class="wrapper">
+    <div id="tab1" class="tab-pane">
         <div class="button-container">
             <button class="styled-button" onclick="toggleLayer()">Mässor</button>
             <button class="styled-button" onclick="anotherFunction()">Jaktmark</button>
