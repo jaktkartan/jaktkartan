@@ -58,7 +58,7 @@
                 .catch(function (error) {
                     console.log("Error fetching content for tab:", tabId, "Error message:", error.message);
                 });
-                  // Dynamiskt justera höjden på tab1 baserat på bottom-panel höjden
+                  // Dynamiskt justera bottenhöjden på tab1 (Upptäck) baserat på bottom-panel höjden
     var bottomPanelHeight = document.getElementById('bottom-panel').offsetHeight;
     activeTab.style.bottom = bottomPanelHeight + 'px';
     activeTab.style.height = 'calc(100vh - ' + bottomPanelHeight + 'px)';
