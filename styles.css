@@ -95,10 +95,10 @@ html, body {
 #tab1.tab-pane {
     /* Andra stilar för flik 1 om det behövs */
     position: absolute; /* Lägg till position: absolute för att positionera relativt till föräldern */
-    bottom: var(--bottom-panel-height); /* Använd en CSS-variabel för att dynamiskt ange avståndet till bottenpanelen */
+    bottom: var(--panel-button-height); /* Använd en CSS-variabel för att dynamiskt ange avståndet till bottenpanelen */
     left: 0;
     right: 0;
-    height: calc(50vh - var(--bottom-panel-height)); /* Justera höjden relativt till skärmens höjd och bottenpanelens höjd */
+    height: calc(50vh - var(--panel-button-height)); /* Justera höjden relativt till skärmens höjd och bottenpanelens höjd */
 }
 
 #tab2.tab-pane {
