@@ -92,11 +92,8 @@ html, body {
 }
 
 #tab1.tab-pane {
-    position: absolute; /* Göra det absolut positionerat */
-    bottom: 90px; /* Avståndet från botten av föräldern, justera detta beroende på behov */
-    left: 0; /* Placera det längst till vänster */
-    right: 0; /* Placera det längst till höger */
-    height: 30px; /* Ange önskad höjd här */
+    bottom: 90px;
+    height: 40px; /* Ange önskad höjd här */
 }
 
 #tab2.tab-pane {
