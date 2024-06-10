@@ -76,6 +76,7 @@
     <script>
         // Declare map as a global variable
         var map;
+        var geojsonLayer; // Lägg till en global variabel för GeoJSON-lagret
 
         document.addEventListener("DOMContentLoaded", function() {
             console.log("Initializing map...");
@@ -88,125 +89,11 @@
                 position: 'topleft' // Ändra positionen på zoomkontrollerna
             }).addTo(map);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-            var accuracyCircle;
-            var userMarker;
-            var pulsingDotMarker;
-            var sunriseIcon = L.icon({
-                iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
-                iconSize: [20, 20],
-                iconAnchor: [10, 10],
-                popupAnchor: [0, 0],
-            });
-            var sunsetIcon = L.icon({
-                iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
-                iconSize: [20, 20],
-                iconAnchor: [10, 10],
-                popupAnchor: [0, 0],
-            });
+            // Dina andra kartinställningar och funktioner här...
 
-            function createPulsingCircle(lat, lon) {
-                var divIcon = L.divIcon({
-                    className: 'pulsing-circle',
-                    iconSize: [12, 12],
-                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
-                });
-                return L.marker([lat, lon], { icon: divIcon }).addTo(map);
-            }
-
-            function updateUserPosition(lat, lon, accuracy) {
-                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
-
-                var accuracyInfo = document.getElementById('accuracy');
-                accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
-
-                if (!accuracyCircle) {
-                    accuracyCircle = L.circle([lat, lon], {
-                        radius: accuracy,
-                        fillColor: 'green',
-                        fillOpacity: 0.5,
-                        stroke: false
-                    }).addTo(map);
-                } else {
-                    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
-                }
-
-                if (!userMarker) {
-                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
-                } else {
-                    userMarker.setLatLng([lat, lon]);
-                }
-
-                if (!pulsingDotMarker) {
-                    pulsingDotMarker = createPulsingCircle(lat, lon);
-                } else {
-                    pulsingDotMarker.setLatLng([lat, lon]);
-                }
-
-                var times = SunCalc.getTimes(new Date(), lat, lon);
-                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunriseSpan = document.getElementById('sunrise');
-                var sunsetSpan = document.getElementById('sunset');
-
-                sunriseSpan.innerHTML = sunrise;
-                sunsetSpan.innerHTML = sunset;
-            }
-
-            function getPositionFromIP() {
-                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                    .then(function (response) {
-                        var loc = response.data.loc.split(',');
-                        var lat = parseFloat(loc[0]);
-                        var lon = parseFloat(loc[1]);
-                        updateUserPosition(lat, lon, "Unknown");
-                    })
-                    .catch(function (error) {
-                        console.log("IP Geolocation failed: " + error.message);
-                    });
-            }
-
-            function handleGeolocation(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-                var accuracy = position.coords.accuracy;
-                updateUserPosition(lat, lon, accuracy.toFixed(2));
-            }
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                        getPositionFromIP();
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout:                         10000,
-                        maximumAge: 0
-                    }
-                );
-
-                navigator.geolocation.watchPosition(
-                    function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-            } else {
-                map.setView([62.0, 15.0], 5);
-            }
+                        openTab('tab1', 'bottom_panel/Upptack/Upptack.html'); // Aktivera Upptäck-fliken vid sidans start
         });
     </script>
 
