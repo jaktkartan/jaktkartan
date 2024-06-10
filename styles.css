@@ -94,7 +94,7 @@ html, body {
 #tab1.tab-pane {
     bottom: auto; /* Avmarkera bottom-egenskapen för tab1 */
     top: 0; /* Börjar från sidans topp */
-    height: 30px; /* Ange önskad höjd här */
+    height: -30px; /* Ange önskad höjd här */
     display: none; /* Initialt dold */
 }
 
