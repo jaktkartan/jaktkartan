@@ -1,25 +1,12 @@
-document.addEventListener("DOMContentLoaded", function() {
-    var upptackTabButton = document.querySelector("#upptack-tab-button");
+function tab1SpecificLogic() {
+    // Specifik logik för Upptäck-fliken
+    console.log("Running specific logic for Upptäck tab");
+
     var upptackTabContent = document.querySelector("#tab1");
 
-    upptackTabButton.addEventListener("click", function() {
-        // Visa Upptäck-fliken
-        upptackTabContent.style.display = "block";
-        
-        // Tillämpa CSS-klassen för höjd och andra egenskaper
-        upptackTabContent.classList.add("tab1");
-        
-        // Dölj andra flikar om det behövs (beroende på din implementation)
-        hideOtherTabs(upptackTabContent);
-    });
+    // Tillämpa CSS-klassen för höjd och andra egenskaper
+    upptackTabContent.classList.add("tab1");
 
-    // Funktion för att dölja andra flikar (om det behövs)
-    function hideOtherTabs(activeTab) {
-        var allTabs = document.querySelectorAll(".tab-pane");
-        allTabs.forEach(function(tab) {
-            if (tab !== activeTab) {
-                tab.style.display = "none";
-            }
-        });
-    }
-});
+    // Exempel på ytterligare logik för Upptäck-fliken
+    // ...
+}
