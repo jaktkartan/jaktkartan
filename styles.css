@@ -92,9 +92,7 @@ html, body {
 }
 
 #tab1.tab-pane {
-    top: 0; /* Börjar från sidans topp */
-    bottom: auto; /* Avmarkera bottom-egenskapen för tab1 */
-    height: 30px; /* Ange önskad höjd här */
+    height: 40px; /* Ange önskad höjd här */
 }
 
 #tab2.tab-pane {
