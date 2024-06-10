@@ -15,36 +15,27 @@
             align-items: center; /* Centrera innehållet vertikalt */
         }
 
-        .tab-pane {
-            height: 8vh; /* Justera höjden på fliken */
-            width: 100%;
-            display: flex;
-            justify-content: center; /* Centrera innehållet horisontellt */
-            align-items: center; /* Centrera innehållet vertikalt */
-            overflow: hidden; /* Förhindrar skrollning */
-        }
-
         .button-container {
             display: inline-flex;
             align-items: center;
         }
 
-       .styled-button {
-    margin: 0 3px;
-    position: relative;
-    z-index: 1;
-    border: 1px solid rgb(50, 94, 88);
-    border-radius: 5px;
-    padding: 5px;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    height: 30px; /* Ange önskad höjd här */
-}
+        .styled-button {
+            margin: 0 3px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgb(50, 94, 88);
+            border-radius: 5px;
+            padding: 5px;
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            height: 30px; /* Ange önskad höjd här */
+        }
     </style>
 </head>
 <body>
-    <div id="tab1" class="tab-pane">
+    <div id="tab1">
         <div class="button-container">
             <button class="styled-button" onclick="toggleLayer()">Mässor</button>
             <button class="styled-button" onclick="anotherFunction()">Jaktmark</button>
