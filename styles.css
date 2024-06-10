@@ -93,7 +93,7 @@ html, body {
 
 #tab1.tab-pane {
     bottom: 90px;
-    height: 40px; /* Ange önskad höjd här */
+    height: -40px; /* Ange önskad höjd här */
 }
 
 #tab2.tab-pane {
