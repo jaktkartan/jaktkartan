@@ -101,11 +101,6 @@ html, body {
     height: calc(50vh - var(--bottom-panel-height)); /* Justera höjden relativt till skärmens höjd och bottenpanelens höjd */
 }
 
-/* Definiera CSS-variabeln för bottenpanelens höjd */
-:root {
-    --bottom-panel-height: 50px; /* Ange standardvärde för bottenpanelens höjd */
-}
-
 #tab2.tab-pane {
     /* Anpassa stilar för flik 2 om det behövs */
 }
