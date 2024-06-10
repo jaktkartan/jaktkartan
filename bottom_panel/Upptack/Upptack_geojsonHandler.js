@@ -45,5 +45,13 @@ function fetchGeoJSONDataAndCreateLayer() {
         });
 }
 
-// Kör funktionen för att hämta GeoJSON-data och skapa lagret
-fetchGeoJSONDataAndCreateLayer();
+// Funktion för att tända och släcka lagret
+function toggleLayer() {
+    var mapLayers = map._layers;
+    for (var layerId in mapLayers) {
+        if (mapLayers[layerId].options && mapLayers[layerId].options.className === 'leaflet-layer') {
+            map.removeLayer(mapLayers[layerId]);
+        }
+    }
+    fetchGeoJSONDataAndCreateLayer(); // Ladda lagret på nytt
+}
