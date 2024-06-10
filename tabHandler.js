@@ -59,11 +59,11 @@ function openTab(tabId, filePath) {
             console.log("Error fetching content for tab:", tabId, "Error message:", error.message);
         });
 
-    // Dynamiskt justera bottenhöjden på tab1 (Upptäck) baserat på bottom-panel höjden
+    // Dynamiskt justera bottenhöjden på tab1 (Upptäck) baserat på panel-button höjden
     if (tabId === 'tab1') {
-        var bottomPanelHeight = document.getElementById('bottom-panel').offsetHeight;
-        activeTab.style.bottom = bottomPanelHeight + 'px';
-        activeTab.style.height = 'calc(100vh - ' + bottomPanelHeight + 'px)';
+        var bottomPanelHeight = document.getElementById('panel-button').offsetHeight;
+        activeTab.style.bottom = panelButtonHeight + 'px';
+        activeTab.style.height = 'calc(100vh - ' + panelButtonHeight + 'px)';
     }
 } // Här ska klammern stängas för funktionen openTab
 
