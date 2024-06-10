@@ -72,8 +72,8 @@ html, body {
     width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
 }
 
-/* Befintlig CSS-kod för #tab-content */
-#tab-content { 
+/* Gemensam basstil för alla flikar */
+.tab-pane {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -91,17 +91,21 @@ html, body {
     align-items: center;
 }
 
-/* Generell CSS-regel för tab-pane */
-.tab-pane {
-    height: 50vh; /* Default höjd för flikar om ingen annan höjd anges */
-    /* Andra generella egenskaper för tab-pane */
+/* Specifika stilar för individuella flikar */
+#tab1.tab-pane {
+    height: 20vh;
+    /* Anpassa stilar för flik 1 om det behövs */
 }
 
-/* Specifika CSS-regler för tab1, tab2, osv. */
-.tab1 {
-    height: calc(100vh - 15px - (3px + 15px)); 
-    /* Lägg till specifika egenskaper för tab1 om det behövs */
+#tab2.tab-pane {
+    /* Anpassa stilar för flik 2 om det behövs */
 }
+
+#tab3.tab-pane {
+    /* Anpassa stilar för flik 3 om det behövs */
+}
+
+/* Fortsätt definiera CSS för varje flik separat enligt behov */
 
 
 #info-panel {
