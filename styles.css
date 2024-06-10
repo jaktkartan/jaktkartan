@@ -93,8 +93,17 @@ html, body {
 
 /* Specifika stilar för individuella flikar */
 #tab1.tab-pane {
-    height: 8vh;
-    /* Anpassa stilar för flik 1 om det behövs */
+    /* Andra stilar för flik 1 om det behövs */
+    position: absolute; /* Lägg till position: absolute för att positionera relativt till föräldern */
+    bottom: var(--bottom-panel-height); /* Använd en CSS-variabel för att dynamiskt ange avståndet till bottenpanelen */
+    left: 0;
+    right: 0;
+    height: calc(50vh - var(--bottom-panel-height)); /* Justera höjden relativt till skärmens höjd och bottenpanelens höjd */
+}
+
+/* Definiera CSS-variabeln för bottenpanelens höjd */
+:root {
+    --bottom-panel-height: 50px; /* Ange standardvärde för bottenpanelens höjd */
 }
 
 #tab2.tab-pane {
