@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Button Styling Example</title>
     <style>
+        .container {
+            display: flex;
+            justify-content: center; /* Centrera innehållet horisontellt */
+            align-items: center; /* Centrera innehållet vertikalt */
+            height: 100vh; /* Gör container lika hög som hela viewporten */
+        }
+
         .button-container {
             display: inline-flex;
             align-items: center;
@@ -22,11 +29,12 @@
     </style>
 </head>
 <body>
-    <div class="button-container">
-        <button class="styled-button" onclick="toggleLayer()">Mässor</button>
-        <button class="styled-button" onclick="anotherFunction()">Jaktmarker</button>
-        <button class="styled-button" onclick="thirdFunction()">Jaktskyttebanor</button>
+    <div class="container">
+        <div class="button-container">
+            <button class="styled-button" onclick="toggleLayer()">Mässor</button>
+            <button class="styled-button" onclick="anotherFunction()">Event</button>
+            <button class="styled-button" onclick="thirdFunction()">Kontakt</button>
+        </div>
     </div>
-
 </body>
 </html>
