@@ -73,7 +73,7 @@ html, body {
 }
 
 /* Befintlig CSS-kod för #tab-content */
-#tab-content {
+#tab-content { 
     position: absolute;
     bottom: 0;
     left: 0;
@@ -91,23 +91,17 @@ html, body {
     align-items: center;
 }
 
-/* Default styling for all tab panes */
+/* Generell CSS-regel för tab-pane */
 .tab-pane {
-    display: none;
-    height: 50vh;
+    height: 50vh; /* Default höjd för flikar om ingen annan höjd anges */
+    /* Andra generella egenskaper för tab-pane */
 }
 
-/* Specific styling for each tab, if necessary */
-#tab1.tab1 {
-    height: 80vh;
+/* Specifika CSS-regler för tab1, tab2, osv. */
+.tab1 {
+    height: calc(100vh - 15px - (3px + 15px)); 
+    /* Lägg till specifika egenskaper för tab1 om det behövs */
 }
-
-/* Add some border or background color for better visibility during testing */
-.tab-pane {
-    border: 1px solid black;
-    background-color: lightgrey;
-}
-
 
 
 #info-panel {
