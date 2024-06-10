@@ -78,28 +78,36 @@ html, body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 50vh; /* Anpassa höjden relativt till skärmens höjd */
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    display: none; /* Initialt dold */
+    display: none;
     z-index: 1000;
-    overflow-y: auto; /* Lägg till scrollbar om innehållet är längre än höjden */
-    display: flex; /* Använd flexbox för att centrera innehållet vertikalt */
+    overflow-y: auto;
+    display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end; /* Ändra align-items till flex-end för att fliken börjar vid övre kanten av bottenpanelen */
 }
 
-/* Specifika stilar för individuella flikar */
 #tab1.tab-pane {
     /* Andra stilar för flik 1 om det behövs */
-    position: absolute; /* Lägg till position: absolute för att positionera relativt till föräldern */
-    bottom: var(--panel-button-height); /* Använd en CSS-variabel för att dynamiskt ange avståndet till bottenpanelen */
+    position: absolute;
+    bottom: var(--panel-button-height);
     left: 0;
     right: 0;
-    height: calc(50vh - var(--panel-button-height)); /* Justera höjden relativt till skärmens höjd och bottenpanelens höjd */
+    background-color: white;
+    color: rgb(50, 94, 88);
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 1000;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Ändra align-items till flex-end för att fliken börjar vid övre kanten av bottenpanelen */
 }
+
 
 #tab2.tab-pane {
     /* Anpassa stilar för flik 2 om det behövs */
