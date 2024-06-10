@@ -57,3 +57,10 @@ function removeUpptackGeoJSON() {
         console.log("Upptack GeoJSON layer not found on the map.");
     }
 }
+
+// Lägg till felsökningsutskrift i openTab() för att säkerställa korrekt anrop av loadUpptackGeoJSON()
+function openTab(tabId, filePath) {
+    console.log("Opening tab:", tabId, "with file path:", filePath);
+    // Här kan du lägga till eventuell annan kod för hantering av fliköppning
+    loadUpptackGeoJSON(); // Se till att denna rad finns här och anropar loadUpptackGeoJSON() när "Upptäck"-fliken öppnas
+}
