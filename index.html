@@ -17,7 +17,6 @@
     <script src="bottom_panel/Kaliberkrav/Kaliberkrav_flikbeteende.js"></script>
     <script src="bottom_panel/Jaktkollen/Jaktkollen_flikbeteende.js"></script>
     <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
-    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script src="bottom_panel/Kartor/Algjaktskartan/Algjaktskartan_geojsonHandler.js"></script>
     <script src="bottom_panel/Kartor/Allman_jakt_Fagel/Allman_jakt_fagel_geojsonHandler.js"></script>
     <script src="bottom_panel/Kartor/Allman_jakt_daggdjur/Allman_jakt_daggdjur_geojsonHandler.js"></script>
@@ -28,6 +27,19 @@
             top: 80px !important;
             left: 10px !important;
         }
+        function loadGeojsonHandlerScript() {
+    var script = document.createElement('script');
+    script.src = 'bottom_panel/Upptack/Upptack_geojsonHandler.js';
+    script.type = 'text/javascript';
+    script.onload = function() {
+        console.log("Script loaded successfully.");
+    };
+    script.onerror = function() {
+        console.error("Error loading script.");
+    };
+    document.head.appendChild(script);
+}
+
 
         body {
             display: flex;
