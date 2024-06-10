@@ -62,7 +62,7 @@
         <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/Kartor/Kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
         <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/Jaktbart_idag/Jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
         <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/Kaliberkrav/Kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Kaliberkrav"></button>
-        <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/Jaktkollen/Jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
+<button class="panel-button" onclick="openTab('tab5', 'bottom_panel/Jaktkollen/Jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
     </div>
 
     <div id="tab-content" style="display:none;">
@@ -170,10 +170,18 @@
             }
 
             function handleGeolocation(position) {
-                var lat = position.coords.latitude;
+                var lat = position.coords.latitude
+;
                 var lon = position.coords.longitude;
                 var accuracy = position.coords.accuracy;
                 updateUserPosition(lat, lon, accuracy.toFixed(2));
+            }
+
+            // Funktion för att ta bort lagret med geojson-filer
+            function removeGeoJSONLayer() {
+                if (map.hasLayer(geojsonLayer)) {
+                    map.removeLayer(geojsonLayer);
+                }
             }
 
             if (navigator.geolocation) {
@@ -212,3 +220,5 @@
 
 </body>
 </html>
+
+       
