@@ -93,7 +93,7 @@ html, body {
 
 /* Specifika stilar för individuella flikar */
 #tab1.tab-pane {
-    height: 20vh;
+    height: 8vh;
     /* Anpassa stilar för flik 1 om det behövs */
 }
 
