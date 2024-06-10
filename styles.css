@@ -85,7 +85,6 @@ html, body {
     display: none;
     z-index: 1000;
     overflow-y: auto; /* Lägg till en scrollbar om innehållet är för högt */
-    max-height: calc(100vh - 50px); /* Begränsa höjden på fliken */
     overflow-x: hidden; /* Dölj eventuell horisontell scrollning */
     white-space: nowrap; /* Förhindra att innehållet bryts */
     align-items: flex-end; /* Justera så att innehållet börjar från botten */
@@ -95,6 +94,7 @@ html, body {
     top: 0; /* Börjar från sidans topp */
     bottom: auto; /* Avmarkera bottom-egenskapen för tab1 */
     align-items: flex-start; /* Justera så att innehållet börjar från toppen */
+    height: 30px; /* Ange önskad höjd här */
 }
 
 #tab2.tab-pane {
