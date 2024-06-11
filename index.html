@@ -23,6 +23,7 @@
     <script src="bottom_panel/Kartor/Allman_jakt_daggdjur/Allman_jakt_daggdjur_geojsonHandler.js"></script>
 
     <style>
+        /* Anpassad CSS för att ändra zoomkontrollernas position */
         .leaflet-top.leaflet-left {
             top: 80px !important;
             left: 10px !important;
@@ -31,14 +32,15 @@
         body {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
+            align-items: center; /* Centrera innehållet horisontellt */
+            height: 100vh; /* Sätt höjden till fulla höjden av vyporten */
+            margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
+            overflow-x: hidden; /* Dölj horisontell skrollning */
         }
     </style>
 </head>
 <body>
+    <!-- jaktkartan logo längst upp i vänstra hörnet med länk till jaktkartan.se -->
     <a href="http://www.jaktkartan.se" style="position: fixed; top: 15px; left: 10px; z-index: 9999;">
         <img src="bilder/ikon3.png" alt="Jaktkartan.se" style="width: 50px; height: auto;">
     </a>
@@ -76,40 +78,49 @@
     </div>
     
     <script>
+        // Declare map as a global variable
         var map;
 
+        // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
         function resetTabs() {
             var tabs = document.getElementsByClassName('tab-pane');
             for (var i = 0; i < tabs.length; i++) {
-                tabs[i].style.display = 'none';
-                tabs[i].innerHTML = '';
+                tabs[i].style.display = 'none'; // Göm flikarna
+                tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
             }
             var tabContent = document.getElementById('tab-content');
-            tabContent.style.display = 'none';
+            tabContent.style.display = 'none'; // Göm flikinnehållet
         }
 
+        // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
         document.addEventListener('click', function(event) {
             var tabContent = document.getElementById('tab-content');
             if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-                resetTabs();
+                resetTabs(); // Återställ flikarna om användaren klickar utanför dem
             }
         });
 
         function togglePanel() {
+            console.log("Toggling weather panel...");
             var weatherInfo = document.getElementById('weather-info');
             if (weatherInfo.style.display === 'none') {
+                console.log("Showing weather panel...");
                 weatherInfo.style.display = 'block';
                 navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log("Getting current position...");
                     var latitude = position.coords.latitude;
                     var longitude = position.coords.longitude;
+                    console.log("Current position:", latitude, longitude);
                     getWeatherForecast(latitude, longitude);
                 });
             } else {
+                console.log("Hiding weather panel...");
                 weatherInfo.style.display = 'none';
             }
-        }
+        } // Här stängs togglePanel-funktionen
 
         function openTab(tabId, filePath) {
+            console.log("Opening tab:", tabId, "with file path:", filePath);
             var tabContent = document.getElementById('tab-content');
             var tabs = document.getElementsByClassName('tab-pane');
 
@@ -124,6 +135,7 @@
 
             axios.get(filePath)
                 .then(function (response) {
+                    console.log("Successfully fetched content for tab:", tabId);
                     activeTab.innerHTML = response.data;
                 })
                 .catch(function (error) {
@@ -136,6 +148,7 @@
             tabContent.style.display = 'none';
         }
 
+        // Close the tab content when clicking outside of it
         document.addEventListener('click', function(event) {
             var tabContent = document.getElementById('tab-content');
             if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
@@ -144,24 +157,137 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
+            console.log("Initializing map...");
+
             map = L.map('map', {
-                zoomControl: false
+                zoomControl: false // Ta bort standardzoomkontrollerna
             }).setView([62.0, 15.0], 5);
 
             L.control.zoom({
-                position: 'topleft'
+                position: 'topleft' // Ändra positionen på zoomkontrollerna
             }).addTo(map);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            addGlobalPopupHandler(map); // Här inkluderar vi funktionen för global popup-hantering
+            var accuracyCircle;
+            var userMarker;
+            var pulsingDotMarker;
+            var sunriseIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunrise.png',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
+            });
+            var sunsetIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/sunset.png',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, 0],
+            });
 
-            // Resten av din kartinitialiseringskod...
+            function createPulsingCircle(lat, lon) {
+                var divIcon = L.divIcon({
+                    className: 'pulsing-circle',
+                    iconSize: [12, 12],
+                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
+                });
+                return L.marker([lat, lon], { icon: divIcon }).addTo(map);
+            }
+
+            function updateUserPosition(lat, lon, accuracy) {
+                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
+
+                var accuracyInfo = document.getElementById('accuracy');
+                accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
+
+                if (!accuracyCircle) {
+                    accuracyCircle = L.circle([lat, lon], {
+                        radius: accuracy,
+                        fillColor: 'green',
+                        fillOpacity: 0.5,
+                        stroke: false
+                    }).addTo(map);
+                } else {
+                    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
+                }
+
+                if (!userMarker) {
+                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+                } else {
+                    userMarker.setLatLng([lat, lon]);
+                }
+
+                if (!pulsingDotMarker) {
+                    pulsingDotMarker = createPulsingCircle(lat, lon);
+                } else {
+                    pulsingDotMarker.setLatLng([lat, lon]);
+                }
+
+                var times = SunCalc.getTimes(new Date(), lat, lon);
+                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunriseSpan = document.getElementById('sunrise');
+                var sunsetSpan = document.getElementById('sunset');
+
+                sunriseSpan.innerHTML = sunrise;
+                sunsetSpan.innerHTML = sunset;
+            }
+
+            function getPositionFromIP() {
+                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                    .then(function (response) {
+                        var loc = response.data.loc.split(',');
+                        var lat = parseFloat(loc[0]);
+                        var lon = parseFloat(loc[1]);
+                        updateUserPosition(lat, lon, "Unknown");
+                    })
+                    .catch(function (error) {
+                        console.log("IP Geolocation failed: " + error.message);
+                    });
+            }
+
+            function handleGeolocation(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                var accuracy = position.coords.accuracy;
+                updateUserPosition(lat, lon, accuracy.toFixed(2));
+            }
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                        getPositionFromIP();
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout:                         10000,
+                        maximumAge: 0
+                    }
+                );
+
+                navigator.geolocation.watchPosition(
+                    function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                map.setView([62.0, 15.0], 5);
+            }
         });
     </script>
 
 </body>
 </html>
-
