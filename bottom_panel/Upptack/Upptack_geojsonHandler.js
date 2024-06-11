@@ -50,7 +50,7 @@ function fetchGeoJSONDataAndCreateLayer() {
 }
 
 // Funktion för att tända och släcka lagret
-function toggleLayer() {
+function toggleLayer_Upptack() {
     if (!layerIsActive) {
         // Om lagret inte är aktivt, lägg till lagret på kartan
         fetchGeoJSONDataAndCreateLayer();
