@@ -92,7 +92,7 @@ html, body {
 }
 
 #tab1.tab-pane {
-    height: 25vh; /* Ange önskad höjd här */
+    height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
