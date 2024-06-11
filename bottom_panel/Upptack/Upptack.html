@@ -12,20 +12,24 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: hidden; /* Förhindrar skrollning */
+            overflow: hidden;
             display: flex;
-            justify-content: center; /* Centrera innehållet horisontellt */
-            align-items: center; /* Centrera innehållet vertikalt */
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
 <body>
     <div id="tab1">
         <div class="button-container">
-            <button class="styled-button" onclick="toggleLayer_Massor(this)">Mässor</button>
-            <button class="styled-button" onclick="anotherFunction(this)">Jaktmark</button>
-            <button class="styled-button" onclick="thirdFunction(this)">Jaktskyttebanor</button>
+            <button class="styled-button" onclick="toggleLayer('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson')">Mässor</button>
+            <button class="styled-button" onclick="toggleLayer('https://example.com/jaktmark.geojson')">Jaktmark</button>
+            <button class="styled-button" onclick="toggleLayer('https://example.com/jaktskyttebanor.geojson')">Jaktskyttebanor</button>
         </div>
     </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="geojsonhandler.js"></script>
 </body>
 </html>
