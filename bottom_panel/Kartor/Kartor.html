@@ -18,13 +18,16 @@
             align-items: center; /* Centrera innehållet vertikalt */
         }
     </style>
+    <!-- Lägg till JavaScript-filen för hantering av kartlager -->
+    <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
 </head>
 <body>
     <div id="tab2">
         <div class="button-container">
-            <button class="styled-button" onclick="toggleLayer('NAMN HÄR')">Allmän jakt: Däggdjur</button>
-            <button class="styled-button" onclick="toggleLayer('Allmän jakt: Fågel')">Allmän jakt: Fågel</button>
-            <button class="styled-button" onclick="toggleLayer('NAMN HÄR')">Älgjaktskartan</button>
+            <!-- Anropa toggleLayer-metoden från Kartor_geojsonHandler -->
+            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('NAMN HÄR', 'URL HÄR')">Allmän jakt: Däggdjur</button>
+            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson')">Allmän jakt: Fågel</button>
+            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', 'URL HÄR')">Älgjaktskartan</button>
         </div>
     </div>
 </body>
