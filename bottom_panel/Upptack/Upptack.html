@@ -22,7 +22,7 @@
 <body>
     <div id="tab1">
         <div class="button-container">
-            <button class="styled-button" onclick="toggleLayer('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson')">Mässor</button>
+            <button class="styled-button" onclick="toggleLayer_Massor('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson')">Mässor</button>
             <button class="styled-button" onclick="toggleLayer('https://example.com/jaktmark.geojson')">Jaktmark</button>
             <button class="styled-button" onclick="toggleLayer('https://example.com/jaktskyttebanor.geojson')">Jaktskyttebanor</button>
         </div>
@@ -68,7 +68,7 @@
         }
 
         // Funktion för att tända och släcka lagret
-        function toggleLayer(url) {
+        function toggleLayer_Massor(url) {
             if (geojsonLayer) {
                 map.removeLayer(geojsonLayer);
                 geojsonLayer = null;
