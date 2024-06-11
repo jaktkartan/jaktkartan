@@ -4,10 +4,37 @@ var geojsonLayer; // Deklarera geojsonLayer utanför funktionen för att den ska
 
 // Funktion för att hämta GeoJSON-data och skapa lagret
 function fetchGeoJSONDataAndCreateLayer() {
-    axios.get('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson')
+    axios.get('')
+
+
+// Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
+var layerIsActive = {
+    'mässor': false,
+    'jaktmark': false,
+    'jaktskyttebanor': false
+};
+var geojsonLayers = {
+    'mässor': null,
+    'jaktmark': null,
+    'jaktskyttebanor': null
+};
+
+// Funktion för att hämta GeoJSON-data och skapa lagret
+function fetchGeoJSONDataAndCreateLayer(layerName) {
+    var geojsonURL;
+    // Bestäm vilken geojson-fil som ska hämtas baserat på layerName
+    if (layerName === 'Allmän jakt: Fågel') {
+        geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson';
+    } else if (layerName === 'jaktma') {
+        geojsonURL = 'URL till jaktmark.geojson'; // Uppdatera URL för jaktmark
+    } else if (layerName === 'jaktskytteban') {
+        geojsonURL = 'URL till jaktskyttebanor.geojson'; // Uppdatera URL för jaktskyttebanor
+    }
+
+    axios.get(geojsonURL)
         .then(function (response) {
             console.log("Successfully fetched GeoJSON data:", response.data);
-            geojsonLayer = L.geoJSON(response.data, {
+            geojsonLayers[layerName] = L.geoJSON(response.data, {
                 onEachFeature: function (feature, layer) {
                     if (feature.geometry.crs && feature.geometry.crs.type && feature.geometry.crs.type.toUpperCase() !== 'NAME') {
                         console.error("Invalid CRS type:", feature.geometry.crs.type);
@@ -43,6 +70,8 @@ function fetchGeoJSONDataAndCreateLayer() {
                     layer.bindPopup(popupContent);
                 }
             }).addTo(map);
+            // Uppdatera layerIsActive för det aktuella lagret
+            layerIsActive[layerName] = true;
         })
         .catch(function (error) {
             console.log("Error fetching GeoJSON data:", error.message);
@@ -50,14 +79,14 @@ function fetchGeoJSONDataAndCreateLayer() {
 }
 
 // Funktion för att tända och släcka lagret
-function toggleLayer_Lnsindelning_1() {
-    if (!layerIsActive) {
+function toggleLayer(layerName) {
+    if (!layerIsActive[layerName]) {
         // Om lagret inte är aktivt, lägg till lagret på kartan
-        fetchGeoJSONDataAndCreateLayer();
-        layerIsActive = true;
+        fetchGeoJSONDataAndCreateLayer(layerName);
     } else {
         // Om lagret är aktivt, ta bort lagret från kartan
-        map.removeLayer(geojsonLayer);
-        layerIsActive = false;
+        map.removeLayer(geojsonLayers[layerName]);
+        // Uppdatera layerIsActive för det aktuella lagret
+        layerIsActive[layerName] = false;
     }
 }
