@@ -35,7 +35,6 @@ function togglePanel() {
         weatherInfo.style.display = 'none';
     }
 } // Här stängs togglePanel-funktionen
-}
 
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
