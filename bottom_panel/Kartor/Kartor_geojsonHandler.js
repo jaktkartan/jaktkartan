@@ -41,15 +41,16 @@ var Kartor_geojsonHandler = (function() {
     }
 
     // Funktion för att tända och släcka lagret
-    function toggleLayer(layerName, geojsonURL) {
-        if (!layerIsActive[layerName]) {
-            // Om lagret inte är aktivt, lägg till lagret på kartan
-            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURL);
+    function toggleLayer(layerName, geojsonURLs) {
+        // Kontrollera om geojsonURLs är en array
+        if (Array.isArray(geojsonURLs)) {
+            // Om geojsonURLs är en array, loopa igenom varje URL och hämta data för varje lager
+            geojsonURLs.forEach(function(url) {
+                fetchGeoJSONDataAndCreateLayer(layerName, url);
+            });
         } else {
-            // Om lagret är aktivt, ta bort lagret från kartan
-            map.removeLayer(geojsonLayers[layerName]);
-            // Uppdatera layerIsActive för det aktuella lagret
-            layerIsActive[layerName] = false;
+            // Om geojsonURLs inte är en array, antas det vara en enskild URL
+            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         }
     }
 
