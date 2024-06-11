@@ -92,7 +92,6 @@ html, body {
 }
 
 #tab1.tab-pane {
-    bottom: 100px; /* Avståndet från sidans botten */
     height: 40px; /* Ange önskad höjd här */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
