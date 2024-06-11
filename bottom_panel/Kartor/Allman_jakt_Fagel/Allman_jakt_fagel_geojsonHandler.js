@@ -1,12 +1,3 @@
-// Deklarera en global variabel för att spåra lagrets tillstånd
-var layerIsActive = false;
-var geojsonLayer; // Deklarera geojsonLayer utanför funktionen för att den ska vara tillgänglig globalt
-
-// Funktion för att hämta GeoJSON-data och skapa lagret
-function fetchGeoJSONDataAndCreateLayer() {
-    axios.get('')
-
-
 // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
 var layerIsActive = {
     'Allmän jakt: Däggdjur': false,
@@ -23,8 +14,13 @@ var geojsonLayers = {
 function fetchGeoJSONDataAndCreateLayer(layerName) {
     var geojsonURL;
     // Bestäm vilken geojson-fil som ska hämtas baserat på layerName
-    if (layerName === 'Allmän jakt: Fågel') {
-        geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson';
+    if (layerName === 'Allmän jakt: Däggdjur') {
+        geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson';
+    } else if (layerName === 'Allmän jakt: Fågel') {
+        geojsonURL = 'URL till jaktmark.geojson'; // Uppdatera URL för jaktmark
+    } else if (layerName === 'Älgjaktskartan') {
+        geojsonURL = 'URL till jaktskyttebanor.geojson'; // Uppdatera URL för jaktskyttebanor
+    }
 
     axios.get(geojsonURL)
         .then(function (response) {
