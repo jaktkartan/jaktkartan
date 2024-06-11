@@ -23,7 +23,6 @@
     <script src="bottom_panel/Kartor/Allman_jakt_daggdjur/Allman_jakt_daggdjur_geojsonHandler.js"></script>
 
     <style>
-        /* Anpassad CSS för att ändra zoomkontrollernas position */
         .leaflet-top.leaflet-left {
             top: 80px !important;
             left: 10px !important;
@@ -32,15 +31,14 @@
         body {
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centrera innehållet horisontellt */
-            height: 100vh; /* Sätt höjden till fulla höjden av vyporten */
-            margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
-            overflow-x: hidden; /* Dölj horisontell skrollning */
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
         }
     </style>
 </head>
 <body>
-    <!-- jaktkartan logo längst upp i vänstra hörnet med länk till jaktkartan.se -->
     <a href="http://www.jaktkartan.se" style="position: fixed; top: 15px; left: 10px; z-index: 9999;">
         <img src="bilder/ikon3.png" alt="Jaktkartan.se" style="width: 50px; height: auto;">
     </a>
@@ -78,49 +76,40 @@
     </div>
     
     <script>
-        // Declare map as a global variable
         var map;
 
-        // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
         function resetTabs() {
             var tabs = document.getElementsByClassName('tab-pane');
             for (var i = 0; i < tabs.length; i++) {
-                tabs[i].style.display = 'none'; // Göm flikarna
-                tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+                tabs[i].style.display = 'none';
+                tabs[i].innerHTML = '';
             }
             var tabContent = document.getElementById('tab-content');
-            tabContent.style.display = 'none'; // Göm flikinnehållet
+            tabContent.style.display = 'none';
         }
 
-        // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
         document.addEventListener('click', function(event) {
             var tabContent = document.getElementById('tab-content');
             if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-                resetTabs(); // Återställ flikarna om användaren klickar utanför dem
+                resetTabs();
             }
         });
 
         function togglePanel() {
-            console.log("Toggling weather panel...");
             var weatherInfo = document.getElementById('weather-info');
             if (weatherInfo.style.display === 'none') {
-                console.log("Showing weather panel...");
                 weatherInfo.style.display = 'block';
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    console.log("Getting current position...");
                     var latitude = position.coords.latitude;
                     var longitude = position.coords.longitude;
-                    console.log("Current position:", latitude, longitude);
                     getWeatherForecast(latitude, longitude);
                 });
             } else {
-                console.log("Hiding weather panel...");
                 weatherInfo.style.display = 'none';
             }
-        } // Här stängs togglePanel-funktionen
+        }
 
         function openTab(tabId, filePath) {
-            console.log("Opening tab:", tabId, "with file path:", filePath);
             var tabContent = document.getElementById('tab-content');
             var tabs = document.getElementsByClassName('tab-pane');
 
@@ -130,12 +119,10 @@
 
             var activeTab = document.getElementById(tabId);
             activeTab.style.display = 'block';
-
             tabContent.style.display = 'block';
 
             axios.get(filePath)
                 .then(function (response) {
-                    console.log("Successfully fetched content for tab:", tabId);
                     activeTab.innerHTML = response.data;
                 })
                 .catch(function (error) {
@@ -148,7 +135,6 @@
             tabContent.style.display = 'none';
         }
 
-        // Close the tab content when clicking outside of it
         document.addEventListener('click', function(event) {
             var tabContent = document.getElementById('tab-content');
             if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
@@ -157,14 +143,12 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            console.log("Initializing map...");
-
             map = L.map('map', {
-                zoomControl: false // Ta bort standardzoomkontrollerna
+                zoomControl: false 
             }).setView([62.0, 15.0], 5);
 
             L.control.zoom({
-                position: 'topleft' // Ändra positionen på zoomkontrollerna
+                position: 'topleft'
             }).addTo(map);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -197,8 +181,6 @@
             }
 
             function updateUserPosition(lat, lon, accuracy) {
-                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
-
                 var accuracyInfo = document.getElementById('accuracy');
                 accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
 
@@ -265,7 +247,7 @@
                     },
                     {
                         enableHighAccuracy: true,
-                        timeout:                         10000,
+                        timeout: 10000,
                         maximumAge: 0
                     }
                 );
@@ -286,8 +268,13 @@
             } else {
                 map.setView([62.0, 15.0], 5);
             }
+
+            // Lägg till global popup-hanterare här:
+            addGlobalPopupHandler(map);
+
+            // Exempel på att lägga till en markör:
+            var exampleMarker = L.marker([62.0, 15.0]).addTo(map).bindPopup("Example popup content");
         });
     </script>
-
 </body>
 </html>
