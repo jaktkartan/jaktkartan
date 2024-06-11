@@ -3,30 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upptäck</title>
+    <title>Upptäckfliken, innehåll med knappar</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
-        /* Lägg till din CSS-stil här om det behövs */
-        #massorButton {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-
-        #massorButton:hover {
-            background-color: #0056b3;
+        #map {
+            height: 100%;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <button id="massorButton">Toggle Mässor Layer</button>
+    <div id="tab1">
+        <div class="button-container">
+            <button class="styled-button" onclick="toggleLayer('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson')">Mässor</button>
+            <button class="styled-button" onclick="toggleLayer('https://example.com/jaktmark.geojson')">Jaktmark</button>
+            <button class="styled-button" onclick="toggleLayer('https://example.com/jaktskyttebanor.geojson')">Jaktskyttebanor</button>
+        </div>
+    </div>
 
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        // Lägg till eventuell JavaScript som behövs specifikt för denna sida här
+        var map = L.map('map').setView([59.3293, 18.0686], 13);
+        var geojsonLayer;
+
+        // Funktion för att hämta GeoJSON-data och skapa lagret
+        function fetchGeoJSONDataAndCreateLayer(url) {
+            return axios.get(url)
+                .then(function (response) {
+                    console.log("Successfully fetched GeoJSON data:", response.data);
+                    return L.geoJSON(response.data, {
+                        onEachFeature: function (feature, layer) {
+                            if (feature.geometry.crs && feature.geometry.crs.type && feature.geometry.crs.type.toUpperCase() !== 'NAME') {
+                                console.error("Invalid CRS type:", feature.geometry.crs.type);
+                                alert("Invalid CRS type detected. Skipping this feature.");
+                                return;
+                            }
+                            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+                            var hideProperties = ['id', 'Aktualitet'];
+                            var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
+                            for (var prop in feature.properties) {
+                                if (hideProperties.includes(prop)) continue;
+                                if (prop === 'BILD') {
+                                    popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+                                } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                                    popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+                                } else if (hideNameOnlyProperties.includes(prop)) {
+                                    popupContent += '<p>' + feature.properties[prop] + '</p>';
+                                } else {
+                                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+                                }
+                            }
+                            popupContent += '</div>';
+                            layer.bindPopup(popupContent);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.log("Error fetching GeoJSON data:", error.message);
+                });
+        }
+
+        // Funktion för att tända och släcka lagret
+        function toggleLayer(url) {
+            if (geojsonLayer) {
+                map.removeLayer(geojsonLayer);
+                geojsonLayer = null;
+            }
+            fetchGeoJSONDataAndCreateLayer(url).then(function (layer) {
+                geojsonLayer = layer;
+                geojsonLayer.addTo(map);
+            });
+        }
     </script>
 </body>
 </html>
