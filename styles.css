@@ -159,7 +159,4 @@ html, body {
     }
 }
 
-/* Dölj standard Leaflet markörsymbol */
-.leaflet-marker-icon[src*="marker-icon.png"] {
-    display: none;
-}
+
