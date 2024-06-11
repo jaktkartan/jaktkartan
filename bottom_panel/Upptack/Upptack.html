@@ -31,16 +31,38 @@
             padding: 5px;
             height: 30px; /* Ange önskad höjd här */
             font-size: 14px; /* Justera textstorleken för att passa in i knappen */
+            cursor: pointer; /* Ändrar muspekaren till en hand när den svävar över knappen */
+        }
+
+        .pressed {
+            background-color: rgb(50, 94, 88); /* Ändra bakgrundsfärgen när knappen är nedtryckt */
+            color: white; /* Ändra textfärgen när knappen är nedtryckt */
         }
     </style>
 </head>
 <body>
     <div id="tab1">
         <div class="button-container">
-            <button class="styled-button" onclick="toggleLayer()">Mässor</button>
-            <button class="styled-button" onclick="anotherFunction()">Jaktmark</button>
-            <button class="styled-button" onclick="thirdFunction()">Jaktskyttebanor</button>
+            <button class="styled-button" onclick="toggleLayer(this)">Mässor</button>
+            <button class="styled-button" onclick="anotherFunction(this)">Jaktmark</button>
+            <button class="styled-button" onclick="thirdFunction(this)">Jaktskyttebanor</button>
         </div>
     </div>
+    <script>
+        function toggleLayer(button) {
+            button.classList.toggle('pressed');
+            // Lägg till din funktionalitet här
+        }
+
+        function anotherFunction(button) {
+            button.classList.toggle('pressed');
+            // Lägg till din funktionalitet här
+        }
+
+        function thirdFunction(button) {
+            button.classList.toggle('pressed');
+            // Lägg till din funktionalitet här
+        }
+    </script>
 </body>
 </html>
