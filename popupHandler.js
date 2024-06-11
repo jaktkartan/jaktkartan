@@ -17,4 +17,3 @@ function addGeoObjectWithPopup(geoObject, popupContent) {
     geoObject.bindPopup(popupContent);
     addPopupHandler(geoObject);
 }
-
