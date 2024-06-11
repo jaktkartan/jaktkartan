@@ -7,13 +7,6 @@ function centerPopup(e) {
     map.panTo(map.unproject(px), { animate: true }); // Panorera kartan
 }
 
-// Lägg till händelselyssnare på alla geoobjekt
-function addPopupHandler(geoObject) {
-    geoObject.on('popupopen', centerPopup);
-}
-
-// Exempel på hur man lägger till olika geoobjekt med popup och händelselyssnare
-function addGeoObjectWithPopup(geoObject, popupContent) {
-    geoObject.bindPopup(popupContent);
-    addPopupHandler(geoObject);
+function addGlobalPopupHandler(map) {
+    map.on('popupopen', centerPopup);
 }
