@@ -44,24 +44,16 @@
     <div id="tab1">
         <div class="button-container">
             <button class="styled-button" onclick="toggleLayer(this)">Mässor</button>
-            <button class="styled-button" onclick="anotherFunction(this)">Jaktmark</button>
-            <button class="styled-button" onclick="thirdFunction(this)">Jaktskyttebanor</button>
+            <button class="styled-button" onclick="toggleLayer(this)">Jaktmark</button>
+            <button class="styled-button" onclick="toggleLayer(this)">Jaktskyttebanor</button>
         </div>
     </div>
     <script>
         function toggleLayer(button) {
             button.classList.toggle('pressed');
-            // Lägg till din funktionalitet här
-        }
-
-        function anotherFunction(button) {
-            button.classList.toggle('pressed');
-            // Lägg till din funktionalitet här
-        }
-
-        function thirdFunction(button) {
-            button.classList.toggle('pressed');
-            // Lägg till din funktionalitet här
+            // Din befintliga funktionalitet kan finnas här
+            // Exempel:
+            // console.log(button.innerText + ' knappen har tryckts!');
         }
     </script>
 </body>
