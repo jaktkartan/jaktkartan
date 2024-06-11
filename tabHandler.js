@@ -1,3 +1,5 @@
+// bottenpanelens knappar kontroleras här. hur de öppnas och stängs
+
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
