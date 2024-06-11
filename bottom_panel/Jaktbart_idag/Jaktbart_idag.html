@@ -34,19 +34,18 @@
             height: 1050px; /* Justera höjden efter behov */
             border: 1px solid #ccc;
         }
-        .hidden {
-            display: none;
-        }
         .hide-on-selection {
             display: none;
         }
-
     </style>
 </head>
 <body>
     <h1 id="main-title">Jaktbart Idag</h1>
     <p id="main-info">Information om vad som är jaktbart idag i olika län.</p>
     <div id="county-buttons">
+        <!-- Här är dina knappar -->
+    </div>
+    <div class="iframe-container" id="iframe-container">
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Blekinge län')">Blekinge län</a>
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Dalarnas län')">Dalarnas län</a>
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Gotlands län')">Gotlands län</a>
@@ -68,10 +67,6 @@
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTgFOYLMInhQ7SZDQ4SFE17OJBpcUYSZcyVeCY_q2zBKNsdc5hbSwoRNMoFOMIeag/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Västra Götalands län')">Västra Götalands län</a>
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTeXGD1OrUQ2L43q1pCdmt1clCZ5aCgbNSKaH2Bi_UOCrv8SXMOY_ePD5uzF7nBSQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Örebro län')">Örebro län</a>
         <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false', 'Östergötlands län')">Östergötlands län</a>
-
-    </div>
-    <div class="iframe-container" id="iframe-container">
-        <!-- iframe visas här -->
     </div>
 
     <script>
@@ -81,7 +76,6 @@
         function showIframeAndHideButtons(url, county) {
             var iframeContainer = document.getElementById('iframe-container');
             var countyButtons = document.getElementById('county-buttons');
-            var backButton = document.getElementById('back-button');
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
@@ -97,28 +91,17 @@
             mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
             mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
             iframeContainer.style.display = 'block'; // Visa iframen
-            backButton.style.display = 'block'; // Visa tillbaka knappen
-            backButton.onclick = function() {
-                currentCounty = ""; // Nollställ det aktuella länet
-                iframeContainer.innerHTML = ''; // Ta bort iframen
-                countyButtons.style.display = 'block'; // Visa knapparna igen
-                mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
-                mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
-                backButton.style.display = 'none'; // Dölj tillbaka knappen
-            };
         }
 
         // Funktion för att återställa sidan när användaren klickar utanför iframen
         document.addEventListener('click', function(event) {
             var iframeContainer = document.getElementById('iframe-container');
-            var backButton = document.getElementById('back-button');
-            if (!iframeContainer.contains(event.target) && !backButton.contains(event.target)) {
+            if (!iframeContainer.contains(event.target)) {
                 currentCounty = ""; // Nollställ det aktuella länet
                 iframeContainer.innerHTML = ''; // Ta bort iframen
                 document.getElementById('county-buttons').style.display = 'block'; // Visa knapparna igen
                 document.getElementById('main-title').classList.remove('hide-on-selection'); // Visa rubriken igen
                 document.getElementById('main-info').classList.remove('hide-on-selection'); // Visa informationsdelen igen
-                backButton.style.display = 'none'; // Dölj tillbaka knappen
             }
         });
     </script>
