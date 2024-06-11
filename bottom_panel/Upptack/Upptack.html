@@ -12,83 +12,20 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: hidden;
+            overflow: hidden; /* Förhindrar skrollning */
             display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #map {
-            height: 100%;
-            width: 100%;
+            justify-content: center; /* Centrera innehållet horisontellt */
+            align-items: center; /* Centrera innehållet vertikalt */
         }
     </style>
 </head>
 <body>
     <div id="tab1">
         <div class="button-container">
-            <button class="styled-button" onclick="toggleLayer('https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson')">Mässor</button>
-            <button class="styled-button" onclick="toggleLayer('https://example.com/jaktmark.geojson')">Jaktmark</button>
-            <button class="styled-button" onclick="toggleLayer('https://example.com/jaktskyttebanor.geojson')">Jaktskyttebanor</button>
+            <button class="styled-button" onclick="toggleLayer(this)">Mässor</button>
+            <button class="styled-button" onclick="anotherFunction(this)">Jaktmark</button>
+            <button class="styled-button" onclick="thirdFunction(this)">Jaktskyttebanor</button>
         </div>
     </div>
-
-    <div id="map"></div>
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        var map = L.map('map').setView([59.3293, 18.0686], 13);
-        var geojsonLayer;
-
-        // Funktion för att hämta GeoJSON-data och skapa lagret
-        function fetchGeoJSONDataAndCreateLayer(url) {
-            return axios.get(url)
-                .then(function (response) {
-                    console.log("Successfully fetched GeoJSON data:", response.data);
-                    return L.geoJSON(response.data, {
-                        onEachFeature: function (feature, layer) {
-                            if (feature.geometry.crs && feature.geometry.crs.type && feature.geometry.crs.type.toUpperCase() !== 'NAME') {
-                                console.error("Invalid CRS type:", feature.geometry.crs.type);
-                                alert("Invalid CRS type detected. Skipping this feature.");
-                                return;
-                            }
-                            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-                            var hideProperties = ['id', 'Aktualitet'];
-                            var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
-
-                            for (var prop in feature.properties) {
-                                if (hideProperties.includes(prop)) continue;
-                                if (prop === 'BILD') {
-                                    popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
-                                } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
-                                    popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
-                                } else if (hideNameOnlyProperties.includes(prop)) {
-                                    popupContent += '<p>' + feature.properties[prop] + '</p>';
-                                } else {
-                                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
-                                }
-                            }
-                            popupContent += '</div>';
-                            layer.bindPopup(popupContent);
-                        }
-                    });
-                })
-                .catch(function (error) {
-                    console.log("Error fetching GeoJSON data:", error.message);
-                });
-        }
-
-        // Funktion för att tända och släcka lagret
-        function toggleLayer(url) {
-            if (geojsonLayer) {
-                map.removeLayer(geojsonLayer);
-                geojsonLayer = null;
-            }
-            fetchGeoJSONDataAndCreateLayer(url).then(function (layer) {
-                geojsonLayer = layer;
-                geojsonLayer.addTo(map);
-            });
-        }
-    </script>
 </body>
 </html>
