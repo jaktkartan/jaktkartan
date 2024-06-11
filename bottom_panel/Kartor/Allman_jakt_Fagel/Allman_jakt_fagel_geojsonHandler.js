@@ -15,9 +15,9 @@ function fetchGeoJSONDataAndCreateLayer(layerName) {
     var geojsonURL;
     // Bestäm vilken geojson-fil som ska hämtas baserat på layerName
     if (layerName === 'Allmän jakt: Däggdjur') {
-        geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson';
+        geojsonURL = 'LÄNK';
     } else if (layerName === 'Allmän jakt: Fågel') {
-        geojsonURL = 'URL till jaktmark.geojson'; // Uppdatera URL för jaktmark
+        geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson';
     } else if (layerName === 'Älgjaktskartan') {
         geojsonURL = 'URL till jaktskyttebanor.geojson'; // Uppdatera URL för jaktskyttebanor
     }
