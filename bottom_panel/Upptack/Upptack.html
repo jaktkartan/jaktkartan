@@ -22,10 +22,13 @@
 <body>
     <div id="tab1">
         <div class="button-container">
-            <button class="styled-button" onclick="toggleLayer('mässor')">Mässor</button>
-            <button class="styled-button" onclick="toggleLayer('jaktmark')">Jaktmark</button>
-            <button class="styled-button" onclick="toggleLayer('jaktskyttebanor')">Jaktskyttebanor</button>
+            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('mässor')">Mässor</button>
+            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('jaktmark')">Jaktmark</button>
+            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('jaktskyttebanor')">Jaktskyttebanor</button>
         </div>
     </div>
+
+    <!-- Lägg till JavaScript-filen för hantering av kartlager -->
+    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </body>
 </html>
