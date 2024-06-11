@@ -30,6 +30,54 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="geojsonhandler.js"></script>
+    <script>
+        var map = L.map('map').setView([59.3293, 18.0686], 13);
+        var geojsonLayer;
+
+        // Funktion för att hämta GeoJSON-data och skapa lagret
+        function fetchGeoJSONDataAndCreateLayer(url) {
+            return axios.get(url)
+                .then(function (response) {
+                    console.log("Successfully fetched GeoJSON data:", response.data);
+                    return L.geoJSON(response.data, {
+                        onEachFeature: function (feature, layer) {
+                            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+                            var hideProperties = ['id', 'Aktualitet'];
+                            var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
+                            for (var prop in feature.properties) {
+                                if (hideProperties.includes(prop)) continue;
+                                if (prop === 'BILD') {
+                                    popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+                                } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                                    popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+                                } else if (hideNameOnlyProperties.includes(prop)) {
+                                    popupContent += '<p>' + feature.properties[prop] + '</p>';
+                                } else {
+                                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+                                }
+                            }
+                            popupContent += '</div>';
+                            layer.bindPopup(popupContent);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.log("Error fetching GeoJSON data:", error.message);
+                });
+        }
+
+        // Funktion för att tända och släcka lagret
+        function toggleLayer(url) {
+            if (geojsonLayer) {
+                map.removeLayer(geojsonLayer);
+                geojsonLayer = null;
+            }
+            fetchGeoJSONDataAndCreateLayer(url).then(function (layer) {
+                geojsonLayer = layer;
+                geojsonLayer.addTo(map);
+            });
+        }
+    </script>
 </body>
 </html>
