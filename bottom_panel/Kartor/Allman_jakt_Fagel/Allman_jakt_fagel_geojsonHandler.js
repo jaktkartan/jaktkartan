@@ -25,11 +25,6 @@ function fetchGeoJSONDataAndCreateLayer(layerName) {
     // Bestäm vilken geojson-fil som ska hämtas baserat på layerName
     if (layerName === 'Allmän jakt: Fågel') {
         geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson';
-    } else if (layerName === 'Allmän jakt: Däggdjur') {
-        geojsonURL = 'URL till jaktmark.geojson'; // Uppdatera URL för jaktmark
-    } else if (layerName === 'Älgjaktskartan') {
-        geojsonURL = 'URL till jaktskyttebanor.geojson'; // Uppdatera URL för jaktskyttebanor
-    }
 
     axios.get(geojsonURL)
         .then(function (response) {
