@@ -9,14 +9,14 @@ function fetchGeoJSONDataAndCreateLayer() {
 
 // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
 var layerIsActive = {
-    'mässor': false,
-    'jaktmark': false,
-    'jaktskyttebanor': false
+    'Allmän jakt: Däggdjur': false,
+    'Allmän jakt: Fågel': false,
+    'Älgjaktskartan': false
 };
 var geojsonLayers = {
-    'mässor': null,
-    'jaktmark': null,
-    'jaktskyttebanor': null
+    'Allmän jakt: Däggdjur': null,
+    'Allmän jakt: Fågel': null,
+    'Älgjaktskartan': null
 };
 
 // Funktion för att hämta GeoJSON-data och skapa lagret
@@ -25,9 +25,9 @@ function fetchGeoJSONDataAndCreateLayer(layerName) {
     // Bestäm vilken geojson-fil som ska hämtas baserat på layerName
     if (layerName === 'Allmän jakt: Fågel') {
         geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson';
-    } else if (layerName === 'jaktma') {
+    } else if (layerName === 'Allmän jakt: Däggdjur') {
         geojsonURL = 'URL till jaktmark.geojson'; // Uppdatera URL för jaktmark
-    } else if (layerName === 'jaktskytteban') {
+    } else if (layerName === 'Älgjaktskartan') {
         geojsonURL = 'URL till jaktskyttebanor.geojson'; // Uppdatera URL för jaktskyttebanor
     }
 
