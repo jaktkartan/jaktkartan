@@ -9,6 +9,23 @@ function resetTabs() {
     tabContent.style.display = 'none'; // Göm flikinnehållet
 }
 
+// Funktion för att öppna en flik
+function openTab(tabId, url) {
+    resetTabs(); // Återställ flikarna innan en ny öppnas
+    var tab = document.getElementById(tabId);
+    tab.style.display = 'block'; // Visa den valda fliken
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'block'; // Visa flikinnehållet
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            tab.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error fetching tab content:', error);
+        });
+}
+
 // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
@@ -34,7 +51,7 @@ function togglePanel() {
         console.log("Hiding weather panel...");
         weatherInfo.style.display = 'none';
     }
-} // Här stängs togglePanel-funktionen
+}
 
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
