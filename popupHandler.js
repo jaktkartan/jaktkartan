@@ -1,16 +1,13 @@
-// popupHandler.js
+// Anta att "map" är en referens till din Leaflet-karta
 
-function centerPopup(e) {
-    var map = e.target._map; // Hämta kartan från det objekt som öppnade popupen
-    
-    // Kontrollera om e.popup är definierad innan du fortsätter
-    if (e.popup) {
-        var px = map.project(e.popup._latlng); // Hitta popupens position
-        px.y -= map.getSize().y / 2; // Justera för att centrera popup
-        map.panTo(map.unproject(px), { animate: true }); // Panorera kartan
+// Lägg till en händelselyssnare för klick på markörer
+map.on('click', function(event) {
+    // Kontrollera om klicket inträffade på en markör
+    if (event.layer instanceof L.Marker) {
+        // Hämta den geografiska positionen för markören
+        var markerLatLng = event.latlng;
+
+        // Panorera kartan så att markören hamnar i mitten
+        map.panTo(markerLatLng, { animate: true });
     }
-}
-
-function addGlobalPopupHandler(map) {
-    map.on('popupopen', centerPopup);
-}
+});
