@@ -1,4 +1,4 @@
-// Funktioner för toggle väder fliken, för knapparna i bottenpanelen och en specialarne för kaliberkrav fliken som först ger användaren 2 knappar för att välja vilken flik som ska visas.
+// Funktioner för toggle väder fliken, för knapparna i bottenpanelen och en specialare för kaliberkrav fliken som först ger användaren 2 knappar för att välja vilken flik som ska visas.
 
 function togglePanel() {
     console.log("Toggling weather panel...");
@@ -79,6 +79,7 @@ function openTab(tabId, url) {
     }
 }
 
+// Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
     var tabContent = document.getElementById('tab-content');
     var tab = document.createElement('div');
@@ -95,12 +96,18 @@ function openKaliberkravTab(url) {
     paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
     tab.appendChild(paragraph);
 
+    // Dölj rubriken och brödtexten initialt
+    heading.style.display = 'none';
+    paragraph.style.display = 'none';
+
+    // Hämta innehållet från den angivna URL:en
     fetch(url)
         .then(response => response.text())
         .then(html => {
             tab.innerHTML += html; // Lägg till innehållet från URL:en
 
-            // Dölj rubriken och brödtexten
+            // Visa innehållet och dölj rubriken och brödtexten igen
+            tab.style.display = 'block';
             heading.style.display = 'none';
             paragraph.style.display = 'none';
         })
@@ -117,12 +124,13 @@ document.addEventListener('click', function(event) {
     }
 });
 
+// Funktion för att stänga flikinnehållet
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none';
 }
 
-// Close the tab content when clicking outside of it
+// Stäng flikinnehållet när man klickar utanför det
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
     if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
