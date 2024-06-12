@@ -51,9 +51,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log("Kaliberkrav page loaded.");
+
             // Funktion för att visa iframen och dölja knapparna
             function showIframeAndHideButtons(url) {
-                console.log("showIframeAndHideButtons function called with URL:", url); // Felsökning
                 var iframeContainer = document.getElementById('iframe-container');
                 var kaliberButtons = document.getElementById('kaliber-buttons');
                 var mainTitle = document.getElementById('main-title');
@@ -65,10 +66,10 @@
                 iframe.setAttribute('scrolling', 'no');
                 iframeContainer.innerHTML = '';
                 iframeContainer.appendChild(iframe);
-                kaliberButtons.style.display = 'none'; // Dölj knapparna när iframen visas
-                mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
-                mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
-                iframeContainer.style.display = 'block'; // Visa iframen
+                kaliberButtons.style.display = 'none';
+                mainTitle.classList.add('hide-on-selection');
+                mainInfo.classList.add('hide-on-selection');
+                iframeContainer.style.display = 'block';
             }
 
             // Lägg till event listeners för knapparna
@@ -79,9 +80,6 @@
             document.getElementById('fagel-button').addEventListener('click', function() {
                 showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false');
             });
-
-            // Kontrollera om funktionen är definierad
-            console.log("showIframeAndHideButtons defined:", typeof showIframeAndHideButtons === 'function');
         });
     </script>
 </body>
