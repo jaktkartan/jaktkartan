@@ -18,6 +18,16 @@ function togglePanel() {
         weatherInfo.style.display = 'none';
     }
 }
+// Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+function resetTabs() {
+    var tabs = document.getElementsByClassName('tab-pane');
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = 'none'; // Göm flikarna
+        tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+    }
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none'; // Göm flikinnehållet
+}
 
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
@@ -29,14 +39,24 @@ function openTab(tabId, url) {
 
     if (tabId === 'tab4') {
         // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        var kaliberkravButtons = document.getElementById('kaliberkrav-buttons');
-        kaliberkravButtons.style.display = 'block';
+        var tabContent = document.getElementById('tab4');
+        tabContent.innerHTML = ''; // Rensa flikinnehållet
+
+        var button1 = document.createElement('button');
+        button1.textContent = 'Kaliberkrav: Däggdjur';
+        button1.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+        };
+        tabContent.appendChild(button1);
+
+        var button2 = document.createElement('button');
+        button2.textContent = 'Kaliberkrav: Fågel';
+        button2.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+        };
+        tabContent.appendChild(button2);
     } else {
-        // Om det inte är tab4 (Kaliberkrav), dölj knapparna för Kaliberkrav
-        var kaliberkravButtons = document.getElementById('kaliberkrav-buttons');
-        kaliberkravButtons.style.display = 'none';
-        
-        // Hämta innehållet från den angivna URL:en
+        // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
         fetch(url)
             .then(response => response.text())
             .then(html => {
@@ -64,20 +84,6 @@ function openKaliberkravTab(url) {
         });
 }
 
-// Funktion för att återställa flikarna till sitt ursprungliga tillstånd
-function resetTabs() {
-    var tabs = document.getElementsByClassName('tab-pane');
-    for (var i = 0; i < tabs.length; i++) {
-        tabs[i].style.display = 'none'; // Göm flikarna
-        tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
-    }
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none'; // Göm flikinnehållet
-    
-    // Dölj även knapparna för Kaliberkrav när flikarna återställs
-    var kaliberkravButtons = document.getElementById('kaliberkrav-buttons');
-    kaliberkravButtons.style.display = 'none';
-}
 
 // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
 document.addEventListener('click', function(event) {
