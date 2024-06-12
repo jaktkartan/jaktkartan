@@ -58,9 +58,15 @@ function togglePanel() {
     }
 }
 
-// Funktion för att stänga flikinnehållet
 function closeTabContent() {
-    resetTabs(); // Återställ flikarna
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none';
 }
+
+// Close the tab content when clicking outside of it
+document.addEventListener('click', function(event) {
+    var tabContent = document.getElementById('tab-content');
+    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+        closeTabContent();
+    }
+});
