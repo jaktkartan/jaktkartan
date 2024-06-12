@@ -16,15 +16,6 @@ function togglePanel() {
         weatherInfo.style.display = 'none';
     }
 }
-
-// Funktion för att stänga flikarna när man klickar utanför dem
-document.addEventListener('click', function(event) {
-    var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target)) {
-        resetTabs(); // Stäng flikarna om användaren klickar utanför dem
-    }
-});
-
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
@@ -38,6 +29,7 @@ function resetTabs() {
 
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
+    resetTabs(); // Återställ flikarna innan en ny öppnas
     var tab = document.getElementById(tabId);
     tab.style.display = 'block'; // Visa den valda fliken
     var tabContent = document.getElementById('tab-content');
@@ -63,17 +55,34 @@ function openTab(tabId, url) {
         tabContent.appendChild(button2);
     } else {
         // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    tab.innerHTML = xhr.responseText;
-                } else {
-                    console.error('Error fetching tab content:', xhr.status);
-                }
-            }
-        };
-        xhr.open('GET', url);
-        xhr.send();
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                tab.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error fetching tab content:', error);
+            });
     }
 }
+
+// Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
+document.addEventListener('click', function(event) {
+    var tabContent = document.getElementById('tab-content');
+    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+        resetTabs(); // Återställ flikarna om användaren klickar utanför dem
+    }
+});
+
+function closeTabContent() {
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none';
+}
+
+// Close the tab content when clicking outside of it
+document.addEventListener('click', function(event) {
+    var tabContent = document.getElementById('tab-content');
+    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+        closeTabContent();
+    }
+});
