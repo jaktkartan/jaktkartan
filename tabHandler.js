@@ -16,14 +16,19 @@ function openTab(tabId, url) {
     tab.style.display = 'block'; // Visa den valda fliken
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block'; // Visa flikinnehållet
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            tab.innerHTML = html;
-        })
-        .catch(error => {
-            console.error('Error fetching tab content:', error);
-        });
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                tab.innerHTML = xhr.responseText;
+            } else {
+                console.error('Error fetching tab content:', xhr.status);
+            }
+        }
+    };
+    xhr.open('GET', url);
+    xhr.send();
 }
 
 // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
