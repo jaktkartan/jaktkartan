@@ -33,9 +33,6 @@
             height: 1050px; /* Justera höjden efter behov */
             border: 1px solid #ccc;
         }
-        .hidden {
-            display: none;
-        }
         .hide-on-selection {
             display: none;
         }
@@ -45,24 +42,20 @@
     <h1 id="main-title">Kaliberkrav</h1>
     <p id="main-info">Kaliberkrav och rekommenderad hagelstorlek för jakt</p>
     <div id="kaliber-buttons">
-        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false', 'Däggdjur')">Däggdjur</a>
-        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false', 'Fågel')">Fågel</a>
+        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false')">Däggdjur</a>
+        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false')">Fågel</a>
     </div>
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
     </div>
 
     <script>
-        var currentKaliber = ""; // Variabel för att hålla reda på det aktuella kalibret
-
         // Funktion för att visa iframen och dölja knapparna
-        function showIframeAndHideButtons(url, kaliber) {
+        function showIframeAndHideButtons(url) {
             var iframeContainer = document.getElementById('iframe-container');
             var kaliberButtons = document.getElementById('kaliber-buttons');
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
-
-            currentKaliber = kaliber; // Sätt det aktuella kalibret
 
             var iframe = document.createElement('iframe');
             iframe.src = url;
@@ -75,18 +68,6 @@
             mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
             iframeContainer.style.display = 'block'; // Visa iframen
         }
-
-        // Funktion för att återställa sidan när användaren klickar utanför iframen
-        document.addEventListener('click', function(event) {
-            var iframeContainer = document.getElementById('iframe-container');
-            if (!iframeContainer.contains(event.target)) {
-                currentKaliber = ""; // Nollställ det aktuella kalibret
-                iframeContainer.innerHTML = ''; // Ta bort iframen
-                document.getElementById('kaliber-buttons').style.display = 'block'; // Visa knapparna igen
-                document.getElementById('main-title').classList.remove('hide-on-selection'); // Visa rubriken igen
-                document.getElementById('main-info').classList.remove('hide-on-selection'); // Visa informationsdelen igen
-            }
-        });
     </script>
 </body>
 </html>
