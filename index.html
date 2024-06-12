@@ -33,23 +33,6 @@
             margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
             overflow-x: hidden; /* Dölj horisontell skrollning */
         }
-
-        #tab4-options {
-            display: none;
-            position: fixed;
-            bottom: 80px;
-            left: 10px;
-            z-index: 9999;
-            background-color: white;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        #tab4-options button {
-            display: block;
-            margin-bottom: 5px;
-        }
     </style>
 </head>
 <body>
@@ -78,13 +61,8 @@
         <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/Upptack/Upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
         <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/Kartor/Kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
         <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/Jaktbart_idag/Jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
-        <button class="panel-button" onclick="showTab4Options()"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Kaliberkrav"></button>
+        <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/Kaliberkrav/Kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Kaliberkrav"></button>
         <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/Jaktkollen/Jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
-    </div>
-
-    <div id="tab4-options">
-        <button onclick="openTab('tab4a', 'bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html')">Alternativ 1</button>
-        <button onclick="openTab('tab4b', 'bottom_panel/Kaliberkrav/Kaliberkrav_Faglar.html')">Alternativ 2</button>
     </div>
 
     <div id="tab-content" style="display:none;">
@@ -208,7 +186,7 @@
                     },
                     {
                         enableHighAccuracy: true,
-                        timeout: 10000,
+                        timeout:                         10000,
                         maximumAge: 0
                     }
                 );
@@ -230,27 +208,6 @@
                 map.setView([62.0, 15.0], 5);
             }
         });
-
-        function showTab4Options() {
-            var tab4Options = document.getElementById('tab4-options');
-            tab4Options.style.display = 'block';
-        }
-
-        function openTab(tabId, htmlFilePath) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', htmlFilePath, true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var tabContent = document.getElementById(tabId);
-                    tabContent.innerHTML = xhr.responseText;
-                    tabContent.style.display = 'block';
-                }
-            };
-            xhr.send();
-            
-            var tab4Options = document.getElementById('tab4-options');
-            tab4Options.style.display = 'none';
-        }
     </script>
 </body>
 </html>
