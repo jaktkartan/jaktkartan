@@ -1,14 +1,5 @@
-// PopupHandler.js
-
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Centrera innehållet horisontellt */
-        height: 100vh; /* Sätt höjden till fulla höjden av vyporten */
-        margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
-        overflow-x: hidden; /* Dölj horisontell skrollning */
-    }
-
+// CSS för popup-fönster
+var popupStyles = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
         padding: 10px; /* Lägg till lite padding inuti popup-fönstret */
@@ -30,11 +21,12 @@
     }
 `;
 
-// JavaScript-kod
+// Funktion för att skapa popup-fönster med innehåll
 function createPopup(content) {
-    return L.popup({
-        maxWidth: '300',  // Maximal bredd för popup-fönstret i pixel
-    }).setContent(content);
+    var popupOptions = {
+        maxWidth: '300' // Maximal bredd för popup-fönstret i pixel
+    };
+    return L.popup(popupOptions).setContent(content);
 }
 
 // Exempel på hur du kan använda funktionen för att skapa popup-fönster med bildlänkar
@@ -51,4 +43,7 @@ var popup = createPopup(popupContent);
 // Exempel på att lägga till popup till en marker
 L.marker([lat, lon]).addTo(map).bindPopup(popup);
 
-// Funktioner och annan JavaScript-kod fortsätter här
+// Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
+var styleTag = document.createElement('style');
+styleTag.textContent = popupStyles;
+document.head.appendChild(styleTag);
