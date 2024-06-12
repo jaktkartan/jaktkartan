@@ -1,3 +1,5 @@
+// Funktioner för toggle väder fliken, för knapparna i bottenpanelen och en specialarne för kaliberkrav fliken som först ger användaren 2 knappar för att välja vilken flik som ska visas.
+
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
