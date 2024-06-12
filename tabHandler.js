@@ -17,6 +17,24 @@ function togglePanel() {
     }
 }
 
+// Funktion för att stänga flikarna när man klickar utanför dem
+document.addEventListener('click', function(event) {
+    var tabContent = document.getElementById('tab-content');
+    if (!tabContent.contains(event.target)) {
+        resetTabs(); // Stäng flikarna om användaren klickar utanför dem
+    }
+});
+
+// Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+function resetTabs() {
+    var tabs = document.getElementsByClassName('tab-pane');
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = 'none'; // Göm flikarna
+        tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+    }
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none'; // Göm flikinnehållet
+}
 
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
@@ -59,14 +77,4 @@ function openTab(tabId, url) {
         xhr.open('GET', url);
         xhr.send();
     }
-}
-
-function resetTabs() {
-    var tabs = document.getElementsByClassName('tab-pane');
-    for (var i = 0; i < tabs.length; i++) {
-        tabs[i].style.display = 'none'; // Göm flikarna
-        tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
-    }
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none'; // Göm flikinnehållet
 }
