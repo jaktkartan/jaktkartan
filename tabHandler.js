@@ -45,22 +45,22 @@ function openTab(tabId, url) {
 
     if (tabId === 'tab4') {
         // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        var tabContent = document.getElementById('tab4');
-        tabContent.innerHTML = ''; // Rensa flikinnehållet
+        var tab4Content = document.getElementById('tab4_content');
+        tab4Content.innerHTML = ''; // Rensa flikinnehållet
 
         var button1 = document.createElement('button');
         button1.textContent = 'Kaliberkrav: Däggdjur';
         button1.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
         };
-        tabContent.appendChild(button1);
+        tab4Content.appendChild(button1);
 
         var button2 = document.createElement('button');
         button2.textContent = 'Kaliberkrav: Fågel';
         button2.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
         };
-        tabContent.appendChild(button2);
+        tab4Content.appendChild(button2);
     } else {
         // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
         var xhr = new XMLHttpRequest();
@@ -77,3 +77,4 @@ function openTab(tabId, url) {
         xhr.send();
     }
 }
+
