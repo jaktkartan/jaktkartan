@@ -26,6 +26,7 @@ var popupStyles = `
 function createPopup(content) {
     var popupOptions = {
         maxWidth: '300' // Maximal bredd för popup-fönstret i pixel
+        maxHeight: "300"
     };
     return L.popup(popupOptions).setContent(content);
 }
