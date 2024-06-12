@@ -41,32 +41,53 @@
     <h1 id="main-title">Kaliberkrav</h1>
     <p id="main-info">Kaliberkrav och rekommenderad hagelstorlek för jakt</p>
     <div id="kaliber-buttons">
-        <a href="#" class="kaliber-button" id="daggdjur-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false')">Däggdjur</a>
-        <a href="#" class="kaliber-button" id="fagel-button" onclick="showIframe('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false')">Fågel</a>
+        <a href="#" class="kaliber-button" id="daggdjur-button">Däggdjur</a>
+        <a href="#" class="kaliber-button" id="fagel-button">Fågel</a>
     </div>
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
     </div>
 
     <script>
-        function showIframe(url) {
-            var iframeContainer = document.getElementById('iframe-container');
-            var kaliberButtons = document.getElementById('kaliber-buttons');
-            var mainTitle = document.getElementById('main-title');
-            var mainInfo = document.getElementById('main-info');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Kaliberkrav page loaded.");
 
-            var iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('scrolling', 'no');
-            iframeContainer.innerHTML = '';
-            iframeContainer.appendChild(iframe);
+            // Funktion för att visa iframen och dölja knapparna
+            function showIframeAndHideButtons(url) {
+                console.log("Showing iframe...");
+                var iframeContainer = document.getElementById('iframe-container');
+                var kaliberButtons = document.getElementById('kaliber-buttons');
+                var mainTitle = document.getElementById('main-title');
+                var mainInfo = document.getElementById('main-info');
 
-            kaliberButtons.style.display = 'none';
-            mainTitle.classList.add('hide-on-selection');
-            mainInfo.classList.add('hide-on-selection');
-            iframeContainer.style.display = 'block';
-        }
+                var iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('scrolling', 'no');
+                iframeContainer.innerHTML = '';
+                iframeContainer.appendChild(iframe);
+                console.log("Iframe appended to the container.");
+
+                kaliberButtons.style.display = 'none';
+                console.log("Kaliber buttons hidden.");
+
+                mainTitle.classList.add('hide-on-selection');
+                mainInfo.classList.add('hide-on-selection');
+                iframeContainer.style.display = 'block';
+                console.log("Main title, info, and iframe container displayed.");
+            }
+
+            // Lägg till event listeners för knapparna
+            document.getElementById('daggdjur-button').addEventListener('click', function() {
+                console.log("Däggdjur-knappen klickad.");
+                showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false');
+            });
+
+            document.getElementById('fagel-button').addEventListener('click', function() {
+                console.log("Fågel-knappen klickad.");
+                showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false');
+            });
+        });
     </script>
 </body>
 </html>
