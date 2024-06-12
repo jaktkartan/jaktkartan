@@ -98,7 +98,8 @@ html, body {
 
 
 #tab2.tab-pane {
-    /* Anpassa stilar för flik 2 om det behövs */
+height: 15vh; /* Ange önskad höjd för upptäckfliken här */
+    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
 #tab3.tab-pane {
