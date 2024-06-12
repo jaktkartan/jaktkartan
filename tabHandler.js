@@ -60,3 +60,13 @@ function openTab(tabId, url) {
         xhr.send();
     }
 }
+
+function resetTabs() {
+    var tabs = document.getElementsByClassName('tab-pane');
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = 'none'; // Göm flikarna
+        tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+    }
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none'; // Göm flikinnehållet
+}
