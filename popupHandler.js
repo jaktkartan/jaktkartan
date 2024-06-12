@@ -11,6 +11,7 @@ var popupStyles = `
         display: block; /* Se till att bilderna visas som blockelement */
         margin: 0 auto; /* Centrera bilder horisontellt */
         max-width: 100%; /* Sätt maximal bredd för bilderna till 100% av popup-fönstrets bredd */
+        height: auto; /* Automatisk höjd för att behålla proportionerna */
     }
 
     /* Responsiv anpassning för mobil */
@@ -28,20 +29,6 @@ function createPopup(content) {
     };
     return L.popup(popupOptions).setContent(content);
 }
-
-// Exempel på hur du kan använda funktionen för att skapa popup-fönster med bildlänkar
-var popupContent = `
-    <div>
-        <h2>Popup-titel</h2>
-        <p>Här är en bild:</p>
-        <img src="path/till/din/bild.jpg" style="max-width: 100%;" alt="Beskrivning av bilden">
-    </div>
-`;
-
-// Skapa popup-fönstret och lägg till det till en marker eller lager
-var popup = createPopup(popupContent);
-// Exempel på att lägga till popup till en marker
-L.marker([lat, lon]).addTo(map).bindPopup(popup);
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
 var styleTag = document.createElement('style');
