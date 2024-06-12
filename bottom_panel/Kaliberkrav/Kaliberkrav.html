@@ -9,6 +9,7 @@
         .iframe-container {
             width: 100%;
             margin-bottom: 20px;
+            display: none;
         }
         .iframe-container iframe {
             width: 100%;
@@ -19,14 +20,35 @@
 </head>
 <body>
     <h1 id="main-title">Kaliberkrav</h1>
-    <p id="main-info">Kaliberkrav och rekommenderad hagelstorlek för jakt</p>
+    <p id="main-info">Välj vilken typ av kaliberkrav du vill se:</p>
 
-    <div class="iframe-container">
+    <button onclick="showDaggdjur()">Kaliberkrav: Däggdjur</button>
+    <button onclick="showFagel()">Kaliberkrav: Fågel</button>
+
+    <div class="iframe-container" id="daggdjur-container">
         <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false" frameborder="0" scrolling="no"></iframe>
     </div>
 
-    <div class="iframe-container">
+    <div class="iframe-container" id="fagel-container">
         <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false" frameborder="0" scrolling="no"></iframe>
     </div>
+
+    <script>
+        function showDaggdjur() {
+            var daggdjurContainer = document.getElementById("daggdjur-container");
+            var fagelContainer = document.getElementById("fagel-container");
+
+            daggdjurContainer.style.display = "block";
+            fagelContainer.style.display = "none";
+        }
+
+        function showFagel() {
+            var daggdjurContainer = document.getElementById("daggdjur-container");
+            var fagelContainer = document.getElementById("fagel-container");
+
+            daggdjurContainer.style.display = "none";
+            fagelContainer.style.display = "block";
+        }
+    </script>
 </body>
 </html>
