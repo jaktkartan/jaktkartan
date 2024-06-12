@@ -42,6 +42,16 @@ function openTab(tabId, url) {
         var tabContent = document.getElementById('tab4');
         tabContent.innerHTML = ''; // Rensa flikinnehållet
 
+        // Rubrik för fliken
+        var heading = document.createElement('h2');
+        heading.textContent = 'Kaliberkrav';
+        tabContent.appendChild(heading);
+
+        // Brödtext för information
+        var paragraph = document.createElement('p');
+        paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
+        tabContent.appendChild(paragraph);
+
         var button1 = document.createElement('button');
         button1.textContent = 'Kaliberkrav: Däggdjur';
         button1.onclick = function() {
