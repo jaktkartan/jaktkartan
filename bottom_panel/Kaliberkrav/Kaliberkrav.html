@@ -9,7 +9,6 @@
         .iframe-container {
             width: 100%;
             margin-bottom: 20px;
-            display: none;
         }
         .iframe-container iframe {
             width: 100%;
@@ -20,19 +19,14 @@
 </head>
 <body>
     <h1 id="main-title">Kaliberkrav</h1>
-    <p id="main-info">Välj vilken typ av kaliberkrav du vill se:</p>
+    <p id="main-info">Kaliberkrav och rekommenderad hagelstorlek för jakt</p>
 
-    <button id="daggdjur-button">Kaliberkrav: Däggdjur</button>
-    <button id="fagel-button">Kaliberkrav: Fågel</button>
-
-    <div class="iframe-container" id="daggdjur-container">
+    <div class="iframe-container">
         <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false" frameborder="0" scrolling="no"></iframe>
     </div>
 
-    <div class="iframe-container" id="fagel-container">
+    <div class="iframe-container">
         <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false" frameborder="0" scrolling="no"></iframe>
     </div>
-
-    <script src="iframehandler.js"></script>
 </body>
 </html>
