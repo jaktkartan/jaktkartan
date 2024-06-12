@@ -34,7 +34,7 @@
             overflow-x: hidden; /* Dölj horisontell skrollning */
         }
 
-        #tab3-options {
+        #tab4-options {
             display: none;
             position: fixed;
             bottom: 80px;
@@ -46,7 +46,7 @@
             border-radius: 5px;
         }
 
-        #tab3-options button {
+        #tab4-options button {
             display: block;
             margin-bottom: 5px;
         }
@@ -77,14 +77,14 @@
     <div id="bottom-panel">
         <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/Upptack/Upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
         <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/Kartor/Kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
-        <button class="panel-button" onclick="showTab3Options()"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
-        <button class="panel-button" onclick="openTab('tab4', 'bottom_panel/Kaliberkrav/Kaliberkrav.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Kaliberkrav"></button>
+        <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/Jaktbart_idag/Jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
+        <button class="panel-button" onclick="showTab4Options()"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Kaliberkrav"></button>
         <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/Jaktkollen/Jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
     </div>
 
-    <div id="tab3-options">
-        <button onclick="openTab('tab3a', 'bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html')">Alternativ 1</button>
-        <button onclick="openTab('tab3b', 'bottom_panel/Jaktbart_idag/Jaktbart_idag_alternativ2.html')">Alternativ 2</button>
+    <div id="tab4-options">
+        <button onclick="openTab('tab4a', 'bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html')">Alternativ 1</button>
+        <button onclick="openTab('tab4b', 'bottom_panel/Kaliberkrav/Kaliberkrav_Faglar.html')">Alternativ 2</button>
     </div>
 
     <div id="tab-content" style="display:none;">
@@ -231,9 +231,9 @@
             }
         });
 
-        function showTab3Options() {
-            var tab3Options = document.getElementById('tab3-options');
-            tab3Options.style.display = 'block';
+        function showTab4Options() {
+            var tab4Options = document.getElementById('tab4-options');
+            tab4Options.style.display = 'block';
         }
 
         function openTab(tabId, htmlFilePath) {
@@ -248,8 +248,8 @@
             };
             xhr.send();
             
-            var tab3Options = document.getElementById('tab3-options');
-            tab3Options.style.display = 'none';
+            var tab4Options = document.getElementById('tab4-options');
+            tab4Options.style.display = 'none';
         }
     </script>
 </body>
