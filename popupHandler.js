@@ -4,6 +4,8 @@ var popupStyles = `
     .leaflet-popup-content-wrapper {
         padding: 10px; /* Lägg till lite padding inuti popup-fönstret */
         max-width: 300px; /* Begränsa maximal bredd för innehållet i popup-fönstret */
+        max-height: 300px; /* Begränsa maximal höjd för popup-fönstret */
+        overflow-y: auto; /* Aktivera vertikal scrollning vid behov */
     }
 
     /* Anpassa bilder i popup-fönster */
@@ -13,20 +15,12 @@ var popupStyles = `
         max-width: 100%; /* Sätt maximal bredd för bilderna till 100% av popup-fönstrets bredd */
         height: auto; /* Automatisk höjd för att behålla proportionerna */
     }
-
-    /* Responsiv anpassning för mobil */
-    @media (max-width: 768px) {
-        .leaflet-popup-content-wrapper {
-            max-width: 250px; /* Justera popup-fönstrets bredd för mindre skärmar */
-        }
-    }
 `;
 
 // Funktion för att skapa popup-fönster med innehåll
 function createPopup(content) {
     var popupOptions = {
         maxWidth: '300' // Maximal bredd för popup-fönstret i pixel
-        maxHeight: "300"
     };
     return L.popup(popupOptions).setContent(content);
 }
