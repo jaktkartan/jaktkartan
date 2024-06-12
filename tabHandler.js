@@ -57,9 +57,6 @@ function openTab(tabId, url) {
         button1.textContent = 'Kaliberkrav: Däggdjur';
         button1.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-            // Dölj rubriken och brödtexten när knappen klickas
-            heading.style.display = 'none';
-            paragraph.style.display = 'none';
         };
         tabContent.appendChild(button1);
 
@@ -67,9 +64,6 @@ function openTab(tabId, url) {
         button2.textContent = 'Kaliberkrav: Fågel';
         button2.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-            // Dölj rubriken och brödtexten när knappen klickas
-            heading.style.display = 'none';
-            paragraph.style.display = 'none';
         };
         tabContent.appendChild(button2);
     } else {
@@ -105,6 +99,10 @@ function openKaliberkravTab(url) {
         .then(response => response.text())
         .then(html => {
             tab.innerHTML += html; // Lägg till innehållet från URL:en
+
+            // Dölj rubriken och brödtexten
+            heading.style.display = 'none';
+            paragraph.style.display = 'none';
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
