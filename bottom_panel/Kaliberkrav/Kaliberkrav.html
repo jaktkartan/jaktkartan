@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kaliberkrav</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         .kaliber-button {
             display: block;
@@ -41,36 +42,47 @@
     <h1 id="main-title">Kaliberkrav</h1>
     <p id="main-info">Kaliberkrav och rekommenderad hagelstorlek för jakt</p>
     <div id="kaliber-buttons">
-        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false')">Däggdjur</a>
-        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false')">Fågel</a>
+        <a href="#" class="kaliber-button" id="daggdjur-button">Däggdjur</a>
+        <a href="#" class="kaliber-button" id="fagel-button">Fågel</a>
     </div>
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
     </div>
 
     <script>
-        // Funktion för att visa iframen och dölja knapparna
-        function showIframeAndHideButtons(url) {
-            console.log("showIframeAndHideButtons function called with URL:", url); // Felsökning
-            var iframeContainer = document.getElementById('iframe-container');
-            var kaliberButtons = document.getElementById('kaliber-buttons');
-            var mainTitle = document.getElementById('main-title');
-            var mainInfo = document.getElementById('main-info');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Funktion för att visa iframen och dölja knapparna
+            function showIframeAndHideButtons(url) {
+                console.log("showIframeAndHideButtons function called with URL:", url); // Felsökning
+                var iframeContainer = document.getElementById('iframe-container');
+                var kaliberButtons = document.getElementById('kaliber-buttons');
+                var mainTitle = document.getElementById('main-title');
+                var mainInfo = document.getElementById('main-info');
 
-            var iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('scrolling', 'no');
-            iframeContainer.innerHTML = '';
-            iframeContainer.appendChild(iframe);
-            kaliberButtons.style.display = 'none'; // Dölj knapparna när iframen visas
-            mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
-            mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
-            iframeContainer.style.display = 'block'; // Visa iframen
-        }
+                var iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('scrolling', 'no');
+                iframeContainer.innerHTML = '';
+                iframeContainer.appendChild(iframe);
+                kaliberButtons.style.display = 'none'; // Dölj knapparna när iframen visas
+                mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
+                mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
+                iframeContainer.style.display = 'block'; // Visa iframen
+            }
 
-        // Kontrollera om funktionen är definierad
-        console.log("showIframeAndHideButtons defined:", typeof showIframeAndHideButtons === 'function');
+            // Lägg till event listeners för knapparna
+            document.getElementById('daggdjur-button').addEventListener('click', function() {
+                showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false');
+            });
+
+            document.getElementById('fagel-button').addEventListener('click', function() {
+                showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false');
+            });
+
+            // Kontrollera om funktionen är definierad
+            console.log("showIframeAndHideButtons defined:", typeof showIframeAndHideButtons === 'function');
+        });
     </script>
 </body>
 </html>
