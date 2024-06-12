@@ -51,19 +51,18 @@
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
     </div>
-    <button id="back-button" class="hidden">Tillbaka</button>
 
     <script>
-        var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
+        var currentKaliber = ""; // Variabel för att hålla reda på det aktuella kalibret
 
         // Funktion för att visa iframen och dölja knapparna
-        function showIframeAndHideButtons(url, county) {
+        function showIframeAndHideButtons(url, kaliber) {
             var iframeContainer = document.getElementById('iframe-container');
-            var countyButtons = document.getElementById('kaliber-buttons');
+            var kaliberButtons = document.getElementById('kaliber-buttons');
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentKaliber = kaliber; // Sätt det aktuella länet
+            currentKaliber = kaliber; // Sätt det aktuella kalibret
 
             var iframe = document.createElement('iframe');
             iframe.src = url;
@@ -71,32 +70,21 @@
             iframe.setAttribute('scrolling', 'no');
             iframeContainer.innerHTML = '';
             iframeContainer.appendChild(iframe);
-            countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
+            kaliberButtons.style.display = 'none'; // Dölj knapparna när iframen visas
             mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
             mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
             iframeContainer.style.display = 'block'; // Visa iframen
-            backButton.style.display = 'block'; // Visa tillbaka knappen
-            backButton.onclick = function() {
-                currentCounty = ""; // Nollställ det aktuella länet
-                iframeContainer.innerHTML = ''; // Ta bort iframen
-                countyButtons.style.display = 'block'; // Visa knapparna igen
-                mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
-                mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
-                backButton.style.display = 'none'; // Dölj tillbaka knappen
-            };
         }
 
         // Funktion för att återställa sidan när användaren klickar utanför iframen
         document.addEventListener('click', function(event) {
             var iframeContainer = document.getElementById('iframe-container');
-            var backButton = document.getElementById('back-button');
-            if (!iframeContainer.contains(event.target) && !backButton.contains(event.target)) {
-                currentKaliber = ""; // Nollställ det aktuella länet
+            if (!iframeContainer.contains(event.target)) {
+                currentKaliber = ""; // Nollställ det aktuella kalibret
                 iframeContainer.innerHTML = ''; // Ta bort iframen
-                document.getElementById('Kaliber-buttons').style.display = 'block'; // Visa knapparna igen
+                document.getElementById('kaliber-buttons').style.display = 'block'; // Visa knapparna igen
                 document.getElementById('main-title').classList.remove('hide-on-selection'); // Visa rubriken igen
                 document.getElementById('main-info').classList.remove('hide-on-selection'); // Visa informationsdelen igen
-                backButton.style.display = 'none'; // Dölj tillbaka knappen
             }
         });
     </script>
