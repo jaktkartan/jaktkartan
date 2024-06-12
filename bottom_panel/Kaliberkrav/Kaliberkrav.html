@@ -6,9 +6,8 @@
     <title>kaliberkrav</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" />
     <style>
-        .county-button {
+        .kaliber-button {
             display: block;
             width: 100%;
             margin: 10px 0;
@@ -22,7 +21,7 @@
             text-align: center;
             transition: background-color 0.3s, color 0.3s;
         }
-        .county-button:hover {
+        .kaliber-button:hover {
             background-color: rgb(50, 94, 88);
             color: white;
         }
@@ -40,25 +39,14 @@
         .hide-on-selection {
             display: none;
         }
-        #back-button {
-            display: none; /* Starta med att dölja tillbaka-knappen */
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 18px;
-            color: white;
-            background-color: rgb(50, 94, 88);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
     <h1 id="main-title">Kaliberkrav</h1>
     <p id="main-info">Kaliberkrav och rekommenderad hagelstorlek för jakt</p>
-    <div id="county-buttons">
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false', 'Däggdjur')">Däggdjur</a>
-        <a href="#" class="county-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false', 'Fågel')">Fågel</a>
+    <div id="kaliber-buttons">
+        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false', 'Däggdjur')">Däggdjur</a>
+        <a href="#" class="kaliber-button" onclick="showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false', 'Fågel')">Fågel</a>
     </div>
     <div class="iframe-container" id="iframe-container">
         <!-- iframe visas här -->
@@ -71,12 +59,11 @@
         // Funktion för att visa iframen och dölja knapparna
         function showIframeAndHideButtons(url, county) {
             var iframeContainer = document.getElementById('iframe-container');
-            var countyButtons = document.getElementById('county-buttons');
-            var backButton = document.getElementById('back-button');
+            var countyButtons = document.getElementById('kaliber-buttons');
             var mainTitle = document.getElementById('main-title');
             var mainInfo = document.getElementById('main-info');
 
-            currentCounty = county; // Sätt det aktuella länet
+            currentKaliber = kaliber; // Sätt det aktuella länet
 
             var iframe = document.createElement('iframe');
             iframe.src = url;
@@ -104,9 +91,9 @@
             var iframeContainer = document.getElementById('iframe-container');
             var backButton = document.getElementById('back-button');
             if (!iframeContainer.contains(event.target) && !backButton.contains(event.target)) {
-                currentCounty = ""; // Nollställ det aktuella länet
+                currentKaliber = ""; // Nollställ det aktuella länet
                 iframeContainer.innerHTML = ''; // Ta bort iframen
-                document.getElementById('county-buttons').style.display = 'block'; // Visa knapparna igen
+                document.getElementById('Kaliber-buttons').style.display = 'block'; // Visa knapparna igen
                 document.getElementById('main-title').classList.remove('hide-on-selection'); // Visa rubriken igen
                 document.getElementById('main-info').classList.remove('hide-on-selection'); // Visa informationsdelen igen
                 backButton.style.display = 'none'; // Dölj tillbaka knappen
