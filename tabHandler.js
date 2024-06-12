@@ -8,7 +8,7 @@ function openTab(tabId, url) {
 
     if (tabId === 'tab4') {
         // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        var tabContent = document.getElementById('tab-content');
+        var tabContent = document.getElementById('tab4');
         tabContent.innerHTML = ''; // Rensa flikinnehållet
 
         var button1 = document.createElement('button');
@@ -39,21 +39,4 @@ function openTab(tabId, url) {
         xhr.open('GET', url);
         xhr.send();
     }
-}
-
-// Funktion för att öppna en flik med Kaliberkrav
-function openKaliberkravTab(url) {
-    var tab = document.getElementById('tab4_content');
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                tab.innerHTML = xhr.responseText;
-            } else {
-                console.error('Error fetching Kaliberkrav tab content:', xhr.status);
-            }
-        }
-    };
-    xhr.open('GET', url);
-    xhr.send();
 }
