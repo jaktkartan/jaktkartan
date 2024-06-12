@@ -38,7 +38,6 @@ function resetTabs() {
 
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
-    resetTabs(); // Återställ flikarna innan en ny öppnas
     var tab = document.getElementById(tabId);
     tab.style.display = 'block'; // Visa den valda fliken
     var tabContent = document.getElementById('tab-content');
