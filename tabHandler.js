@@ -66,6 +66,23 @@ function openTab(tabId, url) {
     }
 }
 
+function openKaliberkravTab(url) {
+    var tabContent = document.getElementById('tab-content');
+    var tab = document.createElement('div');
+    tab.className = 'tab-pane';
+    tabContent.appendChild(tab);
+
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            tab.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error fetching Kaliberkrav content:', error);
+        });
+}
+
+
 // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
