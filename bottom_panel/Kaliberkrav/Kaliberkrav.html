@@ -52,6 +52,7 @@
     <script>
         // Funktion för att visa iframen och dölja knapparna
         function showIframeAndHideButtons(url) {
+            console.log("showIframeAndHideButtons function called with URL:", url); // Felsökning
             var iframeContainer = document.getElementById('iframe-container');
             var kaliberButtons = document.getElementById('kaliber-buttons');
             var mainTitle = document.getElementById('main-title');
@@ -68,6 +69,9 @@
             mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
             iframeContainer.style.display = 'block'; // Visa iframen
         }
+
+        // Kontrollera om funktionen är definierad
+        console.log("showIframeAndHideButtons defined:", typeof showIframeAndHideButtons === 'function');
     </script>
 </body>
 </html>
