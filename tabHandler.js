@@ -74,10 +74,20 @@ function openKaliberkravTab(url) {
     tab.className = 'tab-pane';
     tabContent.appendChild(tab);
 
+    // Rubrik för fliken
+    var heading = document.createElement('h2');
+    heading.textContent = 'Kaliberkrav';
+    tab.appendChild(heading);
+
+    // Brödtext för information
+    var paragraph = document.createElement('p');
+    paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
+    tab.appendChild(paragraph);
+
     fetch(url)
         .then(response => response.text())
         .then(html => {
-            tab.innerHTML = html;
+            tab.innerHTML += html; // Lägg till innehållet från URL:en
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
