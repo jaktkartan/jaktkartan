@@ -1,3 +1,23 @@
+function togglePanel() {
+    console.log("Toggling weather panel...");
+    var weatherInfo = document.getElementById('weather-info');
+    if (weatherInfo.style.display === 'none') {
+        console.log("Showing weather panel...");
+        weatherInfo.style.display = 'block';
+        navigator.geolocation.getCurrentPosition(function (position) {
+            console.log("Getting current position...");
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log("Current position:", latitude, longitude);
+            getWeatherForecast(latitude, longitude);
+        });
+    } else {
+        console.log("Hiding weather panel...");
+        weatherInfo.style.display = 'none';
+    }
+}
+
+
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
     resetTabs(); // Återställ flikarna innan en ny öppnas
