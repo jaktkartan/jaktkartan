@@ -54,6 +54,7 @@
 
             // Funktion för att visa iframen och dölja knapparna
             function showIframeAndHideButtons(url) {
+                console.log("Showing iframe...");
                 var iframeContainer = document.getElementById('iframe-container');
                 var kaliberButtons = document.getElementById('kaliber-buttons');
                 var mainTitle = document.getElementById('main-title');
@@ -65,10 +66,15 @@
                 iframe.setAttribute('scrolling', 'no');
                 iframeContainer.innerHTML = '';
                 iframeContainer.appendChild(iframe);
+                console.log("Iframe appended to the container.");
+
                 kaliberButtons.style.display = 'none';
+                console.log("Kaliber buttons hidden.");
+
                 mainTitle.classList.add('hide-on-selection');
                 mainInfo.classList.add('hide-on-selection');
                 iframeContainer.style.display = 'block';
+                console.log("Main title, info, and iframe container displayed.");
             }
 
             // Lägg till event listeners för knapparna
