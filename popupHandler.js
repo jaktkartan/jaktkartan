@@ -1,12 +1,4 @@
-// PopupHandler.html
-
-// CSS-stilar
-var cssStyles = `
-    /* Anpassad CSS för att ändra zoomkontrollernas position */
-    .leaflet-top.leaflet-left {
-        top: 80px !important;
-        left: 10px !important;
-    }
+// PopupHandler.js
 
     body {
         display: flex;
