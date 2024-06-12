@@ -6,7 +6,7 @@
     <title>kaliberkrav</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <style>
-.kaliber-button {
+        .kaliber-button {
             display: block;
             width: 100%;
             margin: 10px 0;
@@ -54,7 +54,6 @@
 
             // Funktion för att visa iframen och dölja knapparna
             function showIframeAndHideButtons(url) {
-                console.log("showIframeAndHideButtons() anropades med URL:", url);
                 var iframeContainer = document.getElementById('iframe-container');
                 var kaliberButtons = document.getElementById('kaliber-buttons');
                 var mainTitle = document.getElementById('main-title');
@@ -74,12 +73,12 @@
 
             // Lägg till event listeners för knapparna
             document.getElementById('daggdjur-button').addEventListener('click', function() {
-                console.log("Däggdjur-knappen klickades på.");
+                console.log("Däggdjur-knappen klickad.");
                 showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vR4pJwYlzyMMYLdNe6UDJS_S2GJL0DT5HPUU_UtcUYTQftI7QsJAG-SpO9ghYgXQF-fzlfjbsWcckbH/pubhtml?gid=786892384&single=true&widget=false&headers=false&chrome=false');
             });
 
             document.getElementById('fagel-button').addEventListener('click', function() {
-                console.log("Fågel-knappen klickades på.");
+                console.log("Fågel-knappen klickad.");
                 showIframeAndHideButtons('https://docs.google.com/spreadsheets/d/e/2PACX-1vTIS-T0921En1psJG2-AKeDT_HP_4KmK1VTjGUBBqBvfmjawSqXEfq5yns-RO9P4mtw5obll9WNeEfw/pubhtml?gid=0&single=true&widget=false&headers=false&chrome=false');
             });
         });
