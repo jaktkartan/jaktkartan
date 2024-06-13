@@ -2,10 +2,10 @@
 var popupStyles = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
-        padding: 10px;
+        padding: 0; /* Ta bort padding inuti popup-fönstret */
         max-width: 300px;
         max-height: 400px;
-        overflow-y: auto;
+        overflow-y: auto; /* Vertikal scrollning vid behov */
     }
 
     /* Anpassa bilder i popup-fönster */
@@ -21,6 +21,7 @@ var popupStyles = `
 var styleTag = document.createElement('style');
 styleTag.textContent = popupStyles;
 document.head.appendChild(styleTag);
+
 
 // Funktion för att skapa en marker med popup-fönster för bilder och text från GeoJSON
 function createMarkerWithPopup(map, feature) {
