@@ -24,7 +24,7 @@
         }
 
         /* Stilar för panelen */
-        #panel {
+        #popup-panel {
             position: absolute;
             bottom: 10px;
             left: 10px;
@@ -77,8 +77,8 @@
         <div id="tab5" class="tab-pane"></div>
     </div>
     
-    <div id="panel">
-        <div id="panel-content">
+    <div id="popup-panel">
+        <div id="popup-panel-content">
             <!-- Innehåll i panelen uppdateras dynamiskt här -->
         </div>
     </div>
@@ -162,7 +162,7 @@
                     userMarker.setLatLng([lat, lon]);
                 }
 
-                                if (!pulsingDotMarker) {
+                if (!pulsingDotMarker) {
                     pulsingDotMarker = createPulsingCircle(lat, lon);
                 } else {
                     pulsingDotMarker.setLatLng([lat, lon]);
@@ -232,20 +232,20 @@
         });
 
         // Funktion för att visa panelen när användaren trycker på ett geojson-objekt
-        function showPanel() {
-            var panel = document.getElementById('panel');
+        function showPopupPanel() {
+            var panel = document.getElementById('popup-panel');
             panel.style.display = 'block';
         }
 
         // Funktion för att dölja panelen
-        function hidePanel() {
-            var panel = document.getElementById('panel');
+        function hidePopupPanel() {
+            var panel = document.getElementById('popup-panel');
             panel.style.display = 'none';
         }
 
         // Funktion för att uppdatera panelens innehåll baserat på geojson-objektets egenskaper
-        function updatePanelContent(properties) {
-            var panelContent = document.getElementById('panel-content');
+        function updatePopupPanelContent(properties) {
+            var panelContent = document.getElementById('popup-panel-content');
             var content = '';
 
             for (var key in properties) {
@@ -260,5 +260,3 @@
     </script>
 </body>
 </html>
-
-
