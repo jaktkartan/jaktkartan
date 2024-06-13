@@ -1,4 +1,4 @@
-// Uppdaterat CSS för popup-fönster
+// CSS för popup-fönster
 var popupStyles = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
@@ -23,10 +23,13 @@ var popupStyles = `
     }
 `;
 
-// Inkludera CSS-stilar direkt i JavaScript
-var styleTag = document.createElement('style');
-styleTag.textContent = popupStyles;
-document.head.appendChild(styleTag);
+// Kolla om stilen redan finns för att undvika att lägga till den igen
+if (!document.querySelector('style#popupStyles')) {
+    var styleTag = document.createElement('style');
+    styleTag.textContent = popupStyles;
+    styleTag.id = 'popupStyles'; // Sätt ett id för att kolla om stilen redan finns
+    document.head.appendChild(styleTag);
+}
 
 // Funktion för att skapa en marker med popup-fönster för bilder och text från GeoJSON
 function createMarkerWithPopup(map, feature) {
