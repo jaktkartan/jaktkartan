@@ -34,43 +34,87 @@ function createPopup(content) {
 
     var popup = L.popup(popupOptions).setContent(content);
 
-    // Lägg till popup på kartan
-    // Detta bör ske när användaren klickar på ett objekt, inte automatiskt
-    // popup.addTo(map);
+    return popup;
+}
+
+// Uppdaterad funktion för att öppna popup-fönstret längst ned på sidan
+function openPopupAtBottom(popup) {
+    // Beräkna koordinater för att placera popup längst ned på sidan
+    var mapBounds = map.getBounds();
+    var southWest = mapBounds.getSouthWest();
+    var southEast = mapBounds.getSouthEast();
+    var center = mapBounds.getCenter();
+    var latLng = L.latLng(southWest.lat, center.lng); // Längst ned på sidan
+
+    // Uppdatera popup-fönstrets position till den angivna latLng-positionen
+    popup.setLatLng(latLng);
+
+    // Öppna popup-fönstret på kartan
+    popup.openOn(map);
 
     return popup;
 }
 
-// Funktion för att öppna popup-fönstret vid angiven position
-function openPopupAtPosition(popup, position) {
-    // Hämta latitud och longitud från den angivna positionen
-    var lat = position.lat;
-    var lng = position.lng;
+// Funktion för att binda popup till geojson-lagret med klickhändelse
+function bindPopupToLayer(layer, popupContent) {
+    // Lägg till en klickhändelse till lagret för att öppna popup
+    layer.on('click', function(event) {
+        // Skapa popup-fönstret
+        var popup = createPopup(popupContent);
 
-    // Skapa LatLng-objekt för den angivna positionen
-    var latLng = L.latLng(lat, lng);
-
-    // Uppdatera popup-fönstrets position till den angivna positionen
-    popup.setLatLng(latLng);
-
-    // Lägg till popup på kartan
-    popup.openOn(map);
+        // Öppna popup längst ned på sidan
+        openPopupAtBottom(popup);
+    });
 }
+
+// Uppdaterad funktion för att hämta GeoJSON-data och skapa lager med popup
+function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+    geojsonURLs.forEach(function(geojsonURL) {
+        axios.get(geojsonURL)
+            .then(function(response) {
+                console.log("Successfully fetched GeoJSON data:", response.data);
+                var layer = L.geoJSON(response.data, {
+                    onEachFeature: function(feature, layer) {
+                        // Skapa popup-innehåll dynamiskt baserat på alla attribut i geojson-egenskaperna
+                        var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+                        for (var prop in feature.properties) {
+                            // Lägg till alla egenskaper i popup-innehållet
+                            popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+                        }
+                        popupContent += '</div>';
+
+                        // Använd bindPopupToLayer för att binda klickhändelse och popup-innehåll
+                        bindPopupToLayer(layer, popupContent);
+                    }
+                });
+
+                // Lägg till lagret i geojsonLayers arrayen
+                geojsonLayers[layerName].push(layer);
+
+                // Om lagret är aktivt, lägg till det på kartan
+                if (layerIsActive[layerName]) {
+                    layer.addTo(map);
+                }
+            })
+            .catch(function(error) {
+                console.log("Error fetching GeoJSON data:", error.message);
+            });
+    });
+
+    // Uppdatera layerIsActive för det aktuella lagret
+    layerIsActive[layerName] = true;
+}
+
+// Exempel på hur man använder Kartor_geojsonHandler
+// Ange lagrets namn och URL:er för GeoJSON-data
+var layerName = 'Allmän jakt: Däggdjur';
+var geojsonURLs = ['https://example.com/geojson-data1.json', 'https://example.com/geojson-data2.json'];
+
+// Aktivera eller avaktivera lagret
+Kartor_geojsonHandler.toggleLayer(layerName, geojsonURLs);
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
 var styleTag = document.createElement('style');
 styleTag.textContent = popupStyles;
 document.head.appendChild(styleTag);
 
-// Exempel på hur man använder funktionen createPopup och öppnar det vid en specifik position
-var popupContent = '<div style="max-width: 300px; overflow-y: auto;">Exempel på popup-innehåll</div>';
-var popup = createPopup(popupContent);
-
-// Exempelposition för att öppna popup längst ned på sidan
-var position = {
-    lat: 59.3293, // Latitud
-    lng: 18.0686 // Longitud
-};
-
-// Öppna popup-fönstret vid den angivna positionen
-openPopupAtPosition(popup, position);
