@@ -4,7 +4,7 @@ var popupStyles = `
     .leaflet-popup-content-wrapper {
         padding: 10px; /* Lägg till lite padding inuti popup-fönstret */
         max-width: 90vw; /* Begränsa maximal bredd för innehållet i popup-fönstret till 90% av viewportens bredd */
-        max-height: 90vh; /* Begränsa maximal höjd för popup-fönstret till 90% av viewportens höjd */
+        max-height: 70vh; /* Begränsa maximal höjd för popup-fönstret till 70% av viewportens höjd */
         overflow-y: auto; /* Aktivera vertikal scrollning vid behov */
     }
 
@@ -21,7 +21,7 @@ var popupStyles = `
 function createPopup(content) {
     var popupOptions = {
         maxWidth: '90vw', // Anpassa bredden till 90% av viewportens bredd
-        maxHeight: '90vh', // Begränsa höjden till 90% av viewportens höjd
+        maxHeight: '70vh', // Begränsa höjden till 70% av viewportens höjd
         autoPan: false, // Stäng av automatisk centrering
         closeButton: true // Tillåt stäng-knappen
     };
@@ -42,13 +42,11 @@ function createPopup(content) {
     // Uppdatera popup-fönstrets position till sydvästra hörnet av kartan
     popup.setLatLng(latLng);
 
+    // Lägg till popup på kartan
+    popup.openOn(map);
+
     return popup;
 }
-
-// Lägg till en händelselyssnare för att reagera på klick på kartobjekt och visa popup
-map.on('click', function(e) {
-    createPopup("Exempel på innehåll i popup-fönster").openOn(map);
-});
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
 var styleTag = document.createElement('style');
