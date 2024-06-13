@@ -77,6 +77,18 @@ function createMarkerWithPopup(map, feature) {
         popup.getElement().style.zIndex = '10000';
 
         marker.bindPopup(popup);
+
+        // Lägg till en klickhändelse för markören
+        marker.on('click', function () {
+            this.openPopup(); // Öppna popup-fönstret
+            this.bringToFront(); // Flytta markören till främsta plan i förhållande till andra markörer
+
+            // Justera z-index direkt på popup-fönstret
+            var popupElement = this.getPopup().getElement();
+            if (popupElement) {
+                popupElement.style.zIndex = '2000'; // Anpassa z-index efter behov för att popup-fönstret ska ligga över annat innehåll
+            }
+        });
     }
 }
 
