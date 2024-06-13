@@ -17,35 +17,30 @@ var popupStyles = `
     }
 `;
 
-// Funktion för att skapa en marker med popup-fönster för bilder från GeoJSON
+// Funktion för att skapa en marker med popup-fönster för bilder och text från GeoJSON
 function createMarkerWithPopup(map, feature) {
     var properties = feature.properties;
-    var imageUrls = findImageUrls(properties);
+    var popupContent = '';
 
-    if (imageUrls.length > 0) {
-        var marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]).addTo(map);
-
-        // Ladda bilderna och skapa popup-fönster
-        var popupContent = imageUrls.map(function(imageUrl) {
-            return `<img src="${imageUrl}" alt="Image">`;
-        }).join('<br>'); // Använd '<br>' för att separera bilder vertikalt
-
-        var popup = L.popup().setContent(popupContent);
-        marker.bindPopup(popup);
-    }
-}
-
-// Funktion för att hitta alla egenskaper med giltiga bild-URL:er från GeoJSON
-function findImageUrls(properties) {
-    var imageUrls = [];
-
+    // Loopa igenom alla egenskaper och samla både bilder och text i popup-innehållet
     for (var key in properties) {
-        if (properties.hasOwnProperty(key) && typeof properties[key] === 'string' && isImageUrl(properties[key])) {
-            imageUrls.push(properties[key]);
+        if (properties.hasOwnProperty(key)) {
+            var value = properties[key];
+            if (typeof value === 'string' && isImageUrl(value)) {
+                // Om det är en bild-URL, lägg till en <img> tagg i popup-innehållet
+                popupContent += `<img src="${value}" alt="Image"><br>`;
+            } else if (value !== null && typeof value !== 'object') {
+                // Om det är text (inte null och inte en objekt), lägg till det som text i popup-innehållet
+                popupContent += `<strong>${key}:</strong> ${value}<br>`;
+            }
         }
     }
 
-    return imageUrls;
+    if (popupContent !== '') {
+        var marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]).addTo(map);
+        var popup = L.popup().setContent(popupContent);
+        marker.bindPopup(popup);
+    }
 }
 
 // Funktion för att avgöra om en given sträng är en giltig bild-URL
