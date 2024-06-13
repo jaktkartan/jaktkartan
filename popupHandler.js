@@ -27,7 +27,7 @@ var popupStyles = `
 
     /* Anpassa z-index för popup-fönster */
     .leaflet-popup-pane {
-        z-index: 1000; /* Justera z-index efter behov för att popup-fönstret ska ligga över annat innehåll */
+        z-index: 10000; /* Justera z-index efter behov för att popup-fönstret ska ligga över annat innehåll */
     }
 `;
 
