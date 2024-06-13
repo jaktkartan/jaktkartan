@@ -3,9 +3,12 @@ var popupStyles = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
         padding: 10px; /* Lägg till lite padding inuti popup-fönstret */
-        max-width: 300px; /* Begränsa maximal bredd för innehållet i popup-fönstret */
+        max-width: 90vw; /* Begränsa maximal bredd för innehållet i popup-fönstret till 90% av viewportens bredd */
         max-height: 300px; /* Begränsa maximal höjd för popup-fönstret */
         overflow-y: auto; /* Aktivera vertikal scrollning vid behov */
+        bottom: 10px; /* Placera popup längst ned på skärmen */
+        left: 50%; /* Centrera horisontellt */
+        transform: translateX(-50%); /* Justera för att centrera horisontellt */
     }
 
     /* Anpassa bilder i popup-fönster */
@@ -17,23 +20,19 @@ var popupStyles = `
     }
 `;
 
-// Funktion för att skapa popup-fönster med innehåll
+// Funktion för att skapa popup-fönster med anpassad position och storlek
 function createPopup(content) {
     var popupOptions = {
-        maxWidth: '300' // Maximal bredd för popup-fönstret i pixel
+        maxWidth: '90vw', // Anpassa bredden till 90% av viewportens bredd
+        autoPan: false, // Stäng av automatisk centrering
+        autoPanPaddingBottom: window.innerHeight / 2 // Centrera längst ned på skärmen
     };
-
-    // Logga ut innehållet innan bearbetning
-    console.log("Original content:", content);
 
     // Omvandla URL:er till bilder om de är bild-URL:er, även om de innehåller query-parametrar
     var imagePattern = /(https?:\/\/[^\s]+\.(jpeg|jpg|gif|png|webp)(\?[^\s]*)?)/gi;
     content = content.replace(imagePattern, function(url) {
         return `<img src="${url}" alt="Image">`;
     });
-
-    // Logga ut innehållet efter bearbetning
-    console.log("Processed content:", content);
 
     return L.popup(popupOptions).setContent(content);
 }
