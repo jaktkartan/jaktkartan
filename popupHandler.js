@@ -105,11 +105,6 @@ function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
     layerIsActive[layerName] = true;
 }
 
-// Exempel på hur man använder Kartor_geojsonHandler
-// Ange lagrets namn och URL:er för GeoJSON-data
-var layerName = 'Allmän jakt: Däggdjur';
-var geojsonURLs = ['https://example.com/geojson-data1.json', 'https://example.com/geojson-data2.json'];
-
 // Aktivera eller avaktivera lagret
 Kartor_geojsonHandler.toggleLayer(layerName, geojsonURLs);
 
