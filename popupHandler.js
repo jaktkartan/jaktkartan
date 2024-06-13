@@ -37,7 +37,7 @@ function createPopup(content) {
     return popup;
 }
 
-// Uppdaterad funktion för att öppna popup-fönstret längst ned på sidan
+// Funktion för att öppna popup längst ned på sidan
 function openPopupAtBottom(popup) {
     // Beräkna koordinater för att placera popup längst ned på sidan
     var mapBounds = map.getBounds();
@@ -100,12 +100,9 @@ function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
                 console.log("Error fetching GeoJSON data:", error.message);
             });
     });
-
-// Aktivera eller avaktivera lagret
-Kartor_geojsonHandler.toggleLayer(layerName, geojsonURLs);
+}
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
 var styleTag = document.createElement('style');
 styleTag.textContent = popupStyles;
 document.head.appendChild(styleTag);
-
