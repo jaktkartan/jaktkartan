@@ -1,3 +1,4 @@
+// CSS för popup-fönster
 var popupStyles = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
@@ -12,7 +13,7 @@ var popupStyles = `
     .leaflet-popup-content {
         word-wrap: break-word; /* Bryt ord om det inte får plats */
         overflow-wrap: break-word; /* Alternativ modern egenskap */
-        max-width: calc(100% - 20px); /* Sätt maximal bredd för innehållet */
+        max-width: calc(100% - 20px); /* Sätt maximal bredd för innehållet minus padding */
         padding: 10px; /* Lägg till lite padding inuti popup-innehållet */
     }
 
@@ -25,13 +26,18 @@ var popupStyles = `
     }
 `;
 
-// Kontrollera om stilen redan finns för att undvika dubbletter
-if (!document.querySelector('style#popupStyles')) {
-    var styleTag = document.createElement('style');
-    styleTag.textContent = popupStyles;
-    styleTag.id = 'popupStyles'; // Sätt ett id för att kolla om stilen redan finns
-    document.head.appendChild(styleTag);
+// Funktion för att lägga till CSS-stilar till <style> taggen i <head> av din HTML-dokument
+function addPopupStyles() {
+    if (!document.querySelector('style#popupStyles')) {
+        var styleTag = document.createElement('style');
+        styleTag.textContent = popupStyles;
+        styleTag.id = 'popupStyles'; // Sätt ett id för att kolla om stilen redan finns
+        document.head.appendChild(styleTag);
+    }
 }
+
+// Anropa funktionen för att lägga till CSS-stilar
+addPopupStyles();
 
 // Funktion för att skapa en marker med popup-fönster för bilder och text från GeoJSON
 function createMarkerWithPopup(map, feature) {
