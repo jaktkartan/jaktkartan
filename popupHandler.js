@@ -4,7 +4,7 @@ var popupStyles = `
     .leaflet-popup-content-wrapper {
         padding: 10px; /* Lägg till lite padding inuti popup-fönstret */
         max-width: 90vw; /* Begränsa maximal bredd för innehållet i popup-fönstret till 90% av viewportens bredd */
-        max-height: 300px; /* Begränsa maximal höjd för popup-fönstret */
+        max-height: 90vh; /* Begränsa maximal höjd för popup-fönstret till 90% av viewportens höjd */
         overflow-y: auto; /* Aktivera vertikal scrollning vid behov */
     }
 
@@ -23,8 +23,7 @@ function createPopup(content) {
         maxWidth: '90vw', // Anpassa bredden till 90% av viewportens bredd
         maxHeight: '90vh', // Begränsa höjden till 90% av viewportens höjd
         autoPan: false, // Stäng av automatisk centrering
-        closeButton: false, // Stäng av stäng-knappen
-        closeOnClick: false // Stäng inte popup vid klick utanför
+        closeButton: true // Tillåt stäng-knappen
     };
 
     // Omvandla URL:er till bilder om de är bild-URL:er, även om de innehåller query-parametrar
@@ -35,8 +34,21 @@ function createPopup(content) {
 
     var popup = L.popup(popupOptions).setContent(content);
 
-    // Centrera popup längst ned på skärmen
-    popup.setLatLng(map.getBounds().getSouthWest());
+    // Hämta höjden på popup-fönstret
+    var popupHeight = popup._container.clientHeight;
+
+    // Beräkna koordinater för att placera popup längst ned på sidan
+    var mapBounds = map.getBounds();
+    var southWest = mapBounds.getSouthWest();
+    var southEast = mapBounds.getSouthEast();
+    var center = mapBounds.getCenter();
+    var latLng = L.latLng(southWest.lat, center.lng); // Längst ned på sidan
+
+    // Uppdatera popup-fönstrets position
+    popup.setLatLng(latLng);
+
+    // Lägg till popup på kartan
+    popup.addTo(map);
 
     return popup;
 }
