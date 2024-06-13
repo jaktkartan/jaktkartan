@@ -24,7 +24,7 @@ function createPopup(content) {
     };
 
     // Omvandla URL:er till bilder om de är bild-URL:er, även om de innehåller query-parametrar
-    var imagePattern = /(https?:\/\/[^\s]+?\.(jpeg|jpg|gif|png|webp)(\?.*)?)/gi;
+    var imagePattern = /(https?:\/\/[^\s]+\.(jpeg|jpg|gif|png|webp)(\?[^\s]*)?)/gi;
     content = content.replace(imagePattern, function(url) {
         return `<img src="${url}" alt="Image">`;
     });
