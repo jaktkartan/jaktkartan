@@ -34,12 +34,14 @@ function hidePanel() {
 // Funktion för att visa panelen
 function showPanel() {
     var panel = document.getElementById('panel');
+    console.log("Panel element:", panel); // Logga panel-elementet
     if (panel) {
         console.log("Visar panelen");
         panel.style.display = 'block';
         console.log("Panelens display-status:", panel.style.display);
     }
 }
+
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
