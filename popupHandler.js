@@ -42,11 +42,13 @@ function createPopup(content) {
     // Uppdatera popup-fönstrets position till sydvästra hörnet av kartan
     popup.setLatLng(latLng);
 
-    // Lägg till popup på kartan
-    popup.addTo(map);
-
     return popup;
 }
+
+// Lägg till en händelselyssnare för att reagera på klick på kartobjekt och visa popup
+map.on('click', function(e) {
+    createPopup("Exempel på innehåll i popup-fönster").openOn(map);
+});
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
 var styleTag = document.createElement('style');
