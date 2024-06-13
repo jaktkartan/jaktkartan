@@ -22,6 +22,13 @@ function createPopup(content) {
     var popupOptions = {
         maxWidth: '300' // Maximal bredd för popup-fönstret i pixel
     };
+    
+    // Omvandla URL:er till bilder om de är bild-URL:er
+    var imagePattern = /\.(jpeg|jpg|gif|png|webp)$/i;
+    content = content.replace(imagePattern, function(url) {
+        return `<img src="${url}" alt="Image">`;
+    });
+
     return L.popup(popupOptions).setContent(content);
 }
 
