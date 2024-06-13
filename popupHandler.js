@@ -101,10 +101,6 @@ function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
             });
     });
 
-    // Uppdatera layerIsActive för det aktuella lagret
-    layerIsActive[layerName] = true;
-}
-
 // Aktivera eller avaktivera lagret
 Kartor_geojsonHandler.toggleLayer(layerName, geojsonURLs);
 
