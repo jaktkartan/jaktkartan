@@ -49,15 +49,17 @@ function createMarkerWithPopup(map, feature) {
     var properties = feature.properties;
     var popupContent = '';
 
+    console.log('Creating popup for feature:', feature);
+
     // Loopa igenom alla egenskaper och samla både bilder och text i popup-innehållet
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
             if (typeof value === 'string' && isImageUrl(value)) {
-                // Om det är en bild-URL, lägg till en <img> tagg i popup-innehållet
+                console.log('Found image URL:', value);
                 popupContent += `<img src="${value}" alt="Image"><br>`;
             } else if (value !== null && typeof value !== 'object') {
-                // Om det är text (inte null och inte en objekt), lägg till det som text i popup-innehållet
+                console.log('Found text:', key, ':', value);
                 popupContent += `<strong>${key}:</strong> ${value}<br>`;
             }
         }
@@ -65,6 +67,8 @@ function createMarkerWithPopup(map, feature) {
 
     if (popupContent !== '') {
         var marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]).addTo(map);
+        
+        // Skapa popup-fönstret med innehållet
         var popup = L.popup({
             maxWidth: 300, // Sätt maxbredd för popup-fönster
             maxHeight: 400, // Sätt maxhöjd för popup-fönster
@@ -80,6 +84,8 @@ function createMarkerWithPopup(map, feature) {
 
         // Lägg till en klickhändelse för markören
         marker.on('click', function () {
+            console.log('Marker clicked, opening popup');
+
             this.openPopup(); // Öppna popup-fönstret
             this.bringToFront(); // Flytta markören till främsta plan i förhållande till andra markörer
 
@@ -87,6 +93,7 @@ function createMarkerWithPopup(map, feature) {
             var popupElement = this.getPopup().getElement();
             if (popupElement) {
                 popupElement.style.zIndex = '2000'; // Anpassa z-index efter behov för att popup-fönstret ska ligga över annat innehåll
+                console.log('Popup z-index adjusted:', popupElement.style.zIndex);
             }
         });
     }
