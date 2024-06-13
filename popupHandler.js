@@ -1,12 +1,5 @@
 // popupHandler.js
 
-document.addEventListener("DOMContentLoaded", function() {
-    map.on('click', function(e) {
-        var latlng = e.latlng;
-        console.log("Map clicked at: ", latlng);
-    });
-});
-
 function updatePanelContent(properties) {
     var panelContent = document.getElementById('panel-content');
     if (!panelContent) {
@@ -31,4 +24,11 @@ function addClickHandlerToLayer(layer) {
         var properties = e.target.feature.properties;
         updatePanelContent(properties);
     });
+}
+
+function hidePanel() {
+    var panel = document.getElementById('panel');
+    if (panel) {
+        panel.style.display = 'none';
+    }
 }
