@@ -1,8 +1,7 @@
-// Uppdaterat CSS för popup-fönster
 var popupStyles = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
-        padding: 0; /* Ta bort padding inuti popup-fönstret */
+        padding: 0 !important; /* Ta bort padding inuti popup-fönstret */
         max-width: 300px;
         max-height: 400px;
         overflow-y: auto; /* Vertikal scrollning vid behov */
@@ -12,7 +11,8 @@ var popupStyles = `
     .leaflet-popup-content {
         word-wrap: break-word; /* Bryt ord om det inte får plats */
         overflow-wrap: break-word; /* Alternativ modern egenskap */
-        max-width: 100%; /* Sätt maximal bredd för innehållet */
+        max-width: calc(100% - 20px); /* Sätt maximal bredd för innehållet */
+        padding: 10px; /* Lägg till lite padding inuti popup-innehållet */
     }
 
     /* Anpassa bilder i popup-fönster */
@@ -24,7 +24,7 @@ var popupStyles = `
     }
 `;
 
-// Kolla om stilen redan finns för att undvika att lägga till den igen
+// Kontrollera om stilen redan finns för att undvika dubbletter
 if (!document.querySelector('style#popupStyles')) {
     var styleTag = document.createElement('style');
     styleTag.textContent = popupStyles;
@@ -53,7 +53,10 @@ function createMarkerWithPopup(map, feature) {
 
     if (popupContent !== '') {
         var marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]).addTo(map);
-        var popup = L.popup().setContent(popupContent);
+        var popup = L.popup({
+            maxWidth: 300, // Sätt maxbredd för popup-fönster
+            maxHeight: 400, // Sätt maxhöjd för popup-fönster
+        }).setContent(popupContent);
         marker.bindPopup(popup);
     }
 }
