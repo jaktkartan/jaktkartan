@@ -13,24 +13,25 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': []
     };
 
+    var panelContent = document.getElementById('panel-content');
+
     // Funktion för att hämta GeoJSON-data och skapa lagret
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
                     console.log("Successfully fetched GeoJSON data:", response.data);
-                    var layer = L.geoJSON(response.data, {
+                    var geojson = response.data;
+
+                    var layer = L.geoJSON(geojson, {
                         onEachFeature: function(feature, layer) {
-                            // Skapa popup-innehållet dynamiskt baserat på alla attribut i geojson-egenskaperna
-                            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-                            for (var prop in feature.properties) {
-                                // Lägg till alla egenskaper i popup-innehållet
-                                popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
-                            }
-                            popupContent += '</div>';
-                            layer.bindPopup(popupContent);
+                            layer.on('click', function() {
+                                updatePanelContent(feature.properties);
+                                showPanel();
+                            });
                         }
                     }).addTo(map);
+
                     // Lägg till lagret i geojsonLayers arrayen
                     geojsonLayers[layerName].push(layer);
                 })
@@ -38,6 +39,7 @@ var Kartor_geojsonHandler = (function() {
                     console.log("Error fetching GeoJSON data:", error.message);
                 });
         });
+
         // Uppdatera layerIsActive för det aktuella lagret
         layerIsActive[layerName] = true;
     }
@@ -52,11 +54,39 @@ var Kartor_geojsonHandler = (function() {
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
+
             // Töm geojsonLayers arrayen för det aktuella lagret
             geojsonLayers[layerName] = [];
+
             // Uppdatera layerIsActive för det aktuella lagret
             layerIsActive[layerName] = false;
         }
+    }
+
+    // Funktion för att visa panelen
+    function showPanel() {
+        var panel = document.getElementById('panel');
+        panel.style.display = 'block';
+    }
+
+    // Funktion för att dölja panelen
+    function hidePanel() {
+        var panel = document.getElementById('panel');
+        panel.style.display = 'none';
+    }
+
+    // Funktion för att uppdatera panelens innehåll baserat på markerens egenskaper
+    function updatePanelContent(properties) {
+        var content = '';
+
+        for (var key in properties) {
+            if (properties.hasOwnProperty(key)) {
+                var value = properties[key];
+                content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
+            }
+        }
+
+        panelContent.innerHTML = content;
     }
 
     // Returnera offentliga metoder och variabler
@@ -65,3 +95,4 @@ var Kartor_geojsonHandler = (function() {
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
     };
 })();
+
