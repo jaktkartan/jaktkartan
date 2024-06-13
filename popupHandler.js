@@ -5,6 +5,7 @@ var popupStyles = `
         max-width: 300px;
         max-height: 400px;
         overflow-y: auto; /* Vertikal scrollning vid behov */
+        overflow-x: hidden; /* Dölj horisontell scrollning */
     }
 
     /* Anpassa innehållet i popup-fönster */
