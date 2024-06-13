@@ -1,21 +1,26 @@
-// CSS för popup-fönster
+// Uppdaterat CSS för popup-fönster
 var popupStyles = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
-        padding: 10px; /* Lägg till lite padding inuti popup-fönstret */
-        max-width: 30px; /* Begränsa maximal bredd för innehållet i popup-fönstret */
-        max-height: 30px; /* Begränsa maximal höjd för popup-fönstret */
-        overflow-y: auto; /* Aktivera vertikal scrollning vid behov */
+        padding: 10px;
+        max-width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
     }
 
     /* Anpassa bilder i popup-fönster */
     .leaflet-popup-content img {
-        display: block; /* Se till att bilderna visas som blockelement */
-        margin: 0 auto; /* Centrera bilder horisontellt */
-        max-width: 100%; /* Sätt maximal bredd för bilderna till 100% av popup-fönstrets bredd */
-        height: auto; /* Automatisk höjd för att behålla proportionerna */
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: auto;
     }
 `;
+
+// Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
+var styleTag = document.createElement('style');
+styleTag.textContent = popupStyles;
+document.head.appendChild(styleTag);
 
 // Funktion för att skapa en marker med popup-fönster för bilder och text från GeoJSON
 function createMarkerWithPopup(map, feature) {
