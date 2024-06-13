@@ -1,57 +1,70 @@
+// Dynamiskt lägga till popup-stilar till dokumentet
+var style = document.createElement('style');
+style.innerHTML = `
+    .leaflet-popup-content-wrapper {
+        padding: 10px;
+        max-width: 90vw;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .leaflet-popup-content img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .leaflet-popup-bottom {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        max-height: 50%;
+        overflow-y: auto;
+        background: white;
+        border: 1px solid #ccc;
+        z-index: 1000;
+    }
+
+    .leaflet-popup-bottom .leaflet-popup-content-wrapper {
+        max-width: 100%;
+        max-height: 100%;
+    }
+`;
+document.head.appendChild(style);
+
 // Funktion för att skapa popup-fönster med anpassad position och storlek
 function createPopup(content) {
     var popupOptions = {
-        maxWidth: '80vw', // Anpassa bredden till 80% av viewportens bredd
-        maxHeight: '45vh', // Begränsa höjden till 45% av viewportens höjd
-        autoPan: false, // Stäng av automatisk centrering
-        closeButton: true // Tillåt stäng-knappen
+        closeButton: true,
+        className: 'leaflet-popup-bottom'
     };
 
-    // Hårdkodad bild-URL för att testa
-    var imageUrl = 'https://github.com/timothylevin/Testmiljo/blob/main/bottom_panel/Kartor/Allman_jakt_daggdjur/bilder/vildsvin.jpeg?raw=true';
-    var hardcodedImgTag = `<img src="${imageUrl}" alt="Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">`;
+    var imagePattern = /(https?:\/\/[^\s]+\.(jpeg|jpg|gif|png|webp)(\?[^\s]*)?)/gi;
+    content = content.replace(imagePattern, function(url) {
+        return `<img src="${url}" alt="Image">`;
+    });
 
-    // Skapa popup-innehåll
-    var popupContent = document.createElement('div');
-    popupContent.innerHTML = hardcodedImgTag;
-
-    // Logga popupContent till konsolen för att verifiera innehållet
-    console.log(popupContent);
-
-    var popup = L.popup(popupOptions).setContent(popupContent);
-
-    // Beräkna koordinater för att placera popup längst ned på sidan
-    var mapBounds = map.getBounds();
-    var southWest = mapBounds.getSouthWest();
-    var center = mapBounds.getCenter();
-    var latLng = L.latLng(southWest.lat, center.lng);
-
-    // Uppdatera popup-fönstrets position
-    popup.setLatLng(latLng);
-
-    // Lägg till popup på kartan
-    popup.addTo(map);
-
+    var popup = L.popup(popupOptions).setContent(content);
     return popup;
 }
 
-// Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
-var styleTag = document.createElement('style');
-styleTag.textContent = `
-    /* Anpassa popup-fönster stil */
-    .leaflet-popup-content-wrapper {
-        padding: 10px; /* Lägg till lite padding inuti popup-fönstret */
-        max-width: 80vw; /* Begränsa maximal bredd för innehållet i popup-fönstret till 90% av viewportens bredd */
-        max-height: 45vh; /* Begränsa maximal höjd för popup-fönstret till 90% av viewportens höjd */
-        overflow-y: auto; /* Aktivera vertikal scrollning vid behov */
-    }
+// Funktion för att öppna popup längst ned på sidan
+function openPopupAtBottom(popup) {
+    var mapBounds = map.getBounds();
+    var southWest = mapBounds.getSouthWest();
+    var southEast = mapBounds.getSouthEast();
+    var center = mapBounds.getCenter();
+    var latLng = L.latLng(southWest.lat, center.lng);
 
-    /* Anpassa bilder i popup-fönster */
-    .leaflet-popup-content img {
-        display: block; /* Se till att bilderna visas som blockelement */
-        margin: 0 auto; /* Centrera bilder horisontellt */
-        max-width: 100%; /* Sätt maximal bredd för bilderna till 100% av popup-fönstrets bredd */
-        height: auto; /* Automatisk höjd för att behålla proportionerna */
-    }
-`;
-document.head.appendChild(styleTag);
+    popup.setLatLng(latLng).openOn(map);
+    return popup;
+}
+
+// Funktion för att binda popup till geojson-lagret med klickhändelse
+function bindPopupToLayer(layer, popupContent) {
+    layer.on('click', function() {
+        var popup = createPopup(popupContent);
+        openPopupAtBottom(popup);
+    });
+}
