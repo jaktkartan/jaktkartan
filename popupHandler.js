@@ -8,6 +8,12 @@ var popupStyles = `
         overflow-y: auto; /* Vertikal scrollning vid behov */
     }
 
+    /* Anpassa innehållet i popup-fönster */
+    .leaflet-popup-content {
+        word-wrap: break-word; /* Bryt ord om det inte får plats */
+        overflow-wrap: break-word; /* Alternativ modern egenskap */
+    }
+
     /* Anpassa bilder i popup-fönster */
     .leaflet-popup-content img {
         display: block;
