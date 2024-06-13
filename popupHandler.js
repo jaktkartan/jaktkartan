@@ -1,6 +1,5 @@
 // popupHandler.js
 
-// Lägg till en eventlistener för när dokumentet har laddats
 document.addEventListener("DOMContentLoaded", function() {
     map.on('click', function(e) {
         var latlng = e.latlng;
@@ -8,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-// Funktion för att uppdatera panelens innehåll
 function updatePanelContent(properties) {
     var panelContent = document.getElementById('panel-content');
     if (!panelContent) {
@@ -25,4 +23,12 @@ function updatePanelContent(properties) {
     }
 
     panelContent.innerHTML = content;
+    document.getElementById('panel').style.display = 'block'; // Visa panelen
+}
+
+function addClickHandlerToLayer(layer) {
+    layer.on('click', function(e) {
+        var properties = e.target.feature.properties;
+        updatePanelContent(properties);
+    });
 }
