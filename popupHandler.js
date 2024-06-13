@@ -1,5 +1,4 @@
-// popupHandler.js
-
+// Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePanelContent(properties) {
     var panelContent = document.getElementById('panel-content');
     if (!panelContent) {
@@ -16,9 +15,10 @@ function updatePanelContent(properties) {
     }
 
     panelContent.innerHTML = content;
-    document.getElementById('panel').style.display = 'block'; // Visa panelen
+    showPanel(); // Visa panelen när innehåll uppdateras
 }
 
+// Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
         var properties = e.target.feature.properties;
@@ -26,9 +26,18 @@ function addClickHandlerToLayer(layer) {
     });
 }
 
+// Funktion för att dölja panelen
 function hidePanel() {
     var panel = document.getElementById('panel');
     if (panel) {
         panel.style.display = 'none';
+    }
+}
+
+// Funktion för att visa panelen
+function showPanel() {
+    var panel = document.getElementById('panel');
+    if (panel) {
+        panel.style.display = 'block';
     }
 }
