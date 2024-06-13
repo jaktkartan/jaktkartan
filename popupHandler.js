@@ -23,11 +23,10 @@ var popupStyles = `
     }
 `;
 
-// Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
+// Inkludera CSS-stilar direkt i JavaScript
 var styleTag = document.createElement('style');
 styleTag.textContent = popupStyles;
 document.head.appendChild(styleTag);
-
 
 // Funktion för att skapa en marker med popup-fönster för bilder och text från GeoJSON
 function createMarkerWithPopup(map, feature) {
