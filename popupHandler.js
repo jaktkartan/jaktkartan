@@ -33,6 +33,7 @@ function hidePanel() {
 
 // Funktion för att visa panelen
 function showPanel() {
+    console.log("showPanel() anropad"); // Lägg till en loggning här för att kontrollera att funktionen anropas
     var panel = document.getElementById('panel');
     console.log("Panel element:", panel); // Logga panel-elementet
     if (panel) {
@@ -41,6 +42,7 @@ function showPanel() {
         console.log("Panelens display-status:", panel.style.display);
     }
 }
+
 
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
