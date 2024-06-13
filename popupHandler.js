@@ -7,13 +7,16 @@ function createPopup(content) {
         closeButton: true // Tillåt stäng-knappen
     };
 
-    // Hårdkodad bild-URL för att felsöka
+    // Hårdkodad bild-URL för att testa
     var imageUrl = 'https://github.com/timothylevin/Testmiljo/blob/main/bottom_panel/Kartor/Allman_jakt_daggdjur/bilder/vildsvin.jpeg?raw=true';
     var hardcodedImgTag = `<img src="${imageUrl}" alt="Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">`;
 
     // Skapa popup-innehåll
     var popupContent = document.createElement('div');
     popupContent.innerHTML = hardcodedImgTag;
+
+    // Logga popupContent till konsolen för att verifiera innehållet
+    console.log(popupContent);
 
     var popup = L.popup(popupOptions).setContent(popupContent);
 
@@ -31,8 +34,6 @@ function createPopup(content) {
 
     return popup;
 }
-
-
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
 var styleTag = document.createElement('style');
