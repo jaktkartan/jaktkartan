@@ -28,8 +28,8 @@ var Kartor_geojsonHandler = (function() {
                                 popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
                             }
                             popupContent += '</div>';
-                            // Använd createPopup för att hantera bild-URL:er
-                            layer.bindPopup(createPopup(popupContent));
+                            // Använd bindPopupToLayer för att hantera popup
+                            bindPopupToLayer(layer, popupContent);
                         }
                     }).addTo(map);
                     // Lägg till lagret i geojsonLayers arrayen
