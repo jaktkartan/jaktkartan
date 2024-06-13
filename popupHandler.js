@@ -1,21 +1,19 @@
 // Funktion för att skapa popup-fönster med anpassad position och storlek
 function createPopup(content) {
     var popupOptions = {
-        maxWidth: '90vw', // Anpassa bredden till 90% av viewportens bredd
-        maxHeight: '90vh', // Begränsa höjden till 90% av viewportens höjd
+        maxWidth: '80vw', // Anpassa bredden till 80% av viewportens bredd
+        maxHeight: '45vh', // Begränsa höjden till 45% av viewportens höjd
         autoPan: false, // Stäng av automatisk centrering
         closeButton: true // Tillåt stäng-knappen
     };
 
-    // Omvandla URL:er till bilder om de är bild-URL:er, även om de innehåller query-parametrar
-    var imagePattern = /(https?:\/\/[^\s]+\.(jpeg|jpg|gif|png|webp)(\?[^\s]*)?)/gi;
-    content = content.replace(imagePattern, function(url) {
-        return `<img src="${url}" alt="Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">`;
-    });
+    // Hårdkodad bild-URL för att felsöka
+    var imageUrl = 'https://github.com/timothylevin/Testmiljo/blob/main/bottom_panel/Kartor/Allman_jakt_daggdjur/bilder/vildsvin.jpeg?raw=true';
+    var hardcodedImgTag = `<img src="${imageUrl}" alt="Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">`;
 
     // Skapa popup-innehåll
     var popupContent = document.createElement('div');
-    popupContent.innerHTML = content;
+    popupContent.innerHTML = hardcodedImgTag;
 
     var popup = L.popup(popupOptions).setContent(popupContent);
 
@@ -33,6 +31,7 @@ function createPopup(content) {
 
     return popup;
 }
+
 
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
