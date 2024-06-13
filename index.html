@@ -22,6 +22,21 @@
             margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
             overflow-x: hidden; /* Dölj horisontell skrollning */
         }
+
+        /* Stilar för panelen */
+        #panel {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: calc(100% - 20px);
+            max-width: 300px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -62,6 +77,12 @@
         <div id="tab5" class="tab-pane"></div>
     </div>
     
+    <div id="panel">
+        <div id="panel-content">
+            <!-- Innehåll i panelen uppdateras dynamiskt här -->
+        </div>
+    </div>
+
     <script src="https://unpkg.com/suncalc/suncalc.js"></script>
     <script src="vaderprognos.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -141,7 +162,7 @@
                     userMarker.setLatLng([lat, lon]);
                 }
 
-                if (!pulsingDotMarker) {
+                                if (!pulsingDotMarker) {
                     pulsingDotMarker = createPulsingCircle(lat, lon);
                 } else {
                     pulsingDotMarker.setLatLng([lat, lon]);
@@ -209,6 +230,35 @@
                 map.setView([62.0, 15.0], 5);
             }
         });
+
+        // Funktion för att visa panelen när användaren trycker på ett geojson-objekt
+        function showPanel() {
+            var panel = document.getElementById('panel');
+            panel.style.display = 'block';
+        }
+
+        // Funktion för att dölja panelen
+        function hidePanel() {
+            var panel = document.getElementById('panel');
+            panel.style.display = 'none';
+        }
+
+        // Funktion för att uppdatera panelens innehåll baserat på geojson-objektets egenskaper
+        function updatePanelContent(properties) {
+            var panelContent = document.getElementById('panel-content');
+            var content = '';
+
+            for (var key in properties) {
+                if (properties.hasOwnProperty(key)) {
+                    var value = properties[key];
+                    content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
+                }
+            }
+
+            panelContent.innerHTML = content;
+        }
     </script>
 </body>
 </html>
+
+
