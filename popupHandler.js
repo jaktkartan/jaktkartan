@@ -1,4 +1,4 @@
-// CSS för popup-fönster
+// Uppdaterat CSS för popup-fönster
 var popupStyles = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
@@ -12,6 +12,7 @@ var popupStyles = `
     .leaflet-popup-content {
         word-wrap: break-word; /* Bryt ord om det inte får plats */
         overflow-wrap: break-word; /* Alternativ modern egenskap */
+        max-width: 100%; /* Sätt maximal bredd för innehållet */
     }
 
     /* Anpassa bilder i popup-fönster */
