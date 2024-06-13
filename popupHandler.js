@@ -66,7 +66,8 @@ function createMarkerWithPopup(map, feature) {
     }
 
     if (popupContent !== '') {
-        var marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]).addTo(map);
+        var marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]]);
+
         var popup = L.popup({
             maxWidth: 300, // Sätt maxbredd för popup-fönster
             maxHeight: 400, // Sätt maxhöjd för popup-fönster
@@ -79,6 +80,9 @@ function createMarkerWithPopup(map, feature) {
         popup.getElement().style.zIndex = '10000';
 
         marker.bindPopup(popup);
+
+        // Lägg till markören på kartan
+        marker.addTo(map);
 
         // Lägg till en klickhändelse för markören
         marker.on('click', function () {
@@ -100,6 +104,14 @@ function createMarkerWithPopup(map, feature) {
 function isImageUrl(url) {
     return (url.match(/\.(jpeg|jpg|gif|png|webp)$/) != null);
 }
+
+// Skapa en Leaflet-karta
+var map = L.map('map').setView([52.5, 13.4], 10); // Exempelkoordinater och zoomnivå
+
+// Lägg till en bas-karta (t.ex. OpenStreetMap)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
 
 // Exempel på hur du kan använda funktionen med din GeoJSON-data
 // Här simulerar vi GeoJSON-data eftersom `yourGeoJsonData` inte är tillgängligt här
