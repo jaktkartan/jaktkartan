@@ -1,4 +1,4 @@
-// Skapa ett namnområde för Kartor_geojsonHandler
+// bottom_panel/Kartor/Kartor_geojsonHandler.js
 var Kartor_geojsonHandler = (function() {
     // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
     var layerIsActive = {
@@ -13,8 +13,6 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': []
     };
 
-    var panelContent = document.getElementById('panel-content');
-
     // Funktion för att hämta GeoJSON-data och skapa lagret
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         geojsonURLs.forEach(function(geojsonURL) {
@@ -25,10 +23,7 @@ var Kartor_geojsonHandler = (function() {
 
                     var layer = L.geoJSON(geojson, {
                         onEachFeature: function(feature, layer) {
-                            layer.on('click', function() {
-                                updatePanelContent(feature.properties);
-                                showPanel();
-                            });
+                            addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
                         }
                     }).addTo(map);
 
@@ -63,36 +58,9 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    // Funktion för att visa panelen
-    function showPanel() {
-        var panel = document.getElementById('panel');
-        panel.style.display = 'block';
-    }
-
-    // Funktion för att dölja panelen
-    function hidePanel() {
-        var panel = document.getElementById('panel');
-        panel.style.display = 'none';
-    }
-
-    // Funktion för att uppdatera panelens innehåll baserat på markerens egenskaper
-    function updatePanelContent(properties) {
-        var content = '';
-
-        for (var key in properties) {
-            if (properties.hasOwnProperty(key)) {
-                var value = properties[key];
-                content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
-            }
-        }
-
-        panelContent.innerHTML = content;
-    }
-
     // Returnera offentliga metoder och variabler
     return {
         toggleLayer: toggleLayer,
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
     };
 })();
-
