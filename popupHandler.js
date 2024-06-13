@@ -20,7 +20,7 @@ var popupStyles = `
 // Funktion för att skapa popup-fönster med innehåll
 function createPopup(content) {
     var popupOptions = {
-        maxWidth: '300' // Maximal bredd för popup-fönstret i pixel
+        maxWidth: 300 // Maximal bredd för popup-fönstret i pixel (ska vara en siffra, inte en sträng)
     };
 
     // Logga ut innehållet innan bearbetning
