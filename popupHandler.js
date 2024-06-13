@@ -24,6 +24,11 @@ var popupStyles = `
         max-width: 100%;
         height: auto;
     }
+
+    /* Anpassa z-index för popup-fönster */
+    .leaflet-popup-pane {
+        z-index: 1000; /* Justera z-index efter behov för att popup-fönstret ska ligga över annat innehåll */
+    }
 `;
 
 // Funktion för att lägga till CSS-stilar till <style> taggen i <head> av din HTML-dokument
