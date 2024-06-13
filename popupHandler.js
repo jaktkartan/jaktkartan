@@ -34,17 +34,12 @@ function createPopup(content) {
 
     var popup = L.popup(popupOptions).setContent(content);
 
-    // Hämta höjden på popup-fönstret
-    var popupHeight = popup._container.clientHeight;
-
-    // Beräkna koordinater för att placera popup längst ned på sidan
+    // Hämta kartans gränser och centrera för att hitta sydvästra hörnet
     var mapBounds = map.getBounds();
     var southWest = mapBounds.getSouthWest();
-    var southEast = mapBounds.getSouthEast();
-    var center = mapBounds.getCenter();
-    var latLng = L.latLng(southWest.lat, center.lng); // Längst ned på sidan
+    var latLng = L.latLng(southWest.lat, southWest.lng); // Sydvästra hörnet
 
-    // Uppdatera popup-fönstrets position
+    // Uppdatera popup-fönstrets position till sydvästra hörnet av kartan
     popup.setLatLng(latLng);
 
     // Lägg till popup på kartan
