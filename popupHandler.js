@@ -3,8 +3,8 @@ var popupStyles = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
         padding: 10px; /* Lägg till lite padding inuti popup-fönstret */
-        max-width: 300px; /* Begränsa maximal bredd för innehållet i popup-fönstret */
-        max-height: 300px; /* Begränsa maximal höjd för popup-fönstret */
+        max-width: 30px; /* Begränsa maximal bredd för innehållet i popup-fönstret */
+        max-height: 30px; /* Begränsa maximal höjd för popup-fönstret */
         overflow-y: auto; /* Aktivera vertikal scrollning vid behov */
     }
 
