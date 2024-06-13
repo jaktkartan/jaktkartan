@@ -13,7 +13,11 @@ function createPopup(content) {
         return `<img src="${url}" alt="Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">`;
     });
 
-    var popup = L.popup(popupOptions).setContent(content);
+    // Skapa popup-innehåll
+    var popupContent = document.createElement('div');
+    popupContent.innerHTML = content;
+
+    var popup = L.popup(popupOptions).setContent(popupContent);
 
     // Beräkna koordinater för att placera popup längst ned på sidan
     var mapBounds = map.getBounds();
@@ -29,6 +33,7 @@ function createPopup(content) {
 
     return popup;
 }
+
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
 var styleTag = document.createElement('style');
