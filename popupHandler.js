@@ -29,20 +29,16 @@ function createPopup(content) {
     // Omvandla URL:er till bilder om de är bild-URL:er, även om de innehåller query-parametrar
     var imagePattern = /(https?:\/\/[^\s]+\.(jpeg|jpg|gif|png|webp)(\?[^\s]*)?)/gi;
     content = content.replace(imagePattern, function(url) {
-        return `<img src="${url}" alt="Image">`;
+        return `<img src="${url}" alt="Image" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">`;
     });
 
     var popup = L.popup(popupOptions).setContent(content);
 
-    // Hämta höjden på popup-fönstret
-    var popupHeight = popup._container.clientHeight;
-
     // Beräkna koordinater för att placera popup längst ned på sidan
     var mapBounds = map.getBounds();
     var southWest = mapBounds.getSouthWest();
-    var southEast = mapBounds.getSouthEast();
     var center = mapBounds.getCenter();
-    var latLng = L.latLng(southWest.lat, center.lng); // Längst ned på sidan
+    var latLng = L.latLng(southWest.lat, center.lng);
 
     // Uppdatera popup-fönstrets position
     popup.setLatLng(latLng);
@@ -52,6 +48,7 @@ function createPopup(content) {
 
     return popup;
 }
+
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
 var styleTag = document.createElement('style');
