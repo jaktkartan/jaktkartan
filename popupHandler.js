@@ -1,8 +1,8 @@
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
-function updatePanelContent(properties) {
-    var panelContent = document.getElementById('panel-content');
+function updatePopupPanelContent(properties) {
+    var panelContent = document.getElementById('popup-panel-content');
     if (!panelContent) {
-        console.error("Elementet 'panel-content' hittades inte.");
+        console.error("Elementet 'popup-panel-content' hittades inte.");
         return;
     }
 
@@ -20,36 +20,34 @@ function updatePanelContent(properties) {
 
     console.log("Panelinnehåll uppdaterat:", content);
 
-    showPanel(); // Visa panelen när innehåll uppdateras
+    showPopupPanel(); // Visa panelen när innehåll uppdateras
 }
 
 // Funktion för att dölja panelen
-function hidePanel() {
-    var panel = document.getElementById('panel');
+function hidePopupPanel() {
+    var panel = document.getElementById('popup-panel');
     if (panel) {
         panel.style.display = 'none';
     }
 }
 
 // Funktion för att visa panelen
-function showPanel() {
-    console.log("showPanel() anropad"); // Lägg till en loggning här för att kontrollera att funktionen anropas
-    var panel = document.getElementById('panel');
-    console.log("Panel element:", panel); // Logga panel-elementet
+function showPopupPanel() {
+    console.log("showPopupPanel() anropad"); // Lägg till en loggning här för att kontrollera att funktionen anropas
+    var panel = document.getElementById('popup-panel');
+    console.log("Popup panel element:", panel); // Logga panel-elementet
     if (panel) {
-        console.log("Visar panelen");
+        console.log("Visar popup-panelen");
         panel.style.display = 'block';
-        console.log("Panelens display-status:", panel.style.display);
+        console.log("Popup-panelens display-status:", panel.style.display);
     }
 }
-
-
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
         console.log("Geojson-objekt klickat:", e.target.feature.properties); // Kontrollmeddelande
         var properties = e.target.feature.properties;
-        updatePanelContent(properties);
+        updatePopupPanelContent(properties);
     });
 }
