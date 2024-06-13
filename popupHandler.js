@@ -74,7 +74,7 @@ function createMarkerWithPopup(map, feature) {
         }).setContent(popupContent);
 
         // Sätt ett högt z-index-värde för popup-fönstret
-        popup.getElement().style.zIndex = '2000';
+        popup.getElement().style.zIndex = '10000';
 
         marker.bindPopup(popup);
     }
