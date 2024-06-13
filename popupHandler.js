@@ -6,6 +6,8 @@ function updatePanelContent(properties) {
         return;
     }
 
+    console.log("Uppdaterar panelinnehåll med egenskaper:", properties);
+
     var content = '';
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
@@ -15,15 +17,10 @@ function updatePanelContent(properties) {
     }
 
     panelContent.innerHTML = content;
-    showPanel(); // Visa panelen när innehåll uppdateras
-}
 
-// Funktion för att lägga till klickhanterare till geojson-lagret
-function addClickHandlerToLayer(layer) {
-    layer.on('click', function(e) {
-        var properties = e.target.feature.properties;
-        updatePanelContent(properties);
-    });
+    console.log("Panelinnehåll uppdaterat:", content);
+
+    showPanel(); // Visa panelen när innehåll uppdateras
 }
 
 // Funktion för att dölja panelen
@@ -38,15 +35,17 @@ function hidePanel() {
 function showPanel() {
     var panel = document.getElementById('panel');
     if (panel) {
+        console.log("Visar panelen");
         panel.style.display = 'block';
+        console.log("Panelens display-status:", panel.style.display);
     }
 }
 
+// Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
-        console.log("Polygon clicked:", e.target.feature.properties); // Kontrollmeddelande
+        console.log("Geojson-objekt klickat:", e.target.feature.properties); // Kontrollmeddelande
         var properties = e.target.feature.properties;
         updatePanelContent(properties);
     });
 }
-
