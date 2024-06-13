@@ -41,3 +41,12 @@ function showPanel() {
         panel.style.display = 'block';
     }
 }
+
+function addClickHandlerToLayer(layer) {
+    layer.on('click', function(e) {
+        console.log("Polygon clicked:", e.target.feature.properties); // Kontrollmeddelande
+        var properties = e.target.feature.properties;
+        updatePanelContent(properties);
+    });
+}
+
