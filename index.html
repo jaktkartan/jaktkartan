@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,131 +149,66 @@
 
                 var times = SunCalc.getTimes(new Date(), lat, lon);
                 var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown' ;
+                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
                 var sunriseSpan = document.getElementById('sunrise');
                 var sunsetSpan = document.getElementById('sunset');
 
                 sunriseSpan.innerHTML = sunrise;
                 sunsetSpan.innerHTML = sunset;
+            }
 
-                // Adding popup handler functionality
-                map.on('click', function(e) {
-                    var lat = e.latlng.lat.toFixed(6);
-                    var lon = e.latlng.lng.toFixed(6);
-                    showPopup(lat, lon);
-                });
+            function getPositionFromIP() {
+                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
+                    .then(function (response) {
+                        var loc = response.data.loc.split(',');
+                        var lat = parseFloat(loc[0]);
+                        var lon = parseFloat(loc[1]);
+                        updateUserPosition(lat, lon, "Unknown");
+                    })
+                    .catch(function (error) {
+                        console.log("IP Geolocation failed: " + error.message);
+                    });
+            }
 
-                // Function to show popup with coordinates
-                function showPopup(lat, lon) {
-                    var popup = L.popup()
-                        .setLatLng([lat, lon])
-                        .setContent(`<p>Koordinater: ${lat}, ${lon}</p>`)
-                        .openOn(map);
-                }
+            function handleGeolocation(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                var accuracy = position.coords.accuracy;
+                updateUserPosition(lat, lon, accuracy.toFixed(2));
+            }
 
-                // Function to handle expanding/collapsing weather info
-                function togglePanel() {
-                    var weatherInfo = document.getElementById('weather-info');
-                    var arrow = document.querySelector('.expand-toggle .arrow');
-
-                    if (weatherInfo.style.display === 'none') {
-                        weatherInfo.style.display = 'block';
-                        arrow.innerHTML = '&#9650;'; // Upwards arrow
-                    } else {
-                        weatherInfo.style.display = 'none';
-                        arrow.innerHTML = '&#9660;'; // Downwards arrow
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                        getPositionFromIP();
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout:                         10000,
+                        maximumAge: 0
                     }
-                }
+                );
 
-                // Initial call to get weather information
-                getWeatherInfo();
-
-                // Function to fetch weather information
-                function getWeatherInfo() {
-                    axios.get('https://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q=auto:ip')
-                        .then(function (response) {
-                            var weatherData = response.data;
-                            var weatherText = `${weatherData.current.condition.text}, Temperature: ${weatherData.current.temp_c}°C, Wind: ${weatherData.current.wind_kph} km/h`;
-
-                            document.getElementById('weather-text').textContent = weatherText;
-                        })
-                        .catch(function (error) {
-                            console.log("Weather API request failed: " + error.message);
-                        });
-                }
-
-                // Function to handle opening tabs
-                function openTab(tabId, url) {
-                    var tabContent = document.getElementById('tab-content');
-                    var tabs = tabContent.children;
-
-                    for (var i = 0; i < tabs.length; i++) {
-                        tabs[i].style.display = 'none';
+                navigator.geolocation.watchPosition(
+                    function (position) {
+                        handleGeolocation(position);
+                    },
+                    function (error) {
+                        console.log("Geolocation failed: " + error.message);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
                     }
-
-                    var tab = document.getElementById(tabId);
-                    if (url && url.length > 0) {
-                        tab.innerHTML = '<object type="text/html" data="' + url + '" style="width:100%;height:100%;"></object>';
-                    }
-                    tab.style.display = 'block';
-                }
-
-                // Function to handle geolocation from IP
-                function getPositionFromIP() {
-                    axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                        .then(function (response) {
-                            var loc = response.data.loc.split(',');
-                            var lat = parseFloat(loc[0]);
-                            var lon = parseFloat(loc[1]);
-                            updateUserPosition(lat, lon, "Unknown");
-                        })
-                        .catch(function (error) {
-                            console.log("IP Geolocation failed: " + error.message);
-                        });
-                }
-
-                // Function to handle geolocation from browser
-                function handleGeolocation(position) {
-                    var lat = position.coords.latitude;
-                    var lon = position.coords.longitude;
-                    var accuracy = position.coords.accuracy;
-                    updateUserPosition(lat, lon, accuracy.toFixed(2));
-                }
-
-                // Check for geolocation support and update map accordingly
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                            handleGeolocation(position);
-                        },
-                        function (error) {
-                            console.log("Geolocation failed: " + error.message);
-                            getPositionFromIP();
-                        },
-                        {
-                            enableHighAccuracy: true,
-                            timeout: 10000,
-                            maximumAge: 0
-                        }
-                    );
-
-                    navigator.geolocation.watchPosition(
-                        function (position) {
-                            handleGeolocation(position);
-                        },
-                        function (error) {
-                            console.log("Geolocation failed: " + error.message);
-                        },
-                        {
-                            enableHighAccuracy: true,
-                            timeout: 10000,
-                            maximumAge: 0
-                        }
-                    );
-                } else {
-                    map.setView([62.0, 15.0], 5);
-                }
-            });
-        </script>
-    </body>
+                );
+            } else {
+                map.setView([62.0, 15.0], 5);
+            }
+        });
+    </script>
+</body>
 </html>
-
