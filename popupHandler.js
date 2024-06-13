@@ -6,9 +6,6 @@ var popupStyles = `
         max-width: 90vw; /* Begränsa maximal bredd för innehållet i popup-fönstret till 90% av viewportens bredd */
         max-height: 300px; /* Begränsa maximal höjd för popup-fönstret */
         overflow-y: auto; /* Aktivera vertikal scrollning vid behov */
-        bottom: 10px; /* Placera popup längst ned på skärmen */
-        left: 50%; /* Centrera horisontellt */
-        transform: translateX(-50%); /* Justera för att centrera horisontellt */
     }
 
     /* Anpassa bilder i popup-fönster */
@@ -24,8 +21,10 @@ var popupStyles = `
 function createPopup(content) {
     var popupOptions = {
         maxWidth: '90vw', // Anpassa bredden till 90% av viewportens bredd
+        maxHeight: '90vh', // Begränsa höjden till 90% av viewportens höjd
         autoPan: false, // Stäng av automatisk centrering
-        autoPanPaddingBottom: window.innerHeight / 2 // Centrera längst ned på skärmen
+        closeButton: false, // Stäng av stäng-knappen
+        closeOnClick: false // Stäng inte popup vid klick utanför
     };
 
     // Omvandla URL:er till bilder om de är bild-URL:er, även om de innehåller query-parametrar
@@ -34,7 +33,12 @@ function createPopup(content) {
         return `<img src="${url}" alt="Image">`;
     });
 
-    return L.popup(popupOptions).setContent(content);
+    var popup = L.popup(popupOptions).setContent(content);
+
+    // Centrera popup längst ned på skärmen
+    popup.setLatLng(map.getBounds().getSouthWest());
+
+    return popup;
 }
 
 // Inkludera CSS-stilar i <style> taggen i <head> av din HTML-dokument
