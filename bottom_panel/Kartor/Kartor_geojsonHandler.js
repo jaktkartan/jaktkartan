@@ -29,7 +29,7 @@ var Kartor_geojsonHandler = (function() {
                             }
                             popupContent += '</div>';
                             // Använd bindPopupToLayer för att hantera popup
-                            bindPopupToLayer(layer, popupContent);
+                            layer.bindPopup(popupContent);
                         }
                     }).addTo(map);
                     // Lägg till lagret i geojsonLayers arrayen
