@@ -68,7 +68,14 @@ function createMarkerWithPopup(map, feature) {
         var popup = L.popup({
             maxWidth: 300, // Sätt maxbredd för popup-fönster
             maxHeight: 400, // Sätt maxhöjd för popup-fönster
+            autoPan: true, // Automatisk panorering för att visa hela popup-fönstret inom kartans synliga område
+            closeButton: false, // Inget stängknapp i popup-fönstret
+            closeOnClick: false // Stäng inte popup-fönstret när användaren klickar på kartan
         }).setContent(popupContent);
+
+        // Sätt ett högt z-index-värde för popup-fönstret
+        popup.getElement().style.zIndex = '2000';
+
         marker.bindPopup(popup);
     }
 }
@@ -84,4 +91,3 @@ L.geoJSON(yourGeoJsonData, {
         createMarkerWithPopup(map, feature);
     }
 }).addTo(map);
-
