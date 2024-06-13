@@ -1,4 +1,3 @@
-// bottom_panel/Kartor/Kartor_geojsonHandler.js
 var Kartor_geojsonHandler = (function() {
     // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
     var layerIsActive = {
