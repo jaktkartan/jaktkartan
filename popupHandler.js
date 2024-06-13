@@ -40,8 +40,8 @@ styleTag.textContent = `
     /* Anpassa popup-fönster stil */
     .leaflet-popup-content-wrapper {
         padding: 10px; /* Lägg till lite padding inuti popup-fönstret */
-        max-width: 90vw; /* Begränsa maximal bredd för innehållet i popup-fönstret till 90% av viewportens bredd */
-        max-height: 90vh; /* Begränsa maximal höjd för popup-fönstret till 90% av viewportens höjd */
+        max-width: 80vw; /* Begränsa maximal bredd för innehållet i popup-fönstret till 90% av viewportens bredd */
+        max-height: 45vh; /* Begränsa maximal höjd för popup-fönstret till 90% av viewportens höjd */
         overflow-y: auto; /* Aktivera vertikal scrollning vid behov */
     }
 
