@@ -1,66 +1,22 @@
-<div id="map"></div>
-<div id="panel" style="display: none;">
-    <div id="panel-content">
-        <!-- Innehåll i panelen uppdateras dynamiskt här -->
-    </div>
-</div>
+// popupHandler.js
 
-<style>
-    #panel {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        width: calc(100% - 20px);
-        max-width: 300px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        z-index: 1000;
-    }
-</style>
-
-// Skapa Leaflet-kartan
-var map = L.map('map').setView([52.5, 13.4], 10); // Exempelkoordinater och zoomnivå
-
-// Lägg till en bas-karta (t.ex. OpenStreetMap)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
-
-// Funktion för att skapa en markör och binda klickhändelse för att visa panelen
-function createMarkerWithPanel(map, feature) {
-    var properties = feature.properties;
-
-    var marker = L.marker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]])
-        .addTo(map);
-
-    marker.on('click', function () {
-        // Uppdatera panelens innehåll baserat på markörens egenskaper
-        updatePanelContent(properties);
-
-        // Visa panelen när användaren klickar på markören
-        showPanel();
+// Lägg till en eventlistener för när dokumentet har laddats
+document.addEventListener("DOMContentLoaded", function() {
+    map.on('click', function(e) {
+        var latlng = e.latlng;
+        console.log("Map clicked at: ", latlng);
     });
-}
+});
 
-// Funktion för att visa panelen
-function showPanel() {
-    var panel = document.getElementById('panel');
-    panel.style.display = 'block';
-}
-
-// Funktion för att dölja panelen
-function hidePanel() {
-    var panel = document.getElementById('panel');
-    panel.style.display = 'none';
-}
-
-// Funktion för att uppdatera panelens innehåll baserat på markerens egenskaper
+// Funktion för att uppdatera panelens innehåll
 function updatePanelContent(properties) {
     var panelContent = document.getElementById('panel-content');
-    var content = '';
+    if (!panelContent) {
+        console.error("Elementet 'panel-content' hittades inte.");
+        return;
+    }
 
+    var content = '';
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
@@ -70,29 +26,3 @@ function updatePanelContent(properties) {
 
     panelContent.innerHTML = content;
 }
-
-// Exempel på hur du kan använda funktionen med din GeoJSON-data
-var sampleGeoJsonData = {
-    "type": "FeatureCollection",
-    "features": [
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [13.4, 52.5] // Exempelkoordinater
-            },
-            "properties": {
-                "name": "Example Marker",
-                "description": "This is a sample panel"
-                // Add more properties as needed
-            }
-        }
-        // Add more features as needed
-    ]
-};
-
-L.geoJSON(sampleGeoJsonData, {
-    onEachFeature: function (feature, layer) {
-        createMarkerWithPanel(map, feature);
-    }
-}).addTo(map);
