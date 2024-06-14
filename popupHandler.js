@@ -19,7 +19,7 @@ popupPanel.style.borderTopRightRadius = '10px'; // Rundar övre högra hörnet
 popupPanel.style.fontFamily = "'Roboto', sans-serif"; // Använder Roboto-typsnittet
 popupPanel.style.color = 'rgb(50, 94, 88)';
 popupPanel.style.transform = 'translateY(100%)'; // Startposition för transition
-popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition för animation
+popupPanel.style.transition = 'transform 0.3s ease, visibility 0s linear 0.3s'; // Lägg till transition för animation
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
@@ -45,13 +45,13 @@ function updatePopupPanelContent(properties) {
 function hidePopupPanel() {
     popupPanel.style.transform = 'translateY(100%)'; // Flytta panelen nedåt
     setTimeout(function() {
-        popupPanel.style.display = 'none'; // Dölj panelen efter animationen
+        popupPanel.style.visibility = 'hidden'; // Göm panelen efter animationen
     }, 300); // Vänta 0.3 sekunder för att slutföra animationen
 }
 
 // Funktion för att visa panelen med animation
 function showPopupPanel() {
-    popupPanel.style.display = 'block'; // Visa panelen
+    popupPanel.style.visibility = 'visible'; // Visa panelen
     setTimeout(function() {
         popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
     }, 10); // Vänta 10 millisekunder innan att tillämpa transform
@@ -72,7 +72,7 @@ function addClickHandlerToLayer(layer) {
 // Eventlistener för att stänga popup-panelen när man klickar utanför den
 document.addEventListener('click', function(event) {
     // Kontrollera om klicket är utanför popup-panelen
-    if (popupPanel.style.display === 'block' && !popupPanel.contains(event.target)) {
+    if (popupPanel.style.visibility === 'visible' && !popupPanel.contains(event.target)) {
         hidePopupPanel(); // Dölj panelen om klicket är utanför och panelen är synlig
     }
 });
