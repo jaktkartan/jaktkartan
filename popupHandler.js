@@ -56,3 +56,32 @@ function showPopupPanel() {
         popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
     }, 10); // Vänta 10 millisekunder innan att tillämpa transform
 }
+
+// Funktion för att lägga till klickhanterare till geojson-lagret
+function addClickHandlerToLayer(layer) {
+    layer.on('click', function(e) {
+        var properties = e.target.feature.properties;
+        updatePopupPanelContent(properties);
+    });
+}
+
+// Exempel på användning med en geojson-layer
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Exempelobjekt",
+        "description": "Detta är ett exempel på ett geojson-objekt."
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [15.0, 62.0]
+    }
+};
+
+// Kontrollera om map-objektet är definierat globalt
+if (typeof map !== 'undefined') {
+    var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
+    addClickHandlerToLayer(geojsonLayer);
+} else {
+    console.error("Map-objektet är inte definierat.");
+}
