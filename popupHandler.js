@@ -28,7 +28,8 @@ var popupPanelVisible = false;
 var popupPanel = document.getElementById('popup-panel');
 
 // Funktion för att visa popup-panelen
-function showPopupPanel() {
+function showPopupPanel(properties) {
+    updatePopupPanelContent(properties); // Uppdatera panelens innehåll
     popupPanel.style.display = 'block'; // Visa panelen
     setTimeout(function() {
         popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
@@ -39,6 +40,9 @@ function showPopupPanel() {
 // Funktion för att dölja popup-panelen
 function hidePopupPanel() {
     popupPanel.style.transform = 'translateY(100%)'; // Flytta panelen nedåt
+    setTimeout(function() {
+        popupPanel.style.display = 'none'; // Dölj panelen efter animationen
+    }, 300); // Vänta 0.3 sekunder för att slutföra animationen
     popupPanelVisible = false; // Uppdatera flaggan när panelen göms
 }
 
@@ -59,19 +63,6 @@ function updatePopupPanelContent(properties) {
     }
 
     panelContent.innerHTML = content;
-    showPopupPanel(); // Visa panelen när innehåll uppdateras
-}
-
-// Funktion för att lägga till klickhanterare till geojson-lagret
-function addClickHandlerToLayer(layer) {
-    layer.on('click', function(e) {
-        if (e.target && e.target.feature && e.target.feature.properties) {
-            var properties = e.target.feature.properties;
-            updatePopupPanelContent(properties);
-        } else {
-            console.error('Ingen geojson-information hittades i klickhändelsen.');
-        }
-    });
 }
 
 // Eventlyssnare för att stänga popup-panelen när man klickar utanför den eller på ett annat geojson-objekt
@@ -92,4 +83,16 @@ function isGeoJsonFeatureClick(event) {
     // Om du har en geojson-lager-variabel kan du använda den för att kontrollera om klicket träffade ett geojson-objekt
     // Exempel: return geojsonLayer.someFunctionToCheckIfClickIsOnFeature(event);
     return false; // Ersätt med din logik
+}
+
+// Funktion för att lägga till klickhanterare till geojson-lagret
+function addClickHandlerToLayer(layer) {
+    layer.on('click', function(e) {
+        if (e.target && e.target.feature && e.target.feature.properties) {
+            var properties = e.target.feature.properties;
+            showPopupPanel(properties); // Visa panelen med aktuella egenskaper
+        } else {
+            console.error('Ingen geojson-information hittades i klickhändelsen.');
+        }
+    });
 }
