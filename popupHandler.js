@@ -1,3 +1,19 @@
+// Stilar för popup-panelen
+var popupPanel = document.getElementById('popup-panel');
+popupPanel.style.position = 'fixed';
+popupPanel.style.bottom = '0px';
+popupPanel.style.left = '0px';
+popupPanel.style.width = '100%'; // Ändrat från calc(100%)
+popupPanel.style.maxHeight = '40%';
+popupPanel.style.backgroundColor = '#fff';
+popupPanel.style.borderTop = '5px solid rgb(50, 94, 88)';
+popupPanel.style.padding = '10px';
+popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+popupPanel.style.zIndex = '1000';
+popupPanel.style.display = 'none';
+popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
+popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
+
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Popup handler script loaded.");
 
