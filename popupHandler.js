@@ -36,63 +36,61 @@ document.addEventListener("DOMContentLoaded", function() {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            function showPopupPanel() {
-                popupPanel.style.display = 'block';
-            }
+            // Lägg till eventuell annan kartinitialiseringskod här
 
-            function hidePopupPanel() {
-                popupPanel.style.display = 'none';
-            }
-
-            function updatePopupPanelContent(properties) {
-                var panelContent = document.getElementById('popup-panel-content');
-                var content = '';
-
-                for (var key in properties) {
-                    if (properties.hasOwnProperty(key)) {
-                        var value = properties[key];
-                        content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
-                    }
-                }
-
-                panelContent.innerHTML = content;
-            }
-
-            function addClickHandlerToLayer(layer) {
-                layer.on('click', function (e) {
-                    showPopupPanel();
-                    updatePopupPanelContent(e.layer.feature.properties);
-                });
-            }
-
-            var geojsonFeature = {
-                "type": "Feature",
-                "properties": {
-                    "name": "Exempelobjekt",
-                    "description": "Detta är ett exempel på ett geojson-objekt."
-                },
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [15.0, 62.0]
-                }
-            };
-
-            var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
-            addClickHandlerToLayer(geojsonLayer);
-
-            map.on('click', function(event) {
-                if (popupPanel.style.display === 'block') {
-                    var isClickInside = popupPanel.contains(event.originalEvent.target);
-
-                    if (!isClickInside) {
-                        hidePopupPanel();
-                    }
-                }
-            });
         } else {
-            console.error("Kartan är redan initialiserad.");
+            console.log("Map already initialized, using existing instance...");
+            map = L.map(mapElement); // Använd den befintliga instansen
         }
+
+        // Lyssna på klickhändelser på kartan för att visa popup-panelen
+        map.on('click', function(event) {
+            if (popupPanel.style.display === 'block') {
+                var isClickInside = popupPanel.contains(event.originalEvent.target);
+
+                if (!isClickInside) {
+                    hidePopupPanel();
+                }
+            }
+        });
+
+        // Anropa Kartor_geojsonHandler för att lägga till geojson-lager dynamiskt
+        // Exempel på hur du kan använda Kartor_geojsonHandler:
+        // Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['url_till_din_geojson_fil']);
+        // Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', ['url_till_din_geojson_fil']);
+        // Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', ['url_till_din_geojson_fil']);
+
     } else {
         console.error("Kart-elementet 'map' kunde inte hittas.");
     }
+
+    function showPopupPanel() {
+        popupPanel.style.display = 'block';
+    }
+
+    function hidePopupPanel() {
+        popupPanel.style.display = 'none';
+    }
+
+    function updatePopupPanelContent(properties) {
+        var panelContent = document.getElementById('popup-panel-content');
+        var content = '';
+
+        for (var key in properties) {
+            if (properties.hasOwnProperty(key)) {
+                var value = properties[key];
+                content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
+            }
+        }
+
+        panelContent.innerHTML = content;
+    }
+
+    function addClickHandlerToLayer(layer) {
+        layer.on('click', function (e) {
+            showPopupPanel();
+            updatePopupPanelContent(e.layer.feature.properties);
+        });
+    }
+
 });
