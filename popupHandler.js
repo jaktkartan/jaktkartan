@@ -60,7 +60,11 @@ function showPopupPanel() {
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
-        var properties = e.target.feature.properties;
-        updatePopupPanelContent(properties);
+        if (e.target && e.target.feature && e.target.feature.properties) {
+            var properties = e.target.feature.properties;
+            updatePopupPanelContent(properties);
+        } else {
+            console.error('Ingen geojson-information hittades i klickhändelsen.');
+        }
     });
 }
