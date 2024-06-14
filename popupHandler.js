@@ -19,7 +19,9 @@ popupPanel.style.borderTopRightRadius = '10px'; // Rundar övre högra hörnet
 popupPanel.style.fontFamily = "'Roboto', sans-serif"; // Använder Roboto-typsnittet
 popupPanel.style.color = 'rgb(50, 94, 88)';
 popupPanel.style.transform = 'translateY(100%)'; // Startposition för transition
-popupPanel.style.transition = 'transform 0.3s ease, visibility 0s linear 0.3s'; // Lägg till transition för animation
+popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition för animation
+
+var popupPanelVisible = false; // Flagga för att hålla koll på om popup-panelen är synlig
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
@@ -44,17 +46,13 @@ function updatePopupPanelContent(properties) {
 // Funktion för att dölja panelen med animation
 function hidePopupPanel() {
     popupPanel.style.transform = 'translateY(100%)'; // Flytta panelen nedåt
-    setTimeout(function() {
-        popupPanel.style.visibility = 'hidden'; // Göm panelen efter animationen
-    }, 300); // Vänta 0.3 sekunder för att slutföra animationen
+    popupPanelVisible = false; // Uppdatera flaggan när panelen göms
 }
 
 // Funktion för att visa panelen med animation
 function showPopupPanel() {
-    popupPanel.style.visibility = 'visible'; // Visa panelen
-    setTimeout(function() {
-        popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
-    }, 10); // Vänta 10 millisekunder innan att tillämpa transform
+    popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
+    popupPanelVisible = true; // Uppdatera flaggan när panelen visas
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
@@ -69,10 +67,10 @@ function addClickHandlerToLayer(layer) {
     });
 }
 
-// Eventlistener för att stänga popup-panelen när man klickar utanför den
+// Eventlyssnare för att stänga popup-panelen när man klickar utanför den
 document.addEventListener('click', function(event) {
-    // Kontrollera om klicket är utanför popup-panelen
-    if (popupPanel.style.visibility === 'visible' && !popupPanel.contains(event.target)) {
-        hidePopupPanel(); // Dölj panelen om klicket är utanför och panelen är synlig
+    // Kontrollera om popup-panelen är synlig och om klicket var utanför panelen
+    if (popupPanelVisible && !popupPanel.contains(event.target)) {
+        hidePopupPanel(); // Dölj panelen om den är synlig och klicket var utanför
     }
 });
