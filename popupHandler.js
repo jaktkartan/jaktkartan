@@ -36,23 +36,6 @@ function updatePopupPanelContent(properties) {
         }
     }
 
-
-// Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
-function updatePopupPanelContent(properties) {
-    var panelContent = document.getElementById('popup-panel-content');
-    if (!panelContent) {
-        console.error("Elementet 'popup-panel-content' hittades inte.");
-        return;
-    }
-
-    var content = '';
-    for (var key in properties) {
-        if (properties.hasOwnProperty(key)) {
-            var value = properties[key];
-            content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
-        }
-    }
-
     panelContent.innerHTML = content;
     showPopupPanel(); // Visa panelen när innehåll uppdateras
 }
