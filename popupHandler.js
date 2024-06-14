@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var map;
     var mapInitialized = false;
 
-    if (mapElement && !mapInitialized) {
+    if (mapElement && !mapElement._leaflet_id) { // Kontrollera om kartan redan finns
         console.log("Initializing map...");
 
         map = L.map(mapElement, {
