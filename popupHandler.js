@@ -24,10 +24,15 @@ popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition f�
 // Håll koll på om popup-panelen är synlig eller inte
 var popupPanelVisible = false;
 
+// Hämta referens till popup-panelen
+var popupPanel = document.getElementById('popup-panel');
+
 // Funktion för att visa popup-panelen
 function showPopupPanel() {
     popupPanel.style.display = 'block'; // Visa panelen
-    popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
+    setTimeout(function() {
+        popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
+    }, 10); // Vänta 10 millisekunder innan att tillämpa transform
     popupPanelVisible = true; // Uppdatera flaggan när panelen visas
 }
 
