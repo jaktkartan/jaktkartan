@@ -19,6 +19,7 @@ popupPanel.style.borderTopRightRadius = '10px'; // Rundar övre högra hörnet
 popupPanel.style.fontFamily = "'Roboto', sans-serif"; // Använder Roboto-typsnittet
 popupPanel.style.color = 'rgb(50, 94, 88)';
 popupPanel.style.transform = 'translateY(100%)'; // Startposition för transition
+popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition-effekt
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
@@ -40,20 +41,20 @@ function updatePopupPanelContent(properties) {
     showPopupPanel(); // Visa panelen när innehåll uppdateras
 }
 
-// Funktion för att dölja panelen
+// Funktion för att dölja panelen med animation
 function hidePopupPanel() {
-    var panel = document.getElementById('popup-panel');
-    if (panel) {
-        panel.style.display = 'none';
-    }
+    popupPanel.style.transform = 'translateY(100%)'; // Flytta panelen nedåt
+    setTimeout(function() {
+        popupPanel.style.display = 'none'; // Dölj panelen efter animationen
+    }, 300); // Vänta 0.3 sekunder för att slutföra animationen
 }
 
-// Funktion för att visa panelen
+// Funktion för att visa panelen med animation
 function showPopupPanel() {
-    var panel = document.getElementById('popup-panel');
-    if (panel) {
-        panel.style.display = 'block';
-    }
+    popupPanel.style.display = 'block'; // Visa panelen
+    setTimeout(function() {
+        popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
+    }, 10); // Vänta 10 millisekunder innan att tillämpa transform
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
@@ -79,3 +80,4 @@ var geojsonFeature = {
 
 var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
 addClickHandlerToLayer(geojsonLayer);
+
