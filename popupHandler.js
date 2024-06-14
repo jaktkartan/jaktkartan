@@ -42,7 +42,7 @@ function showPopupPanel(properties) {
 
 // Funktion för att dölja popup-panelen
 function hidePopupPanel() {
-    // Dölj popup-panelen
+    // Dölj popup-panelen med en animation
     popupPanel.style.transform = 'translateY(100%)';
     popupPanelVisible = false;
 
@@ -90,4 +90,3 @@ function addClickHandlerToLayer(layer) {
         }
     });
 }
-
