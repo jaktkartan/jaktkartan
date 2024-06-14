@@ -20,13 +20,16 @@ popupPanel.style.fontFamily = "'Roboto', sans-serif"; // Använder Roboto-typsni
 popupPanel.style.color = 'rgb(50, 94, 88)';
 popupPanel.style.transform = 'translateY(100%)'; // Startposition för transition
 popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition för animation
-popupPanel.style.display = 'none'; // Dölj panelen som standard
 
-// Funktion för att uppdatera panelens innehåll baserat på geojson-objektets egenskaper
+// Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
     var panelContent = document.getElementById('popup-panel-content');
-    var content = '';
+    if (!panelContent) {
+        console.error("Elementet 'popup-panel-content' hittades inte.");
+        return;
+    }
 
+    var content = '';
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
@@ -35,11 +38,7 @@ function updatePopupPanelContent(properties) {
     }
 
     panelContent.innerHTML = content;
-}
-
-// Funktion för att visa panelen när användaren trycker på ett geojson-objekt
-function showPopupPanel() {
-    popupPanel.style.display = 'block';
+    showPopupPanel(); // Visa panelen när innehåll uppdateras
 }
 
 // Funktion för att dölja panelen med animation
@@ -56,20 +55,4 @@ function showPopupPanel() {
     setTimeout(function() {
         popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
     }, 10); // Vänta 10 millisekunder innan att tillämpa transform
-}
-
-// Funktion för att lägga till klickhanterare till geojson-lagret
-function addClickHandlerToLayer(layer) {
-    layer.on('click', function(e) {
-        var properties = e.target.feature.properties;
-        updatePopupPanelContent(properties);
-    });
-}
-
-// Kontrollera om map-objektet är definierat globalt
-if (typeof map !== 'undefined') {
-    var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
-    addClickHandlerToLayer(geojsonLayer);
-} else {
-    console.error("Map-objektet är inte definierat.");
 }
