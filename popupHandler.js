@@ -19,7 +19,7 @@ popupPanel.style.borderTopRightRadius = '10px'; // Rundar övre högra hörnet
 popupPanel.style.fontFamily = "'Roboto', sans-serif"; // Använder Roboto-typsnittet
 popupPanel.style.color = 'rgb(50, 94, 88)';
 popupPanel.style.transform = 'translateY(100%)'; // Startposition för transition
-popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition-effekt
+popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition för animation
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
@@ -78,6 +78,10 @@ var geojsonFeature = {
     }
 };
 
-var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
-addClickHandlerToLayer(geojsonLayer);
-
+// Kontrollera om map-objektet är definierat globalt
+if (typeof map !== 'undefined') {
+    var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
+    addClickHandlerToLayer(geojsonLayer);
+} else {
+    console.error("Map-objektet är inte definierat.");
+}
