@@ -74,10 +74,22 @@ function addClickHandlerToLayer(layer) {
     });
 }
 
-// Eventlyssnare för att stänga popup-panelen när man klickar utanför den
+// Eventlyssnare för att stänga popup-panelen när man klickar utanför den eller på ett annat geojson-objekt
 document.addEventListener('click', function(event) {
-    // Kontrollera om popup-panelen är synlig och om klicket var utanför panelen
-    if (popupPanelVisible && !popupPanel.contains(event.target)) {
-        hidePopupPanel(); // Dölj panelen om den är synlig och klicket var utanför
+    // Kontrollera om popup-panelen är synlig
+    if (popupPanelVisible) {
+        // Kontrollera om klicket var utanför panelen eller på ett annat geojson-objekt
+        if (!popupPanel.contains(event.target) && !isGeoJsonFeatureClick(event)) {
+            hidePopupPanel(); // Dölj panelen om den är synlig och klicket var utanför
+        }
     }
 });
+
+// Funktion för att kontrollera om klicket var på ett geojson-objekt
+function isGeoJsonFeatureClick(event) {
+    // Implementera logik för att avgöra om klicket var på ett geojson-objekt
+    // Exempel: 
+    // Om du har en geojson-lager-variabel kan du använda den för att kontrollera om klicket träffade ett geojson-objekt
+    // Exempel: return geojsonLayer.someFunctionToCheckIfClickIsOnFeature(event);
+    return false; // Ersätt med din logik
+}
