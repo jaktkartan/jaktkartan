@@ -20,8 +20,6 @@ function updatePopupPanelContent(properties) {
         return;
     }
 
-    console.log("Uppdaterar panelinnehåll med egenskaper:", properties);
-
     var content = '';
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
@@ -31,9 +29,6 @@ function updatePopupPanelContent(properties) {
     }
 
     panelContent.innerHTML = content;
-
-    console.log("Panelinnehåll uppdaterat:", content);
-
     showPopupPanel(); // Visa panelen när innehåll uppdateras
 }
 
@@ -47,21 +42,32 @@ function hidePopupPanel() {
 
 // Funktion för att visa panelen
 function showPopupPanel() {
-    console.log("showPopupPanel() anropad"); // Lägg till en loggning här för att kontrollera att funktionen anropas
     var panel = document.getElementById('popup-panel');
-    console.log("Popup panel element:", panel); // Logga panel-elementet
     if (panel) {
-        console.log("Visar popup-panelen");
         panel.style.display = 'block';
-        console.log("Popup-panelens display-status:", panel.style.display);
     }
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
-        console.log("Geojson-objekt klickat:", e.target.feature.properties); // Kontrollmeddelande
         var properties = e.target.feature.properties;
         updatePopupPanelContent(properties);
     });
 }
+
+// Exempel på användning med en geojson-layer
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Exempelobjekt",
+        "description": "Detta är ett exempel på ett geojson-objekt."
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [15.0, 62.0]
+    }
+};
+
+var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
+addClickHandlerToLayer(geojsonLayer);
