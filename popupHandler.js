@@ -1,8 +1,8 @@
 // Stilar för popup-panelen
 var popupPanel = document.getElementById('popup-panel');
 popupPanel.style.position = 'fixed';
-popupPanel.style.bottom = '10px';
-popupPanel.style.left = '10px';
+popupPanel.style.bottom = '0px';
+popupPanel.style.left = '0px';
 popupPanel.style.width = '100%'; // Ändrat från calc(100%)
 popupPanel.style.maxHeight = '40%';
 popupPanel.style.backgroundColor = '#fff';
