@@ -3,7 +3,7 @@ var popupPanel = document.getElementById('popup-panel');
 popupPanel.style.position = 'fixed';
 popupPanel.style.bottom = '0px';
 popupPanel.style.left = '0px';
-popupPanel.style.width = '100%'; // Ändrat från calc(100%)
+popupPanel.style.width = '100%';
 popupPanel.style.maxHeight = '40%';
 popupPanel.style.backgroundColor = '#fff';
 popupPanel.style.borderTop = '5px solid rgb(50, 94, 88)';
@@ -13,10 +13,10 @@ popupPanel.style.padding = '10px';
 popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
 popupPanel.style.zIndex = '1000';
 popupPanel.style.display = 'none';
-popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
-popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
-popupPanel.style.borderTopLeftRadius = '10px'; // Rundar övre vänstra hörnet
-popupPanel.style.borderTopRightRadius = '10px'; // Rundar övre högra hörnet
+popupPanel.style.overflowY = 'auto';
+popupPanel.style.wordWrap = 'break-word';
+popupPanel.style.borderTopLeftRadius = '10px';
+popupPanel.style.borderTopRightRadius = '10px';
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
@@ -40,27 +40,32 @@ function updatePopupPanelContent(properties) {
 
 // Funktion för att dölja panelen
 function hidePopupPanel() {
-    var panel = document.getElementById('popup-panel');
-    if (panel) {
-        panel.style.display = 'none';
-    }
+    popupPanel.style.display = 'none';
 }
 
 // Funktion för att visa panelen
 function showPopupPanel() {
-    var panel = document.getElementById('popup-panel');
-    if (panel) {
-        panel.style.display = 'block';
-    }
+    popupPanel.style.display = 'block';
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
-        var properties = e.target.feature.properties;
+        var properties = e.layer.feature.properties;
         updatePopupPanelContent(properties);
     });
 }
+
+// Lägg till händelselyssnare på kartan för att dölja panelen vid klick utanför
+map.on('click', function(event) {
+    if (popupPanel.style.display === 'block') {
+        var isClickInside = popupPanel.contains(event.target);
+
+        if (!isClickInside) {
+            hidePopupPanel();
+        }
+    }
+});
 
 // Exempel på användning med en geojson-layer
 var geojsonFeature = {
