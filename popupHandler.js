@@ -68,3 +68,11 @@ function addClickHandlerToLayer(layer) {
         }
     });
 }
+
+// Eventlistener för att stänga popup-panelen när man klickar utanför den
+document.addEventListener('click', function(event) {
+    // Kontrollera om klicket är utanför popup-panelen
+    if (!popupPanel.contains(event.target)) {
+        hidePopupPanel(); // Dölj panelen om klicket är utanför
+    }
+});
