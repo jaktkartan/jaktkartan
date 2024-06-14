@@ -52,9 +52,7 @@ function hidePopupPanel() {
 // Funktion för att visa panelen med animation
 function showPopupPanel() {
     popupPanel.style.display = 'block'; // Visa panelen
-    setTimeout(function() {
-        popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
-    }, 10); // Vänta 10 millisekunder innan att tillämpa transform
+    popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
@@ -72,7 +70,7 @@ function addClickHandlerToLayer(layer) {
 // Eventlistener för att stänga popup-panelen när man klickar utanför den
 document.addEventListener('click', function(event) {
     // Kontrollera om klicket är utanför popup-panelen
-    if (!popupPanel.contains(event.target)) {
-        hidePopupPanel(); // Dölj panelen om klicket är utanför
+    if (popupPanel.style.display === 'block' && !popupPanel.contains(event.target)) {
+        hidePopupPanel(); // Dölj panelen om klicket är utanför och panelen är synlig
     }
 });
