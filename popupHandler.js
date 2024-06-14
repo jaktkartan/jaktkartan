@@ -3,7 +3,7 @@ var popupPanel = document.getElementById('popup-panel');
 popupPanel.style.position = 'fixed';
 popupPanel.style.bottom = '0px';
 popupPanel.style.left = '0px';
-popupPanel.style.width = '100%'; // Ändrat från calc(100%)
+popupPanel.style.width = '100%';
 popupPanel.style.maxHeight = '40%';
 popupPanel.style.backgroundColor = '#fff';
 popupPanel.style.borderTop = '5px solid rgb(50, 94, 88)';
@@ -13,10 +13,10 @@ popupPanel.style.padding = '10px';
 popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
 popupPanel.style.zIndex = '1000';
 popupPanel.style.display = 'none';
-popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
-popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
-popupPanel.style.borderTopLeftRadius = '10px'; // Rundar övre vänstra hörnet
-popupPanel.style.borderTopRightRadius = '10px'; // Rundar övre högra hörnet
+popupPanel.style.overflowY = 'auto';
+popupPanel.style.wordWrap = 'break-word';
+popupPanel.style.borderTopLeftRadius = '10px';
+popupPanel.style.borderTopRightRadius = '10px';
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
@@ -62,18 +62,19 @@ function addClickHandlerToLayer(layer) {
     });
 }
 
-// Exempel på användning med en geojson-layer
-var geojsonFeature = {
-    "type": "Feature",
-    "properties": {
-        "name": "Exempelobjekt",
-        "description": "Detta är ett exempel på ett geojson-objekt."
-    },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [15.0, 62.0]
+// Lägg till eventlistener för att dölja panelen vid klick utanför den
+document.addEventListener('click', function(event) {
+    var isClickInside = popupPanel.contains(event.target);
+
+    if (!isClickInside) {
+        hidePopupPanel();
     }
-};
+});
+
+// Stoppa klick på panelen från att bubbla upp till dokumentet
+popupPanel.addEventListener('click', function(event) {
+    event.stopPropagation();
+});
 
 var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
 addClickHandlerToLayer(geojsonLayer);
