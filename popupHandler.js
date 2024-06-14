@@ -20,16 +20,13 @@ popupPanel.style.fontFamily = "'Roboto', sans-serif"; // Använder Roboto-typsni
 popupPanel.style.color = 'rgb(50, 94, 88)';
 popupPanel.style.transform = 'translateY(100%)'; // Startposition för transition
 popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition för animation
+popupPanel.style.display = 'none'; // Dölj panelen som standard
 
-// Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
+// Funktion för att uppdatera panelens innehåll baserat på geojson-objektets egenskaper
 function updatePopupPanelContent(properties) {
     var panelContent = document.getElementById('popup-panel-content');
-    if (!panelContent) {
-        console.error("Elementet 'popup-panel-content' hittades inte.");
-        return;
-    }
-
     var content = '';
+
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
@@ -38,7 +35,11 @@ function updatePopupPanelContent(properties) {
     }
 
     panelContent.innerHTML = content;
-    showPopupPanel(); // Visa panelen när innehåll uppdateras
+}
+
+// Funktion för att visa panelen när användaren trycker på ett geojson-objekt
+function showPopupPanel() {
+    popupPanel.style.display = 'block';
 }
 
 // Funktion för att dölja panelen med animation
