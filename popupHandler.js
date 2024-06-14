@@ -13,6 +13,8 @@ popupPanel.style.zIndex = '1000';
 popupPanel.style.display = 'none';
 popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
 popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
+popupPanel.style.borderTopLeftRadius = '10px'; // Rundar övre vänstra hörnet
+popupPanel.style.borderTopRightRadius = '10px'; // Rundar övre högra hörnet
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
