@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -130,7 +130,7 @@
                 popupAnchor: [0, 0],
             });
 
-                        function createPulsingCircle(lat, lon) {
+            function createPulsingCircle(lat, lon) {
                 var divIcon = L.divIcon({
                     className: 'pulsing-circle',
                     iconSize: [12, 12],
@@ -257,13 +257,30 @@
                 panelContent.innerHTML = content;
             }
 
-            // Exempel på anrop till funktionerna (anpassa efter behov)
+            // Exempel på anrop till funktionen (anpassa efter behov)
             function addClickHandlerToLayer(layer) {
                 layer.on('click', function (e) {
                     showPopupPanel();
                     updatePopupPanelContent(e.target.feature.properties);
                 });
             }
-        </script>
-    </body>
+
+            // Exempel på användning med en geojson-layer
+            var geojsonFeature = {
+                "type": "Feature",
+                "properties": {
+                    "name": "Exempelobjekt",
+                    "description": "Detta är ett exempel på ett geojson-objekt."
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [15.0, 62.0]
+                }
+            };
+
+            var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
+            addClickHandlerToLayer(geojsonLayer);
+        });
+    </script>
+</body>
 </html>
