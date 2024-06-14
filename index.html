@@ -157,7 +157,12 @@
                 }
 
                 if (!userMarker) {
-                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+                    userMarker = L.marker([lat, lon], { icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/ikon3.png',
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 15],
+                        popupAnchor: [0, -15]
+                    }) }).addTo(map);
                 } else {
                     userMarker.setLatLng([lat, lon]);
                 }
@@ -167,96 +172,30 @@
                 } else {
                     pulsingDotMarker.setLatLng([lat, lon]);
                 }
-
-                var times = SunCalc.getTimes(new Date(), lat, lon);
-                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunriseSpan = document.getElementById('sunrise');
-                var sunsetSpan = document.getElementById('sunset');
-
-                sunriseSpan.innerHTML = sunrise;
-                sunsetSpan.innerHTML = sunset;
             }
 
-            function getPositionFromIP() {
-                axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                    .then(function (response) {
-                        var loc = response.data.loc.split(',');
-                        var lat = parseFloat(loc[0]);
-                        var lon = parseFloat(loc[1]);
-                        updateUserPosition(lat, lon, "Unknown");
-                    })
-                    .catch(function (error) {
-                        console.log("IP Geolocation failed: " + error.message);
-                    });
+            function onLocationFound(e) {
+                var radius = e.accuracy;
+                updateUserPosition(e.latlng.lat, e.latlng.lng, radius);
             }
 
-            function handleGeolocation(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-                var accuracy = position.coords.accuracy;
-                updateUserPosition(lat, lon, accuracy.toFixed(2));
+            function onLocationError(e) {
+                console.error(e.message);
             }
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                        getPositionFromIP();
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
+            map.on('locationfound', onLocationFound);
+            map.on('locationerror', onLocationError);
 
-                navigator.geolocation.watchPosition(
-                    function (position) {
-                        handleGeolocation(position);
-                    },
-                    function (error) {
-                        console.log("Geolocation failed: " + error.message);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-            } else {
-                map.setView([62.0, 15.0], 5);
-            }
-        });
+            map.locate({setView: true, maxZoom: 16, watch: true, enableHighAccuracy: true});
 
-        // Funktion för att visa panelen när användaren trycker på ett geojson-objekt
-        function showPopupPanel() {
-            var panel = document.getElementById('popup-panel');
-            panel.style.display = 'block';
-        }
-
-        // Funktion för att dölja panelen
-        function hidePopupPanel() {
-            var panel = document.getElementById('popup-panel');
-            panel.style.display = 'none';
-        }
-
-        // Funktion för att uppdatera panelens innehåll baserat på geojson-objektets egenskaper
-        function updatePopupPanelContent(properties) {
-            var panelContent = document.getElementById('popup-panel-content');
-            var content = '';
-
-            for (var key in properties) {
-                if (properties.hasOwnProperty(key)) {
-                    var value = properties[key];
-                    content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
+            // Lägg till ditt geojson-lager här och anropa addClickHandlerToLayer
+            var geojsonData = {}; // Se till att geojsonData är definierat med rätt data
+            var geojsonLayer = L.geoJson(geojsonData, {
+                onEachFeature: function (feature, layer) {
+                    addClickHandlerToLayer(layer);
                 }
-            }
-
-            panelContent.innerHTML = content;
-        }
+            }).addTo(map);
+        });
     </script>
 </body>
 </html>
