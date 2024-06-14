@@ -21,7 +21,21 @@ popupPanel.style.color = 'rgb(50, 94, 88)';
 popupPanel.style.transform = 'translateY(100%)'; // Startposition för transition
 popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition för animation
 
-var popupPanelVisible = false; // Flagga för att hålla koll på om popup-panelen är synlig
+// Håll koll på om popup-panelen är synlig eller inte
+var popupPanelVisible = false;
+
+// Funktion för att visa popup-panelen
+function showPopupPanel() {
+    popupPanel.style.display = 'block'; // Visa panelen
+    popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
+    popupPanelVisible = true; // Uppdatera flaggan när panelen visas
+}
+
+// Funktion för att dölja popup-panelen
+function hidePopupPanel() {
+    popupPanel.style.transform = 'translateY(100%)'; // Flytta panelen nedåt
+    popupPanelVisible = false; // Uppdatera flaggan när panelen göms
+}
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
@@ -41,19 +55,6 @@ function updatePopupPanelContent(properties) {
 
     panelContent.innerHTML = content;
     showPopupPanel(); // Visa panelen när innehåll uppdateras
-}
-
-// Funktion för att dölja panelen med animation
-function hidePopupPanel() {
-    popupPanel.style.transform = 'translateY(100%)'; // Flytta panelen nedåt
-    popupPanelVisible = false; // Uppdatera flaggan när panelen göms
-}
-
-// Funktion för att visa panelen med animation
-function showPopupPanel() {
-    popupPanel.style.display = 'block'; // Visa panelen
-    popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
-    popupPanelVisible = true; // Uppdatera flaggan när panelen visas
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
