@@ -24,35 +24,33 @@ popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition f�
 // Håll koll på om popup-panelen är synlig eller inte
 var popupPanelVisible = false;
 
-// Hämta referens till popup-panelen
+// Referens till popup-panelen
 var popupPanel = document.getElementById('popup-panel');
 
-// Funktion för att visa popup-panelen
+// Funktion för att visa popup-panelen med specifika egenskaper
 function showPopupPanel(properties) {
-    updatePopupPanelContent(properties); // Uppdatera panelens innehåll
-    popupPanel.style.display = 'block'; // Visa panelen
-    setTimeout(function() {
-        popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
-    }, 10); // Vänta 10 millisekunder innan att tillämpa transform
-    popupPanelVisible = true; // Uppdatera flaggan när panelen visas
+    updatePopupPanelContent(properties); // Uppdatera innehåll baserat på egenskaper
 
-    // Lägg till eventlyssnare för att stänga panelen när man klickar utanför den
+    // Visa popup-panelen
+    popupPanel.style.display = 'block';
+    popupPanel.style.transform = 'translateY(0%)';
+    popupPanelVisible = true;
+
+    // Lägg till eventlyssnare för att stänga panelen vid klick utanför
     document.addEventListener('click', clickOutsideHandler);
 }
 
 // Funktion för att dölja popup-panelen
 function hidePopupPanel() {
-    popupPanel.style.transform = 'translateY(100%)'; // Flytta panelen nedåt
-    setTimeout(function() {
-        popupPanel.style.display = 'none'; // Dölj panelen efter animationen
-    }, 300); // Vänta 0.3 sekunder för att slutföra animationen
-    popupPanelVisible = false; // Uppdatera flaggan när panelen göms
+    // Dölj popup-panelen
+    popupPanel.style.transform = 'translateY(100%)';
+    popupPanelVisible = false;
 
-    // Ta bort eventlyssnare för att stänga panelen när man klickar utanför den
+    // Ta bort eventlyssnare för att undvika onödiga klickhanterare
     document.removeEventListener('click', clickOutsideHandler);
 }
 
-// Eventlyssnare för att stänga popup-panelen när man klickar utanför den
+// Eventlyssnare för att stänga popup-panelen vid klick utanför
 function clickOutsideHandler(event) {
     // Kontrollera om klicket var utanför popup-panelen
     if (!popupPanel.contains(event.target)) {
@@ -60,7 +58,7 @@ function clickOutsideHandler(event) {
     }
 }
 
-// Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
+// Funktion för att uppdatera panelens innehåll baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
     var panelContent = document.getElementById('popup-panel-content');
     if (!panelContent) {
@@ -68,6 +66,7 @@ function updatePopupPanelContent(properties) {
         return;
     }
 
+    // Uppdatera innehållet baserat på egenskaperna från geojson-objektet
     var content = '';
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
@@ -76,6 +75,7 @@ function updatePopupPanelContent(properties) {
         }
     }
 
+    // Uppdatera panelens innehåll
     panelContent.innerHTML = content;
 }
 
@@ -90,3 +90,4 @@ function addClickHandlerToLayer(layer) {
         }
     });
 }
+
