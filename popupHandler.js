@@ -1,24 +1,24 @@
-// Stilar för popup-panelen
-var popupPanel = document.getElementById('popup-panel');
-popupPanel.style.position = 'fixed';
-popupPanel.style.bottom = '0px';
-popupPanel.style.left = '0px';
-popupPanel.style.width = '100%'; // Ändrat från calc(100%)
-popupPanel.style.maxHeight = '40%';
-popupPanel.style.backgroundColor = '#fff';
-popupPanel.style.borderTop = '5px solid rgb(50, 94, 88)';
-popupPanel.style.padding = '10px';
-popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
-popupPanel.style.zIndex = '1000';
-popupPanel.style.display = 'none';
-popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
-popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
-
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Popup handler script loaded.");
 
     var mapElement = document.getElementById('map');
     var map;
+
+    // Stilar för popup-panelen
+    var popupPanel = document.getElementById('popup-panel');
+    popupPanel.style.position = 'fixed';
+    popupPanel.style.bottom = '0px';
+    popupPanel.style.left = '0px';
+    popupPanel.style.width = '100%'; // Ändrat från calc(100%)
+    popupPanel.style.maxHeight = '40%';
+    popupPanel.style.backgroundColor = '#fff';
+    popupPanel.style.borderTop = '5px solid rgb(50, 94, 88)';
+    popupPanel.style.padding = '10px';
+    popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+    popupPanel.style.zIndex = '1000';
+    popupPanel.style.display = 'none';
+    popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
+    popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
 
     if (mapElement) {
         if (!mapElement._leaflet_id) { // Kontrollera om kartan redan är initialiserad
@@ -35,8 +35,6 @@ document.addEventListener("DOMContentLoaded", function() {
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
-
-            var popupPanel = document.getElementById('popup-panel');
 
             function showPopupPanel() {
                 popupPanel.style.display = 'block';
