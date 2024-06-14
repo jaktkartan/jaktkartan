@@ -6,17 +6,13 @@ popupPanel.style.left = '0px';
 popupPanel.style.width = '100%'; // Ändrat från calc(100%)
 popupPanel.style.maxHeight = '40%';
 popupPanel.style.backgroundColor = '#fff';
-popupPanel.style.border = '1px solid #ccc';
+popupPanel.style.border = '20px solid #ccc';
 popupPanel.style.padding = '10px';
 popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
 popupPanel.style.zIndex = '1000';
 popupPanel.style.display = 'none';
 popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
 popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
-
-// Stilar för popup-panelens innehåll
-var popupPanelContent = document.getElementById('popup-panel-content');
-popupPanelContent.style.padding = '20px'; // Padding runt hela innehållet
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
