@@ -51,6 +51,7 @@ function hidePopupPanel() {
 
 // Funktion för att visa panelen med animation
 function showPopupPanel() {
+    popupPanel.style.display = 'block'; // Visa panelen
     popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
     popupPanelVisible = true; // Uppdatera flaggan när panelen visas
 }
