@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Popup handler script loaded.");
 
-    setTimeout(function() {
-        var mapElement = document.getElementById('map');
-        var map;
+    var mapElement = document.getElementById('map');
+    var map;
 
-        if (mapElement && !mapElement._leaflet_id) {
+    if (mapElement) {
+        if (!mapElement._leaflet_id) { // Kontrollera om kartan redan är initialiserad
             console.log("Initializing map...");
 
             map = L.map(mapElement, {
@@ -76,7 +76,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
         } else {
-            console.error("Kart-elementet 'map' kunde inte hittas eller kartan är redan initialiserad.");
+            console.error("Kartan är redan initialiserad.");
         }
-    }, 500); // Fördröj initialiseringen med 500 ms för att säkerställa att DOM är redo
+    } else {
+        console.error("Kart-elementet 'map' kunde inte hittas.");
+    }
 });
