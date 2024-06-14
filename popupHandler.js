@@ -3,8 +3,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var mapElement = document.getElementById('map');
     var map;
+    var mapInitialized = false;
 
-    if (mapElement) {
+    if (mapElement && !mapInitialized) {
+        console.log("Initializing map...");
+
         map = L.map(mapElement, {
             zoomControl: false
         }).setView([62.0, 15.0], 5);
@@ -78,7 +81,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         });
+
+        // Markera att kartan är initialiserad
+        mapInitialized = true;
     } else {
-        console.error("Kart-elementet 'map' kunde inte hittas.");
+        console.error("Kart-elementet 'map' kunde inte hittas eller kartan är redan initialiserad.");
     }
 });
