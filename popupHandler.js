@@ -14,7 +14,9 @@ popupPanel.style.display = 'none';
 popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
 popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
 
-
+// Stilar för popup-panelens innehåll
+var popupPanelContent = document.getElementById('popup-panel-content');
+popupPanelContent.style.padding = '20px'; // Padding runt hela innehållet
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
