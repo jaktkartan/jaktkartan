@@ -52,7 +52,9 @@ function hidePopupPanel() {
 // Funktion för att visa panelen med animation
 function showPopupPanel() {
     popupPanel.style.display = 'block'; // Visa panelen
-    popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
+    setTimeout(function() {
+        popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
+    }, 10); // Vänta 10 millisekunder innan att tillämpa transform
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
