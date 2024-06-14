@@ -1,16 +1,19 @@
 // Stilar för popup-panelen
 var popupPanel = document.getElementById('popup-panel');
-popupPanel.style.position = 'absolute';
+popupPanel.style.position = 'fixed';
 popupPanel.style.bottom = '10px';
 popupPanel.style.left = '10px';
 popupPanel.style.width = 'calc(100% - 20px)';
-popupPanel.style.maxWidth = '300px';
+popupPanel.style.maxHeight = '40%';
 popupPanel.style.backgroundColor = '#fff';
 popupPanel.style.border = '1px solid #ccc';
 popupPanel.style.padding = '10px';
 popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
 popupPanel.style.zIndex = '1000';
 popupPanel.style.display = 'none';
+popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
+popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
+
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
