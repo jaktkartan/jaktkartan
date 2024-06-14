@@ -35,6 +35,9 @@ function showPopupPanel(properties) {
         popupPanel.style.transform = 'translateY(0%)'; // Flytta panelen uppåt
     }, 10); // Vänta 10 millisekunder innan att tillämpa transform
     popupPanelVisible = true; // Uppdatera flaggan när panelen visas
+
+    // Lägg till eventlyssnare för att stänga panelen när man klickar utanför den
+    document.addEventListener('click', clickOutsideHandler);
 }
 
 // Funktion för att dölja popup-panelen
@@ -44,6 +47,17 @@ function hidePopupPanel() {
         popupPanel.style.display = 'none'; // Dölj panelen efter animationen
     }, 300); // Vänta 0.3 sekunder för att slutföra animationen
     popupPanelVisible = false; // Uppdatera flaggan när panelen göms
+
+    // Ta bort eventlyssnare för att stänga panelen när man klickar utanför den
+    document.removeEventListener('click', clickOutsideHandler);
+}
+
+// Eventlyssnare för att stänga popup-panelen när man klickar utanför den
+function clickOutsideHandler(event) {
+    // Kontrollera om klicket var utanför popup-panelen
+    if (!popupPanel.contains(event.target)) {
+        hidePopupPanel(); // Dölj panelen om klicket var utanför
+    }
 }
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
@@ -63,26 +77,6 @@ function updatePopupPanelContent(properties) {
     }
 
     panelContent.innerHTML = content;
-}
-
-// Eventlyssnare för att stänga popup-panelen när man klickar utanför den eller på ett annat geojson-objekt
-document.addEventListener('click', function(event) {
-    // Kontrollera om popup-panelen är synlig
-    if (popupPanelVisible) {
-        // Kontrollera om klicket var utanför panelen eller på ett annat geojson-objekt
-        if (!popupPanel.contains(event.target) && !isGeoJsonFeatureClick(event)) {
-            hidePopupPanel(); // Dölj panelen om den är synlig och klicket var utanför
-        }
-    }
-});
-
-// Funktion för att kontrollera om klicket var på ett geojson-objekt
-function isGeoJsonFeatureClick(event) {
-    // Implementera logik för att avgöra om klicket var på ett geojson-objekt
-    // Exempel: 
-    // Om du har en geojson-lager-variabel kan du använda den för att kontrollera om klicket träffade ett geojson-objekt
-    // Exempel: return geojsonLayer.someFunctionToCheckIfClickIsOnFeature(event);
-    return false; // Ersätt med din logik
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
