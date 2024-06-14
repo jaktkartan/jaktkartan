@@ -17,6 +17,7 @@ popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
 popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
 popupPanel.style.borderTopLeftRadius = '10px'; // Rundar övre vänstra hörnet
 popupPanel.style.borderTopRightRadius = '10px'; // Rundar övre högra hörnet
+popupPanel.style.fontFamily = "'Roboto', sans-serif"; // Använder Roboto-typsnittet
 
 // Funktion för att uppdatera panelinnehållet baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
