@@ -22,26 +22,24 @@ popupPanel.style.transform = 'translateY(100%)'; // Startposition för transitio
 popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition för animation
 
 // Referens till popup-panelen
-var currentPopupPanel = null;
+var popupPanel = document.getElementById('popup-panel');
 
-// Funktion för att visa eller uppdatera popup-panelen med specifika egenskaper
-function showOrUpdatePopupPanel(properties) {
-    if (!currentPopupPanel) {
+// Funktion för att visa popup-panelen med specifika egenskaper
+function showPopupPanel(properties) {
+    if (!popupPanel) {
         createPopupPanel(properties);
     } else {
-        // Uppdatera den befintliga panelen med nya egenskaper
         updatePopupPanelContent(properties);
+        popupPanel.style.display = 'block';
     }
 }
 
-// Funktion för att skapa en ny popup-panel med givna egenskaper
+// Funktion för att skapa popup-panelen med givna egenskaper
 function createPopupPanel(properties) {
-    // Skapa en ny panel
-    var popupPanel = document.createElement('div');
+    popupPanel = document.createElement('div');
     popupPanel.id = 'popup-panel';
     popupPanel.className = 'popup-panel';
-    
-    // Lägg till innehåll i panelen
+
     var content = '<div id="popup-panel-content">';
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
@@ -61,33 +59,29 @@ function createPopupPanel(properties) {
     });
     popupPanel.appendChild(closeButton);
 
-    // Visa panelen och uppdatera flaggan för den aktuella panelen
+    // Lägg till panelen till body
     document.body.appendChild(popupPanel);
-    currentPopupPanel = popupPanel;
 }
 
-// Funktion för att uppdatera innehållet i en befintlig popup-panel
+// Funktion för att uppdatera innehållet i popup-panelen med nya egenskaper
 function updatePopupPanelContent(properties) {
-    if (currentPopupPanel) {
-        var panelContent = currentPopupPanel.querySelector('#popup-panel-content');
-        if (panelContent) {
-            var content = '';
-            for (var key in properties) {
-                if (properties.hasOwnProperty(key)) {
-                    var value = properties[key];
-                    content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
-                }
+    var panelContent = popupPanel.querySelector('#popup-panel-content');
+    if (panelContent) {
+        var content = '';
+        for (var key in properties) {
+            if (properties.hasOwnProperty(key)) {
+                var value = properties[key];
+                content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
             }
-            panelContent.innerHTML = content;
         }
+        panelContent.innerHTML = content;
     }
 }
 
 // Funktion för att dölja popup-panelen
 function hidePopupPanel() {
-    if (currentPopupPanel) {
-        currentPopupPanel.style.display = 'none';
-        currentPopupPanel = null; // Nollställ den aktuella panelen
+    if (popupPanel) {
+        popupPanel.style.display = 'none';
     }
 }
 
@@ -97,7 +91,7 @@ function addClickHandlerToLayer(layer) {
         if (e.target && e.target.feature && e.target.feature.properties) {
             var properties = e.target.feature.properties;
             console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
-            showOrUpdatePopupPanel(properties);
+            showPopupPanel(properties);
         } else {
             console.error('Ingen geojson-information hittades i klickhändelsen.');
         }
@@ -106,12 +100,12 @@ function addClickHandlerToLayer(layer) {
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
-    if (currentPopupPanel && !currentPopupPanel.contains(event.target)) {
+    if (popupPanel && !popupPanel.contains(event.target)) {
         hidePopupPanel();
     }
 });
 
 // Kontrollera att popup-panelen och dess innehåll finns i DOM
-if (!document.getElementById('popup-panel') || !document.getElementById('popup-panel-content')) {
+if (!popupPanel || !popupPanel.querySelector('#popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
