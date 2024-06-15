@@ -94,6 +94,7 @@ function addClickHandlerToLayer(layer) {
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
+    // Kontrollera om klicket är på ett geojson-objekt eller i popup-panelen
     if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup') && !event.target.closest('.leaflet-marker-icon')) {
         console.log('Klick utanför popup-panelen, döljer den...');
         hidePopupPanel(); // Dölj panelen om klicket var utanför
