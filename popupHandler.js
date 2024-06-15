@@ -37,9 +37,6 @@ function showPopupPanel(properties) {
         popupPanel.style.transform = 'translateY(0%)';
     }, 10);
     popupPanelVisible = true;
-
-    // Lägg till eventlyssnare för att stänga panelen vid klick utanför
-    document.addEventListener('click', clickOutsideHandler);
 }
 
 // Funktion för att dölja popup-panelen
@@ -50,18 +47,14 @@ function hidePopupPanel() {
         popupPanel.style.display = 'none';
     }, 300);
     popupPanelVisible = false;
-
-    // Ta bort eventlyssnare för att undvika onödiga klickhanterare
-    document.removeEventListener('click', clickOutsideHandler);
 }
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
-function clickOutsideHandler(event) {
-    // Förhindra att stänga panelen om klicket var på panelen
-    if (!popupPanel.contains(event.target) && popupPanelVisible) {
+document.addEventListener('click', function(event) {
+    if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup')) {
         hidePopupPanel(); // Dölj panelen om klicket var utanför
     }
-}
+});
 
 // Funktion för att uppdatera panelens innehåll baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
