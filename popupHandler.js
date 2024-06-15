@@ -32,6 +32,7 @@ function showOrUpdatePopupPanel(properties) {
     updatePopupPanelContent(properties); // Uppdatera innehåll baserat på egenskaper
 
     if (!popupPanelVisible) {
+        console.log('Visar popup-panelen...');
         // Visa popup-panelen
         popupPanel.style.display = 'block';
         setTimeout(function() {
@@ -43,6 +44,7 @@ function showOrUpdatePopupPanel(properties) {
 
 // Funktion för att dölja popup-panelen
 function hidePopupPanel() {
+    console.log('Döljer popup-panelen...');
     // Dölj popup-panelen med en animation
     popupPanel.style.transform = 'translateY(100%)';
     setTimeout(function() {
@@ -93,6 +95,7 @@ function addClickHandlerToLayer(layer) {
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
     if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup') && !event.target.closest('.leaflet-marker-icon')) {
+        console.log('Klick utanför popup-panelen, döljer den...');
         hidePopupPanel(); // Dölj panelen om klicket var utanför
     }
 }, true);
