@@ -57,7 +57,7 @@ function hidePopupPanel() {
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 function clickOutsideHandler(event) {
-    // Kontrollera om klicket var utanför popup-panelen
+    // Förhindra att stänga panelen om klicket var på panelen
     if (!popupPanel.contains(event.target) && popupPanelVisible) {
         hidePopupPanel(); // Dölj panelen om klicket var utanför
     }
