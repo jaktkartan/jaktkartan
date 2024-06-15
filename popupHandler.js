@@ -92,7 +92,7 @@ function addClickHandlerToLayer(layer) {
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
-    if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup')) {
+    if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup') && !event.target.closest('.leaflet-marker-icon')) {
         hidePopupPanel(); // Dölj panelen om klicket var utanför
     }
 }, true);
