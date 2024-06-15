@@ -22,10 +22,9 @@ popupPanel.style.transform = 'translateY(100%)'; // Startposition för transitio
 popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition för animation
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Referens till popup-panelen
-    var popupPanel = document.getElementById('popup-panel');
+    var popupPanel = null; // Global variabel för popup-panelen
 
-    // Funktion för att visa popup-panelen med specifika egenskaper
+    // Funktion för att visa eller skapa popup-panelen med specifika egenskaper
     function showPopupPanel(properties) {
         if (!popupPanel) {
             createPopupPanel(properties);
@@ -52,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         popupPanel.innerHTML = content;
 
-        // Lägg till stängningsknapp
         var closeButton = document.createElement('button');
         closeButton.textContent = 'Stäng';
         closeButton.addEventListener('click', function() {
@@ -60,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         popupPanel.appendChild(closeButton);
 
-        // Lägg till panelen till body
         document.body.appendChild(popupPanel);
     }
 
@@ -102,4 +99,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Exempel: Anropa addClickHandlerToLayer med ditt lager
     var geojsonLayer = L.geoJSON(...); // Ersätt ... med ditt geojson-lager
     addClickHandlerToLayer(geojsonLayer);
+
+    // Eventlyssnare för att dölja popup-panelen när användaren klickar utanför den
+    document.addEventListener('click', function(event) {
+        if (popupPanel && !popupPanel.contains(event.target)) {
+            hidePopupPanel();
+        }
+    });
 });
