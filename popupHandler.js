@@ -35,9 +35,7 @@ function showOrUpdatePopupPanel(properties) {
         console.log('Visar popup-panelen...');
         // Visa popup-panelen
         popupPanel.style.display = 'block';
-        setTimeout(function() {
-            popupPanel.style.transform = 'translateY(0%)';
-        }, 10);
+        popupPanel.style.transform = 'translateY(0%)';
         popupPanelVisible = true;
     }
 }
@@ -47,9 +45,6 @@ function hidePopupPanel() {
     console.log('Döljer popup-panelen...');
     // Dölj popup-panelen med en animation
     popupPanel.style.transform = 'translateY(100%)';
-    setTimeout(function() {
-        popupPanel.style.display = 'none';
-    }, 300);
     popupPanelVisible = false;
 }
 
@@ -97,7 +92,7 @@ document.addEventListener('click', function(event) {
     // Kontrollera om klicket är utanför popup-panelen och geojson-objekten
     if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup') && !event.target.closest('.leaflet-marker-icon')) {
         console.log('Klick utanför popup-panelen, döljer den...');
-        hidePopupPanel(); // Dölj panelen om klicket var utanför
+        hidePopupPanel(); // Dölj panelen
     }
 }, true);
 
