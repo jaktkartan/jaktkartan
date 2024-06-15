@@ -75,6 +75,7 @@ function updatePopupPanelContent(properties) {
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
+        e.originalEvent.stopPropagation(); // Stoppa event propagation
         try {
             if (e.target && e.target.feature && e.target.feature.properties) {
                 var properties = e.target.feature.properties;
