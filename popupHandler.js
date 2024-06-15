@@ -33,7 +33,9 @@ function showPopupPanel(properties) {
 
     // Visa popup-panelen
     popupPanel.style.display = 'block';
-    popupPanel.style.transform = 'translateY(0%)';
+    setTimeout(function() {
+        popupPanel.style.transform = 'translateY(0%)';
+    }, 10);
     popupPanelVisible = true;
 
     // Lägg till eventlyssnare för att stänga panelen vid klick utanför
@@ -44,6 +46,9 @@ function showPopupPanel(properties) {
 function hidePopupPanel() {
     // Dölj popup-panelen med en animation
     popupPanel.style.transform = 'translateY(100%)';
+    setTimeout(function() {
+        popupPanel.style.display = 'none';
+    }, 300);
     popupPanelVisible = false;
 
     // Ta bort eventlyssnare för att undvika onödiga klickhanterare
@@ -53,7 +58,7 @@ function hidePopupPanel() {
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 function clickOutsideHandler(event) {
     // Kontrollera om klicket var utanför popup-panelen
-    if (!popupPanel.contains(event.target)) {
+    if (!popupPanel.contains(event.target) && popupPanelVisible) {
         hidePopupPanel(); // Dölj panelen om klicket var utanför
     }
 }
@@ -82,11 +87,21 @@ function updatePopupPanelContent(properties) {
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
-        if (e.target && e.target.feature && e.target.feature.properties) {
-            var properties = e.target.feature.properties;
-            showPopupPanel(properties); // Visa panelen med aktuella egenskaper
-        } else {
-            console.error('Ingen geojson-information hittades i klickhändelsen.');
+        try {
+            if (e.target && e.target.feature && e.target.feature.properties) {
+                var properties = e.target.feature.properties;
+                console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
+                showPopupPanel(properties); // Visa panelen med aktuella egenskaper
+            } else {
+                console.error('Ingen geojson-information hittades i klickhändelsen.');
+            }
+        } catch (error) {
+            console.error('Fel vid hantering av klickhändelse:', error);
         }
     });
+}
+
+// Kontrollera att popup-panelen finns och har nödvändiga HTML-element
+if (!popupPanel || !document.getElementById('popup-panel-content')) {
+    console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
