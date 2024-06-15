@@ -27,16 +27,18 @@ var popupPanelVisible = false;
 // Referens till popup-panelen
 var popupPanel = document.getElementById('popup-panel');
 
-// Funktion för att visa popup-panelen med specifika egenskaper
-function showPopupPanel(properties) {
+// Funktion för att visa eller uppdatera popup-panelen med specifika egenskaper
+function showOrUpdatePopupPanel(properties) {
     updatePopupPanelContent(properties); // Uppdatera innehåll baserat på egenskaper
 
-    // Visa popup-panelen
-    popupPanel.style.display = 'block';
-    setTimeout(function() {
-        popupPanel.style.transform = 'translateY(0%)';
-    }, 10);
-    popupPanelVisible = true;
+    if (!popupPanelVisible) {
+        // Visa popup-panelen
+        popupPanel.style.display = 'block';
+        setTimeout(function() {
+            popupPanel.style.transform = 'translateY(0%)';
+        }, 10);
+        popupPanelVisible = true;
+    }
 }
 
 // Funktion för att dölja popup-panelen
@@ -77,7 +79,7 @@ function addClickHandlerToLayer(layer) {
             if (e.target && e.target.feature && e.target.feature.properties) {
                 var properties = e.target.feature.properties;
                 console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
-                showPopupPanel(properties); // Visa panelen med aktuella egenskaper
+                showOrUpdatePopupPanel(properties); // Visa eller uppdatera panelen med aktuella egenskaper
             } else {
                 console.error('Ingen geojson-information hittades i klickhändelsen.');
             }
