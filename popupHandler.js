@@ -49,13 +49,6 @@ function hidePopupPanel() {
     popupPanelVisible = false;
 }
 
-// Eventlyssnare för att stänga popup-panelen vid klick utanför
-document.addEventListener('click', function(event) {
-    if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup')) {
-        hidePopupPanel(); // Dölj panelen om klicket var utanför
-    }
-});
-
 // Funktion för att uppdatera panelens innehåll baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
     var panelContent = document.getElementById('popup-panel-content');
@@ -93,6 +86,13 @@ function addClickHandlerToLayer(layer) {
         }
     });
 }
+
+// Eventlyssnare för att stänga popup-panelen vid klick utanför
+document.addEventListener('click', function(event) {
+    if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup')) {
+        hidePopupPanel(); // Dölj panelen om klicket var utanför
+    }
+}, true);
 
 // Kontrollera att popup-panelen finns och har nödvändiga HTML-element
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
