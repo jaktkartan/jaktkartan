@@ -3,7 +3,7 @@ var popupPanel = document.getElementById('popup-panel');
 popupPanel.style.position = 'fixed';
 popupPanel.style.bottom = '0px';
 popupPanel.style.left = '0px';
-popupPanel.style.width = '100%'; // Ändrat från calc(100%)
+popupPanel.style.width = '100%';
 popupPanel.style.maxHeight = '40%';
 popupPanel.style.backgroundColor = '#fff';
 popupPanel.style.borderTop = '5px solid rgb(50, 94, 88)';
@@ -12,21 +12,21 @@ popupPanel.style.borderRight = '5px solid rgb(50, 94, 88)';
 popupPanel.style.padding = '10px';
 popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
 popupPanel.style.zIndex = '1000';
-popupPanel.style.overflowY = 'auto'; // Lägger till scrollbar vid behov
-popupPanel.style.wordWrap = 'break-word'; // Bryter text vid behov
-popupPanel.style.borderTopLeftRadius = '10px'; // Rundar övre vänstra hörnet
-popupPanel.style.borderTopRightRadius = '10px'; // Rundar övre högra hörnet
-popupPanel.style.fontFamily = "'Roboto', sans-serif"; // Använder Roboto-typsnittet
+popupPanel.style.overflowY = 'auto';
+popupPanel.style.wordWrap = 'break-word';
+popupPanel.style.borderTopLeftRadius = '10px';
+popupPanel.style.borderTopRightRadius = '10px';
+popupPanel.style.fontFamily = "'Roboto', sans-serif";
 popupPanel.style.color = 'rgb(50, 94, 88)';
-popupPanel.style.transform = 'translateY(100%)'; // Startposition för transition
-popupPanel.style.transition = 'transform 0.3s ease'; // Lägg till transition för animation
+popupPanel.style.transform = 'translateY(100%)';
+popupPanel.style.transition = 'transform 0.3s ease';
 
 // Håll koll på om popup-panelen är synlig eller inte
 var popupPanelVisible = false;
 
 // Funktion för att visa popup-panelen med specifika egenskaper
 function showPopupPanel(properties) {
-    updatePopupPanelContent(properties); // Uppdatera innehåll baserat på egenskaper
+    updatePopupPanelContent(properties);
 
     // Visa popup-panelen
     popupPanel.style.display = 'block';
@@ -71,13 +71,19 @@ function updatePopupPanelContent(properties) {
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
         try {
+            if (e.originalEvent) {
+                // Stoppa bubbla av klickhändelse för att förhindra att document-click listenern aktiveras
+                e.originalEvent.stopPropagation();
+            }
+
             if (e.target && e.target.feature && e.target.feature.properties) {
                 var properties = e.target.feature.properties;
                 console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
+
                 if (!popupPanelVisible) {
-                    showPopupPanel(properties); // Visa panelen med aktuella egenskaper om den inte redan är synlig
+                    showPopupPanel(properties);
                 } else {
-                    updatePopupPanelContent(properties); // Uppdatera panelens innehåll om den redan är synlig
+                    updatePopupPanelContent(properties);
                 }
             } else {
                 console.error('Ingen geojson-information hittades i klickhändelsen.');
@@ -91,7 +97,7 @@ function addClickHandlerToLayer(layer) {
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
     if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup')) {
-        hidePopupPanel(); // Dölj panelen om klicket var utanför
+        hidePopupPanel();
     }
 }, true);
 
