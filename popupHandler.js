@@ -24,6 +24,9 @@ popupPanel.style.transition = 'transform 0.3s ease';
 // Håll koll på om popup-panelen är synlig eller inte
 var popupPanelVisible = false;
 
+// Flagga för att kontrollera om popup-panelen ska stängas
+var shouldClosePopupPanel = true;
+
 // Funktion för att visa popup-panelen med specifika egenskaper
 function showPopupPanel(properties) {
     updatePopupPanelContent(properties);
@@ -85,6 +88,9 @@ function addClickHandlerToLayer(layer) {
                 } else {
                     updatePopupPanelContent(properties);
                 }
+
+                // Ställ in flaggan så att popup-panelen inte stängs
+                shouldClosePopupPanel = false;
             } else {
                 console.error('Ingen geojson-information hittades i klickhändelsen.');
             }
@@ -96,9 +102,12 @@ function addClickHandlerToLayer(layer) {
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
-    if (popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup')) {
+    if (shouldClosePopupPanel && popupPanelVisible && !popupPanel.contains(event.target) && !event.target.closest('.leaflet-popup')) {
         hidePopupPanel();
     }
+
+    // Reset flaggan för nästa klick
+    shouldClosePopupPanel = true;
 }, true);
 
 // Kontrollera att popup-panelen finns och har nödvändiga HTML-element
