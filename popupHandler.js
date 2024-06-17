@@ -6,9 +6,9 @@ popupPanel.style.left = '0px';
 popupPanel.style.width = '100%';
 popupPanel.style.maxHeight = '40%';
 popupPanel.style.backgroundColor = '#fff';
-popupPanel.style.borderTop = '5px solid rgb(50, 94, 88)';
-popupPanel.style.borderLeft = '5px solid rgb(50, 94, 88)';
-popupPanel.style.borderRight = '5px solid rgb(50, 94, 88)';
+popupPanel.style.borderTop = '5px solid #fff';
+popupPanel.style.borderLeft = '5px solid #fff';
+popupPanel.style.borderRight = '5px solid #fff';
 popupPanel.style.padding = '10px';
 popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
 popupPanel.style.zIndex = '1000';
@@ -17,7 +17,7 @@ popupPanel.style.wordWrap = 'break-word';
 popupPanel.style.borderTopLeftRadius = '10px';
 popupPanel.style.borderTopRightRadius = '10px';
 popupPanel.style.fontFamily = "'Roboto', sans-serif";
-popupPanel.style.color = '#fff';
+popupPanel.style.color = 'rgb(50, 94, 88)';
 popupPanel.style.transform = 'translateY(100%)'; // Starta panelen utanför synfältet
 
 /* CSS för popup-panelens öppnings- och stängningsanimation */
