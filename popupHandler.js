@@ -17,7 +17,7 @@ popupPanel.style.wordWrap = 'break-word';
 popupPanel.style.borderTopLeftRadius = '10px';
 popupPanel.style.borderTopRightRadius = '10px';
 popupPanel.style.fontFamily = "'Roboto', sans-serif";
-popupPanel.style.color = 'rgb(50, 94, 88)';
+popupPanel.style.color = '#fff';
 popupPanel.style.transform = 'translateY(100%)'; // Starta panelen utanför synfältet
 
 /* CSS för popup-panelens öppnings- och stängningsanimation */
