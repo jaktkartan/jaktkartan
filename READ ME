@@ -224,7 +224,3 @@ Beskrivning:
 JavaScript-modul för hantering av GeoJSON-lager under "Kartor"-fliken.
 Använder Leaflet.js för kartfunktionalitet och Axios för HTTP-förfrågningar.
 Innehåller funktioner för att hämta, skapa och växla GeoJSON-lager.
-
-Övriga filer
-Varje fil beskrivs med dess placering och huvudfunktioner, vilket ger en klar bild av deras roll i applikationen.
-
