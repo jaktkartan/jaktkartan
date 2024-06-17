@@ -1,0 +1,118 @@
+/ (Root Directory)
+│
+├── index.html
+├── popupHandler.js
+├── styles.css
+├── tabHandler.js
+├── vaderprognos.js
+│
+├── bottom_panel
+│   ├── jaktbart_idag
+│   │   ├── Jaktbart_idag.html
+│   │   ├── Jaktbart_idag_PopupPanel_Innehallsutseende.js
+│   │   └── Jaktbart_idag_flikbeteende.js
+│   │
+│   ├── Jaktkollen
+│   │   ├── Jaktkollen.html
+│   │   └── Jaktkollen_flikbeteende.js
+│   │
+│   ├── Kaliberkrav
+│   │   ├── Kaliberkrav_Daggdjur.html
+│   │   └── Kaliberkrav_Fagel.html
+│   │
+│   ├── Kartor
+│   │   ├── Algjaktskartan
+│   │   │   ├── WMS
+│   │   │   │   └── Algjaktsomraden.js
+│   │   │   ├── geojsonfiler
+│   │   │   │   ├── Kirunakommunnedanodlingsgrns_4.geojson
+│   │   │   │   ├── Omrdemedbrunstuppehll_2.geojson
+│   │   │   │   ├── Srskiltjakttidsfnster_3.geojson
+│   │   │   │   └── lgjaktJakttider_1.geojson
+│   │   │   └── Algjaktskartan_popup_innehall.js
+│   │   │
+│   │   ├── Allman_jakt_Fagel
+│   │   │   ├── geojsonfiler
+│   │   │   │   ├── Grnsfrripjaktilvdalenskommun_2.geojson
+│   │   │   │   ├── GrnslvsomrdetillFinland_5.geojson
+│   │   │   │   ├── Lnsindelning_1.geojson
+│   │   │   │   └── NedanfrLappmarksgrnsen_3.geojson
+│   │   │   ├── Allman_jakt_fagel_popup_innehall.js
+│   │   │
+│   │   ├── Allman_jakt_daggdjur
+│   │   │   ├── bilder
+│   │   │   ├── geojsonfiler
+│   │   │   └── Allman_jakt_daggdjur_popup_innehall.js
+│   │   │
+│   │   ├── Kartor.html
+│   │   ├── Kartor_flikbeteende.js
+│   │   └── Kartor_geojsonHandler.js
+│   │
+│   └── Upptäck
+│       ├── bilder
+│       ├── Förklaring.html
+│       ├── Upptack.html
+│       ├── Upptack_flikbeteende.js
+│       ├── Upptack_geojsonHandler.js
+│       └── upptack.geojson
+│
+└── bilder
+    ├── ikon3.png
+    ├── jaktbart idag.png
+    ├── jaktkollen.png
+    ├── kaliberkrav.png
+    ├── kartor.png
+    ├── logo gron.png
+    ├── logo svart.png
+    ├── logo vit.png
+    ├── solnedgang.png
+    ├── soluppgang.png
+    └── upptack.png
+
+Nedan följer en beskrivning över filernas funktion på hemsidan:
+index.html
+Beskrivning:
+Huvudsidan för Jaktkartan.se.
+Länkar till nödvändiga stilmallar och script.
+Skapar layout för kartan, infopanelen och bottenpanelen.
+Visar soluppgång, solnedgång och väderinformation.
+Innehåller knappar för navigering och hanterar användarens position.
+
+popupHandler.js
+Beskrivning:
+Hanterar dynamisk popup-panel för geojson-objekt.
+Innehåller CSS-stilar för popup-panelens utseende och animationer.
+Visar och döljer popup-panelen, uppdaterar dess innehåll.
+Lägger till klickhanterare för geojson-lager.
+
+styles.css
+Beskrivning:
+Anpassar Leaflet-zoomkontroller och typsnitt.
+Definierar utseende för knappar i panelen och övergripande layout.
+Hanterar kartans utseende, bottenpanelen med flexbox och transparens.
+
+tabHandler.js
+Beskrivning:
+Hanterar visning och döljning av väderfliken, hämtar position för väderprognos.
+Återställer flikar vid behov, laddar innehåll från URL eller specifika fall som "Kaliberkrav"-fliken.
+Visar knappar för alternativ under "Kaliberkrav", hanterar klick utanför flikar.
+
+vaderprognos.js
+Beskrivning:
+Översätter vädersymboler och hämtar väderprognos baserat på användarens position.
+Hanterar visning av väderprognos och felmeddelanden vid problem.
+
+bottom_panel/Kartor/Kartor.html
+Beskrivning:
+HTML-sida för "Kartor"-fliken på Jaktkartan.se.
+Innehåller knappar för att växla mellan olika kartlager.
+
+bottom_panel/Kartor/Kartor_geojsonHandler.js
+Beskrivning:
+JavaScript-modul för hantering av GeoJSON-lager under "Kartor"-fliken.
+Använder Leaflet.js för kartfunktionalitet och Axios för HTTP-förfrågningar.
+Innehåller funktioner för att hämta, skapa och växla GeoJSON-lager.
+
+Övriga filer
+Varje fil beskrivs med dess placering och huvudfunktioner, vilket ger en klar bild av deras roll i applikationen.
+
