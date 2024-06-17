@@ -11,8 +11,8 @@ styleTag.innerHTML = `
         max-height: 40%;
         background-color: #fff;
         border-top: 5px solid #fff;
-        border-left: 5px solid rgb(50, 94, 88);
-        border-right: 5px solid rgb(50, 94, 88);
+        border-left: 5px solid #fff;
+        border-right: 5px solid #fff;
         padding: 10px;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
         z-index: 1000;
