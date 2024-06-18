@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
+    <!-- Lägg till eventuella andra stilfiler eller scripts som behövs här -->
     <script src="jaktbart_idag_flikbeteende.js" defer></script>
 </head>
 <body>
+    <!-- Här lägger du till <iframe> med id googleSheetFrame -->
     <iframe id="googleSheetFrame" src="" frameborder="0"></iframe>
 
     <script>
         function openGoogleSheetForCounty(lan) {
             const googleSheetUrls = {
-                "BLEKINGE LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false",
-                "DALARNAS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false",
-                "GÄVLEBORGS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false",
-                // Lägg till resten av länkarna för varje län här ...
+                // Här kan du fortfarande ha en referens till dina URL:ar,
+                // men de kommer att sättas dynamiskt från JavaScript.
             };
 
             const sheetUrl = googleSheetUrls[lan];
@@ -57,5 +57,3 @@
     </script>
 </body>
 </html>
-
-
