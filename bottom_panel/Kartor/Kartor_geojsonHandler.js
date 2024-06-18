@@ -24,6 +24,7 @@ var Kartor_geojsonHandler = (function() {
 
                     var layer = L.geoJSON(geojson, {
                         onEachFeature: function(feature, layer) {
+                            // Lägg till eventuell logik för varje geojson-lager här
                             addClickHandlerToLayer(layer);
 
                             switch (layerName) {
@@ -38,7 +39,7 @@ var Kartor_geojsonHandler = (function() {
                                     break;
                             }
                         }
-                    }).addTo(map);
+                    }).addTo(map); // Se till att 'map' är definierad och korrekt
 
                     geojsonLayers[layerName].push(layer);
                 })
