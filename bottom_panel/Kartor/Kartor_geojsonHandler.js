@@ -15,17 +15,17 @@ var Kartor_geojsonHandler = (function() {
     var layerStyles = {
         'Allmän jakt: Däggdjur': {
             'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'orange', color: 'gray', weight: 2 },
-            'Allman_jakt_daggdjur_2.geojson': { fillColor: 'blue', color: 'gray', weight: 2, fillOpacity: 0.001 }
+            'Allman_jakt_daggdjur_2.geojson': { fillColor: 'blue', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 }
         },
         'Allmän jakt: Fågel': {
-            'Lnsindelning_1.geojson': { fillColor: 'yellow', color: 'gray', weight: 2, fillOpacity: 0.001 },
+            'Lnsindelning_1.geojson': { fillColor: 'yellow', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 },
             'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'orange', color: 'gray', weight: 2 },
             'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'blue', color: 'blue', weight: 8 },
             'NedanfrLappmarksgrnsen_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2, fillOpacity: 0.7 },
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2, fillOpacity: 0.7 }
         },
         'Älgjaktskartan': {
-            'lgjaktJakttider_1.geojson': { fillColor: 'green', color: 'gray', weight: 2, fillOpacity: 0.001 },
+            'lgjaktJakttider_1.geojson': { fillColor: 'green', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
             'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 8 },
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
