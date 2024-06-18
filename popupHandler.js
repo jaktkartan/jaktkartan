@@ -5,8 +5,8 @@ styleTag.innerHTML = `
     /* CSS för popup-panelen */
     #popup-panel {
         position: fixed;
-        bottom: 0px;
-        left: 0px;
+        bottom: 0;
+        left: 0;
         width: 100%;
         max-height: 40%;
         background-color: #fff;
@@ -116,8 +116,8 @@ function addClickHandlerToLayer(layer) {
                 e.originalEvent.stopPropagation();
             }
 
-            if (e.target && e.target.feature && e.target.feature.properties) {
-                var properties = e.target.feature.properties;
+            if (e.layer && e.layer.feature && e.layer.feature.properties) {
+                var properties = e.layer.feature.properties;
                 console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
 
                 if (!popupPanelVisible) {
@@ -133,8 +133,6 @@ function addClickHandlerToLayer(layer) {
         }
     });
 }
-
-
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
