@@ -12,7 +12,27 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': []
     };
 
-    // Funktion för att hämta GeoJSON-data och skapa lagret
+    var layerStyles = {
+        'Allmän jakt: Däggdjur': {
+            'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'green', color: 'white', weight: 2 },
+            'Allman_jakt_daggdjur_2.geojson': { fillColor: 'blue', color: 'white', weight: 2 }
+        },
+        'Allmän jakt: Fågel': {
+            'Lnsindelning_1.geojson': { fillColor: 'yellow', color: 'black', weight: 2 },
+            'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'orange', color: 'black', weight: 2 },
+            'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'red', color: 'black', weight: 2 },
+            'NedanfrLappmarksgrnsen_3.geojson': { fillColor: 'purple', color: 'black', weight: 2 },
+            'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'black', weight: 2 }
+        },
+        'Älgjaktskartan': {
+            'lgjaktJakttider_1.geojson': { fillColor: 'green', color: 'black', weight: 2 },
+            'Srskiltjakttidsfnster_3.geojson': { fillColor: 'yellow', color: 'black', weight: 2 },
+            'Omrdemedbrunstuppehll_2.geojson': { fillColor: 'blue', color: 'black', weight: 2 },
+            'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'red', color: 'black', weight: 2 }
+        }
+    };
+
+    // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
@@ -21,13 +41,22 @@ var Kartor_geojsonHandler = (function() {
                     var geojson = response.data;
 
                     var layer = L.geoJSON(geojson, {
+                        style: function(feature) {
+                            var filename = getFilenameFromURL(feature);
+                            return layerStyles[layerName][filename];
+                        },
                         onEachFeature: function(feature, layer) {
                             addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
                         }
-                    }).addTo(map);
+                    });
 
                     // Lägg till lagret i geojsonLayers arrayen
                     geojsonLayers[layerName].push(layer);
+                    
+                    // Om lagret är aktivt, lägg till det på kartan
+                    if (layerIsActive[layerName]) {
+                        layer.addTo(map);
+                    }
                 })
                 .catch(function(error) {
                     console.log("Error fetching GeoJSON data:", error.message);
@@ -55,6 +84,12 @@ var Kartor_geojsonHandler = (function() {
             // Uppdatera layerIsActive för det aktuella lagret
             layerIsActive[layerName] = false;
         }
+    }
+
+    // Funktion för att extrahera filnamnet från URL:en
+    function getFilenameFromURL(url) {
+        var pathArray = url.split('/');
+        return pathArray[pathArray.length - 1];
     }
 
     // Returnera offentliga metoder och variabler
