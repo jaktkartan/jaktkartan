@@ -25,7 +25,7 @@ var Kartor_geojsonHandler = (function() {
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'black', weight: 2 }
         },
         'Älgjaktskartan': {
-            'lgjaktJakttider_1.geojson': { fillColor: 'green', color: 'black', weight: 2 },
+            'lgjaktJakttider_1.geojson': { fill: false, color: 'black', weight: 2 },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'yellow', color: 'black', weight: 2 },
             'Omrdemedbrunstuppehll_2.geojson': { fillColor: 'blue', color: 'black', weight: 2 },
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'red', color: 'black', weight: 2 }
