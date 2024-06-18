@@ -24,27 +24,17 @@ const googleSheetUrls = {
 };
 
 // Funktion för att öppna Google Sheet baserat på län
-function openGoogleSheetForCounty(lan, googleSheetUrls) {
+function openGoogleSheetForCounty(lan) {
     const sheetUrl = googleSheetUrls[lan];
     if (sheetUrl) {
         window.open(sheetUrl, '_blank');
     } else {
-        console.error('No Google Sheet URL found for county:', lan);
-    }
-}
-
-// Funktion för att öppna Google Sheet baserat på län
-function openGoogleSheetForCounty(lan, googleSheetUrls) {
-    const sheetUrl = googleSheetUrls[lan];
-    if (sheetUrl) {
-        window.open(sheetUrl, '_blank');
-    } else {
-        console.error('No Google Sheet URL found for county:', lan);
+        console.error('Ingen Google Sheet-URL hittades för län:', lan);
     }
 }
 
 // Funktionsdeklaration för att få användarens län baserat på position
-function getUserCounty(lat, lon, googleSheetUrls) {
+function getUserCounty(lat, lon) {
     return axios.get('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
         .then(function(response) {
             var geojson = response.data;
@@ -62,11 +52,11 @@ function getUserCounty(lat, lon, googleSheetUrls) {
             if (userCounty) {
                 return userCounty;
             } else {
-                throw new Error('User is not located within any county polygon.');
+                throw new Error('Användaren är inte placerad inom något läns polygon.');
             }
         })
         .catch(function(error) {
-            console.error('Error determining user county:', error);
+            console.error('Fel vid bestämning av användarens län:', error);
             return null;
         });
 }
@@ -75,32 +65,50 @@ function getUserCounty(lat, lon, googleSheetUrls) {
 function handleUserPosition(position) {
     var lat = position.coords.latitude;
     var lon = position.coords.longitude;
-    console.log(`User position: ${lat}, ${lon}`);
+    console.log(`Användarens position: ${lat}, ${lon}`);
 
     // Hämta användarens län
     getUserCounty(lat, lon)
         .then(function(lan) {
             if (lan) {
-                console.log(`User is located in ${lan}`);
+                console.log(`Användaren är placerad i ${lan}`);
                 openGoogleSheetForCounty(lan);
             } else {
-                console.error('Could not determine user county.');
+                console.error('Kunde inte bestämma användarens län.');
             }
         })
         .catch(function(error) {
-            console.error('Error getting user county:', error);
+            console.error('Fel vid hämtning av användarens län:', error);
         });
 }
 
 // Starta process för att få användarens position
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(handleUserPosition, function(error) {
-        console.error('Geolocation error:', error);
+        console.error('Geolokalisering fel:', error);
     }, {
         enableHighAccuracy: true,
         timeout: 10000,
         maximumAge: 0
     });
 } else {
-    console.error('Geolocation is not supported by this browser.');
+    console.error('Geolokalisering stöds inte av denna webbläsare.');
 }
+
+axios.get('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
+    .then(function(response) {
+        console.log('GeoJSON-data:', response.data);
+        // Fortsätt med att bearbeta geojson-data här
+    })
+    .catch(function(error) {
+        console.error('Fel vid hämtning av geojson-data:', error);
+    });
+
+L.geoJSON(geojson, {
+    onEachFeature: function(feature, layer) {
+        var polygon = L.geoJSON(feature.geometry);
+        if (polygon.getBounds().isValid() && polygon.getBounds().contains([lat, lon])) {
+            userCounty = feature.properties.LÄN; // Använd rätt fältnamn
+        }
+    }
+});
