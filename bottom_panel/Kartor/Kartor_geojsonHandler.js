@@ -46,13 +46,26 @@ var Kartor_geojsonHandler = (function() {
                             return layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
-                            // Använd funktionen från popupHandler.js om nödvändigt
+                            var filename = getFilenameFromURL(geojsonURL);
+                            var style = layerStyles[layerName][filename];
+                            
+                            // Ställ in stilar om de är definierade
+                            if (style.fillColor !== undefined) {
+                                layer.setStyle({
+                                    fillColor: style.fillColor,
+                                    color: style.color,
+                                    weight: style.weight || 2
+                                });
+                            }
+
+                            // Lägg till klickhantering om det är önskat
+                            addClickHandlerToLayer(layer);
                         }
                     });
 
                     // Lägg till lagret i geojsonLayers arrayen
                     geojsonLayers[layerName].push(layer);
-                    
+
                     // Om lagret är aktivt, lägg till det på kartan
                     if (layerIsActive[layerName]) {
                         layer.addTo(map);
