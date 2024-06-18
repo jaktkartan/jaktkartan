@@ -27,7 +27,7 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': {
             'lgjaktJakttider_1.geojson': { fillColor: 'green', color: 'gray', weight: 2, fillOpacity: 0.001 },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
-            'Omrdemedbrunstuppehll_2.geojson': { fillColor: 'black', color: 'black', weight: 2, fillOpacity: 0.001 },
+            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 2 },
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
         }
     };
