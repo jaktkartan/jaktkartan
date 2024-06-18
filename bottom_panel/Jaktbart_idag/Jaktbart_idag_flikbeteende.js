@@ -27,7 +27,7 @@ const googleSheetUrls = {
 function openGoogleSheetForCounty(lan) {
     const sheetUrl = googleSheetUrls[lan];
     if (sheetUrl) {
-        window.open(sheetUrl, '_blank');
+        document.getElementById('googleSheetFrame').src = sheetUrl;
     } else {
         console.error('Ingen Google Sheet-URL hittades för län:', lan);
     }
@@ -94,22 +94,3 @@ if (navigator.geolocation) {
 } else {
     console.error('Geolokalisering stöds inte av denna webbläsare.');
 }
-
-axios.get('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
-    .then(function(response) {
-        console.log('GeoJSON-data:', response.data);
-        // Fortsätt med att bearbeta geojson-data här
-
-        // Flytta L.geoJSON(geojson, {...}) hit och använd geojson
-        L.geoJSON(response.data, {
-            onEachFeature: function(feature, layer) {
-                var polygon = L.geoJSON(feature.geometry);
-                if (polygon.getBounds().isValid() && polygon.getBounds().contains([lat, lon])) {
-                    userCounty = feature.properties.LÄN; // Använd rätt fältnamn
-                }
-            }
-        });
-    })
-    .catch(function(error) {
-        console.error('Fel vid hämtning av geojson-data:', error);
-    });
