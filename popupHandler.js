@@ -102,8 +102,8 @@ function updatePopupPanelContent(properties) {
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
-    if (!layer || !layer.on || typeof layer.on !== 'function') {
-        console.error('Lagret eller händelselyssnaren stöds inte:', layer);
+    if (!layer || !layer.feature || !layer.feature.properties) {
+        console.error('Lagret eller dess egenskaper är ogiltiga:', layer);
         return;
     }
 
@@ -116,23 +116,20 @@ function addClickHandlerToLayer(layer) {
                 e.originalEvent.stopPropagation();
             }
 
-            if (e.layer && e.layer.feature && e.layer.feature.properties) {
-                var properties = e.layer.feature.properties;
-                console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
+            var properties = e.layer.feature.properties;
+            console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
 
-                if (!popupPanelVisible) {
-                    showPopupPanel(properties);
-                } else {
-                    updatePopupPanelContent(properties);
-                }
+            if (!popupPanelVisible) {
+                showPopupPanel(properties);
             } else {
-                console.error('Ingen geojson-information hittades i klickhändelsen.');
+                updatePopupPanelContent(properties);
             }
         } catch (error) {
             console.error('Fel vid hantering av klickhändelse:', error);
         }
     });
 }
+
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
