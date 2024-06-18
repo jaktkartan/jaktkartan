@@ -27,7 +27,12 @@ const googleSheetUrls = {
 function openGoogleSheetForCounty(lan) {
     const sheetUrl = googleSheetUrls[lan];
     if (sheetUrl) {
-        document.getElementById('googleSheetFrame').src = sheetUrl;
+        var googleSheetFrame = document.getElementById('googleSheetFrame');
+        if (googleSheetFrame) {
+            googleSheetFrame.src = sheetUrl;
+        } else {
+            console.error('Elementet #googleSheetFrame hittades inte.');
+        }
     } else {
         console.error('Ingen Google Sheet-URL hittades för län:', lan);
     }
@@ -82,15 +87,18 @@ function handleUserPosition(position) {
         });
 }
 
-// Starta process för att få användarens position
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(handleUserPosition, function(error) {
-        console.error('Geolokalisering fel:', error);
-    }, {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-    });
-} else {
-    console.error('Geolokalisering stöds inte av denna webbläsare.');
-}
+// Lyssna på fliköppning för Jaktbart idag
+document.getElementById('tab3').addEventListener('click', function() {
+    // Starta process för att få användarens position och öppna Google Sheet
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(handleUserPosition, function(error) {
+            console.error('Geolokalisering fel:', error);
+        }, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        });
+    } else {
+        console.error('Geolokalisering stöds inte av denna webbläsare.');
+    }
+});
