@@ -12,7 +12,7 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': []
     };
 
-    // Funktion för att hämta GeoJSON-data och skapa lagret med stilsättning
+    // Funktion för att hämta GeoJSON-data och skapa lagret
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
@@ -21,16 +21,6 @@ var Kartor_geojsonHandler = (function() {
                     var geojson = response.data;
 
                     var layer = L.geoJSON(geojson, {
-                        style: function(feature) {
-                            return {
-                                fillColor: 'green',  // Exempel på en fast färg
-                                weight: 2,
-                                opacity: 1,
-                                color: 'white',
-                                dashArray: '3',
-                                fillOpacity: 0.7
-                            };
-                        },
                         onEachFeature: function(feature, layer) {
                             addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
                         }
