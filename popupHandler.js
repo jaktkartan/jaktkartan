@@ -102,10 +102,12 @@ function updatePopupPanelContent(properties) {
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
-    if (!layer || !layer.on) {
+    if (!layer || !layer.on || typeof layer.on !== 'function') {
         console.error('Lagret eller händelselyssnaren stöds inte:', layer);
         return;
     }
+
+    console.log('Försöker lägga till klickhanterare för layer:', layer);
 
     layer.on('click', function(e) {
         try {
@@ -131,6 +133,7 @@ function addClickHandlerToLayer(layer) {
         }
     });
 }
+
 
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
