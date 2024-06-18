@@ -29,4 +29,4 @@ function applyAlgjaktskartanStyle(feature, layer) {
     });
 }
 
-export { getDefaultStyle, highlightStyle, applyAlgjaktskartanStyle };
+export { getDefaultStyle, applyAlgjaktskartanStyle };
