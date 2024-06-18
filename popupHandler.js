@@ -6,9 +6,9 @@ popupPanel.style.left = '0px';
 popupPanel.style.width = '100%';
 popupPanel.style.maxHeight = '40%';
 popupPanel.style.backgroundColor = '#fff';
-popupPanel.style.borderTop = '5px solid rgb(50, 94, 88)';
-popupPanel.style.borderLeft = '5px solid rgb(50, 94, 88)';
-popupPanel.style.borderRight = '5px solid rgb(50, 94, 88)';
+popupPanel.style.borderTop = '5px solid #fff';
+popupPanel.style.borderLeft = '5px solid #fff';
+popupPanel.style.borderRight = '5px solid #fff';
 popupPanel.style.padding = '10px';
 popupPanel.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
 popupPanel.style.zIndex = '1000';
@@ -18,7 +18,39 @@ popupPanel.style.borderTopLeftRadius = '10px';
 popupPanel.style.borderTopRightRadius = '10px';
 popupPanel.style.fontFamily = "'Roboto', sans-serif";
 popupPanel.style.color = 'rgb(50, 94, 88)';
-popupPanel.style.display = 'none'; // Göm panelen som standard
+popupPanel.style.transform = 'translateY(100%)'; // Starta panelen utanför synfältet
+
+/* CSS för popup-panelens öppnings- och stängningsanimation */
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(100%);
+    }
+}
+
+#popup-panel {
+    transition: transform 0.5s ease-in-out;
+}
+
+.show {
+    animation: slideIn 0.5s forwards;
+}
+
+.hide {
+    animation: slideOut 0.5s forwards;
+}
+
 
 // Håll koll på om popup-panelen är synlig eller inte
 var popupPanelVisible = false;
@@ -27,15 +59,17 @@ var popupPanelVisible = false;
 function showPopupPanel(properties) {
     updatePopupPanelContent(properties);
 
-    // Visa popup-panelen
-    popupPanel.style.display = 'block';
+    // Lägg till klassen för att visa popup-panelen
+    popupPanel.classList.remove('hide');
+    popupPanel.classList.add('show');
     popupPanelVisible = true;
 }
 
 // Funktion för att dölja popup-panelen
 function hidePopupPanel() {
-    // Dölj popup-panelen
-    popupPanel.style.display = 'none';
+    // Lägg till klassen för att dölja popup-panelen
+    popupPanel.classList.remove('show');
+    popupPanel.classList.add('hide');
     popupPanelVisible = false;
 }
 
