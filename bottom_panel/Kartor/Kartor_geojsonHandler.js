@@ -42,7 +42,7 @@ var Kartor_geojsonHandler = (function() {
 
                     var layer = L.geoJSON(geojson, {
                         style: function(feature) {
-                            var filename = getFilenameFromURL(feature);
+                            var filename = getFilenameFromURL(geojsonURL);
                             return layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
@@ -89,7 +89,8 @@ var Kartor_geojsonHandler = (function() {
     // Funktion för att extrahera filnamnet från URL:en
     function getFilenameFromURL(url) {
         var pathArray = url.split('/');
-        return pathArray[pathArray.length - 1];
+        var filename = pathArray[pathArray.length - 1];
+        return filename;
     }
 
     // Returnera offentliga metoder och variabler
