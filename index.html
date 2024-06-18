@@ -82,6 +82,11 @@
     <script>
         // Declare map as a global variable
         var map;
+        var userGeoLocation = {
+            latitude: null,
+            longitude: null,
+            accuracy: null
+        };
 
         document.addEventListener("DOMContentLoaded", function() {
             console.log("Initializing map...");
@@ -126,6 +131,10 @@
             function updateUserPosition(lat, lon, accuracy) {
                 console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
+                userGeoLocation.latitude = lat;
+                userGeoLocation.longitude = lon;
+                userGeoLocation.accuracy = accuracy;
+
                 var accuracyInfo = document.getElementById('accuracy');
                 accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
 
@@ -147,7 +156,7 @@
                 }
 
                 if (!pulsingDotMarker) {
-                    pulsingDotMarker = createPulsingCircle(lat, lon);
+                                        pulsingDotMarker = createPulsingCircle(lat, lon);
                 } else {
                     pulsingDotMarker.setLatLng([lat, lon]);
                 }
@@ -160,6 +169,12 @@
 
                 sunriseSpan.innerHTML = sunrise;
                 sunsetSpan.innerHTML = sunset;
+
+                // Nu kan du anropa funktioner eller initiera andra processer baserat på userGeoLocation
+                // Exempel: Anropa en funktion från Jaktbart_idag_flikbeteende.js med användarens position
+                if (typeof updateUserGeoLocationInJaktbart === 'function') {
+                    updateUserGeoLocationInJaktbart(lat, lon);
+                }
             }
 
             function getPositionFromIP() {
@@ -252,5 +267,15 @@
     </script>
     <script src="popupHandler.js"></script>
     <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
+
+    <script>
+        // Funktion för att uppdatera användarens position i Jaktbart_idag_flikbeteende.js
+        function updateUserGeoLocationInJaktbart(lat, lon) {
+            // Exempel på hur du kan skicka positionen till Jaktbart_idag_flikbeteende.js
+            console.log('Updating user geolocation in Jaktbart_idag_flikbeteende.js:', lat, lon);
+            // Implementera hur du vill hantera detta i din Jaktbart_idag_flikbeteende.js-fil
+        }
+    </script>
 </body>
 </html>
+
