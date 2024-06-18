@@ -77,18 +77,18 @@ function handleUserPosition(position) {
     var lon = position.coords.longitude;
     console.log(`User position: ${lat}, ${lon}`);
 
-    // Hämta Google Sheet URL:er och användardata
-    Promise.all([fetchGoogleSheetUrls(), getUserCounty(lat, lon)])
-        .then(function([googleSheetUrls, lan]) {
+    // Hämta användarens län
+    getUserCounty(lat, lon)
+        .then(function(lan) {
             if (lan) {
                 console.log(`User is located in ${lan}`);
-                openGoogleSheetForCounty(lan, googleSheetUrls);
+                openGoogleSheetForCounty(lan);
             } else {
                 console.error('Could not determine user county.');
             }
         })
         .catch(function(error) {
-            console.error('Error getting user county or Google Sheet URLs:', error);
+            console.error('Error getting user county:', error);
         });
 }
 
