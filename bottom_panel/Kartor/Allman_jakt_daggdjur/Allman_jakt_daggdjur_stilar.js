@@ -1,26 +1,26 @@
 // Allman_jakt_daggdjur_stilar.js
 
-// Standardstil för Allmän jakt: Däggdjur
 const defaultStyle = {
-    color: "red",
+    fillColor: "green",
+    fillOpacity: 0.6,
+    color: "black",
+    weight: 1,
+    opacity: 1
+};
+
+const highlightStyle = {
+    fillColor: "yellow",
+    fillOpacity: 0.8,
+    color: "black",
     weight: 2,
     opacity: 1
 };
 
-// Highlight-stil för Allmän jakt: Däggdjur (vid hover)
-const highlightStyle = {
-    color: "yellow",
-    weight: 3,
-    opacity: 1
-};
-
-// Funktion som returnerar standardstilen
 function getDefaultStyle(feature) {
     return defaultStyle;
 }
 
-// Funktion för att tillämpa stilar och hantera interaktioner
-function applyAllmanJaktDaggdjurStyle(feature, layer) {
+function applyDaggdjurStyle(feature, layer) {
     layer.setStyle(getDefaultStyle(feature));
 
     layer.on({
@@ -33,5 +33,4 @@ function applyAllmanJaktDaggdjurStyle(feature, layer) {
     });
 }
 
-// Exportera stilfunktionerna
-export { getDefaultStyle, applyAllmanJaktDaggdjurStyle };
+export { getDefaultStyle, applyDaggdjurStyle };
