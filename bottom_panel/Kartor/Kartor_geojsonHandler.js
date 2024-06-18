@@ -1,3 +1,7 @@
+import { getAlgjaktskartanStyle } from './bottom_panel/Kartor/Algjaktskartan/Algjaktskartan_stilar.js';
+import { getAllmanJaktFagelStyle } from './bottom_panel/Kartor/Allman_jakt_Fagel/Allman_jakt_Fagel_stilar.js';
+import { getAllmanJaktDaggdjurStyle } from './bottom_panel/Kartor/Allman_jakt_daggdjur/Allman_jakt_daggdjur_stilar.js';
+
 var Kartor_geojsonHandler = (function() {
     // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
     var layerIsActive = {
@@ -20,7 +24,17 @@ var Kartor_geojsonHandler = (function() {
                     console.log("Successfully fetched GeoJSON data:", response.data);
                     var geojson = response.data;
 
+                    var styleFunction;
+                    if (layerName === 'Allmän jakt: Däggdjur') {
+                        styleFunction = getAllmanJaktDaggdjurStyle;
+                    } else if (layerName === 'Allmän jakt: Fågel') {
+                        styleFunction = getAllmanJaktFagelStyle;
+                    } else if (layerName === 'Älgjaktskartan') {
+                        styleFunction = getAlgjaktskartanStyle;
+                    }
+
                     var layer = L.geoJSON(geojson, {
+                        style: styleFunction,
                         onEachFeature: function(feature, layer) {
                             addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
                         }
