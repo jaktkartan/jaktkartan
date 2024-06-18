@@ -61,8 +61,23 @@ document.head.appendChild(styleTag);
 var popupPanel = document.getElementById('popup-panel');
 var popupPanelVisible = false;
 
+// Kontrollera att popup-panelen finns och har nödvändiga HTML-element
+if (!popupPanel) {
+    console.error('Elementet "popup-panel" hittades inte i DOM.');
+} else {
+    var panelContent = document.getElementById('popup-panel-content');
+    if (!panelContent) {
+        console.error('Elementet "popup-panel-content" hittades inte i DOM.');
+    }
+}
+
 // Funktion för att visa popup-panelen med specifika egenskaper
 function showPopupPanel(properties) {
+    if (!popupPanel) {
+        console.error('Elementet "popup-panel" saknas i DOM.');
+        return;
+    }
+
     updatePopupPanelContent(properties);
 
     // Lägg till klassen för att visa popup-panelen
@@ -73,6 +88,11 @@ function showPopupPanel(properties) {
 
 // Funktion för att dölja popup-panelen
 function hidePopupPanel() {
+    if (!popupPanel) {
+        console.error('Elementet "popup-panel" saknas i DOM.');
+        return;
+    }
+
     // Lägg till klassen för att dölja popup-panelen
     popupPanel.classList.remove('show');
     popupPanel.classList.add('hide');
@@ -102,6 +122,11 @@ function updatePopupPanelContent(properties) {
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
+    if (!layer) {
+        console.error('Layer-objektet är inte definierat.');
+        return;
+    }
+
     layer.on('click', function(e) {
         try {
             if (e.originalEvent) {
@@ -129,19 +154,18 @@ function addClickHandlerToLayer(layer) {
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
-    if (popupPanelVisible && !popupPanel.contains(event.target)) {
+    if (popupPanelVisible && popupPanel && !popupPanel.contains(event.target)) {
         hidePopupPanel();
     }
 });
 
 // Lägg till en eventlyssnare för kartans moveend-händelse för att stänga popup-panelen
-map.on('moveend', function() {
-    hidePopupPanel();
-});
-
-// Kontrollera att popup-panelen finns och har nödvändiga HTML-element
-if (!popupPanel || !document.getElementById('popup-panel-content')) {
-    console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
+if (map) {
+    map.on('moveend', function() {
+        hidePopupPanel();
+    });
+} else {
+    console.error('Kartan (map) är inte definierad.');
 }
 
 // Lägg till hanterare för klick på geojson-lagret
