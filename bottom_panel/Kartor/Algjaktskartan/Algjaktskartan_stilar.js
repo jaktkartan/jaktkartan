@@ -1,35 +1,37 @@
-var AlgjaktskartanStilar = {
-    defaultStyle: {
-        // Standardstilar för ditt lager
-        fillColor: "#ff7800",
-        color: "#000",
-        weight: 2,
-        opacity: 1,
-        fillOpacity: 0.7
-    },
+// Algjaktskartan_stilar.js
 
-    highlightStyle: {
-        // Stilar när ett objekt är markerat eller hoverad
-        fillColor: "#00ff00",
-        color: "#00ff00",
-        weight: 3,
-        opacity: 1,
-        fillOpacity: 0.7
-    },
-
-    // Funktion för att tillämpa stilar på geojson-lager
-    applyStyle: function(feature, layer) {
-        layer.setStyle(AlgjaktskartanStilar.defaultStyle);
-
-        // Lägg till händelser för hover-effekter eller andra interaktioner om det behövs
-        layer.on({
-            mouseover: function() {
-                layer.setStyle(AlgjaktskartanStilar.highlightStyle);
-            },
-            mouseout: function() {
-                layer.setStyle(AlgjaktskartanStilar.defaultStyle);
-            }
-        });
-    }
+// Standardstil för Algjaktskartan
+const defaultStyle = {
+    color: "blue",
+    weight: 2,
+    opacity: 1
 };
 
+// Highlight-stil för Algjaktskartan (vid hover)
+const highlightStyle = {
+    color: "yellow",
+    weight: 3,
+    opacity: 1
+};
+
+// Funktion som returnerar standardstilen
+function getDefaultStyle(feature) {
+    return defaultStyle;
+}
+
+// Funktion för att tillämpa stilar och hantera interaktioner
+function applyAlgjaktskartanStyle(feature, layer) {
+    layer.setStyle(getDefaultStyle(feature));
+
+    layer.on({
+        mouseover: function() {
+            layer.setStyle(highlightStyle);
+        },
+        mouseout: function() {
+            layer.setStyle(getDefaultStyle(feature));
+        }
+    });
+}
+
+// Exportera stilfunktionerna
+export { getDefaultStyle, applyAlgjaktskartanStyle };
