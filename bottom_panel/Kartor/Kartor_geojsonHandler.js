@@ -51,28 +51,69 @@ var Kartor_geojsonHandler = (function() {
         layerIsActive[layerName] = true;
     }
 
-    // Funktion för att tända och släcka lagret
-    function toggleLayer(layerName, geojsonURLs) {
+    // Funktion för att tända och släcka lagret för Allmän jakt: Däggdjur
+    function toggleAllmänJaktDäggdjur() {
+        var layerName = 'Allmän jakt: Däggdjur';
         if (!layerIsActive[layerName]) {
-            // Om lagret inte är aktivt, lägg till lagret på kartan
+            var geojsonURLs = [
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'
+            ];
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         } else {
-            // Om lagret är aktivt, ta bort lagret från kartan
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
-
-            // Töm geojsonLayers arrayen för det aktuella lagret
             geojsonLayers[layerName] = [];
+            layerIsActive[layerName] = false;
+        }
+    }
 
-            // Uppdatera layerIsActive för det aktuella lagret
+    // Funktion för att tända och släcka lagret för Allmän jakt: Fågel
+    function toggleAllmänJaktFågel() {
+        var layerName = 'Allmän jakt: Fågel';
+        if (!layerIsActive[layerName]) {
+            var geojsonURLs = [
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'
+            ];
+            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+        } else {
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer);
+            });
+            geojsonLayers[layerName] = [];
+            layerIsActive[layerName] = false;
+        }
+    }
+
+    // Funktion för att tända och släcka lagret för Älgjaktskartan
+    function toggleÄlgjaktskartan() {
+        var layerName = 'Älgjaktskartan';
+        if (!layerIsActive[layerName]) {
+            var geojsonURLs = [
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
+            ];
+            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+        } else {
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer);
+            });
+            geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
         }
     }
 
     // Returnera offentliga metoder och variabler
     return {
-        toggleLayer: toggleLayer,
-        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
+        toggleAllmänJaktDäggdjur: toggleAllmänJaktDäggdjur,
+        toggleAllmänJaktFågel: toggleAllmänJaktFågel,
+        toggleÄlgjaktskartan: toggleÄlgjaktskartan
     };
 })();
