@@ -22,14 +22,14 @@ var Kartor_geojsonHandler = (function() {
 
                     var layer = L.geoJSON(geojson, {
                         style: function(feature) {
-                            // Använd stilar baserat på layerName
+                            // Använd stilar baserat på layerName och feature properties
                             switch (layerName) {
                                 case 'Allmän jakt: Däggdjur':
-                                    return allmanJaktDaggdjurStilar[feature.properties.style];
+                                    return Allman_jakt_daggdjur_stilar(feature.properties.style);
                                 case 'Allmän jakt: Fågel':
-                                    return allmanJaktFagelStilar[feature.properties.style];
+                                    return Allman_jakt_Fagel_stilar(feature.properties.style);
                                 case 'Älgjaktskartan':
-                                    return algjaktskartanStilar[feature.properties.style];
+                                    return Algjaktskartan_stilar(feature.properties.style);
                                 default:
                                     return {}; // Returnera tomma stilar om inget matchar
                             }
