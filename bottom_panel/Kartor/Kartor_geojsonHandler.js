@@ -14,13 +14,13 @@ var Kartor_geojsonHandler = (function() {
 
     var layerStyles = {
         'Allmän jakt: Däggdjur': {
-            'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'green', color: 'white', weight: 2 },
-            'Allman_jakt_daggdjur_2.geojson': { fillColor: 'blue', color: 'white', weight: 2 }
+            'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'blue', color: 'black', weight: 2 },
+            'Allman_jakt_daggdjur_2.geojson': { fill: false, color: 'black', weight: 2 }
         },
         'Allmän jakt: Fågel': {
-            'Lnsindelning_1.geojson': { fillColor: 'yellow', color: 'black', weight: 2 },
+            'Lnsindelning_1.geojson': { fill: false, color: 'black', weight: 2 },
             'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'orange', color: 'black', weight: 2 },
-            'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'red', color: 'black', weight: 2 },
+            'GrnslvsomrdetillFinland_5.geojson': { weight: 8, color: 'red' },
             'NedanfrLappmarksgrnsen_3.geojson': { fillColor: 'purple', color: 'black', weight: 2 },
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'black', weight: 2 }
         },
@@ -46,7 +46,7 @@ var Kartor_geojsonHandler = (function() {
                             return layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
-                            addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
+                            // Använd funktionen från popupHandler.js om nödvändigt
                         }
                     });
 
