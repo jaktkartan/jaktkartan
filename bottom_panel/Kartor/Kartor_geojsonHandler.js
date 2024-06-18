@@ -21,8 +21,8 @@ var Kartor_geojsonHandler = (function() {
             'Lnsindelning_1.geojson': { fillColor: 'yellow', color: 'black', weight: 2 },
             'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'orange', color: 'black', weight: 2 },
             'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'blue', color: 'blue', weight: 8 },
-            'NedanfrLappmarksgrnsen_3.geojson': { fillColor: 'purple', color: 'black', weight: 2 },
-            'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'black', weight: 2 }
+            'NedanfrLappmarksgrnsen_3.geojson': { fillColor: 'purple', color: 'black', weight: 2, fillOpacity: 0.7 },
+            'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'black', weight: 2, fillOpacity: 0.7 }
         },
         'Älgjaktskartan': {
             'lgjaktJakttider_1.geojson': { fillColor: 'green', color: 'black', weight: 2 },
