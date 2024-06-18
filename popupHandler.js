@@ -5,8 +5,8 @@ styleTag.innerHTML = `
     /* CSS för popup-panelen */
     #popup-panel {
         position: fixed;
-        bottom: 0;
-        left: 0;
+        bottom: 0px;
+        left: 0px;
         width: 100%;
         max-height: 40%;
         background-color: #fff;
@@ -102,13 +102,6 @@ function updatePopupPanelContent(properties) {
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
-    if (!layer || !layer.feature || !layer.feature.properties) {
-        console.error('Lagret eller dess egenskaper är ogiltiga:', layer);
-        return;
-    }
-
-    console.log('Försöker lägga till klickhanterare för layer:', layer);
-
     layer.on('click', function(e) {
         try {
             if (e.originalEvent) {
@@ -116,20 +109,23 @@ function addClickHandlerToLayer(layer) {
                 e.originalEvent.stopPropagation();
             }
 
-            var properties = e.layer.feature.properties;
-            console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
+            if (e.target && e.target.feature && e.target.feature.properties) {
+                var properties = e.target.feature.properties;
+                console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
 
-            if (!popupPanelVisible) {
-                showPopupPanel(properties);
+                if (!popupPanelVisible) {
+                    showPopupPanel(properties);
+                } else {
+                    updatePopupPanelContent(properties);
+                }
             } else {
-                updatePopupPanelContent(properties);
+                console.error('Ingen geojson-information hittades i klickhändelsen.');
             }
         } catch (error) {
             console.error('Fel vid hantering av klickhändelse:', error);
         }
     });
 }
-
 
 // Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
