@@ -134,11 +134,6 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Lägg till en eventlyssnare för kartans moveend-händelse för att stänga popup-panelen
-map.on('moveend', function() {
-    hidePopupPanel();
-});
-
 // Kontrollera att popup-panelen finns och har nödvändiga HTML-element
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
