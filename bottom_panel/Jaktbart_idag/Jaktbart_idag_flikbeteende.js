@@ -23,7 +23,18 @@ const googleSheetUrls = {
     "ÖSTERGÖTLANDS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false"
 };
 
-function openGoogleSheetForCounty(lan) {
+// Funktion för att öppna Google Sheet baserat på län
+function openGoogleSheetForCounty(lan, googleSheetUrls) {
+    const sheetUrl = googleSheetUrls[lan];
+    if (sheetUrl) {
+        window.open(sheetUrl, '_blank');
+    } else {
+        console.error('No Google Sheet URL found for county:', lan);
+    }
+}
+
+// Funktion för att öppna Google Sheet baserat på län
+function openGoogleSheetForCounty(lan, googleSheetUrls) {
     const sheetUrl = googleSheetUrls[lan];
     if (sheetUrl) {
         window.open(sheetUrl, '_blank');
@@ -33,7 +44,7 @@ function openGoogleSheetForCounty(lan) {
 }
 
 // Funktionsdeklaration för att få användarens län baserat på position
-function getUserCounty(lat, lon) {
+function getUserCounty(lat, lon, googleSheetUrls) {
     return axios.get('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
         .then(function(response) {
             var geojson = response.data;
@@ -66,20 +77,20 @@ function handleUserPosition(position) {
     var lon = position.coords.longitude;
     console.log(`User position: ${lat}, ${lon}`);
 
-    getUserCounty(lat, lon)
-        .then(function(lan) {
+    // Hämta Google Sheet URL:er och användardata
+    Promise.all([fetchGoogleSheetUrls(), getUserCounty(lat, lon)])
+        .then(function([googleSheetUrls, lan]) {
             if (lan) {
                 console.log(`User is located in ${lan}`);
-                openGoogleSheetForCounty(lan);
+                openGoogleSheetForCounty(lan, googleSheetUrls);
             } else {
                 console.error('Could not determine user county.');
             }
         })
         .catch(function(error) {
-            console.error('Error getting user county:', error);
+            console.error('Error getting user county or Google Sheet URLs:', error);
         });
 }
-
 
 // Starta process för att få användarens position
 if (navigator.geolocation) {
