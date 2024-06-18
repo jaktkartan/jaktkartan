@@ -75,8 +75,8 @@
     <script src="bottom_panel/Upptack/Upptack_flikbeteende.js"></script>
     <script src="bottom_panel/Kartor/Kartor_flikbeteende.js"></script>
     <script src="bottom_panel/Jaktkollen/Jaktkollen_flikbeteende.js"></script>
-    <script type="module" src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
-    <script type="module" src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
+    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
+    <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
     <script src="tabHandler.js"></script>
 
     <script>
@@ -249,61 +249,10 @@
                 });
             }
 
-            // Lägg till geojsonLayer från Kartor_geojsonHandler.js
-            var geojsonLayer = Kartor_geojsonHandler.getGeoJsonLayer().addTo(map);
+            var geojsonLayer = L.geoJSON(geojsonFeature).addTo(map);
             addClickHandlerToLayer(geojsonLayer);
-
-            // Funktioner för att hantera lagerknappar
-            function toggleDaggdjurLayer() {
-                Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', [
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson',
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'
-                ]);
-            }
-
-            function toggleFagelLayer() {
-                Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', [
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson',
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson',
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson',
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson',
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'
-                ]);
-            }
-
-            function toggleAlgjaktskartanLayer() {
-                Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson',
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson',
-                    'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
-                ]);
-            }
-
-            // Koppla knappar till funktioner
-            document.getElementById('bottom-panel').addEventListener('click', function(event) {
-                var target = event.target;
-                if (target.tagName === 'BUTTON' && target.classList.contains('styled-button')) {
-                    var buttonText = target.textContent.trim();
-                    switch (buttonText) {
-                        case 'Allmän jakt: Däggdjur':
-                            toggleDaggdjurLayer();
-                            break;
-                        case 'Allmän jakt: Fågel':
-                            toggleFagelLayer();
-                            break;
-                        case 'Älgjaktskartan':
-                            toggleAlgjaktskartanLayer();
-                            break;
-                        default:
-                            console.log('Ingen matchning för knapptryckningen.');
-                            break;
-                    }
-                }
-            });
         });
     </script>
     <script src="popupHandler.js"></script>
 </body>
 </html>
-
