@@ -76,14 +76,11 @@
 │   │   │   │       Beskrivning:
 │   │   │   │       GeoJSON-filer för olika lager i "Algjaktskartan". Filerna presenteras för användaren på leaflet kartan som är kodad i index.html.
 │   │   │   │
-│   │   │   ├── Algjaktskartan_popup_innehall.js
-│   │   │   │       Beskrivning:
-│   │   │   │       Hanterar filtrering och presentation av information i popup-panelen för "Algjaktskartan".
-│   │   │   │       Extraherar och formaterar specifik information från lgjaktJakttider_1.geojson för att visa relevant innehåll.
-│   │   │   │ 
-│   │   │   └── Algjaktskartan_stilar.js
+│   │   │   └── Algjaktskartan_popup_innehall.js
 │   │   │           Beskrivning:
-│   │   │           Definierar stilar för lager i "Algjaktskartan".
+│   │   │           Hanterar filtrering och presentation av information i popup-panelen för "Algjaktskartan".
+│   │   │           Extraherar och formaterar specifik information från lgjaktJakttider_1.geojson för att visa relevant innehåll.
+│   │   │   
 │   │   │
 │   │   ├── Allman_jakt_Fagel
 │   │   │   ├── geojsonfiler
@@ -94,14 +91,14 @@
 │   │   │   │       Beskrivning:
 │   │   │   │       GeoJSON-filer för olika lager i "Allmän jakt: Fågel". Filerna presenteras för användaren på leaflet kartan som är kodad i index.html.
 │   │   │   │
-│   │   │   ├── Allman_jakt_fagel_popup_innehall.js
-│   │   │   │       Beskrivning:
-│   │   │   │       Hanterar filtrering och presentation av information i popup-panelen för "Allmän jakt: Fågel".
-│   │   │   │       Extraherar och formaterar specifik information från Grnsfrripjaktilvdalenskommun_2.geojson, GrnslvsomrdetillFinland_5.geojson, Lnsindelning_1.geojson och NedanfrLappmarksgrnsen_3.geojson för att visa relevant innehåll.
-│   │   │   │
-│   │   │   └── Allman_jakt_fagel_stilar.js
+│   │   │   └── Allman_jakt_fagel_popup_innehall.js
 │   │   │           Beskrivning:
-│   │   │           Definierar stilar för lager i "Allmän jakt: Fågel".
+│   │   │           Hanterar filtrering och presentation av information i popup-panelen för "Allmän jakt: Fågel".
+│   │   │           Extraherar och formaterar specifik information från Grnsfrripjaktilvdalenskommun_2.geojson, GrnslvsomrdetillFinland_5.geojson, Lnsindelning_1.geojson och NedanfrLappmarksgrnsen_3.geojson för att visa relevant innehåll.
+│   │   │   
+│   │   │       
+│   │   │  
+│   │   │  
 │   │   │
 │   │   ├── Allman_jakt_daggdjur
 │   │   │   ├── bilder
@@ -114,14 +111,14 @@
 │   │   │   │       Beskrivning:
 │   │   │   │       GeoJSON-filer för olika lager i "Allmän jakt: Däggdjur". Filerna presenteras för användaren på leaflet kartan som är kodad i index.html.
 │   │   │   │
-│   │   │   ├── Allman_jakt_daggdjur_popup_innehall.js
-│   │   │   │       Beskrivning:
-│   │   │   │       Hanterar filtrering och presentation av information i popup-panelen för "Allmän jakt: Däggdjur".
-│   │   │   │       Extraherar och formaterar specifik information från geojsonfiler för att visa relevant innehåll.
-│   │   │   │
-│   │   │   └── Allman_jakt_daggdjur_stilar.js
+│   │   │   └── Allman_jakt_daggdjur_popup_innehall.js
 │   │   │           Beskrivning:
-│   │   │           Definierar stilar för lager i "Allmän jakt: Däggdjur".
+│   │   │           Hanterar filtrering och presentation av information i popup-panelen för "Allmän jakt: Däggdjur".
+│   │   │           Extraherar och formaterar specifik information från geojsonfiler för att visa relevant innehåll.
+│   │   │   
+│   │   │   
+│   │   │   
+│   │   │    
 │   │   │
 │   │   ├── Kartor.html
 │   │   │   Beskrivning:
@@ -135,7 +132,7 @@
 │       Beskrivning:
 │       JavaScript-modul för hantering av GeoJSON-lager under "Kartor"-fliken.
 │       Använder Leaflet.js för kartfunktionalitet och Axios för HTTP-förfrågningar.
-│       Innehåller funktioner för att hämta, skapa och växla GeoJSON-lager.
+│       Innehåller funktioner för att hämta, skapa och växla GeoJSON-lager. samt stilsätter geojson filerna för Älgjaktskartan, Allmän jakt: Däggdjur och Allmän jakt: Fågel
 │
 └── Upptäck
     │
