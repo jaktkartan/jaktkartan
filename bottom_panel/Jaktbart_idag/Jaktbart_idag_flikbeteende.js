@@ -42,7 +42,7 @@ function getUserCounty(lat, lon) {
             L.geoJSON(geojson, {
                 onEachFeature: function(feature, layer) {
                     var polygon = L.geoJSON(feature.geometry);
-                    if (polygon.getBounds().contains([lat, lon])) {
+                    if (polygon.getBounds().isValid() && polygon.getBounds().contains([lat, lon])) {
                         userCounty = feature.properties.LÄN; // Använd rätt fältnamn
                     }
                 }
@@ -74,8 +74,12 @@ function handleUserPosition(position) {
             } else {
                 console.error('Could not determine user county.');
             }
+        })
+        .catch(function(error) {
+            console.error('Error getting user county:', error);
         });
 }
+
 
 // Starta process för att få användarens position
 if (navigator.geolocation) {
