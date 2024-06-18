@@ -14,14 +14,14 @@ var Kartor_geojsonHandler = (function() {
 
     var layerStyles = {
         'Allmän jakt: Däggdjur': {
-            'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'orange', color: 'gray', weight: 2 },
+            'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'orange', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
             'Allman_jakt_daggdjur_2.geojson': { fillColor: 'blue', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 }
         },
         'Allmän jakt: Fågel': {
             'Lnsindelning_1.geojson': { fillColor: 'yellow', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 },
-            'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'orange', color: 'gray', weight: 2 },
-            'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'blue', color: 'blue', weight: 8 },
-            'NedanfrLappmarksgrnsen_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2, fillOpacity: 0.7 },
+            'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'orange', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
+            'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'blue', color: 'blue', weight: 8, fillOpacity: 0.5  },
+            'NedanfrLappmarksgrnsen_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2, fillOpacity: 0.5 },
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2, fillOpacity: 0.7 }
         },
         'Älgjaktskartan': {
