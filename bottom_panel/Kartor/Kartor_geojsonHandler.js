@@ -16,6 +16,11 @@ var Kartor_geojsonHandler = (function() {
     };
 
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+        if (!Array.isArray(geojsonURLs) || geojsonURLs.length === 0) {
+            console.error('GeoJSON URL:s är antingen inte en array eller tom.');
+            return;
+        }
+
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
@@ -39,9 +44,14 @@ var Kartor_geojsonHandler = (function() {
                                     break;
                             }
                         }
-                    }).addTo(map); // Se till att 'map' är definierad och korrekt
+                    });
 
-                    geojsonLayers[layerName].push(layer);
+                    if (map) {
+                        layer.addTo(map);
+                        geojsonLayers[layerName].push(layer);
+                    } else {
+                        console.error("Kartan (map) är inte definierad.");
+                    }
                 })
                 .catch(function(error) {
                     console.log("Error fetching GeoJSON data:", error.message);
