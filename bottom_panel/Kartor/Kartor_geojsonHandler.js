@@ -21,6 +21,19 @@ var Kartor_geojsonHandler = (function() {
                     var geojson = response.data;
 
                     var layer = L.geoJSON(geojson, {
+                        style: function(feature) {
+                            // Använd stilar baserat på layerName
+                            switch (layerName) {
+                                case 'Allmän jakt: Däggdjur':
+                                    return allmanJaktDaggdjurStilar[feature.properties.style];
+                                case 'Allmän jakt: Fågel':
+                                    return allmanJaktFagelStilar[feature.properties.style];
+                                case 'Älgjaktskartan':
+                                    return algjaktskartanStilar[feature.properties.style];
+                                default:
+                                    return {}; // Returnera tomma stilar om inget matchar
+                            }
+                        },
                         onEachFeature: function(feature, layer) {
                             addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
                         }
