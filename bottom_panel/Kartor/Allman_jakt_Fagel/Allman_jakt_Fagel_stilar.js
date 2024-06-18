@@ -1,26 +1,26 @@
 // Allman_jakt_Fagel_stilar.js
 
 const defaultStyle = {
-    fillColor: "orange",
+    fillColor: "green",
     fillOpacity: 0.6,
+    stroke: true,
     color: "black",
-    weight: 1,
-    opacity: 1
+    weight: 1
 };
 
 const highlightStyle = {
     fillColor: "yellow",
     fillOpacity: 0.8,
+    stroke: true,
     color: "black",
-    weight: 2,
-    opacity: 1
+    weight: 2
 };
 
 function getDefaultStyle(feature) {
     return defaultStyle;
 }
 
-function applyFagelStyle(feature, layer) {
+function applyAllmanJaktFagelStyle(feature, layer) {
     layer.setStyle(getDefaultStyle(feature));
 
     layer.on({
@@ -33,4 +33,4 @@ function applyFagelStyle(feature, layer) {
     });
 }
 
-export { getDefaultStyle, applyFagelStyle };
+export { getDefaultStyle, applyAllmanJaktFagelStyle };
