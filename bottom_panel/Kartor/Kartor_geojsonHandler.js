@@ -1,6 +1,6 @@
-import { applyAlgjaktskartanStyle } from './bottom_panel/Kartor/Algjaktskartan/Algjaktskartan_stilar.js';
-import { applyAllmanJaktFagelStyle } from './bottom_panel/Kartor/Allman_jakt_Fagel/Allman_jakt_Fagel_stilar.js';
-import { applyAllmanJaktDaggdjurStyle } from './bottom_panel/Kartor/Allman_jakt_daggdjur/Allman_jakt_daggdjur_stilar.js';
+import { applyAlgjaktskartanStyle } from '../../bottom_panel/Kartor/Algjaktskartan/Algjaktskartan_stilar.js';
+import { applyAllmanJaktFagelStyle } from '../../bottom_panel/Kartor/Allman_jakt_Fagel/Allman_jakt_Fagel_stilar.js';
+import { applyAllmanJaktDaggdjurStyle } from '../../bottom_panel/Kartor/Allman_jakt_daggdjur/Allman_jakt_daggdjur_stilar.js';
 
 var Kartor_geojsonHandler = (function() {
     var layerIsActive = {
