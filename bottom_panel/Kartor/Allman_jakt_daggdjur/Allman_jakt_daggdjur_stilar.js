@@ -1,26 +1,26 @@
 // Allman_jakt_daggdjur_stilar.js
 
 const defaultStyle = {
-    fillColor: "green",
-    fillOpacity: 0.6,
-    color: "black",
-    weight: 1,
-    opacity: 1
+    fillColor: "orange",
+    fillOpacity: 0.4,
+    stroke: true,
+    color: "brown",
+    weight: 1
 };
 
 const highlightStyle = {
-    fillColor: "yellow",
-    fillOpacity: 0.8,
-    color: "black",
-    weight: 2,
-    opacity: 1
+    fillColor: "red",
+    fillOpacity: 0.6,
+    stroke: true,
+    color: "brown",
+    weight: 2
 };
 
 function getDefaultStyle(feature) {
     return defaultStyle;
 }
 
-function applyDaggdjurStyle(feature, layer) {
+function applyAllmanJaktDaggdjurStyle(feature, layer) {
     layer.setStyle(getDefaultStyle(feature));
 
     layer.on({
@@ -33,4 +33,4 @@ function applyDaggdjurStyle(feature, layer) {
     });
 }
 
-export { getDefaultStyle, applyDaggdjurStyle };
+export { getDefaultStyle, applyAllmanJaktDaggdjurStyle };
