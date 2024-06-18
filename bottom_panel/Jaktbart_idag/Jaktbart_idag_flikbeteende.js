@@ -66,13 +66,9 @@ function getUserCounty(lat, lon) {
         });
 }
 
-// Funktion för att hantera användarens position
-function handleUserPosition(position) {
-    var lat = position.coords.latitude;
-    var lon = position.coords.longitude;
-    console.log(`Användarens position: ${lat}, ${lon}`);
-
-    // Hämta användarens län
+// Funktion för att hantera användarens position från index.html
+function updateUserGeoLocationInJaktbart(lat, lon) {
+    // Anropa funktionen för att uppdatera användarens position i Jaktbart_idag_flikbeteende.js
     getUserCounty(lat, lon)
         .then(function(lan) {
             if (lan) {
@@ -86,19 +82,3 @@ function handleUserPosition(position) {
             console.error('Fel vid hämtning av användarens län:', error);
         });
 }
-
-// Lyssna på fliköppning för Jaktbart idag
-document.getElementById('tab3').addEventListener('click', function() {
-    // Starta process för att få användarens position och öppna Google Sheet
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(handleUserPosition, function(error) {
-            console.error('Geolokalisering fel:', error);
-        }, {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-        });
-    } else {
-        console.error('Geolokalisering stöds inte av denna webbläsare.');
-    }
-});
