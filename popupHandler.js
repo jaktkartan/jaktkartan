@@ -138,6 +138,3 @@ document.addEventListener('click', function(event) {
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
-
-// Lägg till hanterare för klick på geojson-lagret
-geojsonLayer.eachLayer(addClickHandlerToLayer);
