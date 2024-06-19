@@ -1,23 +1,4 @@
-// Funktioner för toggle väder fliken, för knapparna i bottenpanelen och en specialare för kaliberkrav fliken som först ger användaren 2 knappar för att välja vilken flik som ska visas.
-
-function togglePanel() {
-    console.log("Toggling weather panel...");
-    var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.style.display === 'none') {
-        console.log("Showing weather panel...");
-        weatherInfo.style.display = 'block';
-        navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Getting current position...");
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            console.log("Current position:", latitude, longitude);
-            getWeatherForecast(latitude, longitude);
-        });
-    } else {
-        console.log("Hiding weather panel...");
-        weatherInfo.style.display = 'none';
-    }
-}
+// tabHandler.js
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
 function resetTabs() {
@@ -113,6 +94,27 @@ function openKaliberkravTab(url) {
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
+        });
+}
+
+// Funktion för att öppna en flik med koordinatparametrar
+function openTabWithCoordinates(tabId, url) {
+    var queryString = `?lat=${window.userLatitude}&lon=${window.userLongitude}`;
+    var fullUrl = url + queryString;
+
+    resetTabs(); // Återställ flikarna innan en ny öppnas
+    var tab = document.getElementById(tabId);
+    tab.style.display = 'block'; // Visa den valda fliken
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'block'; // Visa flikinnehållet
+
+    fetch(fullUrl)
+        .then(response => response.text())
+        .then(html => {
+            tab.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error fetching tab content:', error);
         });
 }
 
