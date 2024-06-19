@@ -62,9 +62,8 @@ function updateUserGeoLocation(lat, lon) {
                 // Skicka URL:en till HTML-sidan
                 const sheetUrl = googleSheetUrls[lan];
                 if (sheetUrl) {
-                    const event = new CustomEvent('sheetUrlDetermined', { detail: { url: sheetUrl } });
-                    console.log('Skickar event:', event);
-                    window.dispatchEvent(event);
+                    // Skicka URL:en till Jaktbart_idag.html via postMessage
+                    window.parent.postMessage({ sheetUrl: sheetUrl }, '*');
                 } else {
                     console.error('Ingen Google Sheet-URL hittades för län:', lan);
                 }
