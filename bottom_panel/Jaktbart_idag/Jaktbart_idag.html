@@ -4,25 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
-    <script src="jaktbart_idag_flikbeteende.js" defer></script>
 </head>
 <body>
-    <iframe id="googleSheetFrame" src="" frameborder="0" width="100%" height="600px"></iframe>
+    <iframe id="googleSheetFrame" src="" frameborder="0"></iframe>
 
-    <script>
-        window.addEventListener('DOMContentLoaded', function() {
-            window.addEventListener('sheetUrlDetermined', function(event) {
-                const { url } = event.detail;
-                console.log('Mottog event:', event);
-
-                if (url) {
-                    document.getElementById('googleSheetFrame').src = url;
-                    console.log('Iframe uppdaterad med URL:', url);
-                } else {
-                    console.error('Ingen URL hittades.');
-                }
-            });
-        });
-    </script>
+    <!-- Inkludera skriptet jaktbart_idag_flikbeteende.js -->
+    <script src="jaktbart_idag_flikbeteende.js" defer></script>
 </body>
 </html>
