@@ -82,11 +82,6 @@
     <script>
         // Declare map as a global variable
         var map;
-        var userGeoLocation = {
-            latitude: null,
-            longitude: null,
-            accuracy: null
-        };
 
         document.addEventListener("DOMContentLoaded", function() {
             console.log("Initializing map...");
@@ -131,10 +126,6 @@
             function updateUserPosition(lat, lon, accuracy) {
                 console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
-                userGeoLocation.latitude = lat;
-                userGeoLocation.longitude = lon;
-                userGeoLocation.accuracy = accuracy;
-
                 var accuracyInfo = document.getElementById('accuracy');
                 accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
 
@@ -156,7 +147,7 @@
                 }
 
                 if (!pulsingDotMarker) {
-                                        pulsingDotMarker = createPulsingCircle(lat, lon);
+                    pulsingDotMarker = createPulsingCircle(lat, lon);
                 } else {
                     pulsingDotMarker.setLatLng([lat, lon]);
                 }
@@ -169,6 +160,7 @@
 
                 sunriseSpan.innerHTML = sunrise;
                 sunsetSpan.innerHTML = sunset;
+            }
 
             function getPositionFromIP() {
                 axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
@@ -259,8 +251,5 @@
         });
     </script>
     <script src="popupHandler.js"></script>
- 
-    </script>
 </body>
 </html>
-
