@@ -53,46 +53,39 @@ function getUserCounty(lat, lon) {
 }
 
 function updateUserGeoLocation(lat, lon) {
-    getUserCounty(lat, lon)
+    return getUserCounty(lat, lon)
         .then(function(lan) {
             if (lan) {
                 console.log(`Användaren är placerad i ${lan}`);
                 userCounty = lan;
 
-                // Skicka URL:en till HTML-sidan
-                const sheetUrl = googleSheetUrls[lan];
-                if (sheetUrl) {
-                    // Skicka URL:en till Jaktbart_idag.html via postMessage
-                    window.parent.postMessage({ sheetUrl: sheetUrl }, '*');
-                } else {
-                    console.error('Ingen Google Sheet-URL hittades för län:', lan);
-                }
+                return googleSheetUrls[lan];
             } else {
                 console.error('Kunde inte bestämma användarens län.');
+                return null;
             }
         })
         .catch(function(error) {
             console.error('Fel vid hämtning av användarens län:', error);
+            return null;
         });
 }
 
-function startGeolocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-            updateUserGeoLocation(lat, lon);
-        }, function(error) {
-            console.error('Geolocation error:', error);
-        }, {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-        });
-    } else {
-        console.error('Geolocation is not supported by this browser.');
-    }
-}
+// Exponera en funktion för att begära Google Sheets URL
+window.requestGoogleSheetUrl = function() {
+    return new Promise(function(resolve, reject) {
+        if (!userCounty) {
+            reject(new Error('Användarens län är inte bestämt ännu.'));
+        } else {
+            const sheetUrl = googleSheetUrls[userCounty];
+            if (sheetUrl) {
+                resolve(sheetUrl);
+            } else {
+                reject(new Error('Ingen Google Sheet-URL hittades för användarens län.'));
+            }
+        }
+    });
+};
 
 document.addEventListener('DOMContentLoaded', function() {
     startGeolocation();
