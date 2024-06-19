@@ -3,57 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Spreadsheet med GPS-position</title>
-    <!-- Lägg till Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <!-- Lägg till Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <title>Visa Användarens Koordinater</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #coordinates {
+            text-align: center;
+            font-size: 1.2em;
+        }
+    </style>
 </head>
 <body>
-    <h1>Din position och Google Spreadsheet</h1>
-    <p id="location">Bestämmer din position...</p>
-    <!-- Iframe för Google Spreadsheet -->
-    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false"
-        width="100%" height="600" frameborder="0" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
-    
+    <div id="coordinates">
+        <h2>Användarens Koordinater</h2>
+        <p id="latitude">Latitud: </p>
+        <p id="longitude">Longitud: </p>
+    </div>
+
     <script>
-        // Hämta användarens position
-        function getUserLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                document.getElementById("location").innerHTML = "Geolocation stöds inte av din webbläsare.";
-            }
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            var latitude = window.userLatitude;
+            var longitude = window.userLongitude;
 
-        // Hantera användarens position
-        function showPosition(position) {
-            const userLat = position.coords.latitude;
-            const userLon = position.coords.longitude;
-            document.getElementById("location").innerHTML = `Latitud: ${userLat}, Longitud: ${userLon}`;
-            console.log(`Latitud: ${userLat}, Longitud: ${userLon}`);
-        }
-
-        // Hantera fel vid hämtning av position
-        function showError(error) {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    document.getElementById("location").innerHTML = "Användaren nekade förfrågan om Geolocation.";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    document.getElementById("location").innerHTML = "Platsinformation är inte tillgänglig.";
-                    break;
-                case error.TIMEOUT:
-                    document.getElementById("location").innerHTML = "Förfrågan om att få användarens position tidsut.";
-                    break;
-                case error.UNKNOWN_ERROR:
-                    document.getElementById("location").innerHTML = "Ett okänt fel inträffade.";
-                    break;
-            }
-        }
-
-        // Kör funktionen för att hämta användarens position
-        getUserLocation();
+            document.getElementById("latitude").textContent += latitude;
+            document.getElementById("longitude").textContent += longitude;
+        });
     </script>
 </body>
 </html>
