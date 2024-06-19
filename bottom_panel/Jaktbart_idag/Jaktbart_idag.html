@@ -1,5 +1,3 @@
-<!-- jaktbart_idag.html -->
-
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -13,23 +11,28 @@
     <h1>Jaktbart idag</h1>
     <iframe id="googleSheetIframe" width="100%" height="600px" frameborder="0"></iframe>
 
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7.2.0"></script>
     <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Här kan du implementera geolokaliseringskod för att bestämma användarens latitud och longitud
-            const lat = 59.3293; // Exempel på användarens latitud
-            const lon = 18.0686; // Exempel på användarens longitud
+            // Implementera geolokalisering för att bestämma användarens latitud och longitud
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
 
-            // Anropa funktionen för att begära Google Sheets URL
-            requestGoogleSheetUrl(lat, lon)
-                .then(function(sheetUrl) {
-                    // Visa Google Sheets URL i iframe
-                    const iframe = document.getElementById('googleSheetIframe');
-                    iframe.src = sheetUrl;
-                })
-                .catch(function(error) {
-                    console.error('Kunde inte hämta Google Sheets URL:', error);
-                });
+                // Anropa funktionen för att begära Google Sheets URL baserat på användarens geografiska position
+                requestGoogleSheetUrl(lat, lon)
+                    .then(function(sheetUrl) {
+                        // Visa Google Sheets URL i iframe
+                        const iframe = document.getElementById('googleSheetIframe');
+                        iframe.src = sheetUrl;
+                    })
+                    .catch(function(error) {
+                        console.error('Kunde inte hämta Google Sheets URL:', error);
+                    });
+            }, function(error) {
+                console.error('Kunde inte hämta användarens position:', error);
+            });
         });
     </script>
 </body>
