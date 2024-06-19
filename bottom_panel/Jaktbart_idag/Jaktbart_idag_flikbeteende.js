@@ -1,26 +1,3 @@
-// jaktbart_idag_flikbeteende.js
-
-// Ladda GeoJSON-fil med länens geometrier
-fetch('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
-    .then(response => response.json())
-    .then(geojson => {
-        // Funktion för att bestämma användarens län baserat på geografisk position
-        function getUserCounty(lat, lon) {
-            return new Promise((resolve, reject) => {
-                // Loopa igenom alla län i GeoJSON-filen
-                for (let feature of geojson.features) {
-                    const polygon = L.geoJSON(feature.geometry);
-                    if (polygon.getBounds().isValid() && polygon.getBounds().contains([lat, lon])) {
-                        const userCounty = feature.properties.LÄN;
-                        resolve(userCounty);
-                        return; // Avsluta loopen när län hittas
-                    }
-                }
-                // Om användarens län inte hittas
-                reject(new Error('Användaren är inte placerad inom något läns polygon.'));
-            });
-        }
-
         // Mapping län till Google Sheet URLs
         const googleSheetUrls = {
     "BLEKINGE LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false",
@@ -46,33 +23,51 @@ fetch('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
     "ÖSTERGÖTLANDS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false"
         };
 
-        // Funktion för att begära Google Sheets URL baserat på användarens geolokaliserade län
-        function requestGoogleSheetUrl(lat, lon) {
-            return getUserCounty(lat, lon)
-                .then(userCounty => {
-                    if (userCounty) {
-                        console.log(`Användaren är placerad i ${userCounty}`);
-                        const sheetUrl = googleSheetUrls[userCounty];
-                        if (sheetUrl) {
-                            return sheetUrl;
-                        } else {
-                            throw new Error('Ingen Google Sheet-URL hittades för användarens län.');
-                        }
-                    } else {
-                        throw new Error('Kunde inte bestämma användarens län.');
+// Funktion för att bestämma användarens län baserat på geolokalisering
+function getUserCounty(lat, lon) {
+    return new Promise((resolve, reject) => {
+        fetch('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
+            .then(response => response.json())
+            .then(geojson => {
+                // Loopa igenom varje feature för att hitta det länet som innehåller användarens koordinater
+                for (let feature of geojson.features) {
+                    const polygon = turf.polygon(feature.geometry.coordinates);
+                    if (turf.booleanPointInPolygon([lon, lat], polygon)) {
+                        const userCounty = feature.properties.LÄN;
+                        resolve(userCounty);
+                        return;
                     }
-                })
-                .catch(error => {
-                    console.error('Fel vid hämtning av användarens län:', error);
-                    throw error;
-                });
-        }
-
-        // Exportera funktionen för att begära Google Sheets URL
-        module.exports = {
-            requestGoogleSheetUrl
-        };
-    })
-    .catch(error => {
-        console.error('Fel vid laddning av GeoJSON-fil:', error);
+                }
+                reject(new Error('Användaren är inte placerad inom något läns polygon.'));
+            })
+            .catch(error => {
+                console.error('Fel vid hämtning av GeoJSON-fil:', error);
+                reject(error);
+            });
     });
+}
+
+// Funktion för att begära Google Sheets URL baserat på användarens geolokaliserade län
+function requestGoogleSheetUrl(lat, lon) {
+    return getUserCounty(lat, lon)
+        .then(userCounty => {
+            if (userCounty) {
+                console.log(`Användaren är placerad i ${userCounty}`);
+                const sheetUrl = googleSheetUrls[userCounty];
+                if (sheetUrl) {
+                    return sheetUrl;
+                } else {
+                    throw new Error('Ingen Google Sheet-URL hittades för användarens län.');
+                }
+            } else {
+                throw new Error('Kunde inte bestämma användarens län.');
+            }
+        })
+        .catch(error => {
+            console.error('Fel vid hämtning av användarens län:', error);
+            throw error;
+        });
+}
+
+// Exponera funktionen för att begära Google Sheets URL till global scope (för användning i jaktbart_idag.html)
+window.requestGoogleSheetUrl = requestGoogleSheetUrl;
