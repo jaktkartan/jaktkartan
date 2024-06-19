@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     function updatePosition() {
+        console.log("Attempting to update position...");
+
         var latitudeElement = document.getElementById('latitude');
         var longitudeElement = document.getElementById('longitude');
 
@@ -7,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hämta latitud och longitud från localStorage
             var lat = parseFloat(localStorage.getItem('userLatitude'));
             var lon = parseFloat(localStorage.getItem('userLongitude'));
+
+            // Log the fetched values
+            console.log("Fetched from localStorage - Latitude:", lat, "Longitude:", lon);
 
             // Visa latitud och longitud på sidan
             if (!isNaN(lat) && !isNaN(lon)) {
@@ -27,9 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var longitudeElement = document.getElementById('longitude');
 
         if (latitudeElement && longitudeElement) {
+            console.log("Elements found, updating position...");
             updatePosition();
         } else {
             // Om elementen inte finns, vänta och prova igen
+            console.log("Elements not found, retrying...");
             setTimeout(waitForElements, 100);
         }
     }
