@@ -10,51 +10,31 @@
     <h1>Jaktbart idag</h1>
     <p>Denna sida visar användarens aktuella koordinater.</p>
     <p id="coordinates-info">Laddar koordinater...</p>
-    
-    <!-- Knapp för att manuellt hämta och visa koordinater -->
-    <button id="getCoordinatesButton">Hämta koordinater</button>
+    <p id="url-info">URL: <span id="urlParams"></span></p>
     
     <script>
-        // Funktion för att hämta parametrar från URL
-        function getUrlParameter(name) {
-            name = name.replace(/[\[\]]/g, '\\$&');
-            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                results = regex.exec(window.location.href);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
-        
-        // Funktion för att visa koordinaterna
-        function showCoordinates(latitude, longitude) {
-            var coordinatesInfo = document.getElementById('coordinates-info');
-            coordinatesInfo.textContent = `Dina aktuella koordinater är: ${latitude}, ${longitude}`;
-        }
-        
-        // Funktion för att hämta koordinaterna från URL och visa dem
-        function getCoordinatesFromUrl() {
-            var lat = getUrlParameter('lat');
-            var lon = getUrlParameter('lon');
-            console.log('Latitud:', lat);
-            console.log('Longitud:', lon);
+        // Funktion för att hämta och visa koordinater från URL
+        function showCoordinatesFromUrl() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var lat = urlParams.get('lat');
+            var lon = urlParams.get('lon');
             
             if (lat && lon) {
-                showCoordinates(lat, lon);
+                var coordinatesInfo = document.getElementById('coordinates-info');
+                coordinatesInfo.textContent = `Dina aktuella koordinater är: ${lat}, ${lon}`;
             } else {
-                console.error('Kunde inte hämta koordinater från URL');
+                console.error('Kunde inte hitta latitud och longitud i URL');
             }
+
+            // Visa hela URL:en för felsökning
+            var urlParamsContainer = document.getElementById('urlParams');
+            urlParamsContainer.textContent = window.location.href;
         }
         
         // Hantera när sidan laddas
         document.addEventListener('DOMContentLoaded', function() {
             console.log('jaktbart_idag.html har laddats.');
-            getCoordinatesFromUrl(); // Hämta och visa koordinaterna från URL vid sidans laddning
-            
-            // Lägg till händelselyssnare för knappen
-            var getCoordinatesButton = document.getElementById('getCoordinatesButton');
-            getCoordinatesButton.addEventListener('click', function() {
-                getCoordinatesFromUrl(); // Anropa funktionen när knappen klickas för att uppdatera koordinaterna
-            });
+            showCoordinatesFromUrl(); // Visa koordinaterna från URL vid sidans laddning
         });
     </script>
 </body>
