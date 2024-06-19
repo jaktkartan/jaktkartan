@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var lon = parseFloat(localStorage.getItem('userLongitude'));
 
             // Visa latitud och longitud på sidan
-            if (lat && lon) {
+            if (!isNaN(lat) && !isNaN(lon)) {
                 latitudeElement.textContent = lat.toFixed(6); // Justera precisionen efter behov
                 longitudeElement.textContent = lon.toFixed(6); // Justera precisionen efter behov
             } else {
