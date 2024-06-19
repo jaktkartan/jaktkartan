@@ -23,33 +23,18 @@ const googleSheetUrls = {
     "ÖSTERGÖTLANDS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false"
 };
 
-// Funktion för att öppna Google Sheet baserat på län
-function openGoogleSheetForCounty(lan) {
-    const sheetUrl = googleSheetUrls[lan];
-    if (sheetUrl) {
-        var googleSheetFrame = document.getElementById('googleSheetFrame');
-        if (googleSheetFrame) {
-            googleSheetFrame.src = sheetUrl;
-        } else {
-            console.error('Elementet #googleSheetFrame hittades inte.');
-        }
-    } else {
-        console.error('Ingen Google Sheet-URL hittades för län:', lan);
-    }
-}
-
 // Funktionsdeklaration för att få användarens län baserat på position
 function getUserCounty(lat, lon) {
     return axios.get('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
         .then(function(response) {
-            var geojson = response.data; // Spara geojson-data i variabeln
+            var geojson = response.data;
             var userCounty = null;
 
             L.geoJSON(geojson, {
                 onEachFeature: function(feature, layer) {
                     var polygon = L.geoJSON(feature.geometry);
                     if (polygon.getBounds().isValid() && polygon.getBounds().contains([lat, lon])) {
-                        userCounty = feature.properties.LÄN; // Använd rätt fältnamn
+                        userCounty = feature.properties.LÄN;
                     }
                 }
             });
@@ -66,14 +51,14 @@ function getUserCounty(lat, lon) {
         });
 }
 
-// Funktion för att hantera användarens position från index.html
-function updateUserGeoLocationInJaktbart(lat, lon) {
-    // Anropa funktionen för att uppdatera användarens position i Jaktbart_idag_flikbeteende.js
+// Uppdatera användarens position
+function updateUserGeoLocation(lat, lon) {
     getUserCounty(lat, lon)
         .then(function(lan) {
             if (lan) {
                 console.log(`Användaren är placerad i ${lan}`);
-                openGoogleSheetForCounty(lan);
+                // Spara länsinformationen globalt för senare användning
+                window.userCounty = lan;
             } else {
                 console.error('Kunde inte bestämma användarens län.');
             }
@@ -81,4 +66,23 @@ function updateUserGeoLocationInJaktbart(lat, lon) {
         .catch(function(error) {
             console.error('Fel vid hämtning av användarens län:', error);
         });
+}
+
+// Geolocation logik som kan kallas från index.html
+function startGeolocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            updateUserGeoLocation(lat, lon);
+        }, function(error) {
+            console.error('Geolocation error:', error);
+        }, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        });
+    } else {
+        console.error('Geolocation is not supported by this browser.');
+    }
 }
