@@ -5,21 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
 </head>
-<body><!DOCTYPE html>
-<html lang="sv">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktbart Idag</title>
-</head>
 <body>
     <iframe id="googleSheetFrame" src="" frameborder="0"></iframe>
 
-    <!-- Inkludera skriptet jaktbart_idag_flikbeteende.js -->
-    <script src="jaktbart_idag_flikbeteende.js" defer></script>
-
     <script>
-        // Lyssna på händelsen sheetUrlDetermined från jaktbart_idag_flikbeteende.js
+        // Lyssna på händelsen sheetUrlDetermined från parent window (index.html)
         window.addEventListener('sheetUrlDetermined', function(event) {
             const sheetUrl = event.detail.url;
             if (sheetUrl) {
@@ -30,12 +20,5 @@
             }
         });
     </script>
-</body>
-</html>
-
-    <iframe id="googleSheetFrame" src="" frameborder="0"></iframe>
-
-    <!-- Inkludera skriptet jaktbart_idag_flikbeteende.js -->
-    <script src="jaktbart_idag_flikbeteende.js" defer></script>
 </body>
 </html>
