@@ -3,10 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Spreadsheet iFrame</title>
+    <title>Google Spreadsheet med GPS-position</title>
+    <!-- Lägg till Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Lägg till Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
 <body>
-    <h1>Google Spreadsheet iFrame</h1>
+    <h1>Din position och Google Spreadsheet</h1>
+    <p id="location">Bestämmer din position...</p>
     <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false" width="100%" height="600" frameborder="0"></iframe>
+    
+    <script>
+        // Hämta användarens position
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById("location").innerHTML = "Geolocation är inte stödjs av din webbläsare.";
+            }
+        }
+
+        // Hantera användarens position
+        function showPosition(position) {
+            const userLat = position.coords.latitude;
+            const userLon = position.coords.longitude;
+            checkLocation(userLat, userLon);
+        }
+
+        // Hantera fel vid hämtning av position
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("location").innerHTML = "Användaren nekade förfrågan om Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("location").innerHTML = "Platsinformation är inte tillgänglig.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("location").innerHTML = "Förfrågan om att få användarens position tidsut.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById("location").innerHTML = "Ett okänt fel inträffade.";
+                    break;
+            }
+        }
+
+        // Kontrollera om användarens position är inom något län
+        async function checkLocation(lat, lon) {
+            // Hämta GeoJSON-data
+            const response = await fetch('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson');
+            const geojson = await response.json();
+
+            // Skapa en Leaflet geojson layer
+            const geojsonLayer = L.geoJSON(geojson);
+
+            // Kontrollera om användarens position är inom något av polygonerna
+            let userLocation = L.latLng(lat, lon);
+            let found = false;
+
+            geojsonLayer.eachLayer(function (layer) {
+                if (layer.getBounds().contains(userLocation)) {
+                    const lanName = layer.feature.properties.LÄN;
+                    document.getElementById("location").innerHTML = "Du befinner dig i: " + lanName;
+                    found = true;
+                }
+            });
+
+            if (!found) {
+                document.getElementById("location").innerHTML = "Din position kunde inte matchas med något län.";
+            }
+        }
+
+        // Kör funktionen för att hämta användarens position
+        getUserLocation();
+    </script>
 </body>
 </html>
