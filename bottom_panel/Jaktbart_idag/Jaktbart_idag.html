@@ -1,34 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visa Koordinater</title>
 </head>
 <body>
-    <h1>Användarens Koordinater</h1>
-    <div id="coordinates">
-        <p><strong>Latitude:</strong> <span id="latitude"></span></p>
-        <p><strong>Longitude:</strong> <span id="longitude"></span></p>
-    </div>
+    <h1>Visa Koordinater</h1>
+    <button id="showCoordinatesBtn">Visa Koordinater</button>
+    <div id="coordinatesContainer"></div>
 
-    <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
-    <script>
-        // Funktion för att hantera koordinaterna, som används från Jaktbart_idag_flikbeteende.js
-        function handleCoordinates(lat, lon) {
-            // Denna funktion anropas från Jaktbart_idag_flikbeteende.js för att spara och visa koordinaterna
-            var userLatitude = localStorage.getItem('userLatitude');
-            var userLongitude = localStorage.getItem('userLongitude');
-            
-            // Kontrollera att koordinaterna är tillgängliga och inte är null eller undefined
-            if (userLatitude !== null && userLongitude !== null) {
-                document.getElementById('latitude').textContent = userLatitude;
-                document.getElementById('longitude').textContent = userLongitude;
-            } else {
-                console.log("Kunde inte hämta koordinater från localStorage.");
-            }
-        }
-    </script>
+    <script src="Jaktbart_idag_flikbeteende.js"></script>
 </body>
 </html>
-
