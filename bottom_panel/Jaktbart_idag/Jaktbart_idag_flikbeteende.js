@@ -57,8 +57,7 @@ function updateUserGeoLocation(lat, lon) {
         .then(function(lan) {
             if (lan) {
                 console.log(`Användaren är placerad i ${lan}`);
-                // Spara länsinformationen globalt för senare användning
-                window.userCounty = lan;
+                userCounty = lan; // Spara länsinformationen globalt för senare användning
             } else {
                 console.error('Kunde inte bestämma användarens län.');
             }
@@ -86,3 +85,8 @@ function startGeolocation() {
         console.error('Geolocation is not supported by this browser.');
     }
 }
+
+// Starta geolocation när sidan laddas
+document.addEventListener('DOMContentLoaded', function() {
+    startGeolocation();
+});
