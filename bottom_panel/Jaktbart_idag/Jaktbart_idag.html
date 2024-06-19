@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visa Användarens Koordinater</title>
+    <title>Jaktbart idag</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,27 +13,44 @@
             height: 100vh;
             margin: 0;
         }
-        #coordinates {
+
+        .container {
             text-align: center;
-            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
-    <div id="coordinates">
-        <h2>Användarens Koordinater</h2>
-        <p id="latitude">Latitud: </p>
-        <p id="longitude">Longitud: </p>
+    <div class="container">
+        <h1>Välkommen till Jaktbart idag</h1>
+        <p>Denna sida visar användarens aktuella koordinater.</p>
+        <div id="coordinates"></div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var latitude = window.userLatitude;
-            var longitude = window.userLongitude;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Funktion för att hämta och visa användarens koordinater
+            function showUserCoordinates() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        var latitude = position.coords.latitude.toFixed(6);
+                        var longitude = position.coords.longitude.toFixed(6);
+                        var coordinatesElement = document.getElementById('coordinates');
+                        coordinatesElement.textContent = `Dina koordinater är: Latitud ${latitude}, Longitud ${longitude}`;
+                    }, function(error) {
+                        console.error('Geolocation error:', error.message);
+                        var coordinatesElement = document.getElementById('coordinates');
+                        coordinatesElement.textContent = 'Kunde inte hämta dina koordinater.';
+                    });
+                } else {
+                    var coordinatesElement = document.getElementById('coordinates');
+                    coordinatesElement.textContent = 'Geolocation stöds inte av din webbläsare.';
+                }
+            }
 
-            document.getElementById("latitude").textContent += latitude;
-            document.getElementById("longitude").textContent += longitude;
+            // Anropa funktionen för att visa koordinaterna när sidan laddas
+            showUserCoordinates();
         });
     </script>
 </body>
 </html>
+
