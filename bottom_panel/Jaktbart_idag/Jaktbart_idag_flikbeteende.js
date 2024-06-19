@@ -62,7 +62,7 @@ function updateUserGeoLocation(lat, lon) {
                 userCounty = lan;
 
                 // Skicka länsinformationen till HTML-sidan
-                window.dispatchEvent(new CustomEvent('countyDetermined', { detail: lan }));
+                window.dispatchEvent(new CustomEvent('countyDetermined', { detail: { lan, url: googleSheetUrls[lan] } }));
             } else {
                 console.error('Kunde inte bestämma användarens län.');
             }
