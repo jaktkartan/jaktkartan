@@ -80,11 +80,8 @@
     <script src="tabHandler.js"></script>
 
     <script>
-        // Declare map and user position as global variables
+        // Declare map as a global variable
         var map;
-        var userLatitude;
-        var userLongitude;
-        var userAccuracy;
 
         document.addEventListener("DOMContentLoaded", function() {
             console.log("Initializing map...");
@@ -128,11 +125,6 @@
 
             function updateUserPosition(lat, lon, accuracy) {
                 console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
-
-                // Update global variables
-                userLatitude = lat;
-                userLongitude = lon;
-                userAccuracy = accuracy;
 
                 var accuracyInfo = document.getElementById('accuracy');
                 accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
