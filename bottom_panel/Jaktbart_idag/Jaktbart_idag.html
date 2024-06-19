@@ -10,10 +10,19 @@
     <iframe id="googleSheetFrame" width="100%" height="600" frameborder="0"></iframe>
 
     <script>
-        window.addEventListener('message', function(event) {
-            if (event.data.sheetUrl) {
-                var iframe = document.getElementById('googleSheetFrame');
-                iframe.src = event.data.sheetUrl;
+        window.addEventListener('DOMContentLoaded', function() {
+            // När sidan är laddad, begär Google Sheets URL från Jaktbart_idag_flikbeteende.js
+            if (window.parent && window.parent.requestGoogleSheetUrl) {
+                window.parent.requestGoogleSheetUrl()
+                    .then(function(sheetUrl) {
+                        var iframe = document.getElementById('googleSheetFrame');
+                        iframe.src = sheetUrl;
+                    })
+                    .catch(function(error) {
+                        console.error('Kunde inte hämta Google Sheets URL:', error);
+                    });
+            } else {
+                console.error('requestGoogleSheetUrl funktionen finns inte i parent window.');
             }
         });
     </script>
