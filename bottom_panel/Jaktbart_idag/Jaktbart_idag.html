@@ -41,10 +41,14 @@
 
             // Lägg till händelselyssnare för knappen
             var getCoordinatesButton = document.getElementById('getCoordinatesButton');
+            console.log('getCoordinatesButton:', getCoordinatesButton);
+            
             getCoordinatesButton.addEventListener('click', function() {
+                console.log('Knapp klickad. Försöker hämta koordinater...');
                 getCoordinates(); // Anropa funktionen när knappen klickas
             });
         });
     </script>
 </body>
 </html>
+
