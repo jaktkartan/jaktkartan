@@ -14,39 +14,48 @@
     <!-- Knapp för att manuellt hämta och visa koordinater -->
     <button id="getCoordinatesButton">Hämta koordinater</button>
     
-    <script src="tabHandler.js"></script>
     <script>
+        // Funktion för att hämta parametrar från URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+        
         // Funktion för att visa koordinaterna
         function showCoordinates(latitude, longitude) {
             var coordinatesInfo = document.getElementById('coordinates-info');
             coordinatesInfo.textContent = `Dina aktuella koordinater är: ${latitude}, ${longitude}`;
         }
-
-        // Funktion för att hämta och visa koordinaterna
-        function getCoordinates() {
-            console.log('Manuellt försök att hämta koordinater...');
-            console.log('window.userLatitude:', window.userLatitude);
-            console.log('window.userLongitude:', window.userLongitude);
+        
+        // Funktion för att hämta koordinaterna från URL och visa dem
+        function getCoordinatesFromUrl() {
+            var lat = getUrlParameter('lat');
+            var lon = getUrlParameter('lon');
+            console.log('Latitud:', lat);
+            console.log('Longitud:', lon);
             
-            if (window.userLatitude && window.userLongitude) {
-                showCoordinates(window.userLatitude, window.userLongitude);
+            if (lat && lon) {
+                showCoordinates(lat, lon);
             } else {
-                console.error('Kunde inte hämta koordinater från tabHandler.js');
+                console.error('Kunde inte hämta koordinater från URL');
             }
         }
-
+        
         // Hantera när sidan laddas
         document.addEventListener('DOMContentLoaded', function() {
             console.log('jaktbart_idag.html har laddats.');
-
+            getCoordinatesFromUrl(); // Hämta och visa koordinaterna från URL vid sidans laddning
+            
             // Lägg till händelselyssnare för knappen
             var getCoordinatesButton = document.getElementById('getCoordinatesButton');
             getCoordinatesButton.addEventListener('click', function() {
-                console.log('Knappen klickades!');
-                getCoordinates(); // Anropa funktionen när knappen klickas
+                getCoordinatesFromUrl(); // Anropa funktionen när knappen klickas för att uppdatera koordinaterna
             });
         });
     </script>
 </body>
 </html>
-
