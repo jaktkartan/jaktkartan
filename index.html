@@ -49,7 +49,7 @@
     <div id="bottom-panel">
         <button class="panel-button" onclick="openTab('tab1', 'bottom_panel/Upptack/Upptack.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/upptack.png" alt="Upptäck"></button>
         <button class="panel-button" onclick="openTab('tab2', 'bottom_panel/Kartor/Kartor.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kartor.png" alt="Kartor"></button>
-        <button class="panel-button" onclick="openTabWithCoordinates('tab3', 'bottom_panel/Jaktbart_idag/Jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
+        <button class="panel-button" onclick="openTab('tab3', 'bottom_panel/Jaktbart_idag/Jaktbart_idag.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktbart idag.png" alt="Jaktbart idag"></button>
         <button class="panel-button" onclick="openTab('tab4', '')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/kaliberkrav.png" alt="Kaliberkrav"></button>
         <button class="panel-button" onclick="openTab('tab5', 'bottom_panel/Jaktkollen/Jaktkollen.html')"><img src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/jaktkollen.png" alt="Jaktkollen"></button>
     </div>
@@ -77,6 +77,7 @@
     <script src="bottom_panel/Jaktkollen/Jaktkollen_flikbeteende.js"></script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
+    <script src="tabHandler.js"></script>
 
     <script>
         // Declare map as a global variable
@@ -250,6 +251,5 @@
         });
     </script>
     <script src="popupHandler.js"></script>
-    <script src="tabHandler.js"></script>
 </body>
 </html>
