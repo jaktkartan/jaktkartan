@@ -23,6 +23,8 @@ const googleSheetUrls = {
     "ÖSTERGÖTLANDS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false"
 };
 
+let userCounty = null;
+
 // Funktionsdeklaration för att få användarens län baserat på position
 function getUserCounty(lat, lon) {
     return axios.get('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
@@ -57,7 +59,10 @@ function updateUserGeoLocation(lat, lon) {
         .then(function(lan) {
             if (lan) {
                 console.log(`Användaren är placerad i ${lan}`);
-                userCounty = lan; // Spara länsinformationen globalt för senare användning
+                userCounty = lan;
+
+                // Skicka länsinformationen till HTML-sidan
+                window.dispatchEvent(new CustomEvent('countyDetermined', { detail: lan }));
             } else {
                 console.error('Kunde inte bestämma användarens län.');
             }
