@@ -100,7 +100,7 @@ function openTabWithCoordinates(tabId, url) {
     var queryString = `?lat=${window.userLatitude}&lon=${window.userLongitude}`;
     var fullUrl = url + queryString;
 
-    console.log('Full URL:', fullUrl); // Logga den fullständiga URL:en för att kontrollera
+    console.log('Full URL:', fullUrl); // Lägg till denna logg för att verifiera den fullständiga URL:en
 
     resetTabs(); // Återställ flikarna innan en ny öppnas
     var tab = document.getElementById(tabId);
