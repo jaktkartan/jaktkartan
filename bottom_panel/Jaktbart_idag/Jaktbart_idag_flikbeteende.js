@@ -21,24 +21,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Kontrollera om elementen finns och kör updatePosition om de gör det
-    if (document.getElementById('latitude') && document.getElementById('longitude')) {
-        updatePosition();
+    // Funktion för att vänta på att elementen ska finnas
+    function waitForElements() {
+        var latitudeElement = document.getElementById('latitude');
+        var longitudeElement = document.getElementById('longitude');
+
+        if (latitudeElement && longitudeElement) {
+            updatePosition();
+        } else {
+            // Om elementen inte finns, vänta och prova igen
+            setTimeout(waitForElements, 100);
+        }
     }
 
-    // Använd MutationObserver för att övervaka DOM-förändringar
-    const observer = new MutationObserver(function(mutationsList, observer) {
-        for (const mutation of mutationsList) {
-            if (mutation.type === 'childList') {
-                if (document.getElementById('latitude') && document.getElementById('longitude')) {
-                    updatePosition();
-                    observer.disconnect(); // Koppla från observern när elementen hittas
-                }
-            }
-        }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
+    // Starta väntningen direkt när sidan har laddats
+    waitForElements();
 
     // Kör updatePosition när localStorage uppdateras
     window.addEventListener('storage', updatePosition);
