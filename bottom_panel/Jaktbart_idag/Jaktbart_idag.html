@@ -12,7 +12,7 @@
     <p id="coordinates-info">Laddar koordinater...</p>
     
     <!-- Knapp för att manuellt hämta och visa koordinater -->
-    <button onclick="getCoordinates()">Hämta koordinater</button>
+    <button id="getCoordinatesButton">Hämta koordinater</button>
     
     <script src="tabHandler.js"></script>
     <script>
@@ -38,9 +38,13 @@
         // Hantera när sidan laddas
         document.addEventListener('DOMContentLoaded', function() {
             console.log('jaktbart_idag.html har laddats.');
+
+            // Lägg till händelselyssnare för knappen
+            var getCoordinatesButton = document.getElementById('getCoordinatesButton');
+            getCoordinatesButton.addEventListener('click', function() {
+                getCoordinates(); // Anropa funktionen när knappen klickas
+            });
         });
     </script>
 </body>
-</html>
-
 </html>
