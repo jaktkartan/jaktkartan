@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart idag</title>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
 <body>
     <h1>Jaktbart idag</h1>
@@ -14,6 +16,7 @@
     <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Här kan du implementera geolokaliseringskod för att bestämma användarens latitud och longitud
             const lat = 59.3293; // Exempel på användarens latitud
             const lon = 18.0686; // Exempel på användarens longitud
 
