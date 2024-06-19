@@ -100,6 +100,8 @@ function openTabWithCoordinates(tabId, url) {
     var queryString = `?lat=${window.userLatitude}&lon=${window.userLongitude}`;
     var fullUrl = url + queryString;
 
+    console.log('Full URL:', fullUrl); // Logga den fullständiga URL:en för att kontrollera
+
     resetTabs(); // Återställ flikarna innan en ny öppnas
     var tab = document.getElementById(tabId);
     tab.style.display = 'block'; // Visa den valda fliken
@@ -107,14 +109,19 @@ function openTabWithCoordinates(tabId, url) {
     tabContent.style.display = 'block'; // Visa flikinnehållet
 
     fetch(fullUrl)
-        .then(response => response.text())
+        .then(response => {
+            console.log('Fetch response status:', response.status); // Logga statuskoden från fetch-svaret
+            return response.text();
+        })
         .then(html => {
+            console.log('Fetched HTML content:', html); // Logga det hämtade HTML-innehållet
             tab.innerHTML = html;
         })
         .catch(error => {
             console.error('Error fetching tab content:', error);
         });
 }
+
 
 // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
 document.addEventListener('click', function(event) {
