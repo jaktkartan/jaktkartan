@@ -1,11 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM content loaded');
     var latitudeElement = document.getElementById('latitude');
     var longitudeElement = document.getElementById('longitude');
+
+    console.log('Latitude element:', latitudeElement);
+    console.log('Longitude element:', longitudeElement);
 
     if (latitudeElement && longitudeElement) {
         // Hämta latitud och longitud från localStorage
         var lat = parseFloat(localStorage.getItem('userLatitude'));
         var lon = parseFloat(localStorage.getItem('userLongitude'));
+
+        console.log('Latitude from localStorage:', lat);
+        console.log('Longitude from localStorage:', lon);
 
         // Visa latitud och longitud på sidan
         if (lat && lon) {
