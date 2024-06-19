@@ -10,31 +10,26 @@
     <h1>Jaktbart idag</h1>
     <p>Denna sida visar användarens aktuella koordinater.</p>
     <p id="coordinates-info">Laddar koordinater...</p>
-    <p id="url-info">URL: <span id="urlParams"></span></p>
-    
-    <script>
-        // Funktion för att hämta och visa koordinater från URL
-        function showCoordinatesFromUrl() {
-            var urlParams = new URLSearchParams(window.location.search);
-            var lat = urlParams.get('lat');
-            var lon = urlParams.get('lon');
-            
-            if (lat && lon) {
-                var coordinatesInfo = document.getElementById('coordinates-info');
-                coordinatesInfo.textContent = `Dina aktuella koordinater är: ${lat}, ${lon}`;
-            } else {
-                console.error('Kunde inte hitta latitud och longitud i URL');
-            }
 
-            // Visa hela URL:en för felsökning
-            var urlParamsContainer = document.getElementById('urlParams');
-            urlParamsContainer.textContent = window.location.href;
+    <script src="tabHandler.js"></script>
+    <script>
+        // Funktion för att visa koordinaterna från URL:en
+        function showCoordinatesFromURL() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var latitude = urlParams.get('lat');
+            var longitude = urlParams.get('lon');
+
+            if (latitude && longitude) {
+                var coordinatesInfo = document.getElementById('coordinates-info');
+                coordinatesInfo.textContent = `Dina aktuella koordinater är: ${latitude}, ${longitude}`;
+            } else {
+                console.error('Kunde inte hitta koordinater i URL:en');
+            }
         }
-        
+
         // Hantera när sidan laddas
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('jaktbart_idag.html har laddats.');
-            showCoordinatesFromUrl(); // Visa koordinaterna från URL vid sidans laddning
+            showCoordinatesFromURL();
         });
     </script>
 </body>
