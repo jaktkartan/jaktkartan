@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktbart idag</title>
+    <title>Jaktbart</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Eventuella andra stilar eller biblioteker -->
 </head>
 <body>
-    <h1>Välkommen till Jaktbart idag</h1>
+    <h1>Jaktbart</h1>
     <p>Denna sida visar användarens aktuella koordinater.</p>
     <p id="coordinates-info">Laddar koordinater...</p>
     
-    <!-- Eventuellt annat innehåll för din sida -->
-
     <script src="tabHandler.js"></script>
     <script>
         // Funktion för att visa koordinaterna
@@ -22,10 +19,22 @@
             coordinatesInfo.textContent = `Dina aktuella koordinater är: ${latitude}, ${longitude}`;
         }
 
-        // Funktion för att hantera när sidan laddas
+        // Funktion för att hämta koordinaterna från tabHandler.js
+        function getCoordinatesFromTabHandler() {
+            console.log('Försöker hämta koordinater från tabHandler.js...');
+            console.log('window.userLatitude:', window.userLatitude);
+            console.log('window.userLongitude:', window.userLongitude);
+            
+            if (window.userLatitude && window.userLongitude) {
+                showCoordinates(window.userLatitude, window.userLongitude);
+            } else {
+                console.error('Kunde inte hämta koordinater från tabHandler.js');
+            }
+        }
+
+        // Hantera när sidan laddas
         document.addEventListener('DOMContentLoaded', function() {
-            // Hämta koordinaterna från globala variabler window.userLatitude och window.userLongitude
-            showCoordinates(window.userLatitude, window.userLongitude);
+            getCoordinatesFromTabHandler();
         });
     </script>
 </body>
