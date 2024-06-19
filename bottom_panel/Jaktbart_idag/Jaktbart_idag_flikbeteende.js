@@ -25,7 +25,6 @@ const googleSheetUrls = {
 
 let userCounty = null;
 
-// Funktionsdeklaration för att få användarens län baserat på position
 function getUserCounty(lat, lon) {
     return axios.get('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
         .then(function(response) {
@@ -53,7 +52,6 @@ function getUserCounty(lat, lon) {
         });
 }
 
-// Uppdatera användarens position
 function updateUserGeoLocation(lat, lon) {
     getUserCounty(lat, lon)
         .then(function(lan) {
@@ -61,8 +59,15 @@ function updateUserGeoLocation(lat, lon) {
                 console.log(`Användaren är placerad i ${lan}`);
                 userCounty = lan;
 
-                // Skicka länsinformationen till HTML-sidan
-                window.dispatchEvent(new CustomEvent('countyDetermined', { detail: { lan, url: googleSheetUrls[lan] } }));
+                // Skicka URL:en till HTML-sidan
+                const sheetUrl = googleSheetUrls[lan];
+                if (sheetUrl) {
+                    const event = new CustomEvent('sheetUrlDetermined', { detail: { url: sheetUrl } });
+                    console.log('Skickar event:', event);
+                    window.dispatchEvent(event);
+                } else {
+                    console.error('Ingen Google Sheet-URL hittades för län:', lan);
+                }
             } else {
                 console.error('Kunde inte bestämma användarens län.');
             }
@@ -72,7 +77,6 @@ function updateUserGeoLocation(lat, lon) {
         });
 }
 
-// Geolocation logik som kan kallas från index.html
 function startGeolocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -91,7 +95,6 @@ function startGeolocation() {
     }
 }
 
-// Starta geolocation när sidan laddas
 document.addEventListener('DOMContentLoaded', function() {
     startGeolocation();
 });
