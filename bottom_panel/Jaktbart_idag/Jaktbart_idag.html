@@ -3,22 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktbart Idag</title>
+    <title>Jaktbart idag</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <iframe id="googleSheetFrame" src="" frameborder="0"></iframe>
+    <h1>Välkommen till Jaktbart idag</h1>
+    <p>Här kan du se information om dagens jaktbara arter.</p>
+    <button onclick="loadSheet()">Ladda jaktbart idag</button>
 
     <script>
-        // Lyssna på händelsen sheetUrlDetermined från parent window (index.html)
-        window.addEventListener('sheetUrlDetermined', function(event) {
-            const sheetUrl = event.detail.url;
-            if (sheetUrl) {
-                const googleSheetFrame = document.getElementById('googleSheetFrame');
-                googleSheetFrame.src = sheetUrl;
-            } else {
-                console.error('Ingen giltig Google Sheet-URL mottagen.');
-            }
-        });
+        function loadSheet() {
+            // Här kan du sätta den specifika länken som du vill ladda in i iframen
+            var sheetUrl = 'https://www.example.com/jaktbart_idag_info.html'; // Ersätt med din faktiska URL
+            parent.postMessage({ type: 'loadSheet', url: sheetUrl }, '*');
+        }
     </script>
 </body>
 </html>
