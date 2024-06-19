@@ -1,5 +1,28 @@
-// Mapping län to respective Google Sheet URLs
-const googleSheetUrls = {
+// jaktbart_idag_flikbeteende.js
+
+// Ladda GeoJSON-fil med länens geometrier
+fetch('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
+    .then(response => response.json())
+    .then(geojson => {
+        // Funktion för att bestämma användarens län baserat på geografisk position
+        function getUserCounty(lat, lon) {
+            return new Promise((resolve, reject) => {
+                // Loopa igenom alla län i GeoJSON-filen
+                for (let feature of geojson.features) {
+                    const polygon = L.geoJSON(feature.geometry);
+                    if (polygon.getBounds().isValid() && polygon.getBounds().contains([lat, lon])) {
+                        const userCounty = feature.properties.LÄN;
+                        resolve(userCounty);
+                        return; // Avsluta loopen när län hittas
+                    }
+                }
+                // Om användarens län inte hittas
+                reject(new Error('Användaren är inte placerad inom något läns polygon.'));
+            });
+        }
+
+        // Mapping län till Google Sheet URLs
+        const googleSheetUrls = {
     "BLEKINGE LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false",
     "DALARNAS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false",
     "GOTLANDS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false",
@@ -21,72 +44,35 @@ const googleSheetUrls = {
     "VÄSTRA GÖTALANDS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgFOYLMInhQ7SZDQ4SFE17OJBpcUYSZcyVeCY_q2zBKNsdc5hbSwoRNMoFOMIeag/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false",
     "ÖREBRO LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTeXGD1OrUQ2L43q1pCdmt1clCZ5aCgbNSKaH2Bi_UOCrv8SXMOY_ePD5uzF7nBSQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false",
     "ÖSTERGÖTLANDS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false"
-};
+        };
 
-const geojsonUrl = 'bottom_panel/Jaktbart_idag/Sveriges_lan.geojson';
-
-let userCounty = null; // Variabel för att lagra användarens län
-
-// Läser in geoJSON och behandlar varje geoJSON-objekt
-fetch(geojsonUrl)
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(geojson) {
-        L.geoJSON(geojson, {
-            onEachFeature: function(feature, layer) {
-                var polygon = L.geoJSON(feature.geometry);
-                if (polygon.getBounds().isValid() && polygon.getBounds().contains([lat, lon])) {
-                    userCounty = feature.properties.LÄN; // Använd rätt attribut här
-                }
-            }
-        });
-
-        if (userCounty) {
-            console.log(`Användaren är placerad i ${userCounty}`);
-        } else {
-            throw new Error('Användaren är inte placerad inom något läns polygon.');
+        // Funktion för att begära Google Sheets URL baserat på användarens geolokaliserade län
+        function requestGoogleSheetUrl(lat, lon) {
+            return getUserCounty(lat, lon)
+                .then(userCounty => {
+                    if (userCounty) {
+                        console.log(`Användaren är placerad i ${userCounty}`);
+                        const sheetUrl = googleSheetUrls[userCounty];
+                        if (sheetUrl) {
+                            return sheetUrl;
+                        } else {
+                            throw new Error('Ingen Google Sheet-URL hittades för användarens län.');
+                        }
+                    } else {
+                        throw new Error('Kunde inte bestämma användarens län.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Fel vid hämtning av användarens län:', error);
+                    throw error;
+                });
         }
+
+        // Exportera funktionen för att begära Google Sheets URL
+        module.exports = {
+            requestGoogleSheetUrl
+        };
     })
-    .catch(function(error) {
-        console.error('Fel vid inläsning av geoJSON:', error);
+    .catch(error => {
+        console.error('Fel vid laddning av GeoJSON-fil:', error);
     });
-
-// Funktion för att hämta användarens län baserat på geolokalisering
-function updateUserGeoLocation(lat, lon) {
-    return getUserCounty(lat, lon)
-        .then(function(lan) {
-            if (lan) {
-                console.log(`Användaren är placerad i ${lan}`);
-                userCounty = lan;
-                return googleSheetUrls[lan];
-            } else {
-                console.error('Kunde inte bestämma användarens län.');
-                return null;
-            }
-        })
-        .catch(function(error) {
-            console.error('Fel vid hämtning av användarens län:', error);
-            return null;
-        });
-}
-
-// Exponera en funktion för att begära Google Sheets URL
-window.requestGoogleSheetUrl = function() {
-    return new Promise(function(resolve, reject) {
-        if (!userCounty) {
-            reject(new Error('Användarens län är inte bestämt ännu.'));
-        } else {
-            const sheetUrl = googleSheetUrls[userCounty];
-            if (sheetUrl) {
-                resolve(sheetUrl);
-            } else {
-                reject(new Error('Ingen Google Sheet-URL hittades för användarens län.'));
-            }
-        }
-    });
-};
-
-document.addEventListener('DOMContentLoaded', function() {
-    startGeolocation();
-});
