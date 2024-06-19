@@ -4,56 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
-    <!-- Lägg till eventuella andra stilfiler eller scripts som behövs här -->
     <script src="jaktbart_idag_flikbeteende.js" defer></script>
 </head>
 <body>
-    <!-- Här lägger du till <iframe> med id googleSheetFrame -->
     <iframe id="googleSheetFrame" src="" frameborder="0"></iframe>
 
     <script>
-        function openGoogleSheetForCounty(lan) {
-            const googleSheetUrls = {
-                // Här kan du fortfarande ha en referens till dina URL:ar,
-                // men de kommer att sättas dynamiskt från JavaScript.
-            };
+        // Lyssna på länsinformationen från jaktbart_idag_flikbeteende.js
+        window.addEventListener('countyDetermined', function(event) {
+            const { lan, url } = event.detail;
 
-            const sheetUrl = googleSheetUrls[lan];
-            if (sheetUrl) {
-                document.getElementById('googleSheetFrame').src = sheetUrl;
+            if (url) {
+                document.getElementById('googleSheetFrame').src = url;
             } else {
-                console.error('No Google Sheet URL found for county:', lan);
+                console.error('Ingen Google Sheet-URL hittades för län:', lan);
             }
-        }
-
-        // JavaScript-kod för att hämta användarens län och visa Google Sheets
-        function handleUserPosition(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-
-            getUserCounty(lat, lon)
-                .then(function(lan) {
-                    if (lan) {
-                        console.log(`User is located in ${lan}`);
-                        openGoogleSheetForCounty(lan);
-                    } else {
-                        console.error('Could not determine user county.');
-                    }
-                });
-        }
-
-        // Starta process för att få användarens position
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(handleUserPosition, function(error) {
-                console.error('Geolocation error:', error);
-            }, {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            });
-        } else {
-            console.error('Geolocation is not supported by this browser.');
-        }
+        });
     </script>
 </body>
 </html>
