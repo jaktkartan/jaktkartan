@@ -1,5 +1,3 @@
-// bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js
-
 document.addEventListener("DOMContentLoaded", function() {
     // Fördröjning på 1 sekund (1000 millisekunder)
     setTimeout(function() {
@@ -19,31 +17,11 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             console.log("Kunde inte hämta koordinater från localStorage.");
         }
-    }, 1000); // Fördröjning på 1 sekund (1000 millisekunder)
+    }, 1000); // Fördröjning på 5 sekunder (1000 millisekunder)
 });
 
 function handleCoordinates(lat, lon) {
     // Funktion för att hantera koordinaterna, till exempel att skicka dem till en annan tjänst eller använda dem för beräkningar
     console.log("Hanterar koordinaterna:", lat, lon);
-    
-    // Visa koordinaterna i HTML
-    var coordinatesContainer = document.getElementById('coordinatesContainer');
-    coordinatesContainer.innerHTML = `<p>Latitude: ${lat}</p><p>Longitude: ${lon}</p>`;
+    // Lägg till din logik här baserat på koordinaterna
 }
-
-// Event listener för knappen
-document.addEventListener("DOMContentLoaded", function() {
-    var showCoordinatesBtn = document.getElementById('showCoordinatesBtn');
-    
-    showCoordinatesBtn.addEventListener('click', function() {
-        var userLatitude = localStorage.getItem('userLatitude');
-        var userLongitude = localStorage.getItem('userLongitude');
-        
-        if (userLatitude !== null && userLongitude !== null) {
-            handleCoordinates(userLatitude, userLongitude);
-        } else {
-            console.log("Kunde inte hämta koordinater från localStorage.");
-            // Alternativt, hantera om koordinaterna inte finns tillgängliga
-        }
-    });
-});
