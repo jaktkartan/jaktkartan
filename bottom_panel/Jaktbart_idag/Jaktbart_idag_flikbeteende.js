@@ -1,21 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM content loaded');
+    // Logga hela innehållet i localStorage
+    console.log('localStorage innehåll:', JSON.stringify(localStorage));
+
     var latitudeElement = document.getElementById('latitude');
     var longitudeElement = document.getElementById('longitude');
-
-    console.log('Latitude element:', latitudeElement);
-    console.log('Longitude element:', longitudeElement);
 
     if (latitudeElement && longitudeElement) {
         // Hämta latitud och longitud från localStorage
         var lat = parseFloat(localStorage.getItem('userLatitude'));
         var lon = parseFloat(localStorage.getItem('userLongitude'));
 
-        console.log('Latitude from localStorage:', lat);
-        console.log('Longitude from localStorage:', lon);
+        // Logga latitud och longitud
+        console.log('Latitude från localStorage:', lat);
+        console.log('Longitude från localStorage:', lon);
 
         // Visa latitud och longitud på sidan
-        if (lat && lon) {
+        if (!isNaN(lat) && !isNaN(lon)) {
             latitudeElement.textContent = lat.toFixed(6); // Justera precisionen efter behov
             longitudeElement.textContent = lon.toFixed(6); // Justera precisionen efter behov
         } else {
