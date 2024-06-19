@@ -22,33 +22,19 @@
             coordinatesInfo.textContent = `Dina aktuella koordinater är: ${latitude}, ${longitude}`;
         }
 
-        // Funktion för att hämta och visa koordinaterna
-        function getCoordinates() {
-            console.log('Manuellt försök att hämta koordinater...');
-            console.log('window.userLatitude:', window.userLatitude);
-            console.log('window.userLongitude:', window.userLongitude);
-            
-            if (window.userLatitude && window.userLongitude) {
-                showCoordinates(window.userLatitude, window.userLongitude);
-            } else {
-                console.error('Kunde inte hämta koordinater från tabHandler.js');
-            }
-        }
+        // Lägg till händelselyssnare för knappen
+        var getCoordinatesButton = document.getElementById('getCoordinatesButton');
+        getCoordinatesButton.addEventListener('click', function() {
+            console.log('Knapp klickad!'); // Enkel logg för att testa händelsen
+        });
 
         // Hantera när sidan laddas
         document.addEventListener('DOMContentLoaded', function() {
             console.log('jaktbart_idag.html har laddats.');
 
-            // Lägg till händelselyssnare för knappen
-            var getCoordinatesButton = document.getElementById('getCoordinatesButton');
-            console.log('getCoordinatesButton:', getCoordinatesButton);
-            
-            getCoordinatesButton.addEventListener('click', function() {
-                console.log('Knapp klickad. Försöker hämta koordinater...');
-                getCoordinates(); // Anropa funktionen när knappen klickas
-            });
+            // Anropa funktionen för att hämta koordinaterna
+            getCoordinates();
         });
     </script>
 </body>
 </html>
-
