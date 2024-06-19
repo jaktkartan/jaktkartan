@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Fördröjning på 5 sekunder (5000 millisekunder)
+    // Fördröjning på 1 sekund (1000 millisekunder)
     setTimeout(function() {
         // Hämta koordinaterna från localStorage
         var userLatitude = localStorage.getItem('userLatitude');
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             console.log("Kunde inte hämta koordinater från localStorage.");
         }
-    }, 5000); // Fördröjning på 5 sekunder (5000 millisekunder)
+    }, 1000); // Fördröjning på 5 sekunder (1000 millisekunder)
 });
 
 function handleCoordinates(lat, lon) {
