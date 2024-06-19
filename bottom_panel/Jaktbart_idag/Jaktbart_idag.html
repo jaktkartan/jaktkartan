@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Jaktbart</h1>
+    <h1>Jaktbart idag</h1>
     <p>Denna sida visar användarens aktuella koordinater.</p>
     <p id="coordinates-info">Laddar koordinater...</p>
     
@@ -34,6 +34,7 @@
 
         // Hantera när sidan laddas
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('jaktbart.html har laddats.');
             getCoordinatesFromTabHandler();
         });
     </script>
