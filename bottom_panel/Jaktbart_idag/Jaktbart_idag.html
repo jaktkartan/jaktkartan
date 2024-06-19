@@ -3,37 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktbart idag</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Testa Knapp</title>
 </head>
 <body>
-    <h1>Jaktbart idag</h1>
-    <p>Denna sida visar användarens aktuella koordinater.</p>
-    <p id="coordinates-info">Laddar koordinater...</p>
-    
-    <!-- Knapp för att manuellt hämta och visa koordinater -->
-    <button id="getCoordinatesButton">Hämta koordinater</button>
-    
-    <script src="tabHandler.js"></script>
-    <script>
-        // Funktion för att visa koordinaterna
-        function showCoordinates(latitude, longitude) {
-            var coordinatesInfo = document.getElementById('coordinates-info');
-            coordinatesInfo.textContent = `Dina aktuella koordinater är: ${latitude}, ${longitude}`;
-        }
+    <h1>Testa Knapp</h1>
 
-        // Lägg till händelselyssnare för knappen
-        var getCoordinatesButton = document.getElementById('getCoordinatesButton');
-        getCoordinatesButton.addEventListener('click', function() {
-            console.log('Knapp klickad!'); // Enkel logg för att testa händelsen
+    <!-- Knapp för att testa händelselyssnare -->
+    <button id="getCoordinatesButton">Hämta koordinater</button>
+
+    <script>
+        // Första händelselyssnaren - loggar till konsolen
+        var getCoordinatesButton1 = document.getElementById('getCoordinatesButton');
+        getCoordinatesButton1.addEventListener('click', function() {
+            console.log('Knappen klickades! (Loggar till konsolen)');
+            getCoordinates(); // Förväntar sig att getCoordinates-funktionen finns definierad
         });
 
-        // Hantera när sidan laddas
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('jaktbart_idag.html har laddats.');
-
-            // Anropa funktionen för att hämta koordinaterna
-            getCoordinates();
+        // Andra händelselyssnaren - visar ett meddelande
+        var getCoordinatesButton2 = document.getElementById('getCoordinatesButton');
+        getCoordinatesButton2.addEventListener('click', function() {
+            alert('Knappen fungerar! (Visar ett meddelande)');
         });
     </script>
 </body>
