@@ -10,19 +10,17 @@
     <iframe id="googleSheetFrame" src="" frameborder="0" width="100%" height="600px"></iframe>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Lyssna på URL:en från jaktbart_idag_flikbeteende.js
-            window.addEventListener('sheetUrlDetermined', function(event) {
-                const { url } = event.detail;
-                console.log('Mottog event:', event);
+        // Lyssna på URL:en från jaktbart_idag_flikbeteende.js
+        window.addEventListener('sheetUrlDetermined', function(event) {
+            const { url } = event.detail;
+            console.log('Mottog event:', event);
 
-                if (url) {
-                    document.getElementById('googleSheetFrame').src = url;
-                    console.log('Iframe uppdaterad med URL:', url);
-                } else {
-                    console.error('Ingen URL hittades.');
-                }
-            });
+            if (url) {
+                document.getElementById('googleSheetFrame').src = url;
+                console.log('Iframe uppdaterad med URL:', url);
+            } else {
+                console.error('Ingen URL hittades.');
+            }
         });
     </script>
 </body>
