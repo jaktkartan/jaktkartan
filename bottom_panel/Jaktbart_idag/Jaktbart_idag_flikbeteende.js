@@ -23,42 +23,42 @@ const googleSheetUrls = {
     "ÖSTERGÖTLANDS LÄN": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false"
 };
 
-let userCounty = null;
+const geojsonUrl = 'bottom_panel/Jaktbart_idag/Sveriges_lan.geojson';
 
-function getUserCounty(lat, lon) {
-    return axios.get('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
-        .then(function(response) {
-            var geojson = response.data;
-            var userCounty = null;
+let userCounty = null; // Variabel för att lagra användarens län
 
-            L.geoJSON(geojson, {
-                onEachFeature: function(feature, layer) {
-                    var polygon = L.geoJSON(feature.geometry);
-                    if (polygon.getBounds().isValid() && polygon.getBounds().contains([lat, lon])) {
-                        userCounty = feature.properties.LÄN;
-                    }
+// Läser in geoJSON och behandlar varje geoJSON-objekt
+fetch(geojsonUrl)
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(geojson) {
+        L.geoJSON(geojson, {
+            onEachFeature: function(feature, layer) {
+                var polygon = L.geoJSON(feature.geometry);
+                if (polygon.getBounds().isValid() && polygon.getBounds().contains([lat, lon])) {
+                    userCounty = feature.properties.LÄN; // Använd rätt attribut här
                 }
-            });
-
-            if (userCounty) {
-                return userCounty;
-            } else {
-                throw new Error('Användaren är inte placerad inom något läns polygon.');
             }
-        })
-        .catch(function(error) {
-            console.error('Fel vid bestämning av användarens län:', error);
-            return null;
         });
-}
 
+        if (userCounty) {
+            console.log(`Användaren är placerad i ${userCounty}`);
+        } else {
+            throw new Error('Användaren är inte placerad inom något läns polygon.');
+        }
+    })
+    .catch(function(error) {
+        console.error('Fel vid inläsning av geoJSON:', error);
+    });
+
+// Funktion för att hämta användarens län baserat på geolokalisering
 function updateUserGeoLocation(lat, lon) {
     return getUserCounty(lat, lon)
         .then(function(lan) {
             if (lan) {
                 console.log(`Användaren är placerad i ${lan}`);
                 userCounty = lan;
-
                 return googleSheetUrls[lan];
             } else {
                 console.error('Kunde inte bestämma användarens län.');
