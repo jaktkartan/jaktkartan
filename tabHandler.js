@@ -108,6 +108,8 @@ function openTabWithCoordinates(tabId, url) {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block'; // Visa flikinnehållet
 
+    console.log('Fetching content from:', fullUrl); // Lägg till logg för att visa att hämtningen påbörjas
+
     fetch(fullUrl)
         .then(response => {
             console.log('Fetch response status:', response.status); // Logga statuskoden från fetch-svaret
@@ -118,7 +120,7 @@ function openTabWithCoordinates(tabId, url) {
             tab.innerHTML = html;
         })
         .catch(error => {
-            console.error('Error fetching tab content:', error);
+            console.error('Error fetching tab content:', error); // Logga eventuella felmeddelanden
         });
 }
 
