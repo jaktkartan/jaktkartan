@@ -5,7 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jaktbart Idag</title>
 </head>
+<body><!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaktbart Idag</title>
+</head>
 <body>
+    <iframe id="googleSheetFrame" src="" frameborder="0"></iframe>
+
+    <!-- Inkludera skriptet jaktbart_idag_flikbeteende.js -->
+    <script src="jaktbart_idag_flikbeteende.js" defer></script>
+
+    <script>
+        // Lyssna på händelsen sheetUrlDetermined från jaktbart_idag_flikbeteende.js
+        window.addEventListener('sheetUrlDetermined', function(event) {
+            const sheetUrl = event.detail.url;
+            if (sheetUrl) {
+                const googleSheetFrame = document.getElementById('googleSheetFrame');
+                googleSheetFrame.src = sheetUrl;
+            } else {
+                console.error('Ingen giltig Google Sheet-URL mottagen.');
+            }
+        });
+    </script>
+</body>
+</html>
+
     <iframe id="googleSheetFrame" src="" frameborder="0"></iframe>
 
     <!-- Inkludera skriptet jaktbart_idag_flikbeteende.js -->
