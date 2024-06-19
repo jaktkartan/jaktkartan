@@ -1,16 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     function updatePosition() {
         console.log("Attempting to update position...");
+        
+        // Logga localStorage innehåll för att verifiera
+        console.log("LocalStorage innehåll:", localStorage);
 
         var latitudeElement = document.getElementById('latitude');
         var longitudeElement = document.getElementById('longitude');
+
+        // Logga elementens tillgänglighet
+        console.log("latitudeElement:", latitudeElement);
+        console.log("longitudeElement:", longitudeElement);
 
         if (latitudeElement && longitudeElement) {
             // Hämta latitud och longitud från localStorage
             var lat = parseFloat(localStorage.getItem('userLatitude'));
             var lon = parseFloat(localStorage.getItem('userLongitude'));
 
-            // Log the fetched values
+            // Logga de hämtade värdena
             console.log("Fetched from localStorage - Latitude:", lat, "Longitude:", lon);
 
             // Visa latitud och longitud på sidan
