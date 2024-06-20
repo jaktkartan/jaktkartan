@@ -1,5 +1,3 @@
-// bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js
-
 document.addEventListener("DOMContentLoaded", function() {
     // Fördröjning på 1 sekund (1000 millisekunder)
     setTimeout(function() {
@@ -23,12 +21,14 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function handleCoordinates(lat, lon) {
-    // Funktion för att hantera koordinaterna, till exempel att skicka dem till en annan tjänst eller använda dem för beräkningar
-    console.log("Hanterar koordinaterna:", lat, lon);
-    
-    // Visa koordinaterna i HTML
+    // Hitta elementet där koordinaterna ska visas
     var coordinatesContainer = document.getElementById('coordinatesContainer');
-    coordinatesContainer.innerHTML = `<p>Latitude: ${lat}</p><p>Longitude: ${lon}</p>`;
+    if (coordinatesContainer) {
+        // Visa koordinaterna i HTML
+        coordinatesContainer.innerHTML = `<p>Latitude: ${lat}</p><p>Longitude: ${lon}</p>`;
+    } else {
+        console.error("Elementet 'coordinatesContainer' kunde inte hittas.");
+    }
 }
 
 // Event listener för knappen
