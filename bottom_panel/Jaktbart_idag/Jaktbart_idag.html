@@ -3,34 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple HTML with Axios</title>
-    <!-- Include Axios from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Upptäckfliken, innehåll med knappar</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Förhindrar skrollning */
+            display: flex;
+            justify-content: center; /* Centrera innehållet horisontellt */
+            align-items: center; /* Centrera innehållet vertikalt */
+        }
+    </style>
 </head>
 <body>
-    <h1>Simple HTML with Axios</h1>
-    <button onclick="fetchData()">Fetch Data</button>
-    <div id="output"></div>
+    <div id="tab1">
+        <div class="button-container">
+            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('mässor')">Mässor</button>
+            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('jaktmark')">Jaktmark</button>
+            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('jaktskyttebanor')">Jaktskyttebanor</button>
+        </div>
+    </div>
 
-    <script>
-        function fetchData() {
-            // Example: Fetching data from a JSON placeholder API
-            axios.get('https://jsonplaceholder.typicode.com/posts/1')
-                .then(function (response) {
-                    // Log the response data to console
-                    console.log(response.data);
-
-                    // Display response data on the webpage
-                    document.getElementById('output').innerHTML = `
-                        <p>Title: ${response.data.title}</p>
-                        <p>Body: ${response.data.body}</p>
-                    `;
-                })
-                .catch(function (error) {
-                    console.error('Error fetching data:', error);
-                    document.getElementById('output').innerText = 'Error fetching data';
-                });
-        }
-    </script>
+    <!-- Lägg till JavaScript-filen för hantering av kartlager -->
+    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </body>
 </html>
