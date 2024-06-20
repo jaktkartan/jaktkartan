@@ -39,37 +39,10 @@ function openTab(tabId, url) {
     tabContent.style.display = 'block'; // Visa flikinnehållet
 
     if (tabId === 'tab4') {
-        // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        var tabContent = document.getElementById('tab4');
-        tabContent.innerHTML = ''; // Rensa flikinnehållet
-
-        // Rubrik för fliken
-        var heading = document.createElement('h2');
-        heading.textContent = 'Kaliberkrav';
-        tabContent.appendChild(heading);
-
-        // Brödtext för information
-        var paragraph = document.createElement('p');
-        paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-        tabContent.appendChild(paragraph);
-
-        var button1 = document.createElement('button');
-        button1.textContent = 'Kaliberkrav: Däggdjur';
-        button1.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-        };
-        tabContent.appendChild(button1);
-
-        var button2 = document.createElement('button');
-        button2.textContent = 'Kaliberkrav: Fågel';
-        button2.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-        };
-        tabContent.appendChild(button2);
+        openTab4();
 
     } else if (tabId === 'tab3') {
-        // Om det är tab3 (Jaktbart idag), ladda innehållet från angiven URL
-        openJaktbartIdagTab('bottom_panel/Jaktbart_idag/Jaktbart_idag.html');
+        openTab3('bottom_panel/Jaktbart_idag/Jaktbart_idag.html');
 
     } else {
         // Om det inte är tab4 eller tab3, hämta innehållet från den angivna URL:en
@@ -84,8 +57,51 @@ function openTab(tabId, url) {
     }
 }
 
-// Funktion för att öppna Jaktbart idag-fliken
-function openJaktbartIdagTab(url) {
+// Funktion för att öppna flik4 (Kaliberkrav)
+function openTab4() {
+    var tabContent = document.getElementById('tab4');
+    tabContent.innerHTML = ''; // Rensa flikinnehållet
+
+    // Rubrik för fliken
+    var heading = document.createElement('h2');
+    heading.textContent = 'Kaliberkrav';
+    tabContent.appendChild(heading);
+
+    // Brödtext för information
+    var paragraph = document.createElement('p');
+    paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
+    tabContent.appendChild(paragraph);
+
+    var button1 = document.createElement('button');
+    button1.textContent = 'Kaliberkrav: Däggdjur';
+    button1.onclick = function() {
+        openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+    };
+    tabContent.appendChild(button1);
+
+    var button2 = document.createElement('button');
+    button2.textContent = 'Kaliberkrav: Fågel';
+    button2.onclick = function() {
+        openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+    };
+    tabContent.appendChild(button2);
+}
+
+// Funktion för att öppna tab3 (Jaktbart idag)
+function openTab3(url) {
+    var tabContent = document.getElementById('tab3');
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            tabContent.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error fetching Jaktbart idag content:', error);
+        });
+}
+
+// Funktion för att öppna Kaliberkrav-fliken
+function openKaliberkravTab(url) {
     var tabContent = document.getElementById('tab-content');
     var tab = document.createElement('div');
     tab.className = 'tab-pane';
@@ -93,12 +109,12 @@ function openJaktbartIdagTab(url) {
 
     // Rubrik för fliken
     var heading = document.createElement('h2');
-    heading.textContent = 'Jaktbart idag';
+    heading.textContent = 'Kaliberkrav';
     tab.appendChild(heading);
 
     // Brödtext för information
     var paragraph = document.createElement('p');
-    paragraph.textContent = 'Information om vad som är jaktbart idag';
+    paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
     tab.appendChild(paragraph);
 
     // Dölj rubriken och brödtexten initialt
@@ -117,10 +133,9 @@ function openJaktbartIdagTab(url) {
             paragraph.style.display = 'none';
         })
         .catch(error => {
-            console.error('Error fetching Jaktbart idag content:', error);
+            console.error('Error fetching Kaliberkrav content:', error);
         });
 }
-
 
 // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
 document.addEventListener('click', function(event) {
