@@ -1,5 +1,4 @@
-// Funktioner för toggle väder fliken, för knapparna i bottenpanelen och en specialare för kaliberkrav fliken som först ger användaren 2 knappar för att välja vilken flik som ska visas.
-
+// Funktion för att hantera väderpanelen och geolocation
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
@@ -21,7 +20,7 @@ function togglePanel() {
 
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
-    resetTabs(); // Återställ flikarna innan en ny öppnas
+    resetTabs(); // Återställ alla flikar innan en ny öppnas
     var tab = document.getElementById(tabId);
     tab.style.display = 'block'; // Visa den valda fliken
     var tabContent = document.getElementById('tab-content');
@@ -29,10 +28,9 @@ function openTab(tabId, url) {
 
     if (tabId === 'tab4') {
         openTab4();
-
     } else if (tabId === 'tab3') {
-        openTab3('bottom_panel/Jaktbart_idag/Jaktbart_idag.html');
-
+        openTab3('bottom_panel/Jaktbart_idag/Jaktbart_idag.html'); // Ladda Jaktbart idag innehåll
+        // Anropa updateUserPosition här om det behövs
     } else {
         // Om det inte är tab4 eller tab3, hämta innehållet från den angivna URL:en
         fetch(url)
@@ -46,7 +44,23 @@ function openTab(tabId, url) {
     }
 }
 
-// Funktion för att öppna flik4 (Kaliberkrav)
+// Funktion för att öppna Jaktbart idag fliken (tab3) och uppdatera användarens position
+function openTab3(url) {
+    var tabContent = document.getElementById('tab3');
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            tabContent.innerHTML = html;
+            // Anropa updateUserPosition här om det behövs
+            // Exempel:
+            updateUserPosition(latitude, longitude, accuracy); // Ersätt med faktiska värden
+        })
+        .catch(error => {
+            console.error('Error fetching Jaktbart idag content:', error);
+        });
+}
+
+// Funktion för att öppna Kaliberkrav fliken (tab4)
 function openTab4() {
     var tabContent = document.getElementById('tab4');
     tabContent.innerHTML = ''; // Rensa flikinnehållet
@@ -74,19 +88,6 @@ function openTab4() {
         openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
     };
     tabContent.appendChild(button2);
-}
-
-// Funktion för att öppna tab3 (Jaktbart idag)
-function openTab3(url) {
-    var tabContent = document.getElementById('tab3');
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            tabContent.innerHTML = html;
-        })
-        .catch(error => {
-            console.error('Error fetching Jaktbart idag content:', error);
-        });
 }
 
 // Funktion för att öppna Kaliberkrav-fliken
@@ -158,3 +159,4 @@ document.addEventListener('click', function(event) {
         closeTabContent();
     }
 });
+
