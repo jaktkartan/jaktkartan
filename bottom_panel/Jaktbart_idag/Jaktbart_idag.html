@@ -10,6 +10,33 @@
     <button id="showCoordinatesBtn">Visa Koordinater</button>
     <div id="coordinatesContainer"></div>
 
-    <script src="Jaktbart_idag_flikbeteende.js"></script>
+    <script src="Jaktbart_idag_flikbeteende.js"></script> <!-- Inkludera den externa JavaScript-filen -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var showCoordinatesBtn = document.getElementById('showCoordinatesBtn');
+            
+            if (showCoordinatesBtn) {
+                showCoordinatesBtn.addEventListener('click', function() {
+                    // Hämta koordinater från localStorage
+                    var userLatitude = localStorage.getItem('userLatitude');
+                    var userLongitude = localStorage.getItem('userLongitude');
+                    
+                    if (userLatitude !== null && userLongitude !== null) {
+                        // Visa koordinaterna i HTML
+                        var coordinatesContainer = document.getElementById('coordinatesContainer');
+                        if (coordinatesContainer) {
+                            coordinatesContainer.innerHTML = `<p>Latitude: ${userLatitude}</p><p>Longitude: ${userLongitude}</p>`;
+                        } else {
+                            console.error("Elementet 'coordinatesContainer' kunde inte hittas.");
+                        }
+                    } else {
+                        console.log("Kunde inte hämta koordinater från localStorage.");
+                    }
+                });
+            } else {
+                console.error("Elementet 'showCoordinatesBtn' kunde inte hittas.");
+            }
+        });
+    </script>
 </body>
 </html>
