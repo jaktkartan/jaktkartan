@@ -1,26 +1,54 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Kontrollera om vi är på en specifik sida där koordinaterna behövs
-    if (document.getElementById('showCoordinatesBtn')) {
-        // Fördröjning på 1 sekund (1000 millisekunder)
-        setTimeout(function() {
-            // Hämta koordinaterna från en annan källa
-            var userLatitude = localStorage.getItem('userLatitude');
-            var userLongitude = localStorage.getItem('userLongitude');
-            
-            // Kontrollera att koordinaterna är tillgängliga och inte är null eller undefined
-            if (userLatitude !== null && userLongitude !== null) {
-                // Logga koordinaterna
-                console.log("Latitude från localStorage:", userLatitude);
-                console.log("Longitude från localStorage:", userLongitude);
-                
-                // Spara koordinater i localStorage (om du behöver uppdatera dem)
-                localStorage.setItem('userLatitude', userLatitude);
-                localStorage.setItem('userLongitude', userLongitude);
+function showIframeAndHideButtons(url, county) {
+    var currentCounty = ""; // Variabel för att hålla reda på det aktuella länet
 
-                console.log("Koordinater sparade i localStorage:", userLatitude, userLongitude);
-            } else {
-                console.log("Kunde inte hämta koordinater från localStorage.");
-            }
-        }, 1000); // Fördröjning på 1 sekund (1000 millisekunder)
+    resetIframeState(); // Återställ iframe-informationen
+
+    var iframeContainer = document.getElementById('iframe-container');
+    var countyButtons = document.getElementById('county-buttons');
+    var backButton = document.getElementById('back-button');
+    var mainTitle = document.getElementById('main-title');
+    var mainInfo = document.getElementById('main-info');
+
+    currentCounty = county; // Sätt det aktuella länet
+
+    var iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('scrolling', 'no');
+    iframeContainer.innerHTML = '';
+    iframeContainer.appendChild(iframe);
+    countyButtons.style.display = 'none'; // Dölj knapparna när iframen visas
+    mainTitle.classList.add('hide-on-selection'); // Dölj rubriken när iframen visas
+    mainInfo.classList.add('hide-on-selection'); // Dölj informationsdelen när iframen visas
+    backButton.classList.remove('hidden'); // Visa tillbaka knappen
+    backButton.style.display = 'block'; // Visa tillbaka knappen
+    iframeContainer.style.display = 'block'; // Visa iframen
+
+    // Scrolla till flikens topp
+    iframeContainer.scrollIntoView({ behavior: 'smooth' });
+
+    function goBack() {
+        var iframeContainer = document.getElementById('iframe-container');
+        var countyButtons = document.getElementById('county-buttons');
+        var backButton = document.getElementById('back-button');
+        var mainTitle = document.getElementById('main-title');
+        var mainInfo = document.getElementById('main-info');
+
+        resetPageState(); // Återställ variabler och tillstånd
+
+        iframeContainer.innerHTML = ''; // Ta bort iframen
+        countyButtons.style.display = 'block'; // Visa knapparna igen
+        mainTitle.classList.remove('hide-on-selection'); // Visa rubriken igen
+        mainInfo.classList.remove('hide-on-selection'); // Visa informationsdelen igen
+        backButton.style.display = 'none'; // Dölj tillbaka knappen
     }
-});
+
+    function resetPageState() {
+        // Återställ den aktuella länsvariabeln
+        currentCounty = "";
+    }
+
+    function resetIframeState() {
+        // Add code here to reset iframe state if needed
+    }
+}

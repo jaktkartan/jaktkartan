@@ -124,52 +124,43 @@
             }
 
             function updateUserPosition(lat, lon, accuracy) {
-    console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
+                console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
 
-    var accuracyInfo = document.getElementById('accuracy');
-    accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
+                var accuracyInfo = document.getElementById('accuracy');
+                accuracyInfo.innerHTML = "Lägesnoggrannhet: " + accuracy + " meters";
 
-    if (!accuracyCircle) {
-        accuracyCircle = L.circle([lat, lon], {
-            radius: accuracy,
-            fillColor: 'green',
-            fillOpacity: 0.5,
-            stroke: false
-        }).addTo(map);
-    } else {
-        accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
-    }
+                if (!accuracyCircle) {
+                    accuracyCircle = L.circle([lat, lon], {
+                        radius: accuracy,
+                        fillColor: 'green',
+                        fillOpacity: 0.5,
+                        stroke: false
+                    }).addTo(map);
+                } else {
+                    accuracyCircle.setLatLng([lat, lon]).setRadius(accuracy).setStyle({fillColor: 'green'});
+                }
 
-    if (!userMarker) {
-        userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
-    } else {
-        userMarker.setLatLng([lat, lon]);
-    }
+                if (!userMarker) {
+                    userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+                } else {
+                    userMarker.setLatLng([lat, lon]);
+                }
 
-    if (!pulsingDotMarker) {
-        pulsingDotMarker = createPulsingCircle(lat, lon);
-    } else {
-        pulsingDotMarker.setLatLng([lat, lon]);
-    }
+                if (!pulsingDotMarker) {
+                    pulsingDotMarker = createPulsingCircle(lat, lon);
+                } else {
+                    pulsingDotMarker.setLatLng([lat, lon]);
+                }
 
-    var times = SunCalc.getTimes(new Date(), lat, lon);
-    var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-    var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-    var sunriseSpan = document.getElementById('sunrise');
-    var sunsetSpan = document.getElementById('sunset');
+                var times = SunCalc.getTimes(new Date(), lat, lon);
+                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunriseSpan = document.getElementById('sunrise');
+                var sunsetSpan = document.getElementById('sunset');
 
-    sunriseSpan.innerHTML = sunrise;
-    sunsetSpan.innerHTML = sunset;
-
-    // Spara latitud och longitud i localStorage
-            localStorage.setItem('userLatitude', lat);
-            localStorage.setItem('userLongitude', lon);
-            console.log("LocalStorage uppdaterad med koordinater:", {
-                userLatitude: lat,
-                userLongitude: lon
-            });
-            window.dispatchEvent(new Event('storage'));
-}
+                sunriseSpan.innerHTML = sunrise;
+                sunsetSpan.innerHTML = sunset;
+            }
 
             function getPositionFromIP() {
                 axios.get('https://ipinfo.io/json?token=c57bc38a5d7e2c')
@@ -260,6 +251,5 @@
         });
     </script>
     <script src="popupHandler.js"></script>
-    <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
 </body>
 </html>
