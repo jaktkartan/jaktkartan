@@ -37,7 +37,28 @@ function openTab(tabId, url) {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block'; // Visa flikinnehållet
 
-    if (tabId === 'tab4') {
+    if (tabId === 'tab3') {
+        // Om det är tab3 (Jaktbart idag), visa knappen för att visa koordinater
+        var tabContent = document.getElementById('tab3');
+        tabContent.innerHTML = ''; // Rensa flikinnehållet
+
+        // Rubrik för fliken
+        var heading = document.createElement('h2');
+        heading.textContent = 'Jaktbart idag';
+        tabContent.appendChild(heading);
+
+        // Knapp för att visa koordinater
+        var coordButton = document.createElement('button');
+        coordButton.textContent = 'Visa Koordinater';
+        coordButton.onclick = function() {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                alert("Din nuvarande position:\nLatitud: " + latitude + "\nLongitud: " + longitude);
+            });
+        };
+        tabContent.appendChild(coordButton);
+    } else if (tabId === 'tab4') {
         // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
         var tabContent = document.getElementById('tab4');
         tabContent.innerHTML = ''; // Rensa flikinnehållet
@@ -66,7 +87,7 @@ function openTab(tabId, url) {
         };
         tabContent.appendChild(button2);
     } else {
-        // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
+        // Om det inte är tab3 eller tab4, hämta innehållet från den angivna URL:en
         fetch(url)
             .then(response => response.text())
             .then(html => {
