@@ -1,39 +1,36 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaktbart idag</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Anpassa stilar här om det behövs */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <title>Simple HTML with Axios</title>
+    <!-- Include Axios from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <h1>Välkommen till Jaktbart idag!</h1>
-    <button id="myButton">Klicka här</button>
+    <h1>Simple HTML with Axios</h1>
+    <button onclick="fetchData()">Fetch Data</button>
+    <div id="output"></div>
 
     <script>
-        // Här börjar JavaScript-koden
-        // Välj knappen och lägg till en klick-händelse
-        var button = document.getElementById('myButton');
-        button.addEventListener('click', function() {
-            // När knappen klickas, visa en enkel alert
-            alert('Hej! Du har klickat på knappen.');
-        });
+        function fetchData() {
+            // Example: Fetching data from a JSON placeholder API
+            axios.get('https://jsonplaceholder.typicode.com/posts/1')
+                .then(function (response) {
+                    // Log the response data to console
+                    console.log(response.data);
+
+                    // Display response data on the webpage
+                    document.getElementById('output').innerHTML = `
+                        <p>Title: ${response.data.title}</p>
+                        <p>Body: ${response.data.body}</p>
+                    `;
+                })
+                .catch(function (error) {
+                    console.error('Error fetching data:', error);
+                    document.getElementById('output').innerText = 'Error fetching data';
+                });
+        }
     </script>
 </body>
 </html>
