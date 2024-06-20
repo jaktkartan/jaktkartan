@@ -5,13 +5,8 @@ function togglePanel() {
     if (weatherInfo.style.display === 'none' || weatherInfo.style.display === '') {
         console.log("Showing weather panel...");
         weatherInfo.style.display = 'block';
-        navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Getting current position...");
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            console.log("Current position:", latitude, longitude);
-            getWeatherForecast(latitude, longitude);
-        });
+        // Här kan du inkludera din logik för att hämta väderinformation baserat på geolocation.
+        // För enkelhetens skull lägger vi inte till den här för simuleringen.
     } else {
         console.log("Hiding weather panel...");
         weatherInfo.style.display = 'none';
@@ -29,108 +24,42 @@ function resetTabs() {
     tabContent.style.display = 'none'; // Göm flikinnehållet
 }
 
-// Funktion för att öppna en flik
-function openTab(tabId, url) {
+// Funktion för att öppna Jaktbart idag-fliken
+function openJaktbartIdagTab() {
     resetTabs(); // Återställ flikarna innan en ny öppnas
-    var tab = document.getElementById(tabId);
-    tab.style.display = 'block'; // Visa den valda fliken
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'block'; // Visa flikinnehållet
-
-    if (tabId === 'tab3') {
-        // Om det är tab3 (Jaktbart idag), visa knappen för att visa koordinater
-        var tabContentElement = document.getElementById('tab3');
-        tabContentElement.innerHTML = ''; // Rensa flikinnehållet
-
-        // Rubrik för fliken
-        var heading = document.createElement('h2');
-        heading.textContent = 'Jaktbart idag';
-        tabContentElement.appendChild(heading);
-
-        // Knapp för att visa koordinater
-        var coordButton = document.createElement('button');
-        coordButton.textContent = 'Visa Koordinater';
-        coordButton.onclick = function() {
-            alert("Simulerad koordinatinformation visas här.");
-        };
-        tabContentElement.appendChild(coordButton);
-    } else if (tabId === 'tab4') {
-        // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        var tabContentElement = document.getElementById('tab4');
-        tabContentElement.innerHTML = ''; // Rensa flikinnehållet
-
-        // Rubrik för fliken
-        var heading = document.createElement('h2');
-        heading.textContent = 'Kaliberkrav';
-        tabContentElement.appendChild(heading);
-
-        // Brödtext för information
-        var paragraph = document.createElement('p');
-        paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-        tabContentElement.appendChild(paragraph);
-
-        var button1 = document.createElement('button');
-        button1.textContent = 'Kaliberkrav: Däggdjur';
-        button1.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-        };
-        tabContentElement.appendChild(button1);
-
-        var button2 = document.createElement('button');
-        button2.textContent = 'Kaliberkrav: Fågel';
-        button2.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-        };
-        tabContentElement.appendChild(button2);
-    } else {
-        // Om det inte är tab3 eller tab4, hämta innehållet från den angivna URL:en
-        fetch(url)
-            .then(response => response.text())
-            .then(html => {
-                tab.innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error fetching tab content:', error);
-            });
-    }
-}
-
-// Funktion för att öppna Kaliberkrav-fliken
-function openKaliberkravTab(url) {
-    var tabContent = document.getElementById('tab-content');
-    var tab = document.createElement('div');
-    tab.className = 'tab-pane';
-    tabContent.appendChild(tab);
+    var tabContentElement = document.getElementById('tab3');
+    tabContentElement.innerHTML = ''; // Rensa flikinnehållet
 
     // Rubrik för fliken
     var heading = document.createElement('h2');
-    heading.textContent = 'Kaliberkrav';
-    tab.appendChild(heading);
+    heading.textContent = 'Jaktbart idag';
+    tabContentElement.appendChild(heading);
 
-    // Brödtext för information
+    // Statisk information om vad som är jaktbart idag
     var paragraph = document.createElement('p');
-    paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-    tab.appendChild(paragraph);
+    paragraph.textContent = 'Information om vad som är jaktbart idag baserat på säsong och lagar.';
+    tabContentElement.appendChild(paragraph);
 
-    // Dölj rubriken och brödtexten initialt
-    heading.style.display = 'none';
-    paragraph.style.display = 'none';
+    // Knapp för att visa koordinater
+    var coordButton = document.createElement('button');
+    coordButton.textContent = 'Visa Koordinater';
+    coordButton.onclick = function() {
+        // Simulerad hantering för att visa koordinater
+        alert("Dina koordinater: Latitud 59.3293, Longitud 18.0686");
+    };
+    tabContentElement.appendChild(coordButton);
 
-    // Hämta innehållet från den angivna URL:en
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            tab.innerHTML += html; // Lägg till innehållet från URL:en
-
-            // Visa innehållet och dölj rubriken och brödtexten igen
-            tab.style.display = 'block';
-            heading.style.display = 'none';
-            paragraph.style.display = 'none';
-        })
-        .catch(error => {
-            console.error('Error fetching Kaliberkrav content:', error);
-        });
+    // Visa fliken och flikinnehållet
+    tabContentElement.style.display = 'block';
+    var tabContentParent = document.getElementById('tab-content');
+    tabContentParent.style.display = 'block';
 }
+
+// Händelselyssnare för att öppna Jaktbart idag-fliken när sidan laddas
+document.addEventListener('DOMContentLoaded', function() {
+    var jaktbartIdagButton = document.getElementById('jaktbart-idag-button');
+    jaktbartIdagButton.addEventListener('click', openJaktbartIdagTab);
+});
 
 // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
 document.addEventListener('click', function(event) {
