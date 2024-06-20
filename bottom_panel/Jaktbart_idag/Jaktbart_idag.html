@@ -1,49 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testmiljö</title>
-    <script>
-        function showPosition(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            document.getElementById("coordinates").innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
-        }
-
-        function showError(error) {
-            console.error('Geolocation error:', error);
-            getIPCoordinates(); // Fallback to IP-based geolocation
-        }
-
-        function getIPCoordinates() {
-            fetch('https://ipinfo.io/json?token=c57bc38a5d7e2c')
-                .then(response => response.json())
-                .then(data => {
-                    var coordinates = data.loc.split(",");
-                    var latitude = coordinates[0];
-                    var longitude = coordinates[1];
-                    document.getElementById("coordinates").innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
-                })
-                .catch(error => {
-                    console.error('IP Geolocation error:', error);
-                    document.getElementById("coordinates").innerHTML = "Unable to fetch coordinates.";
-                });
-        }
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                console.error('Geolocation is not supported by this browser.');
-                getIPCoordinates();
-            }
-        }
-    </script>
+    <title>Läs data från extern JavaScript</title>
+    <script src="Jaktbart_idag_flikbeteende.js" defer></script>
 </head>
 <body>
-    <h1>Användarens koordinater</h1>
-    <button onclick="getLocation()">Hämta koordinater</button>
-    <p id="coordinates"></p>
+    <h1>Läs data från extern JavaScript</h1>
+    <button onclick="hämtaData()">Hämta Data</button>
+    <div id="data-container">
+        <!-- Här visas data från JavaScript-filen -->
+    </div>
 </body>
 </html>
