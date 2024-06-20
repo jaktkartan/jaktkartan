@@ -2,7 +2,7 @@
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.style.display === 'none') {
+    if (weatherInfo.style.display === 'none' || weatherInfo.style.display === '') {
         console.log("Showing weather panel...");
         weatherInfo.style.display = 'block';
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -39,53 +39,49 @@ function openTab(tabId, url) {
 
     if (tabId === 'tab3') {
         // Om det är tab3 (Jaktbart idag), visa knappen för att visa koordinater
-        var tabContent = document.getElementById('tab3');
-        tabContent.innerHTML = ''; // Rensa flikinnehållet
+        var tabContentElement = document.getElementById('tab3');
+        tabContentElement.innerHTML = ''; // Rensa flikinnehållet
 
         // Rubrik för fliken
         var heading = document.createElement('h2');
         heading.textContent = 'Jaktbart idag';
-        tabContent.appendChild(heading);
+        tabContentElement.appendChild(heading);
 
         // Knapp för att visa koordinater
         var coordButton = document.createElement('button');
         coordButton.textContent = 'Visa Koordinater';
         coordButton.onclick = function() {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-                alert("Din nuvarande position:\nLatitud: " + latitude + "\nLongitud: " + longitude);
-            });
+            alert("Simulerad koordinatinformation visas här.");
         };
-        tabContent.appendChild(coordButton);
+        tabContentElement.appendChild(coordButton);
     } else if (tabId === 'tab4') {
         // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        var tabContent = document.getElementById('tab4');
-        tabContent.innerHTML = ''; // Rensa flikinnehållet
+        var tabContentElement = document.getElementById('tab4');
+        tabContentElement.innerHTML = ''; // Rensa flikinnehållet
 
         // Rubrik för fliken
         var heading = document.createElement('h2');
         heading.textContent = 'Kaliberkrav';
-        tabContent.appendChild(heading);
+        tabContentElement.appendChild(heading);
 
         // Brödtext för information
         var paragraph = document.createElement('p');
         paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-        tabContent.appendChild(paragraph);
+        tabContentElement.appendChild(paragraph);
 
         var button1 = document.createElement('button');
         button1.textContent = 'Kaliberkrav: Däggdjur';
         button1.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
         };
-        tabContent.appendChild(button1);
+        tabContentElement.appendChild(button1);
 
         var button2 = document.createElement('button');
         button2.textContent = 'Kaliberkrav: Fågel';
         button2.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
         };
-        tabContent.appendChild(button2);
+        tabContentElement.appendChild(button2);
     } else {
         // Om det inte är tab3 eller tab4, hämta innehållet från den angivna URL:en
         fetch(url)
