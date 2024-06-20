@@ -1,6 +1,5 @@
-// Funktioner för toggle väder fliken, för knapparna i bottenpanelen och en specialare för kaliberkrav fliken som först ger användaren 2 knappar för att välja vilken flik som ska visas.
-
-function togglePanel() {
+// Funktion för att toggle väderfliken
+function toggleWeatherPanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
     if (weatherInfo.style.display === 'none') {
@@ -19,7 +18,7 @@ function togglePanel() {
     }
 }
 
-// Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+// Funktion för att återställa flikarna och dölja flikinnehållet
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
@@ -30,44 +29,23 @@ function resetTabs() {
     tabContent.style.display = 'none'; // Göm flikinnehållet
 }
 
-// Funktion för att öppna en flik
-function openTab(tabId, url) {
+// Funktion för att öppna en generell flik
+function openTab(tabId, url, additionalContentFn) {
     resetTabs(); // Återställ flikarna innan en ny öppnas
     var tab = document.getElementById(tabId);
     tab.style.display = 'block'; // Visa den valda fliken
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block'; // Visa flikinnehållet
 
-    if (tabId === 'tab4') {
-        // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        var tabContent = document.getElementById('tab4');
-        tabContent.innerHTML = ''; // Rensa flikinnehållet
-
-        // Rubrik för fliken
-        var heading = document.createElement('h2');
-        heading.textContent = 'Kaliberkrav';
-        tabContent.appendChild(heading);
-
-        // Brödtext för information
-        var paragraph = document.createElement('p');
-        paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-        tabContent.appendChild(paragraph);
-
-        var button1 = document.createElement('button');
-        button1.textContent = 'Kaliberkrav: Däggdjur';
-        button1.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-        };
-        tabContent.appendChild(button1);
-
-        var button2 = document.createElement('button');
-        button2.textContent = 'Kaliberkrav: Fågel';
-        button2.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-        };
-        tabContent.appendChild(button2);
+    // Kör en ytterligare funktion om den finns
+    if (typeof additionalContentFn === 'function') {
+        additionalContentFn(tab);
     } else {
-        // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
+        console.warn('No additional content function provided.');
+    }
+
+    // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
+    if (tabId !== 'tab4') {
         fetch(url)
             .then(response => response.text())
             .then(html => {
@@ -81,59 +59,44 @@ function openTab(tabId, url) {
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
-    var tabContent = document.getElementById('tab-content');
-    var tab = document.createElement('div');
-    tab.className = 'tab-pane';
-    tabContent.appendChild(tab);
+    openTab('tab4', url, function(tab) {
+        // Rubrik för fliken
+        var heading = document.createElement('h2');
+        heading.textContent = 'Kaliberkrav';
+        tab.appendChild(heading);
 
-    // Rubrik för fliken
-    var heading = document.createElement('h2');
-    heading.textContent = 'Kaliberkrav';
-    tab.appendChild(heading);
+        // Brödtext för information
+        var paragraph = document.createElement('p');
+        paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
+        tab.appendChild(paragraph);
 
-    // Brödtext för information
-    var paragraph = document.createElement('p');
-    paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-    tab.appendChild(paragraph);
+        var button1 = document.createElement('button');
+        button1.textContent = 'Kaliberkrav: Däggdjur';
+        button1.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+        };
+        tab.appendChild(button1);
 
-    // Dölj rubriken och brödtexten initialt
-    heading.style.display = 'none';
-    paragraph.style.display = 'none';
-
-    // Hämta innehållet från den angivna URL:en
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            tab.innerHTML += html; // Lägg till innehållet från URL:en
-
-            // Visa innehållet och dölj rubriken och brödtexten igen
-            tab.style.display = 'block';
-            heading.style.display = 'none';
-            paragraph.style.display = 'none';
-        })
-        .catch(error => {
-            console.error('Error fetching Kaliberkrav content:', error);
-        });
+        var button2 = document.createElement('button');
+        button2.textContent = 'Kaliberkrav: Fågel';
+        button2.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+        };
+        tab.appendChild(button2);
+    });
 }
 
-// Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
-document.addEventListener('click', function(event) {
-    var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-        resetTabs(); // Återställ flikarna om användaren klickar utanför dem
-    }
-});
-
-// Funktion för att stänga flikinnehållet
-function closeTabContent() {
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none';
-}
-
-// Stäng flikinnehållet när man klickar utanför det
+// Händelselyssnare för att stänga flikinnehållet när man klickar utanför det
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
     if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
         closeTabContent();
     }
 });
+
+// Funktion för att stänga flikinnehållet
+function closeTabContent() {
+    resetTabs();
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none';
+}
