@@ -3,14 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Läs data från extern JavaScript</title>
-    <script src="Jaktbart_idag_flikbeteende.js" defer></script>
+    <title>Jaktbart idag</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Anpassa stilar här om det behövs */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Läs data från extern JavaScript</h1>
-    <button onclick="hämtaData()">Hämta Data</button>
-    <div id="data-container">
-        <!-- Här visas data från JavaScript-filen -->
-    </div>
+    <h1>Välkommen till Jaktbart idag!</h1>
+    <button id="myButton">Klicka här</button>
+
+    <script>
+        // Här börjar JavaScript-koden
+        // Välj knappen och lägg till en klick-händelse
+        var button = document.getElementById('myButton');
+        button.addEventListener('click', function() {
+            // När knappen klickas, visa en enkel alert
+            alert('Hej! Du har klickat på knappen.');
+        });
+    </script>
 </body>
 </html>
