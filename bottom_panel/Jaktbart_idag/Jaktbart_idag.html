@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visa användarens koordinater</title>
+    <title>Testmiljö</title>
     <script>
         function showPosition(position) {
             var latitude = position.coords.latitude;
@@ -13,12 +13,10 @@
 
         function showError(error) {
             console.error('Geolocation error:', error);
-            // Fallback to IP-based geolocation
-            getIPCoordinates();
+            getIPCoordinates(); // Fallback to IP-based geolocation
         }
 
         function getIPCoordinates() {
-            // Using IPinfo.io API as an example (replace with your preferred service)
             fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE')
                 .then(response => response.json())
                 .then(data => {
