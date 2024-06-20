@@ -1,12 +1,16 @@
-// Funktion för att toggle väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.style.display === 'none' || weatherInfo.style.display === '') {
+    if (weatherInfo.style.display === 'none') {
         console.log("Showing weather panel...");
         weatherInfo.style.display = 'block';
-        // Här kan du inkludera din logik för att hämta väderinformation baserat på geolocation.
-        // För enkelhetens skull lägger vi inte till den här för simuleringen.
+        navigator.geolocation.getCurrentPosition(function (position) {
+            console.log("Getting current position...");
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log("Current position:", latitude, longitude);
+            getWeatherForecast(latitude, longitude);
+        });
     } else {
         console.log("Hiding weather panel...");
         weatherInfo.style.display = 'none';
