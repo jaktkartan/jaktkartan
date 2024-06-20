@@ -1,4 +1,5 @@
-// Funktion för att hantera väderpanelen och geolocation
+// Funktioner för toggle väder fliken, för knapparna i bottenpanelen och en specialare för kaliberkrav fliken som först ger användaren 2 knappar för att välja vilken flik som ska visas.
+
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
@@ -18,21 +19,55 @@ function togglePanel() {
     }
 }
 
+// Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+function resetTabs() {
+    var tabs = document.getElementsByClassName('tab-pane');
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = 'none'; // Göm flikarna
+        tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
+    }
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none'; // Göm flikinnehållet
+}
+
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
-    resetTabs(); // Återställ alla flikar innan en ny öppnas
+    resetTabs(); // Återställ flikarna innan en ny öppnas
     var tab = document.getElementById(tabId);
     tab.style.display = 'block'; // Visa den valda fliken
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block'; // Visa flikinnehållet
 
     if (tabId === 'tab4') {
-        openTab4();
-    } else if (tabId === 'tab3') {
-        openTab3('bottom_panel/Jaktbart_idag/Jaktbart_idag.html'); // Ladda Jaktbart idag innehåll
-        // Anropa updateUserPosition här om det behövs
+        // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
+        var tabContent = document.getElementById('tab4');
+        tabContent.innerHTML = ''; // Rensa flikinnehållet
+
+        // Rubrik för fliken
+        var heading = document.createElement('h2');
+        heading.textContent = 'Kaliberkrav';
+        tabContent.appendChild(heading);
+
+        // Brödtext för information
+        var paragraph = document.createElement('p');
+        paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
+        tabContent.appendChild(paragraph);
+
+        var button1 = document.createElement('button');
+        button1.textContent = 'Kaliberkrav: Däggdjur';
+        button1.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+        };
+        tabContent.appendChild(button1);
+
+        var button2 = document.createElement('button');
+        button2.textContent = 'Kaliberkrav: Fågel';
+        button2.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+        };
+        tabContent.appendChild(button2);
     } else {
-        // Om det inte är tab4 eller tab3, hämta innehållet från den angivna URL:en
+        // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
         fetch(url)
             .then(response => response.text())
             .then(html => {
@@ -42,52 +77,6 @@ function openTab(tabId, url) {
                 console.error('Error fetching tab content:', error);
             });
     }
-}
-
-// Funktion för att öppna Jaktbart idag fliken (tab3) och uppdatera användarens position
-function openTab3(url) {
-    var tabContent = document.getElementById('tab3');
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            tabContent.innerHTML = html;
-            // Anropa updateUserPosition här om det behövs
-            // Exempel:
-            updateUserPosition(latitude, longitude, accuracy); // Ersätt med faktiska värden
-        })
-        .catch(error => {
-            console.error('Error fetching Jaktbart idag content:', error);
-        });
-}
-
-// Funktion för att öppna Kaliberkrav fliken (tab4)
-function openTab4() {
-    var tabContent = document.getElementById('tab4');
-    tabContent.innerHTML = ''; // Rensa flikinnehållet
-
-    // Rubrik för fliken
-    var heading = document.createElement('h2');
-    heading.textContent = 'Kaliberkrav';
-    tabContent.appendChild(heading);
-
-    // Brödtext för information
-    var paragraph = document.createElement('p');
-    paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-    tabContent.appendChild(paragraph);
-
-    var button1 = document.createElement('button');
-    button1.textContent = 'Kaliberkrav: Däggdjur';
-    button1.onclick = function() {
-        openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-    };
-    tabContent.appendChild(button1);
-
-    var button2 = document.createElement('button');
-    button2.textContent = 'Kaliberkrav: Fågel';
-    button2.onclick = function() {
-        openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-    };
-    tabContent.appendChild(button2);
 }
 
 // Funktion för att öppna Kaliberkrav-fliken
@@ -127,17 +116,6 @@ function openKaliberkravTab(url) {
         });
 }
 
-// Funktion för att återställa flikarna till sitt ursprungliga tillstånd
-function resetTabs() {
-    var tabs = document.getElementsByClassName('tab-pane');
-    for (var i = 0; i < tabs.length; i++) {
-        tabs[i].style.display = 'none'; // Göm flikarna
-        tabs[i].innerHTML = ''; // Ta bort innehållet i flikarna
-    }
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none'; // Göm flikinnehållet
-}
-
 // Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
@@ -159,4 +137,3 @@ document.addEventListener('click', function(event) {
         closeTabContent();
     }
 });
-
