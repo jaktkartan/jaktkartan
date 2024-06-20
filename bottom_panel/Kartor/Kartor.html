@@ -3,32 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kartor_fliken, innehåll med knappar</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden; /* Förhindrar skrollning */
-            display: flex;
-            justify-content: center; /* Centrera innehållet horisontellt */
-            align-items: center; /* Centrera innehållet vertikalt */
+    <title>Visa användarens koordinater</title>
+    <script>
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            document.getElementById("coordinates").innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
         }
-    </style>
-    <!-- Lägg till JavaScript-filen för hantering av kartlager -->
-    <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
+
+        function showError(error) {
+            console.error('Geolocation error:', error);
+            // Fallback to IP-based geolocation
+            getIPCoordinates();
+        }
+
+        function getIPCoordinates() {
+            // Using IPinfo.io API as an example (replace with your preferred service)
+            fetch('https://ipinfo.io/json?token=YOUR_TOKEN_HERE')
+                .then(response => response.json())
+                .then(data => {
+                    var coordinates = data.loc.split(",");
+                    var latitude = coordinates[0];
+                    var longitude = coordinates[1];
+                    document.getElementById("coordinates").innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
+                })
+                .catch(error => {
+                    console.error('IP Geolocation error:', error);
+                    document.getElementById("coordinates").innerHTML = "Unable to fetch coordinates.";
+                });
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+                getIPCoordinates();
+            }
+        }
+    </script>
 </head>
 <body>
-    <div id="tab2">
-        <div class="button-container">
-            <!-- Anropa toggleLayer-metoden från Kartor_geojsonHandler -->
-            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])">Allmän jakt: Däggdjur</button>
-            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson','https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'])">Allmän jakt: Fågel</button>
-            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'])">Älgjaktskartan</button>
-        </div>
-    </div>
+    <h1>Användarens koordinater</h1>
+    <button onclick="getLocation()">Hämta koordinater</button>
+    <p id="coordinates"></p>
 </body>
 </html>
