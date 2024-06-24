@@ -103,10 +103,11 @@ html, body {
 .tab-pane {
     position: absolute;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto; /* Centrera horisontellt */
+    max-width: 95%; /* Begränsa bredden till 95% av förälderelementet */
     height: 50vh;
-    width: 95vw; /* Bredden satt till 95% av viewport-bredden */
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
@@ -125,13 +126,14 @@ html, body {
 
 .tab-pane.show {
     display: flex;
-    animation-name: slideInUp; /* Använd slideInUp för att flikarna ska komma uppifrån och upp */
+    animation-name: slideDown; /* Använd slideDown för nedifrån-och-upp-animation */
 }
 
 .tab-pane.hide {
-    animation-name: slideOutDown; /* Använd slideOutDown för att dölja flikarna nedifrån och ner */
+    animation-name: slideUp; /* Använd slideUp för uppifrån-och-ner-animation */
     animation-fill-mode: forwards;
 }
+
 
 /* Specifika justeringar för varje flik om det behövs */
 #tab1.tab-pane {
