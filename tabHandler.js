@@ -1,4 +1,4 @@
-// Global variabel för att lagra den senaste kända positionen
+// Globala variabler för att lagra den senaste kända positionen
 var lastKnownPosition = null;
 var positionIsValid = false;
 
