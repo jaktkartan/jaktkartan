@@ -1,4 +1,5 @@
-// Funktion för att toggla väderpanelen
+// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
@@ -17,7 +18,7 @@ function togglePanel() {
     }
 }
 
-// Funktion för att ladda GeoJSON-fil med Sveriges länspolygoner
+// Ladda GeoJSON-filen med Sveriges länspolygoner
 async function loadGeoJSON(url) {
     try {
         const response = await fetch(url);
@@ -31,7 +32,7 @@ async function loadGeoJSON(url) {
     }
 }
 
-// Funktion för att hitta län för koordinater i GeoJSON
+// Jämför användarens sparade position med länspolygoner
 function findCountyForCoordinates(latitude, longitude, geojson) {
     if (!geojson || !geojson.features) {
         console.error('GeoJSON data is invalid.');
@@ -80,28 +81,67 @@ function getSavedUserPosition() {
     }
 }
 
-// Funktion för att visa sparad användarposition och Google Sheets för det län som matchar positionen
+// Visa användarens sparade position i fliken
 function displaySavedUserPosition() {
     var savedPosition = getSavedUserPosition();
-    var tab = document.getElementById('tab3');
-    tab.innerHTML = '';
-
-    var heading = document.createElement('h2');
-    heading.textContent = 'Jaktbart idag';
-    tab.appendChild(heading);
-
     if (savedPosition) {
+        var tab = document.getElementById('tab3');
+        tab.innerHTML = '';
+
+        var heading = document.createElement('h2');
+        heading.textContent = 'Jaktbart idag';
+        tab.appendChild(heading);
+
         var positionInfo = document.createElement('p');
-        positionInfo.textContent = 'Senaste sparade position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
+        positionInfo.textContent = 'Senast sparad position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
         tab.appendChild(positionInfo);
+
+        var changeCountyButton = document.createElement('button');
+        changeCountyButton.textContent = 'Välj annat län';
+        changeCountyButton.onclick = function() {
+            showCountySelection(savedPosition);
+        };
+        tab.appendChild(changeCountyButton);
 
         // Ladda GeoJSON-filen och avgör län baserat på sparade koordinater
         loadGeoJSON('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
             .then(geojson => {
                 var county = findCountyForCoordinates(savedPosition.latitude, savedPosition.longitude, geojson);
 
-                // Visa länlista och Google Sheets för det automatiskt valda länet
-                showCountySelection(savedPosition, county);
+                // Bygg URL för Google Sheets baserat på länets namn
+                var googleSheetsURL;
+                switch (county.toUpperCase()) {
+                    case 'BLEKINGES LÄN':
+                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                        break;
+                    case 'DALARNAS LÄN':
+                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                        break;
+                    case 'GOTLANDS LÄN':
+                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                        break;
+                    case 'GÄVLEBORGS LÄN':
+                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                        break;
+
+                    default:
+                        googleSheetsURL = ''; // Om län inte hittas, tom URL
+                        break;
+                }
+
+                // Visa Google Sheets i en iframe om URL är definierad
+                if (googleSheetsURL) {
+                    var iframe = document.createElement('iframe');
+                    iframe.src = googleSheetsURL;
+                    iframe.style.width = '100%';
+                    iframe.style.height = '600px'; // Justera höjden efter behov
+                    iframe.setAttribute('frameborder', '0');
+                    tab.appendChild(iframe);
+                } else {
+                    var noDataInfo = document.createElement('p');
+                    noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
+                    tab.appendChild(noDataInfo);
+                }
             })
             .catch(error => {
                 console.error('Error loading GeoJSON:', error);
@@ -110,16 +150,13 @@ function displaySavedUserPosition() {
                 tab.appendChild(errorInfo);
             });
     } else {
-        var noPositionInfo = document.createElement('p');
-        noPositionInfo.textContent = 'Ingen sparad position hittades.';
-        tab.appendChild(noPositionInfo);
+        console.log("Ingen sparad position hittades.");
     }
 }
 
-// Funktion för att visa val av län och ladda Google Sheets
-function showCountySelection(savedPosition, selectedCounty) {
+// Funktion för att visa en lista över län för att välja ett annat län
+function showCountySelection(savedPosition) {
     var tab = document.getElementById('tab3');
-    
     var countyList = document.createElement('div');
     countyList.className = 'county-list';
     tab.appendChild(countyList);
@@ -139,17 +176,11 @@ function showCountySelection(savedPosition, selectedCounty) {
         select.appendChild(optionElement);
     });
 
-    // Förvalt det sparade länet
-    select.value = selectedCounty;
-
     // Lyssnare för val av län
     select.addEventListener('change', function() {
         var selectedCounty = select.value;
         loadCountyGoogleSheet(selectedCounty, savedPosition);
     });
-
-    // Visa Google Sheets för det valda länet direkt
-    loadCountyGoogleSheet(selectedCounty, savedPosition);
 }
 
 // Funktion för att ladda Google Sheets för det valda länet
@@ -201,8 +232,106 @@ function loadCountyGoogleSheet(county, savedPosition) {
     }
 }
 
+// Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+function resetTabs() {
+    var tabs = document.getElementsByClassName('tab-pane');
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = 'none';
+        tabs[i].innerHTML = '';
+    }
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none';
+}
+
+// Funktion för att öppna en flik
+function openTab(tabId, url) {
+    resetTabs();
+    var tab = document.getElementById(tabId);
+    tab.style.display = 'block';
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'block';
+
+    if (tabId === 'tab4') {
+        tab.innerHTML = '';
+
+        var heading = document.createElement('h2');
+        heading.textContent = 'Kaliberkrav';
+        tab.appendChild(heading);
+
+        var paragraph = document.createElement('p');
+        paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
+        tab.appendChild(paragraph);
+
+        var button1 = document.createElement('button');
+        button1.textContent = 'Kaliberkrav: Däggdjur';
+        button1.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+        };
+        tab.appendChild(button1);
+
+        var button2 = document.createElement('button');
+        button2.textContent = 'Kaliberkrav: Fågel';
+        button2.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+        };
+        tab.appendChild(button2);
+    } else if (tabId === 'tab3') {
+        tab.innerHTML = '';
+
+        var heading = document.createElement('h2');
+        heading.textContent = 'Jaktbart idag';
+        tab.appendChild(heading);
+
+        var paragraph = document.createElement('p');
+        paragraph.textContent = 'Senaste lagrade position:';
+        tab.appendChild(paragraph);
+
+        displaySavedUserPosition();
+    } else {
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                tab.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error fetching tab content:', error);
+            });
+    }
+}
+
+// Funktion för att öppna Kaliberkrav-fliken
+function openKaliberkravTab(url) {
+    var tabContent = document.getElementById('tab-content');
+    var tab = document.createElement('div');
+    tab.className = 'tab-pane';
+    tabContent.appendChild(tab);
+
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            tab.innerHTML += html;
+            tab.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error fetching Kaliberkrav content:', error);
+        });
+}
+
+// Lyssnare för klick utanför flikar och panelknappar
+document.addEventListener('click', function(event) {
+    var tabContent = document.getElementById('tab-content');
+    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+        resetTabs();
+    }
+});
+
+// Funktion för att stänga flikinnehåll
+function closeTabContent() {
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none';
+}
+
 // Lyssnare för när sidan laddas
 document.addEventListener('DOMContentLoaded', function() {
     displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
 });
-
