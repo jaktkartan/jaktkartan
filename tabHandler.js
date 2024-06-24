@@ -157,28 +157,30 @@ function displaySavedUserPosition() {
 // Funktion för att visa en lista över län för att välja ett annat län
 function showCountySelection(savedPosition) {
     var tab = document.getElementById('tab3');
-    tab.innerHTML = '';
+    var countyList = document.createElement('div');
+    countyList.className = 'county-list';
+    tab.appendChild(countyList);
 
-    var heading = document.createElement('h2');
-    heading.textContent = 'Välj län';
-    tab.appendChild(heading);
+    var label = document.createElement('label');
+    label.textContent = 'Välj län:';
+    countyList.appendChild(label);
 
-    var countySelect = document.createElement('select');
-    tab.appendChild(countySelect);
+    var select = document.createElement('select');
+    countyList.appendChild(select);
 
+    // Alternativ för varje län
     var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN'];
     options.forEach(option => {
         var optionElement = document.createElement('option');
         optionElement.textContent = option;
-        countySelect.appendChild(optionElement);
+        select.appendChild(optionElement);
     });
 
-    countySelect.addEventListener('change', function() {
-        var selectedCounty = countySelect.value;
+    // Lyssnare för val av län
+    select.addEventListener('change', function() {
+        var selectedCounty = select.value;
         loadCountyGoogleSheet(selectedCounty, savedPosition);
     });
-
-    loadCountyGoogleSheet(options[0], savedPosition); // Ladda första länets Google Sheets som standard
 }
 
 // Funktion för att ladda Google Sheets för det valda länet
