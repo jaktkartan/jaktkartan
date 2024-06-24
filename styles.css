@@ -1,14 +1,41 @@
-/* Allmän styling */
+/* Anpassad CSS för att ändra zoomkontrollernas position */
+.leaflet-top.leaflet-left {
+    top: 80px !important;
+    left: 10px !important;
+}
+
 body, button, span, div {
     font-family: 'Roboto', sans-serif !important;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+}
+
+.panel-button {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 3px;
+    position: relative; /* Lägg till position: relative för att placera knapparna överst */
+    z-index: 1; /* Sätt z-index för att placera knapparna överst */
+    border: 1px solid rgb(50, 94, 88); /* Lägg till en solid ram runt knapparna */
+    border-radius: 5px; /* Avrunda hörnen på ramen */
+    padding: 5px; /* Lägg till padding för att skapa mellanrum mellan knappen och ramen */
+}
+
+.panel-button img {
+    display: block; /* För att undvika extra utrymme runt bilden */
+    max-width: 100%; /* Låt bilderna ta upp all tillgänglig bredd inom knappen */
+    max-height: 90px; /* Maximal höjd för knapparna */
+    object-fit: contain; /* Förhindra att bilderna blir förvrängda */
 }
 
 html, body {
+    margin: 0;
+    padding: 0;
     height: 100%;
     overflow: hidden;
+    box-sizing: border-box; /* Lägg till denna rad */
+}
+
+*, *:before, *:after {
+    box-sizing: inherit; /* Ärv box-sizing för alla element */
 }
 
 #map {
@@ -20,17 +47,18 @@ html, body {
     z-index: 0;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow: hidden; /* Dölj eventuell överflödig bredd */
 }
 
 #bottom-panel {
     display: flex;
     justify-content: center;
-    align-items: stretch;
+    align-items: stretch; /* Anpassa höjden baserat på höjden på barnen */
+    align-content: stretch; /* Anpassa höjden baserat på höjden på barnen */
     flex-wrap: nowrap;
     overflow: hidden;
     padding: 3px;
-    z-index: 2;
+    z-index: 2; /* Sätt ett högre z-index för att placera knapparna över kartan */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
     width: 100%;
     background-color: rgba(255, 255, 255, 0.7);
@@ -41,40 +69,21 @@ html, body {
 }
 
 .tab-pane {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 95%;
-    max-width: 600px; /* Exempelvis 600px som maxbredd om det behövs */
-    background-color: white;
-    color: rgb(50, 94, 88);
-    padding: 10px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    overflow-y: auto;
-    display: none;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-out;
+    width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
 }
 
-.tab-pane.show {
-    display: flex;
-    animation-name: slideUp;
+/* CSS för att animera flikar */
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.tab-pane.hide {
-    animation-name: slideDown;
-}
-
-/* Specifika inställningar för tab1 och tab2 */
-#tab1.tab-pane,
-#tab2.tab-pane {
-    height: 15vh; /* Ange önskad höjd för upptäckfliken eller kartorfliken här */
-    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
-}
-
-/* Animationer för flikar */
 @keyframes slideUp {
     0% {
         opacity: 0;
@@ -86,16 +95,69 @@ html, body {
     }
 }
 
-@keyframes slideDown {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(100%);
-    }
+/* Använd CSS-klasser för att styra animationer */
+.slide-down {
+    animation-name: slideDown;
 }
+
+.slide-up {
+    animation-name: slideUp;
+}
+
+.tab-pane {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 50vh;
+    background-color: white;
+    color: rgb(50, 94, 88);
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    max-width: 95%;
+    display: none;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    animation-duration: 0.5s; /* Justera animationstid efter behov */
+    animation-timing-function: ease-out; /* Anpassa timing function */
+}
+
+.tab-pane.show {
+    display: flex;
+    animation-name: slideInUp;
+}
+
+.tab-pane.hide {
+    animation-name: slideOutDown;
+    animation-fill-mode: forwards;
+}
+
+
+/* specifika ändringar av stil för vissa flikar */
+#tab1.tab-pane {
+    height: 15vh; /* Ange önskad höjd för upptäckfliken här */
+    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
+}
+
+
+#tab2.tab-pane {
+height: 15vh; /* Ange önskad höjd för kartorfliken här */
+    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
+}
+
+#tab3.tab-pane {
+    /* Anpassa stilar för flik 3 om det behövs */
+}
+
+/* Fortsätt definiera CSS för varje flik separat enligt behov */
+
 
 #info-panel {
     position: absolute;
