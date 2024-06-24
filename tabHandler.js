@@ -259,8 +259,8 @@ function openTab(tabId, url) {
         tab.appendChild(button2);
 
         // Visa fliken med slide-up animation
-        tab.classList.add('slide-up');
         tab.style.display = 'block';
+        tab.classList.add('slide-up');
         tabContent.style.display = 'block';
     } else if (tabId === 'tab3') {
         tab.innerHTML = '';
@@ -276,8 +276,8 @@ function openTab(tabId, url) {
         displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
 
         // Visa fliken med slide-down animation
-        tab.classList.add('slide-down');
         tab.style.display = 'block';
+        tab.classList.add('slide-down');
         tabContent.style.display = 'block';
     } else {
         fetch(url)
@@ -286,49 +286,15 @@ function openTab(tabId, url) {
                 tab.innerHTML = html;
 
                 // Visa fliken med slide-up animation
-                tab.classList.add('slide-up');
                 tab.style.display = 'block';
+                tab.classList.add('slide-up');
                 tabContent.style.display = 'block';
             })
             .catch(error => {
                 console.error('Error fetching tab content:', error);
             });
     }
-
-    // Lyssna på när animationen är klar för att återställa display och position
-    tab.addEventListener('animationend', function() {
-        tab.classList.remove('slide-up', 'slide-down'); // Ta bort animationer när de är klara
-        tab.style.display = 'block'; // Återställ display-egenskapen
-    }, { once: true });
 }
-
-
-// Funktion för att öppna Kaliberkrav-fliken
-function openKaliberkravTab(url) {
-    var tabContent = document.getElementById('tab-content');
-    var tab = document.createElement('div');
-    tab.className = 'tab-pane';
-
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            tab.innerHTML += html;
-            tab.style.display = 'block';
-            tab.classList.add('slide-up'); // Använd slide-up animation för Kaliberkrav-fliken
-            tabContent.appendChild(tab);
-        })
-        .catch(error => {
-            console.error('Error fetching Kaliberkrav content:', error);
-        });
-}
-
-// Lyssnare för klick utanför flikar och panelknappar
-document.addEventListener('click', function(event) {
-    var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-        resetTabs();
-    }
-});
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
 function resetTabs() {
@@ -336,6 +302,7 @@ function resetTabs() {
     for (var i = 0; i < tabs.length; i++) {
         tabs[i].classList.remove('slide-up', 'slide-down'); // Ta bort animationer
         tabs[i].style.display = 'none';
+        tabs[i].style.width = ''; // Återställ eventuell statisk bredd
         tabs[i].innerHTML = '';
     }
     var tabContent = document.getElementById('tab-content');
@@ -347,6 +314,14 @@ function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none';
 }
+
+// Lyssnare för klick utanför flikar och panelknappar
+document.addEventListener('click', function(event) {
+    var tabContent = document.getElementById('tab-content');
+    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+        resetTabs();
+    }
+});
 
 // Lyssnare för när sidan laddas
 document.addEventListener('DOMContentLoaded', function() {
