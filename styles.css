@@ -72,13 +72,32 @@ html, body {
     width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
 }
 
+/* Lägg till nyckelramsanimation för att fliken ska komma fram från botten */
+@keyframes slideInUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOutDown {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(100%);
+    }
+}
+
 /* Gemensam basstil för alla flikar */
 .tab-pane {
     position: absolute;
     bottom: 0;
-    left: 50%; /* Centrera horisontellt genom att placera den från vänster */
-    transform: translateX(-50%); /* Flytta tillbaka den med 50% av sin egen bredd */
-    width: 95%; /* 95% av skärmens bredd */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
     height: 50vh;
     background-color: white;
     color: rgb(50, 94, 88);
@@ -86,26 +105,31 @@ html, body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     overflow-y: auto;
-    border-top-left-radius: 15px; /* Rundade övre vänstra hörnet */
-    border-top-right-radius: 15px; /* Rundade övre högra hörnet */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    display: none; /* Initialt dold */
 }
 
+/* Specifika stilar för varje flik om det behövs */
 #tab1.tab-pane {
-    height: 15vh; /* Ange önskad höjd för upptäckfliken här */
-    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
+    height: 15vh;
+    overflow-y: visible;
 }
-
 
 #tab2.tab-pane {
-height: 15vh; /* Ange önskad höjd för upptäckfliken här */
-    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
+    height: 15vh;
+    overflow-y: visible;
 }
 
-#tab3.tab-pane {
-    /* Anpassa stilar för flik 3 om det behövs */
+/* Lägg till animationseffekter när fliken visas och döljs */
+.tab-pane.show {
+    display: block;
+    animation: slideInUp 0.5s ease-out;
 }
 
-/* Fortsätt definiera CSS för varje flik separat enligt behov */
+.tab-pane.hide {
+    animation: slideOutDown 0.5s ease-out;
+}
 
 
 #info-panel {
