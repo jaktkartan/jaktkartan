@@ -294,7 +294,14 @@ function openTab(tabId, url) {
                 console.error('Error fetching tab content:', error);
             });
     }
+
+    // Lyssna på när animationen är klar för att återställa display och position
+    tab.addEventListener('animationend', function() {
+        tab.classList.remove('slide-up', 'slide-down'); // Ta bort animationer när de är klara
+        tab.style.display = 'block'; // Återställ display-egenskapen
+    }, { once: true });
 }
+
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
