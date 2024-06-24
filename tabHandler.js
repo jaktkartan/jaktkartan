@@ -103,24 +103,33 @@ function openKaliberkravTab(url) {
         });
 }
 
-// Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
-document.addEventListener('click', function(event) {
-    var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-        resetTabs(); // Återställ flikarna om användaren klickar utanför dem
-    }
-});
-
 // Funktion för att stänga flikinnehållet
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none';
 }
 
+// Händelselyssnare för att hantera klick utanför flikarna och panelknapparna
+document.addEventListener('click', function(event) {
+    var tabContent = document.getElementById('tab-content');
+    var isClickInsideTab = tabContent.contains(event.target);
+    var isClickOnPanelButton = event.target.matches('.panel-button img');
+    var isClickOnKaliberkravButton = event.target.matches('#tab4 button');
+
+    if (!isClickInsideTab && !isClickOnPanelButton && !isClickOnKaliberkravButton) {
+        resetTabs(); // Återställ flikarna om användaren klickar utanför dem
+        closeTabContent(); // Stäng flikinnehållet om användaren klickar utanför det
+    }
+});
+
 // Stäng flikinnehållet när man klickar utanför det
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+    var isClickInsideTab = tabContent.contains(event.target);
+    var isClickOnPanelButton = event.target.matches('.panel-button img');
+    var isClickOnKaliberkravButton = event.target.matches('#tab4 button');
+
+    if (!isClickInsideTab && !isClickOnPanelButton && !isClickOnKaliberkravButton) {
         closeTabContent();
     }
 });
