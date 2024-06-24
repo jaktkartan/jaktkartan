@@ -84,8 +84,11 @@ function openTab(tabId, url) {
         loadingIndicator.textContent = 'Hämtar position...';
         tab.appendChild(loadingIndicator);
 
-        // Hämta användarens position genom att anropa updateUserPosition
-        updateUserPosition(function(lat, lon, accuracy) {
+        // Anropa geolocation för att hämta användarens position
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+
             loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
 
             // Visa användarens position
@@ -107,8 +110,6 @@ function openTab(tabId, url) {
             });
     }
 }
-
-v
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
