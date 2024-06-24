@@ -1,30 +1,3 @@
-// Globala variabler för att lagra den senaste kända positionen och dess giltighet
-var lastKnownPosition = null;
-var positionIsValid = false;
-
-// Funktion för att kontrollera om den senaste positionen är aktuell
-function isPositionValid() {
-    return positionIsValid;
-}
-
-// Funktion för att uppdatera den senaste kända positionen
-function updateLastKnownPosition(lat, lon) {
-    lastKnownPosition = { latitude: lat, longitude: lon };
-    positionIsValid = true; // Sätt positionen som giltig när den uppdateras
-}
-
-// Funktion för att hämta användarens position
-function getUserPosition(successCallback, errorCallback) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-        var lat = position.coords.latitude;
-        var lon = position.coords.longitude;
-        updateLastKnownPosition(lat, lon); // Uppdatera den senaste kända positionen
-        successCallback(lat, lon);
-    }, function(error) {
-        errorCallback(error);
-    });
-}
-
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
 
 function togglePanel() {
@@ -43,6 +16,33 @@ function togglePanel() {
         console.log("Hiding weather panel...");
         weatherInfo.style.display = 'none';
     }
+}
+
+// Globala variabler för att lagra den senaste kända positionen och dess giltighet
+var lastKnownPosition = null;
+var positionIsValid = false;
+
+// Funktion för att kontrollera om den senaste positionen är aktuell
+function isPositionValid() {
+    return positionIsValid;
+}
+
+// Funktion för att uppdatera den senaste kända positionen
+function updateLastKnownPosition(lat, lon) {
+    lastKnownPosition = { latitude: lat, longitude: lon };
+    positionIsValid = true;
+}
+
+// Funktion för att hämta användarens position
+function getUserPosition(successCallback, errorCallback) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        updateLastKnownPosition(lat, lon); // Uppdatera den senaste kända positionen
+        successCallback(lat, lon);
+    }, function(error) {
+        errorCallback(error);
+    });
 }
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
@@ -111,16 +111,24 @@ function openTab(tabId, url) {
         tab.appendChild(loadingIndicator);
 
         // Anropa getUserPosition för att hämta och visa användarens position
-        getUserPosition(function(lat, lon) {
-            loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
-
-            // Visa användarens position
+        if (lastKnownPosition && isPositionValid()) {
+            // Använd den senaste kända positionen om den är giltig
             var positionInfo = document.createElement('p');
-            positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
+            positionInfo.textContent = 'Latitud: ' + lastKnownPosition.latitude.toFixed(6) + ', Longitud: ' + lastKnownPosition.longitude.toFixed(6);
             tab.appendChild(positionInfo);
-        }, function(error) {
-            loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
-        });
+            loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
+        } else {
+            getUserPosition(function(lat, lon) {
+                loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
+
+                // Visa användarens position
+                var positionInfo = document.createElement('p');
+                positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
+                tab.appendChild(positionInfo);
+            }, function(error) {
+                loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
+            });
+        }
     } else {
         // Om det inte är tab4 eller tab3, hämta innehållet från den angivna URL:en
         fetch(url)
