@@ -1,5 +1,3 @@
-// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-
 // Funktion för att toggle väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
@@ -71,7 +69,7 @@ function isPointInPolygon(point, polygon) {
         let xi = polygon[0][i][0], yi = polygon[0][i][1];
         let xj = polygon[0][j][0], yj = polygon[0][j][1];
 
-        let intersect = ((yi > y) !== (yj > y)) && (x < (xj -xi) * (y - yi) / (yj - yi) + xi);
+        let intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) inside = !inside;
     }
     return inside;
@@ -220,7 +218,9 @@ function showCountySelection(savedPosition) {
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('slide-up', 'slide-down'); // Ta bort animationer
         tabs[i].style.display = 'none';
+        tabs[i].style.width = ''; // Återställ eventuell statisk bredd
         tabs[i].innerHTML = '';
     }
     var tabContent = document.getElementById('tab-content');
@@ -300,19 +300,6 @@ function openTab(tabId, url) {
                 console.error('Error fetching tab content:', error);
             });
     }
-}
-
-// Funktion för att återställa flikarna till sitt ursprungliga tillstånd
-function resetTabs() {
-    var tabs = document.getElementsByClassName('tab-pane');
-    for (var i = 0; i < tabs.length; i++) {
-        tabs[i].classList.remove('slide-up', 'slide-down'); // Ta bort animationer
-        tabs[i].style.display = 'none';
-        tabs[i].style.width = ''; // Återställ eventuell statisk bredd
-        tabs[i].innerHTML = '';
-    }
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none';
 }
 
 // Funktion för att stänga flikinnehåll
