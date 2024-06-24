@@ -110,13 +110,13 @@ html, body {
     left: 50%;
     transform: translateX(-50%);
     height: 50vh;
+    width: 100%;
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     overflow-y: auto;
-    display: flex;
     justify-content: center;
     align-items: center;
     border-top-left-radius: 15px;
@@ -125,8 +125,8 @@ html, body {
     display: none;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
-    animation-duration: 0.5s; /* Justera animationstid efter behov */
-    animation-timing-function: ease-out; /* Anpassa timing function */
+    animation-timing-function: ease-out;
+
 }
 
 .tab-pane.show {
