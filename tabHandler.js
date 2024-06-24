@@ -244,13 +244,15 @@ function resetTabs() {
     tabContent.style.display = 'none';
 }
 
-// Funktion för att öppna en flik
+// Funktion för att öppna en flik med animation
 function openTab(tabId, url) {
-    resetTabs();
+    resetTabs(); // Återställ alla flikar till sitt ursprungliga tillstånd
+
     var tab = document.getElementById(tabId);
-    tab.style.display = 'block';
+    tab.classList.add('active'); // Lägg till klassen för att visa fliken med animation
+
     var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'block';
+    tabContent.classList.add('active'); // Visa hela flikinnehållet
 
     if (tabId === 'tab4') {
         tab.innerHTML = '';
@@ -300,7 +302,7 @@ function openTab(tabId, url) {
     }
 }
 
-// Funktion för att öppna Kaliberkrav-fliken
+// Funktion för att öppna Kaliberkrav-fliken med animation
 function openKaliberkravTab(url) {
     var tabContent = document.getElementById('tab-content');
     var tab = document.createElement('div');
@@ -311,7 +313,7 @@ function openKaliberkravTab(url) {
         .then(response => response.text())
         .then(html => {
             tab.innerHTML += html;
-            tab.style.display = 'block';
+            tab.classList.add('active'); // Lägg till klassen för att visa fliken med animation
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
@@ -326,10 +328,15 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Funktion för att stänga flikinnehåll
+// Funktion för att stänga flikinnehåll med animation
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none';
+    tabContent.classList.remove('active'); // Ta bort klassen för att visa flikinnehåll med animation
+
+    var tabs = tabContent.getElementsByClassName('tab-pane');
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active'); // Ta bort klassen för att visa fliken med animation
+    }
 }
 
 // Lyssnare för när sidan laddas
