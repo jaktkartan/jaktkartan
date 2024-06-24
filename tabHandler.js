@@ -161,16 +161,12 @@ function showCountySelection(savedPosition) {
     countyList.className = 'county-list';
     tab.appendChild(countyList);
 
-    var label = document.createElement('label');
-    label.textContent = 'Välj län:';
-    countyList.appendChild(label);
-
     var select = document.createElement('select');
     countyList.appendChild(select);
     
     // Lägg till ett tomt alternativ först
     var optionElement = document.createElement('option');
-    optionElement.textContent = ''; // Tomt alternativ
+    optionElement.textContent = 'Välj annat län'; // Tomt alternativ
     select.appendChild(optionElement);
     
     // Alternativ för varje län
