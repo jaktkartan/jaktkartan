@@ -89,7 +89,10 @@ html, body {
     display: flex; /* Använd flexbox för att centrera innehållet vertikalt */
     justify-content: center;
     align-items: center;
+    border-top-left-radius: 10px; /* Rundade övre vänstra hörnet */
+    border-top-right-radius: 10px; /* Rundade övre högra hörnet */
 }
+
 
 #tab1.tab-pane {
     height: 15vh; /* Ange önskad höjd för upptäckfliken här */
