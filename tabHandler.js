@@ -18,32 +18,45 @@ function togglePanel() {
     }
 }
 
-// Globala variabler för att lagra den senaste kända positionen och dess giltighet
-var lastKnownPosition = null;
-var positionIsValid = false;
-
-// Funktion för att kontrollera om den senaste positionen är aktuell
-function isPositionValid() {
-    return positionIsValid;
+// Funktion för att hämta den sparade positionen från localStorage
+function getSavedUserPosition() {
+    var storedPosition = localStorage.getItem('lastKnownPosition');
+    if (storedPosition) {
+        var { latitude, longitude } = JSON.parse(storedPosition);
+        return { latitude, longitude };
+    } else {
+        return null; // Returnera null om ingen position är sparad
+    }
 }
 
-// Funktion för att uppdatera den senaste kända positionen
-function updateLastKnownPosition(lat, lon) {
-    lastKnownPosition = { latitude: lat, longitude: lon };
-    positionIsValid = true;
+// Funktion för att visa användarens sparade position i fliken
+function displaySavedUserPosition() {
+    var savedPosition = getSavedUserPosition();
+    if (savedPosition) {
+        var tab = document.getElementById('tab3'); // Antag att detta är ID för fliken där positionen ska visas
+        tab.innerHTML = ''; // Rensa flikinnehållet
+
+        // Rubrik för fliken
+        var heading = document.createElement('h2');
+        heading.textContent = 'Jaktbart idag';
+        tab.appendChild(heading);
+
+        // Visa sparade koordinater
+        var positionInfo = document.createElement('p');
+        positionInfo.textContent = 'Senast sparad position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
+        tab.appendChild(positionInfo);
+    } else {
+        console.log("Ingen sparad position hittades.");
+    }
 }
 
-// Funktion för att hämta användarens position
-function getUserPosition(successCallback, errorCallback) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-        var lat = position.coords.latitude;
-        var lon = position.coords.longitude;
-        updateLastKnownPosition(lat, lon); // Uppdatera den senaste kända positionen
-        successCallback(lat, lon);
-    }, function(error) {
-        errorCallback(error);
-    });
-}
+// Exempel på hur du kan anropa displaySavedUserPosition vid behov
+document.addEventListener('DOMContentLoaded', function() {
+    displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
+});
+
+// Övriga funktioner och händelselyssnare...
+
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
 function resetTabs() {
