@@ -14,8 +14,8 @@ async function loadGeoJSON(url) {
 
 // Jämför användarens sparade position med länspolygoner
 function findCountyForCoordinates(latitude, longitude, geojson) {
-    if (!geojson) {
-        console.error('GeoJSON data not loaded.');
+    if (!geojson || !geojson.features) {
+        console.error('GeoJSON data is invalid.');
         return 'Okänt län';
     }
 
@@ -31,6 +31,10 @@ function findCountyForCoordinates(latitude, longitude, geojson) {
 
 // Funktion för att avgöra om en punkt ligger inuti en polygon
 function isPointInPolygon(point, polygon) {
+    if (!polygon || polygon.length === 0 || polygon[0].length === 0) {
+        return false;
+    }
+
     let x = point[0], y = point[1];
     let inside = false;
     for (let i = 0, j = polygon[0].length - 1; i < polygon[0].length; j = i++) {
