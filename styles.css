@@ -103,11 +103,11 @@ html, body {
 /* Basstilar för tab-pane (flikar) */
 .tab-pane {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     height: 50vh;
-    width: 95vw; /* Sätt bredden till 95% av viewport-bredden */
+    width: 95vw; /* Bredden satt till 95% av viewport-bredden */
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
@@ -134,20 +134,21 @@ html, body {
     animation-fill-mode: forwards;
 }
 
-/* Specifika ändringar för varje flik */
+/* Specifika justeringar för varje flik om det behövs */
 #tab1.tab-pane {
-    height: 15vh; /* Ange önskad höjd för upptäckfliken här */
+    height: 15vh; /* Höjd för upptäckfliken */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
 #tab2.tab-pane {
-    height: 15vh; /* Ange önskad höjd för kartorfliken här */
+    height: 15vh; /* Höjd för kartorfliken */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
 #tab3.tab-pane {
     /* Anpassa stilar för flik 3 om det behövs */
 }
+
 
 
 
