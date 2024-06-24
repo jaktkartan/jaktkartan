@@ -95,12 +95,6 @@ html, body {
     }
 }
 
-.tab-pane {
-    display: none; /* Dölj flikar som standard */
-    animation-duration: 0.5s; /* Justera animationstid efter behov */
-    animation-timing-function: ease-out; /* Anpassa timing function */
-}
-
 /* Använd CSS-klasser för att styra animationer */
 .slide-down {
     animation-name: slideDown;
@@ -131,6 +125,8 @@ html, body {
     display: none;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
+    animation-duration: 0.5s; /* Justera animationstid efter behov */
+    animation-timing-function: ease-out; /* Anpassa timing function */
 }
 
 .tab-pane.show {
