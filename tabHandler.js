@@ -79,6 +79,46 @@ function openTab(tabId, url) {
     }
 }
 
+// Funktion för att öppna tab 3 Jaktbart idag fliken
+function openTab3() {
+    resetTabs(); // Återställ flikarna innan tab 3 öppnas
+    var tab = document.getElementById('tab3');
+    tab.style.display = 'block'; // Visa tab 3
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'block'; // Visa flikinnehållet
+
+    // Rensa och skapa nytt innehåll för tab 3
+    tab.innerHTML = '';
+
+    // Rubrik för fliken
+    var heading = document.createElement('h2');
+    heading.textContent = 'Jaktbart idag';
+    tab.appendChild(heading);
+
+    // Innehåll för geolokation
+    var paragraph = document.createElement('p');
+    paragraph.textContent = 'Din aktuella position:';
+    tab.appendChild(paragraph);
+
+    // Visa laddningsindikator medan positionen hämtas
+    var loadingIndicator = document.createElement('div');
+    loadingIndicator.textContent = 'Hämtar position...';
+    tab.appendChild(loadingIndicator);
+
+    // Hämta användarens position genom att anropa updateUserPosition
+    updateUserPosition(function(lat, lon, accuracy) {
+        loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
+
+        // Visa användarens position
+        var positionInfo = document.createElement('p');
+        positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
+        tab.appendChild(positionInfo);
+    }, function(error) {
+        loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
+    });
+}
+
+
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
     var tabContent = document.getElementById('tab-content');
