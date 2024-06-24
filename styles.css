@@ -79,6 +79,7 @@ html, body {
     left: 50%; /* Centrera horisontellt genom att placera den från vänster */
     transform: translateX(-50%); /* Flytta tillbaka den med 50% av sin egen bredd */
     width: 95%; /* 95% av skärmens bredd */
+    height: 50vh;
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
