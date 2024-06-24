@@ -1,4 +1,87 @@
-// Funktion för att visa användarens sparade position i fliken
+// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+
+function togglePanel() {
+    console.log("Toggling weather panel...");
+    var weatherInfo = document.getElementById('weather-info');
+    if (weatherInfo.style.display === 'none') {
+        console.log("Showing weather panel...");
+        weatherInfo.style.display = 'block';
+        getUserPosition(function(lat, lon) {
+            console.log("Current position:", lat, lon);
+            getWeatherForecast(lat, lon);
+        }, function(error) {
+            console.error("Error getting position:", error);
+        });
+    } else {
+        console.log("Hiding weather panel...");
+        weatherInfo.style.display = 'none';
+    }
+}
+
+// Ladda GeoJSON-filen med Sveriges länspolygoner
+async function loadGeoJSON(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to load GeoJSON file');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error loading GeoJSON:', error);
+        return null;
+    }
+}
+
+// Jämför användarens sparade position med länspolygoner
+function findCountyForCoordinates(latitude, longitude, geojson) {
+    if (!geojson || !geojson.features) {
+        console.error('GeoJSON data is invalid.');
+        return 'Okänt län';
+    }
+
+    for (let feature of geojson.features) {
+        if (feature.geometry && feature.geometry.type === 'MultiPolygon') {
+            for (let polygon of feature.geometry.coordinates) {
+                if (isPointInPolygon([longitude, latitude], polygon)) {
+                    return feature.properties.LÄN;
+                }
+            }
+        }
+    }
+
+    return 'Okänt län'; // Om ingen matchning hittades
+}
+
+// Funktion för att avgöra om en punkt ligger inuti en polygon
+function isPointInPolygon(point, polygon) {
+    if (!polygon || polygon.length === 0 || polygon[0].length === 0) {
+        return false;
+    }
+
+    let x = point[0], y = point[1];
+    let inside = false;
+    for (let i = 0, j = polygon[0].length - 1; i < polygon[0].length; j = i++) {
+        let xi = polygon[0][i][0], yi = polygon[0][i][1];
+        let xj = polygon[0][j][0], yj = polygon[0][j][1];
+
+        let intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+    return inside;
+}
+
+// Hämta användarens sparade position från localStorage
+function getSavedUserPosition() {
+    var storedPosition = localStorage.getItem('lastKnownPosition');
+    if (storedPosition) {
+        var { latitude, longitude } = JSON.parse(storedPosition);
+        return { latitude, longitude };
+    } else {
+        return null; // Returnera null om ingen position är sparad
+    }
+}
+
+// Visa användarens sparade position i fliken
 function displaySavedUserPosition() {
     var savedPosition = getSavedUserPosition();
     if (savedPosition) {
@@ -33,7 +116,7 @@ function displaySavedUserPosition() {
                     case 'GÄVLEBORGS LÄN':
                         googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
                         break;
-                    // Lägg till alla länens case här med motsvarande Google Sheets URL
+
                     default:
                         googleSheetsURL = ''; // Om län inte hittas, tom URL
                         break;
@@ -118,7 +201,7 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Senaste lagrade position:';
         tab.appendChild(paragraph);
 
-        displaySavedUserPosition(); // Anropa funktionen för att visa sparad position
+        displaySavedUserPosition();
     } else {
         fetch(url)
             .then(response => response.text())
