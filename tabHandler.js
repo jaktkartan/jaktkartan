@@ -54,14 +54,16 @@ function openTab(tabId, url) {
 
         var button1 = document.createElement('button');
         button1.textContent = 'Kaliberkrav: Däggdjur';
-        button1.onclick = function() {
+        button1.onclick = function(event) {
+            event.stopPropagation(); // Förhindra att klickhändelsen bubblar upp
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
         };
         tab.appendChild(button1);
 
         var button2 = document.createElement('button');
         button2.textContent = 'Kaliberkrav: Fågel';
-        button2.onclick = function() {
+        button2.onclick = function(event) {
+            event.stopPropagation(); // Förhindra att klickhändelsen bubblar upp
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
         };
         tab.appendChild(button2);
