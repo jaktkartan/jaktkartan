@@ -30,6 +30,19 @@ function resetTabs() {
     tabContent.style.display = 'none'; // Göm flikinnehållet
 }
 
+// Funktion för att lägga till rubrik och brödtext
+function addKaliberkravHeader(tab) {
+    // Rubrik för fliken
+    var heading = document.createElement('h2');
+    heading.textContent = 'Kaliberkrav';
+    tab.appendChild(heading);
+
+    // Brödtext för information
+    var paragraph = document.createElement('p');
+    paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
+    tab.appendChild(paragraph);
+}
+
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
     resetTabs(); // Återställ flikarna innan en ny öppnas
@@ -39,34 +52,7 @@ function openTab(tabId, url) {
     tabContent.style.display = 'block'; // Visa flikinnehållet
 
     if (tabId === 'tab4') {
-        // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        tab.innerHTML = ''; // Rensa flikinnehållet
-
-        // Rubrik för fliken
-        var heading = document.createElement('h2');
-        heading.textContent = 'Kaliberkrav';
-        tab.appendChild(heading);
-
-        // Brödtext för information
-        var paragraph = document.createElement('p');
-        paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-        tab.appendChild(paragraph);
-
-        var button1 = document.createElement('button');
-        button1.textContent = 'Kaliberkrav: Däggdjur';
-        button1.onclick = function(event) {
-            event.stopPropagation(); // Förhindra att klickhändelsen bubblar upp
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-        };
-        tab.appendChild(button1);
-
-        var button2 = document.createElement('button');
-        button2.textContent = 'Kaliberkrav: Fågel';
-        button2.onclick = function(event) {
-            event.stopPropagation(); // Förhindra att klickhändelsen bubblar upp
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-        };
-        tab.appendChild(button2);
+        loadKaliberkravTab(tab);
     } else {
         // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
         fetch(url)
@@ -80,7 +66,28 @@ function openTab(tabId, url) {
     }
 }
 
-// Funktion för att öppna Kaliberkrav-fliken
+// Funktion för att ladda innehållet i Kaliberkrav-fliken
+function loadKaliberkravTab(tab) {
+    tab.innerHTML = ''; // Rensa flikinnehållet
+
+    addKaliberkravHeader(tab); // Lägg till rubrik och brödtext
+
+    var button1 = document.createElement('button');
+    button1.textContent = 'Kaliberkrav: Däggdjur';
+    button1.onclick = function() {
+        openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+    };
+    tab.appendChild(button1);
+
+    var button2 = document.createElement('button');
+    button2.textContent = 'Kaliberkrav: Fågel';
+    button2.onclick = function() {
+        openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+    };
+    tab.appendChild(button2);
+}
+
+// Funktion för att öppna Kaliberkrav-fliken och ladda innehåll
 function openKaliberkravTab(url) {
     var tab = document.getElementById('tab4');
     tab.innerHTML = ''; // Rensa flikinnehållet innan vi lägger till nytt
@@ -89,7 +96,7 @@ function openKaliberkravTab(url) {
     fetch(url)
         .then(response => response.text())
         .then(html => {
-            tab.innerHTML += html; // Lägg till innehållet från URL:en
+            tab.innerHTML = html; // Lägg till innehållet från URL:en
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
