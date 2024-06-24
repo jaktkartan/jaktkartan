@@ -30,6 +30,9 @@ function displaySavedUserPosition() {
                     case 'GOTLANDS LÄN':
                         googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
                         break;
+                    case 'GÄVLEBORGS LÄN':
+                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                        break;
                     // Lägg till alla länens case här med motsvarande Google Sheets URL
                     default:
                         googleSheetsURL = ''; // Om län inte hittas, tom URL
