@@ -79,6 +79,13 @@ function openTab(tabId, url) {
     }
 }
 
+// Funktion för att öppna Kaliberkrav-fliken
+function openKaliberkravTab(url) {
+    var tabContent = document.getElementById('tab-content');
+    var tab = document.createElement('div');
+    tab.className = 'tab-pane';
+    tabContent.appendChild(tab);
+
     // Hämta innehållet från den angivna URL:en
     fetch(url)
         .then(response => response.text())
