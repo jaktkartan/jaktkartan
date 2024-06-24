@@ -40,34 +40,63 @@ function openTab(tabId, url) {
 
     if (tabId === 'tab4') {
         // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        var tabContent = document.getElementById('tab4');
-        tabContent.innerHTML = ''; // Rensa flikinnehållet
+        tab.innerHTML = ''; // Rensa flikinnehållet
 
         // Rubrik för fliken
         var heading = document.createElement('h2');
         heading.textContent = 'Kaliberkrav';
-        tabContent.appendChild(heading);
+        tab.appendChild(heading);
 
         // Brödtext för information
         var paragraph = document.createElement('p');
         paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-        tabContent.appendChild(paragraph);
+        tab.appendChild(paragraph);
 
         var button1 = document.createElement('button');
         button1.textContent = 'Kaliberkrav: Däggdjur';
         button1.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
         };
-        tabContent.appendChild(button1);
+        tab.appendChild(button1);
 
         var button2 = document.createElement('button');
         button2.textContent = 'Kaliberkrav: Fågel';
         button2.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
         };
-        tabContent.appendChild(button2);
+        tab.appendChild(button2);
+    } else if (tabId === 'tab3') {
+        // Om det är tab3 (Jaktbart idag), visa användarens geolokationsinformation
+        tab.innerHTML = ''; // Rensa flikinnehållet
+
+        // Rubrik för fliken
+        var heading = document.createElement('h2');
+        heading.textContent = 'Jaktbart idag';
+        tab.appendChild(heading);
+
+        // Innehåll för geolokation
+        var paragraph = document.createElement('p');
+        paragraph.textContent = 'Din aktuella position:';
+        tab.appendChild(paragraph);
+
+        // Visa laddningsindikator medan positionen hämtas
+        var loadingIndicator = document.createElement('div');
+        loadingIndicator.textContent = 'Hämtar position...';
+        tab.appendChild(loadingIndicator);
+
+        // Hämta användarens position genom att anropa updateUserPosition
+        updateUserPosition(function(lat, lon, accuracy) {
+            loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
+
+            // Visa användarens position
+            var positionInfo = document.createElement('p');
+            positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
+            tab.appendChild(positionInfo);
+        }, function(error) {
+            loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
+        });
     } else {
-        // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
+        // Om det inte är tab4 eller tab3, hämta innehållet från den angivna URL:en
         fetch(url)
             .then(response => response.text())
             .then(html => {
