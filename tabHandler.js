@@ -92,7 +92,7 @@ function openTab(tabId, url) {
         };
         tab.appendChild(button2);
     } else if (tabId === 'tab3') {
-        // Om det är tab3 (Jaktbart idag), visa användarens geolokationsinformation
+        // Om det är tab3 (Jaktbart idag), visa användarens lagrade geolokationsinformation
         tab.innerHTML = ''; // Rensa flikinnehållet
 
         // Rubrik för fliken
@@ -102,32 +102,19 @@ function openTab(tabId, url) {
 
         // Innehåll för geolokation
         var paragraph = document.createElement('p');
-        paragraph.textContent = 'Din aktuella position:';
+        paragraph.textContent = 'Senaste lagrade position:';
         tab.appendChild(paragraph);
 
-        // Visa laddningsindikator medan positionen hämtas
-        var loadingIndicator = document.createElement('div');
-        loadingIndicator.textContent = 'Hämtar position...';
-        tab.appendChild(loadingIndicator);
-
-        // Anropa getUserPosition för att hämta och visa användarens position
+        // Visa den senaste kända positionen om den är giltig
         if (lastKnownPosition && isPositionValid()) {
-            // Använd den senaste kända positionen om den är giltig
             var positionInfo = document.createElement('p');
             positionInfo.textContent = 'Latitud: ' + lastKnownPosition.latitude.toFixed(6) + ', Longitud: ' + lastKnownPosition.longitude.toFixed(6);
             tab.appendChild(positionInfo);
-            loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
         } else {
-            getUserPosition(function(lat, lon) {
-                loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
-
-                // Visa användarens position
-                var positionInfo = document.createElement('p');
-                positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
-                tab.appendChild(positionInfo);
-            }, function(error) {
-                loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
-            });
+            // Visa meddelande om ingen position är lagrad
+            var noPositionInfo = document.createElement('p');
+            noPositionInfo.textContent = 'Ingen lagrad position tillgänglig.';
+            tab.appendChild(noPositionInfo);
         }
     } else {
         // Om det inte är tab4 eller tab3, hämta innehållet från den angivna URL:en
