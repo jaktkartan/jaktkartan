@@ -67,15 +67,11 @@ html, body {
     animation-name: slideDown;
 }
 
-/* Justera för specifika flikar vid behov */
-
+/* Specifika inställningar för tab1 och tab2 */
 #tab1.tab-pane,
-    height: 15vh; /* Ange önskad höjd för upptäckfliken här */
+#tab2.tab-pane {
+    height: 15vh; /* Ange önskad höjd för upptäckfliken eller kartorfliken här */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
-#tab2.tab-pane,
-    height: 15vh; /* Ange önskad höjd för kartorfliken här */
-    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
-#tab3.tab-pane {
 }
 
 /* Animationer för flikar */
