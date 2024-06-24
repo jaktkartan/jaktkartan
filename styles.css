@@ -146,11 +146,6 @@ html, body {
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
-#tab3.tab-pane {
-    animation-name: slideInUp; /* Använd slideInUp för att flik 3 ska komma uppifrån och upp */
-    /* Anpassa stilar för flik 3 om det behövs */
-}
-
 
 #info-panel {
     position: absolute;
