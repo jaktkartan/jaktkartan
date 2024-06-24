@@ -259,9 +259,11 @@ function openTab(tabId, url) {
         tab.appendChild(button2);
 
         // Visa fliken med slide-up animation
-        tab.style.display = 'block';
         tab.classList.add('slide-up');
-        tabContent.style.display = 'block';
+        tabContent.style.display = 'flex'; // Visa tab-content med flex-display för centrerad justering
+        setTimeout(() => {
+            tab.style.display = 'block'; // Visa tab med block-display efter animationens början
+        }, 50);
     } else if (tabId === 'tab3') {
         tab.innerHTML = '';
 
@@ -276,9 +278,11 @@ function openTab(tabId, url) {
         displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
 
         // Visa fliken med slide-down animation
-        tab.style.display = 'block';
         tab.classList.add('slide-down');
-        tabContent.style.display = 'block';
+        tabContent.style.display = 'flex'; // Visa tab-content med flex-display för centrerad justering
+        setTimeout(() => {
+            tab.style.display = 'block'; // Visa tab med block-display efter animationens början
+        }, 50);
     } else {
         fetch(url)
             .then(response => response.text())
@@ -286,9 +290,11 @@ function openTab(tabId, url) {
                 tab.innerHTML = html;
 
                 // Visa fliken med slide-up animation
-                tab.style.display = 'block';
                 tab.classList.add('slide-up');
-                tabContent.style.display = 'block';
+                tabContent.style.display = 'flex'; // Visa tab-content med flex-display för centrerad justering
+                setTimeout(() => {
+                    tab.style.display = 'block'; // Visa tab med block-display efter animationens början
+                }, 50);
             })
             .catch(error => {
                 console.error('Error fetching tab content:', error);
