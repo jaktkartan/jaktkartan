@@ -40,31 +40,32 @@ function openTab(tabId, url) {
 
     if (tabId === 'tab4') {
         // Om det är tab4 (Kaliberkrav), visa knapparna för alternativen
-        tab.innerHTML = ''; // Rensa flikinnehållet
+        var tabContent = document.getElementById('tab4');
+        tabContent.innerHTML = ''; // Rensa flikinnehållet
 
         // Rubrik för fliken
         var heading = document.createElement('h2');
         heading.textContent = 'Kaliberkrav';
-        tab.appendChild(heading);
+        tabContent.appendChild(heading);
 
         // Brödtext för information
         var paragraph = document.createElement('p');
         paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-        tab.appendChild(paragraph);
+        tabContent.appendChild(paragraph);
 
         var button1 = document.createElement('button');
         button1.textContent = 'Kaliberkrav: Däggdjur';
         button1.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
         };
-        tab.appendChild(button1);
+        tabContent.appendChild(button1);
 
         var button2 = document.createElement('button');
         button2.textContent = 'Kaliberkrav: Fågel';
         button2.onclick = function() {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
         };
-        tab.appendChild(button2);
+        tabContent.appendChild(button2);
     } else {
         // Om det inte är tab4 (Kaliberkrav), hämta innehållet från den angivna URL:en
         fetch(url)
@@ -80,14 +81,21 @@ function openTab(tabId, url) {
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
-    var tab = document.getElementById('tab4');
-    tab.innerHTML = ''; // Rensa flikinnehållet innan vi lägger till nytt
+    var tabContent = document.getElementById('tab-content');
+    var tab = document.createElement('div');
+    tab.className = 'tab-pane';
+    tabContent.appendChild(tab);
 
     // Hämta innehållet från den angivna URL:en
     fetch(url)
         .then(response => response.text())
         .then(html => {
             tab.innerHTML += html; // Lägg till innehållet från URL:en
+
+            // Visa innehållet och dölj rubriken och brödtexten igen
+            tab.style.display = 'block';
+            heading.style.display = 'none';
+            paragraph.style.display = 'none';
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
