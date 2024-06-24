@@ -231,9 +231,7 @@ function resetTabs() {
 function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
-    tab.style.display = 'block';
     var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'block';
 
     if (tabId === 'tab4') {
         tab.innerHTML = '';
@@ -259,6 +257,11 @@ function openTab(tabId, url) {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
         };
         tab.appendChild(button2);
+
+        // Visa fliken med slide-up animation
+        tab.classList.add('slide-up');
+        tab.style.display = 'block';
+        tabContent.style.display = 'block';
     } else if (tabId === 'tab3') {
         tab.innerHTML = '';
 
@@ -271,11 +274,21 @@ function openTab(tabId, url) {
         tab.appendChild(paragraph);
 
         displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
+
+        // Visa fliken med slide-down animation
+        tab.classList.add('slide-down');
+        tab.style.display = 'block';
+        tabContent.style.display = 'block';
     } else {
         fetch(url)
             .then(response => response.text())
             .then(html => {
                 tab.innerHTML = html;
+
+                // Visa fliken med slide-up animation
+                tab.classList.add('slide-up');
+                tab.style.display = 'block';
+                tabContent.style.display = 'block';
             })
             .catch(error => {
                 console.error('Error fetching tab content:', error);
@@ -288,13 +301,14 @@ function openKaliberkravTab(url) {
     var tabContent = document.getElementById('tab-content');
     var tab = document.createElement('div');
     tab.className = 'tab-pane';
-    tabContent.appendChild(tab);
 
     fetch(url)
         .then(response => response.text())
         .then(html => {
             tab.innerHTML += html;
             tab.style.display = 'block';
+            tab.classList.add('slide-up'); // Använd slide-up animation för Kaliberkrav-fliken
+            tabContent.appendChild(tab);
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
@@ -309,6 +323,18 @@ document.addEventListener('click', function(event) {
     }
 });
 
+// Funktion för att återställa flikarna till sitt ursprungliga tillstånd
+function resetTabs() {
+    var tabs = document.getElementsByClassName('tab-pane');
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('slide-up', 'slide-down'); // Ta bort animationer
+        tabs[i].style.display = 'none';
+        tabs[i].innerHTML = '';
+    }
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none';
+}
+
 // Funktion för att stänga flikinnehåll
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
@@ -319,4 +345,3 @@ function closeTabContent() {
 document.addEventListener('DOMContentLoaded', function() {
     displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
 });
-
