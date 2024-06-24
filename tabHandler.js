@@ -1,5 +1,4 @@
-// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-
+// Funktion för att toggla väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
@@ -18,7 +17,7 @@ function togglePanel() {
     }
 }
 
-// Ladda GeoJSON-filen med Sveriges länspolygoner
+// Funktion för att ladda GeoJSON-fil med Sveriges länspolygoner
 async function loadGeoJSON(url) {
     try {
         const response = await fetch(url);
@@ -32,7 +31,7 @@ async function loadGeoJSON(url) {
     }
 }
 
-// Jämför användarens sparade position med länspolygoner
+// Funktion för att hitta län för koordinater i GeoJSON
 function findCountyForCoordinates(latitude, longitude, geojson) {
     if (!geojson || !geojson.features) {
         console.error('GeoJSON data is invalid.');
@@ -358,7 +357,7 @@ function openKaliberkravTab(url) {
         });
 }
 
-// Lyssnare för klick utanför flikar och panelknappar
+// Lyssnare för klick utanför flikar och panelknappar för att stänga flikinnehåll
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
     if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
@@ -366,7 +365,7 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Funktion för att stänga flikinnehåll
+// Lyssnare för att stänga flikinnehåll
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none';
