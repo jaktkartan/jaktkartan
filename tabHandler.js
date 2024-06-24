@@ -1,3 +1,5 @@
+// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+
 // Funktion för att toggle väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
@@ -239,20 +241,8 @@ function loadCountyGoogleSheet(county, savedPosition) {
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
-        if (tabs[i].classList.contains('show')) {
-            tabs[i].classList.remove('show');
-            tabs[i].classList.add('hide');
-            setTimeout((function(tab) {
-                return function() {
-                    tab.style.display = 'none';
-                    tab.classList.remove('hide');
-                    tab.innerHTML = '';
-                };
-            })(tabs[i]), 500); // Tidsinställning för att matcha animationens längd
-        } else {
-            tabs[i].style.display = 'none';
-            tabs[i].innerHTML = '';
-        }
+        tabs[i].style.display = 'none';
+        tabs[i].innerHTML = '';
     }
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none';
@@ -262,7 +252,7 @@ function resetTabs() {
 function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
-    tab.classList.add('show');
+    tab.style.display = 'block';
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block';
 
@@ -325,7 +315,7 @@ function openKaliberkravTab(url) {
         .then(response => response.text())
         .then(html => {
             tab.innerHTML += html;
-            tab.classList.add('show');
+            tab.style.display = 'block';
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
