@@ -108,7 +108,7 @@ function displaySavedUserPosition() {
                 // Bygg URL för Google Sheets baserat på länets namn
                 var googleSheetsURL;
                 switch (county.toUpperCase()) {
-                    case '':
+                    case 'VÄLJ ANNAT LÄN':
                         googleSheetsURL = '';
                         break;
                     case 'BLEKINGES LÄN':
@@ -170,7 +170,7 @@ function showCountySelection(savedPosition) {
     
     // Lägg till ett tomt alternativ först
     var optionElement = document.createElement('option');
-    optionElement.textContent = ''; // Tomt alternativ
+    optionElement.textContent = 'VÄLJ ANNAT LÄN';
     select.appendChild(optionElement);
     
     // Alternativ för varje län
