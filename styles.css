@@ -100,7 +100,6 @@ html, body {
     animation-name: slideUp;
 }
 
-/* Basstilar för tab-pane (flikar) */
 .tab-pane {
     position: absolute;
     bottom: 0;
@@ -126,11 +125,11 @@ html, body {
 
 .tab-pane.show {
     display: flex;
-    animation-name: slideInUp;
+    animation-name: slideInUp; /* Använd slideInUp för att flikarna ska komma uppifrån och upp */
 }
 
 .tab-pane.hide {
-    animation-name: slideOutDown;
+    animation-name: slideOutDown; /* Använd slideOutDown för att dölja flikarna nedifrån och ner */
     animation-fill-mode: forwards;
 }
 
@@ -146,10 +145,9 @@ html, body {
 }
 
 #tab3.tab-pane {
+    animation-name: slideInUp; /* Använd slideInUp för att flik 3 ska komma uppifrån och upp */
     /* Anpassa stilar för flik 3 om det behövs */
 }
-
-
 
 
 #info-panel {
