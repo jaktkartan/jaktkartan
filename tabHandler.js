@@ -1,5 +1,6 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
 
+// Funktion för att toggle väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
@@ -96,13 +97,6 @@ function displaySavedUserPosition() {
         positionInfo.textContent = 'Senast sparad position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
         tab.appendChild(positionInfo);
 
-        var changeCountyButton = document.createElement('button');
-        changeCountyButton.textContent = 'Välj annat län';
-        changeCountyButton.onclick = function() {
-            showCountySelection(savedPosition);
-        };
-        tab.appendChild(changeCountyButton);
-
         // Ladda GeoJSON-filen och avgör län baserat på sparade koordinater
         loadGeoJSON('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
             .then(geojson => {
@@ -142,12 +136,18 @@ function displaySavedUserPosition() {
                     noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
                     tab.appendChild(noDataInfo);
                 }
+
+                // Visa rull-lista för att välja annat län direkt
+                showCountySelection(savedPosition);
             })
             .catch(error => {
                 console.error('Error loading GeoJSON:', error);
                 var errorInfo = document.createElement('p');
                 errorInfo.textContent = 'Fel vid laddning av GeoJSON.';
                 tab.appendChild(errorInfo);
+
+                // Visa rull-lista för att välja annat län trots fel
+                showCountySelection(savedPosition);
             });
     } else {
         console.log("Ingen sparad position hittades.");
@@ -286,7 +286,7 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Senaste lagrade position:';
         tab.appendChild(paragraph);
 
-        displaySavedUserPosition();
+        displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
     } else {
         fetch(url)
             .then(response => response.text())
@@ -335,3 +335,4 @@ function closeTabContent() {
 document.addEventListener('DOMContentLoaded', function() {
     displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
 });
+
