@@ -76,8 +76,8 @@ html, body {
 .tab-pane {
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 50%; /* Centrera horisontellt */
+    transform: translateX(-50%); /* Justera för att centrera */
     height: 50vh; /* Anpassa höjden relativt till skärmens höjd */
     background-color: white;
     color: rgb(50, 94, 88);
@@ -91,7 +91,9 @@ html, body {
     align-items: center;
     border-top-left-radius: 10px; /* Rundade övre vänstra hörnet */
     border-top-right-radius: 10px; /* Rundade övre högra hörnet */
+    max-width: 95%; /* Maximal bredd på 95% av skärmbredden */
 }
+
 
 
 #tab1.tab-pane {
