@@ -70,10 +70,12 @@ html, body {
 /* Justera för specifika flikar vid behov */
 
 #tab1.tab-pane,
+    height: 15vh; /* Ange önskad höjd för upptäckfliken här */
+    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 #tab2.tab-pane,
+    height: 15vh; /* Ange önskad höjd för kartorfliken här */
+    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 #tab3.tab-pane {
-    height: auto; /* Återgå till automatisk höjd om det inte behövs en specifik höjd */
-    max-height: calc(100vh - 100px); /* Exempel på maxhöjd som anpassas efter behov */
 }
 
 /* Animationer för flikar */
