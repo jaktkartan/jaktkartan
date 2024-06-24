@@ -68,11 +68,7 @@ html, body {
     right: 0;
 }
 
-.tab-pane {
-    width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
-}
-
-/* CSS för att animera flikar */
+/* Använd CSS för att animera flikar */
 @keyframes slideDown {
     0% {
         opacity: 0;
@@ -104,13 +100,14 @@ html, body {
     animation-name: slideUp;
 }
 
+/* Basstilar för tab-pane (flikar) */
 .tab-pane {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    height: 50vh;
-    width: 100%;
+    width: 95%; /* Tar upp 95% av bredden på sitt föräldreelement */
+    max-width: 100%; /* Maximal bredd för flexibilitet */
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
@@ -121,42 +118,36 @@ html, body {
     align-items: center;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    max-width: 95%;
     display: none;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
-
 }
 
 .tab-pane.show {
     display: flex;
-    animation-name: slideInUp;
+    animation-name: slideUp; /* Använd slideUp för att visa fliken */
 }
 
 .tab-pane.hide {
-    animation-name: slideOutDown;
+    animation-name: slideDown; /* Använd slideDown för att dölja fliken */
     animation-fill-mode: forwards;
 }
 
-
-/* specifika ändringar av stil för vissa flikar */
+/* Specifika ändringar av stil för vissa flikar */
 #tab1.tab-pane {
     height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
-
 #tab2.tab-pane {
-height: 15vh; /* Ange önskad höjd för kartorfliken här */
+    height: 15vh; /* Ange önskad höjd för kartorfliken här */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
 #tab3.tab-pane {
     /* Anpassa stilar för flik 3 om det behövs */
 }
-
-/* Fortsätt definiera CSS för varje flik separat enligt behov */
 
 
 #info-panel {
