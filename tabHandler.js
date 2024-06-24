@@ -97,6 +97,9 @@ function displaySavedUserPosition() {
         positionInfo.textContent = 'Senast sparad position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
         tab.appendChild(positionInfo);
 
+        // Visa rull-lista för att välja annat län direkt
+        showCountySelection(savedPosition); // Flyttad hit för att visa rull-listan först
+
         // Ladda GeoJSON-filen och avgör län baserat på sparade koordinater
         loadGeoJSON('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
             .then(geojson => {
@@ -136,18 +139,12 @@ function displaySavedUserPosition() {
                     noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
                     tab.appendChild(noDataInfo);
                 }
-
-                // Visa rull-lista för att välja annat län direkt
-                showCountySelection(savedPosition);
             })
             .catch(error => {
                 console.error('Error loading GeoJSON:', error);
                 var errorInfo = document.createElement('p');
                 errorInfo.textContent = 'Fel vid laddning av GeoJSON.';
                 tab.appendChild(errorInfo);
-
-                // Visa rull-lista för att välja annat län trots fel
-                showCountySelection(savedPosition);
             });
     } else {
         console.log("Ingen sparad position hittades.");
