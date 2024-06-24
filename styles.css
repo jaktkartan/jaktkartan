@@ -68,91 +68,46 @@ html, body {
     right: 0;
 }
 
-/* Använd CSS för att animera flikar */
-@keyframes slideDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-100%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.tab-pane {
+    width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
 }
 
-@keyframes slideUp {
-    0% {
-        opacity: 0;
-        transform: translateY(100%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Använd CSS-klasser för att styra animationer */
-.slide-down {
-    animation-name: slideDown;
-}
-
-.slide-up {
-    animation-name: slideUp;
-}
-
+/* Gemensam basstil för alla flikar */
 .tab-pane {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    margin: 0 auto; /* Centrera horisontellt */
-    max-width: 95%; /* Begränsa bredden till 95% av förälderelementet */
-    height: 50vh;
+    height: 50vh; /* Anpassa höjden relativt till skärmens höjd */
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    display: none; /* Initialt dold */
     z-index: 1000;
-    overflow-y: auto;
+    overflow-y: auto; /* Lägg till scrollbar om innehållet är längre än höjden */
+    display: flex; /* Använd flexbox för att centrera innehållet vertikalt */
     justify-content: center;
     align-items: center;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    display: none;
-    animation-duration: 0.5s;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease-out;
-    display: none; /* Visa inte fliken från början */
 }
 
-.tab-pane.show {
-    display: flex; /* Visa fliken med flex-display */
-}
-
-.tab-pane.slide-down {
-    animation-name: slideDown; /* Använd slideDown för nedifrån-och-upp-animation */
-}
-
-.tab-pane.slide-up {
-    animation-name: slideUp; /* Använd slideUp för uppifrån-och-ner-animation */
-}
-
-
-/* Specifika justeringar för varje flik om det behövs */
 #tab1.tab-pane {
-    height: 15vh; /* Höjd för upptäckfliken */
+    height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
+
 #tab2.tab-pane {
-    height: 15vh; /* Höjd för kartorfliken */
+height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
 #tab3.tab-pane {
-    animation-name: slideInUp; /* Använd slideInUp för att flik 3 ska komma uppifrån och upp */
     /* Anpassa stilar för flik 3 om det behövs */
 }
+
+/* Fortsätt definiera CSS för varje flik separat enligt behov */
+
 
 #info-panel {
     position: absolute;
