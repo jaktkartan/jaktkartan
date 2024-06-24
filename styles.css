@@ -104,8 +104,6 @@ html, body {
 .tab-pane {
     position: absolute;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
     width: 95%; /* Tar upp 95% av bredden på sitt föräldreelement */
     max-width: 100%; /* Maximal bredd för flexibilitet */
     height: 50vh; /* Fast höjd för flikarna (justera efter behov) */
