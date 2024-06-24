@@ -68,6 +68,10 @@ html, body {
     right: 0;
 }
 
+.tab-pane {
+    width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
+}
+
 /* CSS för att animera flikar */
 @keyframes slideDown {
     0% {
