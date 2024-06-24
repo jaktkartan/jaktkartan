@@ -1,25 +1,21 @@
+// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+
 // Funktion för att toggle väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.classList.contains('show')) {
-        console.log("Hiding weather panel...");
-        weatherInfo.classList.remove('show');
-        weatherInfo.classList.add('hide');
-        weatherInfo.addEventListener('animationend', function(event) {
-            event.target.style.display = 'none';
-            event.target.classList.remove('hide');
-        }, { once: true });
-    } else {
+    if (weatherInfo.style.display === 'none') {
         console.log("Showing weather panel...");
-        weatherInfo.style.display = 'flex';
-        weatherInfo.classList.add('show');
+        weatherInfo.style.display = 'block';
         getUserPosition(function(lat, lon) {
             console.log("Current position:", lat, lon);
             getWeatherForecast(lat, lon);
         }, function(error) {
             console.error("Error getting position:", error);
         });
+    } else {
+        console.log("Hiding weather panel...");
+        weatherInfo.style.display = 'none';
     }
 }
 
@@ -112,7 +108,7 @@ function displaySavedUserPosition() {
                 // Bygg URL för Google Sheets baserat på länets namn
                 var googleSheetsURL;
                 switch (county.toUpperCase()) {
-                    case 'VÄLJ ANNAT LÄN':
+                    case '':
                         googleSheetsURL = '';
                         break;
                     case 'BLEKINGES LÄN':
@@ -161,64 +157,90 @@ function displaySavedUserPosition() {
 // Funktion för att visa en lista över län för att välja ett annat län
 function showCountySelection(savedPosition) {
     var tab = document.getElementById('tab3');
+    var countyList = document.createElement('div');
+    countyList.className = 'county-list';
+    tab.appendChild(countyList);
 
-    var countySelectLabel = document.createElement('label');
-    countySelectLabel.textContent = 'Välj annat län:';
-    tab.appendChild(countySelectLabel);
+    var label = document.createElement('label');
+    label.textContent = 'Välj län:';
+    countyList.appendChild(label);
 
-    var countySelect = document.createElement('select');
-    countySelect.innerHTML = `
-        <option value="">Välj län</option>
-        <option value="BLEKINGES LÄN">Blekinges län</option>
-        <option value="DALARNAS LÄN">Dalarnas län</option>
-        <option value="GOTLANDS LÄN">Gotlands län</option>
-        <option value="GÄVLEBORGS LÄN">Gävleborgs län</option>
-    `;
-    tab.appendChild(countySelect);
-
-    countySelect.addEventListener('change', function() {
-        var selectedCounty = countySelect.value;
-        var googleSheetsURL;
-
-        switch (selectedCounty.toUpperCase()) {
-            case 'BLEKINGES LÄN':
-                googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                break;
-            case 'DALARNAS LÄN':
-                googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                break;
-            case 'GOTLANDS LÄN':
-                googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                break;
-            case 'GÄVLEBORGS LÄN':
-                googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                break;
-            default:
-                googleSheetsURL = ''; // Om län inte hittas, tom URL
-                break;
-        }
-
-        // Visa Google Sheets i en iframe om URL är definierad
-        if (googleSheetsURL) {
-            var iframe = document.createElement('iframe');
-            iframe.src = googleSheetsURL;
-            iframe.style.width = '100%';
-            iframe.style.height = '600px'; // Justera höjden efter behov
-            iframe.setAttribute('frameborder', '0');
-            tab.appendChild(iframe);
-        } else {
-            var noDataInfo = document.createElement('p');
-            noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
-            tab.appendChild(noDataInfo);
-        }
+    var select = document.createElement('select');
+    countyList.appendChild(select);
+    
+    // Lägg till ett tomt alternativ först
+    var optionElement = document.createElement('option');
+    optionElement.textContent = ''; // Tomt alternativ
+    select.appendChild(optionElement);
+    
+    // Alternativ för varje län
+    var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN'];
+    options.forEach(option => {
+        var optionElement = document.createElement('option');
+        optionElement.textContent = option;
+        select.appendChild(optionElement);
     });
+
+    // Lyssnare för val av län
+    select.addEventListener('change', function() {
+        var selectedCounty = select.value;
+        loadCountyGoogleSheet(selectedCounty, savedPosition);
+    });
+}
+
+// Funktion för att ladda Google Sheets för det valda länet
+function loadCountyGoogleSheet(county, savedPosition) {
+    var tab = document.getElementById('tab3');
+    tab.innerHTML = '';
+
+    var heading = document.createElement('h2');
+    heading.textContent = 'Jaktbart idag - ' + county;
+    tab.appendChild(heading);
+
+    var positionInfo = document.createElement('p');
+    positionInfo.textContent = 'Senast sparad position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
+    tab.appendChild(positionInfo);
+
+    // Bygg URL för Google Sheets baserat på det valda länet
+    var googleSheetsURL;
+    switch (county.toUpperCase()) {
+        case 'BLEKINGES LÄN':
+            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+            break;
+        case 'DALARNAS LÄN':
+            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+            break;
+        case 'GOTLANDS LÄN':
+            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+            break;
+        case 'GÄVLEBORGS LÄN':
+            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+            break;
+
+        default:
+            googleSheetsURL = ''; // Om län inte hittas, tom URL
+            break;
+    }
+
+    // Visa Google Sheets i en iframe om URL är definierad
+    if (googleSheetsURL) {
+        var iframe = document.createElement('iframe');
+        iframe.src = googleSheetsURL;
+        iframe.style.width = '100%';
+        iframe.style.height = '600px'; // Justera höjden efter behov
+        iframe.setAttribute('frameborder', '0');
+        tab.appendChild(iframe);
+    } else {
+        var noDataInfo = document.createElement('p');
+        noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
+        tab.appendChild(noDataInfo);
+    }
 }
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
-        tabs[i].classList.remove('active'); // Ta bort active-klassen
         tabs[i].style.display = 'none';
         tabs[i].innerHTML = '';
     }
@@ -230,7 +252,9 @@ function resetTabs() {
 function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
+    tab.style.display = 'block';
     var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'block';
 
     if (tabId === 'tab4') {
         tab.innerHTML = '';
@@ -256,13 +280,6 @@ function openTab(tabId, url) {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
         };
         tab.appendChild(button2);
-
-        // Visa fliken med slide-up animation
-        tabContent.style.display = 'flex'; // Visa tab-content med flex-display för centrerad justering
-        setTimeout(() => {
-            tab.style.display = 'block'; // Visa tab med block-display efter animationens början
-            tab.classList.add('active'); // Lägg till active-klassen för animation
-        }, 50);
     } else if (tabId === 'tab3') {
         tab.innerHTML = '';
 
@@ -275,25 +292,11 @@ function openTab(tabId, url) {
         tab.appendChild(paragraph);
 
         displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
-
-        // Visa fliken med slide-down animation
-        tabContent.style.display = 'flex'; // Visa tab-content med flex-display för centrerad justering
-        setTimeout(() => {
-            tab.style.display = 'block'; // Visa tab med block-display efter animationens början
-            tab.classList.add('active'); // Lägg till active-klassen för animation
-        }, 50);
     } else {
         fetch(url)
             .then(response => response.text())
             .then(html => {
                 tab.innerHTML = html;
-
-                // Visa fliken med slide-up animation
-                tabContent.style.display = 'flex'; // Visa tab-content med flex-display för centrerad justering
-                setTimeout(() => {
-                    tab.style.display = 'block'; // Visa tab med block-display efter animationens början
-                    tab.classList.add('active'); // Lägg till active-klassen för animation
-                }, 50);
             })
             .catch(error => {
                 console.error('Error fetching tab content:', error);
@@ -301,10 +304,22 @@ function openTab(tabId, url) {
     }
 }
 
-// Funktion för att stänga flikinnehåll
-function closeTabContent() {
+// Funktion för att öppna Kaliberkrav-fliken
+function openKaliberkravTab(url) {
     var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none';
+    var tab = document.createElement('div');
+    tab.className = 'tab-pane';
+    tabContent.appendChild(tab);
+
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            tab.innerHTML += html;
+            tab.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error fetching Kaliberkrav content:', error);
+        });
 }
 
 // Lyssnare för klick utanför flikar och panelknappar
@@ -314,6 +329,12 @@ document.addEventListener('click', function(event) {
         resetTabs();
     }
 });
+
+// Funktion för att stänga flikinnehåll
+function closeTabContent() {
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none';
+}
 
 // Lyssnare för när sidan laddas
 document.addEventListener('DOMContentLoaded', function() {
