@@ -20,9 +20,12 @@ function findCountyForCoordinates(latitude, longitude, geojson) {
     }
 
     for (let feature of geojson.features) {
-        const polygon = feature.geometry.coordinates;
-        if (isPointInPolygon([longitude, latitude], polygon)) {
-            return feature.properties.LÄN;
+        if (feature.geometry && feature.geometry.type === 'MultiPolygon') {
+            for (let polygon of feature.geometry.coordinates) {
+                if (isPointInPolygon([longitude, latitude], polygon)) {
+                    return feature.properties.LÄN;
+                }
+            }
         }
     }
 
