@@ -118,10 +118,11 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Senaste lagrade position:';
         tab.appendChild(paragraph);
 
-        // Visa den senaste kända positionen om den är giltig
-        if (lastKnownPosition && isPositionValid()) {
+        // Hämta den sparade positionen från localStorage
+        var savedPosition = getSavedUserPosition();
+        if (savedPosition) {
             var positionInfo = document.createElement('p');
-            positionInfo.textContent = 'Latitud: ' + lastKnownPosition.latitude.toFixed(6) + ', Longitud: ' + lastKnownPosition.longitude.toFixed(6);
+            positionInfo.textContent = 'Latitud: ' + savedPosition.latitude.toFixed(6) + ', Longitud: ' + savedPosition.longitude.toFixed(6);
             tab.appendChild(positionInfo);
         } else {
             // Visa meddelande om ingen position är lagrad
@@ -141,6 +142,7 @@ function openTab(tabId, url) {
             });
     }
 }
+
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
