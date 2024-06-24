@@ -1,4 +1,4 @@
-// Funktioner för toggle väder fliken, för knapparna i bottenpanelen och en specialare för kaliberkrav fliken som först ger användaren 2 knappar för att välja vilken flik som ska visas.
+// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
 
 function togglePanel() {
     console.log("Toggling weather panel...");
@@ -84,19 +84,30 @@ function openTab(tabId, url) {
         loadingIndicator.textContent = 'Hämtar position...';
         tab.appendChild(loadingIndicator);
 
-        // Anropa geolocation för att hämta användarens position
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
+        // Funktion för att hantera uppdatering av användarens position
+        function updateUserPosition(callback) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
 
-            loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
+                // Visa användarens position
+                var positionInfo = document.createElement('p');
+                positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
+                tab.appendChild(positionInfo);
 
-            // Visa användarens position
-            var positionInfo = document.createElement('p');
-            positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
-            tab.appendChild(positionInfo);
-        }, function(error) {
-            loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
+                if (typeof callback === 'function') {
+                    callback(lat, lon);
+                }
+            }, function(error) {
+                loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
+            });
+        }
+
+        // Anropa updateUserPosition för att hämta och visa användarens position
+        updateUserPosition(function(lat, lon) {
+            // Här kan du lägga till eventuella åtgärder som ska utföras med användarens position
+            console.log('User position updated:', lat, lon);
         });
     } else {
         // Om det inte är tab4 eller tab3, hämta innehållet från den angivna URL:en
@@ -148,7 +159,7 @@ function closeTabContent() {
     tabContent.style.display = 'none';
 }
 
-// Stäng flikinnehållet när man klickar utanför det
+// Händelselyssnare för att stänga flikinnehållet när man klickar utanför det
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
     if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
