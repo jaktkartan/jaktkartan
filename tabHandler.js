@@ -94,29 +94,58 @@ function displaySavedUserPosition() {
 
         var positionInfo = document.createElement('p');
         positionInfo.textContent = 'Senast sparad position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
+        tab.appendChild(positionInfo);
 
         // Ladda GeoJSON-filen och avgör län baserat på sparade koordinater
         loadGeoJSON('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
             .then(geojson => {
                 var county = findCountyForCoordinates(savedPosition.latitude, savedPosition.longitude, geojson);
-                var countyInfo = document.createElement('p');
-                countyInfo.textContent = 'Län: ' + county;
-                tab.appendChild(countyInfo);
+
+                // Bygg URL för Google Sheets baserat på länets namn
+                var googleSheetsURL;
+                switch (county.toUpperCase()) {
+                    case 'BLEKINGES LÄN':
+                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                        break;
+                    case 'DALARNAS LÄN':
+                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                        break;
+                    case 'GOTLANDS LÄN':
+                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                        break;
+                    case 'GÄVLEBORGS LÄN':
+                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                        break;
+
+                    default:
+                        googleSheetsURL = ''; // Om län inte hittas, tom URL
+                        break;
+                }
+
+                // Visa Google Sheets i en iframe om URL är definierad
+                if (googleSheetsURL) {
+                    var iframe = document.createElement('iframe');
+                    iframe.src = googleSheetsURL;
+                    iframe.style.width = '100%';
+                    iframe.style.height = '600px'; // Justera höjden efter behov
+                    iframe.setAttribute('frameborder', '0');
+                    tab.appendChild(iframe);
+                } else {
+                    var noDataInfo = document.createElement('p');
+                    noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
+                    tab.appendChild(noDataInfo);
+                }
             })
             .catch(error => {
                 console.error('Error loading GeoJSON:', error);
+                var errorInfo = document.createElement('p');
+                errorInfo.textContent = 'Fel vid laddning av GeoJSON.';
+                tab.appendChild(errorInfo);
             });
-
-        tab.appendChild(positionInfo);
     } else {
         console.log("Ingen sparad position hittades.");
     }
 }
-
-// Lyssnare för när sidan laddas
-document.addEventListener('DOMContentLoaded', function() {
-    displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
-});
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
 function resetTabs() {
@@ -216,3 +245,8 @@ function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none';
 }
+
+// Lyssnare för när sidan laddas
+document.addEventListener('DOMContentLoaded', function() {
+    displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
+});
