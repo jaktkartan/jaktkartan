@@ -103,10 +103,11 @@ html, body {
 /* Basstilar för tab-pane (flikar) */
 .tab-pane {
     position: absolute;
-    bottom: 0;
-    width: 95%; /* Tar upp 95% av bredden på sitt föräldreelement */
-    max-width: 100%; /* Maximal bredd för flexibilitet */
-    height: 50vh; /* Fast höjd för flikarna (justera efter behov) */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 50vh;
+    width: 95vw; /* Sätt bredden till 95% av viewport-bredden */
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
@@ -121,17 +122,15 @@ html, body {
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .tab-pane.show {
     display: flex;
-    animation-name: slideUp; /* Använd slideUp för att visa fliken */
+    animation-name: slideInUp;
 }
 
 .tab-pane.hide {
-    animation-name: slideDown; /* Använd slideDown för att dölja fliken */
+    animation-name: slideOutDown;
     animation-fill-mode: forwards;
 }
 
