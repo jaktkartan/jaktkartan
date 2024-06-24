@@ -83,14 +83,22 @@ html, body {
     overflow-y: auto;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    opacity: 0; /* Börja med fliken osynlig */
-    pointer-events: none; /* Hindra klickhändelser när fliken är osynlig */
-    transition: opacity 0.3s ease; /* Använd en mjuk övergång för opacity */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease; /* Lägg till en övergång för opacity */
 }
 
 .tab-pane.active {
-    opacity: 1; /* Visa fliken genom att sätta opacity till 1 */
-    pointer-events: auto; /* Tillåt klickhändelser när fliken är synlig */
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#tab-content.active {
+    display: block;
+}
+
+.tab-pane.active {
+    display: block;
 }
 
 /* Justera specifika stilar för varje flik om det behövs */
