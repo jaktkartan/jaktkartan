@@ -108,6 +108,9 @@ function displaySavedUserPosition() {
                 // Bygg URL för Google Sheets baserat på länets namn
                 var googleSheetsURL;
                 switch (county.toUpperCase()) {
+                    case '':
+                        googleSheetsURL = '';
+                        break;
                     case 'BLEKINGES LÄN':
                         googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
                         break;
@@ -165,18 +168,9 @@ function showCountySelection(savedPosition) {
     var select = document.createElement('select');
     countyList.appendChild(select);
 
-    // Tom lista för att börja med (ingen förifylld option)
-    var options = [];
-
     // Alternativ för varje län
+    var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN'];
     options.forEach(option => {
-        var optionElement = document.createElement('option');
-        optionElement.textContent = option;
-        select.appendChild(optionElement);
-    });
-
-    // Lägg till alternativen för länen
-    ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN'].forEach(option => {
         var optionElement = document.createElement('option');
         optionElement.textContent = option;
         select.appendChild(optionElement);
@@ -341,4 +335,3 @@ function closeTabContent() {
 document.addEventListener('DOMContentLoaded', function() {
     displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
 });
-
