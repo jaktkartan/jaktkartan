@@ -68,31 +68,42 @@ html, body {
     right: 0;
 }
 
+/* CSS för att animera flikar */
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .tab-pane {
-    width: 100%; /* Fliken kommer att ta upp hela bredden av sitt föräldreelement */
+    display: none; /* Dölj flikar som standard */
+    animation-duration: 0.5s; /* Justera animationstid efter behov */
+    animation-timing-function: ease-out; /* Anpassa timing function */
 }
 
-/* Gemensam basstil för alla flikar */
-@keyframes slideInUp {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+/* Använd CSS-klasser för att styra animationer */
+.slide-down {
+    animation-name: slideDown;
 }
 
-@keyframes slideOutDown {
-    from {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateY(100%);
-        opacity: 0;
-    }
+.slide-up {
+    animation-name: slideUp;
 }
 
 .tab-pane {
