@@ -167,7 +167,12 @@ function showCountySelection(savedPosition) {
 
     var select = document.createElement('select');
     countyList.appendChild(select);
-
+    
+    // Lägg till ett tomt alternativ först
+    var optionElement = document.createElement('option');
+    optionElement.textContent = ''; // Tomt alternativ
+    select.appendChild(optionElement);
+    
     // Alternativ för varje län
     var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN'];
     options.forEach(option => {
