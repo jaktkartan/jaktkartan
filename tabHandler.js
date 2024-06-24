@@ -161,12 +161,16 @@ function showCountySelection(savedPosition) {
     countyList.className = 'county-list';
     tab.appendChild(countyList);
 
+    var label = document.createElement('label');
+    label.textContent = 'Välj län:';
+    countyList.appendChild(label);
+
     var select = document.createElement('select');
     countyList.appendChild(select);
     
     // Lägg till ett tomt alternativ först
     var optionElement = document.createElement('option');
-    optionElement.textContent = 'Välj annat län'; // Tomt alternativ
+    optionElement.textContent = ''; // Tomt alternativ
     select.appendChild(optionElement);
     
     // Alternativ för varje län
@@ -244,15 +248,13 @@ function resetTabs() {
     tabContent.style.display = 'none';
 }
 
-// Funktion för att öppna en flik med animation
+// Funktion för att öppna en flik
 function openTab(tabId, url) {
-    resetTabs(); // Återställ alla flikar till sitt ursprungliga tillstånd
-
+    resetTabs();
     var tab = document.getElementById(tabId);
-    tab.classList.add('active'); // Lägg till klassen för att visa fliken med animation
-
+    tab.style.display = 'block';
     var tabContent = document.getElementById('tab-content');
-    tabContent.classList.add('active'); // Visa hela flikinnehållet
+    tabContent.style.display = 'block';
 
     if (tabId === 'tab4') {
         tab.innerHTML = '';
@@ -302,7 +304,7 @@ function openTab(tabId, url) {
     }
 }
 
-// Funktion för att öppna Kaliberkrav-fliken med animation
+// Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
     var tabContent = document.getElementById('tab-content');
     var tab = document.createElement('div');
@@ -313,7 +315,7 @@ function openKaliberkravTab(url) {
         .then(response => response.text())
         .then(html => {
             tab.innerHTML += html;
-            tab.classList.add('active'); // Lägg till klassen för att visa fliken med animation
+            tab.style.display = 'block';
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
@@ -328,15 +330,10 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Funktion för att stänga flikinnehåll med animation
+// Funktion för att stänga flikinnehåll
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
-    tabContent.classList.remove('active'); // Ta bort klassen för att visa flikinnehåll med animation
-
-    var tabs = tabContent.getElementsByClassName('tab-pane');
-    for (var i = 0; i < tabs.length; i++) {
-        tabs[i].classList.remove('active'); // Ta bort klassen för att visa fliken med animation
-    }
+    tabContent.style.display = 'none';
 }
 
 // Lyssnare för när sidan laddas
