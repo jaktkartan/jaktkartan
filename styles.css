@@ -122,16 +122,19 @@ html, body {
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
+    display: none; /* Visa inte fliken från början */
 }
 
 .tab-pane.show {
-    display: flex;
+    display: flex; /* Visa fliken med flex-display */
+}
+
+.tab-pane.slide-down {
     animation-name: slideDown; /* Använd slideDown för nedifrån-och-upp-animation */
 }
 
-.tab-pane.hide {
+.tab-pane.slide-up {
     animation-name: slideUp; /* Använd slideUp för uppifrån-och-ner-animation */
-    animation-fill-mode: forwards;
 }
 
 
@@ -146,6 +149,10 @@ html, body {
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
+#tab3.tab-pane {
+    animation-name: slideInUp; /* Använd slideInUp för att flik 3 ska komma uppifrån och upp */
+    /* Anpassa stilar för flik 3 om det behövs */
+}
 
 #info-panel {
     position: absolute;
