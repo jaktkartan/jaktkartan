@@ -134,19 +134,20 @@ function openTab3() {
     loadingIndicator.textContent = 'Hämtar position...';
     tab.appendChild(loadingIndicator);
 
-    // Hämta användarens position genom att anropa updateUserPosition
-    updateUserPosition(function(lat, lon, accuracy) {
-        loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
+    // Fördröjning på 1 sekund innan updateUserPosition anropas
+    setTimeout(function() {
+        updateUserPosition(function(lat, lon, accuracy) {
+            loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
 
-        // Visa användarens position
-        var positionInfo = document.createElement('p');
-        positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
-        tab.appendChild(positionInfo);
-    }, function(error) {
-        loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
-    });
+            // Visa användarens position
+            var positionInfo = document.createElement('p');
+            positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
+            tab.appendChild(positionInfo);
+        }, function(error) {
+            loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
+        });
+    }, 1000); // 1000 ms = 1 sekund fördröjning
 }
-
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
