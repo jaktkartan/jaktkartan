@@ -1,4 +1,4 @@
-// Globala variabler för att lagra den senaste kända positionen
+// Globala variabler för att lagra den senaste kända positionen och dess giltighet
 var lastKnownPosition = null;
 var positionIsValid = false;
 
@@ -182,4 +182,3 @@ document.addEventListener('click', function(event) {
         closeTabContent();
     }
 });
-
