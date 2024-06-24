@@ -1,3 +1,34 @@
+// Global variabel för att lagra den senaste kända positionen
+var lastKnownPosition = null;
+var positionIsValid = false;
+
+// Funktion för att kontrollera om den senaste positionen är aktuell
+function isPositionValid() {
+    return positionIsValid;
+}
+
+// Funktion för att uppdatera den senaste kända positionen
+function updateLastKnownPosition(lat, lon) {
+    lastKnownPosition = { latitude: lat, longitude: lon };
+    positionIsValid = true;
+}
+
+// Funktion för att hämta användarens position
+function getUserPosition(successCallback, errorCallback) {
+    if (lastKnownPosition && isPositionValid()) {
+        successCallback(lastKnownPosition.latitude, lastKnownPosition.longitude);
+    } else {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            updateLastKnownPosition(lat, lon);
+            successCallback(lat, lon);
+        }, function(error) {
+            errorCallback(error);
+        });
+    }
+}
+
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
 
 function togglePanel() {
@@ -6,12 +37,11 @@ function togglePanel() {
     if (weatherInfo.style.display === 'none') {
         console.log("Showing weather panel...");
         weatherInfo.style.display = 'block';
-        navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Getting current position...");
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            console.log("Current position:", latitude, longitude);
-            getWeatherForecast(latitude, longitude);
+        getUserPosition(function(lat, lon) {
+            console.log("Current position:", lat, lon);
+            getWeatherForecast(lat, lon);
+        }, function(error) {
+            console.error("Error getting position:", error);
         });
     } else {
         console.log("Hiding weather panel...");
@@ -84,30 +114,16 @@ function openTab(tabId, url) {
         loadingIndicator.textContent = 'Hämtar position...';
         tab.appendChild(loadingIndicator);
 
-        // Funktion för att hantera uppdatering av användarens position
-        function updateUserPosition(callback) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-                loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
+        // Anropa getUserPosition för att hämta och visa användarens position
+        getUserPosition(function(lat, lon) {
+            loadingIndicator.style.display = 'none'; // Dölj laddningsindikatorn
 
-                // Visa användarens position
-                var positionInfo = document.createElement('p');
-                positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
-                tab.appendChild(positionInfo);
-
-                if (typeof callback === 'function') {
-                    callback(lat, lon);
-                }
-            }, function(error) {
-                loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
-            });
-        }
-
-        // Anropa updateUserPosition för att hämta och visa användarens position
-        updateUserPosition(function(lat, lon) {
-            // Här kan du lägga till eventuella åtgärder som ska utföras med användarens position
-            console.log('User position updated:', lat, lon);
+            // Visa användarens position
+            var positionInfo = document.createElement('p');
+            positionInfo.textContent = 'Latitud: ' + lat.toFixed(6) + ', Longitud: ' + lon.toFixed(6);
+            tab.appendChild(positionInfo);
+        }, function(error) {
+            loadingIndicator.textContent = 'Kunde inte hämta position: ' + error.message;
         });
     } else {
         // Om det inte är tab4 eller tab3, hämta innehållet från den angivna URL:en
