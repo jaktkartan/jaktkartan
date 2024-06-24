@@ -4,18 +4,24 @@
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.style.display === 'none') {
+    if (weatherInfo.classList.contains('show')) {
+        console.log("Hiding weather panel...");
+        weatherInfo.classList.remove('show');
+        weatherInfo.classList.add('hide');
+        weatherInfo.addEventListener('animationend', function(event) {
+            event.target.style.display = 'none';
+            event.target.classList.remove('hide');
+        }, { once: true });
+    } else {
         console.log("Showing weather panel...");
-        weatherInfo.style.display = 'block';
+        weatherInfo.style.display = 'flex';
+        weatherInfo.classList.add('show');
         getUserPosition(function(lat, lon) {
             console.log("Current position:", lat, lon);
             getWeatherForecast(lat, lon);
         }, function(error) {
             console.error("Error getting position:", error);
         });
-    } else {
-        console.log("Hiding weather panel...");
-        weatherInfo.style.display = 'none';
     }
 }
 
@@ -65,7 +71,7 @@ function isPointInPolygon(point, polygon) {
         let xi = polygon[0][i][0], yi = polygon[0][i][1];
         let xj = polygon[0][j][0], yj = polygon[0][j][1];
 
-        let intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        let intersect = ((yi > y) !== (yj > y)) && (x < (xj -xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) inside = !inside;
     }
     return inside;
@@ -157,84 +163,57 @@ function displaySavedUserPosition() {
 // Funktion för att visa en lista över län för att välja ett annat län
 function showCountySelection(savedPosition) {
     var tab = document.getElementById('tab3');
-    var countyList = document.createElement('div');
-    countyList.className = 'county-list';
-    tab.appendChild(countyList);
 
-    var label = document.createElement('label');
-    label.textContent = 'Välj län:';
-    countyList.appendChild(label);
+    var countySelectLabel = document.createElement('label');
+    countySelectLabel.textContent = 'Välj annat län:';
+    tab.appendChild(countySelectLabel);
 
-    var select = document.createElement('select');
-    countyList.appendChild(select);
-    
-    // Lägg till ett tomt alternativ först
-    var optionElement = document.createElement('option');
-    optionElement.textContent = 'VÄLJ ANNAT LÄN';
-    select.appendChild(optionElement);
-    
-    // Alternativ för varje län
-    var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN'];
-    options.forEach(option => {
-        var optionElement = document.createElement('option');
-        optionElement.textContent = option;
-        select.appendChild(optionElement);
+    var countySelect = document.createElement('select');
+    countySelect.innerHTML = `
+        <option value="">Välj län</option>
+        <option value="BLEKINGES LÄN">Blekinges län</option>
+        <option value="DALARNAS LÄN">Dalarnas län</option>
+        <option value="GOTLANDS LÄN">Gotlands län</option>
+        <option value="GÄVLEBORGS LÄN">Gävleborgs län</option>
+    `;
+    tab.appendChild(countySelect);
+
+    countySelect.addEventListener('change', function() {
+        var selectedCounty = countySelect.value;
+        var googleSheetsURL;
+
+        switch (selectedCounty.toUpperCase()) {
+            case 'BLEKINGES LÄN':
+                googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                break;
+            case 'DALARNAS LÄN':
+                googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                break;
+            case 'GOTLANDS LÄN':
+                googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                break;
+            case 'GÄVLEBORGS LÄN':
+                googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                break;
+            default:
+                googleSheetsURL = ''; // Om län inte hittas, tom URL
+                break;
+        }
+
+        // Visa Google Sheets i en iframe om URL är definierad
+        if (googleSheetsURL) {
+            var iframe = document.createElement('iframe');
+            iframe.src = googleSheetsURL;
+            iframe.style.width = '100%';
+            iframe.style.height = '600px'; // Justera höjden efter behov
+            iframe.setAttribute('frameborder', '0');
+            tab.appendChild(iframe);
+        } else {
+            var noDataInfo = document.createElement('p');
+            noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
+            tab.appendChild(noDataInfo);
+        }
     });
-
-    // Lyssnare för val av län
-    select.addEventListener('change', function() {
-        var selectedCounty = select.value;
-        loadCountyGoogleSheet(selectedCounty, savedPosition);
-    });
-}
-
-// Funktion för att ladda Google Sheets för det valda länet
-function loadCountyGoogleSheet(county, savedPosition) {
-    var tab = document.getElementById('tab3');
-    tab.innerHTML = '';
-
-    var heading = document.createElement('h2');
-    heading.textContent = 'Jaktbart idag - ' + county;
-    tab.appendChild(heading);
-
-    var positionInfo = document.createElement('p');
-    positionInfo.textContent = 'Senast sparad position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
-    tab.appendChild(positionInfo);
-
-    // Bygg URL för Google Sheets baserat på det valda länet
-    var googleSheetsURL;
-    switch (county.toUpperCase()) {
-        case 'BLEKINGES LÄN':
-            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-            break;
-        case 'DALARNAS LÄN':
-            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-            break;
-        case 'GOTLANDS LÄN':
-            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-            break;
-        case 'GÄVLEBORGS LÄN':
-            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-            break;
-
-        default:
-            googleSheetsURL = ''; // Om län inte hittas, tom URL
-            break;
-    }
-
-    // Visa Google Sheets i en iframe om URL är definierad
-    if (googleSheetsURL) {
-        var iframe = document.createElement('iframe');
-        iframe.src = googleSheetsURL;
-        iframe.style.width = '100%';
-        iframe.style.height = '600px'; // Justera höjden efter behov
-        iframe.setAttribute('frameborder', '0');
-        tab.appendChild(iframe);
-    } else {
-        var noDataInfo = document.createElement('p');
-        noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
-        tab.appendChild(noDataInfo);
-    }
 }
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
@@ -340,3 +319,4 @@ function closeTabContent() {
 document.addEventListener('DOMContentLoaded', function() {
     displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
 });
+
