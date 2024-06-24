@@ -10,23 +10,19 @@ function isPositionValid() {
 // Funktion för att uppdatera den senaste kända positionen
 function updateLastKnownPosition(lat, lon) {
     lastKnownPosition = { latitude: lat, longitude: lon };
-    positionIsValid = true;
+    positionIsValid = true; // Sätt positionen som giltig när den uppdateras
 }
 
 // Funktion för att hämta användarens position
 function getUserPosition(successCallback, errorCallback) {
-    if (lastKnownPosition && isPositionValid()) {
-        successCallback(lastKnownPosition.latitude, lastKnownPosition.longitude);
-    } else {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-            updateLastKnownPosition(lat, lon);
-            successCallback(lat, lon);
-        }, function(error) {
-            errorCallback(error);
-        });
-    }
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        updateLastKnownPosition(lat, lon); // Uppdatera den senaste kända positionen
+        successCallback(lat, lon);
+    }, function(error) {
+        errorCallback(error);
+    });
 }
 
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
@@ -174,11 +170,3 @@ function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none';
 }
-
-// Händelselyssnare för att stänga flikinnehållet när man klickar utanför det
-document.addEventListener('click', function(event) {
-    var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
-        closeTabContent();
-    }
-});
