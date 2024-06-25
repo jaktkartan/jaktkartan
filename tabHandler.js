@@ -1,24 +1,4 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-
-// Funktion för att toggle väderpanelen
-function togglePanel() {
-    console.log("Toggling weather panel...");
-    var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.style.display === 'none') {
-        console.log("Showing weather panel...");
-        weatherInfo.style.display = 'block';
-        getUserPosition(function(lat, lon) {
-            console.log("Current position:", lat, lon);
-            getWeatherForecast(lat, lon);
-        }, function(error) {
-            console.error("Error getting position:", error);
-        });
-    } else {
-        console.log("Hiding weather panel...");
-        weatherInfo.style.display = 'none';
-    }
-}
-
 // Ladda GeoJSON-filen med Sveriges länspolygoner
 async function loadGeoJSON(url) {
     try {
