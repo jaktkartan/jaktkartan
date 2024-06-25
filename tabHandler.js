@@ -5,6 +5,7 @@ styleTag.innerHTML = `
     /* CSS for tab content */
     .tab-content {
         display: none;
+        z-index: 1000;
         transform: translateY(100%);
         transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
         opacity: 0;
