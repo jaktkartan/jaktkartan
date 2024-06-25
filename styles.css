@@ -141,28 +141,23 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
 
 .pulsing-circle::before {
     content: '';
-    width: 100%;
-    height: 100%;
+    width: 200%;
+    height: 200%;
     position: absolute;
-    top: 0;
-    left: 0;
-    background: radial-gradient(circle, rgba(0, 0, 255, 0.5) 20%, transparent 70%);
+    top: -50%;
+    left: -50%;
+    background: rgba(0, 0, 255, 0.5);
     border-radius: 50%;
-    animation: pulse 2s infinite;
-    transform-origin: center;
+    animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
     0% {
-        transform: scale(0);
-        opacity: 0.5;
-    }
-    50% {
-        transform: scale(1.5);
-        opacity: 0.3;
+        transform: scale(0.5);
+        opacity: 1;
     }
     100% {
-        transform: scale(3);
+        transform: scale(2);
         opacity: 0;
     }
 }
