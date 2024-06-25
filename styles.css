@@ -139,12 +139,12 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
 
 .pulsing-circle::before {
     content: '';
-    width: 200%;
-    height: 200%;
+    width: 50%; /* Mindre glans */
+    height: 50%; /* Mindre glans */
     position: absolute;
-    top: -50%;
-    left: -50%;
-    background: rgba(0, 0, 255, 0.4); /* Färg på glansen */
+    top: 25%; /* Förskjuten position för glansen */
+    left: 25%; /* Förskjuten position för glansen */
+    background: rgba(255, 255, 255, 0.8); /* Vit färg för en starkare glans */
     border-radius: 50%;
     animation: pulse 1.5s infinite;
 }
@@ -159,3 +159,4 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
         opacity: 0;
     }
 }
+
