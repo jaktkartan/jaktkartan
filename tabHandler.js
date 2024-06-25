@@ -1,11 +1,4 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-#tab-content-container {
-    overflow: hidden; /* Dölj överflödigt innehåll */
-}
-
-#tab-content {
-    transition: height 0.3s ease; /* Lägg till övergångseffekt för höjdändringar */
-}
 
 // Funktion för att toggle väderpanelen
 function togglePanel() {
@@ -340,26 +333,8 @@ document.addEventListener('click', function(event) {
 // Funktion för att stänga flikinnehåll
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
-    var tabContentContainer = document.getElementById('tab-content-container');
-
-    // Beräkna den faktiska höjden på innehållet
-    var height = tabContent.offsetHeight;
-
-    // Ställ in höjden på innehållet till 0
-    tabContent.style.height = height + 'px';
-
-    // Låt webbläsaren uppdatera stilen
-    // Använd setTimeout för att ge en liten fördröjning för övergången att fungera
-    setTimeout(function() {
-        tabContent.style.height = '0';
-    }, 10);
-
-    // Dölj innehåll efter övergångseffekt
-    setTimeout(function() {
-        tabContent.style.display = 'none';
-    }, 310); // Lägg till 10ms fördröjning plus 300ms för transition-tid
+    tabContent.style.display = 'none';
 }
-
 
 // Lyssnare för när sidan laddas
 document.addEventListener('DOMContentLoaded', function() {
