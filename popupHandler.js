@@ -6,7 +6,8 @@ styleTag.innerHTML = `
     #popup-panel {
         position: fixed;
         bottom: 0px;
-        left: 0px;
+        left: 50%; /* Centrera horisontellt genom att placera den från vänster */
+        transform: translateX(-50%); /* Flytta tillbaka den med 50% av sin egen bredd */
         width: 95%;
         max-height: 40%;
         background-color: #fff;
