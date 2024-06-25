@@ -216,7 +216,7 @@ function showCountySelection(savedPosition) {
     // Alternativ för varje län
     var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN', 'HALLANDS LÄN', 
     'JÄMTLANDS LÄN', 'JÖNKÖPINGS LÄN', 'KALMARS LÄN', 'KRONOBERGS LÄN', 'NORRBOTTENS LÄN', 
-    'SKÅNES LÄN', 'STOCKHOLMS LÄN', 'SÖDERMANLANDS LÄN', 'UPPSALAS LÄN', 'VÄRMLANDS LÄN', 
+    'SKÅNES LÄN', 'STOCKHOLMS LÄN', 'SÖDERMANLANDS LÄN', 'UPPSALA LÄN', 'VÄRMLANDS LÄN', 
     'VÄSTERBOTTENS LÄN', 'VÄSTERNORRLANDS LÄN', 'VÄSTMANLANDS LÄN', 'VÄSTRA GÖTALANDS LÄN', 
     'ÖREBROS LÄN', 'ÖSTERGÖTLANDS LÄN'];
     options.forEach(option => {
