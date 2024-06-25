@@ -6,7 +6,6 @@ styleTag.innerHTML = `
     #popup-panel {
         position: fixed;
         bottom: 0px;
-        left: 5%; 
         width: 95%;
         max-height: 40%;
         background-color: #fff;
