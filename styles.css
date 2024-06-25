@@ -134,15 +134,16 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     border-radius: 50%;
     position: relative;
     box-shadow: 3px -3px 6px rgba(0, 0, 0, 0.3); /* Skugga förskjuten i nordöstlig riktning */
+    z-index: 500;
 }
 
 .pulsing-circle::before {
     content: '';
-    width: 200%; /* Storleken på glansen */
-    height: 200%; /* Storleken på glansen */
+    width: 200%;
+    height: 200%;
     position: absolute;
-    top: -50%; /* Position för glansen */
-    left: -50%; /* Position för glansen */
+    top: -50%;
+    left: -50%;
     background: rgba(0, 0, 255, 0.4); /* Färg på glansen */
     border-radius: 50%;
     animation: pulse 1.5s infinite;
