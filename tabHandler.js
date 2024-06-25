@@ -1,39 +1,12 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-var styleTag = document.createElement('style');
-styleTag.type = 'text/css';
-styleTag.innerHTML = `
-    /* CSS for tab content */
-    .tab-content {
-        display: none;
-        z-index: 1000;
-        transform: translateY(100%);
-        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-        opacity: 0;
-    }
-
-    .tab-show {
-        display: block;
-        transform: translateY(0);
-        opacity: 1;
-    }
-
-    .tab-hide {
-        display: block;
-        transform: translateY(100%);
-        opacity: 0;
-    }
-`;
-document.head.appendChild(styleTag);
 
 // Funktion för att toggle väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.classList.contains('tab-hide') || weatherInfo.style.display === 'none') {
+    if (weatherInfo.style.display === 'none') {
         console.log("Showing weather panel...");
         weatherInfo.style.display = 'block';
-        weatherInfo.classList.remove('tab-hide');
-        weatherInfo.classList.add('tab-show');
         getUserPosition(function(lat, lon) {
             console.log("Current position:", lat, lon);
             getWeatherForecast(lat, lon);
@@ -42,9 +15,7 @@ function togglePanel() {
         });
     } else {
         console.log("Hiding weather panel...");
-        weatherInfo.classList.remove('tab-show');
-        weatherInfo.classList.add('tab-hide');
-        setTimeout(() => { weatherInfo.style.display = 'none'; }, 500); // Hide after animation
+        weatherInfo.style.display = 'none';
     }
 }
 
@@ -202,7 +173,7 @@ function showCountySelection(savedPosition) {
     optionElement.textContent = ''; // Tomt alternativ
     select.appendChild(optionElement);
     
- // Alternativ för varje län
+    // Alternativ för varje län
     var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN'];
     options.forEach(option => {
         var optionElement = document.createElement('option');
@@ -270,14 +241,11 @@ function loadCountyGoogleSheet(county, savedPosition) {
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
-        tabs[i].classList.remove('tab-show');
-        tabs[i].classList.add('tab-hide');
+        tabs[i].style.display = 'none';
+        tabs[i].innerHTML = '';
     }
-    setTimeout(() => {
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].style.display = 'none';
-        }
-    }, 500); // Hide after animation
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none';
 }
 
 // Funktion för att öppna en flik
@@ -285,10 +253,8 @@ function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
     tab.style.display = 'block';
-    setTimeout(() => {
-        tab.classList.remove('tab-hide');
-        tab.classList.add('tab-show');
-    }, 10);
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'block';
 
     if (tabId === 'tab4') {
         tab.innerHTML = '';
@@ -325,7 +291,7 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Senaste lagrade position:';
         tab.appendChild(paragraph);
 
-        displaySavedUserPosition(); // Call directly to show dropdown list
+        displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
     } else {
         fetch(url)
             .then(response => response.text())
@@ -356,14 +322,6 @@ function openKaliberkravTab(url) {
         });
 }
 
-// Funktion för att stänga flikinnehåll
-function closeTabContent() {
-    var tabContent = document.getElementById('tab-content');
-    tabContent.classList.remove('tab-show');
-    tabContent.classList.add('tab-hide');
-    setTimeout(() => { tabContent.style.display = 'none'; }, 500); // Hide after animation
-}
-
 // Lyssnare för klick utanför flikar och panelknappar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
@@ -372,7 +330,13 @@ document.addEventListener('click', function(event) {
     }
 });
 
+// Funktion för att stänga flikinnehåll
+function closeTabContent() {
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'none';
+}
+
 // Lyssnare för när sidan laddas
 document.addEventListener('DOMContentLoaded', function() {
-    displaySavedUserPosition(); // Show saved position when page loads
+    displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
 });
