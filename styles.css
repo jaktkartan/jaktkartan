@@ -131,11 +131,12 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
 .pulsing-circle {
     width: 8px;
     height: 8px;
-    background: blue;
+    background: radial-gradient(circle at 4px 4px, #ffffff, #a0b9ff);
     border-radius: 50%;
     position: relative;
-    box-shadow: 0 0 6px rgba(0, 0, 255, 0.5); /* Skugga för att ge djup */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtil skugga för att ge höjd */
 }
+
 
 .pulsing-circle::before {
     content: '';
