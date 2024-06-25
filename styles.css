@@ -130,31 +130,31 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
 .pulsing-circle {
     width: 8px;
     height: 8px;
-    background: radial-gradient(circle at 4px 4px, #3b6cb8, #0f2b4b); /* Mörkare blå gradient */
+    background: radial-gradient(circle at 4px 4px, #4b7bc9, #1c3e70); /* Justerad blå gradient */
     border-radius: 50%;
     position: relative;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Lätt skugga för att ge höjd */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Lätt skugga för att ge höjd */
 }
 
 .pulsing-circle::before {
     content: '';
-    width: 150%; /* Minskad storlek på glänset */
-    height: 150%; /* Minskad storlek på glänset */
+    width: 200%; /* Ökad storlek på glansen */
+    height: 200%; /* Ökad storlek på glansen */
     position: absolute;
-    top: -25%; /* Justerad position för glänset */
-    left: -25%; /* Justerad position för glänset */
-    background: rgba(0, 0, 255, 0.3); /* Minskat glansets opacitet */
+    top: -50%; /* Justerad position för glansen */
+    left: -50%; /* Justerad position för glansen */
+    background: rgba(0, 0, 255, 0.4); /* Justerad opacitet på glansen */
     border-radius: 50%;
     animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
     0% {
-        transform: scale(0.6);
+        transform: scale(0.5);
         opacity: 1;
     }
     100% {
-        transform: scale(1.4);
+        transform: scale(1.5);
         opacity: 0;
     }
 }
