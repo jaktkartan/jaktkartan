@@ -2,73 +2,26 @@
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
-    /* CSS for popup panel */
-    #popup-panel {
-        position: fixed;
-        bottom: 0px;
-        left: 0px;
-        width: 100%;
-        max-height: 40%;
-        background-color: #fff;
-        border-top: 5px solid #fff;
-        border-left: 5px solid #fff;
-        border-right: 5px solid #fff;
-        padding: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        z-index: 1000;
-        overflow-y: auto;
-        word-wrap: break-word;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        font-family: 'Roboto', sans-serif;
-        color: rgb(50, 94, 88);
-        transform: translateY(100%); /* Start panel off-screen */
-        transition: transform 0.5s ease-in-out;
-    }
-
-    /* CSS for popup panel animation */
-    @keyframes slideIn {
-        from {
-            transform: translateY(100%);
-        }
-        to {
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes slideOut {
-        from {
-            transform: translateY(0);
-        }
-        to {
-            transform: translateY(100%);
-        }
-    }
-
-    .show {
-        animation: slideIn 0.5s forwards;
-    }
-
-    .hide {
-        animation: slideOut 0.5s forwards;
-    }
-
     /* CSS for tab content */
     .tab-content {
         display: none;
         transform: translateY(100%);
-        transition: transform 0.5s ease-in-out;
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        opacity: 0;
     }
 
     .tab-show {
-        animation: slideIn 0.5s forwards;
+        display: block;
+        transform: translateY(0);
+        opacity: 1;
     }
 
     .tab-hide {
-        animation: slideOut 0.5s forwards;
+        display: block;
+        transform: translateY(100%);
+        opacity: 0;
     }
 `;
-
 document.head.appendChild(styleTag);
 
 // Funktion för att toggle väderpanelen
@@ -325,14 +278,15 @@ function resetTabs() {
         }
     }, 500); // Hide after animation
 }
-
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
     tab.style.display = 'block';
-    tab.classList.remove('tab-hide');
-    tab.classList.add('tab-show');
+    setTimeout(() => {
+        tab.classList.remove('tab-hide');
+        tab.classList.add('tab-show');
+    }, 10);
 
     if (tabId === 'tab4') {
         tab.innerHTML = '';
@@ -399,7 +353,6 @@ function openKaliberkravTab(url) {
             console.error('Error fetching Kaliberkrav content:', error);
         });
 }
-
 // Funktion för att stänga flikinnehåll
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
