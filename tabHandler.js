@@ -89,14 +89,6 @@ function displaySavedUserPosition() {
         var tab = document.getElementById('tab3');
         tab.innerHTML = '';
 
-        var heading = document.createElement('h2');
-        heading.textContent = 'Jaktbart idag';
-        tab.appendChild(heading);
-
-        var positionInfo = document.createElement('p');
-        positionInfo.textContent = 'Senast sparad position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
-        tab.appendChild(positionInfo);
-
         // Visa rull-lista för att välja annat län direkt
         showCountySelection(savedPosition); // Flyttad hit för att visa rull-listan först
 
