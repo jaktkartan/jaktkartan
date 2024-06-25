@@ -130,20 +130,21 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
 .pulsing-circle {
     width: 8px;
     height: 8px;
-    background: radial-gradient(circle at 4px 4px, #4b7bc9, #1c3e70); /* Justerad blå gradient */
+    background-color: #5793e6; /* Basfärg för kulan */
     border-radius: 50%;
     position: relative;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Lätt skugga för att ge höjd */
+    overflow: hidden; /* För att dölja eventuell overflow av box-shadow */
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Nordöstlig skugga */
 }
 
 .pulsing-circle::before {
     content: '';
-    width: 200%; /* Ökad storlek på glansen */
-    height: 200%; /* Ökad storlek på glansen */
+    width: 200%; /* Större storlek på glansen */
+    height: 200%; /* Större storlek på glansen */
     position: absolute;
     top: -50%; /* Justerad position för glansen */
     left: -50%; /* Justerad position för glansen */
-    background: rgba(0, 0, 255, 0.4); /* Justerad opacitet på glansen */
+    background: rgba(255, 255, 255, 0.2); /* Ljusare färg på glansen */
     border-radius: 50%;
     animation: pulse 1.5s infinite;
 }
