@@ -149,15 +149,20 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     background: rgba(0, 0, 255, 0.5);
     border-radius: 50%;
     animation: pulse 1.5s infinite;
+    transform-origin: center;
 }
 
 @keyframes pulse {
     0% {
-        transform: scale(0.5);
-        opacity: 1;
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0;
     }
     100% {
-        transform: scale(2);
+        transform: scale(3);
         opacity: 0;
     }
 }
