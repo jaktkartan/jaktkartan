@@ -1,12 +1,85 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+var styleTag = document.createElement('style');
+styleTag.type = 'text/css';
+styleTag.innerHTML = `
+    /* CSS for popup panel */
+    #popup-panel {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        max-height: 40%;
+        background-color: #fff;
+        border-top: 5px solid #fff;
+        border-left: 5px solid #fff;
+        border-right: 5px solid #fff;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+        overflow-y: auto;
+        word-wrap: break-word;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        font-family: 'Roboto', sans-serif;
+        color: rgb(50, 94, 88);
+        transform: translateY(100%); /* Start panel off-screen */
+        transition: transform 0.5s ease-in-out;
+    }
+
+    /* CSS for popup panel animation */
+    @keyframes slideIn {
+        from {
+            transform: translateY(100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideOut {
+        from {
+            transform: translateY(0);
+        }
+        to {
+            transform: translateY(100%);
+        }
+    }
+
+    .show {
+        animation: slideIn 0.5s forwards;
+    }
+
+    .hide {
+        animation: slideOut 0.5s forwards;
+    }
+
+    /* CSS for tab content */
+    .tab-content {
+        display: none;
+        transform: translateY(100%);
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .tab-show {
+        animation: slideIn 0.5s forwards;
+    }
+
+    .tab-hide {
+        animation: slideOut 0.5s forwards;
+    }
+`;
+
+document.head.appendChild(styleTag);
 
 // Funktion för att toggle väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.style.display === 'none') {
+    if (weatherInfo.classList.contains('tab-hide') || weatherInfo.style.display === 'none') {
         console.log("Showing weather panel...");
         weatherInfo.style.display = 'block';
+        weatherInfo.classList.remove('tab-hide');
+        weatherInfo.classList.add('tab-show');
         getUserPosition(function(lat, lon) {
             console.log("Current position:", lat, lon);
             getWeatherForecast(lat, lon);
@@ -15,7 +88,9 @@ function togglePanel() {
         });
     } else {
         console.log("Hiding weather panel...");
-        weatherInfo.style.display = 'none';
+        weatherInfo.classList.remove('tab-show');
+        weatherInfo.classList.add('tab-hide');
+        setTimeout(() => { weatherInfo.style.display = 'none'; }, 500); // Hide after animation
     }
 }
 
@@ -241,11 +316,14 @@ function loadCountyGoogleSheet(county, savedPosition) {
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
-        tabs[i].style.display = 'none';
-        tabs[i].innerHTML = '';
+        tabs[i].classList.remove('tab-show');
+        tabs[i].classList.add('tab-hide');
     }
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none';
+    setTimeout(() => {
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].style.display = 'none';
+        }
+    }, 500); // Hide after animation
 }
 
 // Funktion för att öppna en flik
@@ -253,8 +331,8 @@ function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
     tab.style.display = 'block';
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'block';
+    tab.classList.remove('tab-hide');
+    tab.classList.add('tab-show');
 
     if (tabId === 'tab4') {
         tab.innerHTML = '';
@@ -291,7 +369,7 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Senaste lagrade position:';
         tab.appendChild(paragraph);
 
-        displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
+        displaySavedUserPosition(); // Call directly to show dropdown list
     } else {
         fetch(url)
             .then(response => response.text())
@@ -322,6 +400,14 @@ function openKaliberkravTab(url) {
         });
 }
 
+// Funktion för att stänga flikinnehåll
+function closeTabContent() {
+    var tabContent = document.getElementById('tab-content');
+    tabContent.classList.remove('tab-show');
+    tabContent.classList.add('tab-hide');
+    setTimeout(() => { tabContent.style.display = 'none'; }, 500); // Hide after animation
+}
+
 // Lyssnare för klick utanför flikar och panelknappar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
@@ -330,13 +416,7 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Funktion för att stänga flikinnehåll
-function closeTabContent() {
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none';
-}
-
 // Lyssnare för när sidan laddas
 document.addEventListener('DOMContentLoaded', function() {
-    displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
+    displaySavedUserPosition(); // Show saved position when page loads
 });
