@@ -83,11 +83,12 @@ html, body {
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     overflow-y: auto;
     border-top-left-radius: 15px; /* Rundade övre vänstra hörnet */
     border-top-right-radius: 15px; /* Rundade övre högra hörnet */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Ljus kantlinje för att markera kanterna */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Subtil skugga för att lyfta fram elementet */
 }
 
 #tab1.tab-pane {
