@@ -206,10 +206,7 @@ function showCountySelection(savedPosition) {
     tab.appendChild(countyList);
 
     var select = document.createElement('select');
-    select.style.width = '600px'; // Sätt bredden på 600px
     countyList.appendChild(select);
-
-}
     
     // Lägg till ett tomt alternativ först
     var optionElement = document.createElement('option');
