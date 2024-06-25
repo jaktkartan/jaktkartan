@@ -7,7 +7,7 @@ styleTag.innerHTML = `
         position: fixed;
         bottom: 0px;
         left: 0px;
-        width: 100%;
+        width: 95%;
         max-height: 40%;
         background-color: #fff;
         border-top: 5px solid #fff;
