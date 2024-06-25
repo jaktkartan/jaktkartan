@@ -1,3 +1,23 @@
+// Funktion för att toggle väderpanelen
+function togglePanel() {
+    console.log("Toggling weather panel...");
+    var weatherInfo = document.getElementById('weather-info');
+    if (weatherInfo.style.display === 'none') {
+        console.log("Showing weather panel...");
+        weatherInfo.style.display = 'block';
+        getUserPosition(function(lat, lon) {
+            console.log("Current position:", lat, lon);
+            getWeatherForecast(lat, lon);
+        }, function(error) {
+            console.error("Error getting position:", error);
+        });
+    } else {
+        console.log("Hiding weather panel...");
+        weatherInfo.style.display = 'none';
+    }
+}
+
+
 // Funktion som översätter vädersymbolkoder till förståeliga strängar på svenska.
 const translateWeatherSymbol = (symbolCode) => {
     switch(symbolCode) {
