@@ -111,18 +111,70 @@ function displaySavedUserPosition() {
                     case '':
                         googleSheetsURL = '';
                         break;
-                    case 'BLEKINGES LÄN':
-                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                        break;
-                    case 'DALARNAS LÄN':
-                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                        break;
-                    case 'GOTLANDS LÄN':
-                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                        break;
-                    case 'GÄVLEBORGS LÄN':
-                        googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                        break;
+
+                        case 'BLEKINGES LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'DALARNAS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'GOTLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'GÄVLEBORGS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'HALLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2BFE-SRmBCBS-0yByDhuEVp_sTnVw1zTiknHvfzE0Fmw4efRYz0EPMwnhGKiy5g/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'JÄMTLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTG9X1E7-ZXI7gp9-BizmipzFh701pawm3hxzVKu_DyRtQ1p2zshsjLy4-PB2exEw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'JÖNKÖPINGS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0cpVw1Eu79k1YIHiSLawV2PbV9kYxiRtrpM8dp33OdC-U-qsWS7GkqWMbTi2WkQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'KALMARS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR72MO0TobqcwmZI2ioQ9lJGw38V1B2qECC5RILBDJHSHR7sOV3U_P3ucSolLieMg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'KRONOBERGS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpPY36rcqD3cp18IHfEeZcyJ2m-N4MZMX63_3lVZEaxvlR00JeQ8-mLyPHCyPD4Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'NORRBOTTENS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSE8OM2nEjFB8MPX8Uq9x5eRkFiLAOUUc_f358zWCxEYZUP2I_FDG1JCNFbM9Vuyg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'SKÅNES LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRH9Vp7_2DfEMY2qkQ7TI_haVuWH4u14zSff5NyOSafAzgGG22pIENzyRKpDObpEA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'STOCKHOLMS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9BnmJgLti5F3KZmXVMQXZO1cSJ9-3GJiDMgoTcd0Yyiv4fCbNkpycpG80nrcNnA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'SÖDERMANLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQvDQei2FICBkyASfI0ZKktuRKVeOnLtk4RMEXqT_Ycg-ycmWydMbIQQM72O1Ctiw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'UPPSALAS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtBAPI022uMmngp6WwyK6dTD0IU8xM5j_WuN3T5dgpssPCg5gatmDGVtGc4r_aWQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄRMLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQyx5mAaJouc0DkfdjF9LGND-LrEk3b7ndFCRb_4ever12Gf95c1K5hLjYph3mcmw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄSTERBOTTENS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTQY5Xy7Mp13JyoehpsZcZiELwv1EBKybInh2HPSR8OK1c-_PZOvUTS4rD4uhFHRQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄSTERNORRLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTK_yxu8WaXUNqFvMBFY1B-AtjrmRJ6KzoHJpK_0pOmEGF_UNgP7U-EoO5_ujSE4A/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄSTMANLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSU9ys200Rvtft1xU8Vz6hwCTiNlAK-9poMwuLht1l9SYzIqtIfOnb_XM8toL2pfA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄSTRA GÖTALANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgFOYLMInhQ7SZDQ4SFE17OJBpcUYSZcyVeCY_q2zBKNsdc5hbSwoRNMoFOMIeag/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'ÖREBROS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTeXGD1OrUQ2L43q1pCdmt1clCZ5aCgbNSKaH2Bi_UOCrv8SXMOY_ePD5uzF7nBSQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'ÖSTERGÖTLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;       
 
                     default:
                         googleSheetsURL = ''; // Om län inte hittas, tom URL
@@ -170,7 +222,11 @@ function showCountySelection(savedPosition) {
     select.appendChild(optionElement);
     
     // Alternativ för varje län
-    var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN'];
+    var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN', 'HALLANDS LÄN', 
+    'JÄMTLANDS LÄN', 'JÖNKÖPINGS LÄN', 'KALMARS LÄN', 'KRONOBERGS LÄN', 'NORRBOTTENS LÄN', 
+    'SKÅNES LÄN', 'STOCKHOLMS LÄN', 'SÖDERMANLANDS LÄN', 'UPPSALAS LÄN', 'VÄRMLANDS LÄN', 
+    'VÄSTERBOTTENS LÄN', 'VÄSTERNORRLANDS LÄN', 'VÄSTMANLANDS LÄN', 'VÄSTRA GÖTALANDS LÄN', 
+    'ÖREBROS LÄN', 'ÖSTERGÖTLANDS LÄN'];
     options.forEach(option => {
         var optionElement = document.createElement('option');
         optionElement.textContent = option;
@@ -200,18 +256,69 @@ function loadCountyGoogleSheet(county, savedPosition) {
     // Bygg URL för Google Sheets baserat på det valda länet
     var googleSheetsURL;
     switch (county.toUpperCase()) {
-        case 'BLEKINGES LÄN':
-            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-            break;
-        case 'DALARNAS LÄN':
-            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-            break;
-        case 'GOTLANDS LÄN':
-            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-            break;
-        case 'GÄVLEBORGS LÄN':
-            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-            break;
+                        case 'BLEKINGES LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'DALARNAS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'GOTLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'GÄVLEBORGS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'HALLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2BFE-SRmBCBS-0yByDhuEVp_sTnVw1zTiknHvfzE0Fmw4efRYz0EPMwnhGKiy5g/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'JÄMTLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTG9X1E7-ZXI7gp9-BizmipzFh701pawm3hxzVKu_DyRtQ1p2zshsjLy4-PB2exEw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'JÖNKÖPINGS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0cpVw1Eu79k1YIHiSLawV2PbV9kYxiRtrpM8dp33OdC-U-qsWS7GkqWMbTi2WkQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'KALMARS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR72MO0TobqcwmZI2ioQ9lJGw38V1B2qECC5RILBDJHSHR7sOV3U_P3ucSolLieMg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'KRONOBERGS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpPY36rcqD3cp18IHfEeZcyJ2m-N4MZMX63_3lVZEaxvlR00JeQ8-mLyPHCyPD4Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'NORRBOTTENS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSE8OM2nEjFB8MPX8Uq9x5eRkFiLAOUUc_f358zWCxEYZUP2I_FDG1JCNFbM9Vuyg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'SKÅNES LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRH9Vp7_2DfEMY2qkQ7TI_haVuWH4u14zSff5NyOSafAzgGG22pIENzyRKpDObpEA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'STOCKHOLMS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9BnmJgLti5F3KZmXVMQXZO1cSJ9-3GJiDMgoTcd0Yyiv4fCbNkpycpG80nrcNnA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'SÖDERMANLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQvDQei2FICBkyASfI0ZKktuRKVeOnLtk4RMEXqT_Ycg-ycmWydMbIQQM72O1Ctiw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'UPPSALAS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtBAPI022uMmngp6WwyK6dTD0IU8xM5j_WuN3T5dgpssPCg5gatmDGVtGc4r_aWQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄRMLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQyx5mAaJouc0DkfdjF9LGND-LrEk3b7ndFCRb_4ever12Gf95c1K5hLjYph3mcmw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄSTERBOTTENS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTQY5Xy7Mp13JyoehpsZcZiELwv1EBKybInh2HPSR8OK1c-_PZOvUTS4rD4uhFHRQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄSTERNORRLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTK_yxu8WaXUNqFvMBFY1B-AtjrmRJ6KzoHJpK_0pOmEGF_UNgP7U-EoO5_ujSE4A/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄSTMANLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSU9ys200Rvtft1xU8Vz6hwCTiNlAK-9poMwuLht1l9SYzIqtIfOnb_XM8toL2pfA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'VÄSTRA GÖTALANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgFOYLMInhQ7SZDQ4SFE17OJBpcUYSZcyVeCY_q2zBKNsdc5hbSwoRNMoFOMIeag/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'ÖREBROS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTeXGD1OrUQ2L43q1pCdmt1clCZ5aCgbNSKaH2Bi_UOCrv8SXMOY_ePD5uzF7nBSQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;
+                        case 'ÖSTERGÖTLANDS LÄN':
+                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
+                            break;       
 
         default:
             googleSheetsURL = ''; // Om län inte hittas, tom URL
