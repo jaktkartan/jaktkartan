@@ -131,9 +131,10 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
 .pulsing-circle {
     width: 8px;
     height: 8px;
-    background: blue;
+    background: linear-gradient(90deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0.2)); /* Använder en gradient för att ge en 3D-effekt */
     border-radius: 50%;
     position: relative;
+    overflow: hidden; /* Döljer överflödande delar av pulseringseffekten */
 }
 
 .pulsing-circle::before {
@@ -146,6 +147,8 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     background: rgba(0, 0, 255, 0.5);
     border-radius: 50%;
     animation: pulse 1.5s infinite;
+    transform-origin: center;
+    mix-blend-mode: overlay; /* Använder mix-blend-mode för att ge en bättre visuell effekt */
 }
 
 @keyframes pulse {
@@ -153,8 +156,13 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
         transform: scale(0.5);
         opacity: 1;
     }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
     100% {
         transform: scale(2);
         opacity: 0;
     }
 }
+
