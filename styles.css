@@ -127,13 +127,16 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     color: rgb(50, 94, 88);
 }
 
-/* Stilar för den pulserande markören */
 .pulsing-circle {
     width: 8px;
     height: 8px;
-    background: blue;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 70%), 
+                radial-gradient(circle at 70% 70%, rgba(255,255,255,0.3) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+    background-color: blue; /* Tydlig blå färg */
     border-radius: 50%;
     position: relative;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Lätt skugga för 3D-effekt */
 }
 
 .pulsing-circle::before {
@@ -158,3 +161,4 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
         opacity: 0;
     }
 }
+
