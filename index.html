@@ -113,14 +113,15 @@
                 popupAnchor: [0, 0],
             });
 
-            function createPulsingCircle(lat, lon) {
-                var divIcon = L.divIcon({
-                    className: 'pulsing-circle',
-                    iconSize: [12, 12],
-                    html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
-                });
-                return L.marker([lat, lon], { icon: divIcon }).addTo(map);
-            }
+         function createPulsingCircle(lat, lon) {
+    var divIcon = L.divIcon({
+        className: 'pulsing-circle',
+        iconSize: [12, 12], // Justera storleken efter dina CSS-stilar
+        html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
+    });
+    return L.marker([lat, lon], { icon: divIcon }).addTo(map);
+}
+
 
             function updateUserPosition(lat, lon, accuracy) {
                 console.log(`Updating user position: ${lat}, ${lon}, accuracy: ${accuracy}`);
