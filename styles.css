@@ -131,12 +131,11 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
 .pulsing-circle {
     width: 8px;
     height: 8px;
-    background: radial-gradient(circle at 4px 4px, #ffffff, #a0b9ff);
+    background: radial-gradient(circle at 4px 4px, #a0b9ff, #3b6cb8); /* Justerad gradient till blå nyanser */
     border-radius: 50%;
     position: relative;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtil skugga för att ge höjd */
 }
-
 
 .pulsing-circle::before {
     content: '';
@@ -145,7 +144,7 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     position: absolute;
     top: -50%;
     left: -50%;
-    background: rgba(0, 0, 255, 0.5);
+    background: rgba(0, 0, 255, 0.5); /* Bakgrundsfärgen för pulserande effekten, justera efter önskad nyans */
     border-radius: 50%;
     animation: pulse 1.5s infinite;
 }
@@ -160,4 +159,3 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
         opacity: 0;
     }
 }
-
