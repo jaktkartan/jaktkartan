@@ -134,6 +134,7 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     background: blue;
     border-radius: 50%;
     position: relative;
+    box-shadow: 0 0 6px rgba(0, 0, 255, 0.5); /* Skugga för att ge djup */
 }
 
 .pulsing-circle::before {
