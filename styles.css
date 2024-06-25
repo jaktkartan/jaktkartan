@@ -127,24 +127,23 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     color: rgb(50, 94, 88);
 }
 
+/* Stilar för den pulserande markören */
 .pulsing-circle {
     width: 8px;
     height: 8px;
-    background: radial-gradient(circle at 4px 4px, #6aa0e5, #3c6aa0); /* Något ljusare blå gradient */
+    background: blue;
     border-radius: 50%;
     position: relative;
-    box-shadow: 3px -3px 6px rgba(0, 0, 0, 0.3); /* Skugga förskjuten i nordöstlig riktning */
-    z-index: 500;
 }
 
 .pulsing-circle::before {
     content: '';
-    width: 50%; /* Mindre glans */
-    height: 50%; /* Mindre glans */
+    width: 200%;
+    height: 200%;
     position: absolute;
-    top: 25%; /* Förskjuten position för glansen */
-    left: 25%; /* Förskjuten position för glansen */
-    background: rgba(255, 255, 255, 0.8); /* Vit färg för en starkare glans */
+    top: -50%;
+    left: -50%;
+    background: rgba(0, 0, 255, 0.5);
     border-radius: 50%;
     animation: pulse 1.5s infinite;
 }
@@ -155,8 +154,7 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
         opacity: 1;
     }
     100% {
-        transform: scale(1.5);
+        transform: scale(2);
         opacity: 0;
     }
 }
-
