@@ -202,7 +202,7 @@ function showCountySelection(savedPosition) {
     optionElement.textContent = ''; // Tomt alternativ
     select.appendChild(optionElement);
     
-    // Alternativ för varje län
+ // Alternativ för varje län
     var options = ['BLEKINGES LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN'];
     options.forEach(option => {
         var optionElement = document.createElement('option');
@@ -279,6 +279,7 @@ function resetTabs() {
         }
     }, 500); // Hide after animation
 }
+
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
     resetTabs();
@@ -354,6 +355,7 @@ function openKaliberkravTab(url) {
             console.error('Error fetching Kaliberkrav content:', error);
         });
 }
+
 // Funktion för att stänga flikinnehåll
 function closeTabContent() {
     var tabContent = document.getElementById('tab-content');
