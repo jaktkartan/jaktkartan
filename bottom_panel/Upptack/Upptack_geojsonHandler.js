@@ -82,15 +82,9 @@ var Upptack_geojsonHandler = (function() {
             }
         });
 
-        // Aktivera eller inaktivera det valda lagret
+        // Aktivera det valda lagret om det inte redan är aktivt
         if (!layerIsActive[layerName]) {
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-        } else {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
-            });
-            geojsonLayers[layerName] = [];
-            layerIsActive[layerName] = false;
         }
     }
 
