@@ -119,7 +119,30 @@ setTimeout(function() {
             return filename;
         }
 
-        // Funktion för att hämta stil baserat på zoomnivå och filnamn
+        // Funktion för att generera popup-innehåll
+        function generatePopupContent(feature) {
+            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+            var hideProperties = ['id', 'Aktualitet'];
+            var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
+            for (var prop in feature.properties) {
+                if (hideProperties.includes(prop)) continue;
+                if (prop === 'BILD') {
+                    popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+                } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                    popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+                } else if (hideNameOnlyProperties.includes(prop)) {
+                    popupContent += '<p>' + feature.properties[prop] + '</p>';
+                } else {
+                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+                }
+            }
+
+            popupContent += '</div>';
+            return popupContent;
+        }
+
+        // Funktion för att hämta stil baserat på zoomnivå
         function getMarkerStyle(layerName, filename) {
             var zoomLevel = map.getZoom();
             var style;
@@ -142,10 +165,14 @@ setTimeout(function() {
             }
 
             console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
-            console.log("Style:", style);
 
             return style;
         }
+
+        // Initialisera alla lager vid start
+        fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
+        fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
+        fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
         // Lyssna på zoomändringar på kartan
         map.on('zoomend', function() {
@@ -154,18 +181,20 @@ setTimeout(function() {
                     var zoomLevel = map.getZoom();
                     console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
-                    layer.eachLayer(function(marker) {
-                        var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
-                        var style = getMarkerStyle(layerName, filename);
-                        console.log("Style:", style);
-
-                        // Kontrollera vilken typ av markör det är och applicera stil eller ikon
-                        if (style.icon && marker.setIcon) {
-                            marker.setIcon(style.icon); // Använd setIcon för ikonbaserade markörer
-                        } else if (marker.setStyle) {
-                            marker.setStyle(style); // Använd setStyle för cirkelmarkörer
-                        }
-                    });
+                    var layers = map.hasLayer(layer);
+                    if (layers) {
+                        layer.eachLayer(function(marker) {
+                            if (marker.feature.properties && marker.feature.properties.geojsonURL) {
+                                var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
+                                var style = getMarkerStyle(layerName, filename);
+                                if (style.icon && marker.setIcon) {
+                                    marker.setIcon(style.icon);
+                                } else if (marker.setStyle) {
+                                    marker.setStyle(style);
+                                }
+                            }
+                        });
+                    }
                 });
             });
         });
