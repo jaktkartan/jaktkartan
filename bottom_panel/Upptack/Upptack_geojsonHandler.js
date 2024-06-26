@@ -196,7 +196,7 @@ setTimeout(function() {
                             if (marker.feature.properties && marker.feature.properties.geojsonURL) {
                                 var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
                                 var style = getMarkerStyle(layerName, filename);
-                                
+
                                 // Använd setIcon för ikonbaserade markörer
                                 if (style.icon && marker.setIcon) {
                                     marker.setIcon(style.icon);
