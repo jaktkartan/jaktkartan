@@ -8,8 +8,8 @@ var Upptack_geojsonHandler = (function() {
     };
 
     var geojsonLayers = {
-        'mässor': null,
-        'jaktmark': null,
+        'Mässor': null,
+        'Jaktkort': null,
         'jaktskyttebanor': null
     };
 
@@ -17,10 +17,10 @@ var Upptack_geojsonHandler = (function() {
     function fetchGeoJSONDataAndCreateLayer(layerName) {
         var geojsonURL;
         // Bestäm vilken geojson-fil som ska hämtas baserat på layerName
-        if (layerName === 'mässor') {
+        if (layerName === 'Mässor') {
             geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson';
-        } else if (layerName === 'jaktmark') {
-            geojsonURL = 'URL till jaktmark.geojson'; // Uppdatera URL för jaktmark
+        } else if (layerName === 'Jaktkort') {
+            geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson';
         } else if (layerName === 'jaktskyttebanor') {
             geojsonURL = 'URL till jaktskyttebanor.geojson'; // Uppdatera URL för jaktskyttebanor
         }
