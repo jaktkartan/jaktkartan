@@ -175,31 +175,28 @@ setTimeout(function() {
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
-// Lyssna på zoomändringar på kartan
-map.on('zoomend', function() {
-    Object.keys(geojsonLayers).forEach(function(layerName) {
-        geojsonLayers[layerName].forEach(function(layer) {
-            var zoomLevel = map.getZoom();
-            console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
+        // Lyssna på zoomändringar på kartan
+        map.on('zoomend', function() {
+            Object.keys(geojsonLayers).forEach(function(layerName) {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    var zoomLevel = map.getZoom();
+                    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
-            layer.eachLayer(function(marker) {
-                var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
-                var style = getMarkerStyle(layerName, filename);
-                console.log("Style:", style);
+                    layer.eachLayer(function(marker) {
+                        var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
+                        var style = getMarkerStyle(layerName, filename);
+                        console.log("Style:", style);
 
-                // Kontrollera vilken typ av markör det är och applicera stil eller ikon
-                if (style.icon && marker.setIcon) {
-                    marker.setIcon(style.icon); // Använd setIcon för ikonbaserade markörer
-                } else if (marker.setStyle) {
-                    marker.setStyle(style); // Använd setStyle för cirkelmarkörer
-                }
+                        // Kontrollera vilken typ av markör det är och applicera stil eller ikon
+                        if (style.icon && marker.setIcon) {
+                            marker.setIcon(style.icon); // Använd setIcon för ikonbaserade markörer
+                        } else if (marker.setStyle) {
+                            marker.setStyle(style); // Använd setStyle för cirkelmarkörer
+                        }
+                    });
+                });
             });
         });
-    });
-});
-
-
-
 
         return {
             toggleLayer: toggleLayer
