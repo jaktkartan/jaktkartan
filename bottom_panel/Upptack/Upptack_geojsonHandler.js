@@ -38,27 +38,11 @@ var Upptack_geojsonHandler = (function() {
                     var layer = L.geoJSON(geojson, {
                         pointToLayer: function(feature, latlng) {
                             var filename = getFilenameFromURL(geojsonURL);
-                            var style = layerStyles[layerName][filename];
+                            var style = getMarkerStyle(layerName, filename); // Anropa funktion för att hämta stil baserat på zoomnivå
                             return L.circleMarker(latlng, style);
                         },
                         onEachFeature: function(feature, layer) {
-                            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-                            var hideProperties = ['id', 'Aktualitet'];
-                            var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
-
-                            for (var prop in feature.properties) {
-                                if (hideProperties.includes(prop)) continue;
-                                if (prop === 'BILD') {
-                                    popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
-                                } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
-                                    popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
-                                } else if (hideNameOnlyProperties.includes(prop)) {
-                                    popupContent += '<p>' + feature.properties[prop] + '</p>';
-                                } else {
-                                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
-                                }
-                            }
-                            popupContent += '</div>';
+                            var popupContent = generatePopupContent(feature); // Anropa funktion för att generera popup-innehåll
                             layer.bindPopup(popupContent);
                         }
                     });
@@ -120,6 +104,49 @@ var Upptack_geojsonHandler = (function() {
         return filename;
     }
 
+    // Funktion för att generera popup-innehåll
+    function generatePopupContent(feature) {
+        var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+        var hideProperties = ['id', 'Aktualitet'];
+        var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
+        for (var prop in feature.properties) {
+            if (hideProperties.includes(prop)) continue;
+            if (prop === 'BILD') {
+                popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+            } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+            } else if (hideNameOnlyProperties.includes(prop)) {
+                popupContent += '<p>' + feature.properties[prop] + '</p>';
+            } else {
+                popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+            }
+        }
+
+        popupContent += '</div>';
+        return popupContent;
+    }
+
+    // Funktion för att hämta stil baserat på zoomnivå
+    function getMarkerStyle(layerName, filename) {
+        var zoomLevel = map.getZoom();
+        var baseRadius = 7;
+        var scaleFactor = 1.5; // Justera faktorn baserat på hur stor du vill att förändringen av storlek ska vara
+
+        // Justera radien baserat på zoomnivå
+        var radius = baseRadius * Math.pow(scaleFactor, zoomLevel - 13); // Justera 13 beroende på vilken nivå du vill att storleken ska anpassas till.
+
+        // Anpassa andra stilar här om det behövs
+        var style = {
+            color: layerStyles[layerName][filename].color,
+            radius: radius,
+            fillColor: layerStyles[layerName][filename].fillColor,
+            fillOpacity: layerStyles[layerName][filename].fillOpacity
+        };
+
+        return style;
+    }
+
     // Initialisera alla lager vid start
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
     fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
@@ -129,6 +156,7 @@ var Upptack_geojsonHandler = (function() {
         toggleLayer: toggleLayer
     };
 })();
+
 
 // Exempel på knappklick-hantering
 document.getElementById('massorButton').addEventListener('click', function() {
