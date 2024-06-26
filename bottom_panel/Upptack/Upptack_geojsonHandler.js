@@ -185,12 +185,19 @@ map.on('zoomend', function() {
             layer.eachLayer(function(marker) {
                 var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
                 var style = getMarkerStyle(layerName, filename);
-                console.log("Style:", style); // Lägg till loggning här för att felsöka stilarna
-                marker.setStyle(style);
+                console.log("Style:", style);
+
+                // Applicera stil baserat på zoomnivå och objekttyp
+                if (style.icon) {
+                    marker.setIcon(style.icon); // Använd setIcon för ikonobjekt
+                } else {
+                    marker.setStyle(style); // Använd setStyle för cirkelmarkörer, om det används
+                }
             });
         });
     });
 });
+
 
 
         return {
