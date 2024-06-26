@@ -97,10 +97,10 @@ var Upptack_geojsonHandler = (function() {
         return filename;
     }
 
-    // Aktivera alla lager från början
-    Object.keys(layerIsActive).forEach(function(layerName) {
-        fetchGeoJSONDataAndCreateLayer(layerName, ['URL_TO_DEFAULT_GEOJSON']); // Ersätt 'URL_TO_DEFAULT_GEOJSON' med den faktiska URL:en för varje lager
-    });
+    // Initialisera alla lager vid start
+    fetchGeoJSONDataAndCreateLayer('Mässor', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/Massor.geojson']);
+    fetchGeoJSONDataAndCreateLayer('Jaktkort', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson']);
+    fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']);
 
     return {
         toggleLayer: toggleLayer,
