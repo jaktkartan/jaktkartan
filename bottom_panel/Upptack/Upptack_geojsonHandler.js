@@ -78,32 +78,30 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att tända och släcka lagret
     function toggleLayer(layerName, geojsonURLs) {
-        // Om lagret redan är aktivt och inga andra lager är aktiva
-        if (layerIsActive[layerName] && !Object.values(layerIsActive).some(active => active)) {
-            return; // Do nothing, keep the layer active
+        // Om lagret är aktivt, släck alla andra lager förutom det som ska tändas
+        if (layerIsActive[layerName]) {
+            Object.keys(layerIsActive).forEach(function(name) {
+                if (name !== layerName && layerIsActive[name]) {
+                    geojsonLayers[name].forEach(function(layer) {
+                        map.removeLayer(layer);
+                    });
+                    geojsonLayers[name] = [];
+                    layerIsActive[name] = false;
+                }
+            });
+            return;
         }
 
-        // Släck alla andra lager förutom det som ska aktiveras
+        // Om lagret inte är aktivt, släck alla lager och tänd det specifika lagret
         Object.keys(layerIsActive).forEach(function(name) {
-            if (name !== layerName && layerIsActive[name]) {
-                geojsonLayers[name].forEach(function(layer) {
-                    map.removeLayer(layer);
-                });
-                geojsonLayers[name] = [];
-                layerIsActive[name] = false;
-            }
-        });
-
-        // Toggla det specifika lagret
-        if (layerIsActive[layerName]) {
-            geojsonLayers[layerName].forEach(function(layer) {
+            geojsonLayers[name].forEach(function(layer) {
                 map.removeLayer(layer);
             });
-            geojsonLayers[layerName] = [];
-            layerIsActive[layerName] = false;
-        } else {
-            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-        }
+            geojsonLayers[name] = [];
+            layerIsActive[name] = false;
+        });
+
+        fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
     }
 
     function getFilenameFromURL(url) {
