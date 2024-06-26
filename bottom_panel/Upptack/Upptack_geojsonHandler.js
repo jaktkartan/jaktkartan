@@ -131,10 +131,10 @@ var Upptack_geojsonHandler = (function() {
     function getMarkerStyle(layerName, filename) {
         var zoomLevel = map.getZoom();
         var baseRadius = 7;
-        var scaleFactor = 1.5; // Justera faktorn baserat på hur stor du vill att förändringen av storlek ska vara
+        var scaleFactor = 0.5; // Justera faktorn baserat på erfarenhet och experiment
 
         // Justera radien baserat på zoomnivå
-        var radius = baseRadius * Math.pow(scaleFactor, zoomLevel - 13); // Justera 13 beroende på vilken nivå du vill att storleken ska anpassas till.
+        var radius = baseRadius * scaleFactor * (zoomLevel / 10); // Anpassa 10 beroende på önskad justering
 
         // Anpassa andra stilar här om det behövs
         var style = {
@@ -156,26 +156,3 @@ var Upptack_geojsonHandler = (function() {
         toggleLayer: toggleLayer
     };
 })();
-
-
-// Exempel på knappklick-hantering
-document.getElementById('massorButton').addEventListener('click', function() {
-    Upptack_geojsonHandler.toggleLayer('Mässor');
-});
-
-document.getElementById('jaktkortButton').addEventListener('click', function() {
-    Upptack_geojsonHandler.toggleLayer('Jaktkort');
-});
-
-document.getElementById('jaktskyttebanorButton').addEventListener('click', function() {
-    Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
-});
-
-// Hantera "Visa allt" och "Rensa allt" knapparna
-document.getElementById('visaAlltButton').addEventListener('click', function() {
-    Upptack_geojsonHandler.toggleLayer('Visa_allt');
-});
-
-document.getElementById('rensaAlltButton').addEventListener('click', function() {
-    Upptack_geojsonHandler.toggleLayer('Rensa_allt');
-});
