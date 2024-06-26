@@ -4,6 +4,22 @@ var layerURLs = {
     'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
 };
 
+var layerStyles = {
+    'Mässor': {
+        'Massor.geojson': { color: 'orange', baseRadius: 8, fillColor: 'orange', fillOpacity: 0.8 }
+    },
+    'Jaktkort': {
+        'jaktkort.geojson': { color: 'blue', baseRadius: 8, fillColor: 'blue', fillOpacity: 0.8 }
+    },
+    'Jaktskyttebanor': {
+        'jaktskyttebanor.geojson': { color: 'green', baseRadius: 8, fillColor: 'green', fillOpacity: 0.8 }
+    }
+};
+
+var zoomToRadiusFactor = function(zoom) {
+    return Math.pow(2, zoom - 5);
+};
+
 var Upptack_geojsonHandler = (function() {
     var layerIsActive = {
         'Mässor': true,
@@ -17,30 +33,16 @@ var Upptack_geojsonHandler = (function() {
         'Jaktskyttebanor': []
     };
 
-    var layerStyles = {
-        'Mässor': {
-            'Massor.geojson': { color: 'orange', baseRadius: 8, fillColor: 'orange', fillOpacity: 0.8 }
-        },
-        'Jaktkort': {
-            'jaktkort.geojson': { color: 'blue', baseRadius: 8, fillColor: 'blue', fillOpacity: 0.8 }
-        },
-        'Jaktskyttebanor': {
-            'jaktskyttebanor.geojson': { color: 'green', baseRadius: 8, fillColor: 'green', fillOpacity: 0.8 }
-        }
-    };
-
     // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
                     var geojson = response.data;
+                    var style = layerStyles[layerName][getFilenameFromURL(geojsonURL)];
                     var layer = L.geoJSON(geojson, {
                         pointToLayer: function(feature, latlng) {
-                            var filename = getFilenameFromURL(geojsonURL);
-                            var style = layerStyles[layerName][filename];
-                            var zoom = map.getZoom();
-                            var radius = style.baseRadius * Math.pow(2, zoom - 5); // Anpassa denna formel efter behov
+                            var radius = style.baseRadius * zoomToRadiusFactor(map.getZoom());
                             return L.circleMarker(latlng, { ...style, radius: radius });
                         },
                         onEachFeature: function(feature, layer) {
@@ -79,14 +81,8 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att toggla lagret
     function toggleLayer(layerName) {
-        if (layerName === 'Visa_allt') {
-            activateAllLayers();
-        } else if (layerName === 'Rensa_allt') {
-            deactivateAllLayers();
-        } else {
-            deactivateAllLayers();
-            activateLayer(layerName);
-        }
+        deactivateAllLayers();
+        activateLayer(layerName);
     }
 
     // Funktion för att aktivera ett lager
@@ -97,57 +93,42 @@ var Upptack_geojsonHandler = (function() {
         layerIsActive[layerName] = true;
     }
 
-    // Funktion för att aktivera alla lager
-    function activateAllLayers() {
-        Object.keys(layerIsActive).forEach(function(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                layer.addTo(map);
-            });
-            layerIsActive[layerName] = true;
-        });
-    }
-
     // Funktion för att avaktivera alla lager
     function deactivateAllLayers() {
-        Object.keys(layerIsActive).forEach(function(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
-            });
-            layerIsActive[layerName] = false;
-        });
-    }
-
-    function updateMarkerRadius() {
-        var zoom = map.getZoom();
-        Object.keys(geojsonLayers).forEach(function(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                layer.eachLayer(function(marker) {
-                    if (marker instanceof L.CircleMarker) {
-                        var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
-                        var style = layerStyles[layerName][filename];
-                        var radius = style.baseRadius * Math.pow(2, zoom - 5); // Anpassa denna formel efter behov
-                        marker.setRadius(radius);
-                    }
+        Object.keys(layerIsActive).forEach(function(name) {
+            if (layerIsActive[name]) {
+                geojsonLayers[name].forEach(function(layer) {
+                    map.removeLayer(layer);
                 });
-            });
+                layerIsActive[name] = false;
+            }
         });
     }
-
-    map.on('zoomend', updateMarkerRadius);
 
     function getFilenameFromURL(url) {
-        return url.substring(url.lastIndexOf('/') + 1);
+        var pathArray = url.split('/');
+        return pathArray[pathArray.length - 1];
     }
 
-    // Returnerar publik API
+    // Initialisera alla lager vid start
+    fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
+    fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
+    fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+
     return {
-        toggleLayer: toggleLayer,
-        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
+        toggleLayer: toggleLayer
     };
 })();
 
-// Anropa för att hämta GeoJSON-data och skapa lagren vid start
-Object.keys(layerURLs).forEach(function(layerName) {
-    Upptack_geojsonHandler.fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
+// Exempel på knappklick-hantering
+document.getElementById('massorButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Mässor');
 });
 
+document.getElementById('jaktkortButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Jaktkort');
+});
+
+document.getElementById('jaktskyttebanorButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
+});
