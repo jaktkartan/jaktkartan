@@ -127,14 +127,14 @@ var Upptack_geojsonHandler = (function() {
         return popupContent;
     }
 
-  // Funktion för att hämta stil baserat på zoomnivå
+// Funktion för att hämta stil baserat på zoomnivå
 function getMarkerStyle(layerName, filename) {
     var zoomLevel = map.getZoom();
-    var baseRadius = 7;
-    var scaleFactor = 1.5; // Justera faktorn baserat på erfarenhet och experiment
+    var baseRadius = 5; // Grundläggande storlek på markörerna
+    var zoomScale = Math.pow(1.5, zoomLevel - 13); // Zoomskala, justera baserat på behov och testning
 
-    // Beräkna radien baserat på zoomnivån och scaleFactor
-    var radius = baseRadius * Math.pow(scaleFactor, zoomLevel - 13); // Justera 13 beroende på vilken nivå du vill att storleken ska anpassas till.
+    // Beräkna radien baserat på zoomnivå och zoomskala
+    var radius = baseRadius * zoomScale;
 
     // Hämta övriga stilar från layerStyles-objektet
     var style = {
@@ -146,6 +146,7 @@ function getMarkerStyle(layerName, filename) {
 
     return style;
 }
+
 
     // Initialisera alla lager vid start
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
