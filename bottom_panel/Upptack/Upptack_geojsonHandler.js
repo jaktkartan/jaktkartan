@@ -159,6 +159,9 @@ var Upptack_geojsonHandler = (function() {
             };
         }
 
+     // Logga zoomnivån till konsolen
+    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
+
         return style;
     }
 
