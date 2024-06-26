@@ -132,18 +132,32 @@ var Upptack_geojsonHandler = (function() {
    // Funktion för att hämta stil baserat på zoomnivå
 function getMarkerStyle(layerName, filename) {
     var zoomLevel = map.getZoom();
-    var scaleFactor = 4; // Justera faktorn baserat på erfarenhet och experiment
+    var scaleFactor = 0.5; // Justera faktorn baserat på erfarenhet och experiment
 
     // Justera radien baserat på zoomnivå och scaleFactor
-    var radius = defaultMarkerSize * Math.pow(scaleFactor, zoomLevel - 3);
+    var radius = defaultMarkerSize * Math.pow(scaleFactor, zoomLevel - 13);
 
     // Anpassa andra stilar här om det behövs
-    var style = {
-        color: layerStyles[layerName][filename].color,
-        radius: radius,
-        fillColor: layerStyles[layerName][filename].fillColor,
-        fillOpacity: layerStyles[layerName][filename].fillOpacity
-    };
+    var style;
+
+    if (zoomLevel >= 15) {
+        // Använd ikon istället för cirkelmarkör när zoomnivån är 15 eller högre
+        style = {
+            icon: L.icon({
+                iconUrl: '../../bilder/ikon3.png', // Uppdatera sökvägen här beroende på din filstruktur
+                iconSize: [40, 40], // Justera storleken på ikonen efter behov
+                iconAnchor: [20, 20] // Justera ikonankaret om det behövs
+            })
+        };
+    } else {
+        // Använd cirkelmarkör för lägre zoomnivåer
+        style = {
+            radius: radius,
+            fillColor: layerStyles[layerName][filename].fillColor,
+            color: layerStyles[layerName][filename].color,
+            fillOpacity: layerStyles[layerName][filename].fillOpacity
+        };
+    }
 
     return style;
 }
