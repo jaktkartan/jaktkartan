@@ -56,14 +56,11 @@ var Upptack_geojsonHandler = (function() {
 
                     geojsonLayers[layerName].push(layer);
 
-                    // Om det är första knapptrycket, aktivera alla lager för det valda lagret
-                    if (firstButtonClick) {
-                        geojsonLayers[layerName].forEach(function(layer) {
-                            layer.addTo(map);
-                        });
-                        layerIsActive[layerName] = true;
-                        firstButtonClick = false; // Sätt första knapptrycket till false efter första trycket
-                    }
+                    // Lägg till lagret till kartan direkt vid start
+                    geojsonLayers[layerName].forEach(function(layer) {
+                        layer.addTo(map);
+                    });
+                    layerIsActive[layerName] = true;
                 })
                 .catch(function(error) {
                     console.log("Error fetching GeoJSON data:", error.message);
