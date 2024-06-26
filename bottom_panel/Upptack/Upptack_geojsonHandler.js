@@ -6,9 +6,9 @@ var layerURLs = {
 
         var Upptack_geojsonHandler = (function() {
             var layerIsActive = {
-                'Mässor': false,
-                'Jaktkort': false,
-                'Jaktskyttebanor': false
+                'Mässor': true,
+                'Jaktkort': true,
+                'Jaktskyttebanor': true
             };
 
             var geojsonLayers = {
