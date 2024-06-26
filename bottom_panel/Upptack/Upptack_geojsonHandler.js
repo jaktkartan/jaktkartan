@@ -2,15 +2,15 @@
 var Upptack_geojsonHandler = (function() {
     // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
     var layerIsActive = {
-        'mässor': false,
-        'jaktmark': false,
-        'jaktskyttebanor': false
+        'Mässor': false,
+        'Jaktkort': false,
+        'Jaktskyttebanor': false
     };
 
     var geojsonLayers = {
         'Mässor': null,
         'Jaktkort': null,
-        'jaktskyttebanor': null
+        'Jaktskyttebanor': null
     };
 
     // Funktion för att hämta GeoJSON-data och skapa lagret
@@ -21,7 +21,7 @@ var Upptack_geojsonHandler = (function() {
             geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson';
         } else if (layerName === 'Jaktkort') {
             geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson';
-        } else if (layerName === 'jaktskyttebanor') {
+        } else if (layerName === 'Jaktskyttebanor') {
             geojsonURL = 'URL till jaktskyttebanor.geojson'; // Uppdatera URL för jaktskyttebanor
         }
 
