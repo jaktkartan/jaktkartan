@@ -1,12 +1,3 @@
-// Upptack_geojsonHandler.js
-
-// Ladda in konfigurationsfilen
-var layerURLs = {
-    'Mässor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/Massor.geojson'],
-    'Jaktkort': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson'],
-    'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
-};
-
 var Upptack_geojsonHandler = (function() {
     var layerIsActive = {
         'Mässor': false,
@@ -32,14 +23,19 @@ var Upptack_geojsonHandler = (function() {
         }
     };
 
+    // GeoJSON URL:er för varje lager
+    var layerURLs = {
+        'Mässor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/Massor.geojson'],
+        'Jaktkort': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson'],
+        'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
+    };
+
     // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
-                    console.log("Successfully fetched GeoJSON data:", response.data);
                     var geojson = response.data;
-
                     var layer = L.geoJSON(geojson, {
                         pointToLayer: function(feature, latlng) {
                             var filename = getFilenameFromURL(geojsonURL);
@@ -47,101 +43,27 @@ var Upptack_geojsonHandler = (function() {
                             return L.circleMarker(latlng, style);
                         },
                         onEachFeature: function(feature, layer) {
-                            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-
-                            var hideProperties = ['id', 'Aktualitet'];
-                            var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
-
-                            for (var prop in feature.properties) {
-                                if (hideProperties.includes(prop)) {
-                                    continue;
-                                }
-                                if (prop === 'BILD') {
-                                    popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
-                                } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
-                                    popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
-                                } else if (hideNameOnlyProperties.includes(prop)) {
-                                    popupContent += '<p>' + feature.properties[prop] + '</p>';
-                                } else {
-                                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
-                                }
-                            }
-                            popupContent += '</div>';
+                            var popupContent = buildPopupContent(feature.properties);
                             layer.bindPopup(popupContent);
                         }
                     });
 
                     geojsonLayers[layerName].push(layer);
 
-                    if (layerIsActive[layerName]) {
+                    if (!layerIsActive[layerName]) {
+                        // Om lagret inte är aktivt (första klicket), aktivera det och lägg till det på kartan
                         layer.addTo(map);
+                        layerIsActive[layerName] = true;
+                    } else {
+                        // Om lagret redan är aktivt (andra klicket och framåt), ta bort det från kartan
+                        map.removeLayer(layer);
+                        layerIsActive[layerName] = false;
                     }
                 })
                 .catch(function(error) {
                     console.log("Error fetching GeoJSON data:", error.message);
                 });
         });
-
-        layerIsActive[layerName] = true;
-    }
-
-    // Funktion för att tända och släcka lagret
-    function toggleLayer(layerName) {
-        if (!layerIsActive[layerName]) {
-            deactivateAllLayersExcept(layerName);
-
-            layerURLs[layerName].forEach(function(geojsonURL) {
-                axios.get(geojsonURL)
-                    .then(function(response) {
-                        console.log("Successfully fetched GeoJSON data:", response.data);
-                        var geojson = response.data;
-
-                        var layer = L.geoJSON(geojson, {
-                            pointToLayer: function(feature, latlng) {
-                                var filename = getFilenameFromURL(geojsonURL);
-                                var style = layerStyles[layerName][filename];
-                                return L.circleMarker(latlng, style);
-                            },
-                            onEachFeature: function(feature, layer) {
-                                var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-
-                                var hideProperties = ['id', 'Aktualitet'];
-                                var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
-
-                                for (var prop in feature.properties) {
-                                    if (hideProperties.includes(prop)) {
-                                        continue;
-                                    }
-                                    if (prop === 'BILD') {
-                                        popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
-                                    } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
-                                        popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
-                                    } else if (hideNameOnlyProperties.includes(prop)) {
-                                        popupContent += '<p>' + feature.properties[prop] + '</p>';
-                                    } else {
-                                        popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
-                                    }
-                                }
-                                popupContent += '</div>';
-                                layer.bindPopup(popupContent);
-                            }
-                        });
-
-                        geojsonLayers[layerName].push(layer);
-                        layer.addTo(map);
-                        layerIsActive[layerName] = true;
-                    })
-                    .catch(function(error) {
-                        console.log("Error fetching GeoJSON data:", error.message);
-                    });
-            });
-        } else {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
-            });
-            geojsonLayers[layerName] = [];
-            layerIsActive[layerName] = false;
-        }
     }
 
     // Funktion för att släcka alla lager utom det angivna lagret
@@ -149,9 +71,8 @@ var Upptack_geojsonHandler = (function() {
         Object.keys(layerIsActive).forEach(function(name) {
             if (name !== layerName && layerIsActive[name]) {
                 geojsonLayers[name].forEach(function(layer) {
-                    map.removeLayer(layer);
+                    map.removeLayer(layer); // Tar bort andra aktiva lager från kartan
                 });
-                geojsonLayers[name] = [];
                 layerIsActive[name] = false;
             }
         });
@@ -163,14 +84,56 @@ var Upptack_geojsonHandler = (function() {
         return filename;
     }
 
-    // Initialisera alla lager vid start
+    function buildPopupContent(properties) {
+        var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+
+        var hideProperties = ['id', 'Aktualitet'];
+        var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
+        for (var prop in properties) {
+            if (hideProperties.includes(prop)) {
+                continue;
+            }
+            if (prop === 'BILD') {
+                popupContent += '<p><img src="' + properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+            } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                popupContent += '<p><a href="' + properties[prop] + '" target="_blank">Länk</a></p>';
+            } else if (hideNameOnlyProperties.includes(prop)) {
+                popupContent += '<p>' + properties[prop] + '</p>';
+            } else {
+                popupContent += '<p><strong>' + prop + ':</strong> ' + properties[prop] + '</p>';
+            }
+        }
+        popupContent += '</div>';
+
+        return popupContent;
+    }
+
+    // Funktion som anropas när en knapp klickas på i HTML
+    function handleButtonClick(layerName) {
+        if (!layerIsActive[layerName]) {
+            // Om lagret inte är aktivt, släck alla andra lager och aktivera det valda lagret
+            deactivateAllLayersExcept(layerName);
+            fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
+        } else {
+            // Om lagret redan är aktivt, togglar det mellan synligt och osynligt
+            geojsonLayers[layerName].forEach(function(layer) {
+                if (map.hasLayer(layer)) {
+                    map.removeLayer(layer);
+                } else {
+                    layer.addTo(map);
+                }
+            });
+            layerIsActive[layerName] = !layerIsActive[layerName]; // Togglar layerIsActive för det specifika lagret
+        }
+    }
+
+    // Initierar alla lager vid start
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
     fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
     fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
     return {
-        toggleLayer: toggleLayer,
-        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
-        deactivateAllLayersExcept: deactivateAllLayersExcept
+        handleButtonClick: handleButtonClick
     };
 })();
