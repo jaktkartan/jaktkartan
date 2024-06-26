@@ -127,22 +127,23 @@ var Upptack_geojsonHandler = (function() {
         return popupContent;
     }
 
-    // Funktion för att hämta stil baserat på zoomnivå
-    function getMarkerStyle(layerName, filename) {
-        var zoomLevel = map.getZoom();
-        var baseRadius = 7;
-        var scaleFactor = 1.5; // Justera faktorn baserat på hur stor du vill att förändringen av storlek ska vara
+// Funktion för att hämta stil baserat på zoomnivå
+function getMarkerStyle(layerName, filename) {
+    var zoomLevel = map.getZoom();
+    var baseRadius = 7;
+    var scaleFactor = 1.5; // Justera faktorn baserat på hur stor du vill att förändringen av storlek ska vara
 
-        // Justera radien baserat på zoomnivå
-        var radius = baseRadius * Math.pow(scaleFactor, zoomLevel - 13); // Justera 13 beroende på vilken nivå du vill att storleken ska anpassas till.
+    // Beräkna radien baserat på zoomnivån, med negativ exponent för att minska storleken vid inzoomning
+    var radius = baseRadius * Math.pow(scaleFactor, 13 - zoomLevel);
 
-        // Anpassa andra stilar här om det behövs
-        var style = {
-            color: layerStyles[layerName][filename].color,
-            radius: radius,
-            fillColor: layerStyles[layerName][filename].fillColor,
-            fillOpacity: layerStyles[layerName][filename].fillOpacity
-        };
+    // Returnera stilobjektet med den dynamiska radien
+    return {
+        color: layerStyles[layerName][filename].color,
+        radius: radius,
+        fillColor: layerStyles[layerName][filename].fillColor,
+        fillOpacity: layerStyles[layerName][filename].fillOpacity
+    };
+}
 
         return style;
     }
