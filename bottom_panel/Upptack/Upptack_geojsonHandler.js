@@ -77,8 +77,14 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att toggla lagret
     function toggleLayer(layerName) {
-        deactivateAllLayers();
-        activateLayer(layerName);
+        if (layerName === 'Visa_allt') {
+            activateAllLayers();
+        } else if (layerName === 'Rensa_allt') {
+            deactivateAllLayers();
+        } else {
+            deactivateAllLayers();
+            activateLayer(layerName);
+        }
     }
 
     // Funktion för att aktivera ett lager
@@ -87,6 +93,13 @@ var Upptack_geojsonHandler = (function() {
             layer.addTo(map);
         });
         layerIsActive[layerName] = true;
+    }
+
+    // Funktion för att aktivera alla lager
+    function activateAllLayers() {
+        Object.keys(geojsonLayers).forEach(function(layerName) {
+            activateLayer(layerName);
+        });
     }
 
     // Funktion för att avaktivera alla lager
@@ -128,4 +141,13 @@ document.getElementById('jaktkortButton').addEventListener('click', function() {
 
 document.getElementById('jaktskyttebanorButton').addEventListener('click', function() {
     Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
+});
+
+// Hantera "Visa allt" och "Rensa allt" knapparna
+document.getElementById('visaAlltButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Visa_allt');
+});
+
+document.getElementById('rensaAlltButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Rensa_allt');
 });
