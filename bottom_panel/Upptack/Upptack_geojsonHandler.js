@@ -1,8 +1,8 @@
 var Upptack_geojsonHandler = (function() {
     var layerIsActive = {
-        'Mässor': false,
-        'Jaktkort': false,
-        'Jaktskyttebanor': false
+        'Mässor': true,
+        'Jaktkort': true,
+        'Jaktskyttebanor': true
     };
 
     var geojsonLayers = {
@@ -50,14 +50,12 @@ var Upptack_geojsonHandler = (function() {
 
                     geojsonLayers[layerName].push(layer);
 
-                    if (!layerIsActive[layerName]) {
-                        // Om lagret inte är aktivt (första klicket), aktivera det och lägg till det på kartan
+                    if (layerIsActive[layerName]) {
+                        // Om lagret är aktivt (första klicket), lägg till det på kartan
                         layer.addTo(map);
-                        layerIsActive[layerName] = true;
                     } else {
-                        // Om lagret redan är aktivt (andra klicket och framåt), ta bort det från kartan
+                        // Om lagret inte är aktivt (andra klicket och framåt), ta bort det från kartan
                         map.removeLayer(layer);
-                        layerIsActive[layerName] = false;
                     }
                 })
                 .catch(function(error) {
@@ -111,20 +109,17 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion som anropas när en knapp klickas på i HTML
     function handleButtonClick(layerName) {
-        if (!layerIsActive[layerName]) {
+        if (layerIsActive[layerName]) {
+            // Om lagret är aktivt, togglar det mellan synligt och osynligt
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer);
+            });
+            layerIsActive[layerName] = false;
+        } else {
             // Om lagret inte är aktivt, släck alla andra lager och aktivera det valda lagret
             deactivateAllLayersExcept(layerName);
             fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
-        } else {
-            // Om lagret redan är aktivt, togglar det mellan synligt och osynligt
-            geojsonLayers[layerName].forEach(function(layer) {
-                if (map.hasLayer(layer)) {
-                    map.removeLayer(layer);
-                } else {
-                    layer.addTo(map);
-                }
-            });
-            layerIsActive[layerName] = !layerIsActive[layerName]; // Togglar layerIsActive för det specifika lagret
+            layerIsActive[layerName] = true;
         }
     }
 
