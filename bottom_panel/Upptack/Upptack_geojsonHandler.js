@@ -1,9 +1,9 @@
 var Upptack_geojsonHandler = (function() {
     // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
     var layerIsActive = {
-        'Mässor': true,
-        'Jaktkort': true,
-        'Jaktskyttebanor': true
+        'Mässor': true,  // Gör Mässor-lagret aktivt från start
+        'Jaktkort': true,  // Gör Jaktkort-lagret aktivt från start
+        'Jaktskyttebanor': true  // Gör Jaktskyttebanor-lagret aktivt från start
     };
 
     var geojsonLayers = {
@@ -26,15 +26,6 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        // Inaktivera alla andra lager förutom det aktuella lagret
-        Object.keys(layerIsActive).forEach(function(name) {
-            if (name !== layerName && layerIsActive[name]) {
-                toggleLayer(name, geojsonLayers[name].map(function(layer) {
-                    return layer.options.url;
-                }));
-            }
-        });
-
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
@@ -120,6 +111,11 @@ var Upptack_geojsonHandler = (function() {
         var filename = pathArray[pathArray.length - 1];
         return filename;
     }
+
+    // Aktivera alla lager vid initialisering
+    fetchGeoJSONDataAndCreateLayer('Mässor', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/Massor.geojson']);
+    fetchGeoJSONDataAndCreateLayer('Jaktkort', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson']);
+    fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']);
 
     // Returnera offentliga metoder och variabler
     return {
