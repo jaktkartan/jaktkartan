@@ -44,12 +44,7 @@ setTimeout(function() {
                                 if (style.icon) {
                                     return L.marker(latlng, { icon: style.icon });
                                 } else {
-                                    return L.circleMarker(latlng, {
-                                        radius: style.radius,
-                                        color: style.color,
-                                        fillColor: style.fillColor,
-                                        fillOpacity: style.fillOpacity
-                                    });
+                                    return L.marker(latlng, { icon: L.icon({ iconUrl: 'default.png' }) }); // Fallback to default marker if no icon
                                 }
                             },
                             onEachFeature: function(feature, layer) {
@@ -147,7 +142,7 @@ setTimeout(function() {
             var zoomLevel = map.getZoom();
             var style;
 
-            if (zoomLevel >= 7) {
+            if (zoomLevel >= 1 && zoomLevel <= 18) {
                 style = {
                     icon: L.icon({
                         iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
@@ -157,10 +152,14 @@ setTimeout(function() {
                 };
             } else {
                 style = {
-                    radius: 5,
-                    color: layerStyles[layerName][filename].color,
-                    fillColor: layerStyles[layerName][filename].fillColor,
-                    fillOpacity: layerStyles[layerName][filename].fillOpacity
+                    // Använd en standard cirkelmarkör om ingen ikon krävs
+                    // Det här kan anpassas beroende på dina behov
+                    icon: L.icon({
+                        iconUrl: 'default.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                    })
                 };
             }
 
@@ -181,16 +180,10 @@ setTimeout(function() {
                     var zoomLevel = map.getZoom();
                     console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
-                    var layers = map.hasLayer(layer);
-                    if (layers) {
-                        layer.eachLayer(function(marker) {
-                            if (marker.feature.properties && marker.feature.properties.geojsonURL) {
-                                var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
-                                var style = getMarkerStyle(layerName, filename);
-                                marker.setStyle(style);
-                            }
-                        });
-                    }
+                    layer.eachLayer(function(marker) {
+                        var style = getMarkerStyle(layerName);
+                        marker.setIcon(style.icon); // Sätt ikon för varje markör
+                    });
                 });
             });
         });
