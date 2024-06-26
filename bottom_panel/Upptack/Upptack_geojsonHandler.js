@@ -32,8 +32,6 @@ var Upptack_geojsonHandler = (function() {
         }
     };
 
-    var firstButtonClick = true; // Variabel för att hålla koll på första knapptrycket
-
     // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         geojsonURLs.forEach(function(geojsonURL) {
@@ -131,27 +129,16 @@ var Upptack_geojsonHandler = (function() {
     fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
     fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
-    // Lyssna på klick på knappar med klassen 'first-click'
+    // Lyssna på klick på knappar med klassen 'styled-button'
     document.addEventListener('DOMContentLoaded', function() {
-        var buttons = document.querySelectorAll('.first-click');
+        var buttons = document.querySelectorAll('.styled-button');
         buttons.forEach(function(button) {
             button.addEventListener('click', function() {
                 var layerName = this.getAttribute('data-layer');
-                handleFirstClick(layerName);
+                toggleLayer(layerName);
             });
         });
     });
-
-    // Funktion för att hantera första knapptrycket
-    function handleFirstClick(layerName) {
-        if (firstButtonClick) {
-            firstButtonClick = false;
-            deactivateAllLayersExcept(layerName);
-            toggleLayer(layerName);
-        } else {
-            toggleLayer(layerName);
-        }
-    }
 
     return {
         toggleLayer: toggleLayer,
