@@ -1,3 +1,12 @@
+// Upptack_geojsonHandler.js
+
+// Ladda in konfigurationsfilen
+var layerURLs = {
+    'Mässor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/Massor.geojson'],
+    'Jaktkort': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson'],
+    'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
+};
+
 var Upptack_geojsonHandler = (function() {
     var layerIsActive = {
         'Mässor': false,
@@ -77,11 +86,11 @@ var Upptack_geojsonHandler = (function() {
     }
 
     // Funktion för att tända och släcka lagret
-    function toggleLayer(layerName, geojsonURLs) {
+    function toggleLayer(layerName) {
         if (!layerIsActive[layerName]) {
             deactivateAllLayersExcept(layerName);
 
-            geojsonURLs.forEach(function(geojsonURL) {
+            layerURLs[layerName].forEach(function(geojsonURL) {
                 axios.get(geojsonURL)
                     .then(function(response) {
                         console.log("Successfully fetched GeoJSON data:", response.data);
@@ -155,9 +164,9 @@ var Upptack_geojsonHandler = (function() {
     }
 
     // Initialisera alla lager vid start
-    fetchGeoJSONDataAndCreateLayer('Mässor', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/Massor.geojson']);
-    fetchGeoJSONDataAndCreateLayer('Jaktkort', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson']);
-    fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']);
+    fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
+    fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
+    fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
     return {
         toggleLayer: toggleLayer,
