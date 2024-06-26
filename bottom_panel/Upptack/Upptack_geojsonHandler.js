@@ -160,7 +160,7 @@ var Upptack_geojsonHandler = (function() {
         }
 
      // Logga zoomnivån till konsolen
-    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
+    console.log("Zoom level for layer from Upptack_geojsonHandler.js " + layerName + " is: " + zoomLevel);
 
         return style;
     }
