@@ -1,9 +1,9 @@
 var Upptack_geojsonHandler = (function() {
     // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
     var layerIsActive = {
-        'Mässor': false,
-        'Jaktkort': false,
-        'Jaktskyttebanor': false
+        'Mässor': true,
+        'Jaktkort': true,
+        'Jaktskyttebanor': true
     };
 
     var geojsonLayers = {
