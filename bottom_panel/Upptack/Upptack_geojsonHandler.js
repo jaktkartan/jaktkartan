@@ -77,12 +77,8 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att toggla lagret
     function toggleLayer(layerName) {
-        if (layerIsActive[layerName]) {
-            deactivateLayer(layerName);
-        } else {
-            deactivateAllLayers();
-            activateLayer(layerName);
-        }
+        deactivateAllLayers();
+        activateLayer(layerName);
     }
 
     // Funktion för att aktivera ett lager
@@ -91,15 +87,6 @@ var Upptack_geojsonHandler = (function() {
             layer.addTo(map);
         });
         layerIsActive[layerName] = true;
-    }
-
-    // Funktion för att avaktivera ett lager
-    function deactivateLayer(layerName) {
-        geojsonLayers[layerName].forEach(function(layer) {
-            map.removeLayer(layer);
-        });
-        geojsonLayers[layerName] = [];
-        layerIsActive[layerName] = false;
     }
 
     // Funktion för att avaktivera alla lager
@@ -129,3 +116,16 @@ var Upptack_geojsonHandler = (function() {
         toggleLayer: toggleLayer
     };
 })();
+
+// Exempel på knappklick-hantering
+document.getElementById('massorButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Mässor');
+});
+
+document.getElementById('jaktkortButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Jaktkort');
+});
+
+document.getElementById('jaktskyttebanorButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
+});
