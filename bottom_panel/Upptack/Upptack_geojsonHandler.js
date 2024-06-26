@@ -11,7 +11,7 @@ var layerStyles = {
                 color: 'orange',
                 fillColor: 'orange',
                 fillOpacity: 0.8,
-                radius: 8 * Math.pow(2, zoom - 5) // Anpassa storleken här baserat på zoomnivån
+                radius: 3 * Math.pow(2, zoom - 5) // Anpassa storleken här baserat på zoomnivån
             };
         }
     },
@@ -21,7 +21,7 @@ var layerStyles = {
                 color: 'blue',
                 fillColor: 'blue',
                 fillOpacity: 0.8,
-                radius: 8 * Math.pow(2, zoom - 5) // Anpassa storleken här baserat på zoomnivån
+                radius: 3 * Math.pow(2, zoom - 5) // Anpassa storleken här baserat på zoomnivån
             };
         }
     },
@@ -31,7 +31,7 @@ var layerStyles = {
                 color: 'green',
                 fillColor: 'green',
                 fillOpacity: 0.8,
-                radius: 8 * Math.pow(2, zoom - 5) // Anpassa storleken här baserat på zoomnivån
+                radius: 3 * Math.pow(2, zoom - 5) // Anpassa storleken här baserat på zoomnivån
             };
         }
     }
