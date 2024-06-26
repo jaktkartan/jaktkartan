@@ -1,4 +1,3 @@
-// Skapa ett eget namnområde för Upptack_geojsonHandler
 var Upptack_geojsonHandler = (function() {
     // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
     var layerIsActive = {
@@ -8,85 +7,123 @@ var Upptack_geojsonHandler = (function() {
     };
 
     var geojsonLayers = {
-        'Mässor': null,
-        'Jaktkort': null,
-        'Jaktskyttebanor': null
+        'Mässor': [],
+        'Jaktkort': [],
+        'Jaktskyttebanor': []
     };
 
-    // Funktion för att hämta GeoJSON-data och skapa lagret
-    function fetchGeoJSONDataAndCreateLayer(layerName) {
-        var geojsonURL;
-        // Bestäm vilken geojson-fil som ska hämtas baserat på layerName
-        if (layerName === 'Mässor') {
-            geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/upptack.geojson';
-        } else if (layerName === 'Jaktkort') {
-            geojsonURL = 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson';
-        } else if (layerName === 'Jaktskyttebanor') {
-            geojsonURL = 'URL till jaktskyttebanor.geojson'; // Uppdatera URL för jaktskyttebanor
+    var layerStyles = {
+        'Mässor': {
+            'Massor.geojson': { color: 'orange', radius: 8, fillColor: 'orange', fillOpacity: 0.8 }
+        },
+        'Jaktkort': {
+            'jaktkort.geojson': { color: 'blue', radius: 8, fillColor: 'blue', fillOpacity: 0.8 }
+        },
+        'Jaktskyttebanor': {
+            'jaktskyttebanor.geojson': { color: 'green', radius: 8, fillColor: 'green', fillOpacity: 0.8 }
         }
+    };
 
-        axios.get(geojsonURL)
-            .then(function (response) {
-                console.log("Successfully fetched GeoJSON data:", response.data);
-                geojsonLayers[layerName] = L.geoJSON(response.data, {
-                    onEachFeature: function (feature, layer) {
-                        if (feature.geometry.crs && feature.geometry.crs.type && feature.geometry.crs.type.toUpperCase() !== 'NAME') {
-                            console.error("Invalid CRS type:", feature.geometry.crs.type);
-                            alert("Invalid CRS type detected. Skipping this feature.");
-                            return;
-                        }
-                        // Skapa popup-innehållet dynamiskt baserat på alla attribut i geojson-egenskaperna
-                        var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+    // Funktion för att hämta GeoJSON-data och skapa lagret med stil
+    function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+        // Inaktivera alla andra lager förutom det aktuella lagret
+        Object.keys(layerIsActive).forEach(function(name) {
+            if (name !== layerName && layerIsActive[name]) {
+                toggleLayer(name, geojsonLayers[name].map(function(layer) {
+                    return layer.options.url;
+                }));
+            }
+        });
 
-                        // Lista över egenskaper som ska döljas helt
-                        var hideProperties = ['id', 'Aktualitet'];
+        geojsonURLs.forEach(function(geojsonURL) {
+            axios.get(geojsonURL)
+                .then(function(response) {
+                    console.log("Successfully fetched GeoJSON data:", response.data);
+                    var geojson = response.data;
 
-                        // Lista över egenskaper där namnet ska döljas men data visas
-                        var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+                    var layer = L.geoJSON(geojson, {
+                        pointToLayer: function(feature, latlng) {
+                            var filename = getFilenameFromURL(geojsonURL);
+                            var style = layerStyles[layerName][filename];
+                            return L.circleMarker(latlng, style);
+                        },
+                        onEachFeature: function(feature, layer) {
+                            // Lägg till popup-innehållet dynamiskt baserat på alla attribut i geojson-egenskaperna
+                            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
 
-                        for (var prop in feature.properties) {
-                            if (hideProperties.includes(prop)) {
-                                continue; // Hoppa över dessa egenskaper helt
+                            // Lista över egenskaper som ska döljas helt
+                            var hideProperties = ['id', 'Aktualitet'];
+
+                            // Lista över egenskaper där namnet ska döljas men data visas
+                            var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
+                            for (var prop in feature.properties) {
+                                if (hideProperties.includes(prop)) {
+                                    continue; // Hoppa över dessa egenskaper helt
+                                }
+                                if (prop === 'BILD') {
+                                    // Lägg till en stil för att begränsa bildstorleken
+                                    popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+                                } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                                    // Visa hyperlänken som "Länk"
+                                    popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+                                } else if (hideNameOnlyProperties.includes(prop)) {
+                                    popupContent += '<p>' + feature.properties[prop] + '</p>';
+                                } else {
+                                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+                                }
                             }
-                            if (prop === 'BILD') {
-                                // Lägg till en stil för att begränsa bildstorleken
-                                popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
-                            } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
-                                // Visa hyperlänken som "Länk"
-                                popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
-                            } else if (hideNameOnlyProperties.includes(prop)) {
-                                popupContent += '<p>' + feature.properties[prop] + '</p>';
-                            } else {
-                                popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
-                            }
+                            popupContent += '</div>';
+                            layer.bindPopup(popupContent);
                         }
-                        popupContent += '</div>';
-                        layer.bindPopup(popupContent);
+                    });
+
+                    // Lägg till lagret i geojsonLayers arrayen
+                    geojsonLayers[layerName].push(layer);
+                    
+                    // Om lagret är aktivt, lägg till det på kartan
+                    if (layerIsActive[layerName]) {
+                        layer.addTo(map);
                     }
-                }).addTo(map);
-                // Uppdatera layerIsActive för det aktuella lagret
-                layerIsActive[layerName] = true;
-            })
-            .catch(function (error) {
-                console.log("Error fetching GeoJSON data:", error.message);
-            });
+                })
+                .catch(function(error) {
+                    console.log("Error fetching GeoJSON data:", error.message);
+                });
+        });
+
+        // Uppdatera layerIsActive för det aktuella lagret
+        layerIsActive[layerName] = true;
     }
 
     // Funktion för att tända och släcka lagret
-    function toggleLayer(layerName) {
+    function toggleLayer(layerName, geojsonURLs) {
         if (!layerIsActive[layerName]) {
             // Om lagret inte är aktivt, lägg till lagret på kartan
-            fetchGeoJSONDataAndCreateLayer(layerName);
+            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         } else {
             // Om lagret är aktivt, ta bort lagret från kartan
-            map.removeLayer(geojsonLayers[layerName]);
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer);
+            });
+
+            // Töm geojsonLayers arrayen för det aktuella lagret
+            geojsonLayers[layerName] = [];
+
             // Uppdatera layerIsActive för det aktuella lagret
             layerIsActive[layerName] = false;
         }
     }
 
-    // Exponera de relevanta funktionerna och variablerna offentligt
+    // Funktion för att extrahera filnamnet från URL:en
+    function getFilenameFromURL(url) {
+        var pathArray = url.split('/');
+        var filename = pathArray[pathArray.length - 1];
+        return filename;
+    }
+
+    // Returnera offentliga metoder och variabler
     return {
-        toggleLayer: toggleLayer
+        toggleLayer: toggleLayer,
+        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
     };
 })();
