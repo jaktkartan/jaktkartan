@@ -29,6 +29,7 @@ var Upptack_geojsonHandler = (function() {
         }
     };
 
+    // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
@@ -38,10 +39,6 @@ var Upptack_geojsonHandler = (function() {
                         pointToLayer: function(feature, latlng) {
                             var filename = getFilenameFromURL(geojsonURL);
                             var style = getMarkerStyle(layerName, filename);
-
-                            if (!feature.properties.url) {
-                                feature.properties.url = geojsonURL;
-                            }
 
                             if (style.icon) {
                                 return L.marker(latlng, { icon: style.icon });
@@ -72,6 +69,7 @@ var Upptack_geojsonHandler = (function() {
         });
     }
 
+    // Funktion för att toggla lagret
     function toggleLayer(layerName) {
         if (layerName === 'Visa_allt') {
             activateAllLayers();
@@ -83,6 +81,7 @@ var Upptack_geojsonHandler = (function() {
         }
     }
 
+    // Funktion för att aktivera ett lager
     function activateLayer(layerName) {
         geojsonLayers[layerName].forEach(function(layer) {
             layer.addTo(map);
@@ -90,12 +89,14 @@ var Upptack_geojsonHandler = (function() {
         layerIsActive[layerName] = true;
     }
 
+    // Funktion för att aktivera alla lager
     function activateAllLayers() {
         Object.keys(geojsonLayers).forEach(function(layerName) {
             activateLayer(layerName);
         });
     }
 
+    // Funktion för att avaktivera alla lager
     function deactivateAllLayers() {
         Object.keys(layerIsActive).forEach(function(name) {
             if (layerIsActive[name]) {
@@ -109,9 +110,11 @@ var Upptack_geojsonHandler = (function() {
 
     function getFilenameFromURL(url) {
         var pathArray = url.split('/');
-        return pathArray[pathArray.length - 1];
+        var filename = pathArray[pathArray.length - 1];
+        return filename;
     }
 
+    // Funktion för att generera popup-innehåll
     function generatePopupContent(feature) {
         var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
         var hideProperties = ['id', 'Aktualitet'];
@@ -134,6 +137,7 @@ var Upptack_geojsonHandler = (function() {
         return popupContent;
     }
 
+    // Funktion för att hämta stil baserat på zoomnivå
     function getMarkerStyle(layerName, filename) {
         var zoomLevel = map.getZoom();
         var style;
@@ -141,9 +145,9 @@ var Upptack_geojsonHandler = (function() {
         if (zoomLevel >= 15) {
             style = {
                 icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
-                    iconSize: [40, 40],
-                    iconAnchor: [20, 20]
+                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true', // Uppdatera sökvägen här beroende på din filstruktur
+                    iconSize: [40, 40], // Justera storleken på ikonen efter behov
+                    iconAnchor: [20, 20] // Justera ikonankaret om det behövs
                 })
             };
         } else {
@@ -158,40 +162,10 @@ var Upptack_geojsonHandler = (function() {
         return style;
     }
 
-    function updateMarkersOnZoom() {
-        Object.keys(geojsonLayers).forEach(function(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                layer.eachLayer(function(marker) {
-                    if (marker.feature) {
-                        var filename = getFilenameFromURL(marker.feature.properties.url);
-                        var style = getMarkerStyle(layerName, filename);
-                        var zoomLevel = map.getZoom();
-
-                        if (zoomLevel >= 15 && marker.setIcon && style.icon) {
-                            marker.setIcon(style.icon);
-                        } else if (zoomLevel < 15 && marker.setStyle && !style.icon) {
-                            marker.setStyle({
-                                radius: style.radius,
-                                color: style.color,
-                                fillColor: style.fillColor,
-                                fillOpacity: style.fillOpacity
-                            });
-                        }
-                    }
-                });
-            });
-        });
-    }
-
-    // Fetch and create layers on initialization
+    // Initialisera alla lager vid start
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
     fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
     fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
-
-    // Update markers on zoom change
-    map.on('zoomend', function() {
-        updateMarkersOnZoom();
-    });
 
     return {
         toggleLayer: toggleLayer
