@@ -164,6 +164,9 @@ setTimeout(function() {
                 };
             }
 
+            console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
+            console.log("Style:", style);
+
             return style;
         }
 
@@ -195,4 +198,3 @@ setTimeout(function() {
         };
     })(map); // Skicka map som parameter till självinkapslad funktion
 }, 1000); // Fördröj initialiseringen av Upptack_geojsonHandler.js med 1000 ms (1 sekund)
-
