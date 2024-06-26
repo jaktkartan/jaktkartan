@@ -175,23 +175,23 @@ setTimeout(function() {
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
-        // Lyssna på zoomändringar på kartan
-        map.on('zoomend', function() {
-            Object.keys(geojsonLayers).forEach(function(layerName) {
-                geojsonLayers[layerName].forEach(function(layer) {
-                    var zoomLevel = map.getZoom();
-                    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
+// Lyssna på zoomändringar på kartan
+map.on('zoomend', function() {
+    Object.keys(geojsonLayers).forEach(function(layerName) {
+        geojsonLayers[layerName].forEach(function(layer) {
+            var zoomLevel = map.getZoom();
+            console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
-                    layer.eachLayer(function(marker) {
-                        if (marker.feature && marker.feature.properties && marker.feature.properties.geojsonURL) {
-                            var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
-                            var style = getMarkerStyle(layerName, filename);
-                            marker.setStyle(style);
-                        }
-                    });
-                });
+            layer.eachLayer(function(marker) {
+                var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
+                var style = getMarkerStyle(layerName, filename);
+                console.log("Style:", style); // Lägg till loggning här för att felsöka stilarna
+                marker.setStyle(style);
             });
         });
+    });
+});
+
 
         return {
             toggleLayer: toggleLayer
