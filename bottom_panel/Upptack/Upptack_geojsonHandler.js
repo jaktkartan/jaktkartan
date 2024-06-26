@@ -167,6 +167,18 @@ setTimeout(function() {
             return style;
         }
 
+        // Lyssna på kartans zoomhändelser
+        map.on('zoomend', function() {
+            Object.keys(geojsonLayers).forEach(function(layerName) {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    var filename = getFilenameFromURL(layer._url);
+                    var style = getMarkerStyle(layerName, filename);
+                    // Uppdatera stilen för lagret när zoomnivån ändras
+                    layer.setStyle(style);
+                });
+            });
+        });
+
         // Initialisera alla lager vid start
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
