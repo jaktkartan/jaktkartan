@@ -62,6 +62,11 @@ var Upptack_geojsonHandler = (function() {
                     if (layerIsActive[layerName]) {
                         layer.addTo(map);
                     }
+
+                    // Lägg till en händelse för att uppdatera markörstilen vid zoom
+                    map.on('zoomend', function() {
+                        updateMarkerStyles(layerName, geojsonURL);
+                    });
                 })
                 .catch(function(error) {
                     console.log("Error fetching GeoJSON data:", error.message);
@@ -145,7 +150,7 @@ var Upptack_geojsonHandler = (function() {
         if (zoomLevel >= 15) {
             style = {
                 icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true', // Uppdatera sökvägen här beroende på din filstruktur
+                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
                     iconSize: [40, 40], // Justera storleken på ikonen efter behov
                     iconAnchor: [20, 20] // Justera ikonankaret om det behövs
                 })
@@ -160,6 +165,29 @@ var Upptack_geojsonHandler = (function() {
         }
 
         return style;
+    }
+
+    // Funktion för att uppdatera markörstilar
+    function updateMarkerStyles(layerName, geojsonURL) {
+        geojsonLayers[layerName].forEach(function(layer) {
+            layer.eachLayer(function(marker) {
+                if (marker.feature) {
+                    var filename = getFilenameFromURL(geojsonURL);
+                    var style = getMarkerStyle(layerName, filename);
+
+                    if (style.icon) {
+                        marker.setIcon(style.icon);
+                    } else {
+                        marker.setStyle({
+                            radius: style.radius,
+                            color: style.color,
+                            fillColor: style.fillColor,
+                            fillOpacity: style.fillOpacity
+                        });
+                    }
+                }
+            });
+        });
     }
 
     // Initialisera alla lager vid start
