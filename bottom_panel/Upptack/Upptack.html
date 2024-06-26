@@ -12,10 +12,10 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: hidden; /* Förhindrar skrollning */
+            overflow: hidden;
             display: flex;
-            justify-content: center; /* Centrera innehållet horisontellt */
-            align-items: center; /* Centrera innehållet vertikalt */
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -24,11 +24,9 @@
         <div class="button-container">
             <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Mässor', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/Massor.geojson'])">Mässor</button>
             <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson'])">Jaktkort</button>
-            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('jaktskyttebanor', [''])">Jaktskyttebanor</button>
+            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', [''])">Jaktskyttebanor</button>
         </div>
     </div>
-
-    <!-- Lägg till JavaScript-filen för hantering av kartlager -->
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </body>
 </html>
