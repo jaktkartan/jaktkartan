@@ -44,7 +44,12 @@ setTimeout(function() {
                                 if (style.icon) {
                                     return L.marker(latlng, { icon: style.icon });
                                 } else {
-                                    return L.marker(latlng, { icon: L.icon({ iconUrl: 'default.png' }) }); // Fallback to default marker if no icon
+                                    return L.circleMarker(latlng, {
+                                        radius: style.radius,
+                                        color: style.color,
+                                        fillColor: style.fillColor,
+                                        fillOpacity: style.fillOpacity
+                                    });
                                 }
                             },
                             onEachFeature: function(feature, layer) {
@@ -152,14 +157,10 @@ setTimeout(function() {
                 };
             } else {
                 style = {
-                    // Använd en standard cirkelmarkör om ingen ikon krävs
-                    // Det här kan anpassas beroende på dina behov
-                    icon: L.icon({
-                        iconUrl: 'default.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                    })
+                    radius: 5,
+                    color: layerStyles[layerName][filename].color,
+                    fillColor: layerStyles[layerName][filename].fillColor,
+                    fillOpacity: layerStyles[layerName][filename].fillOpacity
                 };
             }
 
@@ -181,8 +182,19 @@ setTimeout(function() {
                     console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
                     layer.eachLayer(function(marker) {
-                        var style = getMarkerStyle(layerName);
-                        marker.setIcon(style.icon); // Sätt ikon för varje markör
+                        var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
+                        var style = getMarkerStyle(layerName, filename);
+
+                        if (style.icon) {
+                            marker.setIcon(style.icon);
+                        } else {
+                            marker.setStyle({
+                                radius: style.radius,
+                                color: style.color,
+                                fillColor: style.fillColor,
+                                fillOpacity: style.fillOpacity
+                            });
+                        }
                     });
                 });
             });
