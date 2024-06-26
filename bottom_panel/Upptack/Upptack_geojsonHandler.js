@@ -24,10 +24,20 @@ var Upptack_geojsonHandler = (function() {
     };
 
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+        Object.keys(layerIsActive).forEach(function(name) {
+            if (name !== layerName && layerIsActive[name]) {
+                toggleLayer(name, geojsonLayers[name].map(function(layer) {
+                    return layer.options.url;
+                }));
+            }
+        });
+
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
+                    console.log("Successfully fetched GeoJSON data:", response.data);
                     var geojson = response.data;
+
                     var layer = L.geoJSON(geojson, {
                         pointToLayer: function(feature, latlng) {
                             var filename = getFilenameFromURL(geojsonURL);
@@ -36,8 +46,10 @@ var Upptack_geojsonHandler = (function() {
                         },
                         onEachFeature: function(feature, layer) {
                             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+
                             var hideProperties = ['id', 'Aktualitet'];
                             var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
                             for (var prop in feature.properties) {
                                 if (hideProperties.includes(prop)) {
                                     continue;
@@ -58,6 +70,7 @@ var Upptack_geojsonHandler = (function() {
                     });
 
                     geojsonLayers[layerName].push(layer);
+                    
                     if (layerIsActive[layerName]) {
                         layer.addTo(map);
                     }
@@ -71,26 +84,16 @@ var Upptack_geojsonHandler = (function() {
     }
 
     function toggleLayer(layerName, geojsonURLs) {
-        // Om lagret är aktivt, stäng av det
-        if (layerIsActive[layerName]) {
+        if (!layerIsActive[layerName]) {
+            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+        } else {
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
+
             geojsonLayers[layerName] = [];
+
             layerIsActive[layerName] = false;
-        } else {
-            // Inaktivera alla andra lager
-            Object.keys(layerIsActive).forEach(function(name) {
-                if (name !== layerName && layerIsActive[name]) {
-                    geojsonLayers[name].forEach(function(layer) {
-                        map.removeLayer(layer);
-                    });
-                    geojsonLayers[name] = [];
-                    layerIsActive[name] = false;
-                }
-            });
-            // Aktivera det valda lagret
-            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         }
     }
 
@@ -99,11 +102,6 @@ var Upptack_geojsonHandler = (function() {
         var filename = pathArray[pathArray.length - 1];
         return filename;
     }
-
-    // Initialisera alla lager vid start
-    fetchGeoJSONDataAndCreateLayer('Mässor', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/Massor.geojson']);
-    fetchGeoJSONDataAndCreateLayer('Jaktkort', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson']);
-    fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']);
 
     return {
         toggleLayer: toggleLayer,
