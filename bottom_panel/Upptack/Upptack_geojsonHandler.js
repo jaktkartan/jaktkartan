@@ -79,6 +79,7 @@ var Upptack_geojsonHandler = (function() {
     // Funktion för att tända och släcka lagret
     function toggleLayer(layerName, geojsonURLs) {
         if (!layerIsActive[layerName]) {
+            // Släck alla lager förutom det valda
             deactivateAllLayersExcept(layerName);
 
             geojsonURLs.forEach(function(geojsonURL) {
@@ -127,11 +128,15 @@ var Upptack_geojsonHandler = (function() {
                     });
             });
         } else {
+            // Om lagret redan är aktivt, "toggla" lagret (tänd och släck)
             geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
+                if (map.hasLayer(layer)) {
+                    map.removeLayer(layer);
+                } else {
+                    map.addLayer(layer);
+                }
             });
-            geojsonLayers[layerName] = [];
-            layerIsActive[layerName] = false;
+            layerIsActive[layerName] = !layerIsActive[layerName];
         }
     }
 
@@ -142,7 +147,6 @@ var Upptack_geojsonHandler = (function() {
                 geojsonLayers[name].forEach(function(layer) {
                     map.removeLayer(layer);
                 });
-                geojsonLayers[name] = [];
                 layerIsActive[name] = false;
             }
         });
@@ -161,7 +165,6 @@ var Upptack_geojsonHandler = (function() {
 
     return {
         toggleLayer: toggleLayer,
-        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
-        deactivateAllLayersExcept: deactivateAllLayersExcept
+        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
     };
 })();
