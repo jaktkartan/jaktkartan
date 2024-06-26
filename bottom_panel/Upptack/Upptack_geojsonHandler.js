@@ -119,78 +119,56 @@ setTimeout(function() {
             return filename;
         }
 
-        // Funktion för att generera popup-innehåll
-        function generatePopupContent(feature) {
-            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-            var hideProperties = ['id', 'Aktualitet'];
-            var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+        // Funktion för att hämta stil baserat på zoomnivå och filnamn
+        function getMarkerStyle(layerName, filename) {
+            var zoomLevel = map.getZoom();
+            var style;
 
-            for (var prop in feature.properties) {
-                if (hideProperties.includes(prop)) continue;
-                if (prop === 'BILD') {
-                    popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
-                } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
-                    popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
-                } else if (hideNameOnlyProperties.includes(prop)) {
-                    popupContent += '<p>' + feature.properties[prop] + '</p>';
-                } else {
-                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
-                }
+            if (zoomLevel >= 7 && zoomLevel <= 18) {
+                style = {
+                    icon: L.icon({
+                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                        iconSize: [40, 40],
+                        iconAnchor: [20, 20]
+                    })
+                };
+            } else {
+                style = {
+                    radius: 5,
+                    color: layerStyles[layerName][filename].color,
+                    fillColor: layerStyles[layerName][filename].fillColor,
+                    fillOpacity: layerStyles[layerName][filename].fillOpacity
+                };
             }
 
-            popupContent += '</div>';
-            return popupContent;
+            console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
+            console.log("Style:", style);
+
+            return style;
         }
 
-// Funktion för att hämta stil baserat på zoomnivå
-function getMarkerStyle(layerName) {
-    var zoomLevel = map.getZoom();
-    var style;
+        // Lyssna på zoomändringar på kartan
+        map.on('zoomend', function() {
+            Object.keys(geojsonLayers).forEach(function(layerName) {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    var zoomLevel = map.getZoom();
+                    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
-    if (zoomLevel >= 7 && zoomLevel <= 18) {
-        style = {
-            icon: L.icon({
-                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
-                iconSize: [40, 40],
-                iconAnchor: [20, 20]
-            })
-        };
-    } else {
-        style = {
-            radius: 5,
-            color: layerStyles[layerName].color,
-            fillColor: layerStyles[layerName].fillColor,
-            fillOpacity: layerStyles[layerName].fillOpacity
-        };
-    }
+                    layer.eachLayer(function(marker) {
+                        var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
+                        var style = getMarkerStyle(layerName, filename);
+                        console.log("Style:", style);
 
-    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
-    console.log("Style:", style);
-
-    return style;
-}
-
-// Lyssna på zoomändringar på kartan
-map.on('zoomend', function() {
-    Object.keys(geojsonLayers).forEach(function(layerName) {
-        geojsonLayers[layerName].forEach(function(layer) {
-            var zoomLevel = map.getZoom();
-            console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
-
-            layer.eachLayer(function(marker) {
-                var style = getMarkerStyle(layerName);
-                console.log("Style:", style);
-
-                // Kontrollera vilken typ av markör det är och applicera stil eller ikon
-                if (style.icon && marker.setIcon) {
-                    marker.setIcon(style.icon); // Använd setIcon för ikonbaserade markörer
-                } else if (marker.setStyle) {
-                    marker.setStyle(style); // Använd setStyle för cirkelmarkörer
-                }
+                        // Kontrollera vilken typ av markör det är och applicera stil eller ikon
+                        if (style.icon && marker.setIcon) {
+                            marker.setIcon(style.icon); // Använd setIcon för ikonbaserade markörer
+                        } else if (marker.setStyle) {
+                            marker.setStyle(style); // Använd setStyle för cirkelmarkörer
+                        }
+                    });
+                });
             });
         });
-    });
-});
 
         return {
             toggleLayer: toggleLayer
