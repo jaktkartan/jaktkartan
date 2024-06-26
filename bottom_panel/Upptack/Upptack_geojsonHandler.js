@@ -1,3 +1,9 @@
+var layerURLs = {
+    'Mässor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/Massor.geojson'],
+    'Jaktkort': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktkort.geojson'],
+    'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
+};
+
 var Upptack_geojsonHandler = (function() {
     var layerIsActive = {
         'Mässor': true,
@@ -150,3 +156,26 @@ var Upptack_geojsonHandler = (function() {
         toggleLayer: toggleLayer
     };
 })();
+
+
+// Exempel på knappklick-hantering
+document.getElementById('massorButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Mässor');
+});
+
+document.getElementById('jaktkortButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Jaktkort');
+});
+
+document.getElementById('jaktskyttebanorButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
+});
+
+// Hantera "Visa allt" och "Rensa allt" knapparna
+document.getElementById('visaAlltButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Visa_allt');
+});
+
+document.getElementById('rensaAlltButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Rensa_allt');
+});
