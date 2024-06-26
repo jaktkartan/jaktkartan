@@ -142,7 +142,7 @@ var Upptack_geojsonHandler = (function() {
         var zoomLevel = map.getZoom();
         var style;
 
-        if (zoomLevel >= 15) {
+        if (zoomLevel >= 7) {
             style = {
                 icon: L.icon({
                     iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true', // Uppdatera sökvägen här beroende på din filstruktur
