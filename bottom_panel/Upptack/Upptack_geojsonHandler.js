@@ -147,10 +147,6 @@ function getMarkerStyle(layerName, filename) {
     return style;
 }
 
-
-        return style;
-    }
-
     // Initialisera alla lager vid start
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
     fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
