@@ -178,6 +178,9 @@ setTimeout(function() {
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 geojsonLayers[layerName].forEach(function(layer) {
+                    var zoomLevel = map.getZoom();
+                    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
+
                     var layers = map.hasLayer(layer);
                     if (layers) {
                         layer.eachLayer(function(marker) {
