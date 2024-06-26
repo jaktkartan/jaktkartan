@@ -1,8 +1,8 @@
 var Upptack_geojsonHandler = (function() {
     var layerIsActive = {
-        'Mässor': true,
-        'Jaktkort': true,
-        'Jaktskyttebanor': true
+        'Mässor': false,
+        'Jaktkort': false,
+        'Jaktskyttebanor': false
     };
 
     var geojsonLayers = {
@@ -78,13 +78,9 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att tända och släcka lagret
     function toggleLayer(layerName, geojsonURLs) {
-        if (layerIsActive[layerName]) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
-            });
-            geojsonLayers[layerName] = [];
-            layerIsActive[layerName] = false;
-        } else {
+        if (!layerIsActive[layerName]) {
+            deactivateAllLayersExcept(layerName);
+
             geojsonURLs.forEach(function(geojsonURL) {
                 axios.get(geojsonURL)
                     .then(function(response) {
@@ -130,6 +126,12 @@ var Upptack_geojsonHandler = (function() {
                         console.log("Error fetching GeoJSON data:", error.message);
                     });
             });
+        } else {
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer);
+            });
+            geojsonLayers[layerName] = [];
+            layerIsActive[layerName] = false;
         }
     }
 
