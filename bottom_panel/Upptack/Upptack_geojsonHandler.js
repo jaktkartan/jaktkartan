@@ -131,7 +131,7 @@ var Upptack_geojsonHandler = (function() {
     function getMarkerStyle(layerName, filename) {
         var zoomLevel = map.getZoom();
         var baseRadius = 7;
-        var scaleFactor = 5.5; // Justera faktorn baserat på erfarenhet och experiment
+        var scaleFactor = -5.5; // Justera faktorn baserat på erfarenhet och experiment
 
         // Justera radien baserat på zoomnivå
         var radius = baseRadius * scaleFactor * (zoomLevel / 10); // Anpassa 10 beroende på önskad justering
