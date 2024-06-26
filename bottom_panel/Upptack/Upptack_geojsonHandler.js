@@ -4,7 +4,7 @@ var layerURLs = {
     'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
 };
 
-var Upptack_geojsonHandler = (function() {
+var Upptack_geojsonHandler = (function(map) {
     var layerIsActive = {
         'Mässor': true,
         'Jaktkort': true,
@@ -159,8 +159,8 @@ var Upptack_geojsonHandler = (function() {
             };
         }
 
-     // Logga zoomnivån till konsolen
-    console.log("Zoom level for layer from Upptack_geojsonHandler.js " + layerName + " is: " + zoomLevel);
+        // Logga zoomnivån till konsolen
+        console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
         return style;
     }
@@ -173,4 +173,4 @@ var Upptack_geojsonHandler = (function() {
     return {
         toggleLayer: toggleLayer
     };
-})();
+})(map); // Skicka map som parameter till självinkapslad funktion
