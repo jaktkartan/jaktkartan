@@ -91,16 +91,19 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att tända och släcka lagret
     function toggleLayer(layerName) {
-        // Om lagret inte är aktivt, släck alla andra lager och aktivera det valda lagret
+        // Kontrollera om lagret inte är aktivt
         if (!layerIsActive[layerName]) {
+            // Släck alla andra lager och aktivera det valda lagret
             deactivateAllLayersExcept(layerName);
-            fetchGeoJSONDataAndCreateLayer(layerName);
+            geojsonLayers[layerName].forEach(function(layer) {
+                layer.addTo(map);
+            });
+            layerIsActive[layerName] = true;
         } else {
-            // Om lagret är aktivt, ta bort lagren från kartan och markera som inaktiva
+            // Om lagret redan är aktivt, släck det
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
-            geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
         }
     }
@@ -112,7 +115,6 @@ var Upptack_geojsonHandler = (function() {
                 geojsonLayers[name].forEach(function(layer) {
                     map.removeLayer(layer);
                 });
-                geojsonLayers[name] = [];
                 layerIsActive[name] = false;
             }
         });
