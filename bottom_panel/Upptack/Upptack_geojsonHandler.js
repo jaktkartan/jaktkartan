@@ -190,21 +190,22 @@ setTimeout(function() {
                     var zoomLevel = map.getZoom();
                     console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
-                    layer.eachLayer(function(marker) {
-                        var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
-                        var style = getMarkerStyle(layerName, filename);
-
-                        if (style.icon) {
-                            marker.setIcon(style.icon);
-                        } else {
-                            marker.setStyle({
-                                radius: style.radius,
-                                color: style.color,
-                                fillColor: style.fillColor,
-                                fillOpacity: style.fillOpacity
-                            });
-                        }
-                    });
+                    var layers = map.hasLayer(layer);
+                    if (layers) {
+                        layer.eachLayer(function(marker) {
+                            if (marker.feature.properties && marker.feature.properties.geojsonURL) {
+                                var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
+                                var style = getMarkerStyle(layerName, filename);
+                                
+                                // Använd setIcon för ikonbaserade markörer
+                                if (style.icon && marker.setIcon) {
+                                    marker.setIcon(style.icon);
+                                } else if (marker.setStyle) {
+                                    marker.setStyle(style); // Använd setStyle för cirkelmarkörer
+                                }
+                            }
+                        });
+                    }
                 });
             });
         });
