@@ -175,10 +175,45 @@ var Upptack_geojsonHandler = (function() {
         return style;
     }
 
+    // Funktion för att uppdatera markörer vid zoom
+    function updateMarkersOnZoom() {
+        console.log("Updating markers on zoom");
+        Object.keys(geojsonLayers).forEach(function(layerName) {
+            geojsonLayers[layerName].forEach(function(layer) {
+                layer.eachLayer(function(marker) {
+                    if (marker.setIcon) {
+                        var zoomLevel = map.getZoom();
+                        var filename = getFilenameFromURL(marker.feature.properties.url);
+                        var style = getMarkerStyle(layerName, filename);
+                        
+                        if (style.icon && zoomLevel >= 15) {
+                            console.log("Setting icon for marker at:", marker.getLatLng());
+                            marker.setIcon(style.icon);
+                        } else if (!style.icon && zoomLevel < 15) {
+                            console.log("Setting circle marker for marker at:", marker.getLatLng());
+                            marker.setStyle({
+                                radius: style.radius,
+                                color: style.color,
+                                fillColor: style.fillColor,
+                                fillOpacity: style.fillOpacity
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    }
+
     // Initialisera alla lager vid start
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
     fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
     fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+
+    // Lägg till en lyssnare för zoomhändelser
+    map.on('zoomend', function() {
+        console.log("Zoom event detected");
+        updateMarkersOnZoom();
+    });
 
     return {
         toggleLayer: toggleLayer
