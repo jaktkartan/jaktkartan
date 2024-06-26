@@ -147,20 +147,29 @@ setTimeout(function() {
             var zoomLevel = map.getZoom();
             var style;
 
-            if (zoomLevel >= 7 && zoomLevel <= 18) {
-                style = {
-                    icon: L.icon({
-                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
-                        iconSize: [40, 40],
-                        iconAnchor: [20, 20]
-                    })
-                };
+            if (filename && layerStyles[layerName] && layerStyles[layerName][filename]) {
+                if (zoomLevel >= 7 && zoomLevel <= 18) {
+                    style = {
+                        icon: L.icon({
+                            iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                            iconSize: [40, 40],
+                            iconAnchor: [20, 20]
+                        })
+                    };
+                } else {
+                    style = {
+                        radius: 5,
+                        color: layerStyles[layerName][filename].color,
+                        fillColor: layerStyles[layerName][filename].fillColor,
+                        fillOpacity: layerStyles[layerName][filename].fillOpacity
+                    };
+                }
             } else {
                 style = {
                     radius: 5,
-                    color: layerStyles[layerName][filename].color,
-                    fillColor: layerStyles[layerName][filename].fillColor,
-                    fillOpacity: layerStyles[layerName][filename].fillOpacity
+                    color: 'black', // Fallback färg
+                    fillColor: 'black', // Fallback färg
+                    fillOpacity: 0.6 // Fallback opacitet
                 };
             }
 
