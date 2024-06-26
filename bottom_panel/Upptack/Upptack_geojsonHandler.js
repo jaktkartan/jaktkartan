@@ -142,61 +142,55 @@ setTimeout(function() {
             return popupContent;
         }
 
-        // Funktion för att hämta stil baserat på zoomnivå
-        function getMarkerStyle(layerName, filename) {
+// Funktion för att hämta stil baserat på zoomnivå
+function getMarkerStyle(layerName) {
+    var zoomLevel = map.getZoom();
+    var style;
+
+    if (zoomLevel >= 7 && zoomLevel <= 18) {
+        style = {
+            icon: L.icon({
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                iconSize: [40, 40],
+                iconAnchor: [20, 20]
+            })
+        };
+    } else {
+        style = {
+            radius: 5,
+            color: layerStyles[layerName].color,
+            fillColor: layerStyles[layerName].fillColor,
+            fillOpacity: layerStyles[layerName].fillOpacity
+        };
+    }
+
+    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
+    console.log("Style:", style);
+
+    return style;
+}
+
+// Lyssna på zoomändringar på kartan
+map.on('zoomend', function() {
+    Object.keys(geojsonLayers).forEach(function(layerName) {
+        geojsonLayers[layerName].forEach(function(layer) {
             var zoomLevel = map.getZoom();
-            var style;
-
-            if (zoomLevel >= 7 && zoomLevel <= 18) {
-                style = {
-                    icon: L.icon({
-                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
-                        iconSize: [40, 40],
-                        iconAnchor: [20, 20]
-                    })
-                };
-            } else {
-                style = {
-                    radius: 5,
-                    color: layerStyles[layerName][filename].color,
-                    fillColor: layerStyles[layerName][filename].fillColor,
-                    fillOpacity: layerStyles[layerName][filename].fillOpacity
-                };
-            }
-
             console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
-            console.log("Style:", style);
 
-            return style;
-        }
+            layer.eachLayer(function(marker) {
+                var style = getMarkerStyle(layerName);
+                console.log("Style:", style);
 
-        // Initialisera alla lager vid start
-        fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
-        fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
-        fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
-
-        // Lyssna på zoomändringar på kartan
-        map.on('zoomend', function() {
-            Object.keys(geojsonLayers).forEach(function(layerName) {
-                geojsonLayers[layerName].forEach(function(layer) {
-                    var zoomLevel = map.getZoom();
-                    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
-
-                    layer.eachLayer(function(marker) {
-                        var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
-                        var style = getMarkerStyle(layerName, filename);
-                        console.log("Style:", style);
-
-                        // Kontrollera vilken typ av markör det är och applicera stil eller ikon
-                        if (style.icon && marker.setIcon) {
-                            marker.setIcon(style.icon); // Använd setIcon för ikonbaserade markörer
-                        } else if (marker.setStyle) {
-                            marker.setStyle(style); // Använd setStyle för cirkelmarkörer
-                        }
-                    });
-                });
+                // Kontrollera vilken typ av markör det är och applicera stil eller ikon
+                if (style.icon && marker.setIcon) {
+                    marker.setIcon(style.icon); // Använd setIcon för ikonbaserade markörer
+                } else if (marker.setStyle) {
+                    marker.setStyle(style); // Använd setStyle för cirkelmarkörer
+                }
             });
         });
+    });
+});
 
         return {
             toggleLayer: toggleLayer
