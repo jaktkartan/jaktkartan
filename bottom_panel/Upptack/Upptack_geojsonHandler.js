@@ -78,30 +78,59 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att tända och släcka lagret
     function toggleLayer(layerName, geojsonURLs) {
-        // Om lagret är aktivt, släck alla andra lager förutom det som ska tändas
         if (layerIsActive[layerName]) {
-            Object.keys(layerIsActive).forEach(function(name) {
-                if (name !== layerName && layerIsActive[name]) {
-                    geojsonLayers[name].forEach(function(layer) {
-                        map.removeLayer(layer);
-                    });
-                    geojsonLayers[name] = [];
-                    layerIsActive[name] = false;
-                }
-            });
-            return;
-        }
-
-        // Om lagret inte är aktivt, släck alla lager och tänd det specifika lagret
-        Object.keys(layerIsActive).forEach(function(name) {
-            geojsonLayers[name].forEach(function(layer) {
+            geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
-            geojsonLayers[name] = [];
-            layerIsActive[name] = false;
-        });
+            geojsonLayers[layerName] = [];
+            layerIsActive[layerName] = false;
+        } else {
+            geojsonURLs.forEach(function(geojsonURL) {
+                axios.get(geojsonURL)
+                    .then(function(response) {
+                        console.log("Successfully fetched GeoJSON data:", response.data);
+                        var geojson = response.data;
 
-        fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+                        var layer = L.geoJSON(geojson, {
+                            pointToLayer: function(feature, latlng) {
+                                var filename = getFilenameFromURL(geojsonURL);
+                                var style = layerStyles[layerName][filename];
+                                return L.circleMarker(latlng, style);
+                            },
+                            onEachFeature: function(feature, layer) {
+                                var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+
+                                var hideProperties = ['id', 'Aktualitet'];
+                                var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
+                                for (var prop in feature.properties) {
+                                    if (hideProperties.includes(prop)) {
+                                        continue;
+                                    }
+                                    if (prop === 'BILD') {
+                                        popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+                                    } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                                        popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+                                    } else if (hideNameOnlyProperties.includes(prop)) {
+                                        popupContent += '<p>' + feature.properties[prop] + '</p>';
+                                    } else {
+                                        popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+                                    }
+                                }
+                                popupContent += '</div>';
+                                layer.bindPopup(popupContent);
+                            }
+                        });
+
+                        geojsonLayers[layerName].push(layer);
+                        layer.addTo(map);
+                        layerIsActive[layerName] = true;
+                    })
+                    .catch(function(error) {
+                        console.log("Error fetching GeoJSON data:", error.message);
+                    });
+            });
+        }
     }
 
     function getFilenameFromURL(url) {
