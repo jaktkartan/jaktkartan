@@ -4,8 +4,6 @@ var layerURLs = {
     'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
 };
 
-var defaultMarkerSize = 7; // Standard storlek på markörerna
-
 var Upptack_geojsonHandler = (function() {
     var layerIsActive = {
         'Mässor': true,
@@ -21,13 +19,13 @@ var Upptack_geojsonHandler = (function() {
 
     var layerStyles = {
         'Mässor': {
-            'Massor.geojson': { color: 'orange', fillColor: 'orange', fillOpacity: 0.7 }
+            'Massor.geojson': { color: 'orange', fillColor: 'orange', fillOpacity: 0.8 }
         },
         'Jaktkort': {
-            'jaktkort.geojson': { color: 'blue', fillColor: 'blue', fillOpacity: 0.7 }
+            'jaktkort.geojson': { color: 'blue', fillColor: 'blue', fillOpacity: 0.8 }
         },
         'Jaktskyttebanor': {
-            'jaktskyttebanor.geojson': { color: 'green', fillColor: 'green', fillOpacity: 0.7 }
+            'jaktskyttebanor.geojson': { color: 'green', fillColor: 'green', fillOpacity: 0.8 }
         }
     };
 
@@ -41,7 +39,16 @@ var Upptack_geojsonHandler = (function() {
                         pointToLayer: function(feature, latlng) {
                             var filename = getFilenameFromURL(geojsonURL);
                             var style = getMarkerStyle(layerName, filename);
-                            return L.circleMarker(latlng, style);
+
+                            if (style.icon) {
+                                return L.marker(latlng, { icon: style.icon });
+                            } else {
+                                return L.circleMarker(latlng, {
+                                    color: style.color,
+                                    fillColor: style.fillColor,
+                                    fillOpacity: style.fillOpacity
+                                });
+                            }
                         },
                         onEachFeature: function(feature, layer) {
                             var popupContent = generatePopupContent(feature);
@@ -129,39 +136,29 @@ var Upptack_geojsonHandler = (function() {
         return popupContent;
     }
 
-   // Funktion för att hämta stil baserat på zoomnivå
-function getMarkerStyle(layerName, filename) {
-    var zoomLevel = map.getZoom();
-    var scaleFactor = 0.5; // Justera faktorn baserat på erfarenhet och experiment
+    // Funktion för att hämta stil baserat på zoomnivå
+    function getMarkerStyle(layerName, filename) {
+        var zoomLevel = map.getZoom();
+        var style;
 
-    // Justera radien baserat på zoomnivå och scaleFactor
-    var radius = defaultMarkerSize * Math.pow(scaleFactor, zoomLevel - 13);
+        if (zoomLevel >= 15) {
+            style = {
+                icon: L.icon({
+                    iconUrl: '../../bilder/ikon3.png', // Uppdatera sökvägen här beroende på din filstruktur
+                    iconSize: [40, 40], // Justera storleken på ikonen efter behov
+                    iconAnchor: [20, 20] // Justera ikonankaret om det behövs
+                })
+            };
+        } else {
+            style = {
+                color: layerStyles[layerName][filename].color,
+                fillColor: layerStyles[layerName][filename].fillColor,
+                fillOpacity: layerStyles[layerName][filename].fillOpacity
+            };
+        }
 
-    // Anpassa andra stilar här om det behövs
-    var style;
-
-    if (zoomLevel >= 15) {
-        // Använd ikon istället för cirkelmarkör när zoomnivån är 15 eller högre
-        style = {
-            icon: L.icon({
-                iconUrl: '../../bilder/ikon3.png', // Uppdatera sökvägen här beroende på din filstruktur
-                iconSize: [40, 40], // Justera storleken på ikonen efter behov
-                iconAnchor: [20, 20] // Justera ikonankaret om det behövs
-            })
-        };
-    } else {
-        // Använd cirkelmarkör för lägre zoomnivåer
-        style = {
-            radius: radius,
-            fillColor: layerStyles[layerName][filename].fillColor,
-            color: layerStyles[layerName][filename].color,
-            fillOpacity: layerStyles[layerName][filename].fillOpacity
-        };
+        return style;
     }
-
-    return style;
-}
-
 
     // Initialisera alla lager vid start
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
@@ -172,3 +169,25 @@ function getMarkerStyle(layerName, filename) {
         toggleLayer: toggleLayer
     };
 })();
+
+// Exempel på knappklick-hantering
+document.getElementById('massorButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Mässor');
+});
+
+document.getElementById('jaktkortButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Jaktkort');
+});
+
+document.getElementById('jaktskyttebanorButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
+});
+
+// Hantera "Visa allt" och "Rensa allt" knapparna
+document.getElementById('visaAlltButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Visa_allt');
+});
+
+document.getElementById('rensaAlltButton').addEventListener('click', function() {
+    Upptack_geojsonHandler.toggleLayer('Rensa_allt');
+});
