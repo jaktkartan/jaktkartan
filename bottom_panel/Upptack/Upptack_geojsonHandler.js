@@ -8,6 +8,8 @@ var layerURLs = {
 };
 
 var Upptack_geojsonHandler = (function() {
+    var map = null; // Håll en referens till kartan
+
     var layerIsActive = {
         'Mässor': false,
         'Jaktkort': false,
@@ -73,7 +75,7 @@ var Upptack_geojsonHandler = (function() {
 
                     geojsonLayers[layerName].push(layer);
 
-                    if (layerIsActive[layerName]) {
+                    if (layerIsActive[layerName] && map) {
                         layer.addTo(map);
                     }
                 })
@@ -87,6 +89,11 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att tända och släcka lagret
     function toggleLayer(layerName) {
+        if (!map) {
+            console.error("Map object is not initialized.");
+            return;
+        }
+
         if (!layerIsActive[layerName]) {
             deactivateAllLayersExcept(layerName);
 
@@ -121,13 +128,19 @@ var Upptack_geojsonHandler = (function() {
         return filename;
     }
 
-    // Initialisera alla lager vid start
-    fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
-    fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
-    fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+    // Funktion för att initiera hantering med en specifik karta
+    function init(mapInstance) {
+        map = mapInstance;
+
+        // Initialisera alla lager vid start
+        fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
+        fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
+        fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+    }
 
     return {
         toggleLayer: toggleLayer,
+        init: init,
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
         deactivateAllLayersExcept: deactivateAllLayersExcept
     };
