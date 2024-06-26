@@ -78,6 +78,11 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att tända och släcka lagret
     function toggleLayer(layerName, geojsonURLs) {
+        // Om lagret redan är aktivt och inga andra lager är aktiva
+        if (layerIsActive[layerName] && !Object.values(layerIsActive).some(active => active)) {
+            return; // Do nothing, keep the layer active
+        }
+
         // Släck alla andra lager förutom det som ska aktiveras
         Object.keys(layerIsActive).forEach(function(name) {
             if (name !== layerName && layerIsActive[name]) {
