@@ -134,7 +134,7 @@ var Upptack_geojsonHandler = (function() {
         var scaleFactor = 6.5; // Justera faktorn baserat på erfarenhet och experiment
 
         // Justera radien baserat på zoomnivå
-        var radius = baseRadius * scaleFactor * (zoomLevel / 10); // Anpassa 10 beroende på önskad justering
+        var radius = baseRadius * scaleFactor * (zoomLevel / 1); // Anpassa 10 beroende på önskad justering
 
         // Anpassa andra stilar här om det behövs
         var style = {
