@@ -4,7 +4,7 @@ var layerURLs = {
     'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
 };
 
-var baseRadius = 7; // Standard storlek på markörerna
+var defaultMarkerSize = 7; // Standard storlek på markörerna
 
 var Upptack_geojsonHandler = (function() {
     var layerIsActive = {
@@ -21,13 +21,13 @@ var Upptack_geojsonHandler = (function() {
 
     var layerStyles = {
         'Mässor': {
-            'Massor.geojson': { color: 'orange', radius: baseRadius, fillColor: 'orange', fillOpacity: 0.7 }
+            'Massor.geojson': { color: 'orange', fillColor: 'orange', fillOpacity: 0.7 }
         },
         'Jaktkort': {
-            'jaktkort.geojson': { color: 'blue', radius: baseRadius, fillColor: 'blue', fillOpacity: 0.7 }
+            'jaktkort.geojson': { color: 'blue', fillColor: 'blue', fillOpacity: 0.7 }
         },
         'Jaktskyttebanor': {
-            'jaktskyttebanor.geojson': { color: 'green', radius: baseRadius, fillColor: 'green', fillOpacity: 0.7 }
+            'jaktskyttebanor.geojson': { color: 'green', fillColor: 'green', fillOpacity: 0.7 }
         }
     };
 
@@ -40,7 +40,7 @@ var Upptack_geojsonHandler = (function() {
                     var layer = L.geoJSON(geojson, {
                         pointToLayer: function(feature, latlng) {
                             var filename = getFilenameFromURL(geojsonURL);
-                            var style = getMarkerStyle(layerName, filename); // Anropa funktion för att hämta stil baserat på zoomnivå
+                            var style = getMarkerStyle();
                             return L.circleMarker(latlng, style);
                         },
                         onEachFeature: function(feature, layer) {
@@ -130,12 +130,12 @@ var Upptack_geojsonHandler = (function() {
     }
 
     // Funktion för att hämta stil baserat på zoomnivå
-    function getMarkerStyle(layerName, filename) {
+    function getMarkerStyle() {
         var zoomLevel = map.getZoom();
-        var scaleFactor = 6.5; // Justera faktorn baserat på erfarenhet och experiment
+        var scaleFactor = 0.5; // Justera faktorn baserat på erfarenhet och experiment
 
         // Justera radien baserat på zoomnivå och scaleFactor
-        var radius = baseRadius * Math.pow(scaleFactor, zoomLevel - 13);
+        var radius = defaultMarkerSize * Math.pow(scaleFactor, zoomLevel - 13);
 
         // Anpassa andra stilar här om det behövs
         var style = {
