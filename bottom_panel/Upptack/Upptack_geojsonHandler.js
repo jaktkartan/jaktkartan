@@ -19,13 +19,13 @@ var Upptack_geojsonHandler = (function() {
 
     var layerStyles = {
         'Mässor': {
-            'Massor.geojson': { color: 'orange', fillColor: 'orange', fillOpacity: 0.8 }
+            'Massor.geojson': { color: 'orange', radius: 5, fillColor: 'orange', fillOpacity: 0.8 }
         },
         'Jaktkort': {
-            'jaktkort.geojson': { color: 'blue', fillColor: 'blue', fillOpacity: 0.8 }
+            'jaktkort.geojson': { color: 'blue', radius: 5, fillColor: 'blue', fillOpacity: 0.8 }
         },
         'Jaktskyttebanor': {
-            'jaktskyttebanor.geojson': { color: 'green', fillColor: 'green', fillOpacity: 0.8 }
+            'jaktskyttebanor.geojson': { color: 'green', radius: 5, fillColor: 'green', fillOpacity: 0.8 }
         }
     };
 
@@ -44,6 +44,7 @@ var Upptack_geojsonHandler = (function() {
                                 return L.marker(latlng, { icon: style.icon });
                             } else {
                                 return L.circleMarker(latlng, {
+                                    radius: style.radius,
                                     color: style.color,
                                     fillColor: style.fillColor,
                                     fillOpacity: style.fillOpacity
@@ -144,13 +145,14 @@ var Upptack_geojsonHandler = (function() {
         if (zoomLevel >= 15) {
             style = {
                 icon: L.icon({
-                    iconUrl: '../../bilder/ikon3.png', // Uppdatera sökvägen här beroende på din filstruktur
+                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true', // Uppdatera sökvägen här beroende på din filstruktur
                     iconSize: [40, 40], // Justera storleken på ikonen efter behov
                     iconAnchor: [20, 20] // Justera ikonankaret om det behövs
                 })
             };
         } else {
             style = {
+                radius: 5,
                 color: layerStyles[layerName][filename].color,
                 fillColor: layerStyles[layerName][filename].fillColor,
                 fillOpacity: layerStyles[layerName][filename].fillOpacity
