@@ -147,7 +147,7 @@ setTimeout(function() {
             var zoomLevel = map.getZoom();
             var style;
 
-            if (zoomLevel >= 7 && zoomLevel <= 18) {
+            if (zoomLevel >= 7) {
                 style = {
                     icon: L.icon({
                         iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
@@ -165,7 +165,6 @@ setTimeout(function() {
             }
 
             console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
-            console.log("Style:", style);
 
             return style;
         }
@@ -182,17 +181,16 @@ setTimeout(function() {
                     var zoomLevel = map.getZoom();
                     console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
-                    layer.eachLayer(function(marker) {
-                        var style = getMarkerStyle(layerName, marker.feature.properties.geojsonURL);
-                        console.log("Style:", style);
-
-                        // Kontrollera vilken typ av markör det är och applicera stil eller ikon
-                        if (style.icon && marker.setIcon) {
-                            marker.setIcon(style.icon); // Använd setIcon för ikonbaserade markörer
-                        } else if (marker.setStyle) {
-                            marker.setStyle(style); // Använd setStyle för cirkelmarkörer
-                        }
-                    });
+                    var layers = map.hasLayer(layer);
+                    if (layers) {
+                        layer.eachLayer(function(marker) {
+                            if (marker.feature.properties && marker.feature.properties.geojsonURL) {
+                                var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
+                                var style = getMarkerStyle(layerName, filename);
+                                marker.setStyle(style);
+                            }
+                        });
+                    }
                 });
             });
         });
