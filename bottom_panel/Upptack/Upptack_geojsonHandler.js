@@ -109,9 +109,13 @@ setTimeout(function() {
             });
         }
 
+        // Funktion för att hämta filnamn från URL
         function getFilenameFromURL(url) {
-            var pathArray = url.split('/');
-            var filename = pathArray[pathArray.length - 1];
+            var filename = "";
+            if (url) {
+                var pathArray = url.split('/');
+                filename = pathArray[pathArray.length - 1];
+            }
             return filename;
         }
 
@@ -177,9 +181,11 @@ setTimeout(function() {
                     var layers = map.hasLayer(layer);
                     if (layers) {
                         layer.eachLayer(function(marker) {
-                            var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
-                            var style = getMarkerStyle(layerName, filename);
-                            marker.setStyle(style);
+                            if (marker.feature.properties && marker.feature.properties.geojsonURL) {
+                                var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
+                                var style = getMarkerStyle(layerName, filename);
+                                marker.setStyle(style);
+                            }
                         });
                     }
                 });
