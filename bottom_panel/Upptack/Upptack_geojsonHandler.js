@@ -17,17 +17,18 @@ var Upptack_geojsonHandler = (function() {
         'Jaktskyttebanor': []
     };
 
-    var layerStyles = {
-        'Mässor': {
-            'Massor.geojson': { color: 'orange', radius: 7, fillColor: 'orange', fillOpacity: 0.7 }
-        },
-        'Jaktkort': {
-            'jaktkort.geojson': { color: 'blue', radius: 7, fillColor: 'blue', fillOpacity: 0.7 }
-        },
-        'Jaktskyttebanor': {
-            'jaktskyttebanor.geojson': { color: 'green', radius: 7, fillColor: 'green', fillOpacity: 0.7 }
-        }
-    };
+var layerStyles = {
+    'Mässor': {
+        'Massor.geojson': { color: 'orange', radius: baseRadius, fillColor: 'orange', fillOpacity: 0.7 }
+    },
+    'Jaktkort': {
+        'jaktkort.geojson': { color: 'blue', radius: baseRadius, fillColor: 'blue', fillOpacity: 0.7 }
+    },
+    'Jaktskyttebanor': {
+        'jaktskyttebanor.geojson': { color: 'green', radius: baseRadius, fillColor: 'green', fillOpacity: 0.7 }
+    }
+};
+
 
     // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
@@ -127,16 +128,18 @@ var Upptack_geojsonHandler = (function() {
         return popupContent;
     }
 
+// Definiera en global variabel för baseRadius
+var baseRadius = 7; // Standard storlek på markörerna
+
 // Funktion för att hämta stil baserat på zoomnivå
 function getMarkerStyle(layerName, filename) {
     var zoomLevel = map.getZoom();
-    var baseRadius = 5; // Grundläggande storlek på markörerna
-    var zoomScale = Math.pow(1.5, zoomLevel - 13); // Zoomskala, justera baserat på behov och testning
+    var scaleFactor = 6.5; // Justera faktorn baserat på erfarenhet och experiment
 
-    // Beräkna radien baserat på zoomnivå och zoomskala
-    var radius = baseRadius * zoomScale;
+    // Justera radien baserat på zoomnivå och scaleFactor
+    var radius = baseRadius * Math.pow(scaleFactor, zoomLevel - 13);
 
-    // Hämta övriga stilar från layerStyles-objektet
+    // Anpassa andra stilar här om det behövs
     var style = {
         color: layerStyles[layerName][filename].color,
         radius: radius,
@@ -147,11 +150,40 @@ function getMarkerStyle(layerName, filename) {
     return style;
 }
 
+// Funktion för att hämta GeoJSON-data och skapa lagret med stil
+function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+    geojsonURLs.forEach(function(geojsonURL) {
+        axios.get(geojsonURL)
+            .then(function(response) {
+                var geojson = response.data;
+                var layer = L.geoJSON(geojson, {
+                    pointToLayer: function(feature, latlng) {
+                        var filename = getFilenameFromURL(geojsonURL);
+                        var style = getMarkerStyle(layerName, filename);
+                        return L.circleMarker(latlng, style);
+                    },
+                    onEachFeature: function(feature, layer) {
+                        var popupContent = generatePopupContent(feature);
+                        layer.bindPopup(popupContent);
+                    }
+                });
 
-    // Initialisera alla lager vid start
-    fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
-    fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
-    fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+                geojsonLayers[layerName].push(layer);
+
+                if (layerIsActive[layerName]) {
+                    layer.addTo(map);
+                }
+            })
+            .catch(function(error) {
+                console.log("Error fetching GeoJSON data:", error.message);
+            });
+    });
+}
+
+// Initialisera alla lager vid start
+fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
+fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
+fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
     return {
         toggleLayer: toggleLayer
