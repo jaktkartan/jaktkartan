@@ -4,43 +4,6 @@ var layerURLs = {
     'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
 };
 
-var layerStyles = {
-    'Mässor': {
-        'Massor.geojson': function(zoom) {
-            return {
-                color: 'orange',
-                fillColor: 'orange',
-                fillOpacity: 0.8,
-                radius: 8 * Math.pow(2, zoom - 5)
-            };
-        }
-    },
-    'Jaktkort': {
-        'jaktkort.geojson': function(zoom) {
-            return {
-                color: 'blue',
-                fillColor: 'blue',
-                fillOpacity: 0.8,
-                radius: 8 * Math.pow(2, zoom - 5)
-            };
-        }
-    },
-    'Jaktskyttebanor': {
-        'jaktskyttebanor.geojson': function(zoom) {
-            return {
-                color: 'green',
-                fillColor: 'green',
-                fillOpacity: 0.8,
-                radius: 8 * Math.pow(2, zoom - 5)
-            };
-        }
-    }
-};
-
-var zoomToRadiusFactor = function(zoom) {
-    return Math.pow(2, zoom - 5);
-};
-
 var Upptack_geojsonHandler = (function() {
     var layerIsActive = {
         'Mässor': true,
@@ -54,6 +17,18 @@ var Upptack_geojsonHandler = (function() {
         'Jaktskyttebanor': []
     };
 
+    var layerStyles = {
+        'Mässor': {
+            'Massor.geojson': { color: 'orange', radius: 8, fillColor: 'orange', fillOpacity: 0.8 }
+        },
+        'Jaktkort': {
+            'jaktkort.geojson': { color: 'blue', radius: 8, fillColor: 'blue', fillOpacity: 0.8 }
+        },
+        'Jaktskyttebanor': {
+            'jaktskyttebanor.geojson': { color: 'green', radius: 8, fillColor: 'green', fillOpacity: 0.8 }
+        }
+    };
+
     // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         geojsonURLs.forEach(function(geojsonURL) {
@@ -63,8 +38,7 @@ var Upptack_geojsonHandler = (function() {
                     var layer = L.geoJSON(geojson, {
                         pointToLayer: function(feature, latlng) {
                             var filename = getFilenameFromURL(geojsonURL);
-                            var styleFunc = layerStyles[layerName][filename];
-                            var style = styleFunc(map.getZoom());
+                            var style = layerStyles[layerName][filename];
                             return L.circleMarker(latlng, style);
                         },
                         onEachFeature: function(feature, layer) {
@@ -103,8 +77,14 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att toggla lagret
     function toggleLayer(layerName) {
-        deactivateAllLayers();
-        activateLayer(layerName);
+        if (layerName === 'Visa_allt') {
+            activateAllLayers();
+        } else if (layerName === 'Rensa_allt') {
+            deactivateAllLayers();
+        } else {
+            deactivateAllLayers();
+            activateLayer(layerName);
+        }
     }
 
     // Funktion för att aktivera ett lager
@@ -113,6 +93,13 @@ var Upptack_geojsonHandler = (function() {
             layer.addTo(map);
         });
         layerIsActive[layerName] = true;
+    }
+
+    // Funktion för att aktivera alla lager
+    function activateAllLayers() {
+        Object.keys(geojsonLayers).forEach(function(layerName) {
+            activateLayer(layerName);
+        });
     }
 
     // Funktion för att avaktivera alla lager
@@ -129,31 +116,14 @@ var Upptack_geojsonHandler = (function() {
 
     function getFilenameFromURL(url) {
         var pathArray = url.split('/');
-        return pathArray[pathArray.length - 1];
+        var filename = pathArray[pathArray.length - 1];
+        return filename;
     }
 
     // Initialisera alla lager vid start
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
     fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
     fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
-
-    // Lägg till eventlyssnare för zoomändringar
-    map.on('zoomend', updateMarkerStyles);
-
-    // Uppdatera markerstilar baserat på aktuell zoomnivå
-    function updateMarkerStyles() {
-        var zoom = map.getZoom();
-        Object.keys(geojsonLayers).forEach(function(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                layer.eachLayer(function(marker) {
-                    var filename = getFilenameFromURL(marker.feature.properties.sourceUrl);
-                    var styleFunc = layerStyles[layerName][filename];
-                    var style = styleFunc(zoom);
-                    marker.setStyle(style);
-                });
-            });
-        });
-    }
 
     return {
         toggleLayer: toggleLayer
