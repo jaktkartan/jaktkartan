@@ -129,24 +129,25 @@ var Upptack_geojsonHandler = (function() {
         return popupContent;
     }
 
-    // Funktion för att hämta stil baserat på zoomnivå
-    function getMarkerStyle(layerName, filename) {
-        var zoomLevel = map.getZoom();
-        var scaleFactor = 0.5; // Justera faktorn baserat på erfarenhet och experiment
+   // Funktion för att hämta stil baserat på zoomnivå
+function getMarkerStyle(layerName, filename) {
+    var zoomLevel = map.getZoom();
+    var scaleFactor = 0.1; // Justera faktorn baserat på erfarenhet och experiment
 
-        // Justera radien baserat på zoomnivå och scaleFactor
-        var radius = defaultMarkerSize * Math.pow(scaleFactor, zoomLevel - 13);
+    // Justera radien baserat på zoomnivå och scaleFactor
+    var radius = defaultMarkerSize * Math.pow(scaleFactor, zoomLevel - 1);
 
-        // Anpassa andra stilar här om det behövs
-        var style = {
-            color: layerStyles[layerName][filename].color,
-            radius: radius,
-            fillColor: layerStyles[layerName][filename].fillColor,
-            fillOpacity: layerStyles[layerName][filename].fillOpacity
-        };
+    // Anpassa andra stilar här om det behövs
+    var style = {
+        color: layerStyles[layerName][filename].color,
+        radius: radius,
+        fillColor: layerStyles[layerName][filename].fillColor,
+        fillOpacity: layerStyles[layerName][filename].fillOpacity
+    };
 
-        return style;
-    }
+    return style;
+}
+
 
     // Initialisera alla lager vid start
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
