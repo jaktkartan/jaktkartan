@@ -78,13 +78,10 @@
     <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
 
     <script>
-      // Declare map as a global variable
-        var map;
-
         document.addEventListener("DOMContentLoaded", function() {
             console.log("Initializing map...");
 
-            map = L.map('map', {
+            var map = L.map('map', {
                 zoomControl: false // Ta bort standardzoomkontrollerna
             }).setView([62.0, 15.0], 5);
 
@@ -158,7 +155,7 @@
 
                 var times = SunCalc.getTimes(new Date(), lat, lon);
                 var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunset = times.sunset                     ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
                 var sunriseSpan = document.getElementById('sunrise');
                 var sunsetSpan = document.getElementById('sunset');
 
@@ -268,15 +265,10 @@
                 updateUserPosition(parsedPosition.latitude, parsedPosition.longitude, "Stored");
             }
         });
-
-        // Funktion för att spara användarens position i localStorage
-        function saveUserPosition(lat, lon) {
-            var position = { latitude: lat, longitude: lon };
-            localStorage.setItem('lastKnownPosition', JSON.stringify(position));
-        }
     </script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script src="popupHandler.js"></script>
     <script src="tabHandler.js"></script>
 </body>
 </html>
+
