@@ -23,22 +23,8 @@ var Upptack_geojsonHandler = (function() {
         }
     };
 
+    // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        // Om lagret redan är aktivt, avbryt
-        if (layerIsActive[layerName]) {
-            return;
-        }
-
-        // Avaktivera alla andra lager förutom det aktuella lagret
-        Object.keys(layerIsActive).forEach(function(name) {
-            if (name !== layerName && layerIsActive[name]) {
-                toggleLayer(name, geojsonLayers[name].map(function(layer) {
-                    return layer.options.url;
-                }));
-            }
-        });
-
-        // Hämta GeoJSON-data och skapa lagret med stil
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
@@ -76,10 +62,8 @@ var Upptack_geojsonHandler = (function() {
                         }
                     });
 
-                    // Lägg till lagret i geojsonLayers arrayen
                     geojsonLayers[layerName].push(layer);
 
-                    // Om lagret är aktivt, lägg till det på kartan
                     if (layerIsActive[layerName]) {
                         layer.addTo(map);
                     }
@@ -89,12 +73,11 @@ var Upptack_geojsonHandler = (function() {
                 });
         });
 
-        // Uppdatera layerIsActive för det aktuella lagret
         layerIsActive[layerName] = true;
     }
 
+    // Funktion för att tända och släcka lagret
     function toggleLayer(layerName, geojsonURLs) {
-        // Om lagret är aktivt, inaktivera det
         if (layerIsActive[layerName]) {
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
@@ -104,7 +87,6 @@ var Upptack_geojsonHandler = (function() {
 
             layerIsActive[layerName] = false;
         } else {
-            // Om lagret inte är aktivt, aktivera det
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         }
     }
@@ -114,6 +96,11 @@ var Upptack_geojsonHandler = (function() {
         var filename = pathArray[pathArray.length - 1];
         return filename;
     }
+
+    // Aktivera alla lager från början
+    Object.keys(layerIsActive).forEach(function(layerName) {
+        fetchGeoJSONDataAndCreateLayer(layerName, ['URL_TO_DEFAULT_GEOJSON']); // Ersätt 'URL_TO_DEFAULT_GEOJSON' med den faktiska URL:en för varje lager
+    });
 
     return {
         toggleLayer: toggleLayer,
