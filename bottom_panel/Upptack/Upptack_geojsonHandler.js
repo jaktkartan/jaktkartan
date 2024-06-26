@@ -19,13 +19,13 @@ var Upptack_geojsonHandler = (function() {
 
     var layerStyles = {
         'Mässor': {
-            'Massor.geojson': { color: 'orange', radius: 8, fillColor: 'orange', fillOpacity: 0.8 }
+            'Massor.geojson': { color: 'orange', radius: 7, fillColor: 'orange', fillOpacity: 0.7 }
         },
         'Jaktkort': {
-            'jaktkort.geojson': { color: 'blue', radius: 8, fillColor: 'blue', fillOpacity: 0.8 }
+            'jaktkort.geojson': { color: 'blue', radius: 7, fillColor: 'blue', fillOpacity: 0.7 }
         },
         'Jaktskyttebanor': {
-            'jaktskyttebanor.geojson': { color: 'green', radius: 8, fillColor: 'green', fillOpacity: 0.8 }
+            'jaktskyttebanor.geojson': { color: 'green', radius: 7, fillColor: 'green', fillOpacity: 0.7 }
         }
     };
 
