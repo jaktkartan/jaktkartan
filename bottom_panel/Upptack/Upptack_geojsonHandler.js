@@ -183,10 +183,12 @@ var Upptack_geojsonHandler = (function() {
         });
     }
 
+    // Fetch and create layers on initialization
     fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
     fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
     fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
+    // Update markers on zoom change
     map.on('zoomend', function() {
         updateMarkersOnZoom();
     });
