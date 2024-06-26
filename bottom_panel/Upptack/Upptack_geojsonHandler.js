@@ -78,13 +78,23 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att tända och släcka lagret
     function toggleLayer(layerName, geojsonURLs) {
+        // Släck alla andra lager förutom det som ska aktiveras
+        Object.keys(layerIsActive).forEach(function(name) {
+            if (name !== layerName && layerIsActive[name]) {
+                geojsonLayers[name].forEach(function(layer) {
+                    map.removeLayer(layer);
+                });
+                geojsonLayers[name] = [];
+                layerIsActive[name] = false;
+            }
+        });
+
+        // Toggla det specifika lagret
         if (layerIsActive[layerName]) {
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
-
             geojsonLayers[layerName] = [];
-
             layerIsActive[layerName] = false;
         } else {
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
