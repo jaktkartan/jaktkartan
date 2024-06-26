@@ -187,16 +187,17 @@ map.on('zoomend', function() {
                 var style = getMarkerStyle(layerName, filename);
                 console.log("Style:", style);
 
-                // Applicera stil baserat på zoomnivå och objekttyp
-                if (style.icon) {
-                    marker.setIcon(style.icon); // Använd setIcon för ikonobjekt
-                } else {
-                    marker.setStyle(style); // Använd setStyle för cirkelmarkörer, om det används
+                // Kontrollera vilken typ av markör det är och applicera stil eller ikon
+                if (style.icon && marker.setIcon) {
+                    marker.setIcon(style.icon); // Använd setIcon för ikonbaserade markörer
+                } else if (marker.setStyle) {
+                    marker.setStyle(style); // Använd setStyle för cirkelmarkörer
                 }
             });
         });
     });
 });
+
 
 
 
