@@ -79,16 +79,13 @@
     <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
 
     <script>
-        // Declare map as a global variable
+      // Declare map as a global variable
         var map;
 
         document.addEventListener("DOMContentLoaded", function() {
             console.log("Initializing map...");
 
-document.addEventListener("DOMContentLoaded", function() {
-            console.log("Initializing map...");
-
-            var map = L.map('map', {
+            map = L.map('map', {
                 zoomControl: false // Ta bort standardzoomkontrollerna
             }).setView([62.0, 15.0], 5);
 
