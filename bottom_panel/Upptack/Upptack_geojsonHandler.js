@@ -40,11 +40,11 @@ var Upptack_geojsonHandler = (function() {
                     var layer = L.geoJSON(geojson, {
                         pointToLayer: function(feature, latlng) {
                             var filename = getFilenameFromURL(geojsonURL);
-                            var style = getMarkerStyle();
+                            var style = getMarkerStyle(layerName, filename);
                             return L.circleMarker(latlng, style);
                         },
                         onEachFeature: function(feature, layer) {
-                            var popupContent = generatePopupContent(feature); // Anropa funktion för att generera popup-innehåll
+                            var popupContent = generatePopupContent(feature);
                             layer.bindPopup(popupContent);
                         }
                     });
@@ -130,7 +130,7 @@ var Upptack_geojsonHandler = (function() {
     }
 
     // Funktion för att hämta stil baserat på zoomnivå
-    function getMarkerStyle() {
+    function getMarkerStyle(layerName, filename) {
         var zoomLevel = map.getZoom();
         var scaleFactor = 0.5; // Justera faktorn baserat på erfarenhet och experiment
 
