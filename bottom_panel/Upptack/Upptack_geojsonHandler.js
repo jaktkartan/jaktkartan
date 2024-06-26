@@ -31,9 +31,12 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+        console.log("Fetching GeoJSON data for layer:", layerName);
         geojsonURLs.forEach(function(geojsonURL) {
+            console.log("Fetching URL:", geojsonURL);
             axios.get(geojsonURL)
                 .then(function(response) {
+                    console.log("Data fetched successfully for:", geojsonURL);
                     var geojson = response.data;
                     var layer = L.geoJSON(geojson, {
                         pointToLayer: function(feature, latlng) {
@@ -41,8 +44,10 @@ var Upptack_geojsonHandler = (function() {
                             var style = getMarkerStyle(layerName, filename);
 
                             if (style.icon) {
+                                console.log("Using icon for feature at:", latlng);
                                 return L.marker(latlng, { icon: style.icon });
                             } else {
+                                console.log("Using circle marker for feature at:", latlng);
                                 return L.circleMarker(latlng, {
                                     radius: style.radius,
                                     color: style.color,
@@ -60,13 +65,9 @@ var Upptack_geojsonHandler = (function() {
                     geojsonLayers[layerName].push(layer);
 
                     if (layerIsActive[layerName]) {
+                        console.log("Adding layer to map:", layerName);
                         layer.addTo(map);
                     }
-
-                    // Lägg till en händelse för att uppdatera markörstilen vid zoom
-                    map.on('zoomend', function() {
-                        updateMarkerStyles(layerName, geojsonURL);
-                    });
                 })
                 .catch(function(error) {
                     console.log("Error fetching GeoJSON data:", error.message);
@@ -76,6 +77,7 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att toggla lagret
     function toggleLayer(layerName) {
+        console.log("Toggling layer:", layerName);
         if (layerName === 'Visa_allt') {
             activateAllLayers();
         } else if (layerName === 'Rensa_allt') {
@@ -88,6 +90,7 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att aktivera ett lager
     function activateLayer(layerName) {
+        console.log("Activating layer:", layerName);
         geojsonLayers[layerName].forEach(function(layer) {
             layer.addTo(map);
         });
@@ -96,6 +99,7 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att aktivera alla lager
     function activateAllLayers() {
+        console.log("Activating all layers");
         Object.keys(geojsonLayers).forEach(function(layerName) {
             activateLayer(layerName);
         });
@@ -103,6 +107,7 @@ var Upptack_geojsonHandler = (function() {
 
     // Funktion för att avaktivera alla lager
     function deactivateAllLayers() {
+        console.log("Deactivating all layers");
         Object.keys(layerIsActive).forEach(function(name) {
             if (layerIsActive[name]) {
                 geojsonLayers[name].forEach(function(layer) {
@@ -145,17 +150,20 @@ var Upptack_geojsonHandler = (function() {
     // Funktion för att hämta stil baserat på zoomnivå
     function getMarkerStyle(layerName, filename) {
         var zoomLevel = map.getZoom();
+        console.log("Current zoom level:", zoomLevel);
         var style;
 
         if (zoomLevel >= 15) {
+            console.log("Using icon for zoom level >= 15");
             style = {
                 icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true', // Uppdatera sökvägen här beroende på din filstruktur
                     iconSize: [40, 40], // Justera storleken på ikonen efter behov
                     iconAnchor: [20, 20] // Justera ikonankaret om det behövs
                 })
             };
         } else {
+            console.log("Using circle marker for zoom level <", 15);
             style = {
                 radius: 5,
                 color: layerStyles[layerName][filename].color,
@@ -165,29 +173,6 @@ var Upptack_geojsonHandler = (function() {
         }
 
         return style;
-    }
-
-    // Funktion för att uppdatera markörstilar
-    function updateMarkerStyles(layerName, geojsonURL) {
-        geojsonLayers[layerName].forEach(function(layer) {
-            layer.eachLayer(function(marker) {
-                if (marker.feature) {
-                    var filename = getFilenameFromURL(geojsonURL);
-                    var style = getMarkerStyle(layerName, filename);
-
-                    if (style.icon) {
-                        marker.setIcon(style.icon);
-                    } else {
-                        marker.setStyle({
-                            radius: style.radius,
-                            color: style.color,
-                            fillColor: style.fillColor,
-                            fillOpacity: style.fillOpacity
-                        });
-                    }
-                }
-            });
-        });
     }
 
     // Initialisera alla lager vid start
