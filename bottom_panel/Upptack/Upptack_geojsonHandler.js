@@ -147,7 +147,7 @@ setTimeout(function() {
             var zoomLevel = map.getZoom();
             var style;
 
-            if (zoomLevel >= 7) {
+            if (zoomLevel >= 7 && zoomLevel <= 18) {
                 style = {
                     icon: L.icon({
                         iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
@@ -164,8 +164,6 @@ setTimeout(function() {
                 };
             }
 
-            console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
-
             return style;
         }
 
@@ -181,16 +179,13 @@ setTimeout(function() {
                     var zoomLevel = map.getZoom();
                     console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
-                    var layers = map.hasLayer(layer);
-                    if (layers) {
-                        layer.eachLayer(function(marker) {
-                            if (marker.feature.properties && marker.feature.properties.geojsonURL) {
-                                var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
-                                var style = getMarkerStyle(layerName, filename);
-                                marker.setStyle(style);
-                            }
-                        });
-                    }
+                    layer.eachLayer(function(marker) {
+                        if (marker.feature && marker.feature.properties && marker.feature.properties.geojsonURL) {
+                            var filename = getFilenameFromURL(marker.feature.properties.geojsonURL);
+                            var style = getMarkerStyle(layerName, filename);
+                            marker.setStyle(style);
+                        }
+                    });
                 });
             });
         });
@@ -200,3 +195,4 @@ setTimeout(function() {
         };
     })(map); // Skicka map som parameter till självinkapslad funktion
 }, 1000); // Fördröj initialiseringen av Upptack_geojsonHandler.js med 1000 ms (1 sekund)
+
