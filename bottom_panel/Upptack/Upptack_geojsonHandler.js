@@ -24,6 +24,12 @@ var Upptack_geojsonHandler = (function() {
     };
 
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+        // Om lagret redan är aktivt, avbryt
+        if (layerIsActive[layerName]) {
+            return;
+        }
+
+        // Avaktivera alla andra lager förutom det aktuella lagret
         Object.keys(layerIsActive).forEach(function(name) {
             if (name !== layerName && layerIsActive[name]) {
                 toggleLayer(name, geojsonLayers[name].map(function(layer) {
@@ -32,6 +38,7 @@ var Upptack_geojsonHandler = (function() {
             }
         });
 
+        // Hämta GeoJSON-data och skapa lagret med stil
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
@@ -69,8 +76,10 @@ var Upptack_geojsonHandler = (function() {
                         }
                     });
 
+                    // Lägg till lagret i geojsonLayers arrayen
                     geojsonLayers[layerName].push(layer);
-                    
+
+                    // Om lagret är aktivt, lägg till det på kartan
                     if (layerIsActive[layerName]) {
                         layer.addTo(map);
                     }
@@ -80,13 +89,13 @@ var Upptack_geojsonHandler = (function() {
                 });
         });
 
+        // Uppdatera layerIsActive för det aktuella lagret
         layerIsActive[layerName] = true;
     }
 
     function toggleLayer(layerName, geojsonURLs) {
-        if (!layerIsActive[layerName]) {
-            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-        } else {
+        // Om lagret är aktivt, inaktivera det
+        if (layerIsActive[layerName]) {
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
@@ -94,6 +103,9 @@ var Upptack_geojsonHandler = (function() {
             geojsonLayers[layerName] = [];
 
             layerIsActive[layerName] = false;
+        } else {
+            // Om lagret inte är aktivt, aktivera det
+            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         }
     }
 
