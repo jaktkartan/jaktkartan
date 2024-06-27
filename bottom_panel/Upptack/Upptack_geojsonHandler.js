@@ -23,13 +23,31 @@ setTimeout(function() {
 
         var layerStyles = {
             'Mässor': {
-                'Massor.geojson': { color: 'orange', radius: 5, fillColor: 'orange', fillOpacity: 0.8 }
+                icon: L.icon({
+                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/massor.png?raw=true',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                }),
+                fallbackStyle: { color: 'orange', radius: 5, fillColor: 'orange', fillOpacity: 0.8 }
             },
             'Jaktkort': {
-                'jaktkort.geojson': { color: 'blue', radius: 5, fillColor: 'blue', fillOpacity: 0.8 }
+                icon: L.icon({
+                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/jaktkort.png?raw=true',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                }),
+                fallbackStyle: { color: 'blue', radius: 5, fillColor: 'blue', fillOpacity: 0.8 }
             },
             'Jaktskyttebanor': {
-                'jaktskyttebanor.geojson': { color: 'green', radius: 5, fillColor: 'green', fillOpacity: 0.8 }
+                icon: L.icon({
+                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/jaktskyttebanor.png?raw=true',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                }),
+                fallbackStyle: { color: 'green', radius: 5, fillColor: 'green', fillOpacity: 0.8 }
             }
         };
 
@@ -41,13 +59,12 @@ setTimeout(function() {
                         var geojson = response.data;
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
-                                var filename = getFilenameFromURL(geojsonURL);
-                                var style = getMarkerStyle(layerName, filename);
+                                var style = getMarkerStyle(layerName);
 
                                 if (style.icon) {
                                     return L.marker(latlng, { icon: style.icon });
                                 } else {
-                                    return L.marker(latlng, { icon: L.icon({ iconUrl: 'default.png' }) }); // Fallback to default marker if no icon
+                                    return L.circleMarker(latlng, style);
                                 }
                             },
                             onEachFeature: function(feature, layer) {
@@ -144,28 +161,21 @@ setTimeout(function() {
         }
 
         // Funktion för att hämta stil baserat på zoomnivå
-        function getMarkerStyle(layerName, filename) {
+        function getMarkerStyle(layerName) {
             var zoomLevel = map.getZoom();
             var style;
 
             if (zoomLevel >= 7 && zoomLevel <= 18) {
                 style = {
-                    icon: L.icon({
-                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
-                        iconSize: [40, 40],
-                        iconAnchor: [20, 20]
-                    })
+                    icon: layerStyles[layerName].icon
                 };
             } else {
-                style = {
-                    // Använd en standard cirkelmarkör om ingen ikon krävs
-                    // Det här kan anpassas beroende på dina behov
-                    icon: L.icon({
-                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                    })
+                style = layerStyles[layerName].fallbackStyle || {
+                    // Fallback to a default marker if no specific style is found
+                    color: 'gray', // Default color
+                    radius: 5,
+                    fillColor: 'gray',
+                    fillOpacity: 0.8
                 };
             }
 
@@ -188,7 +198,11 @@ setTimeout(function() {
 
                     layer.eachLayer(function(marker) {
                         var style = getMarkerStyle(layerName);
-                        marker.setIcon(style.icon); // Sätt ikon för varje markör
+                        if (style.icon) {
+                            marker.setIcon(style.icon); // Sätt ikon för varje markör
+                        } else {
+                            marker.setStyle(style); // Sätt stil för varje punktobjekt
+                        }
                     });
                 });
             });
