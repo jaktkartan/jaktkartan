@@ -147,7 +147,7 @@ setTimeout(function() {
                     // Använd en standard cirkelmarkör om ingen ikon krävs
                     // Det här kan anpassas beroende på dina behov
                     icon: L.icon({
-                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
+                        iconUrl: 'https://static.vecteezy.com/system/resources/previews/009/887/200/non_2x/young-deer-free-png.png',
                         iconSize: [25, 41],
                         iconAnchor: [12, 41],
                         popupAnchor: [1, -34],
