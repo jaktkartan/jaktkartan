@@ -26,10 +26,6 @@ setTimeout(function() {
                 iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
                 iconSize: [40, 40],
                 fallbackStyle: {
-                    color: 'orange',
-                    radius: 5,
-                    fillColor: 'orange',
-                    fillOpacity: 0.8,
                     fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_massor.png',
                     fallbackIconSize: [15, 15]
                 }
@@ -38,10 +34,6 @@ setTimeout(function() {
                 iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
                 iconSize: [40, 40],
                 fallbackStyle: {
-                    color: 'blue',
-                    radius: 5,
-                    fillColor: 'blue',
-                    fillOpacity: 0.8,
                     fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.png',
                     fallbackIconSize: [15, 15]
                 }
@@ -50,10 +42,6 @@ setTimeout(function() {
                 iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon_jaktskyttebanor.png?raw=true',
                 iconSize: [40, 40],
                 fallbackStyle: {
-                    color: 'green',
-                    radius: 5,
-                    fillColor: 'green',
-                    fillOpacity: 0.8,
                     fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktskyttebanor.png',
                     fallbackIconSize: [15, 15]
                 }
@@ -94,7 +82,7 @@ setTimeout(function() {
 
         // Funktion för att toggla lagret
         function toggleLayer(layerName) {
-            console.log("Toggling layer:", layerName); // Debug: Kontrollera vilken layer som togglas
+            // console.log("Toggling layer:", layerName); // Debug: Kontrollera vilken layer som togglas
             if (layerName === 'Visa_allt') {
                 activateAllLayers();
             } else if (layerName === 'Rensa_allt') {
@@ -111,7 +99,7 @@ setTimeout(function() {
                 layer.addTo(map);
             });
             layerIsActive[layerName] = true;
-            console.log("Activated layer:", layerName); // Debug: Bekräfta aktivering
+            // console.log("Activated layer:", layerName); // Debug: Bekräfta aktivering
         }
 
         // Funktion för att aktivera alla lager
@@ -129,7 +117,7 @@ setTimeout(function() {
                         map.removeLayer(layer);
                     });
                     layerIsActive[name] = false;
-                    console.log("Deactivated layer:", name); // Debug: Bekräfta avaktivering
+                    // console.log("Deactivated layer:", name); // Debug: Bekräfta avaktivering
                 }
             });
         }
@@ -205,7 +193,7 @@ setTimeout(function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 geojsonLayers[layerName].forEach(function(layer) {
                     var zoomLevel = map.getZoom();
-                    console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
+                    // console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
                     layer.eachLayer(function(marker) {
                         var style = getMarkerStyle(layerName);
@@ -220,4 +208,5 @@ setTimeout(function() {
         };
     })(map); // Skicka map som parameter till självinkapslad funktion
 }, 1000); // Fördröjning
+
 
