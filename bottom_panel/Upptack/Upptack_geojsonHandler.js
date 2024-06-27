@@ -30,12 +30,8 @@ setTimeout(function() {
                     radius: 5,
                     fillColor: 'orange',
                     fillOpacity: 0.8,
-                    icon: L.icon({
-                        iconUrl: 'bottom_panel/Upptack/bilder/punkt_massor.png',
-                        iconSize: [15, 15],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                    })
+                    fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_massor.png',
+                    fallbackIconSize: [15, 15]
                 }
             },
             'Jaktkort': {
@@ -46,12 +42,8 @@ setTimeout(function() {
                     radius: 5,
                     fillColor: 'blue',
                     fillOpacity: 0.8,
-                    icon: L.icon({
-                        iconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.png',
-                        iconSize: [15, 15],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                    })
+                    fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.png',
+                    fallbackIconSize: [15, 15]
                 }
             },
             'Jaktskyttebanor': {
@@ -62,12 +54,8 @@ setTimeout(function() {
                     radius: 5,
                     fillColor: 'green',
                     fillOpacity: 0.8,
-                    icon: L.icon({
-                        iconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktskyttebanor.png',
-                        iconSize: [15, 15],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                    })
+                    fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktskyttebanor.png',
+                    fallbackIconSize: [15, 15]
                 }
             }
         };
@@ -169,6 +157,11 @@ setTimeout(function() {
             return popupContent;
         }
 
+        // Funktion för att beräkna iconAnchor baserat på ikonstorleken
+        function getIconAnchor(iconSize) {
+            return [iconSize[0] / 2, iconSize[1] / 2];
+        }
+
         // Funktion för att hämta stil baserat på zoomnivå
         function getMarkerStyle(layerName) {
             var zoomLevel = map.getZoom();
@@ -178,14 +171,19 @@ setTimeout(function() {
                 style = {
                     icon: L.icon({
                         iconUrl: layerStyles[layerName].iconUrl,
-                        iconSize: layerStyles[layerName].iconSize
+                        iconSize: layerStyles[layerName].iconSize,
+                        iconAnchor: getIconAnchor(layerStyles[layerName].iconSize),
+                        popupAnchor: [0, -layerStyles[layerName].iconSize[1] / 2]
                     })
                 };
             } else {
                 style = {
-                    // Använd en standard cirkelmarkör om ingen ikon krävs
-                    // Det här kan anpassas beroende på dina behov
-                    icon: layerStyles[layerName].fallbackStyle.icon
+                    icon: L.icon({
+                        iconUrl: layerStyles[layerName].fallbackStyle.fallbackIconUrl,
+                        iconSize: layerStyles[layerName].fallbackStyle.fallbackIconSize,
+                        iconAnchor: getIconAnchor(layerStyles[layerName].fallbackStyle.fallbackIconSize),
+                        popupAnchor: [0, -layerStyles[layerName].fallbackStyle.fallbackIconSize[1] / 2]
+                    })
                 };
             }
 
@@ -221,4 +219,5 @@ setTimeout(function() {
             toggleLayer: toggleLayer
         };
     })(map); // Skicka map som parameter till självinkapslad funktion
-}, 1000); // Fördr
+}, 1000); // Fördröjning
+
