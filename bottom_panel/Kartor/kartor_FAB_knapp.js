@@ -1,4 +1,4 @@
-// kartor_FAB_knapp.js
+// bottom_panel/Kartor/kartor_FAB_knapp.js
 
 // Funktion för att skapa FAB-knappar och tooltips för geojson-lager
 function createFabButtons(layers) {
