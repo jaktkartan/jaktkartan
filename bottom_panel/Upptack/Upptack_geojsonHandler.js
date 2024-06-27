@@ -198,9 +198,10 @@ setTimeout(function() {
 
                     layer.eachLayer(function(marker) {
                         var style = getMarkerStyle(layerName);
-                        if (style.icon) {
+
+                        if (marker instanceof L.Marker && style.icon) {
                             marker.setIcon(style.icon); // Sätt ikon för varje markör
-                        } else if (marker.setStyle) {
+                        } else if (marker instanceof L.CircleMarker && style.radius) {
                             marker.setStyle(style); // Sätt stil för varje punktobjekt
                         }
                     });
