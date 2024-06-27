@@ -27,7 +27,7 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': {
             'lgjaktJakttider_1.geojson': {
                 style: function(feature) {
-                    var jakttid = feature.properties.jakttid; // Antag att 'jakttid' är ett attribut i geojson-filen
+                    var jakttid = feature.properties['jakttid:']; // Hämta värdet från fältet 'jakttid:'
                     // Använd en färgskala för att generera färger baserat på jakttid
                     var colorScale = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15']; // Exempel på en färgskala
 
