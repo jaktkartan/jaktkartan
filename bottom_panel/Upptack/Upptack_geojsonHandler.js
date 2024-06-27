@@ -31,8 +31,8 @@ setTimeout(function() {
                     fillColor: 'orange',
                     fillOpacity: 0.8,
                     icon: L.icon({
-                        iconUrl: 'bottom_panel/Upptack/bilder/punkt_massor.svg',
-                        iconSize: [25, 41],
+                        iconUrl: 'bottom_panel/Upptack/bilder/punkt_massor.png',
+                        iconSize: [15, 15],
                         iconAnchor: [12, 41],
                         popupAnchor: [1, -34],
                     })
@@ -47,8 +47,8 @@ setTimeout(function() {
                     fillColor: 'blue',
                     fillOpacity: 0.8,
                     icon: L.icon({
-                        iconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.svg',
-                        iconSize: [25, 41],
+                        iconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.png',
+                        iconSize: [15, 15],
                         iconAnchor: [12, 41],
                         popupAnchor: [1, -34],
                     })
@@ -63,8 +63,8 @@ setTimeout(function() {
                     fillColor: 'green',
                     fillOpacity: 0.8,
                     icon: L.icon({
-                        iconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.svg',
-                        iconSize: [25, 41],
+                        iconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktskyttebanor.png',
+                        iconSize: [15, 15],
                         iconAnchor: [12, 41],
                         popupAnchor: [1, -34],
                     })
