@@ -23,10 +23,8 @@ setTimeout(function() {
 
         var layerStyles = {
             'Mässor': {
-                icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
-                    iconSize: [40, 40]
-                }),
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
+                iconSize: [40, 40],
                 fallbackStyle: {
                     color: 'orange',
                     radius: 5,
@@ -35,10 +33,8 @@ setTimeout(function() {
                 }
             },
             'Jaktkort': {
-                icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
-                    iconSize: [40, 40]
-                }),
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                iconSize: [40, 40],
                 fallbackStyle: {
                     color: 'blue',
                     radius: 5,
@@ -47,10 +43,8 @@ setTimeout(function() {
                 }
             },
             'Jaktskyttebanor': {
-                icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon_jaktskyttebanor.png?raw=true',
-                    iconSize: [40, 40]
-                }),
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon_jaktskyttebanor.png?raw=true',
+                iconSize: [40, 40],
                 fallbackStyle: {
                     color: 'green',
                     radius: 5,
@@ -164,13 +158,15 @@ setTimeout(function() {
 
             if (zoomLevel >= 7 && zoomLevel <= 18) {
                 style = {
-                    icon: layerStyles[layerName].icon
+                    icon: L.icon({
+                        iconUrl: layerStyles[layerName].iconUrl,
+                        iconSize: layerStyles[layerName].iconSize
+                    })
                 };
             } else {
                 style = {
                     // Använd en standard cirkelmarkör om ingen ikon krävs
-                    // Det här kan anpassas beroende på dina behov
-                    icon: L.circleMarker([0, 0], layerStyles[layerName].fallbackStyle)
+                    icon: null
                 };
             }
 
@@ -199,7 +195,7 @@ setTimeout(function() {
                         if (style.icon) {
                             marker.setIcon(style.icon); // Sätt ikon för varje markör
                         } else {
-                            marker.setStyle(style.icon.options); // Använd fallback-stilen för punktmarkörer
+                            marker.setStyle(getFallbackStyle(layerName)); // Använd fallback-stilen för punktmarkörer
                         }
                     });
                 });
@@ -211,5 +207,3 @@ setTimeout(function() {
         };
     })(map); // Skicka map som parameter till självinkapslad funktion
 }, 1000); // Fördröj initialiseringen av Upptack_geojsonHandler.js med 1000 ms (1 sekund)
-
-
