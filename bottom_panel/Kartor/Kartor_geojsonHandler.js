@@ -29,7 +29,7 @@ var Kartor_geojsonHandler = (function() {
                 style: function(feature) {
                     var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
                     // Använd en färgskala för att generera färger baserat på jakttid grönt till brunt.
-                    var colorScale = ['#1a9850', '#66bd63, '#a6d96a', '#d9ef8b', '#ffffbf', '#fee08b', '#fdae61', '#f46d43', '#d73027', '#b2182b'];
+                    var colorScale = ['#1a9850', '#66bd63', '#a6d96a', '#d9ef8b', '#ffffbf', '#fee08b', '#fdae61', '#f46d43', '#d73027', '#b2182b'];
 
                     // Generera en färg baserat på värdet av jakttid
                     var hash = 0;
