@@ -26,11 +26,20 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': {
             'lgjaktJakttider_1.geojson': {
                 style: (function() {
-                    var colorScale = [
-                        '#006d2c',  '#ffffff', '#74c476', '#a1d99b', '#fdae61', 
-                        '#d73027', '#a50026', '#54278f', '#756bb1', '#2b83ba', 
-                        '#abd9e9'
-                    ];
+                  var colorScale = [
+    '#ffd54f',  // B
+    '#72d572',  // D
+    '#1ba01b',  // C
+    '#ff7043',  // A
+    '#20beea',  // F
+    '#81d4fa',  // G
+    '#ab47bc',  // H
+    '#e9a6f4',  // I
+    '#78909c',  // J
+    '#9c8019',  // K
+    '#b5f2b5'   // E
+];
+
                     var jakttidToColor = {};
                     var currentIndex = 0;
 
