@@ -22,6 +22,11 @@
             margin: 0; /* Ta bort marginaler för att undvika onödig skrollning */
             overflow-x: hidden; /* Dölj horisontell skrollning */
         }
+        
+                /* CSS för att justera z-index för Leaflet-etiketter */
+        .leaflet-pane.leaflet-tile-pane .leaflet-label {
+            z-index: 600; /* Justera z-index så att etiketterna alltid är överst */
+        }
     </style>
 </head>
 <body>
