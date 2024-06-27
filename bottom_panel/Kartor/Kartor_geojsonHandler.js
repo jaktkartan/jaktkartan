@@ -25,7 +25,19 @@ var Kartor_geojsonHandler = (function() {
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2, fillOpacity: 0.7 }
         },
         'Älgjaktskartan': {
-            'lgjaktJakttider_1.geojson': { fillColor: 'green', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 },
+            'lgjaktJakttider_1.geojson': {
+                style: function(feature) {
+                    var jakttid = feature.properties.jakttid; // Antag att 'jakttid' är ett attribut i geojson-filen
+                    // Använd en färgskala för att generera färger baserat på jakttid
+                    var colorScale = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15']; // Exempel på en färgskala
+
+                    // Här kan du anpassa färgskalan eller generera färger dynamiskt baserat på jakttid-värden
+                    var colorIndex = uniqueJakttider.indexOf(jakttid); // uniqueJakttider är en array med unika jakttidsvärden
+                    var fillColor = colorScale[colorIndex % colorScale.length]; // Använd färgskalan, upprepa om det finns fler värden än färger
+
+                    return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.7 };
+                }
+            },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
             'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 8, dashArray: '5, 10' },
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
@@ -52,7 +64,7 @@ var Kartor_geojsonHandler = (function() {
                     var layer = L.geoJSON(geojson, {
                         style: function(feature) {
                             var filename = getFilenameFromURL(geojsonURL);
-                            return layerStyles[layerName][filename];
+                            return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
                             addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
