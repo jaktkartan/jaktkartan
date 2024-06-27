@@ -29,7 +29,13 @@ setTimeout(function() {
                     color: 'orange',
                     radius: 5,
                     fillColor: 'orange',
-                    fillOpacity: 0.8
+                    fillOpacity: 0.8,
+                    icon: L.icon({
+                        iconUrl: 'https://static.vecteezy.com/system/resources/previews/009/887/200/non_2x/young-deer-free-png.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                    })
                 }
             },
             'Jaktkort': {
@@ -39,7 +45,13 @@ setTimeout(function() {
                     color: 'blue',
                     radius: 5,
                     fillColor: 'blue',
-                    fillOpacity: 0.8
+                    fillOpacity: 0.8,
+                    icon: L.icon({
+                        iconUrl: 'https://e7.pngegg.com/pngimages/203/1010/png-clipart-deer-deer.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                    })
                 }
             },
             'Jaktskyttebanor': {
@@ -49,7 +61,13 @@ setTimeout(function() {
                     color: 'green',
                     radius: 5,
                     fillColor: 'green',
-                    fillOpacity: 0.8
+                    fillOpacity: 0.8,
+                    icon: L.icon({
+                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack_jaktskyttebanor.png?raw=true',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                    })
                 }
             }
         };
@@ -166,7 +184,8 @@ setTimeout(function() {
             } else {
                 style = {
                     // Använd en standard cirkelmarkör om ingen ikon krävs
-                    icon: null
+                    // Det här kan anpassas beroende på dina behov
+                    icon: layerStyles[layerName].fallbackStyle.icon
                 };
             }
 
@@ -192,11 +211,7 @@ setTimeout(function() {
 
                     layer.eachLayer(function(marker) {
                         var style = getMarkerStyle(layerName);
-                        if (style.icon) {
-                            marker.setIcon(style.icon); // Sätt ikon för varje markör
-                        } else {
-                            marker.setStyle(getFallbackStyle(layerName)); // Använd fallback-stilen för punktmarkörer
-                        }
+                        marker.setIcon(style.icon); // Sätt ikon för varje markör
                     });
                 });
             });
@@ -206,4 +221,4 @@ setTimeout(function() {
             toggleLayer: toggleLayer
         };
     })(map); // Skicka map som parameter till självinkapslad funktion
-}, 1000); // Fördröj initialiseringen av Upptack_geojsonHandler.js med 1000 ms (1 sekund)
+}, 1000); // Fördr
