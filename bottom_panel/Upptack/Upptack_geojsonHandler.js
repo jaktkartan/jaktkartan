@@ -23,21 +23,21 @@ setTimeout(function() {
 
         var layerStyles = {
             'Mässor': {
-                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/massor.png?raw=true',
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
                 fallbackStyle: { color: 'orange', radius: 5, fillColor: 'orange', fillOpacity: 0.8 }
             },
             'Jaktkort': {
-                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/jaktkort.png?raw=true',
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
                 fallbackStyle: { color: 'blue', radius: 5, fillColor: 'blue', fillOpacity: 0.8 }
             },
             'Jaktskyttebanor': {
-                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/jaktskyttebanor.png?raw=true',
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
@@ -171,7 +171,8 @@ setTimeout(function() {
 
                     layer.eachLayer(function(marker) {
                         if (marker instanceof L.Marker && layerStyles[layerName].iconUrl) {
-                            marker.setIcon(getMarkerIcon(layerName).iconUrl);
+                            var icon = getMarkerIcon(layerName);
+                            marker.setIcon(icon);
                         }
                     });
                 });
