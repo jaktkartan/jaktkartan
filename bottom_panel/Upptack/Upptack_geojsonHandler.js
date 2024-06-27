@@ -1,4 +1,3 @@
-// Gör Upptack_geojsonHandler global
 var Upptack_geojsonHandler;
 
 setTimeout(function() {
@@ -19,30 +18,6 @@ setTimeout(function() {
             'Mässor': [],
             'Jaktkort': [],
             'Jaktskyttebanor': []
-        };
-
-        var layerStyles = {
-            'Mässor': {
-                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                fallbackStyle: { color: 'orange', radius: 5, fillColor: 'orange', fillOpacity: 0.8 }
-            },
-            'Jaktkort': {
-                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                fallbackStyle: { color: 'blue', radius: 5, fillColor: 'blue', fillOpacity: 0.8 }
-            },
-            'Jaktskyttebanor': {
-                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                fallbackStyle: { color: 'green', radius: 5, fillColor: 'green', fillOpacity: 0.8 }
-            }
         };
 
         // Funktion för att hämta GeoJSON-data och skapa lagret med stil
@@ -120,17 +95,35 @@ setTimeout(function() {
         // Funktion för att hämta ikon för lagret
         function getMarkerIcon(layerName) {
             var zoomLevel = map.getZoom();
-            var style = layerStyles[layerName];
+            var iconUrl;
 
-            if (zoomLevel >= 7 && zoomLevel <= 18 && style.iconUrl) {
+            // Välj ikon beroende på zoomnivå och lager
+            switch (layerName) {
+                case 'Mässor':
+                    iconUrl = 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true';
+                    break;
+                case 'Jaktkort':
+                    iconUrl = 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true';
+                    break;
+                case 'Jaktskyttebanor':
+                    iconUrl = 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true';
+                    break;
+                default:
+                    // Fallback till standard markör om ingen ikon är definierad
+                    return L.marker(latlng); 
+            }
+
+            // Returnera ikon om URL är definierad
+            if (iconUrl) {
                 return L.icon({
-                    iconUrl: style.iconUrl,
-                    iconSize: style.iconSize,
-                    iconAnchor: style.iconAnchor,
-                    popupAnchor: style.popupAnchor
+                    iconUrl: iconUrl,
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34]
                 });
             } else {
-                return L.circleMarker([0, 0], style.fallbackStyle);
+                // Returnera en standard markör om ikonUrl inte är definierad
+                return L.marker(latlng);
             }
         }
 
@@ -170,7 +163,7 @@ setTimeout(function() {
                     console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
                     layer.eachLayer(function(marker) {
-                        if (marker instanceof L.Marker && layerStyles[layerName].iconUrl) {
+                        if (marker instanceof L.Marker && getMarkerIcon(layerName)) {
                             var icon = getMarkerIcon(layerName);
                             marker.setIcon(icon);
                         }
