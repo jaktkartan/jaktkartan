@@ -25,7 +25,7 @@ setTimeout(function() {
             'Mässor': {
                 'Massor.geojson': {
                     icon: L.icon({
-                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/icon_massor.png?raw=true',
+                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
                         iconSize: [30, 30],
                         iconAnchor: [15, 15]
                     })
@@ -42,7 +42,7 @@ setTimeout(function() {
             'Jaktkort': {
                 'jaktkort.geojson': {
                     icon: L.icon({
-                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/icon_jaktkort.png?raw=true',
+                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
                         iconSize: [30, 30],
                         iconAnchor: [15, 15]
                     })
@@ -59,7 +59,7 @@ setTimeout(function() {
             'Jaktskyttebanor': {
                 'jaktskyttebanor.geojson': {
                     icon: L.icon({
-                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/icon_jaktskyttebanor.png?raw=true',
+                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
                         iconSize: [30, 30],
                         iconAnchor: [15, 15]
                     })
