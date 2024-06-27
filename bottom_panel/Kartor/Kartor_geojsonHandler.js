@@ -43,7 +43,7 @@ var Kartor_geojsonHandler = (function() {
                 }
             },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
-            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 8, dashArray: '5, 10' },
+            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 5, dashArray: '5, 10' },
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
         }
     };
