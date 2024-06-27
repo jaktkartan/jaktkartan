@@ -148,7 +148,7 @@ setTimeout(function() {
             var zoomLevel = map.getZoom();
             var style;
 
-            if (zoomLevel >= 1 && zoomLevel <= 18) {
+            if (zoomLevel >= 7 && zoomLevel <= 18) {
                 style = {
                     icon: L.icon({
                         iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
@@ -161,7 +161,7 @@ setTimeout(function() {
                     // Använd en standard cirkelmarkör om ingen ikon krävs
                     // Det här kan anpassas beroende på dina behov
                     icon: L.icon({
-                        iconUrl: 'default.png',
+                        iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
                         iconSize: [25, 41],
                         iconAnchor: [12, 41],
                         popupAnchor: [1, -34],
