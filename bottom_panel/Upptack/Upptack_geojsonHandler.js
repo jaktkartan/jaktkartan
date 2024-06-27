@@ -34,7 +34,7 @@ setTimeout(function() {
                 iconUrl: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
                 iconSize: [40, 40],
                 fallbackStyle: {
-                    fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.png',
+                    fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort2.png',
                     fallbackIconSize: [15, 15]
                 }
             },
