@@ -30,7 +30,8 @@ var Kartor_geojsonHandler = (function() {
                 style: function(feature) {
                     var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
                     // Använd en färgskala för att generera färger baserat på jakttid
-                    var colorScale = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15']; // Exempel på en färgskala
+                    var colorScale = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#006d2c', '#00441b'];
+
 
                     // Generera en färg baserat på värdet av jakttid
                     var hash = 0;
