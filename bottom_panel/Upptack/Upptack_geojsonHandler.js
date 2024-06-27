@@ -23,7 +23,7 @@ setTimeout(function() {
 
         var layerStyles = {
             'Mässor': {
-                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
+                iconUrl: 'bottom_panel/Upptack/bilder/massa_ikon.png',
                 iconSize: [40, 40],
                 fallbackStyle: {
                     fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_massor.png',
