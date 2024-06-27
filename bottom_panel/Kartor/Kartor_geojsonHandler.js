@@ -29,7 +29,20 @@ var Kartor_geojsonHandler = (function() {
                 style: function(feature) {
                     var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
                     // Använd en färgskala för att generera färger baserat på jakttid grönt till brunt.
-                    var colorScale = ['#1a9850', '#66bd63', '#a6d96a', '#d9ef8b', '#ffffbf', '#fee08b', '#fdae61', '#f46d43', '#d73027', '#b2182b'];
+                    var colorScale = [
+    '#006d2c',  // Mörk grön (tät skog)
+    '#238b45',  // Mellangrön (blandskog)
+    '#74c476',  // Ljusgrön (öppna marker)
+    '#a1d99b',  // Gulgrön (ängar)
+    '#d9f0a3',  // Mycket ljusgrön (högre ängar)
+    '#fdb863',  // Ljungul (torra områden)
+    '#e08214',  // Brunorange (karga områden)
+    '#b35806',  // Mörkbrun (bergig terräng)
+    '#8c6d52',  // Ljusbrun (lägre berg)
+    '#fff5f0',  // Ljus vitrosa (snötäckta toppar)
+    '#d73027'   // Röd (klippformationer)
+];
+
 
                     // Generera en färg baserat på värdet av jakttid
                     var hash = 0;
