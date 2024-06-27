@@ -25,6 +25,7 @@ var Kartor_geojsonHandler = (function() {
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2, fillOpacity: 0.7 }
         },
         'Älgjaktskartan': {
+            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 5, dashArray: '5, 10' },
             'lgjaktJakttider_1.geojson': {
                 style: function(feature) {
                     var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
@@ -42,8 +43,7 @@ var Kartor_geojsonHandler = (function() {
                     return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.7 };
                 }
             },
-            'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
-            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 5, dashArray: '5, 10' },
+            'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 }, 
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
         }
     };
