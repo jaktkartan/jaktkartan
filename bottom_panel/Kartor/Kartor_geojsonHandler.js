@@ -1,5 +1,4 @@
 var Kartor_geojsonHandler = (function() {
-    // Deklarera globala variabler för att spåra lagrets tillstånd och geojson-lager
     var layerIsActive = {
         'Allmän jakt: Däggdjur': false,
         'Allmän jakt: Fågel': false,
@@ -26,35 +25,28 @@ var Kartor_geojsonHandler = (function() {
         },
         'Älgjaktskartan': {
             'lgjaktJakttider_1.geojson': {
-                style: function(feature) {
-                    var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
-                    // Använd en färgskala för att generera färger baserat på jakttid grönt till brunt.
+                style: (function() {
                     var colorScale = [
-    '#006d2c',  // Mörk grön
-    '#ffffff',  // Vit
-    '#74c476',  // Ljusgrön
-    '#a1d99b',  // Gulgrön
-    '#fdae61',  // Orange
-    '#d73027',  // Röd
-    '#a50026',  // Mörkröd
-    '#54278f',  // Mörklila
-    '#756bb1',  // Lila
-    '#2b83ba',  // Blå
-    '#abd9e9'   // Ljusblå
-];
+                        '#006d2c',  '#ffffff', '#74c476', '#a1d99b', '#fdae61', 
+                        '#d73027', '#a50026', '#54278f', '#756bb1', '#2b83ba', 
+                        '#abd9e9'
+                    ];
+                    var jakttidToColor = {};
+                    var currentIndex = 0;
 
+                    return function(feature) {
+                        var jakttid = feature.properties['jakttid'];
 
+                        if (!jakttidToColor[jakttid]) {
+                            jakttidToColor[jakttid] = colorScale[currentIndex];
+                            currentIndex = (currentIndex + 1) % colorScale.length;
+                        }
 
-                    // Generera en färg baserat på värdet av jakttid
-                    var hash = 0;
-                    for (var i = 0; i < jakttid.length; i++) {
-                        hash = jakttid.charCodeAt(i) + ((hash << 5) - hash);
-                    }
-                    var index = Math.abs(hash % colorScale.length);
-                    var fillColor = colorScale[index];
+                        var fillColor = jakttidToColor[jakttid];
 
-                    return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.6 };
-                }
+                        return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.6 };
+                    };
+                })()
             },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
             'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 7, dashArray: '5, 10' },
@@ -62,9 +54,7 @@ var Kartor_geojsonHandler = (function() {
         }
     };
 
-    // Funktion för att hämta GeoJSON-data och skapa lagret med stil
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        // Inaktivera alla andra lager förutom det aktuella lagret
         Object.keys(layerIsActive).forEach(function(name) {
             if (name !== layerName && layerIsActive[name]) {
                 toggleLayer(name, geojsonLayers[name].map(function(layer) {
@@ -85,14 +75,12 @@ var Kartor_geojsonHandler = (function() {
                             return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
-                            addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
+                            addClickHandlerToLayer(layer); 
                         }
                     });
 
-                    // Lägg till lagret i geojsonLayers arrayen
                     geojsonLayers[layerName].push(layer);
                     
-                    // Om lagret är aktivt, lägg till det på kartan
                     if (layerIsActive[layerName]) {
                         layer.addTo(map);
                     }
@@ -102,37 +90,28 @@ var Kartor_geojsonHandler = (function() {
                 });
         });
 
-        // Uppdatera layerIsActive för det aktuella lagret
         layerIsActive[layerName] = true;
     }
 
-    // Funktion för att tända och släcka lagret
     function toggleLayer(layerName, geojsonURLs) {
         if (!layerIsActive[layerName]) {
-            // Om lagret inte är aktivt, lägg till lagret på kartan
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         } else {
-            // Om lagret är aktivt, ta bort lagret från kartan
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
 
-            // Töm geojsonLayers arrayen för det aktuella lagret
             geojsonLayers[layerName] = [];
-
-            // Uppdatera layerIsActive för det aktuella lagret
             layerIsActive[layerName] = false;
         }
     }
 
-    // Funktion för att extrahera filnamnet från URL:en
     function getFilenameFromURL(url) {
         var pathArray = url.split('/');
         var filename = pathArray[pathArray.length - 1];
         return filename;
     }
 
-    // Returnera offentliga metoder och variabler
     return {
         toggleLayer: toggleLayer,
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
