@@ -27,13 +27,17 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': {
             'lgjaktJakttider_1.geojson': {
                 style: function(feature) {
-                    var jakttid = feature.properties['jakttid:']; // Hämta värdet från fältet 'jakttid:'
+                    var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
                     // Använd en färgskala för att generera färger baserat på jakttid
                     var colorScale = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15']; // Exempel på en färgskala
 
-                    // Här kan du anpassa färgskalan eller generera färger dynamiskt baserat på jakttid-värden
-                    var colorIndex = uniqueJakttider.indexOf(jakttid); // uniqueJakttider är en array med unika jakttidsvärden
-                    var fillColor = colorScale[colorIndex % colorScale.length]; // Använd färgskalan, upprepa om det finns fler värden än färger
+                    // Generera en färg baserat på värdet av jakttid
+                    var hash = 0;
+                    for (var i = 0; i < jakttid.length; i++) {
+                        hash = jakttid.charCodeAt(i) + ((hash << 5) - hash);
+                    }
+                    var index = Math.abs(hash % colorScale.length);
+                    var fillColor = colorScale[index];
 
                     return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.7 };
                 }
