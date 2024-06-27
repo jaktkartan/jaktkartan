@@ -36,12 +36,12 @@ var Kartor_geojsonHandler = (function() {
     '#b35806',  // Mörkbrun (bergig terräng)
     '#8c6d52',  // Ljusbrun (lägre berg)
     '#fff5f0',  // Ljus vitrosa (snötäckta toppar)
-    '#d73027'   // Röd (klippformationer)
+    '#d73027',  // Röd (klippformationer)
     '#006d2c',  // Mörk grön (tät skog)
     '#238b45',  // Mellangrön (blandskog)
     '#74c476',  // Ljusgrön (öppna marker)
     '#a1d99b',  // Gulgrön (ängar)
-    '#d9f0a3',  // Mycket ljusgrön (högre ängar)
+    '#d9f0a3'  // Mycket ljusgrön (högre ängar)
 ];
 
 
