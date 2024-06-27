@@ -15,11 +15,24 @@ var Kartor_geojsonHandler = (function() {
     var map; // Kartan kommer att initieras senare
 
     function init(mapInstance) {
-        map = mapInstance;
-        
-        // Skapa en ny 'pane' för GeoJSON-lagren
-        map.createPane('geojsonPane');
-        map.getPane('geojsonPane').style.zIndex = 400; // Ett lägre värde än text och etiketter
+        if (!map) { // Kontrollera om kartan redan är initialiserad
+            map = mapInstance;
+
+            // Skapa en ny 'pane' för GeoJSON-lagren
+            map.createPane('geojsonPane');
+            map.getPane('geojsonPane').style.zIndex = 400; // Ett lägre värde än text och etiketter
+        }
+    }
+
+    var colorScale = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15'];
+    var colorMapping = {};
+
+    function getColorForJakttid(jakttid) {
+        if (!colorMapping[jakttid]) {
+            var index = Object.keys(colorMapping).length % colorScale.length;
+            colorMapping[jakttid] = colorScale[index];
+        }
+        return colorMapping[jakttid];
     }
 
     var layerStyles = {
@@ -35,25 +48,7 @@ var Kartor_geojsonHandler = (function() {
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2, fillOpacity: 0.7 }
         },
         'Älgjaktskartan': {
-            'lgjaktJakttider_1.geojson': {
-                style: function(feature) {
-                    var jakttid = feature.properties['jakttid:']; // Hämta värdet från fältet 'jakttid:'
-                    // Använd en färgskala för att generera färger baserat på jakttid
-                    var colorScale = [
-                        '#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#005a32'
-                    ]; // Harmonisk färgskala för jakttema
-
-                    // Generera en färg baserat på värdet av jakttid
-                    var hash = 0;
-                    for (var i = 0; i < jakttid.length; i++) {
-                        hash = jakttid.charCodeAt(i) + ((hash << 5) - hash);
-                    }
-                    var index = Math.abs(hash % colorScale.length);
-                    var fillColor = colorScale[index];
-
-                    return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.7 };
-                }
-            },
+            'lgjaktJakttider_1.geojson': { fillColor: 'green', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
             'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 8, dashArray: '5, 10' },
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
@@ -78,15 +73,21 @@ var Kartor_geojsonHandler = (function() {
                     var geojson = response.data;
 
                     var layer = L.geoJSON(geojson, {
-                        pane: 'geojsonPane', // Använd den nya 'pane'
                         style: function(feature) {
                             var filename = getFilenameFromURL(geojsonURL);
-                            var styleConfig = layerStyles[layerName][filename];
-                            return styleConfig.style ? styleConfig.style(feature) : styleConfig;
+
+                            if (layerName === 'Älgjaktskartan' && filename === 'lgjaktJakttider_1.geojson') {
+                                var jakttid = feature.properties['jakttid:'];
+                                var fillColor = getColorForJakttid(jakttid);
+                                return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.7 };
+                            }
+
+                            return layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
                             addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
-                        }
+                        },
+                        pane: 'geojsonPane'
                     });
 
                     // Lägg till lagret i geojsonLayers arrayen
@@ -134,12 +135,8 @@ var Kartor_geojsonHandler = (function() {
 
     // Returnera offentliga metoder och variabler
     return {
-        init: init, // Lägg till init-metoden
+        init: init,
         toggleLayer: toggleLayer,
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
     };
 })();
-
-// Initiera kartan och anropa init-metoden
-var map = L.map('map').setView([59.3293, 18.0686], 13);
-Kartor_geojsonHandler.init(map);
