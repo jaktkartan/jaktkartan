@@ -31,10 +31,10 @@ setTimeout(function() {
                 }
             },
             'Jaktkort': {
-                iconUrl: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
+                iconUrl: 'bottom_panel/Upptack/bilder/jaktkort_ikon2.png',
                 iconSize: [40, 40],
                 fallbackStyle: {
-                    fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort2.png',
+                    fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.png',
                     fallbackIconSize: [15, 15]
                 }
             },
@@ -208,5 +208,3 @@ setTimeout(function() {
         };
     })(map); // Skicka map som parameter till självinkapslad funktion
 }, 1000); // Fördröjning
-
-
