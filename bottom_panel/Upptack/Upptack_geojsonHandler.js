@@ -24,7 +24,7 @@ setTimeout(function() {
         var layerStyles = {
             'Mässor': {
                 icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/massor.png?raw=true',
+                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/upptack.png?raw=true',
                     iconSize: [25, 41],
                     iconAnchor: [12, 41],
                     popupAnchor: [1, -34],
@@ -33,7 +33,7 @@ setTimeout(function() {
             },
             'Jaktkort': {
                 icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/jaktkort.png?raw=true',
+                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
                     iconSize: [25, 41],
                     iconAnchor: [12, 41],
                     popupAnchor: [1, -34],
