@@ -19,10 +19,10 @@ var Kartor_geojsonHandler = (function() {
         },
         'Allmän jakt: Fågel': {
             'Lnsindelning_1.geojson': { fillColor: 'yellow', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 },
-            'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'orange', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
+            'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'rgb(50, 94, 88)', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
             'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'blue', color: 'blue', weight: 8, fillOpacity: 0.5, dashArray: '5, 10' },
-            'NedanfrLappmarksgrnsen_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2, fillOpacity: 0.5, dashArray: '5, 10' },
-            'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2, fillOpacity: 0.7 }
+            'NedanfrLappmarksgrnsen_3.geojson': { fillColor: '#a1d99b', color: '#edf8e9', weight: 2, fillOpacity: 0.5, dashArray: '5, 10' },
+            'OvanfrLapplandsgrnsen_4.geojson': { fillColor: '#74c476', color: '#edf8e9', weight: 2, fillOpacity: 0.5 }
         },
         'Älgjaktskartan': {
             'lgjaktJakttider_1.geojson': {
@@ -45,7 +45,7 @@ var Kartor_geojsonHandler = (function() {
                 }
             },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
-            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 8, dashArray: '5, 10' },
+            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 7, dashArray: '5, 10' },
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
         }
     };
