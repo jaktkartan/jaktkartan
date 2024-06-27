@@ -12,9 +12,15 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': []
     };
 
-    // Skapa en ny 'pane' för GeoJSON-lagren
-    map.createPane('geojsonPane');
-    map.getPane('geojsonPane').style.zIndex = 400; // Ett lägre värde än text och etiketter
+    var map; // Kartan kommer att initieras senare
+
+    function init(mapInstance) {
+        map = mapInstance;
+        
+        // Skapa en ny 'pane' för GeoJSON-lagren
+        map.createPane('geojsonPane');
+        map.getPane('geojsonPane').style.zIndex = 400; // Ett lägre värde än text och etiketter
+    }
 
     var layerStyles = {
         'Allmän jakt: Däggdjur': {
@@ -128,7 +134,12 @@ var Kartor_geojsonHandler = (function() {
 
     // Returnera offentliga metoder och variabler
     return {
+        init: init, // Lägg till init-metoden
         toggleLayer: toggleLayer,
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
     };
 })();
+
+// Initiera kartan och anropa init-metoden
+var map = L.map('map').setView([59.3293, 18.0686], 13);
+Kartor_geojsonHandler.init(map);
