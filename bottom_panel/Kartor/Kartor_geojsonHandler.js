@@ -21,15 +21,15 @@ var Kartor_geojsonHandler = (function() {
             'Lnsindelning_1.geojson': { fillColor: 'yellow', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 },
             'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'rgb(50, 94, 88)', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
             'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'blue', color: 'blue', weight: 8, fillOpacity: 0.5, dashArray: '5, 10' },
-            'NedanfrLappmarksgrnsen_3.geojson': { fillColor: '#8c6d52', color: '#edf8e9', weight: 2, fillOpacity: 0.5, dashArray: '5, 10' },
-            'OvanfrLapplandsgrnsen_4.geojson': { fillColor: '#c7e9c0', color: '#edf8e9', weight: 2, fillOpacity: 0.5 }
+            'NedanfrLappmarksgrnsen_3.geojson': { fillColor: '#fdae61', color: '#edf8e9', weight: 2, fillOpacity: 0.5, dashArray: '5, 10' },
+            'OvanfrLapplandsgrnsen_4.geojson': { fillColor: '#a6d96a', color: '#edf8e9', weight: 2, fillOpacity: 0.5 }
         },
         'Älgjaktskartan': {
             'lgjaktJakttider_1.geojson': {
                 style: function(feature) {
                     var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
                     // Använd en färgskala för att generera färger baserat på jakttid grönt till brunt.
-                    var colorScale = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#6a9955', '#8c6d52', '#b35806', '#e08214', '#fdb863'];
+                    var colorScale = ['#1a9850', '#66bd63, '#a6d96a', '#d9ef8b', '#ffffbf', '#fee08b', '#fdae61', '#f46d43', '#d73027', '#b2182b'];
 
                     // Generera en färg baserat på värdet av jakttid
                     var hash = 0;
