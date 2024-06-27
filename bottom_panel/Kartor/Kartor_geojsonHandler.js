@@ -12,31 +12,6 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': []
     };
 
-    var map; // Kartan kommer att initieras senare
-
-    function init(mapInstance) {
-        if (!map) { // Kontrollera om kartan redan är initialiserad
-            map = mapInstance;
-
-            // Skapa en ny 'pane' för GeoJSON-lagren
-            map.createPane('geojsonPane');
-            map.getPane('geojsonPane').style.zIndex = 400; // Ett lägre värde än text och etiketter
-        } else {
-            console.log("Map is already initialized.");
-        }
-    }
-
-    var colorScale = ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15'];
-    var colorMapping = {};
-
-    function getColorForJakttid(jakttid) {
-        if (!colorMapping[jakttid]) {
-            var index = Object.keys(colorMapping).length % colorScale.length;
-            colorMapping[jakttid] = colorScale[index];
-        }
-        return colorMapping[jakttid];
-    }
-
     var layerStyles = {
         'Allmän jakt: Däggdjur': {
             'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'orange', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
@@ -50,7 +25,25 @@ var Kartor_geojsonHandler = (function() {
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2, fillOpacity: 0.7 }
         },
         'Älgjaktskartan': {
-            'lgjaktJakttider_1.geojson': { fillColor: 'green', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 },
+            'lgjaktJakttider_1.geojson': {
+                style: function(feature) {
+                    var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
+                    // Använd en färgskala för att generera färger baserat på jakttid
+                    var colorScale = [
+                        '#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#006d2c', '#00441b'
+                    ]; // Harmonisk färgskala för jakttema
+
+                    // Generera en färg baserat på värdet av jakttid
+                    var hash = 0;
+                    for (var i = 0; i < jakttid.length; i++) {
+                        hash = jakttid.charCodeAt(i) + ((hash << 5) - hash);
+                    }
+                    var index = Math.abs(hash % colorScale.length);
+                    var fillColor = colorScale[index];
+
+                    return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.7 };
+                }
+            },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
             'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 8, dashArray: '5, 10' },
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
@@ -77,30 +70,19 @@ var Kartor_geojsonHandler = (function() {
                     var layer = L.geoJSON(geojson, {
                         style: function(feature) {
                             var filename = getFilenameFromURL(geojsonURL);
-
-                            if (layerName === 'Älgjaktskartan' && filename === 'lgjaktJakttider_1.geojson') {
-                                var jakttid = feature.properties['jakttid:'];
-                                var fillColor = getColorForJakttid(jakttid);
-                                return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.7 };
-                            }
-
-                            return layerStyles[layerName][filename];
+                            return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
                             addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
-                        },
-                        pane: 'geojsonPane'
+                        }
                     });
 
                     // Lägg till lagret i geojsonLayers arrayen
                     geojsonLayers[layerName].push(layer);
-
+                    
                     // Om lagret är aktivt, lägg till det på kartan
                     if (layerIsActive[layerName]) {
-                        console.log("Adding layer to the map.");
                         layer.addTo(map);
-                    } else {
-                        console.log("Layer is not active, not adding to the map.");
                     }
                 })
                 .catch(function(error) {
@@ -140,7 +122,6 @@ var Kartor_geojsonHandler = (function() {
 
     // Returnera offentliga metoder och variabler
     return {
-        init: init,
         toggleLayer: toggleLayer,
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
     };
