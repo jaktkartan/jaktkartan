@@ -166,17 +166,9 @@ setTimeout(function() {
             var style;
 
             if (zoomLevel >= 7 && zoomLevel <= 18) {
-                style = {
-                    icon: layerStyles[layerName].icon
-                };
+                style = layerStyles[layerName].icon ? { icon: layerStyles[layerName].icon } : layerStyles[layerName].fallbackStyle;
             } else {
-                style = layerStyles[layerName].fallbackStyle || {
-                    // Fallback to a default marker if no specific style is found
-                    color: 'gray', // Default color
-                    radius: 5,
-                    fillColor: 'gray',
-                    fillOpacity: 0.8
-                };
+                style = layerStyles[layerName].fallbackStyle;
             }
 
             console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
