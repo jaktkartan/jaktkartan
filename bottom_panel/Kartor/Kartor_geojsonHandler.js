@@ -12,6 +12,10 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': []
     };
 
+    // Skapa en ny 'pane' för GeoJSON-lagren
+    map.createPane('geojsonPane');
+    map.getPane('geojsonPane').style.zIndex = 400; // Ett lägre värde än text och etiketter
+
     var layerStyles = {
         'Allmän jakt: Däggdjur': {
             'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'orange', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
@@ -25,13 +29,13 @@ var Kartor_geojsonHandler = (function() {
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2, fillOpacity: 0.7 }
         },
         'Älgjaktskartan': {
-            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 5, dashArray: '5, 10' },
             'lgjaktJakttider_1.geojson': {
                 style: function(feature) {
-                    var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
+                    var jakttid = feature.properties['jakttid:']; // Hämta värdet från fältet 'jakttid:'
                     // Använd en färgskala för att generera färger baserat på jakttid
-                    var colorScale = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#006d2c', '#00441b'];
-
+                    var colorScale = [
+                        '#f7fcf5', '#e5f5e0', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#005a32'
+                    ]; // Harmonisk färgskala för jakttema
 
                     // Generera en färg baserat på värdet av jakttid
                     var hash = 0;
@@ -44,7 +48,8 @@ var Kartor_geojsonHandler = (function() {
                     return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.7 };
                 }
             },
-            'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 }, 
+            'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
+            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 8, dashArray: '5, 10' },
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
         }
     };
@@ -67,9 +72,11 @@ var Kartor_geojsonHandler = (function() {
                     var geojson = response.data;
 
                     var layer = L.geoJSON(geojson, {
+                        pane: 'geojsonPane', // Använd den nya 'pane'
                         style: function(feature) {
                             var filename = getFilenameFromURL(geojsonURL);
-                            return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
+                            var styleConfig = layerStyles[layerName][filename];
+                            return styleConfig.style ? styleConfig.style(feature) : styleConfig;
                         },
                         onEachFeature: function(feature, layer) {
                             addClickHandlerToLayer(layer); // Använd funktionen från popupHandler.js
@@ -78,7 +85,7 @@ var Kartor_geojsonHandler = (function() {
 
                     // Lägg till lagret i geojsonLayers arrayen
                     geojsonLayers[layerName].push(layer);
-                    
+
                     // Om lagret är aktivt, lägg till det på kartan
                     if (layerIsActive[layerName]) {
                         layer.addTo(map);
