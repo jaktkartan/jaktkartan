@@ -31,7 +31,7 @@ setTimeout(function() {
                 }
             },
             'Jaktkort': {
-                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                iconUrl: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
                 iconSize: [40, 40],
                 fallbackStyle: {
                     fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.png',
