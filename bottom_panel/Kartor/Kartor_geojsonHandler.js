@@ -28,9 +28,9 @@ var Kartor_geojsonHandler = (function() {
             'lgjaktJakttider_1.geojson': {
                 style: function(feature) {
                     var jakttid = feature.properties['jakttid']; // Hämta värdet från fältet 'jakttid'
-                    // Använd en färgskala för att generera färger baserat på jakttid
-                    var colorScale = [
-                        '#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#238b45', '#006d2c', '#00441b'
+                    // Använd en färgskala för att generera färger baserat på jakttid grönt till brunt.
+                    var colorScale = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#6a9955', '#8c6d52', '#b35806', '#e08214', '#fdb863'];
+
                     ]; // Harmonisk färgskala för jakttema
 
                     // Generera en färg baserat på värdet av jakttid
