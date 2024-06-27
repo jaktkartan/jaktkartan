@@ -23,30 +23,24 @@ setTimeout(function() {
 
         var layerStyles = {
             'Mässor': {
-                icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                }),
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
                 fallbackStyle: { color: 'orange', radius: 5, fillColor: 'orange', fillOpacity: 0.8 }
             },
             'Jaktkort': {
-                icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                }),
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
                 fallbackStyle: { color: 'blue', radius: 5, fillColor: 'blue', fillOpacity: 0.8 }
             },
             'Jaktskyttebanor': {
-                icon: L.icon({
-                    iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                }),
+                iconUrl: 'https://github.com/timothylevin/Testmiljo/blob/main/bilder/ikon3.png?raw=true',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
                 fallbackStyle: { color: 'green', radius: 5, fillColor: 'green', fillOpacity: 0.8 }
             }
         };
@@ -59,13 +53,9 @@ setTimeout(function() {
                         var geojson = response.data;
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
-                                var style = getMarkerStyle(layerName);
-
-                                if (style.icon) {
-                                    return L.marker(latlng, { icon: style.icon });
-                                } else {
-                                    return L.circleMarker(latlng, style);
-                                }
+                                return L.marker(latlng, {
+                                    icon: getMarkerIcon(layerName)
+                                });
                             },
                             onEachFeature: function(feature, layer) {
                                 var popupContent = generatePopupContent(feature);
@@ -127,14 +117,21 @@ setTimeout(function() {
             });
         }
 
-        // Funktion för att hämta filnamn från URL
-        function getFilenameFromURL(url) {
-            var filename = "";
-            if (url) {
-                var pathArray = url.split('/');
-                filename = pathArray[pathArray.length - 1];
+        // Funktion för att hämta ikon för lagret
+        function getMarkerIcon(layerName) {
+            var zoomLevel = map.getZoom();
+            var style = layerStyles[layerName];
+
+            if (zoomLevel >= 7 && zoomLevel <= 18 && style.iconUrl) {
+                return L.icon({
+                    iconUrl: style.iconUrl,
+                    iconSize: style.iconSize,
+                    iconAnchor: style.iconAnchor,
+                    popupAnchor: style.popupAnchor
+                });
+            } else {
+                return L.circleMarker([0, 0], style.fallbackStyle);
             }
-            return filename;
         }
 
         // Funktion för att generera popup-innehåll
@@ -160,22 +157,6 @@ setTimeout(function() {
             return popupContent;
         }
 
-        // Funktion för att hämta stil baserat på zoomnivå
-        function getMarkerStyle(layerName) {
-            var zoomLevel = map.getZoom();
-            var style;
-
-            if (zoomLevel >= 7 && zoomLevel <= 18) {
-                style = layerStyles[layerName].icon ? { icon: layerStyles[layerName].icon } : layerStyles[layerName].fallbackStyle;
-            } else {
-                style = layerStyles[layerName].fallbackStyle;
-            }
-
-            console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
-
-            return style;
-        }
-
         // Initialisera alla lager vid start
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
@@ -189,12 +170,8 @@ setTimeout(function() {
                     console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
 
                     layer.eachLayer(function(marker) {
-                        var style = getMarkerStyle(layerName);
-
-                        if (marker instanceof L.Marker && style.icon) {
-                            marker.setIcon(style.icon); // Sätt ikon för varje markör
-                        } else if (marker instanceof L.CircleMarker && style.radius) {
-                            marker.setStyle(style); // Sätt stil för varje punktobjekt
+                        if (marker instanceof L.Marker && layerStyles[layerName].iconUrl) {
+                            marker.setIcon(getMarkerIcon(layerName).iconUrl);
                         }
                     });
                 });
