@@ -41,7 +41,7 @@ var Kartor_geojsonHandler = (function() {
                     var index = Math.abs(hash % colorScale.length);
                     var fillColor = colorScale[index];
 
-                    return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.7 };
+                    return { fillColor: fillColor, color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.6 };
                 }
             },
             'Srskiltjakttidsfnster_3.geojson': { fillColor: 'purple', color: 'purple', weight: 2 },
@@ -126,22 +126,3 @@ var Kartor_geojsonHandler = (function() {
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
     };
 })();
-
-// Justera z-index för geojson-lager
-geojsonLayers['Allmän jakt: Däggdjur'].forEach(function(layer) {
-    layer.eachLayer(function(l) {
-        l.setZIndex(500); // Sätt ett lägre z-index värde
-    });
-});
-
-geojsonLayers['Allmän jakt: Fågel'].forEach(function(layer) {
-    layer.eachLayer(function(l) {
-        l.setZIndex(500); // Sätt ett lägre z-index värde
-    });
-});
-
-geojsonLayers['Älgjaktskartan'].forEach(function(layer) {
-    layer.eachLayer(function(l) {
-        l.setZIndex(500); // Sätt ett lägre z-index värde
-    });
-});
