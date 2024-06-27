@@ -21,6 +21,8 @@ var Kartor_geojsonHandler = (function() {
             // Skapa en ny 'pane' för GeoJSON-lagren
             map.createPane('geojsonPane');
             map.getPane('geojsonPane').style.zIndex = 400; // Ett lägre värde än text och etiketter
+        } else {
+            console.log("Map is already initialized.");
         }
     }
 
@@ -95,7 +97,10 @@ var Kartor_geojsonHandler = (function() {
 
                     // Om lagret är aktivt, lägg till det på kartan
                     if (layerIsActive[layerName]) {
+                        console.log("Adding layer to the map.");
                         layer.addTo(map);
+                    } else {
+                        console.log("Layer is not active, not adding to the map.");
                     }
                 })
                 .catch(function(error) {
