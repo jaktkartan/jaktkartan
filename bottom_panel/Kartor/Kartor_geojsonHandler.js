@@ -31,8 +31,6 @@ var Kartor_geojsonHandler = (function() {
                     // Använd en färgskala för att generera färger baserat på jakttid grönt till brunt.
                     var colorScale = ['#edf8e9', '#c7e9c0', '#a1d99b', '#74c476', '#41ab5d', '#6a9955', '#8c6d52', '#b35806', '#e08214', '#fdb863'];
 
-                    ]; // Harmonisk färgskala för jakttema
-
                     // Generera en färg baserat på värdet av jakttid
                     var hash = 0;
                     for (var i = 0; i < jakttid.length; i++) {
