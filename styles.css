@@ -33,7 +33,6 @@ body, button, span, div {
 .styled-button {
     display: inline-flex;
     align-items: center;
-    justify-content: center; /* Center the content horizontally */
     margin: 0 3px;
     position: relative;
     z-index: 1;
