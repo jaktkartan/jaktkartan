@@ -51,7 +51,7 @@ body, button, span, div {
 .styled-button img {
     display: block;
     max-width: 100%;
-    max-height: 80px;
+    max-height: 100%;
     object-fit: contain;
     width: auto;
     height: auto;
@@ -66,6 +66,7 @@ body, button, span, div {
     flex: 1; /* Flex-grow 1 för att ta upp all tillgänglig plats */
     width: 100%; /* Se till att bredden är 100% av föräldern */
     max-height: 15vh; /* Maximal höjd för att matcha flikens höjd */
+    overflow: hidden; /* Förhindra skrollpanel om knapparna krymper */
 }
 
 @media (max-width: 768px) {
