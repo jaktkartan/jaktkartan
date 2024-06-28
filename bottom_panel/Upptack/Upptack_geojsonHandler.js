@@ -1,4 +1,3 @@
-// Gör Upptack_geojsonHandler global
 var Upptack_geojsonHandler;
 
 setTimeout(function() {
@@ -82,7 +81,6 @@ setTimeout(function() {
 
         // Funktion för att toggla lagret
         function toggleLayer(layerName) {
-            // console.log("Toggling layer:", layerName); // Debug: Kontrollera vilken layer som togglas
             if (layerName === 'Visa_allt') {
                 activateAllLayers();
             } else if (layerName === 'Rensa_allt') {
@@ -99,7 +97,6 @@ setTimeout(function() {
                 layer.addTo(map);
             });
             layerIsActive[layerName] = true;
-            // console.log("Activated layer:", layerName); // Debug: Bekräfta aktivering
         }
 
         // Funktion för att aktivera alla lager
@@ -117,7 +114,6 @@ setTimeout(function() {
                         map.removeLayer(layer);
                     });
                     layerIsActive[name] = false;
-                    // console.log("Deactivated layer:", name); // Debug: Bekräfta avaktivering
                 }
             });
         }
@@ -126,18 +122,20 @@ setTimeout(function() {
         function generatePopupContent(feature) {
             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
             var hideProperties = ['id', 'Aktualitet'];
-            var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+            var hideNameOnlyProperties = ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'];
 
             for (var prop in feature.properties) {
                 if (hideProperties.includes(prop)) continue;
-                if (prop === 'BILD') {
-                    popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
-                } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
-                    popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
-                } else if (hideNameOnlyProperties.includes(prop)) {
-                    popupContent += '<p>' + feature.properties[prop] + '</p>';
-                } else {
-                    popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+                var value = feature.properties[prop];
+
+                if (prop === 'BILD' && value) {
+                    popupContent += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+                } else if ((prop === 'LINK' || prop === 'VAGBESKRIV') && value) {
+                    popupContent += '<p><a href="' + value + '" target="_blank">' + (prop === 'LINK' ? 'Länk' : 'Vägbeskrivning') + '</a></p>';
+                } else if (hideNameOnlyProperties.includes(prop) && value) {
+                    popupContent += '<p>' + value + '</p>';
+                } else if (value) {
+                    popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
                 }
             }
 
@@ -193,11 +191,9 @@ setTimeout(function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 geojsonLayers[layerName].forEach(function(layer) {
                     var zoomLevel = map.getZoom();
-                    // console.log("Zoom level for layer " + layerName + " is: " + zoomLevel);
-
                     layer.eachLayer(function(marker) {
                         var style = getMarkerStyle(layerName);
-                        marker.setIcon(style.icon); // Sätt ikon för varje markör
+                        marker.setIcon(style.icon);
                     });
                 });
             });
@@ -206,5 +202,5 @@ setTimeout(function() {
         return {
             toggleLayer: toggleLayer
         };
-    })(map); // Skicka map som parameter till självinkapslad funktion
-}, 1000); // Fördröjning
+    })(map);
+}, 1000);
