@@ -40,7 +40,7 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     padding: 5px;
-    height: 10vh; /* Sätter höjd i förhållande till viewport height */
+    max-height: 10vh; /* Sätter höjd i förhållande till viewport height */
     max-width: 10vw;
     overflow: hidden; /* Dölj innehållet som överflödar */
 }
