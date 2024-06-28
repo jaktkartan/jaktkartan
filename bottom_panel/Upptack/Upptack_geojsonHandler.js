@@ -61,7 +61,7 @@ setTimeout(function() {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
-                                var popupContent = generatePopupContent(feature);
+                                var popupContent = generatePopupContent(feature, layerName);
                                 layer.bindPopup(popupContent);
                             }
                         });
@@ -113,7 +113,7 @@ setTimeout(function() {
             });
         }
 
-        function generatePopupContent(feature) {
+        function generatePopupContent(feature, layerName) {
             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
             var hideProperties = ['id', 'AKTUALITET'];
             var hideNameOnlyProperties = ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'];
@@ -193,4 +193,3 @@ setTimeout(function() {
         };
     })(map);
 }, 1000);
-
