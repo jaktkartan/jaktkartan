@@ -39,8 +39,8 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     padding: 5px;
-    max-height: 15vh; /* Sätter höjd i förhållande till viewport height */
-    max-width: 100%;
+    max-height: 14vh; /* Sätter höjd i förhållande till viewport height */
+    max-width: 14vw;
     overflow: hidden; /* Dölj innehållet som överflödar */
     justify-content: center; /* Center the content horizontally */
 }
