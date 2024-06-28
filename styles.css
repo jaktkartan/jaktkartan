@@ -124,7 +124,6 @@ html, body {
 #tab1.tab-pane, #tab2.tab-pane {
     height: 15vh; /* Specifik höjd för tab1 och tab2 */
     box-sizing: border-box;
-    width: 100%;
 }
 
 /* Lägg till ytterligare flikar här om det behövs med olika höjder */
