@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 /* Anpassad CSS för att ändra zoomkontrollernas position */
 .leaflet-top.leaflet-left {
     top: 80px !important;
