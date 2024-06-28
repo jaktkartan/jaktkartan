@@ -30,25 +30,28 @@ body, button, span, div {
 }
 
 .styled-button {
-    display: flex; /* Använd flexbox för att styra layouten */
-    align-items: center; /* Centrera innehållet vertikalt */
-    justify-content: center; /* Centrera innehållet horisontellt */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 0 3px;
     position: relative;
     z-index: 1;
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     padding: 5px;
-    max-height: 10vh; /* Sätter höjd i förhållande till viewport height */
-    width: 100%; /* Låt knappen ta upp all tillgänglig bredd */
+    width: 10vh; /* Låt bredden vara lika med höjden för att göra knappen kvadratisk */
+    height: 10vh; /* Använd samma värde för höjden som bredden */
+    max-width: 10vw; /* Sätt en maximal bredd baserad på viewport width */
+    max-height: 10vw; /* Sätt en maximal höjd baserad på viewport width */
     overflow: hidden; /* Dölj innehållet som överflödar */
 }
 
 .styled-button img {
-    max-width: 100%; /* Säkerställ att bilder inte överskrider knappens storlek */
+    max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
+
 
 
 .button-container {
