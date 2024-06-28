@@ -39,6 +39,7 @@ body, button, span, div {
     width: 100%;
     height: 100%; /* Låt höjden justeras automatiskt för att fylla föräldern */
     overflow: hidden;
+    max-height: 100vh; /* Maxhöjd på container */
 }
 
 .styled-button {
@@ -49,7 +50,7 @@ body, button, span, div {
     border-radius: 5px;
     overflow: hidden;
     aspect-ratio: 1 / 1; /* Håller knappen kvadratisk */
-    max-height: 15vh; /* Begränsa maximal höjd till 15vh */
+    max-height: calc(100% - 10px); /* Begränsa maximal höjd */
     flex: 1; /* Gör att knapparna växer och krymper jämnt */
 }
 
