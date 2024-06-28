@@ -33,16 +33,16 @@ body, button, span, div {
 .styled-button {
     display: inline-flex;
     align-items: center;
+    justify-content: center; /* Center the content horizontally */
     margin: 0 3px;
     position: relative;
     z-index: 1;
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     padding: 5px;
-    max-height: 14vh; /* Sätter höjd i förhållande till viewport height */
-    max-width: 14vw;
+    max-height: 10vh; /* Sätter höjd i förhållande till viewport height */
+    max-width: 10vw;
     overflow: hidden; /* Dölj innehållet som överflödar */
-    justify-content: center; /* Center the content horizontally */
 }
 
 /* Stilsättning för bilder inuti .panel-button */
@@ -53,7 +53,16 @@ body, button, span, div {
     object-fit: contain;
 }
 
-
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: nowrap; /* Håll knappar på en enda rad */
+    flex: 1; /* Flex-grow 1 för att ta upp all tillgänglig plats */
+    width: 100%; /* Se till att bredden är 100% av föräldern */
+    max-height: 15vh; /* Maximal höjd för att matcha flikens höjd */
+    overflow: hidden; /* Förhindra skrollpanel om knapparna krymper */
+}
 
 html, body {
     margin: 0;
@@ -96,23 +105,7 @@ html, body {
     left: 0;
     right: 0;
 }
-/* tab1 och 2 */
-.button-container {
-    display: flex; /* Gör att behållaren använder Flexbox-layout */
-    justify-content: center; /* Centrerar innehållet horisontellt */
-    align-items: stretch; /* Sträcker barnen så att de fyller behållarens höjd */
-    align-content: stretch; /* Sträcker rader av flex-items så att de fyller behållarens höjd */
-    flex-wrap: nowrap; /* Förhindrar att flex-items bryts till nya rader */
-    width: 100%; /* Sätter bredden till 100% av förälderns bredd */
-    background-color: rgba(255, 255, 255, 0.7); /* Sätter en vit bakgrundsfärg med 70% opacitet */
-    position: fixed; /* Fäster behållaren till en fast position relativt till viewporten */
-    bottom: 0; /* Placerar behållaren vid botten av viewporten */
-    left: 0; /* Placerar behållaren vid den vänstra kanten av viewporten */
-    right: 0; /* Placerar behållaren vid den högra kanten av viewporten */
-    z-index: 2; /* Ställer in z-index för att kontrollera behållarens stackningsordning */
 
-    
-    /* resten av tabsen */
 .tab-pane {
     position: absolute;
     bottom: 0;
@@ -133,6 +126,7 @@ html, body {
 
 #tab1.tab-pane, #tab2.tab-pane {
     height: 15vh; /* Specifik höjd för tab1 och tab2 */
+    width: 100%;
 }
 
 
