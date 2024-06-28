@@ -42,6 +42,7 @@ body, button, span, div {
     max-height: 10vh; /* Sätter höjd i förhållande till viewport height */
     max-width: 10vw;
     overflow: hidden; /* Dölj innehållet som överflödar */
+    justify-content: center; /* Center the content horizontally */
 }
 
 /* Stilsättning för bilder inuti .panel-button */
