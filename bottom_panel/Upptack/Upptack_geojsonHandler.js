@@ -118,8 +118,6 @@ setTimeout(function() {
             var hideProperties = ['id', 'AKTUALITET'];
             var hideNameOnlyProperties = ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'];
 
-            console.log("Generating popup content for feature:", feature.properties);
-
             for (var prop in feature.properties) {
                 if (hideProperties.includes(prop)) continue;
                 var value = feature.properties[prop];
@@ -136,7 +134,6 @@ setTimeout(function() {
             }
 
             popupContent += '</div>';
-            console.log("Popup content generated:", popupContent);
             return popupContent;
         }
 
@@ -196,3 +193,4 @@ setTimeout(function() {
         };
     })(map);
 }, 1000);
+
