@@ -117,9 +117,21 @@ html, body {
 }
 
 #tab1.tab-pane, #tab2.tab-pane {
-    height: 15vh; /* Specifik höjd för tab1 och tab2 */
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+    flex-wrap: nowrap;
     overflow: hidden;
-    overflow-y: visible; /* Visa allt innehåll utan scrollbar */
+    padding: 3px;
+    z-index: 2;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 /* Lägg till ytterligare flikar här om det behövs med olika höjder */
