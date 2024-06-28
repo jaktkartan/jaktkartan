@@ -47,7 +47,6 @@ body, button, span, div {
 
 .styled-button img {
     width: 100%; /* Se till att bilden fyller hela sin förälders bredd */
-    height: auto; /* Låt höjden anpassas automatiskt för att behålla proportionerna */
     object-fit: cover; /* Anpassa bilden så att den täcker hela området och behåller proportionerna */
 }
 
