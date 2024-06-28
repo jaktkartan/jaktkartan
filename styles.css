@@ -30,8 +30,7 @@ body, button, span, div {
 }
 
 /* Stilsättning för .styled-button i upptäck och kartfliken */
-/* Stilsättning för .panel-button */
-.panel-button {
+.styled-button {
     display: inline-flex;
     align-items: center;
     justify-content: center; /* Center the content horizontally */
@@ -47,37 +46,12 @@ body, button, span, div {
 }
 
 /* Stilsättning för bilder inuti .panel-button */
-.panel-button img {
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
-
-/* Stilsättning för .styled-button i upptäck och kartfliken */
-.styled-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center; /* Center the content horizontally */
-    margin: 0 3px;
-    position: relative;
-    z-index: 1;
-    border: 1px solid rgb(50, 94, 88);
-    border-radius: 5px;
-    padding: 5px;
-    height: 10vh; /* Maximal höjd för att matcha flikens höjd */
-    width: 10vw; /* Sätter bredd i förhållande till viewport width */
-    overflow: hidden; /* Dölj innehållet som överflödar */
-}
-
-/* Stilsättning för bilder inuti .styled-button */
 .styled-button img {
     display: block;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
-
 
 .button-container {
     display: flex;
