@@ -29,6 +29,18 @@ body, button, span, div {
     object-fit: contain;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Justera efter behov */
+    flex-wrap: wrap; /* Tillåt knappar att vira på flera rader om det behövs */
+    gap: 10px; /* Justera mellanrum mellan knappar */
+    padding: 5px; /* Justera paddingen efter behov */
+    width: 100%;
+    height: 100%; /* Låt höjden justeras automatiskt för att fylla föräldern */
+    overflow: hidden;
+}
+
 .styled-button {
     position: relative;
     display: flex;
@@ -37,6 +49,7 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     overflow: hidden;
+    flex: 1 1 auto; /* Flex-grow, flex-shrink, flex-basis */
     max-width: 15vh; /* Begränsa maximal bredd till 15vh */
     max-height: 15vh; /* Begränsa maximal höjd till 15vh */
     aspect-ratio: 1/1; /* Sätt aspect ratio för att hålla kvadratisk form */
@@ -55,19 +68,6 @@ body, button, span, div {
     height: 100%;
     object-fit: cover; /* Sätt objektet att fylla innehållsramen */
 }
-
-
-.button-container {
-    display: flex;
-    padding: 5px; /* Justera paddingen efter behov */
-    justify-content: center;
-    align-items: stretch;
-    flex-wrap: nowrap;
-    width: 100%;
-    height: 100%; /* Låt höjden justeras automatiskt för att fylla föräldern */
-    overflow: hidden;
-}
-
 
 
 html, body {
