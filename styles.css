@@ -38,16 +38,30 @@ body, button, span, div {
     z-index: 1;
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
-    padding: 10px; /* Öka paddingen för att öka storleken på knapparna */
+    padding: 0; /* Nollställ padding */
     flex: 1; /* Gör att knapparna växer och tar upp all tillgänglig plats */
-    max-width: 100%; /* Sätt maximal bredd till 100% av förälderns bredd */
-    max-height: 100%; /* Sätt maximal höjd till 100% av förälderns höjd */
     overflow: hidden; /* Dölj innehållet som överflödar */
+    position: relative; /* Lägg till position: relative för att använda padding-bottom hack */
 }
 
-
-.styled-button img {
+.styled-button::before {
+    content: "";
     display: block;
+    padding-top: 100%; /* Skapa en kvadratisk plats baserat på knappens bredd */
+}
+
+.styled-button-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Exempel på användning för en ikon */
+.styled-button img {
+    width: 50%; /* Anpassa storleken på ikonen efter behov */
+    height: auto;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
