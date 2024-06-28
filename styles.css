@@ -33,6 +33,7 @@ body, button, span, div {
 .styled-button {
     display: inline-flex;
     align-items: center;
+    justify-content: center; /* Centrera innehållet horisontellt */
     margin: 0 3px;
     position: relative;
     z-index: 1;
@@ -45,12 +46,14 @@ body, button, span, div {
 }
 
 
-
 .styled-button img {
-    display: block;   
-    object-fit: contain; 
-    max-width: 100%px;
-    height: 100%; /* Använd 100% för att bilden ska anpassa sig till knappens höjd */
+    display: block;
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: contain;
+    width: auto;
+    height: auto;
+    margin: auto; /* Centrera bilden vertikalt och horisontellt */
 }
 
 /* Centrera innehållet i .button-container för .styled button */
