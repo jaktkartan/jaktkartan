@@ -45,12 +45,12 @@ body, button, span, div {
     overflow: hidden; /* Dölj innehållet som överflödar */
 }
 
-
 .styled-button img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%; /* Se till att bilden fyller hela sin förälders bredd */
+    height: auto; /* Låt höjden anpassas automatiskt för att behålla proportionerna */
+    object-fit: cover; /* Anpassa bilden så att den täcker hela området och behåller proportionerna */
 }
+
 
 
 .button-container {
