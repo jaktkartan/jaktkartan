@@ -96,7 +96,7 @@ html, body {
     left: 0;
     right: 0;
 }
-
+/* tab1 och 2 */
 .button-container {
     display: flex; /* Gör att behållaren använder Flexbox-layout */
     justify-content: center; /* Centrerar innehållet horisontellt */
@@ -112,7 +112,7 @@ html, body {
     z-index: 2; /* Ställer in z-index för att kontrollera behållarens stackningsordning */
 
     
-    /* elementet som flikarna öppnas i */
+    /* resten av tabsen */
 .tab-pane {
     position: absolute;
     bottom: 0;
