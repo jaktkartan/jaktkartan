@@ -46,7 +46,7 @@ body, button, span, div {
 .styled-button img {
     display: block;   
     object-fit: contain; 
-    max-width: 100%;
+    max-width: 80px;
     max-height: 80px;
 }
 
