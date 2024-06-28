@@ -104,6 +104,11 @@ html, body {
     align-content: stretch; /* Sträcker rader av flex-items så att de fyller behållarens höjd */
     flex-wrap: nowrap; /* Förhindrar att flex-items bryts till nya rader */
     width: 100%; /* Sätter bredden till 100% av förälderns bredd */
+    background-color: rgba(255, 255, 255, 0.7); /* Sätter en vit bakgrundsfärg med 70% opacitet */
+    position: fixed; /* Fäster behållaren till en fast position relativt till viewporten */
+    bottom: 0; /* Placerar behållaren vid botten av viewporten */
+    left: 0; /* Placerar behållaren vid den vänstra kanten av viewporten */
+    right: 0; /* Placerar behållaren vid den högra kanten av viewporten */
 
     
     /* elementet som flikarna öppnas i */
