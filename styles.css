@@ -48,6 +48,13 @@ body, button, span, div {
     object-fit: contain;
 }
 
+/* Centrera innehållet i .button-container för .styled button */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 
 html, body {
     margin: 0;
