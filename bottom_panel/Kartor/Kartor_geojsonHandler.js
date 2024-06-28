@@ -63,6 +63,7 @@ var Kartor_geojsonHandler = (function() {
         }
     };
 
+    // Funktion för att generera popup-innehåll
     function generatePopupContent(feature) {
         var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
         var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
@@ -85,7 +86,9 @@ var Kartor_geojsonHandler = (function() {
         return popupContent;
     }
 
+    // Funktion för att hämta GeoJSON-data och skapa ett lager.
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+        // Inaktivera andra lager om de är aktiva.
         Object.keys(layerIsActive).forEach(function(name) {
             if (name !== layerName && layerIsActive[name]) {
                 toggleLayer(name, geojsonLayers[name].map(function(layer) {
@@ -94,25 +97,27 @@ var Kartor_geojsonHandler = (function() {
             }
         });
 
+        // Hämta GeoJSON-data från URL och skapa lager.
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
                     console.log("Successfully fetched GeoJSON data:", response.data);
                     var geojson = response.data;
 
+                    // Skapa GeoJSON-lager med stil och klickhändelse.
                     var layer = L.geoJSON(geojson, {
                         style: function(feature) {
                             var filename = getFilenameFromURL(geojsonURL);
                             return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
-                            layer.bindPopup(generatePopupContent(feature)); // Bind popup content to each feature
-                            // addClickHandlerToLayer(layer); // Om du har en separat funktion för klickhantering, lägg till den här.
+                            addClickHandlerToLayer(layer); // Lägg till klickhanterare till lagret
                         }
                     });
 
                     geojsonLayers[layerName].push(layer);
 
+                    // Lägg till lagret på kartan om det är aktivt.
                     if (layerIsActive[layerName]) {
                         layer.addTo(map);
                     }
@@ -122,15 +127,17 @@ var Kartor_geojsonHandler = (function() {
                 });
         });
 
+        // Markera lagret som aktivt.
         layerIsActive[layerName] = true;
     }
 
+    // Funktion för att växla (aktivera/inaktivera) lager.
     function toggleLayer(layerName, geojsonURLs) {
         if (!layerIsActive[layerName]) {
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         } else {
             geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
+                map.removeLayer(layer);  // Ta bort lager från kartan.
             });
 
             geojsonLayers[layerName] = [];
@@ -138,12 +145,14 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
+    // Funktion för att få filnamnet från en URL.
     function getFilenameFromURL(url) {
         var pathArray = url.split('/');
         var filename = pathArray[pathArray.length - 1];
         return filename;
     }
 
+    // Exponerar funktionerna för att växla lager och hämta GeoJSON-data.
     return {
         toggleLayer: toggleLayer,
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
