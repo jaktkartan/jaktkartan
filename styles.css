@@ -29,7 +29,8 @@ body, button, span, div {
     object-fit: contain;
 }
 
-.button-container {  /* för style knapparna, alltså inne i fliken för upptäck och kartor */
+/* funktion för elementet som håller knapparna när man tryckt på upptäck eller kartor */
+.button-container {
     display: flex;
     justify-content: space-around; /* Fördela knapparna jämnt */
     align-items: center; /* Centrera knapparna vertikalt */
@@ -56,9 +57,11 @@ body, button, span, div {
 
 .styled-button img {
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* Sätt objektet att fylla innehållsramen */
+    height: auto;
+    max-height: 100%;
+    object-fit: cover; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
 }
+
 
 
 
