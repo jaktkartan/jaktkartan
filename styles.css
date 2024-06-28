@@ -67,15 +67,6 @@ body, button, span, div {
     overflow: hidden; /* Förhindra skrollpanel om knapparna krymper */
 }
 
-@media (max-width: 768px) {
-    .styled-button {
-        max-width: calc(50% - 6px); /* Knapparna tar 50% av bredden på mindre skärmar */
-        max-height: 15vh; /* Maximal höjd för att matcha flikens höjd */
-    }
-}
-
-
-
 html, body {
     margin: 0;
     padding: 0;
