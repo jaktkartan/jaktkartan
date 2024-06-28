@@ -1,8 +1,7 @@
-// Skapa stilar dynamiskt genom att lägga till en style-tag till <head>
+// CSS för popup-panelen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
-    /* CSS för popup-panelen */
     #popup-panel {
         position: fixed;
         bottom: 0px;
@@ -21,11 +20,10 @@ styleTag.innerHTML = `
         border-top-right-radius: 10px;
         font-family: 'Roboto', sans-serif;
         color: rgb(50, 94, 88);
-        transform: translateY(100%); /* Starta panelen utanför synfältet */
+        transform: translateY(100%);
         transition: transform 0.5s ease-in-out;
     }
 
-    /* CSS för popup-panelens öppnings- och stängningsanimation */
     @keyframes slideIn {
         from {
             transform: translateY(100%);
@@ -104,8 +102,7 @@ function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
         try {
             if (e.originalEvent) {
-                // Stoppa bubbla av klickhändelse för att förhindra att document-click listenern aktiveras
-                e.originalEvent.stopPropagation();
+                e.originalEvent.stopPropagation(); // Stoppa bubbla av klickhändelse för att förhindra att document-click listenern aktiveras
             }
 
             if (e.target && e.target.feature && e.target.feature.properties) {
