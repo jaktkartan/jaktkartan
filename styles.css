@@ -37,15 +37,14 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     overflow: hidden;
-    max-width: 100%; /* Sätt maximal bredd till 100% av förälderns bredd */
+    max-width: 15vh; /* Sätt maximal bredd till 15vh */
     max-height: 15vh; /* Begränsa höjden till högst 15vh */
-    padding-bottom: 15vh; /* Skapa en kvadratisk plats baserat på höjden */
 }
 
 .styled-button::before {
     content: "";
     display: block;
-    padding-bottom: 100%; /* Skapa en kvadratisk plats baserat på knappens höjd */
+    padding-bottom: 100%; /* Skapa en kvadratisk plats baserat på knappens bredd */
 }
 
 .styled-button-content {
