@@ -49,7 +49,7 @@ body, button, span, div {
 .styled-button img {
     display: block;   
     object-fit: contain; 
-    max-width: 80px;
+    max-width: 100%px;
     height: 100%; /* Använd 100% för att bilden ska anpassa sig till knappens höjd */
 }
 
