@@ -56,7 +56,7 @@ body, button, span, div {
 .button-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch; /* Knappar sträcker sig för att fylla höjden */
     flex: 1; /* Flex-grow 1 för att ta upp all tillgänglig plats */
     width: 100%; /* Se till att bredden är 100% av föräldern */
     max-height: 15vh; /* Maximal höjd för att matcha flikens höjd */
