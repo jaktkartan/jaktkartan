@@ -57,11 +57,18 @@ body, button, span, div {
     display: flex;
     justify-content: center;
     align-items: stretch;
-    flex-wrap: nowrap; /* Håll knappar på en enda rad */
-    flex: 1; /* Flex-grow 1 för att ta upp all tillgänglig plats */
-    width: 100%; /* Se till att bredden är 100% av föräldern */
-    max-height: 100%; /* Maximal höjd för att matcha flikens höjd */
-    overflow: hidden; /* Förhindra skrollpanel om knapparna krymper */
+    align-content: stretch;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    padding: 3px;
+    z-index: 2;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 html, body {
