@@ -33,7 +33,7 @@ body, button, span, div {
 .styled-button {
     display: inline-flex;
     align-items: center;
-    justify-content: center; /* Centrera innehållet horisontellt */
+    justify-content: center;
     margin: 0 3px;
     position: relative;
     z-index: 1;
@@ -45,6 +45,7 @@ body, button, span, div {
     height: 100%; /* Använd 100% för att knapparna ska ta upp hela förälderelementets höjd */
     max-width: 100%; /* Knapparna tar upp maximalt utrymme tillgängligt */
     box-sizing: border-box; /* Räkna in padding och border i max-bredden */
+    flex-shrink: 1; /* Tillåt knapparna att krympa om det behövs */
 }
 
 .styled-button img {
@@ -57,23 +58,21 @@ body, button, span, div {
     margin: auto; /* Centrera bilden vertikalt och horisontellt */
 }
 
-@media (max-width: 768px) {
-    .styled-button {
-        flex-basis: 100%; /* Knapparna tar 100% bredd på mindre skärmar */
-        max-width: 100%; /* För att undvika avhuggning */
-    }
-}
-
-
-/* Centrera innehållet i .button-container för .styled button */
 .button-container {
     display: flex;
     justify-content: center;
-    align-items: stretch; /* Knappar sträcker sig för att fylla höjden */
+    align-items: stretch;
+    flex-wrap: nowrap; /* Håll knappar på en enda rad */
     flex: 1; /* Flex-grow 1 för att ta upp all tillgänglig plats */
     width: 100%; /* Se till att bredden är 100% av föräldern */
     max-height: 15vh; /* Maximal höjd för att matcha flikens höjd */
-    overflow: hidden; /* Begränsa innehållet att inte överskrida fliken */
+}
+
+@media (max-width: 768px) {
+    .styled-button {
+        flex-basis: calc(50% - 6px); /* Knapparna tar 50% av bredden på mindre skärmar */
+        max-width: calc(50% - 6px); /* För att undvika avhuggning */
+    }
 }
 
 
