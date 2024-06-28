@@ -29,11 +29,11 @@ body, button, span, div {
     object-fit: contain;
 }
 
-.button-container {
+.button-container {  /* för style knapparna, alltså inne i fliken för upptäck och kartor */
     display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Justera efter behov */
-    flex-wrap: wrap; /* Tillåt knappar att vira på flera rader om det behövs */
+    justify-content: space-around; /* Fördela knapparna jämnt */
+    align-items: center; /* Centrera knapparna vertikalt */
+    flex-wrap: nowrap; /* Knapparna ska inte brytas till nästa rad */
     gap: 10px; /* Justera mellanrum mellan knappar */
     padding: 5px; /* Justera paddingen efter behov */
     width: 100%;
@@ -42,25 +42,15 @@ body, button, span, div {
 }
 
 .styled-button {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     overflow: hidden;
-    flex: 1 1 auto; /* Flex-grow, flex-shrink, flex-basis */
-    max-width: 15vh; /* Begränsa maximal bredd till 15vh */
+    aspect-ratio: 1 / 1; /* Håller knappen kvadratisk */
     max-height: 15vh; /* Begränsa maximal höjd till 15vh */
-    aspect-ratio: 1/1; /* Sätt aspect ratio för att hålla kvadratisk form */
-}
-
-.styled-button-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    flex: 1; /* Gör att knapparna växer och krymper jämnt */
 }
 
 .styled-button img {
@@ -68,6 +58,7 @@ body, button, span, div {
     height: 100%;
     object-fit: cover; /* Sätt objektet att fylla innehållsramen */
 }
+
 
 
 html, body {
