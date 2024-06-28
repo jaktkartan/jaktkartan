@@ -126,6 +126,7 @@ html, body {
 
 #tab1.tab-pane, #tab2.tab-pane {
     height: 15vh; /* Specifik höjd för tab1 och tab2 */
+    width: 100%;
 }
 
 
