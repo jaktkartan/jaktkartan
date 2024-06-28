@@ -1,4 +1,4 @@
-// bottom_panel/Kartor/Kartor_geojsonHandler.js är en modul som hanterar olika lager av GeoJSON-data på en karta.
+// Kartor_geojsonHandler är en modul som hanterar olika lager av GeoJSON-data på en karta.
 var Kartor_geojsonHandler = (function() {
     // Variabel som håller koll på vilka lager som är aktiva.
     var layerIsActive = {
@@ -44,10 +44,9 @@ var Kartor_geojsonHandler = (function() {
                         '#b5f2b5'   // E
                     ];
 
-                    var jakttidToColor = {};  // Objekt som mappar jakttid till en färg.
-                    var currentIndex = 0;  // Håller koll på nuvarande index i colorScale.
+                    var jakttidToColor = {};  
+                    var currentIndex = 0;  
 
-                    // Returnerar en stil baserat på jakttid för varje feature.
                     return function(feature) {
                         var jakttid = feature.properties['jakttid'];
 
@@ -67,6 +66,29 @@ var Kartor_geojsonHandler = (function() {
             'Kirunakommunnedanodlingsgrns_4.geojson': { fillColor: 'pink', color: 'pink', weight: 2 }
         }
     };
+
+    // Funktion för att generera popup-innehåll
+    function generatePopupContent(feature) {
+        var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+        var hideProperties = ['id', 'Aktualitet'];
+        var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
+        for (var prop in feature.properties) {
+            if (hideProperties.includes(prop)) continue;
+            if (prop === 'BILD') {
+                popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+            } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+            } else if (hideNameOnlyProperties.includes(prop)) {
+                popupContent += '<p>' + feature.properties[prop] + '</p>';
+            } else {
+                popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+            }
+        }
+
+        popupContent += '</div>';
+        return popupContent;
+    }
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager.
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
@@ -93,7 +115,8 @@ var Kartor_geojsonHandler = (function() {
                             return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
-                            addClickHandlerToLayer(layer);  // Lägg till klickhändelse på varje lager.
+                            layer.bindPopup(generatePopupContent(feature)); // Bind popup content to each feature
+                            addClickHandlerToLayer(layer); 
                         }
                     });
 
@@ -140,4 +163,3 @@ var Kartor_geojsonHandler = (function() {
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
     };
 })();
-
