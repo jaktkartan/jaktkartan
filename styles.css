@@ -30,18 +30,17 @@ body, button, span, div {
 }
 
 .styled-button {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 3px;
-    position: relative;
-    z-index: 1;
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
-    padding: 0; /* Nollställ padding */
+    overflow: hidden;
     flex: 1; /* Gör att knapparna växer och tar upp all tillgänglig plats */
-    overflow: hidden; /* Dölj innehållet som överflödar */
-    position: relative; /* Lägg till position: relative för att använda padding-bottom hack */
+    max-width: 100%; /* Sätt maximal bredd till 100% av förälderns bredd */
+    max-height: 100%; /* Sätt maximal höjd till 100% av förälderns höjd */
+    padding: 0; /* Nollställ padding */
 }
 
 .styled-button::before {
@@ -58,15 +57,11 @@ body, button, span, div {
     bottom: 0;
 }
 
-/* Exempel på användning för en ikon */
 .styled-button img {
-    width: 50%; /* Anpassa storleken på ikonen efter behov */
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Sätt objektet att fylla innehållsramen */
 }
-
 
 .button-container {
     display: flex;
