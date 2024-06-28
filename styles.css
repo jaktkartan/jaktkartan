@@ -33,12 +33,14 @@ body, button, span, div {
 .styled-button {
     display: inline-flex;
     align-items: center;
-    margin: 0 3px;
+    margin: 5px;
     position: relative;
     z-index: 1;
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
-    padding: 5px;
+    padding: 10px 15px;
+    background-color: white;
+    transition: background-color 0.3s;
 }
 
 .styled-button img {
@@ -46,6 +48,11 @@ body, button, span, div {
     max-width: 100%;
     max-height: 90px;
     object-fit: contain;
+    margin-right: 10px;
+}
+
+.styled-button:hover {
+    background-color: rgba(50, 94, 88, 0.1);
 }
 
 /* Centrera innehållet i .button-container för .styled button */
@@ -166,7 +173,7 @@ html, body {
 }
 
 @keyframes pulse {
-    0% {
+     0% {
         transform: scale(0.5);
         opacity: 1;
     }
