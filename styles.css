@@ -29,6 +29,36 @@ body, button, span, div {
     object-fit: contain;
 }
 
+/* Stilsättning för .styled-button i upptäck och kartfliken */
+.styled-button {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 3px;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgb(50, 94, 88);
+    border-radius: 5px;
+    padding: 5px;
+    max-height: 100%; /* Ny rad för att begränsa höjden på knapparna */
+}
+
+
+.styled-button img {
+    display: block;   
+    object-fit: contain; 
+    max-width: 80px;
+    max-height: 80px;
+}
+
+/* Centrera innehållet i .button-container för .styled button */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    max-height: 15vh; /* Maximal höjd för att matcha flikens höjd */
+    overflow: hidden; /* Begränsa innehållet att inte överskrida fliken */
+}
 
 
 html, body {
