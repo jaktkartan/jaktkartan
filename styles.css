@@ -109,6 +109,7 @@ html, body {
     bottom: 0; /* Placerar behållaren vid botten av viewporten */
     left: 0; /* Placerar behållaren vid den vänstra kanten av viewporten */
     right: 0; /* Placerar behållaren vid den högra kanten av viewporten */
+    z-index: 2; /* Ställer in z-index för att kontrollera behållarens stackningsordning */
 
     
     /* elementet som flikarna öppnas i */
