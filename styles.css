@@ -28,6 +28,26 @@ body, button, span, div {
     object-fit: contain; /* Förhindra att bilderna blir förvrängda */
 }
 
+.styled-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0; /* Lite mellanrum över och under varje knapp */
+    border: 1px solid rgb(50, 94, 88);
+    border-radius: 5px;
+    padding: 5px;
+    height: 20%; /* Anpassa höjden relativt till fliken (15vh) */
+    max-height: 90px; /* Maximal höjd för att inte överskrida visst värde */
+    width: 100%; /* Ta upp hela bredden av container-elementet */
+}
+
+.styled-button img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%; /* Låt bilden ta upp all tillgänglig höjd inom knappen */
+    object-fit: contain;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -98,18 +118,14 @@ html, body {
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
-
 #tab2.tab-pane {
-height: 15vh; /* Ange önskad höjd för upptäckfliken här */
+    height: 15vh; /* Ange önskad höjd för upptäckfliken här */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
 
 #tab3.tab-pane {
     /* Anpassa stilar för flik 3 om det behövs */
 }
-
-/* Fortsätt definiera CSS för varje flik separat enligt behov */
-
 
 #info-panel {
     position: absolute;
@@ -132,7 +148,7 @@ height: 15vh; /* Ange önskad höjd för upptäckfliken här */
 .pulsing-circle {
     width: 8px;
     height: 8px;
-    background: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.8) 0%, transparent 50%), 
+    background: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.8) 0%, transparent 50%),
                 radial-gradient(circle at 75% 75%, rgba(255,255,255,0.5) 0%, transparent 60%),
                 linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
     background-color: blue; /* Tydlig blå färg */
