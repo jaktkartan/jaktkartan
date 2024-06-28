@@ -29,8 +29,8 @@ var Kartor_geojsonHandler = (function() {
                   var colorScale = [
     '#ffd54f',  // B
     '#72d572',  // D
-    '#1ba01b',  // C
     '#ff7043',  // A
+    '#1ba01b',  // C
     '#20beea',  // F
     '#81d4fa',  // G
     '#ab47bc',  // H
