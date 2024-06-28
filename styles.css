@@ -96,6 +96,16 @@ html, body {
     left: 0;
     right: 0;
 }
+
+.button-container {
+    display: flex; /* Gör att behållaren använder Flexbox-layout */
+    justify-content: center; /* Centrerar innehållet horisontellt */
+    align-items: stretch; /* Sträcker barnen så att de fyller behållarens höjd */
+    align-content: stretch; /* Sträcker rader av flex-items så att de fyller behållarens höjd */
+    flex-wrap: nowrap; /* Förhindrar att flex-items bryts till nya rader */
+    width: 100%; /* Sätter bredden till 100% av förälderns bredd */
+
+    
     /* elementet som flikarna öppnas i */
 .tab-pane {
     position: absolute;
