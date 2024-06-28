@@ -56,12 +56,10 @@ body, button, span, div {
 }
 
 .styled-button img {
-    width: 100%;
-    height: auto;
-    max-height: 100%;
-    object-fit: cover; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
+    width: auto;
+    height: 100%;
+    object-fit: contain; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
 }
-
 
 
 
