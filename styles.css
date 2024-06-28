@@ -29,11 +29,10 @@ body, button, span, div {
     object-fit: contain;
 }
 
-/* Stilsättning för .styled-button i upptäck och kartfliken */
 .styled-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center; /* Center the content horizontally */
+    display: flex; /* Använd flexbox för att styra layouten */
+    align-items: center; /* Centrera innehållet vertikalt */
+    justify-content: center; /* Centrera innehållet horisontellt */
     margin: 0 3px;
     position: relative;
     z-index: 1;
@@ -41,17 +40,16 @@ body, button, span, div {
     border-radius: 5px;
     padding: 5px;
     max-height: 10vh; /* Sätter höjd i förhållande till viewport height */
-    max-width: 10vw;
+    width: 100%; /* Låt knappen ta upp all tillgänglig bredd */
     overflow: hidden; /* Dölj innehållet som överflödar */
 }
 
-/* Stilsättning för bilder inuti .panel-button */
 .styled-button img {
-    display: block;
-    max-width: 100%;
+    max-width: 100%; /* Säkerställ att bilder inte överskrider knappens storlek */
     max-height: 100%;
     object-fit: contain;
 }
+
 
 .button-container {
     display: flex;
