@@ -70,7 +70,7 @@ var Kartor_geojsonHandler = (function() {
     // Funktion för att generera popup-innehåll
     function generatePopupContent(feature) {
         var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-        var hideProperties = ['id', 'Aktualitet'];
+        var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
         var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
 
         for (var prop in feature.properties) {
