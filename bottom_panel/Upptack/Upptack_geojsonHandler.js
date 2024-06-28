@@ -47,7 +47,6 @@ setTimeout(function() {
             }
         };
 
-        // Funktion för att hämta GeoJSON-data och skapa lagret med stil
         function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
             geojsonURLs.forEach(function(geojsonURL) {
                 axios.get(geojsonURL)
@@ -79,7 +78,6 @@ setTimeout(function() {
             });
         }
 
-        // Funktion för att toggla lagret
         function toggleLayer(layerName) {
             if (layerName === 'Visa_allt') {
                 activateAllLayers();
@@ -91,7 +89,6 @@ setTimeout(function() {
             }
         }
 
-        // Funktion för att aktivera ett lager
         function activateLayer(layerName) {
             geojsonLayers[layerName].forEach(function(layer) {
                 layer.addTo(map);
@@ -99,14 +96,12 @@ setTimeout(function() {
             layerIsActive[layerName] = true;
         }
 
-        // Funktion för att aktivera alla lager
         function activateAllLayers() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 activateLayer(layerName);
             });
         }
 
-        // Funktion för att avaktivera alla lager
         function deactivateAllLayers() {
             Object.keys(layerIsActive).forEach(function(name) {
                 if (layerIsActive[name]) {
@@ -118,11 +113,12 @@ setTimeout(function() {
             });
         }
 
-        // Funktion för att generera popup-innehåll
         function generatePopupContent(feature) {
             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
             var hideProperties = ['id', 'Aktualitet'];
             var hideNameOnlyProperties = ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'];
+
+            console.log("Generating popup content for feature:", feature.properties);
 
             for (var prop in feature.properties) {
                 if (hideProperties.includes(prop)) continue;
@@ -140,15 +136,14 @@ setTimeout(function() {
             }
 
             popupContent += '</div>';
+            console.log("Popup content generated:", popupContent);
             return popupContent;
         }
 
-        // Funktion för att beräkna iconAnchor baserat på ikonstorleken
         function getIconAnchor(iconSize) {
             return [iconSize[0] / 2, iconSize[1] / 2];
         }
 
-        // Funktion för att hämta stil baserat på zoomnivå
         function getMarkerStyle(layerName) {
             var zoomLevel = map.getZoom();
             var style;
@@ -176,17 +171,14 @@ setTimeout(function() {
             return style;
         }
 
-        // Funktion för att hämta fallback-stil
         function getFallbackStyle(layerName) {
             return layerStyles[layerName].fallbackStyle;
         }
 
-        // Initialisera alla lager vid start
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
-        // Lyssna på zoomändringar på kartan
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 geojsonLayers[layerName].forEach(function(layer) {
