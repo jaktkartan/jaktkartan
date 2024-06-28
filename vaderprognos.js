@@ -51,6 +51,10 @@ const translateWeatherSymbol = (symbolCode) => {
             return 'kraftigt regn';
         case 'thunderstorm':
             return 'åska';
+        case 'lightrainandthunder':
+            return 'lätt regn och åska'; // Översättning för lightrainandthunder
+        case 'rainandthunder':
+            return 'regn och åska'; // Översättning för rainandthunder
         case 'sleet':
             return 'snöblandat regn';
         case 'snow':
@@ -69,6 +73,7 @@ const translateWeatherSymbol = (symbolCode) => {
             return symbolCode ? `okänt väder (${symbolCode})` : 'okänt väder';
     }
 }
+
 
 // Funktion för att hämta väderprognosen från en väder-API baserat på givna latitud- och longitudvärden.
 const getWeatherForecast = (latitude, longitude) => {
