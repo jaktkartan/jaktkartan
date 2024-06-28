@@ -40,7 +40,7 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     padding: 5px;
-    max-height: 15vh; /* Maximal höjd för att matcha flikens höjd */
+    max-height: 10vh; /* Maximal höjd för att matcha flikens höjd */
     max-width: calc(100% - 6px); /* Maximal bredd, minus marginaler */
     box-sizing: border-box; /* Räkna in padding och border i max-bredden */
     overflow: hidden; /* Dölj innehållet som överflödar */
