@@ -76,7 +76,6 @@ html, body {
     left: 50%;
     transform: translateX(-50%);
     width: 95%;
-    height: 50vh;
     background-color: white;
     color: rgb(50, 94, 88);
     padding: 10px;
@@ -86,13 +85,15 @@ html, body {
     border-top-right-radius: 15px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    height: 50vh; /* Generell höjd för flikar */
 }
 
-#tab1.tab-pane,
-#tab2.tab-pane,
-#tab3.tab-pane {
+#tab1.tab-pane, #tab2.tab-pane {
+    height: 15vh; /* Specifik höjd för tab1 och tab2 */
     overflow-y: visible; /* Visa allt innehåll utan scrollbar */
 }
+
+/* Lägg till ytterligare flikar här om det behövs med olika höjder */
 
 #info-panel {
     position: absolute;
