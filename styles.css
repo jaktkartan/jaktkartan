@@ -37,14 +37,9 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     overflow: hidden;
-    max-width: 15vh; /* Sätt maximal bredd till 15vh */
-    max-height: 15vh; /* Begränsa höjden till högst 15vh */
-}
-
-.styled-button::before {
-    content: "";
-    display: block;
-    padding-bottom: 100%; /* Skapa en kvadratisk plats baserat på knappens bredd */
+    max-width: 15vh; /* Begränsa maximal bredd till 15vh */
+    max-height: 15vh; /* Begränsa maximal höjd till 15vh */
+    aspect-ratio: 1/1; /* Sätt aspect ratio för att hålla kvadratisk form */
 }
 
 .styled-button-content {
@@ -60,7 +55,6 @@ body, button, span, div {
     height: 100%;
     object-fit: cover; /* Sätt objektet att fylla innehållsramen */
 }
-
 
 
 .button-container {
