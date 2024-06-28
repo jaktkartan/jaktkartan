@@ -39,8 +39,8 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     padding: 5px;
-    width: 15vh; /* Låt bredden vara lika med höjden för att göra knappen kvadratisk */
-    height: 15vh; /* Använd samma värde för höjden som bredden */
+    width: 100%; /* Ta upp hela bredden av sin förälder (.button-container) */
+    height: 100%; /* Ta upp hela höjden av sin förälder (.button-container) */
     max-width: 15vw; /* Sätt en maximal bredd baserad på viewport width */
     max-height: 15vw; /* Sätt en maximal höjd baserad på viewport width */
     overflow: hidden; /* Dölj innehållet som överflödar */
@@ -51,6 +51,7 @@ body, button, span, div {
     max-height: 100%;
     object-fit: contain;
 }
+
 
 
 
