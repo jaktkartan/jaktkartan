@@ -115,7 +115,7 @@ setTimeout(function() {
 
         function generatePopupContent(feature) {
             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-            var hideProperties = ['id', 'Aktualitet'];
+            var hideProperties = ['id', 'AKTUALITET'];
             var hideNameOnlyProperties = ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'];
 
             console.log("Generating popup content for feature:", feature.properties);
