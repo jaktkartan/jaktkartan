@@ -40,12 +40,10 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     padding: 5px;
-    max-height: 100%;
-    flex-grow: 1; /* Knapparna expanderar dynamiskt */
-    height: 100%; /* Använd 100% för att knapparna ska ta upp hela förälderelementets höjd */
-    max-width: 100%; /* Knapparna tar upp maximalt utrymme tillgängligt */
+    max-height: 15vh; /* Maximal höjd för att matcha flikens höjd */
+    max-width: calc(100% - 6px); /* Maximal bredd, minus marginaler */
     box-sizing: border-box; /* Räkna in padding och border i max-bredden */
-    flex-shrink: 1; /* Tillåt knapparna att krympa om det behövs */
+    overflow: hidden; /* Dölj innehållet som överflödar */
 }
 
 .styled-button img {
@@ -71,8 +69,8 @@ body, button, span, div {
 
 @media (max-width: 768px) {
     .styled-button {
-        flex-basis: calc(50% - 6px); /* Knapparna tar 50% av bredden på mindre skärmar */
-        max-width: calc(50% - 6px); /* För att undvika avhuggning */
+        max-width: calc(50% - 6px); /* Knapparna tar 50% av bredden på mindre skärmar */
+        max-height: 15vh; /* Maximal höjd för att matcha flikens höjd */
     }
 }
 
