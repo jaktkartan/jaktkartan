@@ -39,10 +39,10 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     padding: 5px;
-    width: 10vh; /* Låt bredden vara lika med höjden för att göra knappen kvadratisk */
-    height: 10vh; /* Använd samma värde för höjden som bredden */
-    max-width: 10vw; /* Sätt en maximal bredd baserad på viewport width */
-    max-height: 10vw; /* Sätt en maximal höjd baserad på viewport width */
+    width: 15vh; /* Låt bredden vara lika med höjden för att göra knappen kvadratisk */
+    height: 15vh; /* Använd samma värde för höjden som bredden */
+    max-width: 15vw; /* Sätt en maximal bredd baserad på viewport width */
+    max-height: 15vw; /* Sätt en maximal höjd baserad på viewport width */
     overflow: hidden; /* Dölj innehållet som överflödar */
 }
 
