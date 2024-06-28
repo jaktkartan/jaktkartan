@@ -43,18 +43,27 @@ body, button, span, div {
     max-height: 100%;
     flex-grow: 1; /* Knapparna expanderar dynamiskt */
     height: 100%; /* Använd 100% för att knapparna ska ta upp hela förälderelementets höjd */
+    max-width: 100%; /* Knapparna tar upp maximalt utrymme tillgängligt */
+    box-sizing: border-box; /* Räkna in padding och border i max-bredden */
 }
-
 
 .styled-button img {
     display: block;
-    max-width: 80px;
+    max-width: 100%;
     max-height: 80px;
     object-fit: contain;
     width: auto;
     height: auto;
     margin: auto; /* Centrera bilden vertikalt och horisontellt */
 }
+
+@media (max-width: 768px) {
+    .styled-button {
+        flex-basis: 100%; /* Knapparna tar 100% bredd på mindre skärmar */
+        max-width: 100%; /* För att undvika avhuggning */
+    }
+}
+
 
 /* Centrera innehållet i .button-container för .styled button */
 .button-container {
