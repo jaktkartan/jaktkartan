@@ -112,15 +112,12 @@ html, body {
     left: 0;
     right: 0;
 }
-
+    /* elementet som knapparna för upptack och kartor befinner sig i */
 .tab-pane {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 95%;
-    background-color: white;
-    color: rgb(50, 94, 88);
     padding: 10px;
     z-index: 1000;
     overflow-y: auto;
@@ -133,7 +130,6 @@ html, body {
 
 #tab1.tab-pane, #tab2.tab-pane {
     height: 15vh; /* Specifik höjd för tab1 och tab2 */
-    width: 100%;
 }
 
 
