@@ -39,6 +39,7 @@ body, button, span, div {
     overflow: hidden;
     max-width: 15vh; /* Sätt maximal bredd till 15vh */
     max-height: 15vh; /* Begränsa höjden till högst 15vh */
+    padding: 5px;
 }
 
 .styled-button::before {
@@ -65,7 +66,6 @@ body, button, span, div {
 
 .button-container {
     display: flex;
-    padding: 5px; /* Justera paddingen efter behov */
     justify-content: center;
     align-items: stretch;
     flex-wrap: nowrap;
