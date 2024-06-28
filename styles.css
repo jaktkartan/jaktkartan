@@ -41,7 +41,7 @@ body, button, span, div {
     border-radius: 5px;
     padding: 5px;
     height: 10vh; /* Sätter höjd i förhållande till viewport height */
-    width: 10vw; /* Sätter bredd i förhållande till viewport width */
+    max-width: 10vw;
     overflow: hidden; /* Dölj innehållet som överflödar */
 }
 
