@@ -1,4 +1,4 @@
-// Kartor_geojsonHandler är en modul som hanterar olika lager av GeoJSON-data på en karta.
+// bottom_panel/Kartor/Kartor_geojsonHandler.js är en modul som hanterar olika lager av GeoJSON-data på en karta.
 var Kartor_geojsonHandler = (function() {
     // Variabel som håller koll på vilka lager som är aktiva.
     var layerIsActive = {
