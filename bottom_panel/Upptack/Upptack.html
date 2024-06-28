@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upptäckfliken, innehåll med knappar</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <style>
@@ -22,10 +21,10 @@
 <body>
     <div id="tab1">
         <div class="button-container">
+            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">Visa allt</button>
             <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">Mässor</button>
             <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">Jaktkort</button>
             <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">Jaktskyttebanor</button>
-            <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">Visa allt</button>
             <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">Rensa allt</button>
         </div>
     </div>
