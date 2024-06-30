@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropdown with Images</title>
+    <title>Buttons Layout</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         body, html {
@@ -17,12 +17,13 @@
             font-family: Arial, sans-serif;
         }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
+        .button-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap; /* Prevents buttons from wrapping to the next line */
         }
 
-        .dropbtn {
+        .button {
             background-color: #3498db;
             color: white;
             padding: 16px;
@@ -30,67 +31,44 @@
             border: none;
             cursor: pointer;
             border-radius: 4px;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 4px;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: flex;
-            justify-content: space-between;
+            display: inline-flex;
             align-items: center;
+            margin-right: 10px; /* Space between buttons */
         }
 
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown-content img {
+        .button img {
             width: 30px;
             height: 30px;
-            margin-left: 10px;
+            margin-left: 10px; /* Space between text and image */
+        }
+
+        .button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
         }
     </style>
 </head>
 <body>
-    <div class="dropdown">
-        <button class="dropbtn">Select an option</button>
-        <div class="dropdown-content">
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
-                <span>Visa allt</span>
-                <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
-            </a>
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
-                <span>Mässor</span>
-                <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
-            </a>
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">
-                <span>Jaktkort</span>
-                <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
-            </a>
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
-                <span>Jaktskyttebanor</span>
-                <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
-            </a>
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
-                <span>Rensa allt</span>
-                <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
-            </a>
-        </div>
+    <div class="button-container">
+        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
+            <span>Visa allt</span>
+            <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
+        </button>
+        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
+            <span>Mässor</span>
+            <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
+        </button>
+        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">
+            <span>Jaktkort</span>
+            <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
+        </button>
+        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
+            <span>Jaktskyttebanor</span>
+            <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
+        </button>
+        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
+            <span>Rensa allt</span>
+            <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
+        </button>
     </div>
 
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
