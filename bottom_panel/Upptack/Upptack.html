@@ -131,9 +131,11 @@
         function handleSelectChange() {
             var selectMenu = document.getElementById('layerSelect');
             var selectedValue = selectMenu.value;
+            
+            console.log('Selected value:', selectedValue); // Log the selected value
 
-            // Directly call toggleLayer with the selected value
             if (Upptack_geojsonHandler && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
+                console.log('Calling toggleLayer with:', selectedValue); // Log the function call
                 Upptack_geojsonHandler.toggleLayer(selectedValue);
             } else {
                 console.error('Upptack_geojsonHandler or toggleLayer is not defined.');
