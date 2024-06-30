@@ -126,13 +126,14 @@
         </div>
     </div>
 
-    <!-- Ensure Upptack_geojsonHandler.js is loaded before this script -->
+    <!-- Load Upptack_geojsonHandler.js first -->
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
+    <!-- Load handleSelectChange script last -->
     <script>
         function handleSelectChange() {
             var selectMenu = document.getElementById('layerSelect');
             var selectedValue = selectMenu.value;
-            
+
             console.log('Selected value:', selectedValue); // Log the selected value
 
             if (Upptack_geojsonHandler && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
