@@ -29,6 +29,9 @@
             border: 1px solid #ddd;
             cursor: pointer;
             user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .select-selected:after {
@@ -86,7 +89,10 @@
 <body>
     <div id="tab1" class="tab-pane">
         <div class="custom-select">
-            <div class="select-selected">Visa allt</div>
+            <div class="select-selected">
+                <span>Visa allt</span>
+                <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
+            </div>
             <div class="select-items select-hide">
                 <div data-value="Visa_allt">
                     <span>Visa allt</span>
@@ -121,7 +127,10 @@
         document.querySelectorAll('.select-items div').forEach(function(item) {
             item.addEventListener('click', function() {
                 var value = this.getAttribute('data-value');
-                document.querySelector('.select-selected').innerHTML = this.innerHTML;
+                var selectedText = this.querySelector('span').textContent;
+                var selectedImageSrc = this.querySelector('img').src;
+                document.querySelector('.select-selected span').textContent = selectedText;
+                document.querySelector('.select-selected img').src = selectedImageSrc;
                 document.querySelector('.select-items').classList.add('select-hide');
                 document.querySelector('.select-selected').classList.remove('select-arrow-active');
                 handleSelectChange(value);
