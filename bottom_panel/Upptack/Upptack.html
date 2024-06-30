@@ -119,27 +119,39 @@
     </div>
 
     <script>
-        document.querySelector('.select-selected').addEventListener('click', function() {
-            this.classList.toggle('select-arrow-active');
-            document.querySelector('.select-items').classList.toggle('select-hide');
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            var selectSelected = document.querySelector('.select-selected');
+            var selectItems = document.querySelector('.select-items');
 
-        document.querySelectorAll('.select-items div').forEach(function(item) {
-            item.addEventListener('click', function() {
-                var value = this.getAttribute('data-value');
-                var selectedText = this.querySelector('span').textContent;
-                var selectedImageSrc = this.querySelector('img').src;
-                document.querySelector('.select-selected span').textContent = selectedText;
-                document.querySelector('.select-selected img').src = selectedImageSrc;
-                document.querySelector('.select-items').classList.add('select-hide');
-                document.querySelector('.select-selected').classList.remove('select-arrow-active');
-                handleSelectChange(value);
+            selectSelected.addEventListener('click', function() {
+                console.log('select-selected clicked');
+                selectItems.classList.toggle('select-hide');
+                selectSelected.classList.toggle('select-arrow-active');
             });
-        });
 
-        function handleSelectChange(value) {
-            Upptack_geojsonHandler.toggleLayer(value);
-        }
+            document.querySelectorAll('.select-items div').forEach(function(item) {
+                item.addEventListener('click', function() {
+                    console.log('Item clicked:', this.getAttribute('data-value'));
+                    var value = this.getAttribute('data-value');
+                    var selectedText = this.querySelector('span').textContent;
+                    var selectedImageSrc = this.querySelector('img').src;
+                    selectSelected.querySelector('span').textContent = selectedText;
+                    selectSelected.querySelector('img').src = selectedImageSrc;
+                    selectItems.classList.add('select-hide');
+                    selectSelected.classList.remove('select-arrow-active');
+                    handleSelectChange(value);
+                });
+            });
+
+            function handleSelectChange(value) {
+                console.log('Handling select change for:', value);
+                if (typeof Upptack_geojsonHandler !== 'undefined') {
+                    Upptack_geojsonHandler.toggleLayer(value);
+                } else {
+                    console.log('Upptack_geojsonHandler is not defined');
+                }
+            }
+        });
     </script>
 </body>
 </html>
