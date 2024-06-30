@@ -35,11 +35,17 @@
         .dropdown-content {
             display: none;
             position: absolute;
+            bottom: 100%; /* Position the dropdown above the button */
+            left: 0;
             background-color: #f9f9f9;
             min-width: 200px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
             border-radius: 4px;
+            max-height: 300px; /* Adjust as needed */
+            overflow-y: auto; /* Enable vertical scrolling if needed */
+            /* Allow the dropdown to extend beyond the viewport */
+            transform: translateY(-10px);
         }
 
         .dropdown-content a {
