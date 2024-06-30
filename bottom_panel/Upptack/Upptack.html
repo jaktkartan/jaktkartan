@@ -29,7 +29,6 @@
             border: 1px solid #ddd;
             cursor: pointer;
             user-select: none;
-            position: relative;
         }
 
         .select-selected:after {
@@ -44,7 +43,6 @@
 
         .select-selected.select-arrow-active:after {
             border-color: transparent transparent #888 transparent;
-            top: 50%;
             transform: translateY(-50%) rotate(180deg);
         }
 
@@ -122,7 +120,7 @@
         document.querySelectorAll('.select-items div').forEach(function(item) {
             item.addEventListener('click', function() {
                 var value = this.getAttribute('data-value');
-                document.querySelector('.select-selected').textContent = this.querySelector('span').textContent;
+                document.querySelector('.select-selected').innerHTML = this.innerHTML;
                 document.querySelector('.select-items').classList.add('select-hide');
                 document.querySelector('.select-selected').classList.remove('select-arrow-active');
                 handleSelectChange(value);
