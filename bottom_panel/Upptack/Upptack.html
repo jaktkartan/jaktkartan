@@ -81,16 +81,22 @@
             console.log('Selected value:', selectedValue);
 
             // Ensure Upptack_geojsonHandler is defined before calling toggleLayer
-            if (Upptack_geojsonHandler && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
-                console.log('Calling toggleLayer with:', selectedValue);
-                Upptack_geojsonHandler.toggleLayer(selectedValue);
+            if (typeof Upptack_geojsonHandler !== 'undefined') {
+                if (typeof Upptack_geojsonHandler.toggleLayer === 'function') {
+                    console.log('Calling toggleLayer with:', selectedValue);
+                    Upptack_geojsonHandler.toggleLayer(selectedValue);
+                } else {
+                    console.error('toggleLayer method is not available on Upptack_geojsonHandler.');
+                }
             } else {
-                console.error('Upptack_geojsonHandler is not defined or toggleLayer method is not available.');
+                console.error('Upptack_geojsonHandler is not defined.');
             }
         }
 
         // Log the Upptack_geojsonHandler object to ensure it is loaded correctly
-        console.log('Upptack_geojsonHandler:', Upptack_geojsonHandler);
+        window.onload = function() {
+            console.log('Upptack_geojsonHandler:', Upptack_geojsonHandler);
+        };
     </script>
 </body>
 </html>
