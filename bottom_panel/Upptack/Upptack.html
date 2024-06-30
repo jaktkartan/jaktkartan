@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upptäck fliken på jaktkartan.se </title>
+    <title>Upptäck fliken på jaktkartan.se</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <style>
@@ -77,13 +77,20 @@
             var select = document.getElementById('filter-select');
             var selectedValue = select.value;
 
+            // Log the selected value for debugging
+            console.log('Selected value:', selectedValue);
+
             // Ensure Upptack_geojsonHandler is defined before calling toggleLayer
             if (Upptack_geojsonHandler && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
+                console.log('Calling toggleLayer with:', selectedValue);
                 Upptack_geojsonHandler.toggleLayer(selectedValue);
             } else {
                 console.error('Upptack_geojsonHandler is not defined or toggleLayer method is not available.');
             }
         }
+
+        // Log the Upptack_geojsonHandler object to ensure it is loaded correctly
+        console.log('Upptack_geojsonHandler:', Upptack_geojsonHandler);
     </script>
 </body>
 </html>
