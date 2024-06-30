@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropdown with Images</title>
+    <title>Upptäckfliken, innehåll med knappar</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
         body, html {
             margin: 0;
@@ -13,112 +15,67 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
         }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropbtn {
-            background-color: #3498db;
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .dropdown-content {
-            display: none; /* Initially hidden */
+        .button-container {
+            display: none; /* Hide the button container by default */
             position: absolute;
-            background-color: #f9f9f9;
-            min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 4px;
-            display: flex;
-            flex-direction: row;
-            white-space: nowrap;
-            padding: 0;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .button-container.active {
+            display: block; /* Show the button container when active */
+        }
+
+        .styled-button {
+            margin: 5px;
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .styled-button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .filter-button {
             margin: 0;
-            top: 100%; /* Position below the button */
-            left: 100%; /* Position to the right of the button */
-            transform: translateX(10px); /* Add space between button and dropdown */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .dropdown-content img {
-            width: 30px;
-            height: 30px;
-            margin-left: 10px;
+            padding: 10px 20px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
     </style>
+    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </head>
 <body>
-    <div class="dropdown">
-        <button class="dropbtn">Filtrera</button>
-        <div class="dropdown-content" id="dropdownContent">
-            <a href="#" onclick="console.log('Visa allt clicked')">
-                <span>Visa allt</span>
-                <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
-            </a>
-            <a href="#" onclick="console.log('Mässor clicked')">
-                <span>Mässor</span>
-                <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
-            </a>
-            <a href="#" onclick="console.log('Jaktkort clicked')">
-                <span>Jaktkort</span>
-                <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
-            </a>
-            <a href="#" onclick="console.log('Jaktskyttebanor clicked')">
-                <span>Jaktskyttebanor</span>
-                <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
-            </a>
-            <a href="#" onclick="console.log('Rensa allt clicked')">
-                <span>Rensa allt</span>
-                <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
-            </a>
-        </div>
+    <button class="filter-button" onclick="toggleMenu()">Filtrera</button>
+    <div id="tab1" class="button-container">
+        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')"><img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt"></button>
+        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')"><img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor"></button>
+        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')"><img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort"></button>
+        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')"><img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor"></button>
+        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')"><img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt"></button>
     </div>
-
     <script>
-        document.querySelector('.dropbtn').addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevent click event from propagating
-
-            var content = document.getElementById('dropdownContent');
-
-            // Toggle the visibility of the dropdown content
-            if (content.style.display === 'flex') {
-                content.style.display = 'none';
-            } else {
-                content.style.display = 'flex';
-            }
-        });
-
-        // Close the dropdown if clicked outside
-        window.addEventListener('click', function(event) {
-            var dropdowns = document.getElementsByClassName('dropdown-content');
-            for (var i = 0; i < dropdowns.length; i++) {
-                var dropdown = dropdowns[i];
-                if (dropdown.style.display === 'flex') {
-                    dropdown.style.display = 'none';
-                }
-            }
-        });
+        function toggleMenu() {
+            const menu = document.querySelector('.button-container');
+            menu.classList.toggle('active');
+        }
     </script>
 </body>
 </html>
