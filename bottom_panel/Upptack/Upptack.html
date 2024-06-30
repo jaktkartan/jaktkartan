@@ -6,82 +6,92 @@
     <title>Upptäck fliken på jaktkartan.se</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
 
-        .container {
-            height: 15vh; /* Set the container height */
-            display: flex;
-            flex-direction: column; /* Stack label and buttons vertically */
-            padding: 0 10px; /* Add some padding on the sides */
-            box-sizing: border-box; /* Include padding in height calculation */
-        }
+.container {
+    height: 15vh; /* Set the container height */
+    display: flex;
+    flex-direction: column; /* Stack label and buttons vertically */
+    padding: 0 10px; /* Add some padding on the sides */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
 
-        .label {
-            font-size: 1.2em; /* Adjust font size for the label */
-            margin-bottom: 10px; /* Add margin between label and buttons */
-        }
+.label {
+    font-size: 1.2em; /* Adjust font size for the label */
+    margin-bottom: 10px; /* Add margin between label and buttons */
+}
 
-        .button-group {
-            flex: 1; /* Take up remaining space in the container */
-            overflow: hidden;
-            display: flex; /* Use flexbox for layout */
-            flex-wrap: wrap; /* Allow wrapping */
-            gap: 10px; /* Add space between buttons */
-        }
+.button-group {
+    flex: 1; /* Take up remaining space in the container */
+    overflow: hidden;
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 10px; /* Add space between buttons */
+}
 
-        .button-content {
-            display: flex;
-            overflow-x: auto; /* Enable horizontal scrolling */
-            height: 100%; /* Ensure it takes full height */
-            align-items: center; /* Center items vertically */
-        }
+.button-content {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping buttons */
+    gap: 10px; /* Add space between buttons */
+}
 
-        .button-content a {
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            white-space: nowrap; /* Prevent wrapping */
-            text-decoration: none; /* Remove underline from links */
-            color: rgb(50, 94, 88); /* Text color */
-            border: 1px solid rgb(50, 94, 88);
-            border-radius: 5px; /* Add rounded corners */
-            background-color: rgb(240, 240, 240); /* Background color */
-        }
+.button-content a {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap; /* Prevent wrapping */
+    text-decoration: none; /* Remove underline from links */
+    color: rgb(50, 94, 88); /* Text color */
+    border: 1px solid rgb(50, 94, 88);
+    border-radius: 5px; /* Add rounded corners */
+    background-color: rgb(240, 240, 240); /* Background color */
+    flex: 1; /* Take up equal space */
+    height: calc(50% - 5px); /* Half the height minus gap */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
 
-        .button-content a:hover {
-            background-color: #e0e0e0; /* Change background color on hover */
-        }
+.button-content a:hover {
+    background-color: #e0e0e0; /* Change background color on hover */
+}
 
-        .button-content img {
-            width: 30px;
-            height: 30px;
-            margin-left: 10px;
-        }
+.button-content img {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
 
-        /* Special styling for stacked buttons */
-        .stacked-buttons {
-            display: flex;
-            flex-direction: column; /* Stack buttons vertically */
-            justify-content: space-between;
-            height: 100%; /* Full height of the button container */
-        }
+.stacked-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Full height of the button container */
+}
 
-        .stacked-buttons a {
-            flex: 1; /* Allow buttons to grow equally */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 50%; /* Make each button half of the container height */
-            padding: 0 16px; /* Add padding */
-            box-sizing: border-box;
-        }
-    </style>
+.stacked-buttons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    white-space: nowrap; /* Prevent wrapping */
+    text-decoration: none; /* Remove underline from links */
+    color: rgb(50, 94, 88); /* Text color */
+    border: 1px solid rgb(50, 94, 88);
+    border-radius: 5px; /* Add rounded corners */
+    background-color: rgb(240, 240, 240); /* Background color */
+    height: calc(50% - 5px); /* Half the height minus gap */
+    box-sizing: border-box; /* Include padding in height calculation */
+}
+
+.stacked-buttons a:hover {
+    background-color: #e0e0e0; /* Change background color on hover */
+}
+
 </head>
 <body>
     <div class="container">
