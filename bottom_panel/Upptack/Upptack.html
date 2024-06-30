@@ -69,12 +69,20 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script>
         function handleFilterChange() {
-            const select = document.getElementById('filter-select');
-            const value = select.value;
-            Upptack_geojsonHandler.toggleLayer(value);
+            var select = document.getElementById('filter-select');
+            var selectedValue = select.value;
+
+            // Ensure Upptack_geojsonHandler is defined before calling toggleLayer
+            if (Upptack_geojsonHandler && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
+                Upptack_geojsonHandler.toggleLayer(selectedValue);
+            } else {
+                console.error('Upptack_geojsonHandler is not defined or toggleLayer method is not available.');
+            }
         }
     </script>
 </body>
