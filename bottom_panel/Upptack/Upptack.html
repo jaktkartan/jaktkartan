@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upptäck fliken</title>
+    <title>Dropdown Menu Example</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <style>
@@ -16,8 +16,10 @@
 
         .container {
             position: relative; /* Container is now relative for positioning the dropdown */
-            height: 50vh; /* Height of the dropdown menu container */
+            height: 50vh; /* Set height for dropdown container */
             width: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .dropdown-label {
@@ -34,7 +36,6 @@
             box-sizing: border-box;
             justify-content: space-between;
             position: relative;
-            top: 0; /* Align the dropdown button to the top */
             z-index: 1000; /* Ensure it is above other elements */
         }
 
@@ -45,15 +46,16 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            top: 100%;
+            top: 100%; /* Place directly below the label */
             left: 0;
             width: 100%;
-            max-height: 50vh; /* Set maximum height for scrolling, adjust as needed */
+            max-height: 50vh; /* Set maximum height for scrolling */
             overflow-y: auto; /* Enable vertical scrolling */
             background: white;
             border: 1px solid rgb(50, 94, 88);
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
+            z-index: 1000; /* Ensure it appears above other content */
         }
 
         .dropdown-content a {
@@ -87,6 +89,15 @@
 
         .dropdown-toggle:checked + .dropdown-label + .dropdown-content {
             display: block;
+        }
+
+        /* Close the dropdown when clicking outside */
+        .dropdown-content:focus-within {
+            display: block;
+        }
+
+        .dropdown-label {
+            z-index: 1000;
         }
     </style>
 </head>
