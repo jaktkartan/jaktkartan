@@ -6,6 +6,10 @@
     <title>Upptäckfliken, innehåll med rull-lista</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.2/dist/css/select2.min.css" rel="stylesheet" />
+    
     <style>
         body, html {
             margin: 0;
@@ -16,44 +20,53 @@
             justify-content: center;
             align-items: center;
         }
-        .styled-select {
-            width: 200px;
-            padding: 5px;
-            font-size: 16px;
+        .styled-upptack {
+            width: 300px; /* Adjust width as needed */
         }
-        .styled-select option {
-            padding: 10px;
-            background-repeat: no-repeat;
-            background-position: left center;
-            text-align: center;
+        .select2-selection__rendered {
+            display: flex;
+            align-items: center;
         }
-        .Visa_allt {
-            background-image: url('bottom_panel/Upptack/bilder/Visa_allt_ikon.png');
-        }
-        .Mässor {
-            background-image: url('bottom_panel/Upptack/bilder/massa_ikon.png');
-        }
-        .Jaktkort {
-            background-image: url('bottom_panel/Upptack/bilder/jaktkort_ikon2.png');
-        }
-        .Jaktskyttebanor {
-            background-image: url('bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png');
-        }
-        .Rensa_allt {
-            background-image: url('bottom_panel/Upptack/bilder/rensa_allt_ikon.png');
+        .select2-selection__rendered img {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
         }
     </style>
+    
+    <!-- Select2 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.2/dist/js/select2.min.js"></script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </head>
 <body>
     <div id="tab1" class="tab-pane">
-        <select class="styled-select" onchange="Upptack_geojsonHandler.toggleLayer(this.value)">
-            <option value="Visa_allt" class="Visa_allt">Visa allt</option>
-            <option value="Mässor" class="Mässor">Mässor</option>
-            <option value="Jaktkort" class="Jaktkort">Jaktkort</option>
-            <option value="Jaktskyttebanor" class="Jaktskyttebanor">Jaktskyttebanor</option>
-            <option value="Rensa_allt" class="Rensa_allt">Rensa allt</option>
+        <select id="mySelect" class="styled-upptack">
+            <option value="Visa_allt" data-image="bottom_panel/Upptack/bilder/Visa_allt_ikon.png">Visa allt</option>
+            <option value="Mässor" data-image="bottom_panel/Upptack/bilder/massa_ikon.png">Mässor</option>
+            <option value="Jaktkort" data-image="bottom_panel/Upptack/bilder/jaktkort_ikon2.png">Jaktkort</option>
+            <option value="Jaktskyttebanor" data-image="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png">Jaktskyttebanor</option>
+            <option value="Rensa_allt" data-image="bottom_panel/Upptack/bilder/rensa_allt_ikon.png">Rensa allt</option>
         </select>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2
+            $('#mySelect').select2({
+                templateResult: formatOption,
+                templateSelection: formatOption
+            });
+
+            function formatOption(option) {
+                if (!option.id) {
+                    return option.text;
+                }
+                var $option = $(
+                    '<span><img src="' + $(option.element).data('image') + '" class="img-flag" /> ' + option.text + '</span>'
+                );
+                return $option;
+            }
+        });
+    </script>
 </body>
 </html>
