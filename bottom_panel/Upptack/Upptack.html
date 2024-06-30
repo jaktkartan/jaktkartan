@@ -122,7 +122,7 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.0/axios.min.js"></script>
+    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const selectUpptackSelected = document.querySelector('.select-upptack-selected');
@@ -150,31 +150,11 @@
             });
 
             function handleSelectChange(value) {
-                console.log('Selected value:', value); // Felsökning: Visa det valda värdet i konsolen
-
-                // URL-mapping för GeoJSON-filer
-                const urlMap = {
-                    'Visa_allt': 'bottom_panel/Upptack/jaktskyttebanor.geojson',
-                    'Mässor': 'bottom_panel/Upptack/massa.geojson',
-                    'Jaktkort': 'bottom_panel/Upptack/jaktkort.geojson',
-                    'Jaktskyttebanor': 'bottom_panel/Upptack/jaktskyttebanor.geojson',
-                    'Rensa_allt': 'bottom_panel/Upptack/rensa_allt.geojson'
-                };
-
-                const url = urlMap[value];
-                if (url) {
-                    axios.get(url)
-                        .then(response => {
-                            // Hantera GeoJSON-data här
-                            console.log('GeoJSON Data:', response.data);
-                            // Anropa funktionen för att visa lagret (anpassa efter din kod)
-                            // Upptack_geojsonHandler.toggleLayer(value); // Ersätt med din egen logik
-                        })
-                        .catch(error => {
-                            console.error('Error fetching GeoJSON:', error);
-                        });
+                // Anropa funktionen från Upptack_geojsonHandler.js med det valda värdet
+                if (typeof Upptack_geojsonHandler !== 'undefined' && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
+                    Upptack_geojsonHandler.toggleLayer(value);
                 } else {
-                    console.warn('No URL mapped for value:', value);
+                    console.error('Upptack_geojsonHandler or toggleLayer function is not defined.');
                 }
             }
 
