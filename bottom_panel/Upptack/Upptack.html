@@ -145,13 +145,14 @@
 
             function handleSelectChange(value) {
                 console.log('Handling select change for:', value);
-                if (typeof Upptack_geojsonHandler !== 'undefined') {
+                if (typeof Upptack_geojsonHandler !== 'undefined' && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
                     Upptack_geojsonHandler.toggleLayer(value);
                 } else {
-                    console.log('Upptack_geojsonHandler is not defined');
+                    console.log('Upptack_geojsonHandler or toggleLayer method is not defined');
                 }
             }
         });
     </script>
 </body>
 </html>
+
