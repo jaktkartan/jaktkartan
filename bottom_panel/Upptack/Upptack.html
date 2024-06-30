@@ -16,44 +16,122 @@
             justify-content: center;
             align-items: center;
         }
-        .styled-select {
+
+        .custom-select {
+            position: relative;
+            display: inline-block;
             width: 200px;
-            padding: 5px;
-            font-size: 16px;
         }
-        .styled-select option {
-            padding: 10px;
-            background-repeat: no-repeat;
-            background-position: left center;
-            text-align: center;
+
+        .select-selected {
+            background-color: #f1f1f1;
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
         }
-        .Visa_allt {
-            background-image: url('bottom_panel/Upptack/bilder/Visa_allt_ikon.png');
+
+        .select-selected:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-color: #888 transparent transparent transparent;
         }
-        .Mässor {
-            background-image: url('bottom_panel/Upptack/bilder/massa_ikon.png');
+
+        .select-selected.select-arrow-active:after {
+            border-color: transparent transparent #888 transparent;
+            top: 50%;
+            transform: translateY(-50%) rotate(180deg);
         }
-        .Jaktkort {
-            background-image: url('bottom_panel/Upptack/bilder/jaktkort_ikon2.png');
+
+        .select-items {
+            position: absolute;
+            background-color: #f1f1f1;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+            border: 1px solid #ddd;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
         }
-        .Jaktskyttebanor {
-            background-image: url('bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png');
+
+        .select-hide {
+            display: none;
         }
-        .Rensa_allt {
-            background-image: url('bottom_panel/Upptack/bilder/rensa_allt_ikon.png');
+
+        .select-items div {
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-items div:hover, .same-as-selected {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .select-items img {
+            width: 20px;
+            height: 20px;
         }
     </style>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </head>
 <body>
     <div id="tab1" class="tab-pane">
-        <select class="styled-select" onchange="Upptack_geojsonHandler.toggleLayer(this.value)">
-            <option value="Visa_allt" class="Visa_allt">Visa allt</option>
-            <option value="Mässor" class="Mässor">Mässor</option>
-            <option value="Jaktkort" class="Jaktkort">Jaktkort</option>
-            <option value="Jaktskyttebanor" class="Jaktskyttebanor">Jaktskyttebanor</option>
-            <option value="Rensa_allt" class="Rensa_allt">Rensa allt</option>
-        </select>
+        <div class="custom-select">
+            <div class="select-selected">Visa allt</div>
+            <div class="select-items select-hide">
+                <div data-value="Visa_allt">
+                    <span>Visa allt</span>
+                    <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
+                </div>
+                <div data-value="Mässor">
+                    <span>Mässor</span>
+                    <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
+                </div>
+                <div data-value="Jaktkort">
+                    <span>Jaktkort</span>
+                    <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
+                </div>
+                <div data-value="Jaktskyttebanor">
+                    <span>Jaktskyttebanor</span>
+                    <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
+                </div>
+                <div data-value="Rensa_allt">
+                    <span>Rensa allt</span>
+                    <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        document.querySelector('.select-selected').addEventListener('click', function() {
+            this.classList.toggle('select-arrow-active');
+            document.querySelector('.select-items').classList.toggle('select-hide');
+        });
+
+        document.querySelectorAll('.select-items div').forEach(function(item) {
+            item.addEventListener('click', function() {
+                var value = this.getAttribute('data-value');
+                document.querySelector('.select-selected').textContent = this.querySelector('span').textContent;
+                document.querySelector('.select-items').classList.add('select-hide');
+                document.querySelector('.select-selected').classList.remove('select-arrow-active');
+                handleSelectChange(value);
+            });
+        });
+
+        function handleSelectChange(value) {
+            Upptack_geojsonHandler.toggleLayer(value);
+        }
+    </script>
 </body>
 </html>
