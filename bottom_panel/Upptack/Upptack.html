@@ -119,7 +119,12 @@
             var selectSelected = document.querySelector('.select-selected');
             var selectItems = document.querySelector('.select-items');
 
+            // Log to check if elements are correctly selected
+            console.log('selectSelected:', selectSelected);
+            console.log('selectItems:', selectItems);
+
             selectSelected.addEventListener('click', function() {
+                console.log('select-selected clicked');
                 selectItems.classList.toggle('select-hide');
                 selectSelected.classList.toggle('select-arrow-active');
             });
@@ -127,6 +132,8 @@
             document.querySelectorAll('.select-items div').forEach(function(item) {
                 item.addEventListener('click', function() {
                     var value = this.getAttribute('data-value');
+                    console.log('Item clicked:', value);
+
                     var selectedText = this.querySelector('span').textContent;
                     var selectedImageSrc = this.querySelector('img').src;
                     selectSelected.querySelector('span').textContent = selectedText;
@@ -138,6 +145,7 @@
             });
 
             function handleSelectChange(value) {
+                console.log('Handling select change for:', value);
                 if (typeof Upptack_geojsonHandler !== 'undefined' && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
                     Upptack_geojsonHandler.toggleLayer(value);
                 } else {
