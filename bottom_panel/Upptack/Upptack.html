@@ -70,6 +70,16 @@
                 );
                 return $option;
             }
+
+            // Handle change event to call the toggleLayer function
+            $('#mySelect').on('change', function() {
+                var selectedValue = $(this).val();
+                if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.toggleLayer) {
+                    Upptack_geojsonHandler.toggleLayer(selectedValue);
+                } else {
+                    console.error('Upptack_geojsonHandler or toggleLayer is not defined');
+                }
+            });
         });
     </script>
 </body>
