@@ -28,6 +28,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             padding: 10px;
             border-radius: 5px;
+            z-index: 1000; /* Make sure the menu is on top */
         }
 
         .button-container.active {
@@ -60,7 +61,6 @@
             font-size: 16px;
         }
     </style>
-    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </head>
 <body>
     <button class="filter-button" onclick="toggleMenu()">Filtrera</button>
