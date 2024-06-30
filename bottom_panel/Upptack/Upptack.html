@@ -17,56 +17,143 @@
             align-items: center;
         }
 
-        .styled-select {
-            width: 200px;
-            padding: 5px;
-            font-size: 16px;
-            appearance: none;
-            -moz-appearance: none;
-            -webkit-appearance: none;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140"><polygon points="70,85 25,40 115,40"/></svg>') no-repeat right 10px center;
+        .custom-select {
+            position: relative;
+            display: inline-block;
+            width: 300px;
+        }
+
+        .select-selected {
             background-color: #f1f1f1;
-            border: 1px solid #ddd;
-        }
-
-        .styled-select option {
             padding: 10px;
-            background-repeat: no-repeat;
-            background-position: left center;
-            text-align: center;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .Visa_allt {
-            background-image: url('bottom_panel/Upptack/bilder/Visa_allt_ikon.png');
+        .select-selected img {
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
         }
 
-        .Mässor {
-            background-image: url('bottom_panel/Upptack/bilder/massa_ikon.png');
+        .select-items {
+            position: absolute;
+            background-color: #f1f1f1;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+            border: 1px solid #ddd;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
         }
 
-        .Jaktkort {
-            background-image: url('bottom_panel/Upptack/bilder/jaktkort_ikon2.png');
+        .select-items div {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .Jaktskyttebanor {
-            background-image: url('bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png');
+        .select-items div:hover {
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
-        .Rensa_allt {
-            background-image: url('bottom_panel/Upptack/bilder/rensa_allt_ikon.png');
+        .select-items img {
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+        }
+
+        .select-selected:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-color: #888 transparent transparent transparent;
+        }
+
+        .select-selected.select-arrow-active:after {
+            border-color: transparent transparent #888 transparent;
+            transform: translateY(-50%) rotate(180deg);
         }
     </style>
-    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </head>
 <body>
     <div id="tab1" class="tab-pane">
-        <select class="styled-select" onchange="Upptack_geojsonHandler.toggleLayer(this.value)">
-            <option value="Visa_allt" class="Visa_allt">Visa allt</option>
-            <option value="Mässor" class="Mässor">Mässor</option>
-            <option value="Jaktkort" class="Jaktkort">Jaktkort</option>
-            <option value="Jaktskyttebanor" class="Jaktskyttebanor">Jaktskyttebanor</option>
-            <option value="Rensa_allt" class="Rensa_allt">Rensa allt</option>
-        </select>
+        <div class="custom-select">
+            <div class="select-selected">
+                <span>Visa allt</span>
+                <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
+            </div>
+            <div class="select-items">
+                <div data-value="Visa_allt">
+                    <span>Visa allt</span>
+                    <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
+                </div>
+                <div data-value="Mässor">
+                    <span>Mässor</span>
+                    <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
+                </div>
+                <div data-value="Jaktkort">
+                    <span>Jaktkort</span>
+                    <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
+                </div>
+                <div data-value="Jaktskyttebanor">
+                    <span>Jaktskyttebanor</span>
+                    <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
+                </div>
+                <div data-value="Rensa_allt">
+                    <span>Rensa allt</span>
+                    <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Show and hide dropdown menu
+        document.querySelector('.select-selected').addEventListener('click', function() {
+            this.classList.toggle('select-arrow-active');
+            document.querySelector('.select-items').classList.toggle('select-hide');
+        });
+
+        // Handle item selection
+        document.querySelectorAll('.select-items div').forEach(function(item) {
+            item.addEventListener('click', function() {
+                var value = this.getAttribute('data-value');
+                var selectedText = this.querySelector('span').textContent;
+                var selectedImageSrc = this.querySelector('img').src;
+                document.querySelector('.select-selected span').textContent = selectedText;
+                document.querySelector('.select-selected img').src = selectedImageSrc;
+                document.querySelector('.select-items').classList.add('select-hide');
+                document.querySelector('.select-selected').classList.remove('select-arrow-active');
+                handleSelectChange(value);
+            });
+        });
+
+        function handleSelectChange(value) {
+            // Call your function to handle the selected value
+            Upptack_geojsonHandler.toggleLayer(value);
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        document.addEventListener('click', function(e) {
+            var selectElement = document.querySelector('.custom-select');
+            if (!selectElement.contains(e.target)) {
+                document.querySelector('.select-items').classList.add('select-hide');
+                document.querySelector('.select-selected').classList.remove('select-arrow-active');
+            }
+        });
+    </script>
 </body>
 </html>
