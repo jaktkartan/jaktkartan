@@ -1,81 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upptäckfliken, innehåll med knappar</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .button-container {
-            display: none; /* Hide the button container by default */
-            position: absolute;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000; /* Ensure menu is on top */
-        }
-
-        .button-container.active {
-            display: block; /* Show the button container when active */
-        }
-
-        .styled-button {
-            margin: 5px;
-            padding: 10px;
-            border: none;
-            background: #007bff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .styled-button img {
-            width: 24px;
-            height: 24px;
-        }
-
-        .filter-button {
-            margin: 0;
-            padding: 10px 20px;
-            border: none;
-            background: #007bff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-    </style>
-    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filtrera knappar</title>
+<style>
+    .filter-container {
+        display: flex;
+        align-items: center;
+    }
+    .filter-button {
+        margin-right: 10px;
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    .additional-buttons {
+        display: none;
+    }
+    .additional-buttons.show {
+        display: flex;
+    }
+    .additional-buttons button {
+        margin-right: 5px;
+        padding: 8px 12px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
-    <button class="filter-button" onclick="toggleMenu()">Filtrera</button>
-    <div id="tab1" class="button-container">
-        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')"><img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt"></button>
-        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')"><img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor"></button>
-        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')"><img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort"></button>
-        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')"><img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor"></button>
-        <button class="styled-button" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')"><img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt"></button>
+
+<div class="filter-container">
+    <button id="filterButton" class="filter-button">Filtrera</button>
+    <div class="additional-buttons">
+        <button>Knapp 1</button>
+        <button>Knapp 2</button>
+        <button>Knapp 3</button>
+        <button>Knapp 4</button>
+        <button>Knapp 5</button>
     </div>
-    <script>
-        function toggleMenu() {
-            const menu = document.querySelector('.button-container');
-            menu.classList.toggle('active');
-        }
-    </script>
+</div>
+
+<script>
+    const filterButton = document.getElementById('filterButton');
+    const additionalButtons = document.querySelector('.additional-buttons');
+
+    filterButton.addEventListener('click', function() {
+        additionalButtons.classList.toggle('show');
+    });
+</script>
+
 </body>
 </html>
