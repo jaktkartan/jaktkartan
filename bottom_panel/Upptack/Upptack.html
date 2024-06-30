@@ -29,9 +29,6 @@
             border: 1px solid #ddd;
             cursor: pointer;
             user-select: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .select-selected:after {
@@ -69,19 +66,10 @@
         .select-items div {
             padding: 8px 16px;
             cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .select-items div:hover, .same-as-selected {
             background-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .select-items img {
-            width: 20px;
-            height: 20px;
-            margin-left: 10px;
         }
     </style>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
@@ -89,31 +77,13 @@
 <body>
     <div id="tab1" class="tab-pane">
         <div class="custom-select">
-            <div class="select-selected">
-                <span>Visa allt</span>
-                <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
-            </div>
+            <div class="select-selected">Visa allt</div>
             <div class="select-items select-hide">
-                <div data-value="Visa_allt">
-                    <span>Visa allt</span>
-                    <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
-                </div>
-                <div data-value="Mässor">
-                    <span>Mässor</span>
-                    <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
-                </div>
-                <div data-value="Jaktkort">
-                    <span>Jaktkort</span>
-                    <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
-                </div>
-                <div data-value="Jaktskyttebanor">
-                    <span>Jaktskyttebanor</span>
-                    <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
-                </div>
-                <div data-value="Rensa_allt">
-                    <span>Rensa allt</span>
-                    <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
-                </div>
+                <div data-value="Visa_allt">Visa allt</div>
+                <div data-value="Mässor">Mässor</div>
+                <div data-value="Jaktkort">Jaktkort</div>
+                <div data-value="Jaktskyttebanor">Jaktskyttebanor</div>
+                <div data-value="Rensa_allt">Rensa allt</div>
             </div>
         </div>
     </div>
@@ -127,10 +97,7 @@
         document.querySelectorAll('.select-items div').forEach(function(item) {
             item.addEventListener('click', function() {
                 var value = this.getAttribute('data-value');
-                var selectedText = this.querySelector('span').textContent;
-                var selectedImageSrc = this.querySelector('img').src;
-                document.querySelector('.select-selected span').textContent = selectedText;
-                document.querySelector('.select-selected img').src = selectedImageSrc;
+                document.querySelector('.select-selected').textContent = this.textContent;
                 document.querySelector('.select-items').classList.add('select-hide');
                 document.querySelector('.select-selected').classList.remove('select-arrow-active');
                 handleSelectChange(value);
