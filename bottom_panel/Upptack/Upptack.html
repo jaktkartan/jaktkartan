@@ -3,72 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buttons Layout</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <title>Upptäck fliken på jaktkartan.se</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
         }
 
-        .button-container {
+        .container {
+            height: 15vh; /* Set the container height */
             display: flex;
-            overflow-x: auto;
-            white-space: nowrap; /* Prevents buttons from wrapping to the next line */
+            flex-direction: column; /* Stack label and buttons vertically */
+            padding: 0 10px; /* Add some padding on the sides */
+            box-sizing: border-box; /* Include padding in height calculation */
         }
 
-        .button {
-            background-color: #3498db;
-            color: white;
-            padding: 16px;
+        .label {
             font-size: 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            display: inline-flex;
-            align-items: center;
-            margin-right: 10px; /* Space between buttons */
+            font-weight: bold;
+            margin-bottom: 8px; /* Space between label and buttons */
+            color: #333;
         }
 
-        .button img {
+        .dropdown {
+            flex: 1; /* Take up remaining space in the container */
+            overflow: hidden;
+        }
+
+        .dropdown-content {
+            display: flex;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            height: 100%; /* Ensure it takes full height */
+            align-items: center; /* Center items vertically */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            white-space: nowrap; /* Prevent wrapping */
+            height: 100%; /* Ensure buttons take full height */
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown-content img {
             width: 30px;
             height: 30px;
-            margin-left: 10px; /* Space between text and image */
-        }
-
-        .button:hover {
-            background-color: #2980b9; /* Darker blue on hover */
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="button-container">
-        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
-            <span>Visa allt</span>
-            <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
-        </button>
-        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
-            <span>Mässor</span>
-            <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
-        </button>
-        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">
-            <span>Jaktkort</span>
-            <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
-        </button>
-        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
-            <span>Jaktskyttebanor</span>
-            <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
-        </button>
-        <button class="button" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
-            <span>Rensa allt</span>
-            <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
-        </button>
+    <div class="container">
+        <div class="label">Filtrera</div>
+        <div class="dropdown">
+            <div class="dropdown-content">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
+                    <span>Visa allt</span>
+                    <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
+                </a>
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
+                    <span>Mässor</span>
+                    <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
+                </a>
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">
+                    <span>Jaktkort</span>
+                    <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
+                </a>
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
+                    <span>Jaktskyttebanor</span>
+                    <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
+                </a>
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
+                    <span>Rensa allt</span>
+                    <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
+                </a>
+            </div>
+        </div>
     </div>
 
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
