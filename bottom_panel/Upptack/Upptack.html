@@ -29,7 +29,6 @@
             border: none;
             cursor: pointer;
             border-radius: 4px;
-            z-index: 1; /* Ensure button is above content */
         }
 
         .dropdown-content {
@@ -38,7 +37,7 @@
             background-color: #f9f9f9;
             min-width: 200px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 2; /* Ensure content is above other elements */
+            z-index: 1;
             border-radius: 4px;
             display: flex;
             flex-direction: row;
@@ -46,8 +45,8 @@
             padding: 0;
             margin: 0;
             top: 100%; /* Position below the button */
-            left: 100%; /* Align to the right of the button */
-            transform: translateX(10px); /* Space between button and dropdown */
+            left: 100%; /* Position to the right of the button */
+            transform: translateX(8px); /* Add space between button and dropdown */
         }
 
         .dropdown-content a {
@@ -102,7 +101,7 @@
             event.stopPropagation(); // Prevent click event from propagating
 
             var content = document.getElementById('dropdownContent');
-            
+
             // Toggle the visibility of the dropdown content
             if (content.style.display === 'flex') {
                 content.style.display = 'none';
