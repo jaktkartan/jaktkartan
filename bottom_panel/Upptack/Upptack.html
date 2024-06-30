@@ -14,64 +14,54 @@
             overflow: hidden;
         }
 
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-}
+        .container {
+            height: 15vh; /* Set the container height */
+            display: flex;
+            flex-direction: column; /* Stack label and buttons vertically */
+            padding: 0 10px; /* Add some padding on the sides */
+            box-sizing: border-box; /* Include padding in height calculation */
+        }
 
-.container {
-    height: 15vh; /* Set the container height */
-    display: flex;
-    flex-direction: column; /* Stack label and buttons vertically */
-    padding: 0 10px; /* Add some padding on the sides */
-    box-sizing: border-box; /* Include padding in height calculation */
-}
+        .label {
+            font-size: 1.2em; /* Adjust font size for the label */
+            margin-bottom: 10px; /* Add margin between label and buttons */
+        }
 
-.label {
-    font-size: 1.2em; /* Adjust font size for the label */
-    margin-bottom: 10px; /* Add margin between label and buttons */
-}
+        .button-group {
+            flex: 1; /* Take up remaining space in the container */
+            overflow: hidden;
+        }
 
-.button-group {
-    flex: 1; /* Take up remaining space in the container */
-    overflow: hidden;
-}
+        .button-content {
+            display: flex;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            height: 100%; /* Ensure it takes full height */
+            align-items: center; /* Center items vertically */
+            gap: 10px; /* Add space between buttons */
+        }
 
-.button-content {
-    display: flex;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    height: 100%; /* Ensure it takes full height */
-    align-items: center; /* Center items vertically */
-    gap: 10px; /* Add space between buttons */    
-}
+        .button-content a {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap; /* Prevent wrapping */
+            height: 100%; /* Ensure buttons take full height */
+            text-decoration: none; /* Remove underline from links */
+            color: rgb(50, 94, 88); /* Text color */
+            border: 1px solid rgb(50, 94, 88);
+            border-radius: 5px; /* Add rounded corners */
+            background-color: rgb(240, 240, 240); /* Background color */
+        }
 
-.button-content a {
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    white-space: nowrap; /* Prevent wrapping */
-    height: 100%; /* Ensure buttons take full height */
-    text-decoration: none; /* Remove underline from links */
-    color: black; /* Set text color */
-    border: 1px solid rgb(50, 94, 88);
-    border-radius: 5px; /* Add rounded corners */
-    background-color: rgb(240, 240, 240);
-    color: rgb(50, 94, 88); /* Textfärg för knappar i Upptack.html */
+        .button-content a:hover {
+            background-color: #e0e0e0; /* Change background color on hover */
+        }
 
-}
-
-.button-content a:hover {
-    background-color: #e0e0e0; /* Change background color on hover */
-}
-
-.button-content img {
-    width: 30px;
-    height: 30px;
-    margin-left: 10px;
-}
-
+        .button-content img {
+            width: 30px;
+            height: 30px;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -81,7 +71,6 @@ body, html {
             <div class="button-content">
                 <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
                     <span>Visa allt</span>
-                    <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
                 </a>
                 <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
                     <span>Mässor</span>
@@ -97,7 +86,6 @@ body, html {
                 </a>
                 <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
                     <span>Rensa allt</span>
-                    <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
                 </a>
             </div>
         </div>
