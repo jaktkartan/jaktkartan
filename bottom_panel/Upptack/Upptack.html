@@ -30,13 +30,13 @@ body, html {
     flex: 1; /* Take up remaining space in the container */
     overflow: hidden;
     display: flex; /* Use flexbox for layout */
-    flex-wrap: wrap; /* Allow wrapping */
+    flex-wrap: nowrap; /* Prevent wrapping */
     gap: 10px; /* Add space between buttons */
 }
 
 .button-content {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping buttons */
+    flex-wrap: nowrap; /* Prevent wrapping */
     gap: 10px; /* Add space between buttons */
 }
 
@@ -51,9 +51,9 @@ body, html {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px; /* Add rounded corners */
     background-color: rgb(240, 240, 240); /* Background color */
-    flex: 1; /* Take up equal space */
-    height: calc(50% - 5px); /* Half the height minus gap */
+    height: 100%; /* Full height of the container */
     box-sizing: border-box; /* Include padding in height calculation */
+    flex: 1; /* Take up equal space */
 }
 
 .button-content a:hover {
@@ -69,8 +69,9 @@ body, html {
 .stacked-buttons {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 10px; /* Space between stacked buttons */
     height: 100%; /* Full height of the button container */
+    flex: 1; /* Take up equal space */
 }
 
 .stacked-buttons a {
@@ -84,7 +85,7 @@ body, html {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px; /* Add rounded corners */
     background-color: rgb(240, 240, 240); /* Background color */
-    height: calc(50% - 5px); /* Half the height minus gap */
+    height: calc(50% - 10px); /* Half the height minus gap */
     box-sizing: border-box; /* Include padding in height calculation */
 }
 
