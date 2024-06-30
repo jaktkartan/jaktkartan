@@ -140,6 +140,15 @@
         function handleSelectChange(value) {
             Upptack_geojsonHandler.toggleLayer(value);
         }
+
+        // Close the dropdown if the user clicks outside of it
+        document.addEventListener('click', function(e) {
+            var selectElement = document.querySelector('.custom-select');
+            if (!selectElement.contains(e.target)) {
+                document.querySelector('.select-items').classList.add('select-hide');
+                document.querySelector('.select-selected').classList.remove('select-arrow-active');
+            }
+        });
     </script>
 </body>
 </html>
