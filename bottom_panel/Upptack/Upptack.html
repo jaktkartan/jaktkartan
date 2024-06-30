@@ -36,6 +36,7 @@
             display: none; /* Initially hidden */
             position: absolute;
             background-color: #f9f9f9;
+            min-width: 200px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
             border-radius: 4px;
@@ -45,8 +46,10 @@
             white-space: nowrap;
             padding: 0;
             margin: 0;
+            /* Default position when hidden */
             top: 100%; /* Position below the button */
-            left: 0;   /* Aligns to the left of the button */
+            left: 100%; /* Position to the right of the button */
+            transform: translateX(8px); /* Add space between button and dropdown */
         }
 
         .dropdown-content a {
@@ -105,8 +108,8 @@
             event.stopPropagation();
 
             // Set the position of dropdown-content to open horizontally
-            content.style.top = (buttonRect.bottom + window.scrollY) + 'px';
-            content.style.left = buttonRect.left + 'px';
+            content.style.top = (buttonRect.top + window.scrollY) + 'px'; // Align top with the button
+            content.style.left = (buttonRect.right + window.scrollX) + 'px'; // Align right with the button
 
             // Toggle the visibility of the dropdown content
             if (content.style.display === 'flex') {
