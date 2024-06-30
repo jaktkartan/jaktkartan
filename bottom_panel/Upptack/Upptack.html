@@ -36,19 +36,16 @@
             display: none; /* Initially hidden */
             position: absolute;
             background-color: #f9f9f9;
-            min-width: 200px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
             border-radius: 4px;
             /* Flexbox for horizontal layout */
             display: flex;
             flex-direction: row;
-            flex-wrap: nowrap; /* Prevent wrapping */
             white-space: nowrap;
             padding: 0;
             margin: 0;
-            /* Default position when hidden */
-            top: 100%; /* Aligns below the button */
+            top: 100%; /* Position below the button */
             left: 0;   /* Aligns to the left of the button */
         }
 
@@ -58,7 +55,6 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-            white-space: nowrap;
         }
 
         .dropdown-content a:hover {
@@ -101,9 +97,12 @@
 
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script>
-        document.querySelector('.dropbtn').addEventListener('click', function() {
+        document.querySelector('.dropbtn').addEventListener('click', function(event) {
             var content = document.getElementById('dropdownContent');
             var buttonRect = this.getBoundingClientRect();
+
+            // Prevent the dropdown from being toggled if click is inside it
+            event.stopPropagation();
 
             // Set the position of dropdown-content to open horizontally
             content.style.top = (buttonRect.bottom + window.scrollY) + 'px';
@@ -117,15 +116,13 @@
             }
         });
 
-        // Optional: Close the dropdown if clicked outside
+        // Close the dropdown if clicked outside
         window.addEventListener('click', function(event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName('dropdown-content');
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var dropdown = dropdowns[i];
-                    if (dropdown.style.display === 'flex') {
-                        dropdown.style.display = 'none';
-                    }
+            var dropdowns = document.getElementsByClassName('dropdown-content');
+            for (var i = 0; i < dropdowns.length; i++) {
+                var dropdown = dropdowns[i];
+                if (dropdown.style.display === 'flex') {
+                    dropdown.style.display = 'none';
                 }
             }
         });
