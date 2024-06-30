@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dropdown with Images</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         body, html {
             margin: 0;
@@ -30,6 +29,7 @@
             border: none;
             cursor: pointer;
             border-radius: 4px;
+            z-index: 1; /* Ensure button is above content */
         }
 
         .dropdown-content {
@@ -38,18 +38,16 @@
             background-color: #f9f9f9;
             min-width: 200px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+            z-index: 2; /* Ensure content is above other elements */
             border-radius: 4px;
-            /* Flexbox for horizontal layout */
             display: flex;
             flex-direction: row;
             white-space: nowrap;
             padding: 0;
             margin: 0;
-            /* Default position when hidden */
             top: 100%; /* Position below the button */
-            left: 100%; /* Position to the right of the button */
-            transform: translateX(8px); /* Add space between button and dropdown */
+            left: 100%; /* Align to the right of the button */
+            transform: translateX(10px); /* Space between button and dropdown */
         }
 
         .dropdown-content a {
@@ -101,16 +99,10 @@
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script>
         document.querySelector('.dropbtn').addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent click event from propagating
+
             var content = document.getElementById('dropdownContent');
-            var buttonRect = this.getBoundingClientRect();
-
-            // Prevent the dropdown from being toggled if click is inside it
-            event.stopPropagation();
-
-            // Set the position of dropdown-content to open horizontally
-            content.style.top = (buttonRect.top + window.scrollY) + 'px'; // Align top with the button
-            content.style.left = (buttonRect.right + window.scrollX) + 'px'; // Align right with the button
-
+            
             // Toggle the visibility of the dropdown content
             if (content.style.display === 'flex') {
                 content.style.display = 'none';
