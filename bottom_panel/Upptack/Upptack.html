@@ -87,22 +87,22 @@
         <div class="label">Filtrera</div>
         <div class="button-group">
             <div class="button-content">
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt'); return false;">
                     <span>Visa allt</span>
                 </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor'); return false;">
                     <span>Mässor</span>
                     <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
                 </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort'); return false;">
                     <span>Jaktkort</span>
                     <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
                 </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor'); return false;">
                     <span>Jaktskyttebanor</span>
                     <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
                 </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt'); return false;">
                     <span>Rensa allt</span>
                 </a>
             </div>
@@ -134,9 +134,8 @@
             }
         }
 
-        function handleSelectChange() {
-            var select = document.getElementById('filter-select');
-            var selectedValue = select.value;
+        function handleSelectChange(event) {
+            var selectedValue = event.target.value;
             console.log('Selected value:', selectedValue);
 
             if (typeof Upptack_geojsonHandler !== 'undefined' && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
