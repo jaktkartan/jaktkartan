@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upptäckfliken, innehåll med rull-lista</title>
+    <title>Upptäckfliken med Rull-lista</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <style>
@@ -15,6 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: Arial, sans-serif;
         }
 
         .custom-select {
@@ -30,8 +31,8 @@
             cursor: pointer;
             user-select: none;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
 
         .select-selected img {
@@ -58,8 +59,8 @@
             padding: 10px;
             cursor: pointer;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
 
         .select-items div:hover {
@@ -131,7 +132,6 @@
             var selectItems = document.querySelector('.select-items');
             selectItems.classList.toggle('select-hide');
             this.classList.toggle('select-arrow-active');
-            console.log('Dropdown toggled'); // Felsökning: Visa att dropdown togglas
         });
 
         // Hantera val av alternativ
@@ -151,7 +151,8 @@
         function handleSelectChange(value) {
             // Hantera det valda värdet
             console.log('Selected value:', value); // Felsökning: Visa det valda värdet i konsolen
-            // Se till att korrekt URL används för GeoJSON
+
+            // URL-mapping för GeoJSON-filer
             let urlMap = {
                 'Visa_allt': 'bottom_panel/Upptack/jaktskyttebanor.geojson',
                 'Mässor': 'bottom_panel/Upptack/massa.geojson',
@@ -159,13 +160,15 @@
                 'Jaktskyttebanor': 'bottom_panel/Upptack/jaktskyttebanor.geojson',
                 'Rensa_allt': 'bottom_panel/Upptack/rensa_allt.geojson'
             };
+
             let url = urlMap[value];
             if (url) {
                 axios.get(url)
                     .then(response => {
                         // Hantera GeoJSON-data här
                         console.log('GeoJSON Data:', response.data);
-                        Upptack_geojsonHandler.toggleLayer(value); // Ersätt med din egen logik
+                        // Anropa funktionen för att visa lagret (anpassa efter din kod)
+                        // Upptack_geojsonHandler.toggleLayer(value); // Ersätt med din egen logik
                     })
                     .catch(error => {
                         console.error('Error fetching GeoJSON:', error);
