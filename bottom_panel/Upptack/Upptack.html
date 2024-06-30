@@ -1,105 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upptäck fliken på jaktkartan.se</title>
+    <title>Upptäck GeoJSON</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="styles.css" />
     <style>
-        body, html {
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
         }
-
-        .container {
-            height: 15vh; /* Set the container height */
-            display: flex;
-            flex-direction: column; /* Stack label and select vertically */
-            padding: 0 10px; /* Add some padding on the sides */
-            box-sizing: border-box; /* Include padding in height calculation */
+        #map {
+            width: 100%;
+            height: 80%;
         }
-
-        .label {
-            font-size: 1.2em; /* Adjust font size for the label */
-            margin-bottom: 10px; /* Add margin between label and select */
-        }
-
-        .select-group {
-            flex: 1; /* Take up remaining space in the container */
-            overflow: hidden;
-        }
-
-        .select-content {
-            display: flex;
-            align-items: center; /* Center items vertically */
-            gap: 10px; /* Add space between elements */
-        }
-
-        .select-content select {
-            padding: 12px 16px;
-            height: 100%; /* Ensure select takes full height */
-            font-size: 1em; /* Adjust font size */
-            border: 1px solid rgb(50, 94, 88);
-            border-radius: 5px; /* Add rounded corners */
-            background-color: rgb(240, 240, 240); /* Background color */
-            color: rgb(50, 94, 88); /* Text color */
-        }
-
-        .select-content select:hover {
-            background-color: #e0e0e0; /* Change background color on hover */
+        select {
+            margin: 20px;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="label">Filtrera</div>
-        <div class="select-group">
-            <div class="select-content">
-                <select id="filter-select" onchange="handleFilterChange()">
-                    <option value="Visa_allt">Visa allt</option>
-                    <option value="Mässor">Mässor</option>
-                    <option value="Jaktkort">Jaktkort</option>
-                    <option value="Jaktskyttebanor">Jaktskyttebanor</option>
-                    <option value="Rensa_allt">Rensa allt</option>
-                </select>
-            </div>
-        </div>
-    </div>
+    <h1>Upptäck GeoJSON</h1>
+    <select id="filter-select">
+        <option value="Visa_allt">Visa allt</option>
+        <option value="Massor">Mässor</option>
+        <option value="Jaktkort">Jaktkort</option>
+        <option value="Jaktskyttebanor">Jaktskyttebanor</option>
+        <option value="Rensa_allt">Rensa allt</option>
+    </select>
 
-    <!-- Load external scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <div id="map"></div>
+
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 
-    <!-- Define the function here -->
     <script>
-        function handleFilterChange() {
+        var map;
+
+        function initializeMap() {
+            // Initiera kartan
+            map = L.map('map').setView([62.0, 15.0], 5);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Vänta på att Upptack_geojsonHandler är klart innan du tillåter användning av select-menyn
+            var checkHandlerInterval = setInterval(function() {
+                if (typeof Upptack_geojsonHandler !== 'undefined' && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
+                    clearInterval(checkHandlerInterval);
+                    console.log('Upptack_geojsonHandler is ready');
+                }
+            }, 100);
+
+            document.getElementById('filter-select').addEventListener('change', handleSelectChange);
+        }
+
+        function handleSelectChange() {
             var select = document.getElementById('filter-select');
             var selectedValue = select.value;
-
-            // Log the selected value for debugging
             console.log('Selected value:', selectedValue);
 
-            // Ensure Upptack_geojsonHandler is defined before calling toggleLayer
-            if (typeof Upptack_geojsonHandler !== 'undefined') {
-                if (typeof Upptack_geojsonHandler.toggleLayer === 'function') {
-                    console.log('Calling toggleLayer with:', selectedValue);
-                    Upptack_geojsonHandler.toggleLayer(selectedValue);
-                } else {
-                    console.error('toggleLayer method is not available on Upptack_geojsonHandler.');
-                }
+            if (typeof Upptack_geojsonHandler !== 'undefined' && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
+                Upptack_geojsonHandler.toggleLayer(selectedValue);
             } else {
-                console.error('Upptack_geojsonHandler is not defined.');
+                console.error('Upptack_geojsonHandler is not defined or toggleLayer method is not available.');
             }
         }
 
-        // Log the Upptack_geojsonHandler object to ensure it is loaded correctly
-        window.onload = function() {
-            console.log('Upptack_geojsonHandler:', Upptack_geojsonHandler);
-        };
+        document.addEventListener('DOMContentLoaded', initializeMap);
     </script>
 </body>
 </html>
