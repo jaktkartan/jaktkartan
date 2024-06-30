@@ -62,21 +62,6 @@
             height: 30px;
             margin-left: 10px;
         }
-
-        /* Style for the select menu and button */
-        .filter-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 10px;
-        }
-
-        .filter-container select, .filter-container button {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid rgb(50, 94, 88);
-            font-size: 1em;
-        }
     </style>
 </head>
 <body>
@@ -106,70 +91,6 @@
         </div>
     </div>
 
-    <div class="filter-container">
-        <select id="layerSelect">
-            <option value="Visa_allt">Visa allt</option>
-            <option value="Mässor">Mässor</option>
-            <option value="Jaktkort">Jaktkort</option>
-            <option value="Jaktskyttebanor">Jaktskyttebanor</option>
-        </select>
-        <button id="toggleLayer">Toggle Layer</button>
-    </div>
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
-    <script>
-        // Create a map object and set its view
-        const map = L.map('map').setView([59.3293, 18.0686], 13); // Adjust coordinates as needed
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Define your GeoJSON layers
-        const layers = {
-            'Visa_allt': L.geoJSON(null),
-            'Mässor': L.geoJSON(null),
-            'Jaktkort': L.geoJSON(null),
-            'Jaktskyttebanor': L.geoJSON(null)
-        };
-
-        // Function to load GeoJSON data
-        const loadLayerData = (layerKey) => {
-            fetch(`path_to_your_geojson/${layerKey}.geojson`)
-                .then(response => response.json())
-                .then(data => {
-                    layers[layerKey].clearLayers();
-                    layers[layerKey].addData(data);
-                })
-                .catch(error => console.error('Error loading GeoJSON:', error));
-        };
-
-        // Handle the layer toggle
-        let currentLayer = null;
-
-        document.getElementById('toggleLayer').addEventListener('click', () => {
-            const selectedLayerKey = document.getElementById('layerSelect').value;
-
-            if (currentLayer) {
-                map.removeLayer(currentLayer);
-                currentLayer.clearLayers();
-            }
-
-            if (selectedLayerKey === 'Visa_allt') {
-                for (const key in layers) {
-                    if (layers.hasOwnProperty(key)) {
-                        loadLayerData(key);
-                        map.addLayer(layers[key]);
-                    }
-                }
-                currentLayer = null;
-            } else {
-                loadLayerData(selectedLayerKey);
-                currentLayer = layers[selectedLayerKey];
-                map.addLayer(currentLayer);
-            }
-        });
-    </script>
 </body>
 </html>
