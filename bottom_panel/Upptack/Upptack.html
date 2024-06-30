@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Filtrera knappar</title>
 <style>
+    body {
+        font-family: Arial, sans-serif;
+    }
     .filter-container {
         display: flex;
         align-items: center;
+        gap: 10px;
     }
     .filter-button {
-        margin-right: 10px;
         padding: 8px 12px;
         background-color: #007bff;
         color: white;
@@ -19,12 +22,9 @@
     }
     .additional-buttons {
         display: none;
-    }
-    .additional-buttons.show {
-        display: flex;
+        gap: 5px;
     }
     .additional-buttons button {
-        margin-right: 5px;
         padding: 8px 12px;
         background-color: #28a745;
         color: white;
@@ -37,7 +37,7 @@
 
 <div class="filter-container">
     <button id="filterButton" class="filter-button">Filtrera</button>
-    <div class="additional-buttons">
+    <div class="additional-buttons" id="additionalButtons">
         <button>Knapp 1</button>
         <button>Knapp 2</button>
         <button>Knapp 3</button>
@@ -47,11 +47,13 @@
 </div>
 
 <script>
-    const filterButton = document.getElementById('filterButton');
-    const additionalButtons = document.querySelector('.additional-buttons');
-
-    filterButton.addEventListener('click', function() {
-        additionalButtons.classList.toggle('show');
+    document.getElementById('filterButton').addEventListener('click', function() {
+        var additionalButtons = document.getElementById('additionalButtons');
+        if (additionalButtons.style.display === 'none' || additionalButtons.style.display === '') {
+            additionalButtons.style.display = 'flex';
+        } else {
+            additionalButtons.style.display = 'none';
+        }
     });
 </script>
 
