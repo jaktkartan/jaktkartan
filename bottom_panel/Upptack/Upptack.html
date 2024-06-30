@@ -131,6 +131,7 @@
     <!-- Handle Select Change Script -->
     <script>
         function handleSelectChange() {
+            console.log('Select menu changed'); // Log the event
             var selectMenu = document.getElementById('layerSelect');
             var selectedValue = selectMenu.value;
 
@@ -148,6 +149,7 @@
         setTimeout(function() {
             var selectMenu = document.getElementById('layerSelect');
             if (selectMenu) {
+                console.log('Select menu found:', selectMenu);
                 selectMenu.addEventListener('change', handleSelectChange);
             } else {
                 console.error('Select menu not found.');
