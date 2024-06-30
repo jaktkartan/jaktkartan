@@ -18,13 +18,13 @@
             font-family: Arial, sans-serif;
         }
 
-        .custom-select-upptack {
+        .custom-select {
             position: relative;
             display: inline-block;
             width: 300px;
         }
 
-        .select-upptack-selected {
+        .select-selected {
             background-color: #f1f1f1;
             padding: 10px;
             border: 1px solid #ddd;
@@ -35,13 +35,13 @@
             justify-content: space-between;
         }
 
-        .select-upptack-selected img {
+        .select-selected img {
             width: 20px;
             height: 20px;
             margin-left: 10px;
         }
 
-        .select-upptack-items {
+        .select-items {
             position: absolute;
             background-color: #f1f1f1;
             top: 100%;
@@ -56,7 +56,7 @@
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         }
 
-        .select-upptack-items div {
+        .select-items div {
             padding: 10px;
             cursor: pointer;
             display: flex;
@@ -64,17 +64,17 @@
             justify-content: space-between;
         }
 
-        .select-upptack-items div:hover {
+        .select-items div:hover {
             background-color: rgba(0, 0, 0, 0.1);
         }
 
-        .select-upptack-items img {
+        .select-items img {
             width: 20px;
             height: 20px;
             margin-left: 10px;
         }
 
-        .select-upptack-selected:after {
+        .select-selected:after {
             content: "";
             position: absolute;
             top: 50%;
@@ -84,7 +84,7 @@
             border-color: #888 transparent transparent transparent;
         }
 
-        .select-upptack-selected.select-arrow-active:after {
+        .select-selected.select-arrow-active:after {
             border-color: transparent transparent #888 transparent;
             transform: translateY(-50%) rotate(180deg);
         }
@@ -92,12 +92,12 @@
 </head>
 <body>
     <div id="tab1" class="tab-pane">
-        <div class="custom-select-upptack">
-            <div class="select-upptack-selected">
+        <div class="custom-select">
+            <div class="select-selected">
                 <span>Välj alternativ</span>
                 <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Välj alternativ">
             </div>
-            <div class="select-upptack-items select-hide">
+            <div class="select-items select-hide">
                 <div data-value="Visa_allt">
                     <span>Visa allt</span>
                     <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
@@ -125,26 +125,26 @@
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const selectUpptackSelected = document.querySelector('.select-upptack-selected');
-            const selectUpptackItems = document.querySelector('.select-upptack-items');
-            const selectUpptackItemsDivs = document.querySelectorAll('.select-upptack-items div');
+            const selectSelected = document.querySelector('.select-selected');
+            const selectItems = document.querySelector('.select-items');
+            const selectItemsDivs = document.querySelectorAll('.select-items div');
 
             // Funktion för att visa och dölja dropdown-menyn
-            selectUpptackSelected.addEventListener('click', function () {
-                selectUpptackItems.classList.toggle('select-hide');
+            selectSelected.addEventListener('click', function () {
+                selectItems.classList.toggle('select-hide');
                 this.classList.toggle('select-arrow-active');
             });
 
             // Hantera val av alternativ
-            selectUpptackItemsDivs.forEach(function (item) {
+            selectItemsDivs.forEach(function (item) {
                 item.addEventListener('click', function () {
                     const value = this.getAttribute('data-value');
                     const selectedText = this.querySelector('span').textContent;
                     const selectedImageSrc = this.querySelector('img').src;
-                    selectUpptackSelected.querySelector('span').textContent = selectedText;
-                    selectUpptackSelected.querySelector('img').src = selectedImageSrc;
-                    selectUpptackItems.classList.add('select-hide');
-                    selectUpptackSelected.classList.remove('select-arrow-active');
+                    selectSelected.querySelector('span').textContent = selectedText;
+                    selectSelected.querySelector('img').src = selectedImageSrc;
+                    selectItems.classList.add('select-hide');
+                    selectSelected.classList.remove('select-arrow-active');
                     handleSelectChange(value);
                 });
             });
@@ -160,9 +160,9 @@
 
             // Stäng dropdown-menyn om användaren klickar utanför
             document.addEventListener('click', function (e) {
-                if (!selectUpptackSelected.contains(e.target) && !selectUpptackItems.contains(e.target)) {
-                    selectUpptackItems.classList.add('select-hide');
-                    selectUpptackSelected.classList.remove('select-arrow-active');
+                if (!selectSelected.contains(e.target) && !selectItems.contains(e.target)) {
+                    selectItems.classList.add('select-hide');
+                    selectSelected.classList.remove('select-arrow-active');
                 }
             });
         });
