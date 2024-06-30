@@ -30,6 +30,9 @@
         .button-group {
             flex: 1; /* Take up remaining space in the container */
             overflow: hidden;
+            display: flex; /* Use flexbox for layout */
+            flex-wrap: wrap; /* Allow wrapping */
+            gap: 10px; /* Add space between buttons */
         }
 
         .button-content {
@@ -37,7 +40,6 @@
             overflow-x: auto; /* Enable horizontal scrolling */
             height: 100%; /* Ensure it takes full height */
             align-items: center; /* Center items vertically */
-            gap: 10px; /* Add space between buttons */
         }
 
         .button-content a {
@@ -45,7 +47,6 @@
             display: flex;
             align-items: center;
             white-space: nowrap; /* Prevent wrapping */
-            height: 100%; /* Ensure buttons take full height */
             text-decoration: none; /* Remove underline from links */
             color: rgb(50, 94, 88); /* Text color */
             border: 1px solid rgb(50, 94, 88);
@@ -62,16 +63,39 @@
             height: 30px;
             margin-left: 10px;
         }
+
+        /* Special styling for stacked buttons */
+        .stacked-buttons {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            justify-content: space-between;
+            height: 100%; /* Full height of the button container */
+        }
+
+        .stacked-buttons a {
+            flex: 1; /* Allow buttons to grow equally */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50%; /* Make each button half of the container height */
+            padding: 0 16px; /* Add padding */
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="label">Filtrera</div>
         <div class="button-group">
-            <div class="button-content">
+            <div class="stacked-buttons">
                 <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
                     <span>Visa allt</span>
                 </a>
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
+                    <span>Rensa allt</span>
+                </a>
+            </div>
+            <div class="button-content">
                 <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
                     <span>Mässor</span>
                     <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
@@ -83,9 +107,6 @@
                 <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
                     <span>Jaktskyttebanor</span>
                     <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
-                </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
-                    <span>Rensa allt</span>
                 </a>
             </div>
         </div>
