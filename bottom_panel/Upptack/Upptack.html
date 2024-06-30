@@ -12,11 +12,10 @@
             padding: 0;
             height: 100%;
             overflow: hidden;
-            font-family: Arial, sans-serif;
         }
 
         .container {
-            height: 15vh; /* Adjust the container height */
+            height: 15vh; /* Set the container height */
             display: flex;
             flex-direction: column; /* Stack label and buttons vertically */
             padding: 0 10px; /* Add some padding on the sides */
@@ -25,7 +24,7 @@
 
         .label {
             font-size: 1.2em; /* Adjust font size for the label */
-            margin-bottom: 10px; /* Add margin between label and content */
+            margin-bottom: 10px; /* Add margin between label and buttons */
         }
 
         .button-group {
@@ -64,30 +63,19 @@
             margin-left: 10px;
         }
 
-        .button-content a img {
-            height: 100%; /* Make the images take full height of the button */
-            width: auto; /* Keep aspect ratio */
-        }
-
-        .button-content a span {
+        /* Style for the select menu and button */
+        .filter-container {
             display: flex;
-            align-items: center; /* Center text vertically */
-            height: 100%; /* Ensure text takes full height */
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
         }
 
-        select {
+        .filter-container select, .filter-container button {
             padding: 10px;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid rgb(50, 94, 88);
             font-size: 1em;
-            background-color: rgb(240, 240, 240);
-            color: rgb(50, 94, 88);
-            height: 100%; /* Ensure select menu takes full height of buttons */
-        }
-
-        select:focus {
-            outline: none;
-            border-color: rgb(50, 94, 88);
         }
     </style>
 </head>
@@ -96,65 +84,92 @@
         <div class="label">Filtrera</div>
         <div class="button-group">
             <div class="button-content">
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt'); return false;">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
                     <span>Visa allt</span>
                 </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor'); return false;">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
                     <span>Mässor</span>
                     <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
                 </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort'); return false;">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">
                     <span>Jaktkort</span>
                     <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
                 </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor'); return false;">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
                     <span>Jaktskyttebanor</span>
                     <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
                 </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt'); return false;">
+                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
                     <span>Rensa allt</span>
                 </a>
-                <!-- Select menu -->
-                <select id="layerSelect">
-                    <option value="Visa_allt">Visa allt</option>
-                    <option value="Mässor">Mässor</option>
-                    <option value="Jaktkort">Jaktkort</option>
-                    <option value="Jaktskyttebanor">Jaktskyttebanor</option>
-                    <option value="Rensa_allt">Rensa allt</option>
-                </select>
             </div>
         </div>
     </div>
 
-    <!-- Load Upptack_geojsonHandler.js first -->
+    <div class="filter-container">
+        <select id="layerSelect">
+            <option value="Visa_allt">Visa allt</option>
+            <option value="Mässor">Mässor</option>
+            <option value="Jaktkort">Jaktkort</option>
+            <option value="Jaktskyttebanor">Jaktskyttebanor</option>
+        </select>
+        <button id="toggleLayer">Toggle Layer</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
-    <!-- Handle Select Change Script -->
     <script>
-        function handleSelectChange() {
-            console.log('Select menu changed'); // Log the event
-            var selectMenu = document.getElementById('layerSelect');
-            var selectedValue = selectMenu.value;
+        // Create a map object and set its view
+        const map = L.map('map').setView([59.3293, 18.0686], 13); // Adjust coordinates as needed
 
-            console.log('Selected value:', selectedValue); // Log the selected value
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-            if (Upptack_geojsonHandler && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
-                console.log('Calling toggleLayer with:', selectedValue); // Log the function call
-                Upptack_geojsonHandler.toggleLayer(selectedValue);
-            } else {
-                console.error('Upptack_geojsonHandler or toggleLayer is not defined.');
+        // Define your GeoJSON layers
+        const layers = {
+            'Visa_allt': L.geoJSON(null),
+            'Mässor': L.geoJSON(null),
+            'Jaktkort': L.geoJSON(null),
+            'Jaktskyttebanor': L.geoJSON(null)
+        };
+
+        // Function to load GeoJSON data
+        const loadLayerData = (layerKey) => {
+            fetch(`path_to_your_geojson/${layerKey}.geojson`)
+                .then(response => response.json())
+                .then(data => {
+                    layers[layerKey].clearLayers();
+                    layers[layerKey].addData(data);
+                })
+                .catch(error => console.error('Error loading GeoJSON:', error));
+        };
+
+        // Handle the layer toggle
+        let currentLayer = null;
+
+        document.getElementById('toggleLayer').addEventListener('click', () => {
+            const selectedLayerKey = document.getElementById('layerSelect').value;
+
+            if (currentLayer) {
+                map.removeLayer(currentLayer);
+                currentLayer.clearLayers();
             }
-        }
 
-        // Delay the registration of the select change event handler
-        setTimeout(function() {
-            var selectMenu = document.getElementById('layerSelect');
-            if (selectMenu) {
-                console.log('Select menu found:', selectMenu);
-                selectMenu.addEventListener('change', handleSelectChange);
+            if (selectedLayerKey === 'Visa_allt') {
+                for (const key in layers) {
+                    if (layers.hasOwnProperty(key)) {
+                        loadLayerData(key);
+                        map.addLayer(layers[key]);
+                    }
+                }
+                currentLayer = null;
             } else {
-                console.error('Select menu not found.');
+                loadLayerData(selectedLayerKey);
+                currentLayer = layers[selectedLayerKey];
+                map.addLayer(currentLayer);
             }
-        }, 1500); // 1500 ms delay
+        });
     </script>
 </body>
 </html>
