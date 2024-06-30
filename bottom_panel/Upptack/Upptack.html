@@ -25,7 +25,7 @@
 
         .label {
             font-size: 1.2em; /* Justera teckenstorlek för etikett */
-            margin-bottom: 10px; /* Lägga till marginal mellan etikett och knappar */
+            margin-bottom: 10px; /* Lägg till marginal mellan etikett och innehåll */
         }
 
         .button-group {
@@ -35,10 +35,10 @@
 
         .button-content {
             display: flex;
-            flex-wrap: wrap; /* Tillåt radbrytning */
+            overflow-x: auto; /* Aktivera horisontell rullning */
+            height: 100%; /* Se till att den tar full höjd */
+            align-items: center; /* Centrera element vertikalt */
             gap: 10px; /* Lägg till mellanrum mellan knappar */
-            justify-content: center; /* Centra knappar horisontellt */
-            align-items: center; /* Centra knappar vertikalt */
         }
 
         .button-content a {
@@ -46,6 +46,7 @@
             display: flex;
             align-items: center;
             white-space: nowrap; /* Förhindra radbrytning */
+            height: 100%; /* Se till att knapparna tar full höjd */
             text-decoration: none; /* Ta bort understrykning från länkar */
             color: rgb(50, 94, 88); /* Textfärg */
             border: 1px solid rgb(50, 94, 88);
@@ -54,7 +55,7 @@
         }
 
         .button-content a:hover {
-            background-color: #e0e0e0; /* Ändra bakgrundsfärg vid hover */
+            background-color: #e0e0e0; /* Ändra bakgrundsfärg vid hovring */
         }
 
         .button-content img {
@@ -64,21 +65,29 @@
         }
 
         .button-content a img {
-            height: 100%; /* Gör bilderna ta hela höjden på knappen */
-            width: auto; /* Håll aspektsförhållande */
+            height: 100%; /* Gör bilderna ta full höjd av knappen */
+            width: auto; /* Behåll bildens proportioner */
         }
 
-        .select-container {
-            margin: 20px;
-            text-align: center;
+        .button-content a span {
+            display: flex;
+            align-items: center; /* Centrera text vertikalt */
+            height: 100%; /* Se till att texten tar full höjd */
         }
 
         select {
             padding: 10px;
-            font-size: 16px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            background-color: #fff;
+            font-size: 1em;
+            background-color: rgb(240, 240, 240);
+            color: rgb(50, 94, 88);
+            height: 100%; /* Gör så att select-meny tar full höjd av knapparna */
+        }
+
+        select:focus {
+            outline: none;
+            border-color: rgb(50, 94, 88);
         }
     </style>
 </head>
@@ -105,49 +114,25 @@
                 <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt'); return false;">
                     <span>Rensa allt</span>
                 </a>
+                <!-- Select menu -->
+                <select id="layerSelect" onchange="handleSelectChange(); return false;">
+                    <option value="Visa_allt">Visa allt</option>
+                    <option value="Mässor">Mässor</option>
+                    <option value="Jaktkort">Jaktkort</option>
+                    <option value="Jaktskyttebanor">Jaktskyttebanor</option>
+                    <option value="Rensa_allt">Rensa allt</option>
+                </select>
             </div>
         </div>
     </div>
 
-    <div class="select-container">
-        <label for="filter-select">Välj filter:</label>
-        <select id="filter-select">
-            <option value="Visa_allt">Visa allt</option>
-            <option value="Mässor">Mässor</option>
-            <option value="Jaktkort">Jaktkort</option>
-            <option value="Jaktskyttebanor">Jaktskyttebanor</option>
-            <option value="Rensa_allt">Rensa allt</option>
-        </select>
-    </div>
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script>
-        // Vänta tills Upptack_geojsonHandler är färdiginitierad
-        function waitForHandler() {
-            if (typeof Upptack_geojsonHandler !== 'undefined' && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
-                document.getElementById('filter-select').addEventListener('change', handleSelectChange);
-                console.log('Upptack_geojsonHandler is ready');
-            } else {
-                setTimeout(waitForHandler, 100);
-            }
+        function handleSelectChange() {
+            var selectMenu = document.getElementById('layerSelect');
+            var selectedValue = selectMenu.value;
+            Upptack_geojsonHandler.toggleLayer(selectedValue);
         }
-
-        function handleSelectChange(event) {
-            var selectedValue = event.target.value;
-            console.log('Selected value:', selectedValue);
-
-            if (typeof Upptack_geojsonHandler !== 'undefined' && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
-                Upptack_geojsonHandler.toggleLayer(selectedValue);
-            } else {
-                console.error('Upptack_geojsonHandler is not defined or toggleLayer method is not available.');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            waitForHandler(); // Vänta på att Upptack_geojsonHandler är redo
-        });
     </script>
 </body>
 </html>
