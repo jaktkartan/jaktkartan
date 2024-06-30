@@ -127,64 +127,68 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.0/axios.min.js"></script>
     <script>
-        // Funktion för att visa och dölja dropdown-menyn
-        document.querySelector('.select-selected').addEventListener('click', function() {
-            var selectItems = document.querySelector('.select-items');
-            selectItems.classList.toggle('select-hide');
-            this.classList.toggle('select-arrow-active');
-        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectSelected = document.querySelector('.select-selected');
+            const selectItems = document.querySelector('.select-items');
+            const selectItemsDivs = document.querySelectorAll('.select-items div');
 
-        // Hantera val av alternativ
-        document.querySelectorAll('.select-items div').forEach(function(item) {
-            item.addEventListener('click', function() {
-                var value = this.getAttribute('data-value');
-                var selectedText = this.querySelector('span').textContent;
-                var selectedImageSrc = this.querySelector('img').src;
-                document.querySelector('.select-selected span').textContent = selectedText;
-                document.querySelector('.select-selected img').src = selectedImageSrc;
-                document.querySelector('.select-items').classList.add('select-hide');
-                document.querySelector('.select-selected').classList.remove('select-arrow-active');
-                handleSelectChange(value);
+            // Funktion för att visa och dölja dropdown-menyn
+            selectSelected.addEventListener('click', function () {
+                selectItems.classList.toggle('select-hide');
+                this.classList.toggle('select-arrow-active');
             });
-        });
 
-        function handleSelectChange(value) {
-            // Hantera det valda värdet
-            console.log('Selected value:', value); // Felsökning: Visa det valda värdet i konsolen
+            // Hantera val av alternativ
+            selectItemsDivs.forEach(function (item) {
+                item.addEventListener('click', function () {
+                    const value = this.getAttribute('data-value');
+                    const selectedText = this.querySelector('span').textContent;
+                    const selectedImageSrc = this.querySelector('img').src;
+                    selectSelected.querySelector('span').textContent = selectedText;
+                    selectSelected.querySelector('img').src = selectedImageSrc;
+                    selectItems.classList.add('select-hide');
+                    selectSelected.classList.remove('select-arrow-active');
+                    handleSelectChange(value);
+                });
+            });
 
-            // URL-mapping för GeoJSON-filer
-            let urlMap = {
-                'Visa_allt': 'bottom_panel/Upptack/jaktskyttebanor.geojson',
-                'Mässor': 'bottom_panel/Upptack/massa.geojson',
-                'Jaktkort': 'bottom_panel/Upptack/jaktkort.geojson',
-                'Jaktskyttebanor': 'bottom_panel/Upptack/jaktskyttebanor.geojson',
-                'Rensa_allt': 'bottom_panel/Upptack/rensa_allt.geojson'
-            };
+            function handleSelectChange(value) {
+                // Hantera det valda värdet
+                console.log('Selected value:', value); // Felsökning: Visa det valda värdet i konsolen
 
-            let url = urlMap[value];
-            if (url) {
-                axios.get(url)
-                    .then(response => {
-                        // Hantera GeoJSON-data här
-                        console.log('GeoJSON Data:', response.data);
-                        // Anropa funktionen för att visa lagret (anpassa efter din kod)
-                        // Upptack_geojsonHandler.toggleLayer(value); // Ersätt med din egen logik
-                    })
-                    .catch(error => {
-                        console.error('Error fetching GeoJSON:', error);
-                    });
-            } else {
-                console.warn('No URL mapped for value:', value);
+                // URL-mapping för GeoJSON-filer
+                const urlMap = {
+                    'Visa_allt': 'bottom_panel/Upptack/jaktskyttebanor.geojson',
+                    'Mässor': 'bottom_panel/Upptack/massa.geojson',
+                    'Jaktkort': 'bottom_panel/Upptack/jaktkort.geojson',
+                    'Jaktskyttebanor': 'bottom_panel/Upptack/jaktskyttebanor.geojson',
+                    'Rensa_allt': 'bottom_panel/Upptack/rensa_allt.geojson'
+                };
+
+                const url = urlMap[value];
+                if (url) {
+                    axios.get(url)
+                        .then(response => {
+                            // Hantera GeoJSON-data här
+                            console.log('GeoJSON Data:', response.data);
+                            // Anropa funktionen för att visa lagret (anpassa efter din kod)
+                            // Upptack_geojsonHandler.toggleLayer(value); // Ersätt med din egen logik
+                        })
+                        .catch(error => {
+                            console.error('Error fetching GeoJSON:', error);
+                        });
+                } else {
+                    console.warn('No URL mapped for value:', value);
+                }
             }
-        }
 
-        // Stäng dropdown-menyn om användaren klickar utanför
-        document.addEventListener('click', function(e) {
-            var selectElement = document.querySelector('.custom-select');
-            if (!selectElement.contains(e.target)) {
-                document.querySelector('.select-items').classList.add('select-hide');
-                document.querySelector('.select-selected').classList.remove('select-arrow-active');
-            }
+            // Stäng dropdown-menyn om användaren klickar utanför
+            document.addEventListener('click', function (e) {
+                if (!selectSelected.contains(e.target) && !selectItems.contains(e.target)) {
+                    selectItems.classList.add('select-hide');
+                    selectSelected.classList.remove('select-arrow-active');
+                }
+            });
         });
     </script>
 </body>
