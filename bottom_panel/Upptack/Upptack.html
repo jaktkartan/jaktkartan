@@ -47,13 +47,20 @@
 </div>
 
 <script>
-    document.getElementById('filterButton').addEventListener('click', function() {
+    // Function to toggle visibility of additional buttons
+    function toggleAdditionalButtons() {
         var additionalButtons = document.getElementById('additionalButtons');
         if (additionalButtons.style.display === 'none' || additionalButtons.style.display === '') {
             additionalButtons.style.display = 'flex';
         } else {
             additionalButtons.style.display = 'none';
         }
+    }
+
+    // Event listener for filter button
+    document.addEventListener('DOMContentLoaded', function() {
+        var filterButton = document.getElementById('filterButton');
+        filterButton.addEventListener('click', toggleAdditionalButtons);
     });
 </script>
 
