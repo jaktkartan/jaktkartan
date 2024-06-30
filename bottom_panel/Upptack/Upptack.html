@@ -6,13 +6,6 @@
     <title>Upptäckfliken, innehåll med rull-lista</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.2/dist/css/select2.min.css" rel="stylesheet" />
-    
     <style>
         body, html {
             margin: 0;
@@ -23,64 +16,130 @@
             justify-content: center;
             align-items: center;
         }
-        .styled-upptack {
-            width: 300px; /* Adjust width as needed */
+
+        .custom-select {
+            position: relative;
+            display: inline-block;
+            width: 200px;
         }
-        .select2-selection__rendered {
+
+        .select-selected {
+            background-color: #f1f1f1;
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            user-select: none;
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
-        .select2-selection__rendered img {
-            margin-right: 10px;
+
+        .select-selected:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-color: #888 transparent transparent transparent;
+        }
+
+        .select-selected.select-arrow-active:after {
+            border-color: transparent transparent #888 transparent;
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .select-items {
+            position: absolute;
+            background-color: #f1f1f1;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+            border: 1px solid #ddd;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .select-hide {
+            display: none;
+        }
+
+        .select-items div {
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-items div:hover, .same-as-selected {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .select-items img {
             width: 20px;
             height: 20px;
-            vertical-align: middle; /* Ensures proper vertical alignment of images */
+            margin-left: 10px;
         }
     </style>
-    
-    <!-- Select2 JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.2/dist/js/select2.min.js"></script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </head>
 <body>
     <div id="tab1" class="tab-pane">
-        <select id="mySelect" class="styled-upptack">
-            <option value="Visa_allt" data-image="bottom_panel/Upptack/bilder/Visa_allt_ikon.png">Visa allt</option>
-            <option value="Mässor" data-image="bottom_panel/Upptack/bilder/massa_ikon.png">Mässor</option>
-            <option value="Jaktkort" data-image="bottom_panel/Upptack/bilder/jaktkort_ikon2.png">Jaktkort</option>
-            <option value="Jaktskyttebanor" data-image="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png">Jaktskyttebanor</option>
-            <option value="Rensa_allt" data-image="bottom_panel/Upptack/bilder/rensa_allt_ikon.png">Rensa allt</option>
-        </select>
+        <div class="custom-select">
+            <div class="select-selected">
+                <span>Visa allt</span>
+                <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
+            </div>
+            <div class="select-items select-hide">
+                <div data-value="Visa_allt">
+                    <span>Visa allt</span>
+                    <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
+                </div>
+                <div data-value="Mässor">
+                    <span>Mässor</span>
+                    <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
+                </div>
+                <div data-value="Jaktkort">
+                    <span>Jaktkort</span>
+                    <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
+                </div>
+                <div data-value="Jaktskyttebanor">
+                    <span>Jaktskyttebanor</span>
+                    <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
+                </div>
+                <div data-value="Rensa_allt">
+                    <span>Rensa allt</span>
+                    <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            // Initialize Select2
-            $('#mySelect').select2({
-                templateResult: formatOption,
-                templateSelection: formatOption
-            });
+        document.querySelector('.select-selected').addEventListener('click', function() {
+            this.classList.toggle('select-arrow-active');
+            document.querySelector('.select-items').classList.toggle('select-hide');
+        });
 
-            function formatOption(option) {
-                if (!option.id) {
-                    return option.text;
-                }
-                var $option = $(
-                    '<span><img src="' + $(option.element).data('image') + '" class="img-flag" /> ' + option.text + '</span>'
-                );
-                return $option;
-            }
-
-            // Handle change event to call the toggleLayer function
-            $('#mySelect').on('change', function() {
-                var selectedValue = $(this).val();
-                if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.toggleLayer) {
-                    Upptack_geojsonHandler.toggleLayer(selectedValue);
-                } else {
-                    console.error('Upptack_geojsonHandler or toggleLayer is not defined');
-                }
+        document.querySelectorAll('.select-items div').forEach(function(item) {
+            item.addEventListener('click', function() {
+                var value = this.getAttribute('data-value');
+                var selectedText = this.querySelector('span').textContent;
+                var selectedImageSrc = this.querySelector('img').src;
+                document.querySelector('.select-selected span').textContent = selectedText;
+                document.querySelector('.select-selected img').src = selectedImageSrc;
+                document.querySelector('.select-items').classList.add('select-hide');
+                document.querySelector('.select-selected').classList.remove('select-arrow-active');
+                handleSelectChange(value);
             });
         });
+
+        function handleSelectChange(value) {
+            Upptack_geojsonHandler.toggleLayer(value);
+        }
     </script>
 </body>
 </html>
