@@ -37,7 +37,7 @@
             background-color: #f9f9f9;
             min-width: 200px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+            z-index: 2;
             border-radius: 4px;
             display: flex;
             flex-direction: row;
@@ -46,7 +46,7 @@
             margin: 0;
             top: 100%; /* Position below the button */
             left: 100%; /* Position to the right of the button */
-            transform: translateX(8px); /* Add space between button and dropdown */
+            transform: translateX(10px); /* Add space between button and dropdown */
         }
 
         .dropdown-content a {
@@ -72,30 +72,29 @@
     <div class="dropdown">
         <button class="dropbtn">Filtrera</button>
         <div class="dropdown-content" id="dropdownContent">
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
+            <a href="#" onclick="console.log('Visa allt clicked')">
                 <span>Visa allt</span>
                 <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
             </a>
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
+            <a href="#" onclick="console.log('Mässor clicked')">
                 <span>Mässor</span>
                 <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
             </a>
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">
+            <a href="#" onclick="console.log('Jaktkort clicked')">
                 <span>Jaktkort</span>
                 <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
             </a>
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
+            <a href="#" onclick="console.log('Jaktskyttebanor clicked')">
                 <span>Jaktskyttebanor</span>
                 <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
             </a>
-            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
+            <a href="#" onclick="console.log('Rensa allt clicked')">
                 <span>Rensa allt</span>
                 <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
             </a>
         </div>
     </div>
 
-    <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
     <script>
         document.querySelector('.dropbtn').addEventListener('click', function(event) {
             event.stopPropagation(); // Prevent click event from propagating
