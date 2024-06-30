@@ -115,7 +115,7 @@
                     <span>Rensa allt</span>
                 </a>
                 <!-- Select menu -->
-                <select id="layerSelect" onchange="handleSelectChange();">
+                <select id="layerSelect">
                     <option value="Visa_allt">Visa allt</option>
                     <option value="Mässor">Mässor</option>
                     <option value="Jaktkort">Jaktkort</option>
@@ -128,7 +128,7 @@
 
     <!-- Load Upptack_geojsonHandler.js first -->
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
-    <!-- Load handleSelectChange script last -->
+    <!-- Handle Select Change Script -->
     <script>
         function handleSelectChange() {
             var selectMenu = document.getElementById('layerSelect');
@@ -143,6 +143,16 @@
                 console.error('Upptack_geojsonHandler or toggleLayer is not defined.');
             }
         }
+
+        // Delay the registration of the select change event handler
+        setTimeout(function() {
+            var selectMenu = document.getElementById('layerSelect');
+            if (selectMenu) {
+                selectMenu.addEventListener('change', handleSelectChange);
+            } else {
+                console.error('Select menu not found.');
+            }
+        }, 1500); // 1500 ms delay
     </script>
 </body>
 </html>
