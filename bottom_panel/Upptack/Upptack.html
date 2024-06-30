@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upptäckfliken, innehåll med rullgardinsmeny</title>
+    <title>Dropdown with Images</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         body, html {
             margin: 0;
@@ -13,155 +14,85 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: Arial, sans-serif;
         }
 
-        .custom-select {
+        .dropdown {
             position: relative;
             display: inline-block;
-            width: 200px;
         }
 
-        .select-selected {
-            background-color: #f1f1f1;
-            padding: 8px 16px;
-            border: 1px solid #ddd;
+        .dropbtn {
+            background-color: #3498db;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
             cursor: pointer;
-            user-select: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-radius: 4px;
         }
 
-        .select-selected:after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            border: 6px solid transparent;
-            border-color: #888 transparent transparent transparent;
-        }
-
-        .select-selected.select-arrow-active:after {
-            border-color: transparent transparent #888 transparent;
-            transform: translateY(-50%) rotate(180deg);
-        }
-
-        .select-items {
-            position: absolute;
-            background-color: #f1f1f1;
-            top: 100%;
-            left: 0;
-            right: 0;
-            z-index: 99;
-            border: 1px solid #ddd;
-            border-top: none;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .select-hide {
+        .dropdown-content {
             display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
         }
 
-        .select-items div {
-            padding: 8px 16px;
-            cursor: pointer;
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .select-items div:hover, .same-as-selected {
-            background-color: rgba(0, 0, 0, 0.1);
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
         }
 
-        .select-items img {
-            width: 20px;
-            height: 20px;
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content img {
+            width: 30px;
+            height: 30px;
             margin-left: 10px;
         }
     </style>
 </head>
 <body>
-    <div id="tab1" class="tab-pane">
-        <div class="custom-select">
-            <div class="select-selected">
+    <div class="dropdown">
+        <button class="dropbtn">Select an option</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
                 <span>Visa allt</span>
                 <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
-            </div>
-            <div class="select-items select-hide">
-                <div data-value="Visa_allt">
-                    <span>Visa allt</span>
-                    <img src="bottom_panel/Upptack/bilder/Visa_allt_ikon.png" alt="Visa allt">
-                </div>
-                <div data-value="Mässor">
-                    <span>Mässor</span>
-                    <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
-                </div>
-                <div data-value="Jaktkort">
-                    <span>Jaktkort</span>
-                    <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
-                </div>
-                <div data-value="Jaktskyttebanor">
-                    <span>Jaktskyttebanor</span>
-                    <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
-                </div>
-                <div data-value="Rensa_allt">
-                    <span>Rensa allt</span>
-                    <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
-                </div>
-            </div>
+            </a>
+            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
+                <span>Mässor</span>
+                <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
+            </a>
+            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">
+                <span>Jaktkort</span>
+                <img src="bottom_panel/Upptack/bilder/jaktkort_ikon2.png" alt="Jaktkort">
+            </a>
+            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
+                <span>Jaktskyttebanor</span>
+                <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
+            </a>
+            <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
+                <span>Rensa allt</span>
+                <img src="bottom_panel/Upptack/bilder/rensa_allt_ikon.png" alt="Rensa allt">
+            </a>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var selectSelected = document.querySelector('.select-selected');
-            var selectItems = document.querySelector('.select-items');
 
-            // Log to check if elements are correctly selected
-            console.log('selectSelected:', selectSelected);
-            console.log('selectItems:', selectItems);
-
-            selectSelected.addEventListener('click', function() {
-                console.log('select-selected clicked');
-                selectItems.classList.toggle('select-hide');
-                selectSelected.classList.toggle('select-arrow-active');
-            });
-
-            document.querySelectorAll('.select-items div').forEach(function(item) {
-                item.addEventListener('click', function() {
-                    var value = this.getAttribute('data-value');
-                    console.log('Item clicked:', value);
-
-                    var selectedText = this.querySelector('span').textContent;
-                    var selectedImageSrc = this.querySelector('img').src;
-                    selectSelected.querySelector('span').textContent = selectedText;
-                    selectSelected.querySelector('img').src = selectedImageSrc;
-                    selectItems.classList.add('select-hide');
-                    selectSelected.classList.remove('select-arrow-active');
-                    handleSelectChange(value);
-                });
-            });
-
-            function handleSelectChange(value) {
-                console.log('Handling select change for:', value);
-                if (typeof Upptack_geojsonHandler !== 'undefined' && typeof Upptack_geojsonHandler.toggleLayer === 'function') {
-                    Upptack_geojsonHandler.toggleLayer(value);
-                } else {
-                    console.error('Upptack_geojsonHandler or toggleLayer method is not defined');
-                }
-            }
-
-            // Close the dropdown if the user clicks outside of it
-            document.addEventListener('click', function(e) {
-                if (!selectSelected.contains(e.target)) {
-                    selectItems.classList.add('select-hide');
-                    selectSelected.classList.remove('select-arrow-active');
-                }
-            });
-        });
-    </script>
     <script src="bottom_panel/Upptack/Upptack_geojsonHandler.js"></script>
 </body>
 </html>
