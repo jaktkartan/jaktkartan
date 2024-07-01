@@ -30,7 +30,7 @@ setTimeout(function() {
                 }
             },
             'Jaktkort': {
-                iconUrl: 'bottom_panel/Upptack/bilder/jaktkort_ikon2.png',
+                iconUrl: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
                 iconSize: [40, 40],
                 fallbackStyle: {
                     fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktkort.png',
