@@ -52,9 +52,10 @@
         .dropdown-content {
             display: none; /* Initially hide the dropdown content */
             position: absolute;
-            top: 0; /* Align with the top of the label */
-            left: 100%; /* Place directly to the right of the label */
-            max-height: 100%; /* Set maximum height to fit within the container */
+            top: 100%; /* Place directly below the label */
+            left: 100%; /* Align with the right edge of the label */
+            width: max-content; /* Adjust width based on content */
+            max-height: 100%; /* Ensure it does not exceed the container's height */
             overflow-y: auto; /* Enable vertical scrolling if needed */
             background: white;
             border: 1px solid rgb(50, 94, 88);
@@ -63,6 +64,7 @@
             z-index: 999; /* Ensure it appears above other content */
             display: flex; /* Display contents in a row */
             flex-direction: row; /* Horizontal layout */
+            gap: 0; /* Remove gap between items */
         }
 
         .dropdown-content a {
@@ -90,17 +92,14 @@
             border-right: none; /* Remove border from the last button */
         }
 
+        /* Checkbox is hidden but used to toggle visibility */
         .dropdown-toggle {
             display: none;
         }
 
+        /* Show dropdown-content when checkbox is checked */
         .dropdown-toggle:checked + .dropdown-label + .dropdown-content {
-            display: flex; /* Display the dropdown content when the checkbox is checked */
-        }
-
-        /* Close the dropdown when clicking outside */
-        .dropdown-content:focus-within {
-            display: flex; /* Display the dropdown content when it is focused within */
+            display: flex; /* Show the dropdown content */
         }
     </style>
 </head>
