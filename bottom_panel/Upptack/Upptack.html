@@ -13,17 +13,18 @@
         }
 
         .container {
-            position: relative; /* Container for positioning the dropdown */
+            position: absolute; /* Absolute positioning */
+            top: 0;
+            left: 0;
             height: 15vh; /* Set container height to 15% of viewport height */
             width: 100%;
             display: flex;
-            align-items: center; /* Center items vertically */
-            padding: 0 10px; /* Optional padding */
+            align-items: flex-start; /* Align items to the top */
+            padding: 0; /* Remove any default padding */
         }
 
         .dropdown-wrapper {
             position: relative; /* Position wrapper relative to contain dropdown */
-            display: inline-block; /* Ensure wrapper only takes necessary space */
         }
 
         .dropdown-label {
