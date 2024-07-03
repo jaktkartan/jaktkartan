@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dropdown Menu Example</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
         body, html {
             margin: 0;
@@ -44,7 +45,7 @@
         }
 
         .dropdown-content {
-            display: none;
+            display: none; /* Initially hide the dropdown content */
             position: absolute;
             top: 0; /* Align with the top of the label */
             left: calc(100% + 10px); /* Place directly to the right of the label with a small gap */
@@ -55,7 +56,6 @@
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
             z-index: 999; /* Ensure it appears above other content */
-            display: flex; /* Display contents in a row */
             flex-direction: row; /* Horizontal layout */
         }
 
@@ -89,16 +89,12 @@
         }
 
         .dropdown-toggle:checked + .dropdown-label + .dropdown-content {
-            display: flex; /* Change to flex to align items in a row */
+            display: flex; /* Display the dropdown content when the checkbox is checked */
         }
 
         /* Close the dropdown when clicking outside */
         .dropdown-content:focus-within {
-            display: flex; /* Change to flex to align items in a row */
-        }
-
-        .dropdown-label {
-            z-index: 1000;
+            display: flex; /* Display the dropdown content when it is focused within */
         }
     </style>
 </head>
