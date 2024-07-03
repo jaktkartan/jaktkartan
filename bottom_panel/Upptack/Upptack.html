@@ -96,6 +96,19 @@
         .dropdown-content a:last-child {
             border-bottom: none; /* Remove border from the last button */
         }
+
+        #datum-info {
+            position: fixed; /* Fixed position in the viewport */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Center by adjusting for its own size */
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            color: white; /* Text color */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for better visibility */
+            display: none; /* Hidden initially */
+        }
     </style>
 </head>
 <body>
@@ -127,5 +140,37 @@
             </div>
         </div>
     </div>
+
+    <!-- Container for date information -->
+    <div id="datum-info"></div>
+
+    <!-- Include JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to fetch and display date information
+            function fetchDatumInfo() {
+                fetch('bottom_panel/Upptack/Massor.geojson')
+                    .then(response => response.json())
+                    .then(data => {
+                        const features = data.features;
+                        let datumList = '<h3>Datum till:</h3><ul>';
+                        features.forEach(feature => {
+                            const datumTill = feature.properties.DATUM_TILL;
+                            if (datumTill) {
+                                datumList += `<li>${datumTill}</li>`;
+                            }
+                        });
+                        datumList += '</ul>';
+                        document.getElementById('datum-info').innerHTML = datumList;
+                        document.getElementById('datum-info').style.display = 'block'; // Show the div
+                    })
+                    .catch(error => console.error('Error fetching GeoJSON data:', error));
+            }
+
+            // Call the function to fetch and display date information
+            fetchDatumInfo();
+        });
+    </script>
 </body>
 </html>
+
