@@ -16,10 +16,11 @@
 
         .container {
             position: relative; /* Container is now relative for positioning the dropdown */
-            height: 50vh; /* Set height for dropdown container */
+            height: 15%; /* Set max height for container */
             width: 100%;
             display: flex;
             flex-direction: column;
+            align-items: flex-start; /* Align items to the start */
         }
 
         .dropdown-label {
@@ -32,7 +33,7 @@
             border: 1px solid rgb(50, 94, 88);
             border-radius: 5px;
             background-color: rgb(240, 240, 240);
-            width: 100%;
+            width: auto;
             box-sizing: border-box;
             justify-content: space-between;
             position: relative;
@@ -49,7 +50,7 @@
             top: 100%; /* Place directly below the label */
             left: 0;
             width: 100%;
-            max-height: 50vh; /* Set maximum height for scrolling */
+            max-height: calc(85% - 12px); /* Adjust to fit within the remaining height */
             overflow-y: auto; /* Enable vertical scrolling */
             background: white;
             border: 1px solid rgb(50, 94, 88);
