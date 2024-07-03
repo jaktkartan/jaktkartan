@@ -25,6 +25,7 @@
 
         .dropdown-wrapper {
             position: relative; /* Position wrapper relative to contain dropdown */
+            margin-left: 10px; /* Move the wrapper 10 pixels to the right */
         }
 
         .dropdown-label {
@@ -41,7 +42,6 @@
             justify-content: space-between;
             position: relative; /* Ensure it is positioned relative to its container */
             z-index: 999; /* Ensure dropdown content can overlay the label */
-            margin-left: 10px; /* Move the button 10 pixels to the right */
         }
 
         .dropdown-label:hover {
@@ -52,7 +52,7 @@
             position: absolute;
             top: 100%; /* Position it directly below the label */
             left: 0; /* Align it to the left edge of the label */
-            width: 200px; /* Set a fixed width for better visibility */
+            width: 250px; /* Set a fixed width for better visibility */
             max-height: 200px; /* Set a maximum height for scrolling */
             overflow-y: auto; /* Enable vertical scrolling if needed */
             background: white;
@@ -88,8 +88,8 @@
         }
 
         .dropdown-content img {
-            width: 40px; /* Adjust size if needed */
-            height: 40px; /* Adjust size if needed */
+            width: 30px; /* Adjust size if needed */
+            height: 30px; /* Adjust size if needed */
             margin-right: 10px; /* Space between image and text */
         }
 
