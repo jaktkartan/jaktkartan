@@ -38,8 +38,8 @@
             background-color: rgb(240, 240, 240);
             box-sizing: border-box;
             justify-content: space-between;
-            z-index: 1000; /* Ensure it is above other elements */
             position: relative; /* Ensure it is positioned relative to its container */
+            z-index: 999; /* Ensure dropdown content can overlay the label */
         }
 
         .dropdown-label:hover {
@@ -57,13 +57,18 @@
             border: 1px solid rgb(50, 94, 88);
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
-            z-index: 999; /* Ensure it appears above other content */
+            z-index: 1000; /* Ensure it appears above other content */
             display: none; /* Hide content initially */
+            opacity: 0; /* Hide content initially */
+            visibility: hidden; /* Hide content initially */
+            transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
         }
 
         .dropdown-wrapper:hover .dropdown-content,
         .dropdown-wrapper:focus-within .dropdown-content {
             display: block; /* Show dropdown content on hover or focus */
+            opacity: 1; /* Show content with transition */
+            visibility: visible; /* Make content visible */
         }
 
         .dropdown-content a {
