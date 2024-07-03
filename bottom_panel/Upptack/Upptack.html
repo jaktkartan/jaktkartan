@@ -23,7 +23,7 @@
 
         .dropdown-wrapper {
             position: relative; /* Position wrapper relative to contain dropdown */
-            display: inline-block; /* Make sure wrapper only takes necessary space */
+            display: inline-block; /* Ensure wrapper only takes necessary space */
         }
 
         .dropdown-label {
@@ -39,6 +39,7 @@
             box-sizing: border-box;
             justify-content: space-between;
             z-index: 1000; /* Ensure it is above other elements */
+            position: relative; /* Ensure it is positioned relative to its container */
         }
 
         .dropdown-label:hover {
@@ -47,27 +48,22 @@
 
         .dropdown-content {
             position: absolute;
-            top: 100%; /* Position it directly below the label */
-            left: 100%; /* Align it directly to the right of the label */
-            width: max-content; /* Adjust width based on content */
-            max-height: 100%; /* Ensure it does not exceed container height */
+            top: -100%; /* Position it directly above the label */
+            left: 0; /* Align it to the left edge of the label */
+            width: 100%; /* Match the width of the label */
+            max-height: 200px; /* Set a maximum height for scrolling */
             overflow-y: auto; /* Enable vertical scrolling if needed */
             background: white;
             border: 1px solid rgb(50, 94, 88);
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
             z-index: 999; /* Ensure it appears above other content */
-            display: flex; /* Display contents in a row */
-            flex-direction: column; /* Stack contents vertically */
-            opacity: 0; /* Hide content initially */
-            visibility: hidden; /* Hide content initially */
-            transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+            display: none; /* Hide content initially */
         }
 
         .dropdown-wrapper:hover .dropdown-content,
         .dropdown-wrapper:focus-within .dropdown-content {
-            opacity: 1; /* Show dropdown content */
-            visibility: visible; /* Make content visible */
+            display: block; /* Show dropdown content on hover or focus */
         }
 
         .dropdown-content a {
@@ -94,17 +90,12 @@
         .dropdown-content a:last-child {
             border-bottom: none; /* Remove border from the last button */
         }
-
-        /* Hide checkbox, used for toggle */
-        .dropdown-toggle {
-            display: none;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="dropdown-wrapper" tabindex="0"> <!-- Add tabindex for focusable div -->
-            <label for="dropdown-toggle" class="dropdown-label">
+            <label class="dropdown-label">
                 <span>Filtrera</span>
                 <span>&#9660;</span> <!-- Dropdown arrow -->
             </label>
