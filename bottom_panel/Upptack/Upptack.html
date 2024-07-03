@@ -10,17 +10,17 @@
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
+            height: 15vh; /* Set the height of the entire HTML window to 15% of the viewport height */
             overflow: hidden; /* Prevent scrolling on the body */
         }
 
         .container {
             position: relative; /* Container is now relative for positioning the dropdown */
-            height: 15%; /* Set max height for container */
+            height: 100%; /* Container takes up 100% of the 15% height */
             width: 100%;
             display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* Align items to the start */
+            align-items: center; /* Align items to the center vertically */
+            padding: 0 10px; /* Optional: Add some padding to the container */
         }
 
         .dropdown-label {
@@ -47,16 +47,17 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            top: 100%; /* Place directly below the label */
-            left: 0;
-            width: 100%;
-            max-height: calc(85% - 12px); /* Adjust to fit within the remaining height */
-            overflow-y: auto; /* Enable vertical scrolling */
+            top: 0; /* Align with the top of the label */
+            left: calc(100% + 10px); /* Place directly to the right of the label with a small gap */
+            max-height: 100%; /* Set maximum height to fit within the container */
+            overflow-y: auto; /* Enable vertical scrolling if needed */
             background: white;
             border: 1px solid rgb(50, 94, 88);
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
-            z-index: 1000; /* Ensure it appears above other content */
+            z-index: 999; /* Ensure it appears above other content */
+            display: flex; /* Display contents in a row */
+            flex-direction: row; /* Horizontal layout */
         }
 
         .dropdown-content a {
@@ -66,7 +67,7 @@
             white-space: nowrap; /* Prevent wrapping */
             text-decoration: none; /* Remove underline from links */
             color: rgb(50, 94, 88); /* Text color */
-            border-bottom: 1px solid rgb(50, 94, 88); /* Border between buttons */
+            border-right: 1px solid rgb(50, 94, 88); /* Border between buttons */
             background-color: rgb(240, 240, 240); /* Background color */
         }
 
@@ -81,7 +82,7 @@
         }
 
         .dropdown-content a:last-child {
-            border-bottom: none; /* Remove border from the last button */
+            border-right: none; /* Remove border from the last button */
         }
 
         .dropdown-toggle {
@@ -89,12 +90,12 @@
         }
 
         .dropdown-toggle:checked + .dropdown-label + .dropdown-content {
-            display: block;
+            display: flex; /* Change to flex to align items in a row */
         }
 
         /* Close the dropdown when clicking outside */
         .dropdown-content:focus-within {
-            display: block;
+            display: flex; /* Change to flex to align items in a row */
         }
 
         .dropdown-label {
