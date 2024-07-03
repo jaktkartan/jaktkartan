@@ -150,9 +150,18 @@
             // Function to fetch and display date information
             function fetchDatumInfo() {
                 fetch('bottom_panel/Upptack/Massor.geojson')
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         const features = data.features;
+                        if (features.length === 0) {
+                            document.getElementById('datum-info').innerHTML = '<p>No data available.</p>';
+                            return;
+                        }
                         let datumList = '<h3>Datum till:</h3><ul>';
                         features.forEach(feature => {
                             const datumTill = feature.properties.DATUM_TILL;
@@ -161,10 +170,14 @@
                             }
                         });
                         datumList += '</ul>';
-                        document.getElementById('datum-info').innerHTML = datumList;
-                        document.getElementById('datum-info').style.display = 'block'; // Show the div
+                        const datumInfoElement = document.getElementById('datum-info');
+                        datumInfoElement.innerHTML = datumList;
+                        datumInfoElement.style.display = 'block'; // Show the div
                     })
-                    .catch(error => console.error('Error fetching GeoJSON data:', error));
+                    .catch(error => {
+                        console.error('Error fetching GeoJSON data:', error);
+                        document.getElementById('datum-info').innerHTML = '<p>Error loading data.</p>';
+                    });
             }
 
             // Call the function to fetch and display date information
@@ -173,4 +186,3 @@
     </script>
 </body>
 </html>
-
