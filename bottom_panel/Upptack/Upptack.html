@@ -38,6 +38,7 @@
             box-sizing: border-box;
             justify-content: space-between;
             z-index: 1000; /* Ensure it is above other elements */
+            position: relative; /* Ensure it is positioned relative to its container */
         }
 
         .dropdown-label:hover {
@@ -46,9 +47,9 @@
 
         .dropdown-content {
             position: absolute;
-            top: 100%; /* Place directly below the label */
-            left: 100%; /* Align with the right edge of the label */
-            width: max-content; /* Adjust width based on content */
+            top: 100%; /* Position it directly below the label */
+            left: 100%; /* Align it directly to the right of the label */
+            width: auto; /* Adjust width based on content */
             max-height: 100%; /* Ensure it does not exceed container height */
             overflow-y: auto; /* Enable vertical scrolling if needed */
             background: white;
@@ -79,6 +80,9 @@
             color: rgb(50, 94, 88); /* Text color */
             border-right: 1px solid rgb(50, 94, 88); /* Border between buttons */
             background-color: rgb(240, 240, 240); /* Background color */
+            height: 100%; /* Match the height of the dropdown content */
+            display: flex; /* Ensure content is aligned */
+            align-items: center; /* Center items vertically */
         }
 
         .dropdown-content a:hover {
