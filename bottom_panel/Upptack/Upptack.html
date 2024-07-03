@@ -15,7 +15,7 @@
         .container {
             position: absolute; /* Absolute positioning */
             top: 0;
-            right: 0; /* Align container to the right */
+            left: 0;
             height: 15vh; /* Set container height to 15% of viewport height */
             width: 100%;
             display: flex;
@@ -25,7 +25,7 @@
 
         .dropdown-wrapper {
             position: relative; /* Position wrapper relative to contain dropdown */
-            margin-right: 10px; /* Move the wrapper 10 pixels from the right edge */
+            margin-left: 10px; /* Move the wrapper 10 pixels to the right */
         }
 
         .dropdown-label {
@@ -51,7 +51,7 @@
         .dropdown-content {
             position: absolute;
             top: 100%; /* Position it directly below the label */
-            right: 0; /* Align it to the right edge of the label */
+            left: 0; /* Align it to the left edge of the label */
             width: 250px; /* Set a fixed width for better visibility */
             max-height: 200px; /* Set a maximum height for scrolling */
             overflow-y: auto; /* Enable vertical scrolling if needed */
