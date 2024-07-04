@@ -1,5 +1,5 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-// Ladda GeoJSON-filen med Sveriges länspolygoner
+// Ladda GeoJSON-filen med Sveriges länspolygoner.
 async function loadGeoJSON(url) {
     try {
         const response = await fetch(url);
