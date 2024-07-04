@@ -158,7 +158,7 @@ function displaySavedUserPosition() {
                     var iframe = document.createElement('iframe');
                     iframe.src = googleSheetsURL;
                     iframe.style.width = '100%';
-                    iframe.style.height = '600px'; // Justera höjden efter behov
+                    iframe.style.height = '1000px'; // Justera höjden efter behov
                     iframe.setAttribute('frameborder', '0');
                     tab.appendChild(iframe);
                 } else {
@@ -220,10 +220,6 @@ function loadCountyGoogleSheet(county, savedPosition) {
     var heading = document.createElement('h2');
     heading.textContent = 'Jaktbart idag - ' + county;
     tab.appendChild(heading);
-
-    var positionInfo = document.createElement('p');
-    positionInfo.textContent = 'Senast sparad position: Latitud ' + savedPosition.latitude.toFixed(6) + ', Longitud ' + savedPosition.longitude.toFixed(6);
-    tab.appendChild(positionInfo);
 
     // Bygg URL för Google Sheets baserat på det valda länet
     var googleSheetsURL;
