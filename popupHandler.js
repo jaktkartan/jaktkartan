@@ -97,10 +97,18 @@ function updatePopupPanelContent(properties) {
 
     console.log('Egenskaper som skickas till popup-panelen:', properties); // Debug-utskrift
 
+    var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
+    var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
     var content = '';
+
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
+
+            // Om egenskapen ska döljas, hoppa över den
+            if (hideProperties.includes(key) || (hideNameOnlyProperties.includes(key) && !value)) {
+                continue;
+            }
 
             // Om värdet är en URL och pekar på en bild
             if (isImageUrl(value)) {
