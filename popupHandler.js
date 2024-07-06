@@ -90,10 +90,18 @@ function updatePopupPanelContent(properties) {
 
     // Uppdatera innehållet baserat på egenskaperna från geojson-objektet
     var content = '';
+    var imageExtensions = ['jpeg', 'jpg', 'png', 'webp'];  // Stöd för flera bildformat
+
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
-            content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
+            
+            // Kontrollera om egenskapens värde är en absolut bild-URL
+            if (imageExtensions.some(ext => value.toLowerCase().endsWith(ext))) {
+                content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+            } else {
+                content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
+            }
         }
     }
 
