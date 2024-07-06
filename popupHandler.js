@@ -61,7 +61,7 @@ var popupPanelVisible = false;
 // Funktion för att kontrollera om en URL pekar på en bild
 function isImageUrl(url) {
     // Kontrollera att url är en sträng och matchar bildformat
-    return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp|gif)$/i);
+    return typeof url === 'string' && (url.match(/\.(jpeg|jpg|png|webp|gif)$/i) || url.includes('github.com') && url.includes('?raw=true'));
 }
 
 // Funktion för att visa popup-panelen med specifika egenskaper
@@ -100,6 +100,7 @@ function updatePopupPanelContent(properties) {
             // Om värdet är en URL och pekar på en bild
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+                console.log('Bild URL:', value); // Debug-utskrift av bild-URL
             } else {
                 content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
             }
