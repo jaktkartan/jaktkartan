@@ -65,7 +65,6 @@ var popupPanelVisible = false;
 
 // Funktion för att kontrollera om en URL pekar på en bild
 function isImageUrl(url) {
-    // Kontrollera att url är en sträng och matchar bildformat
     return typeof url === 'string' && (url.match(/\.(jpeg|jpg|png|webp|gif)$/i) || url.includes('github.com') && url.includes('?raw=true'));
 }
 
@@ -123,7 +122,7 @@ function updatePopupPanelContent(properties) {
     // Uppdatera panelens innehåll
     panelContent.innerHTML = content;
 
-    // Sätt scrollpositionen till toppen
+    // Återställ scroll-positionen till toppen
     panelContent.scrollTop = 0;
 }
 
@@ -164,3 +163,4 @@ document.addEventListener('click', function(event) {
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
+
