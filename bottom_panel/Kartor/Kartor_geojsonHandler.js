@@ -65,6 +65,9 @@ var Kartor_geojsonHandler = (function() {
 
 // Funktion för att generera popup-innehåll
 function generatePopupContent(feature) {
+    // Logga egenskaperna för felsökning
+    console.log('Feature properties:', feature.properties);
+
     var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
     var hideProperties = ['id', 'shape_area', 'shape_leng', 'objectid_2', 'objectid', 'shape_le_2', 'field'];
     var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
@@ -99,6 +102,7 @@ function generatePopupContent(feature) {
     popupContent += '</div>';
     return popupContent;
 }
+
 
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager.
