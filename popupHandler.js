@@ -49,6 +49,11 @@ styleTag.innerHTML = `
     .hide {
         animation: slideOut 0.5s forwards;
     }
+
+    #popup-panel img {
+        max-width: 100%;
+        border-radius: 10px; /* Rundade hörn för bilder */
+    }
 `;
 
 // Lägg till style-taggen till <head>
@@ -99,7 +104,7 @@ function updatePopupPanelContent(properties) {
 
             // Om värdet är en URL och pekar på en bild
             if (isImageUrl(value)) {
-                content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+                content += '<p><img src="' + value + '" alt="Bild"></p>';
                 console.log('Bild URL:', value); // Debug-utskrift av bild-URL
             } else {
                 content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
