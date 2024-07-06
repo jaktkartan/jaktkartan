@@ -78,7 +78,7 @@ function hidePopupPanel() {
 
 // Funktion för att kontrollera om en URL pekar på en bild
 function isImageUrl(url) {
-    return url && url.match(/\.(jpeg|jpg|png|webp)$/i);
+    return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp)$/i);
 }
 
 // Funktion för att uppdatera panelens innehåll baserat på egenskaper från geojson-objekt
