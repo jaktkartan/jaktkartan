@@ -63,39 +63,38 @@ var Kartor_geojsonHandler = (function() {
         }
     };
 
-// Funktion för att generera popup-innehåll
-function generatePopupContent(feature) {
-    var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-    var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
-    var hideNameOnlyProperties = ['namn', 'info'];
-    var imageExtensions = ['jpeg', 'jpg', 'png', 'webp'];  // Stöd för flera bildformat
+    // Funktion för att generera popup-innehåll
+    function generatePopupContent(feature) {
+        var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+        var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
+        var hideNameOnlyProperties = ['namn', 'info'];
+        var imageExtensions = ['jpeg', 'jpg', 'png', 'webp'];  // Stöd för flera bildformat
 
-    for (var prop in feature.properties) {
-        if (hideProperties.includes(prop)) continue;
+        for (var prop in feature.properties) {
+            if (hideProperties.includes(prop)) continue;
 
-        var propValue = feature.properties[prop];
-        var propLower = prop.toLowerCase();
+            var propValue = feature.properties[prop];
+            var propLower = prop.toLowerCase();
 
-        // Kontrollera om egenskapens värde är en absolut bild-URL
-        if (imageExtensions.some(ext => propValue.toLowerCase().endsWith(ext))) {
-            popupContent += '<p><img src="' + propValue + '" style="max-width: 100%;" alt="Bild"></p>';
-        } 
-        // Hantera egenskap för länk
-        else if (propLower === 'link' || propLower === 'vagbeskriv') {
-            popupContent += '<p><a href="' + propValue + '" target="_blank">Länk</a></p>';
-        } 
-        else if (hideNameOnlyProperties.includes(propLower)) {
-            popupContent += '<p>' + propValue + '</p>';
-        } 
-        else {
-            popupContent += '<p><strong>' + prop + ':</strong> ' + propValue + '</p>';
+            // Kontrollera om egenskapens värde är en absolut bild-URL
+            if (imageExtensions.some(ext => propValue.toLowerCase().endsWith(ext))) {
+                popupContent += '<p><img src="' + propValue + '" style="max-width: 100%;" alt="Bild"></p>';
+            } 
+            // Hantera egenskap för länk
+            else if (propLower === 'link' || propLower === 'vagbeskriv') {
+                popupContent += '<p><a href="' + propValue + '" target="_blank">Länk</a></p>';
+            } 
+            else if (hideNameOnlyProperties.includes(propLower)) {
+                popupContent += '<p>' + propValue + '</p>';
+            } 
+            else {
+                popupContent += '<p><strong>' + prop + ':</strong> ' + propValue + '</p>';
+            }
         }
+
+        popupContent += '</div>';
+        return popupContent;
     }
-
-    popupContent += '</div>';
-    return popupContent;
-}
-
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager.
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
@@ -122,7 +121,7 @@ function generatePopupContent(feature) {
                             return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
-                            addClickHandlerToLayer(layer); // Lägg till klickhanterare till lagret
+                            layer.bindPopup(generatePopupContent(feature)); // Använd generatePopupContent här
                         }
                     });
 
