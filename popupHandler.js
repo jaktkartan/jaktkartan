@@ -76,6 +76,12 @@ function showPopupPanel(properties) {
     popupPanel.classList.remove('hide');
     popupPanel.classList.add('show');
     popupPanelVisible = true;
+
+    // Återställ scroll-positionen till toppen när panelen visas
+    var panelContent = document.getElementById('popup-panel-content');
+    if (panelContent) {
+        panelContent.scrollTop = 0;
+    }
 }
 
 // Funktion för att dölja popup-panelen
@@ -163,4 +169,3 @@ document.addEventListener('click', function(event) {
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
-
