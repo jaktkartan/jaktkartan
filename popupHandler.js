@@ -8,27 +8,51 @@ styleTag.innerHTML = `
         width: 95%;
         max-height: 40%;
         background-color: #fff;
-        border-top: 5px solid #000;
+        border-top: 5px solid #fff;
+        border-left: 5px solid #fff;
+        border-right: 5px solid #fff;
         padding: 10px;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
         z-index: 1000;
         overflow-y: auto;
+        word-wrap: break-word;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        font-family: 'Roboto', sans-serif;
+        color: rgb(50, 94, 88);
         transform: translateY(100%);
         transition: transform 0.5s ease-in-out;
     }
 
+    @keyframes slideIn {
+        from {
+            transform: translateY(100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideOut {
+        from {
+            transform: translateY(0);
+        }
+        to {
+            transform: translateY(100%);
+        }
+    }
+
     .show {
-        transform: translateY(0);
+        animation: slideIn 0.5s forwards;
     }
 
     .hide {
-        transform: translateY(100%);
+        animation: slideOut 0.5s forwards;
     }
 
     #popup-panel img {
         max-width: 100%;
-        height: auto;
-        margin-bottom: 10px;
+        border-radius: 10px; /* Rundade hörn för bilder */
     }
 `;
 
@@ -79,42 +103,75 @@ function updatePopupPanelContent(properties) {
         return;
     }
 
-    console.log('Uppdaterar med egenskaper:', properties);
+    console.log('Egenskaper som skickas till popup-panelen:', properties); // Debug-utskrift
 
+    var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
+    var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
     var content = '';
+
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
+
+            // Om egenskapen ska döljas, hoppa över den
+            if (hideProperties.includes(key) || (hideNameOnlyProperties.includes(key) && !value)) {
+                continue;
+            }
+
+            // Om värdet är en URL och pekar på en bild
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
-                console.log('Bild URL:', value);
+                console.log('Bild URL:', value); // Debug-utskrift av bild-URL
             } else {
                 content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
             }
         }
     }
 
+    // Uppdatera panelens innehåll
     panelContent.innerHTML = content;
 
-    // Om panelen redan är synlig, återställ scroll-positionen till toppen
-    if (popupPanelVisible) {
-        setTimeout(function() {
-            if (panelContent) {
-                panelContent.scrollTop = 0;
-                console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
-            }
-        }, 0); // Kort fördröjning för att säkerställa att innehållet är uppdaterat
-    }
+    // Återställ scroll-positionen till toppen efter uppdatering
+    setTimeout(function() {
+        panelContent.scrollTop = 0;
+        console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
+    }, 0); // Kort fördröjning för att säkerställa att innehållet är uppdaterat
 }
 
-// Funktion för att lägga till klickhanterare till document
+// Funktion för att lägga till klickhanterare till geojson-lagret
+function addClickHandlerToLayer(layer) {
+    layer.on('click', function(e) {
+        try {
+            if (e.originalEvent) {
+                e.originalEvent.stopPropagation(); // Stoppa bubbla av klickhändelse för att förhindra att document-click listenern aktiveras
+            }
+
+            if (e.target && e.target.feature && e.target.feature.properties) {
+                var properties = e.target.feature.properties;
+                console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
+
+                if (!popupPanelVisible) {
+                    showPopupPanel(properties);
+                } else {
+                    updatePopupPanelContent(properties);
+                }
+            } else {
+                console.error('Ingen geojson-information hittades i klickhändelsen.');
+            }
+        } catch (error) {
+            console.error('Fel vid hantering av klickhändelse:', error);
+        }
+    });
+}
+
+// Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
     if (popupPanelVisible && !popupPanel.contains(event.target)) {
         hidePopupPanel();
     }
 });
 
-// Debugga att panelen finns
+// Kontrollera att popup-panelen finns och har nödvändiga HTML-element
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
