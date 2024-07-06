@@ -65,7 +65,8 @@ var popupPanelVisible = false;
 
 // Funktion för att kontrollera om en URL pekar på en bild
 function isImageUrl(url) {
-    return typeof url === 'string' && (url.match(/\.(jpeg|jpg|png|webp|gif)$/i) || (url.includes('github.com') && url.includes('?raw=true')));
+    // Kontrollera att url är en sträng och matchar bildformat
+    return typeof url === 'string' && (url.match(/\.(jpeg|jpg|png|webp|gif)$/i) || url.includes('github.com') && url.includes('?raw=true'));
 }
 
 // Funktion för att visa popup-panelen med specifika egenskaper
@@ -94,44 +95,18 @@ function updatePopupPanelContent(properties) {
         return;
     }
 
-    // Debugging: logga egenskaper som skickas till panelen
-    console.log('Egenskaper som skickas till popup-panelen:', properties);
-
-    // Definiera egenskaper som ska döljas
-    var hideProperties = ['id', 'shape_area', 'shape_leng'];
-    var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+    console.log('Egenskaper som skickas till popup-panelen:', properties); // Debug-utskrift
 
     var content = '';
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
-            // Logga aktuell egenskap och dess värde för felsökning
-            console.log('Processing property:', key, 'Value:', value);
-
-            // Kontrollera om egenskapen ska döljas baserat på hideProperties
-            if (hideProperties.includes(key)) {
-                console.log('Hiding property:', key); // Logga att egenskapen döljs
-                continue;
-            }
-
-            // Kontrollera om egenskapen ska döljas baserat på hideNameOnlyProperties
-            if (hideNameOnlyProperties.includes(key)) {
-                if (!value || value.trim() === '') {
-                    console.log('Hiding empty or null property:', key); // Logga att egenskapen döljs
-                    continue;
-                }
-            }
-
-            // Om egenskapen är en bild-URL
+            // Om värdet är en URL och pekar på en bild
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
                 console.log('Bild URL:', value); // Debug-utskrift av bild-URL
-            } else if (key === 'LINK' || key === 'VAGBESKRIV') {
-                // Om egenskapen är en länk eller beskrivning
-                content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
             } else {
-                // Om det är en annan egenskap
                 content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
             }
         }
@@ -139,6 +114,9 @@ function updatePopupPanelContent(properties) {
 
     // Uppdatera panelens innehåll
     panelContent.innerHTML = content;
+
+    // Sätt scrollpositionen till toppen
+    panelContent.scrollTop = 0;
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
