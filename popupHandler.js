@@ -81,6 +81,7 @@ function showPopupPanel(properties) {
     var panelContent = document.getElementById('popup-panel-content');
     if (panelContent) {
         panelContent.scrollTop = 0;
+        console.log('Scroll position återställd till toppen när panelen visades');
     }
 }
 
@@ -130,6 +131,7 @@ function updatePopupPanelContent(properties) {
 
     // Återställ scroll-positionen till toppen
     panelContent.scrollTop = 0;
+    console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
