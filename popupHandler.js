@@ -78,13 +78,15 @@ function showPopupPanel(properties) {
     popupPanelVisible = true;
 
     // Återställ scroll-positionen till toppen när panelen visas
-    setTimeout(function() {
-        var panelContent = document.getElementById('popup-panel-content');
-        if (panelContent) {
-            panelContent.scrollTop = 0;
-            console.log('Scroll position återställd till toppen när panelen visades');
-        }
-    }, 0); // Kort fördröjning för att säkerställa att animationen är klar
+    requestAnimationFrame(function() {
+        setTimeout(function() {
+            var panelContent = document.getElementById('popup-panel-content');
+            if (panelContent) {
+                panelContent.scrollTop = 0;
+                console.log('Scroll position återställd till toppen när panelen visades');
+            }
+        }, 0);
+    });
 }
 
 // Funktion för att dölja popup-panelen
@@ -128,14 +130,17 @@ function updatePopupPanelContent(properties) {
         }
     }
 
-    // Uppdatera panelens innehåll
-    panelContent.innerHTML = content;
-
-    // Återställ scroll-positionen till toppen efter uppdatering
+    // Temporär lösning för att säkerställa att scroll-positionen återställs
+    panelContent.innerHTML = ''; // Töm panelinnehållet tillfälligt
     setTimeout(function() {
-        panelContent.scrollTop = 0;
-        console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
-    }, 0); // Kort fördröjning för att säkerställa att innehållet är uppdaterat
+        panelContent.innerHTML = content; // Återställ panelinnehållet
+        requestAnimationFrame(function() {
+            setTimeout(function() {
+                panelContent.scrollTop = 0;
+                console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
+            }, 0);
+        });
+    }, 0);
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
