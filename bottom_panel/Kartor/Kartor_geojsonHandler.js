@@ -77,13 +77,21 @@ function generatePopupContent(feature) {
         if (feature.properties.hasOwnProperty(prop)) {
             var value = feature.properties[prop];
 
+            // Logga aktuell egenskap och dess värde för felsökning
+            console.log('Processing property:', prop, 'Value:', value);
+
             // Kontrollera om egenskapen ska döljas baserat på hideProperties
-            if (hideProperties.includes(prop)) continue;
+            if (hideProperties.includes(prop)) {
+                console.log('Hiding property:', prop); // Logga att egenskapen döljs
+                continue;
+            }
 
             // Kontrollera om egenskapen ska döljas baserat på hideNameOnlyProperties
             if (hideNameOnlyProperties.includes(prop)) {
-                // Om värdet är null eller tomt, hoppa över
-                if (!value || value.trim() === '') continue;
+                if (!value || value.trim() === '') {
+                    console.log('Hiding empty or null property:', prop); // Logga att egenskapen döljs
+                    continue;
+                }
             }
 
             // Om egenskapen är en bild-URL
