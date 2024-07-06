@@ -66,13 +66,14 @@ var Kartor_geojsonHandler = (function() {
 // Funktion för att generera popup-innehåll
 function generatePopupContent(feature) {
     var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-    var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
+    var hideProperties = ['id', 'shape_area', 'shape_leng', 'objectid_2', 'objectid', 'shape_le_2', 'field'];
     var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
 
+    // Iterera genom egenskaperna i feature
     for (var prop in feature.properties) {
         if (feature.properties.hasOwnProperty(prop)) {
             var value = feature.properties[prop];
-            
+
             // Kontrollera om egenskapen ska döljas baserat på hideProperties
             if (hideProperties.includes(prop)) continue;
 
