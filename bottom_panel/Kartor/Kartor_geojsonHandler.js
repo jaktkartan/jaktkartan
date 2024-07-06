@@ -65,6 +65,9 @@ var Kartor_geojsonHandler = (function() {
 
 // Funktion för att generera popup-innehåll
 function generatePopupContent(feature) {
+    // Logga hela feature-objektet för att se strukturen
+    console.log('Full feature object:', feature);
+
     // Logga egenskaperna för felsökning
     console.log('Feature properties:', feature.properties);
 
@@ -108,6 +111,7 @@ function generatePopupContent(feature) {
     }
 
     popupContent += '</div>';
+    console.log('Generated popup content:', popupContent); // Logga det genererade innehållet
     return popupContent;
 }
 
