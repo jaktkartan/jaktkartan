@@ -67,28 +67,18 @@ var Kartor_geojsonHandler = (function() {
     function generatePopupContent(feature) {
         var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
         var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
-        var hideNameOnlyProperties = ['namn', 'info'];
-        var imageExtensions = ['jpeg', 'jpg', 'png', 'webp'];  // Stöd för flera bildformat
+        var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
 
         for (var prop in feature.properties) {
             if (hideProperties.includes(prop)) continue;
-
-            var propValue = feature.properties[prop];
-            var propLower = prop.toLowerCase();
-
-            // Kontrollera om egenskapens värde är en absolut bild-URL
-            if (imageExtensions.some(ext => propValue.toLowerCase().endsWith(ext))) {
-                popupContent += '<p><img src="' + propValue + '" style="max-width: 100%;" alt="Bild"></p>';
-            } 
-            // Hantera egenskap för länk
-            else if (propLower === 'link' || propLower === 'vagbeskriv') {
-                popupContent += '<p><a href="' + propValue + '" target="_blank">Länk</a></p>';
-            } 
-            else if (hideNameOnlyProperties.includes(propLower)) {
-                popupContent += '<p>' + propValue + '</p>';
-            } 
-            else {
-                popupContent += '<p><strong>' + prop + ':</strong> ' + propValue + '</p>';
+            if (prop === 'BILD') {
+                popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
+            } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+                popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+            } else if (hideNameOnlyProperties.includes(prop)) {
+                popupContent += '<p>' + feature.properties[prop] + '</p>';
+            } else {
+                popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
             }
         }
 
@@ -121,7 +111,7 @@ var Kartor_geojsonHandler = (function() {
                             return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                         },
                         onEachFeature: function(feature, layer) {
-                            layer.bindPopup(generatePopupContent(feature)); // Använd generatePopupContent här
+                            addClickHandlerToLayer(layer); // Lägg till klickhanterare till lagret
                         }
                     });
 
