@@ -49,6 +49,11 @@ styleTag.innerHTML = `
     .hide {
         animation: slideOut 0.5s forwards;
     }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 `;
 
 // Lägg till style-taggen till <head>
@@ -91,9 +96,9 @@ function updatePopupPanelContent(properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
-            // Kontrollera om egenskapens värde är en absolut bild-URL
-            if (key === 'BILD' && value) {
-                content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+            // Kontrollera om egenskapens värde är en bild-URL
+            if (key.toUpperCase() === 'BILD' && value && (value.match(/\.(jpeg|jpg|png|webp)$/i))) {
+                content += '<p><img src="' + value + '" alt="Bild"></p>';
             } else {
                 content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
             }
