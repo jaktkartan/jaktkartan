@@ -1,4 +1,4 @@
-// CSS för popup-panelen
+// CSS för popup-panelen.
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -49,11 +49,6 @@ styleTag.innerHTML = `
     .hide {
         animation: slideOut 0.5s forwards;
     }
-
-    img {
-        max-width: 100%;
-        height: auto;
-    }
 `;
 
 // Lägg till style-taggen till <head>
@@ -83,7 +78,7 @@ function hidePopupPanel() {
 
 // Funktion för att kontrollera om en URL pekar på en bild
 function isImageUrl(url) {
-    return url.match(/\.(jpeg|jpg|png|webp)$/i);
+    return url && url.match(/\.(jpeg|jpg|png|webp)$/i);
 }
 
 // Funktion för att uppdatera panelens innehåll baserat på egenskaper från geojson-objekt
@@ -101,9 +96,9 @@ function updatePopupPanelContent(properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
-            // Om värdet är en lokal filväg eller en URL
+            // Om värdet är en URL och pekar på en bild
             if (isImageUrl(value)) {
-                content += '<p><img src="' + value + '" alt="Bild"></p>';
+                content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
             } else {
                 content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
             }
