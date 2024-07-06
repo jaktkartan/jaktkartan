@@ -1,4 +1,4 @@
-// CSS för popup-panelen.
+// CSS för popup-panelen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -58,6 +58,12 @@ document.head.appendChild(styleTag);
 var popupPanel = document.getElementById('popup-panel');
 var popupPanelVisible = false;
 
+// Funktion för att kontrollera om en URL pekar på en bild
+function isImageUrl(url) {
+    // Kontrollera att url är en sträng och matchar bildformat
+    return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp|gif)$/i);
+}
+
 // Funktion för att visa popup-panelen med specifika egenskaper
 function showPopupPanel(properties) {
     updatePopupPanelContent(properties);
@@ -74,11 +80,6 @@ function hidePopupPanel() {
     popupPanel.classList.remove('show');
     popupPanel.classList.add('hide');
     popupPanelVisible = false;
-}
-
-// Funktion för att kontrollera om en URL pekar på en bild
-function isImageUrl(url) {
-    return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp)$/i);
 }
 
 // Funktion för att uppdatera panelens innehåll baserat på egenskaper från geojson-objekt
