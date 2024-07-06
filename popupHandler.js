@@ -65,6 +65,10 @@ function showPopupPanel(properties) {
     // Lägg till klassen för att visa popup-panelen
     popupPanel.classList.remove('hide');
     popupPanel.classList.add('show');
+
+    // Återställ scroll-positionen till toppen
+    popupPanel.scrollTop = 0;
+
     popupPanelVisible = true;
 }
 
@@ -95,6 +99,11 @@ function updatePopupPanelContent(properties) {
 
     // Uppdatera panelens innehåll
     panelContent.innerHTML = content;
+
+    // Om panelen redan är synlig, återställ scroll-positionen till toppen
+    if (popupPanelVisible) {
+        popupPanel.scrollTop = 0;
+    }
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
