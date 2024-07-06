@@ -84,6 +84,25 @@ function updatePopupPanelContent(properties) {
         return;
     }
 
+    console.log('Egenskaper som skickas till popup-panelen:', properties); // Debug-utskrift
+
+    var content = '';
+    for (var key in properties) {
+        if (properties.hasOwnProperty(key)) {
+            var value = properties[key];
+
+            if (key === 'BILD' && value) {
+                content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+            } else {
+                content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
+            }
+        }
+    }
+
+    panelContent.innerHTML = content;
+}
+
+
     // Uppdatera innehållet baserat på egenskaperna från geojson-objektet
     var content = '';
     for (var key in properties) {
