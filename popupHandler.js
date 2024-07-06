@@ -62,13 +62,14 @@ var popupPanelVisible = false;
 function showPopupPanel(properties) {
     updatePopupPanelContent(properties);
 
+    // Återställ scroll-positionen till toppen
+    if (popupPanel) {
+        popupPanel.scrollTop = 0;
+    }
+
     // Lägg till klassen för att visa popup-panelen
     popupPanel.classList.remove('hide');
     popupPanel.classList.add('show');
-
-    // Återställ scroll-positionen till toppen
-    popupPanel.scrollTop = 0;
-
     popupPanelVisible = true;
 }
 
@@ -102,7 +103,12 @@ function updatePopupPanelContent(properties) {
 
     // Om panelen redan är synlig, återställ scroll-positionen till toppen
     if (popupPanelVisible) {
-        popupPanel.scrollTop = 0;
+        // Försök att återställa scroll-positionen efter en kort fördröjning
+        setTimeout(function() {
+            if (popupPanel) {
+                popupPanel.scrollTop = 0;
+            }
+        }, 0);
     }
 }
 
@@ -143,3 +149,4 @@ document.addEventListener('click', function(event) {
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
+
