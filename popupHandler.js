@@ -81,6 +81,11 @@ function hidePopupPanel() {
     popupPanelVisible = false;
 }
 
+// Funktion för att kontrollera om en URL pekar på en bild
+function isImageUrl(url) {
+    return url.match(/\.(jpeg|jpg|png|webp)$/i);
+}
+
 // Funktion för att uppdatera panelens innehåll baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
     var panelContent = document.getElementById('popup-panel-content');
@@ -96,8 +101,8 @@ function updatePopupPanelContent(properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
-            // Kontrollera om egenskapens värde är en bild-URL
-            if (key.toUpperCase() === 'BILD' && value && (value.match(/\.(jpeg|jpg|png|webp)$/i))) {
+            // Om värdet är en lokal filväg eller en URL
+            if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
             } else {
                 content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
