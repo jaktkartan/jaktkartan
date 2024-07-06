@@ -1,4 +1,4 @@
-// CSS för popup-panelen.
+// CSS för popup-panelen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -91,29 +91,11 @@ function updatePopupPanelContent(properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
+            // Kontrollera om egenskapens värde är en absolut bild-URL
             if (key === 'BILD' && value) {
                 content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
             } else {
                 content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
-            }
-        }
-    }
-
-    panelContent.innerHTML = content;
-}
-
-
-    // Uppdatera innehållet baserat på egenskaperna från geojson-objektet
-    var content = '';
-    for (var key in properties) {
-        if (properties.hasOwnProperty(key)) {
-            var value = properties[key];
-
-            // Kontrollera om egenskapens värde är en absolut bild-URL
-            if (value.match(/\.(jpeg|jpg|png|webp)$/i)) {
-                content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
-            } else {
-                content += '<p><strong>' + key + ':</strong> ' + value + '</p>';
             }
         }
     }
