@@ -64,27 +64,33 @@ var Kartor_geojsonHandler = (function() {
     };
 
     // Funktion för att generera popup-innehåll
-    function generatePopupContent(feature) {
-        var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-        var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
-        var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+function generatePopupContent(feature) {
+    var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+    var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
+    var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
 
-        for (var prop in feature.properties) {
-            if (hideProperties.includes(prop)) continue;
-            if (prop === 'BILD') {
-                popupContent += '<p><img src="' + feature.properties[prop] + '" style="max-width: 100%;" alt="Bild"></p>';
-            } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
-                popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
-            } else if (hideNameOnlyProperties.includes(prop)) {
-                popupContent += '<p>' + feature.properties[prop] + '</p>';
+    for (var prop in feature.properties) {
+        if (hideProperties.includes(prop)) continue;
+        if (prop === 'BILD') {
+            var imageUrl = feature.properties[prop];
+            if (imageUrl) {
+                popupContent += '<p><img src="' + imageUrl + '" style="max-width: 100%;" alt="Bild"></p>';
             } else {
-                popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
+                popupContent += '<p><strong>BILD:</strong> Ingen bild tillgänglig</p>';
             }
+        } else if (prop === 'LINK' || prop === 'VAGBESKRIV') {
+            popupContent += '<p><a href="' + feature.properties[prop] + '" target="_blank">Länk</a></p>';
+        } else if (hideNameOnlyProperties.includes(prop)) {
+            popupContent += '<p>' + feature.properties[prop] + '</p>';
+        } else {
+            popupContent += '<p><strong>' + prop + ':</strong> ' + feature.properties[prop] + '</p>';
         }
-
-        popupContent += '</div>';
-        return popupContent;
     }
+
+    popupContent += '</div>';
+    return popupContent;
+}
+
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager.
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
