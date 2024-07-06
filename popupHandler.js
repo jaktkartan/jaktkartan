@@ -1,72 +1,6 @@
-// CSS för popup-panelen
-var styleTag = document.createElement('style');
-styleTag.type = 'text/css';
-styleTag.innerHTML = `
-    #popup-panel {
-        position: fixed;
-        bottom: 0px;
-        width: 95%;
-        max-height: 40%;
-        background-color: #fff;
-        border-top: 5px solid #fff;
-        border-left: 5px solid #fff;
-        border-right: 5px solid #fff;
-        padding: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        z-index: 1000;
-        overflow-y: auto;
-        word-wrap: break-word;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        font-family: 'Roboto', sans-serif;
-        color: rgb(50, 94, 88);
-        transform: translateY(100%);
-        transition: transform 0.5s ease-in-out;
-    }
-
-    @keyframes slideIn {
-        from {
-            transform: translateY(100%);
-        }
-        to {
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes slideOut {
-        from {
-            transform: translateY(0);
-        }
-        to {
-            transform: translateY(100%);
-        }
-    }
-
-    .show {
-        animation: slideIn 0.5s forwards;
-    }
-
-    .hide {
-        animation: slideOut 0.5s forwards;
-    }
-
-    #popup-panel img {
-        max-width: 100%;
-        border-radius: 10px; /* Rundade hörn för bilder */
-    }
-`;
-
-// Lägg till style-taggen till <head>
-document.head.appendChild(styleTag);
-
 // JavaScript-logik för popup-panelen
 var popupPanel = document.getElementById('popup-panel');
 var popupPanelVisible = false;
-
-// Funktion för att kontrollera om en URL pekar på en bild
-function isImageUrl(url) {
-    return typeof url === 'string' && (url.match(/\.(jpeg|jpg|png|webp|gif)$/i) || url.includes('github.com') && url.includes('?raw=true'));
-}
 
 // Funktion för att visa popup-panelen med specifika egenskaper
 function showPopupPanel(properties) {
@@ -79,11 +13,13 @@ function showPopupPanel(properties) {
 
     // Återställ scroll-positionen till toppen när panelen visas
     requestAnimationFrame(function() {
-        var panelContent = document.getElementById('popup-panel-content');
-        if (panelContent) {
-            panelContent.scrollTop = 0;
-            console.log('Scroll position återställd till toppen när panelen visades');
-        }
+        setTimeout(function() {
+            var panelContent = document.getElementById('popup-panel-content');
+            if (panelContent) {
+                panelContent.scrollTop = 0;
+                console.log('Scroll position återställd till toppen när panelen visades');
+            }
+        }, 500); // Vänta lite längre för att säkerställa att animationen är klar
     });
 }
 
@@ -131,11 +67,17 @@ function updatePopupPanelContent(properties) {
     // Uppdatera panelens innehåll
     panelContent.innerHTML = content;
 
-    // Återställ scroll-positionen till toppen
-    requestAnimationFrame(function() {
-        panelContent.scrollTop = 0;
-        console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
-    });
+    // Om panelen redan är synlig, återställ scroll-positionen till toppen
+    if (popupPanelVisible) {
+        requestAnimationFrame(function() {
+            setTimeout(function() {
+                if (panelContent) {
+                    panelContent.scrollTop = 0;
+                    console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
+                }
+            }, 0); // Kort fördröjning för att säkerställa att innehållet är uppdaterat
+        });
+    }
 }
 
 // Funktion för att lägga till klickhanterare till geojson-lagret
@@ -175,3 +117,4 @@ document.addEventListener('click', function(event) {
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
+
