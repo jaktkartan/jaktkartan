@@ -2,6 +2,11 @@
 var popupPanel = document.getElementById('popup-panel');
 var popupPanelVisible = false;
 
+// Funktion för att kontrollera om en URL pekar på en bild
+function isImageUrl(url) {
+    return typeof url === 'string' && (url.match(/\.(jpeg|jpg|png|webp|gif)$/i) || (url.includes('github.com') && url.includes('?raw=true')));
+}
+
 // Funktion för att visa popup-panelen med specifika egenskaper
 function showPopupPanel(properties) {
     updatePopupPanelContent(properties);
@@ -12,15 +17,13 @@ function showPopupPanel(properties) {
     popupPanelVisible = true;
 
     // Återställ scroll-positionen till toppen när panelen visas
-    requestAnimationFrame(function() {
-        setTimeout(function() {
-            var panelContent = document.getElementById('popup-panel-content');
-            if (panelContent) {
-                panelContent.scrollTop = 0;
-                console.log('Scroll position återställd till toppen när panelen visades');
-            }
-        }, 500); // Vänta lite längre för att säkerställa att animationen är klar
-    });
+    setTimeout(function() {
+        var panelContent = document.getElementById('popup-panel-content');
+        if (panelContent) {
+            panelContent.scrollTop = 0;
+            console.log('Scroll position återställd till toppen när panelen visades');
+        }
+    }, 500); // Vänta lite längre för att säkerställa att animationen är klar
 }
 
 // Funktion för att dölja popup-panelen
@@ -69,14 +72,12 @@ function updatePopupPanelContent(properties) {
 
     // Om panelen redan är synlig, återställ scroll-positionen till toppen
     if (popupPanelVisible) {
-        requestAnimationFrame(function() {
-            setTimeout(function() {
-                if (panelContent) {
-                    panelContent.scrollTop = 0;
-                    console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
-                }
-            }, 0); // Kort fördröjning för att säkerställa att innehållet är uppdaterat
-        });
+        setTimeout(function() {
+            if (panelContent) {
+                panelContent.scrollTop = 0;
+                console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
+            }
+        }, 0); // Kort fördröjning för att säkerställa att innehållet är uppdaterat
     }
 }
 
@@ -117,4 +118,3 @@ document.addEventListener('click', function(event) {
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
-
