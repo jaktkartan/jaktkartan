@@ -47,7 +47,6 @@ setTimeout(function() {
             }
         };
 
-        // Funktion för att rensa alla lager
         function clearAllLayers() {
             console.log("Clearing all layers from Upptack_geojsonHandler.");
             Object.keys(geojsonLayers).forEach(function(layerName) {
@@ -63,7 +62,6 @@ setTimeout(function() {
             console.log("All layers cleared in Upptack_geojsonHandler.");
         }
 
-        // Funktion för att hämta GeoJSON-data och skapa ett lager
         function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
             geojsonURLs.forEach(function(geojsonURL) {
                 axios.get(geojsonURL)
@@ -95,7 +93,6 @@ setTimeout(function() {
             });
         }
 
-        // Funktion för att växla (aktivera/inaktivera) lager
         function toggleLayer(layerName) {
             console.log("Toggling layer:", layerName);
 
