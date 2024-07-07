@@ -1,4 +1,32 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+//tab2 rensar geojson lager från upptäck fliken.
+function deactivateAllLayers() {
+    Object.keys(layerIsActive).forEach(function(name) {
+        if (layerIsActive[name]) {
+            if (Array.isArray(geojsonLayers[name])) {
+                geojsonLayers[name].forEach(function(layer) {
+                    try {
+                        map.removeLayer(layer);
+                    } catch (error) {
+                        console.error("Kunde inte ta bort lager:", layer, error);
+                    }
+                });
+                layerIsActive[name] = false;
+            } else {
+                console.warn("Förväntade oss en array för lager:", name);
+            }
+        }
+    });
+}
+
+// Lägg till en klicklyssnare till tabben
+document.getElementById('tab2').addEventListener('click', function() {
+    deactivateAllLayers();
+});
+
+
+
+
 // Ladda GeoJSON-filen med Sveriges länspolygoner.
 async function loadGeoJSON(url) {
     try {
