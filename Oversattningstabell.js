@@ -1,4 +1,8 @@
 // Oversattningstabell.js
+
+var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
+var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+
 var translationTable = {
     "lan_namn": "Län Namn",
     "blasand__1": "Bläsand",
