@@ -47,6 +47,23 @@ setTimeout(function() {
             }
         };
 
+        // Funktion för att rensa alla lager
+        function clearAllLayers() {
+            console.log("Clearing all layers from Upptack_geojsonHandler.");
+            Object.keys(geojsonLayers).forEach(function(layerName) {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    if (map.hasLayer(layer)) {
+                        map.removeLayer(layer);
+                        console.log("Removed layer from Upptack_geojsonHandler:", layerName);
+                    }
+                });
+                geojsonLayers[layerName] = [];
+                layerIsActive[layerName] = false;
+            });
+            console.log("All layers cleared in Upptack_geojsonHandler.");
+        }
+
+        // Funktion för att hämta GeoJSON-data och skapa ett lager
         function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
             geojsonURLs.forEach(function(geojsonURL) {
                 axios.get(geojsonURL)
@@ -78,38 +95,26 @@ setTimeout(function() {
             });
         }
 
+        // Funktion för att växla (aktivera/inaktivera) lager
         function toggleLayer(layerName) {
             if (layerName === 'Visa_allt') {
                 activateAllLayers();
             } else if (layerName === 'Rensa_allt') {
-                deactivateAllLayers();
+                clearAllLayers(); // Rensa alla lager
             } else {
-                deactivateAllLayers();
+                clearAllLayers(); // Rensa alla lager först
                 activateLayer(layerName);
             }
         }
 
         function activateLayer(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                layer.addTo(map);
-            });
+            fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
             layerIsActive[layerName] = true;
         }
 
         function activateAllLayers() {
-            Object.keys(geojsonLayers).forEach(function(layerName) {
+            Object.keys(layerIsActive).forEach(function(layerName) {
                 activateLayer(layerName);
-            });
-        }
-
-        function deactivateAllLayers() {
-            Object.keys(layerIsActive).forEach(function(name) {
-                if (layerIsActive[name]) {
-                    geojsonLayers[name].forEach(function(layer) {
-                        map.removeLayer(layer);
-                    });
-                    layerIsActive[name] = false;
-                }
             });
         }
 
@@ -172,10 +177,12 @@ setTimeout(function() {
             return layerStyles[layerName].fallbackStyle;
         }
 
-        fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
-        fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
-        fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+        // Initial ladda lager
+        Object.keys(layerURLs).forEach(function(layerName) {
+            fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
+        });
 
+        // Hantera zoomnivåändringar
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 geojsonLayers[layerName].forEach(function(layer) {
