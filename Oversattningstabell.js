@@ -294,6 +294,13 @@ var translationTable = {
     "vigg_info": "Vigg",
     "vigg_ajf": "Jakttid",
     "vigg_klock": "Jakt under dygnet",
-    "vigg_kalib": "Kaliberkrav"
-};
+    "vigg_kalib": "Kaliberkrav",
+
+    //Älgjaktskartan
+    "jakttid": "Jakttid",
+    "kalv_tid": "Jakttid kalv på oregistrerad mark",
+    "namn_afo": "Älgförvaltningsområde",
+    "forvaltare": "Förvaltare:",
+    "lokala_tid": "För lokala jakttider, se",
+    "afo_id": "Älgförvaltningsområde ID"
 };
