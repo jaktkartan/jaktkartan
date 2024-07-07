@@ -113,20 +113,20 @@ var Kartor_geojsonHandler = (function() {
     }
 
     // Ny funktion för att inaktivera alla lager
-function deactivateAllLayersKartor(tabId = null) {
+function deactivateAllLayersKartor() {
+    console.log("Deactivating all layers.");
     Object.keys(layerIsActive).forEach(function(layerName) {
         if (layerIsActive[layerName]) {
-            // Kontrollera om lager är kopplade till den aktuella tabId
-            if (tabId === null || layerName.includes(tabId)) {
-                geojsonLayers[layerName].forEach(function(layer) {
-                    map.removeLayer(layer); // Ta bort lager från kartan
-                });
-                geojsonLayers[layerName] = []; // Rensa listan med lager
-                layerIsActive[layerName] = false; // Markera som inaktiv
-            }
+            console.log("Deactivating layer:", layerName);
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer); // Ta bort lager från kartan
+            });
+            geojsonLayers[layerName] = []; // Rensa listan med lager
+            layerIsActive[layerName] = false; // Markera som inaktiv
         }
     });
 }
+
 
 
 
