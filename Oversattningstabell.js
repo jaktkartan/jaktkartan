@@ -314,7 +314,7 @@ var translationTable = {
     "VIGG": "Vigg",
     "VIGG_JAKTT": "Jakttid:",
     "omrade": "Område",
-    "gransalvso": "Gränsälvsområdet till Finland"
+    "gransalvso": "Gränsälvsområdet till Finland",
 
     //Älgjaktskartan
     "jakttid": "Jakttid",
