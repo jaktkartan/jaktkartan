@@ -1,6 +1,15 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
 //tab2 rensar geojson lager från upptäck fliken.
 // Funktioner för att rensa lager
+document.getElementById('tab2').addEventListener('click', function() {
+    // Kontrollera att Upptack_geojsonHandler är definierad
+    if (typeof Upptack_geojsonHandler !== 'undefined') {
+        Upptack_geojsonHandler.deactivateAllLayers();
+    } else {
+        console.error("Upptack_geojsonHandler är inte definierad.");
+    }
+});
+
 function deactivateAllLayers(tabId = null) {
     Object.keys(layerIsActive).forEach(function(name) {
         if (layerIsActive[name]) {
