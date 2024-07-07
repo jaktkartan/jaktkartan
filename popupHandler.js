@@ -103,8 +103,6 @@ function updatePopupPanelContent(properties) {
 
     console.log('Egenskaper som skickas till popup-panelen:', properties);
 
-    var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
-    var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
     var content = '';
 
     for (var key in properties) {
