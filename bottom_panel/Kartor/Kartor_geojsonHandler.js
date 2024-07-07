@@ -5,7 +5,7 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': false
     };
 
-    var geojsonLayers = {
+    var geojsonLayers = {a
         'Allmän jakt: Däggdjur': [],
         'Allmän jakt: Fågel': [],
         'Älgjaktskartan': []
@@ -82,10 +82,9 @@ var Kartor_geojsonHandler = (function() {
 
         clearAllLayers();
 
-        if (layerName !== 'All') {
-            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-            layerIsActive[layerName] = true;
-        }
+        fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+
+        layerIsActive[layerName] = true;
     }
 
     function clearAllLayers() {
@@ -117,4 +116,3 @@ var Kartor_geojsonHandler = (function() {
         toggleLayer: toggleLayer
     };
 })();
-
