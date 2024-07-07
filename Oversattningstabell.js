@@ -1,7 +1,7 @@
 // Oversattningstabell.js
 
 //Dölj all data i popupfönstrena med följande fältnamn
-var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
+var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field', 'omrade'];
 // Dölj fältnamn visa bara innehåll
 var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
 
@@ -299,7 +299,7 @@ var translationTable = {
     //Gränsälvsområdet till finnland:
     "blasand_no": "Bläsand",
     "blasand__1": "Jakttid",
-    "GRAGAS": "Grågås:",
+    "GRAGAS": "Grågås",
     "GRAGAS_JAK": "Jakttid",
     "grasand_no": "Gräsand",
     "grasand__1": "Jakttid",
@@ -313,7 +313,6 @@ var translationTable = {
     "STORK_JAKT": "Jakttid",
     "VIGG": "Vigg",
     "VIGG_JAKTT": "Jakttid:",
-    "omrade": "Område",
     "gransalvso": "Gränsälvsområdet till Finland",
 
     //Älgjaktskartan
