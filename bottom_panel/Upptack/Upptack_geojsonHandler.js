@@ -9,9 +9,9 @@ setTimeout(function() {
 
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': true,
-            'Jaktkort': true,
-            'Jaktskyttebanor': true
+            'Mässor': false,
+            'Jaktkort': false,
+            'Jaktskyttebanor': false
         };
 
         var geojsonLayers = {
@@ -90,13 +90,15 @@ setTimeout(function() {
                         }
                     })
                     .catch(function(error) {
-                        console.log("Error fetching GeoJSON data:", error.message);
+                        console.error("Error fetching GeoJSON data:", error.message);
                     });
             });
         }
 
         // Funktion för att växla (aktivera/inaktivera) lager
         function toggleLayer(layerName) {
+            console.log("Toggling layer:", layerName);
+
             if (layerName === 'Visa_allt') {
                 activateAllLayers();
             } else if (layerName === 'Rensa_allt') {
@@ -108,11 +110,13 @@ setTimeout(function() {
         }
 
         function activateLayer(layerName) {
+            console.log("Activating layer:", layerName);
             fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
             layerIsActive[layerName] = true;
         }
 
         function activateAllLayers() {
+            console.log("Activating all layers.");
             Object.keys(layerIsActive).forEach(function(layerName) {
                 activateLayer(layerName);
             });
