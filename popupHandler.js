@@ -1,3 +1,15 @@
+// Ladda översättningstabellen
+var translationTable = {};
+fetch('Oversattningstabell.js')
+    .then(response => response.text())
+    .then(text => {
+        eval(text); // Exekvera den laddade filen för att få access till översättningstabell
+        initPopupHandler();
+    })
+    .catch(error => {
+        console.error('Fel vid laddning av översättningstabell:', error);
+    });
+
 // CSS för popup-panelen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
@@ -59,25 +71,24 @@ styleTag.innerHTML = `
 // Lägg till style-taggen till <head>
 document.head.appendChild(styleTag);
 
-// JavaScript-logik för popup-panelen
 var popupPanel = document.getElementById('popup-panel');
 var popupPanelVisible = false;
 
-// Funktion för att kontrollera om en URL är en bild
 function isImageUrl(url) {
     return typeof url === 'string' && (url.match(/\.(jpeg|jpg|png|webp|gif)$/i) || (url.includes('github.com') && url.includes('?raw=true')));
 }
 
-// Funktion för att visa popup-panelen med specifika egenskaper
+function translateKey(key) {
+    return translationTable[key] || key;
+}
+
 function showPopupPanel(properties) {
     updatePopupPanelContent(properties);
 
-    // Lägg till klassen för att visa popup-panelen
     popupPanel.classList.remove('hide');
     popupPanel.classList.add('show');
     popupPanelVisible = true;
 
-    // Återställ scroll-positionen till toppen när panelen visas
     requestAnimationFrame(function() {
         setTimeout(function() {
             var panelContent = document.getElementById('popup-panel-content');
@@ -89,15 +100,12 @@ function showPopupPanel(properties) {
     });
 }
 
-// Funktion för att dölja popup-panelen
 function hidePopupPanel() {
-    // Lägg till klassen för att dölja popup-panelen
     popupPanel.classList.remove('show');
     popupPanel.classList.add('hide');
     popupPanelVisible = false;
 }
 
-// Funktion för att uppdatera panelens innehåll baserat på egenskaper från geojson-objekt
 function updatePopupPanelContent(properties) {
     var panelContent = document.getElementById('popup-panel-content');
     if (!panelContent) {
@@ -105,7 +113,7 @@ function updatePopupPanelContent(properties) {
         return;
     }
 
-    console.log('Egenskaper som skickas till popup-panelen:', properties); // Debug-utskrift
+    console.log('Egenskaper som skickas till popup-panelen:', properties);
 
     var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field'];
     var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
@@ -115,25 +123,23 @@ function updatePopupPanelContent(properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
-            // Om egenskapen ska döljas, hoppa över den
             if (hideProperties.includes(key) || (hideNameOnlyProperties.includes(key) && !value)) {
                 continue;
             }
 
-            // Om värdet är en URL och pekar på en bild
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
-                console.log('Bild URL:', value); // Debug-utskrift av bild-URL
+                console.log('Bild URL:', value);
             } else {
-                content += '<p><strong>' + key + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
+                var translatedKey = translateKey(key);
+                content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
             }
         }
     }
 
-    // Temporär lösning för att säkerställa att scroll-positionen återställs
-    panelContent.innerHTML = ''; // Töm panelinnehållet tillfälligt
+    panelContent.innerHTML = '';
     setTimeout(function() {
-        panelContent.innerHTML = content; // Återställ panelinnehållet
+        panelContent.innerHTML = content;
         requestAnimationFrame(function() {
             setTimeout(function() {
                 panelContent.scrollTop = 0;
@@ -143,12 +149,11 @@ function updatePopupPanelContent(properties) {
     }, 0);
 }
 
-// Funktion för att lägga till klickhanterare till geojson-lagret
 function addClickHandlerToLayer(layer) {
     layer.on('click', function(e) {
         try {
             if (e.originalEvent) {
-                e.originalEvent.stopPropagation(); // Stoppa bubbla av klickhändelse för att förhindra att document-click listenern aktiveras
+                e.originalEvent.stopPropagation();
             }
 
             if (e.target && e.target.feature && e.target.feature.properties) {
@@ -169,14 +174,14 @@ function addClickHandlerToLayer(layer) {
     });
 }
 
-// Eventlyssnare för att stänga popup-panelen vid klick utanför
 document.addEventListener('click', function(event) {
     if (popupPanelVisible && !popupPanel.contains(event.target)) {
         hidePopupPanel();
     }
 });
 
-// Kontrollera att popup-panelen finns och har nödvändiga HTML-element
-if (!popupPanel || !document.getElementById('popup-panel-content')) {
-    console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
+function initPopupHandler() {
+    if (!popupPanel || !document.getElementById('popup-panel-content')) {
+        console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
+    }
 }
