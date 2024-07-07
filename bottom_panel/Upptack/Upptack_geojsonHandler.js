@@ -189,8 +189,8 @@ setTimeout(function() {
         });
 
         return {
-            toggleLayer: toggleLayer
+            toggleLayer: toggleLayer,
+            deactivateAllLayers: deactivateAllLayers
         };
     })(map);
 }, 1000);
-
