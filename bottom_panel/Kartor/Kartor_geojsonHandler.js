@@ -113,13 +113,22 @@ var Kartor_geojsonHandler = (function() {
     }
 
     // Ny funktion för att inaktivera alla lager
-    function deactivateAllLayersKartor() {
-        Object.keys(layerIsActive).forEach(function(layerName) {
-            if (layerIsActive[layerName]) {
-                toggleLayer(layerName, []);
+function deactivateAllLayersKartor(tabId = null) {
+    Object.keys(layerIsActive).forEach(function(layerName) {
+        if (layerIsActive[layerName]) {
+            // Kontrollera om lager är kopplade till den aktuella tabId
+            if (tabId === null || layerName.includes(tabId)) {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer); // Ta bort lager från kartan
+                });
+                geojsonLayers[layerName] = []; // Rensa listan med lager
+                layerIsActive[layerName] = false; // Markera som inaktiv
             }
-        });
-    }
+        }
+    });
+}
+
+
 
     // Funktion för att få filnamnet från en URL
     function getFilenameFromURL(url) {
