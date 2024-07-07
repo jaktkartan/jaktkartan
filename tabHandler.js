@@ -1,12 +1,20 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
 //tab2 rensar geojson lager från upptäck fliken.
-function deactivateAllLayers() {
+// Funktioner för att rensa lager
+function deactivateAllLayers(tabId = null) {
     Object.keys(layerIsActive).forEach(function(name) {
         if (layerIsActive[name]) {
             if (Array.isArray(geojsonLayers[name])) {
                 geojsonLayers[name].forEach(function(layer) {
                     try {
-                        map.removeLayer(layer);
+                        // Om ett tabId är angivet, säkerställ att vi bara tar bort lager från rätt tab
+                        if (tabId === 'tab2') {
+                            if (layer.getPane() && layer.getPane().id === 'tab2Pane') {
+                                map.removeLayer(layer);
+                            }
+                        } else {
+                            map.removeLayer(layer);
+                        }
                     } catch (error) {
                         console.error("Kunde inte ta bort lager:", layer, error);
                     }
@@ -18,6 +26,32 @@ function deactivateAllLayers() {
         }
     });
 }
+
+// Funktion för att ladda GeoJSON
+async function loadGeoJSON(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to load GeoJSON file');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error loading GeoJSON:', error);
+        return null;
+    }
+}
+
+// Funktion för att visa rensning av lager på tab 2
+function clearTab2Layers() {
+    deactivateAllLayers('tab2');
+}
+
+// För att rensa lager i tab 2 när den aktiveras
+document.getElementById('tab2').addEventListener('click', function() {
+    clearTab2Layers();
+});
+
+
 
 
 // Ladda GeoJSON-filen med Sveriges länspolygoner.
@@ -397,6 +431,7 @@ function openTab(tabId, url) {
             });
     }
 }
+
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
