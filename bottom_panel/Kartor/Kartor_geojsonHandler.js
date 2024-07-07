@@ -92,14 +92,21 @@ var Kartor_geojsonHandler = (function() {
 
     // Funktion för att rensa alla lager
     function clearAllLayers() {
+        console.log("Clearing all layers from the map.");
+
         // Ta bort alla lager från kartan
         Object.keys(geojsonLayers).forEach(function(layerName) {
             geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
+                if (map.hasLayer(layer)) {
+                    map.removeLayer(layer);
+                    console.log("Removed layer:", layerName);
+                }
             });
             geojsonLayers[layerName] = []; // Rensa arrayen med lager
             layerIsActive[layerName] = false; // Sätt status till inaktiv
         });
+
+        console.log("All layers cleared.");
     }
 
     // Funktion för att växla (aktivera/inaktivera) lager
@@ -109,7 +116,10 @@ var Kartor_geojsonHandler = (function() {
         } else {
             // Om lagret redan är aktivt, bara rensa det specifika lagret
             geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
+                if (map.hasLayer(layer)) {
+                    map.removeLayer(layer);
+                    console.log("Removed existing layer:", layerName);
+                }
             });
             geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
