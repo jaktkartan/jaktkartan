@@ -78,10 +78,8 @@ var Kartor_geojsonHandler = (function() {
 
                     geojsonLayers[layerName].push(layer);
 
-                    // Lägg till lagret på kartan om det är aktivt
-                    if (layerIsActive[layerName]) {
-                        layer.addTo(map);
-                    }
+                    // Lägg till lagret på kartan
+                    layer.addTo(map);
                 })
                 .catch(function() {
                     console.error("Error fetching GeoJSON data.");
@@ -99,8 +97,8 @@ var Kartor_geojsonHandler = (function() {
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
-            geojsonLayers[layerName] = [];
-            layerIsActive[layerName] = false;
+            geojsonLayers[layerName] = []; // Rensa arrayen med lager
+            layerIsActive[layerName] = false; // Sätt status till inaktiv
         });
     }
 
@@ -109,10 +107,10 @@ var Kartor_geojsonHandler = (function() {
         if (!layerIsActive[layerName]) {
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         } else {
+            // Om lagret redan är aktivt, bara rensa det specifika lagret
             geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);  // Ta bort lager från kartan
+                map.removeLayer(layer);
             });
-
             geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
         }
