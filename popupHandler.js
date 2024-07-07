@@ -118,7 +118,7 @@ function updatePopupPanelContent(properties) {
                 console.log('Bild URL:', value);
             } else {
                 var translatedKey = translateKey(key);
-                content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : 'Ingen information tillgänglig') + '</p>';
+                content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
             }
         }
     }
