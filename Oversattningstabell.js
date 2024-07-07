@@ -296,6 +296,26 @@ var translationTable = {
     "vigg_klock": "Jakt under dygnet",
     "vigg_kalib": "Kaliberkrav",
 
+    //Gränsälvsområdet till finnland:
+    "blasand_no": "Bläsand",
+    "blasand__1": "Jakttid",
+    "GRAGAS": "Grågås:",
+    "GRAGAS_JAK": "Jakttid",
+    "grasand_no": "Gräsand",
+    "grasand__1": "Jakttid",
+    "KANADAGÅS": "Kanadagås",
+    "KAN_GAS_JA": "Jakttid",
+    "KNIPA": "Knipa",
+    "KNIPA_JAKT": "Jakttid",
+    "kricka_nor": "Kricka",
+    "kricka_n_1": "Jakttid",
+    "STORKRAKE": "Storskrake",
+    "STORK_JAKT": "Jakttid",
+    "VIGG": "Vigg",
+    "VIGG_JAKTT": "Jakttid:",
+    "omrade": "Område",
+    "gransalvso": "Gränsälvsområdet till Finland"
+
     //Älgjaktskartan
     "jakttid": "Jakttid",
     "kalv_tid": "Jakttid kalv på oregistrerad mark",
