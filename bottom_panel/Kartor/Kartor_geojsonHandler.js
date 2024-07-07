@@ -112,6 +112,15 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
+    // Ny funktion för att inaktivera alla lager
+    function deactivateAllLayersKartor() {
+        Object.keys(layerIsActive).forEach(function(layerName) {
+            if (layerIsActive[layerName]) {
+                toggleLayer(layerName, []);
+            }
+        });
+    }
+
     // Funktion för att få filnamnet från en URL
     function getFilenameFromURL(url) {
         return url.split('/').pop();
@@ -120,6 +129,7 @@ var Kartor_geojsonHandler = (function() {
     // Exponerar funktionerna för att växla lager och hämta GeoJSON-data
     return {
         toggleLayer: toggleLayer,
-        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer
+        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
+        deactivateAllLayersKartor: deactivateAllLayersKartor  // Exponerar den nya funktionen
     };
 })();
