@@ -10,6 +10,10 @@ style.innerHTML = `
         border-radius: 5px;
         font-size: 12px;
         line-height: 1.5;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        z-index: 1000;
     }
     .legend i {
         width: 18px;
@@ -26,6 +30,7 @@ function updateLegend() {
     var legend = document.getElementById('legend');
     var html = '<h4>Teckenförklaring</h4>';
 
+    // Kontrollera alla aktiva lager och skapa teckenförklaring
     Object.keys(layerIsActive).forEach(function(layerName) {
         if (layerIsActive[layerName]) {
             var styles = layerStyles[layerName];
@@ -76,4 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error("deactivateAllLayersKartor är inte definierad.");
         }
     });
+
+    // Uppdatera teckenförklaringen vid sidladdning
+    updateLegend();
 });
