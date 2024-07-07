@@ -1,4 +1,4 @@
-// translationTable.js
+// bottom_panel/Kartor/Oversattningstabell_kartor.js
 var translationTable = {
     "lan_namn": "Län Namn",
     "blasand__1": "Bläsand",
