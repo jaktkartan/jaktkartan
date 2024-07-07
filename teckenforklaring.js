@@ -1,5 +1,26 @@
 // teckenforklaring.js
 
+// CSS för teckenförklaringen
+var style = document.createElement('style');
+style.innerHTML = `
+    .legend {
+        background: white;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+`;
+document.head.appendChild(style);
+
 // Funktion för att uppdatera teckenförklaringen
 function updateLegend() {
     var legend = document.getElementById('legend');
@@ -45,3 +66,14 @@ function toggleLayer(layerName, geojsonURLs) {
     }
     updateLegend(); // Uppdatera teckenförklaringen efter att lager har växlats
 }
+
+// Lägg till eventlyssnare för knappar eller andra element
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('tab2').addEventListener('click', function() {
+        if (typeof deactivateAllLayersKartor === 'function') {
+            deactivateAllLayersKartor();
+        } else {
+            console.error("deactivateAllLayersKartor är inte definierad.");
+        }
+    });
+});
