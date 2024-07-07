@@ -56,14 +56,8 @@ var Kartor_geojsonHandler = (function() {
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        // Inaktivera andra lager om de är aktiva
-        Object.keys(layerIsActive).forEach(function(name) {
-            if (name !== layerName && layerIsActive[name]) {
-                toggleLayer(name, geojsonLayers[name].map(function(layer) {
-                    return layer.options.url;
-                }));
-            }
-        });
+        // Rensa alla lager innan nya laddas
+        clearAllLayers();
 
         // Hämta GeoJSON-data från URL och skapa lager
         geojsonURLs.forEach(function(geojsonURL) {
@@ -96,6 +90,18 @@ var Kartor_geojsonHandler = (function() {
 
         // Markera lagret som aktivt
         layerIsActive[layerName] = true;
+    }
+
+    // Funktion för att rensa alla lager
+    function clearAllLayers() {
+        // Ta bort alla lager från kartan
+        Object.keys(geojsonLayers).forEach(function(layerName) {
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer);
+            });
+            geojsonLayers[layerName] = [];
+            layerIsActive[layerName] = false;
+        });
     }
 
     // Funktion för att växla (aktivera/inaktivera) lager
