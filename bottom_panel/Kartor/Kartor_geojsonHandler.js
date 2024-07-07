@@ -35,6 +35,7 @@ var Kartor_geojsonHandler = (function() {
                     ];
                     var jakttidToColor = {};
                     var currentIndex = 0;
+                    
                     return function(feature) {
                         var jakttid = feature.properties['jakttid'];
                         if (!jakttidToColor[jakttid]) {
@@ -51,38 +52,14 @@ var Kartor_geojsonHandler = (function() {
         }
     };
 
-    // Funktion för att rensa alla lager
-    function clearAllLayers() {
-        console.log("Clearing all layers from Kartor_geojsonHandler.");
-        Object.keys(geojsonLayers).forEach(function(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                if (map.hasLayer(layer)) {
-                    map.removeLayer(layer);
-                    console.log("Removed layer from Kartor_geojsonHandler:", layerName);
-                }
-            });
-            geojsonLayers[layerName] = [];
-            layerIsActive[layerName] = false;
-        });
-        console.log("All layers cleared in Kartor_geojsonHandler.");
-    }
-
     // Funktion för att hämta GeoJSON-data och skapa ett lager
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        // Inaktivera andra lager om de är aktiva
-        Object.keys(layerIsActive).forEach(function(name) {
-            if (name !== layerName && layerIsActive[name]) {
-                toggleLayer(name, geojsonLayers[name].map(function(layer) {
-                    return layer.options.url;
-                }));
-            }
-        });
-
-        // Hämta GeoJSON-data från URL och skapa lager
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
                     var geojson = response.data;
+                    
+                    // Skapa GeoJSON-lager med stil och klickhändelse
                     var layer = L.geoJSON(geojson, {
                         style: function(feature) {
                             var filename = getFilenameFromURL(geojsonURL);
@@ -104,24 +81,36 @@ var Kartor_geojsonHandler = (function() {
                     console.error("Error fetching GeoJSON data.");
                 });
         });
+    }
+
+    // Funktion för att växla (aktivera/inaktivera) lager
+    function toggleLayer(layerName, geojsonURLs) {
+        console.log("Toggling layer:", layerName);
+
+        // Rensa alla lager först
+        clearAllLayers();
+
+        // Hämta GeoJSON-data och skapa lager för det aktiva lagret
+        fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
 
         // Markera lagret som aktivt
         layerIsActive[layerName] = true;
     }
 
-    // Funktion för att växla (aktivera/inaktivera) lager
-    function toggleLayer(layerName, geojsonURLs) {
-        if (!layerIsActive[layerName]) {
-            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-        } else {
-            clearAllLayers();  // Rensa alla lager först
+    // Funktion för att rensa alla lager
+    function clearAllLayers() {
+        console.log("Clearing all layers in Kartor_geojsonHandler.");
+        Object.keys(geojsonLayers).forEach(function(layerName) {
             geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);  // Ta bort lager från kartan
+                if (map.hasLayer(layer)) {
+                    map.removeLayer(layer);
+                    console.log("Removed layer:", layerName);
+                }
             });
-
             geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
-        }
+        });
+        console.log("All layers cleared in Kartor_geojsonHandler.");
     }
 
     // Funktion för att få filnamnet från en URL
@@ -129,18 +118,16 @@ var Kartor_geojsonHandler = (function() {
         return url.split('/').pop();
     }
 
-    // Funktion för att lägga till klickhanterare till ett lager
+    // Lägg till en klickhanterare för varje lager
     function addClickHandlerToLayer(layer) {
-        // Exempel: Lägg till en klickhanterare till varje feature
         layer.on('click', function(e) {
-            console.log("Feature clicked:", e.layer.feature);
+            // Här kan du lägga till kod för vad som händer när ett lager klickas
+            console.log("Layer clicked:", e);
         });
     }
 
-    // Exponera funktionerna för att växla lager och hämta GeoJSON-data
+    // Exponerar funktionerna för att växla lager och hämta GeoJSON-data
     return {
-        toggleLayer: toggleLayer,
-        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
-        clearAllLayers: clearAllLayers // Exponera rensningsfunktionen
+        toggleLayer: toggleLayer
     };
 })();
