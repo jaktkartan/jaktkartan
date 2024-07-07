@@ -19,13 +19,6 @@ function deactivateAllLayers() {
     });
 }
 
-// Lägg till en klicklyssnare till tabben
-document.getElementById('tab2').addEventListener('click', function() {
-    deactivateAllLayers();
-});
-
-
-
 
 // Ladda GeoJSON-filen med Sveriges länspolygoner.
 async function loadGeoJSON(url) {
