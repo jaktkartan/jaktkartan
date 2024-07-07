@@ -116,7 +116,7 @@ var translationTable = {
     "xalg2_datu": "Info:",
     "xalg3_till": "Jakt under dygnet:",
     "xalg4_kulv": "Kulvapen",
-    "xalg5_hage": "Hagelvapen"
+    "xalg5_hage": "Hagelvapen",
 
     //Allmän jakt: Fågel
     
