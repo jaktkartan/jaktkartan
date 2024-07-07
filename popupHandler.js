@@ -1,15 +1,3 @@
-// Ladda översättningstabellen
-var translationTable = {};
-fetch('Oversattningstabell.js')
-    .then(response => response.text())
-    .then(text => {
-        eval(text); // Exekvera den laddade filen för att få access till översättningstabell
-        initPopupHandler();
-    })
-    .catch(error => {
-        console.error('Fel vid laddning av översättningstabell:', error);
-    });
-
 // CSS för popup-panelen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
@@ -180,8 +168,6 @@ document.addEventListener('click', function(event) {
     }
 });
 
-function initPopupHandler() {
-    if (!popupPanel || !document.getElementById('popup-panel-content')) {
-        console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
-    }
+if (!popupPanel || !document.getElementById('popup-panel-content')) {
+    console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
