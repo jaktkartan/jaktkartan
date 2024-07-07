@@ -117,3 +117,4 @@ var Kartor_geojsonHandler = (function() {
         toggleLayer: toggleLayer
     };
 })();
+
