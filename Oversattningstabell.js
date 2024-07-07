@@ -4,6 +4,8 @@
 var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field', 'omrade'];
 // Dölj fältnamn visa bara innehåll
 var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+// Dölj data men visa fältnamn för följande fältnamn
+var hideDataProperties = ['gransalvso'];
 
 // Översättningstabell i popup-panelerna
 var translationTable = {
