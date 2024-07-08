@@ -1,5 +1,3 @@
-// teckenforklaring.js
-
 // CSS för teckenförklaringen
 var style = document.createElement('style');
 style.innerHTML = `
@@ -25,63 +23,79 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
+// Globala variabler för lagerstatus
+var layerIsActive = {}; // Håller koll på aktiva lager
+var layerStyles = {};   // Håller koll på lagerstilar
+
+// Funktion för att uppdatera lagerstatus
+function updateLayerStatus(layerName, isActive, style) {
+    layerIsActive[layerName] = isActive;
+    if (style) {
+        layerStyles[layerName] = style;
+    }
+    updateLegend(); // Uppdatera teckenförklaringen när lagerstatus ändras
+}
+
 // Funktion för att uppdatera teckenförklaringen
 function updateLegend() {
     var legend = document.getElementById('legend');
+    if (!legend) {
+        legend = document.createElement('div');
+        legend.id = 'legend';
+        legend.className = 'legend';
+        document.body.appendChild(legend);
+    }
     var html = '<h4>Teckenförklaring</h4>';
 
     // Kontrollera alla aktiva lager och skapa teckenförklaring
     Object.keys(layerIsActive).forEach(function(layerName) {
         if (layerIsActive[layerName]) {
             var styles = layerStyles[layerName];
-            Object.keys(styles).forEach(function(filename) {
-                var style = styles[filename].style ? styles[filename].style({}) : styles[filename];
-                html += '<i style="background:' + style.fillColor + '"></i> ' + layerName + '<br>';
-            });
+            html += '<i style="background:' + (styles.fillColor || '#ffffff') + '"></i> ' + layerName + '<br>';
         }
     });
-
     legend.innerHTML = html;
 }
 
-// Funktion för att inaktivera alla lager
+// Funktion för att avaktivera alla lager
 function deactivateAllLayersKartor() {
     Object.keys(layerIsActive).forEach(function(layerName) {
-        if (layerIsActive[layerName]) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer); // Ta bort lager från kartan
-            });
-            geojsonLayers[layerName] = []; // Rensa listan med lager
-            layerIsActive[layerName] = false; // Markera som inaktiv
-        }
-    });
-    updateLegend(); // Uppdatera teckenförklaringen efter att lager har inaktiverats
-}
-
-// Funktion för att växla (aktivera/inaktivera) lager
-function toggleLayer(layerName, geojsonURLs) {
-    if (!layerIsActive[layerName]) {
-        fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-    } else {
-        geojsonLayers[layerName].forEach(function(layer) {
-            map.removeLayer(layer);  // Ta bort lager från kartan
-        });
-        geojsonLayers[layerName] = [];
         layerIsActive[layerName] = false;
-    }
-    updateLegend(); // Uppdatera teckenförklaringen efter att lager har växlats
+    });
+    updateLegend();
 }
 
-// Lägg till eventlyssnare för knappar eller andra element
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('tab2').addEventListener('click', function() {
-        if (typeof deactivateAllLayersKartor === 'function') {
-            deactivateAllLayersKartor();
-        } else {
-            console.error("deactivateAllLayersKartor är inte definierad.");
-        }
+// Funktion för att avaktivera alla lager
+function deactivateAllLayersUpptack() {
+    Object.keys(layerIsActive).forEach(function(layerName) {
+        layerIsActive[layerName] = false;
     });
-
-    // Uppdatera teckenförklaringen vid sidladdning
     updateLegend();
+}
+
+// Exempel på hur geojson-lager läggs till
+function addGeoJSONLayer(layerName, geojsonData, style) {
+    var layer = L.geoJSON(geojsonData, { style: style }).addTo(map);
+    updateLayerStatus(layerName, true, style);
+    layer.on('remove', function() {
+        updateLayerStatus(layerName, false);
+    });
+    return layer;
+}
+
+// Lägg till en eventlyssnare till tab1 och tab2-knapparna
+document.getElementById('tab1').addEventListener('click', function() {
+    updateLegend(); // Uppdatera teckenförklaringen när tab1 klickas
+});
+
+document.getElementById('tab2').addEventListener('click', function() {
+    updateLegend(); // Uppdatera teckenförklaringen när tab2 klickas
+});
+
+// Exempel på hur man kan sätta upp geojson-lager (anpassa dessa funktioner)
+document.addEventListener('DOMContentLoaded', function() {
+    // Exempel på hur man lägger till ett geojson-lager
+    var exampleGeoJson = {}; // Sätt din geojson-data här
+    var exampleStyle = { fillColor: 'blue' }; // Sätt din stil här
+    addGeoJSONLayer('Example Layer', exampleGeoJson, exampleStyle);
 });
