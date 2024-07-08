@@ -1,4 +1,26 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+//Knapparna i tab1 (upptäck) rensar geojson lager från tab2 (kartor) fliken.
+document.getElementById('tab1').addEventListener('click', function() {
+    // Kontrollera att Kartor_geojsonHandler är definierad
+    if (typeof Kartor_geojsonHandler !== 'undefined') {
+        // Anropa den metod som ska avaktivera alla lager
+        Kartor_geojsonHandler.deactivateAllLayersKartor();
+    } else {
+        console.error("Kartor_geojsonHandler är inte definierad.");
+    }
+});
+
+//Knapparna i tab2 (kartor) rensar geojson lager från tab1 (upptäck) fliken.
+document.getElementById('tab2').addEventListener('click', function() {
+    // Kontrollera att Upptack_geojsonHandler är definierad
+    if (typeof Upptack_geojsonHandler !== 'undefined') {
+        Upptack_geojsonHandler.deactivateAllLayers();
+    } else {
+        console.error("Upptack_geojsonHandler är inte definierad.");
+    }
+});
+
+
 // Ladda GeoJSON-filen med Sveriges länspolygoner.
 async function loadGeoJSON(url) {
     try {
@@ -376,6 +398,7 @@ function openTab(tabId, url) {
             });
     }
 }
+
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
