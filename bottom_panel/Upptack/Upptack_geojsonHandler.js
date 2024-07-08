@@ -67,12 +67,10 @@ setTimeout(function() {
                         });
 
                         geojsonLayers[layerName].push(layer);
+
                         if (layerIsActive[layerName]) {
                             layer.addTo(map);
                         }
-
-                        // Uppdatera teckenförklaringen
-                        updateLayerStatus(layerName, true, layerStyles[layerName]);
                     })
                     .catch(function(error) {
                         console.log("Error fetching GeoJSON data:", error.message);
@@ -96,9 +94,6 @@ setTimeout(function() {
                 layer.addTo(map);
             });
             layerIsActive[layerName] = true;
-
-            // Uppdatera teckenförklaringen
-            updateLayerStatus(layerName, true, layerStyles[layerName]);
         }
 
         function activateAllLayers() {
@@ -114,9 +109,6 @@ setTimeout(function() {
                         map.removeLayer(layer);
                     });
                     layerIsActive[name] = false;
-
-                    // Uppdatera teckenförklaringen
-                    updateLayerStatus(name, false);
                 }
             });
         }
@@ -202,4 +194,3 @@ setTimeout(function() {
         };
     })(map);
 }, 1000);
-
