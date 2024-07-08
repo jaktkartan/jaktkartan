@@ -23,19 +23,6 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-// Globala variabler för lagerstatus
-var layerIsActive = {}; // Håller koll på aktiva lager
-var layerStyles = {};   // Håller koll på lagerstilar
-
-// Funktion för att uppdatera lagerstatus
-function updateLayerStatus(layerName, isActive, style) {
-    layerIsActive[layerName] = isActive;
-    if (style) {
-        layerStyles[layerName] = style;
-    }
-    updateLegend(); // Uppdatera teckenförklaringen när lagerstatus ändras
-}
-
 // Funktion för att uppdatera teckenförklaringen
 function updateLegend() {
     var legend = document.getElementById('legend');
@@ -48,39 +35,22 @@ function updateLegend() {
     var html = '<h4>Teckenförklaring</h4>';
 
     // Kontrollera alla aktiva lager och skapa teckenförklaring
-    Object.keys(layerIsActive).forEach(function(layerName) {
-        if (layerIsActive[layerName]) {
-            var styles = layerStyles[layerName];
-            html += '<i style="background:' + (styles.fillColor || '#ffffff') + '"></i> ' + layerName + '<br>';
+    var layers = Object.assign({}, Kartor_geojsonHandler.layerIsActive, Upptack_geojsonHandler.layerIsActive);
+    var styles = Object.assign({}, Kartor_geojsonHandler.layerStyles, Upptack_geojsonHandler.layerStyles);
+
+    Object.keys(layers).forEach(function(layerName) {
+        if (layers[layerName]) {
+            var layerStyles = styles[layerName];
+            if (Array.isArray(layerStyles)) {
+                layerStyles.forEach(function(style) {
+                    html += '<i style="background:' + (style.fillColor || '#ffffff') + '; border-color:' + (style.color || '#000000') + ';"></i> ' + layerName + '<br>';
+                });
+            } else {
+                html += '<i style="background:' + (layerStyles.fillColor || '#ffffff') + '; border-color:' + (layerStyles.color || '#000000') + ';"></i> ' + layerName + '<br>';
+            }
         }
     });
     legend.innerHTML = html;
-}
-
-// Funktion för att avaktivera alla lager
-function deactivateAllLayersKartor() {
-    Object.keys(layerIsActive).forEach(function(layerName) {
-        layerIsActive[layerName] = false;
-    });
-    updateLegend();
-}
-
-// Funktion för att avaktivera alla lager
-function deactivateAllLayersUpptack() {
-    Object.keys(layerIsActive).forEach(function(layerName) {
-        layerIsActive[layerName] = false;
-    });
-    updateLegend();
-}
-
-// Exempel på hur geojson-lager läggs till
-function addGeoJSONLayer(layerName, geojsonData, style) {
-    var layer = L.geoJSON(geojsonData, { style: style }).addTo(map);
-    updateLayerStatus(layerName, true, style);
-    layer.on('remove', function() {
-        updateLayerStatus(layerName, false);
-    });
-    return layer;
 }
 
 // Lägg till en eventlyssnare till tab1 och tab2-knapparna
@@ -92,10 +62,7 @@ document.getElementById('tab2').addEventListener('click', function() {
     updateLegend(); // Uppdatera teckenförklaringen när tab2 klickas
 });
 
-// Exempel på hur man kan sätta upp geojson-lager (anpassa dessa funktioner)
+// Uppdatera teckenförklaringen när sidan laddas
 document.addEventListener('DOMContentLoaded', function() {
-    // Exempel på hur man lägger till ett geojson-lager
-    var exampleGeoJson = {}; // Sätt din geojson-data här
-    var exampleStyle = { fillColor: 'blue' }; // Sätt din stil här
-    addGeoJSONLayer('Example Layer', exampleGeoJson, exampleStyle);
+    updateLegend();
 });
