@@ -87,19 +87,21 @@ setTimeout(function() {
             });
         }
 
+        var isPanoring = false; // Flagga för att kontrollera panoreringen
+
         function handleMarkerClick(marker) {
+            if (isPanoring) return; // Om panorering pågår, gör inget
+
             var latlng = marker.getLatLng();
-            var isPanoring = true; // Flagga för att indikera att panorering pågår
+            isPanoring = true; // Sätt flaggan som aktiv för panorering
 
             // Panorera kartan med en animation och centrera markören
             map.panTo(latlng, { animate: true, duration: 1 }); // Justera duration för att ändra hastigheten på animationen
 
             // När panoreringen är klar, öppna popupen
             setTimeout(function() {
-                if (isPanoring) {
-                    marker.openPopup();
-                    isPanoring = false; // Återställ flaggan efter panorering
-                }
+                marker.openPopup();
+                isPanoring = false; // Återställ flaggan efter panorering
             }, 1000); // Timeout som matchar animationens varaktighet
         }
 
