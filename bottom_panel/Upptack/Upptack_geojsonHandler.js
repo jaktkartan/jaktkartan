@@ -49,9 +49,11 @@ setTimeout(function() {
 
         function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
             geojsonURLs.forEach(function(geojsonURL) {
+                console.log("Fetching GeoJSON data from URL:", geojsonURL); // Debugging
                 axios.get(geojsonURL)
                     .then(function(response) {
                         var geojson = response.data;
+                        console.log("GeoJSON data received:", geojson); // Debugging
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
                                 var style = getMarkerStyle(layerName);
@@ -62,16 +64,18 @@ setTimeout(function() {
                             },
                             onEachFeature: function(feature, layer) {
                                 layer.on('click', function() {
-                                    console.log("Feature clicked:", feature.properties);
+                                    console.log("Feature clicked:", feature.properties); // Debugging
                                     showPopupPanel(feature.properties);
                                 });
                             }
                         });
 
                         geojsonLayers[layerName].push(layer);
+                        console.log("Layer added:", layerName); // Debugging
 
                         if (layerIsActive[layerName]) {
                             layer.addTo(map);
+                            console.log("Layer added to map:", layerName); // Debugging
                         }
                     })
                     .catch(function(error) {
@@ -81,6 +85,7 @@ setTimeout(function() {
         }
 
         function activateLayer(layerName) {
+            console.log("Activating layer:", layerName); // Debugging
             geojsonLayers[layerName].forEach(function(layer) {
                 layer.addTo(map);
             });
@@ -88,10 +93,12 @@ setTimeout(function() {
         }
 
         function deactivateAllLayers() {
+            console.log("Deactivating all layers."); // Debugging
             Object.keys(layerIsActive).forEach(function(name) {
                 if (layerIsActive[name]) {
                     geojsonLayers[name].forEach(function(layer) {
                         map.removeLayer(layer);
+                        console.log("Layer removed from map:", name); // Debugging
                     });
                     geojsonLayers[name] = [];
                     layerIsActive[name] = false;
