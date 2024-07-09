@@ -61,9 +61,8 @@ setTimeout(function() {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
-                                // Använd den anpassade popup-panelen
                                 layer.on('click', function() {
-                                    // Skicka feature properties till din popup-panel
+                                    // Visa popup-panelen med egenskaper
                                     showPopupPanel(feature.properties);
                                 });
                             }
