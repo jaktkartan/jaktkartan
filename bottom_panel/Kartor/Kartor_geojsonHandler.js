@@ -151,7 +151,7 @@ function generatePopupContent(feature, layerName) {
         var value = feature.properties[prop];
 
         if (prop === 'lokala_tid' && value) {
-            popupContent += '<p><a href="' + value + '" target="_blank">' + 'Länk' + '</a></p>';
+            popupContent += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
         } else if (value) {
             popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
         }
