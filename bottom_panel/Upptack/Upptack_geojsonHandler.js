@@ -98,8 +98,8 @@ setTimeout(function() {
             map.once('moveend', function() {
                 if (isPanoring) {
                     marker.openPopup();
+                    isPanoring = false; // Återställ flaggan efter panorering
                 }
-                isPanoring = false; // Återställ flaggan efter panorering
             });
         }
 
