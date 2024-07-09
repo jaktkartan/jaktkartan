@@ -55,48 +55,53 @@ var Kartor_geojsonHandler = (function() {
     };
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager
-    function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        // Inaktivera andra lager om de är aktiva
-        Object.keys(layerIsActive).forEach(function(name) {
-            if (name !== layerName && layerIsActive[name]) {
-                toggleLayer(name, geojsonLayers[name].map(function(layer) {
-                    return layer.options.url;
-                }));
-            }
-        });
+function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+    // Inaktivera andra lager om de är aktiva
+    Object.keys(layerIsActive).forEach(function(name) {
+        if (name !== layerName && layerIsActive[name]) {
+            toggleLayer(name, geojsonLayers[name].map(function(layer) {
+                return layer.options.url;
+            }));
+        }
+    });
 
-        // Hämta GeoJSON-data från URL och skapa lager
-        geojsonURLs.forEach(function(geojsonURL) {
-            axios.get(geojsonURL)
-                .then(function(response) {
-                    var geojson = response.data;
-                    
-                    // Skapa GeoJSON-lager med stil och klickhändelse
-                    var layer = L.geoJSON(geojson, {
-                        style: function(feature) {
-                            var filename = getFilenameFromURL(geojsonURL);
-                            return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
-                        },
-                        onEachFeature: function(feature, layer) {
-                            addClickHandlerToLayer(layer);
-                        }
-                    });
-
-                    geojsonLayers[layerName].push(layer);
-
-                    // Lägg till lagret på kartan om det är aktivt
-                    if (layerIsActive[layerName]) {
-                        layer.addTo(map);
+    // Hämta GeoJSON-data från URL och skapa lager
+    geojsonURLs.forEach(function(geojsonURL) {
+        axios.get(geojsonURL)
+            .then(function(response) {
+                var geojson = response.data;
+                
+                // Skapa GeoJSON-lager med stil och klickhändelse
+                var layer = L.geoJSON(geojson, {
+                    style: function(feature) {
+                        var filename = getFilenameFromURL(geojsonURL);
+                        return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
+                    },
+                    onEachFeature: function(feature, layer) {
+                        // Lägg till popup med rätt innehåll
+                        layer.bindPopup(generatePopupContent(feature, layerName));
+                        
+                        // Lägg till eventuell annan klickhantering
+                        addClickHandlerToLayer(layer);
                     }
-                })
-                .catch(function() {
-                    console.error("Error fetching GeoJSON data.");
                 });
-        });
 
-        // Markera lagret som aktivt
-        layerIsActive[layerName] = true;
-    }
+                geojsonLayers[layerName].push(layer);
+
+                // Lägg till lagret på kartan om det är aktivt
+                if (layerIsActive[layerName]) {
+                    layer.addTo(map);
+                }
+            })
+            .catch(function() {
+                console.error("Error fetching GeoJSON data.");
+            });
+    });
+
+    // Markera lagret som aktivt
+    layerIsActive[layerName] = true;
+}
+
 
     // Funktion för att växla (aktivera/inaktivera) lager
     function toggleLayer(layerName, geojsonURLs) {
@@ -143,7 +148,7 @@ function deactivateAllLayersKartor() {
     };
 })();
 
-//Gör "Lokala_tid" fältet till länkar.
+// Gör "lokala_tid" fältet till länkar.
 function generatePopupContent(feature, layerName) {
     var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
 
@@ -160,3 +165,4 @@ function generatePopupContent(feature, layerName) {
     popupContent += '</div>';
     return popupContent;
 }
+
