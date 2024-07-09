@@ -55,18 +55,14 @@ setTimeout(function() {
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
                                 var style = getMarkerStyle(layerName);
-                                return L.marker(latlng, {
-                                    icon: style.icon,
-                                    feature: feature
-                                });
+                                return L.marker(latlng, { icon: style.icon });
                             },
                             style: function(feature) {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
-                                layer.on('click', function(e) {
-                                    handleLayerClick(e);
-                                });
+                                var popupContent = generatePopupContent(feature);
+                                layer.bindPopup(popupContent);
                             }
                         });
 
@@ -77,46 +73,9 @@ setTimeout(function() {
                         }
                     })
                     .catch(function(error) {
-                        console.error("Error fetching GeoJSON data:", error.message);
+                        console.log("Error fetching GeoJSON data:", error.message);
                     });
             });
-        }
-
-        function handleLayerClick(e) {
-            console.log("Layer clicked", e);
-
-            // Debugging information
-            console.log("e.layer:", e.layer);
-
-            var properties = e.layer && e.layer.feature ? e.layer.feature.properties : null;
-
-            if (properties) {
-                showPopupPanel(properties);
-            } else {
-                console.error("No properties found in layer click event.");
-            }
-        }
-
-        function showPopupPanel(properties) {
-            console.log("Popup panel triggered with properties:", properties);
-
-            var popupContent = createPopupContent(properties);
-            var popupElement = document.getElementById('popup-panel');
-            
-            if (popupElement) {
-                popupElement.innerHTML = popupContent;
-                popupElement.style.display = 'block';  // Visa popup-panelen
-            } else {
-                console.error("Popup panel element not found.");
-            }
-        }
-
-        function createPopupContent(properties) {
-            return `<div>
-                        <h3>${properties.NAMN || 'No title'}</h3>
-                        <p>${properties.INFO || 'No description'}</p>
-                        <a href="${properties.LINK || '#'}" target="_blank">More info</a>
-                    </div>`;
         }
 
         function toggleLayer(layerName) {
@@ -149,10 +108,37 @@ setTimeout(function() {
                     geojsonLayers[name].forEach(function(layer) {
                         map.removeLayer(layer);
                     });
-                    geojsonLayers[name] = [];
                     layerIsActive[name] = false;
                 }
             });
+        }
+
+        function generatePopupContent(feature) {
+            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+            var hideProperties = ['id', 'AKTUALITET'];
+            var hideNameOnlyProperties = ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'];
+
+            for (var prop in feature.properties) {
+                if (hideProperties.includes(prop)) continue;
+                var value = feature.properties[prop];
+
+                if (prop === 'BILD' && value) {
+                    popupContent += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+                } else if ((prop === 'LINK' || prop === 'VAGBESKRIV') && value) {
+                    popupContent += '<p><a href="' + value + '" target="_blank">' + (prop === 'LINK' ? 'Länk' : 'Vägbeskrivning') + '</a></p>';
+                } else if (hideNameOnlyProperties.includes(prop) && value) {
+                    popupContent += '<p>' + value + '</p>';
+                } else if (value) {
+                    popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
+                }
+            }
+
+            popupContent += '</div>';
+            return popupContent;
+        }
+
+        function getIconAnchor(iconSize) {
+            return [iconSize[0] / 2, iconSize[1] / 2];
         }
 
         function getMarkerStyle(layerName) {
@@ -184,10 +170,6 @@ setTimeout(function() {
 
         function getFallbackStyle(layerName) {
             return layerStyles[layerName].fallbackStyle;
-        }
-
-        function getIconAnchor(iconSize) {
-            return [iconSize[0] / 2, iconSize[1] / 2];
         }
 
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
