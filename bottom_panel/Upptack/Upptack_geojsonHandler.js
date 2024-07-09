@@ -93,6 +93,7 @@ setTimeout(function() {
             map.setView(latlng, map.getZoom(), {
                 animate: true
             });
+            console.log("Map centered on: " + latlng); // Debug log
         }
 
         function toggleLayer(layerName) {
@@ -215,7 +216,9 @@ setTimeout(function() {
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
+        // Lägg till lyssnare för zoomhändelser
         map.on('zoomend', function() {
+            console.log("Zoom level changed to: " + map.getZoom());
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 geojsonLayers[layerName].forEach(function(layer) {
                     var zoomLevel = map.getZoom();
