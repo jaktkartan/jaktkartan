@@ -296,6 +296,12 @@ var translationTable = {
     "vigg_klock": "Jakt under dygnet",
     "vigg_kalib": "Kaliberkrav",
 
+    //Vitkindad gås
+    "vitkindad1": "Vitkindad gås",
+    "vitkindad_": "Jakttid",
+    "vitkinda_1": "Jakt under dygnet",
+    "vitkinda_2": "Kaliberkrav",
+
     //Gränsälvsområdet till finnland:
     "blasand_no": "Bläsand",
     //"blasand__1": "Jakttid", måste byta fältnamn, samma som för bläsand i den andra geojsonfilen.
