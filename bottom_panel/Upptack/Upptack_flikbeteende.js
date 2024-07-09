@@ -21,11 +21,11 @@ function openUpptack() {
     // Skapa dropdown-innehåll
     const dropdownContent = document.createElement('div');
     dropdownContent.style.position = 'absolute';
-    dropdownContent.style.bottom = '100%'; // Positionera innehållet ovanför knappen
-    dropdownContent.style.left = '0';
+    dropdownContent.style.top = '0'; // Positionera innehållet till toppen av knappen
+    dropdownContent.style.left = '100%'; // Positionera innehållet direkt till höger om knappen
     dropdownContent.style.width = '250px';
     dropdownContent.style.maxHeight = '200px';
-    dropdownContent.style.overflowY = 'auto';
+    dropdownContent.style.overflowY = 'auto'; // Vertikal rullning om innehållet är för stort
     dropdownContent.style.backgroundColor = 'white';
     dropdownContent.style.border = '1px solid rgb(50, 94, 88)';
     dropdownContent.style.borderRadius = '5px';
@@ -34,6 +34,7 @@ function openUpptack() {
     dropdownContent.style.opacity = '0';
     dropdownContent.style.visibility = 'hidden';
     dropdownContent.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
+    dropdownContent.style.whiteSpace = 'nowrap'; // Förhindra radbrytning i dropdown
 
     // Alternativ för filtrering
     const filters = [
