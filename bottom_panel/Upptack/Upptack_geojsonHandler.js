@@ -57,7 +57,15 @@ setTimeout(function() {
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
                                 var style = getMarkerStyle(layerName);
-                                return L.marker(latlng, { icon: style.icon });
+                                var marker = L.marker(latlng, { icon: style.icon });
+                                
+                                // Lägg till klick-event för att centrera kartan
+                                marker.on('click', function() {
+                                    centerMapOnMarker(marker);
+                                    marker.openPopup();
+                                });
+                                
+                                return marker;
                             },
                             style: function(feature) {
                                 return getFallbackStyle(layerName);
@@ -77,6 +85,13 @@ setTimeout(function() {
                     .catch(function(error) {
                         console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                     });
+            });
+        }
+
+        function centerMapOnMarker(marker) {
+            var latlng = marker.getLatLng();
+            map.setView(latlng, map.getZoom(), {
+                animate: true
             });
         }
 
