@@ -318,7 +318,7 @@ var translationTable = {
     "STORKRAKE": "Storskrake",
     "STORK_JAKT": "Jakttid",
     "VIGG": "Vigg",
-    "VIGG_JAKTT": "Jakttid:",
+    "VIGG_JAKTT": "Jakttid",
     "gransalvso": "Gränsälvsområdet till Finland",
 
     //Älgjaktskartan
