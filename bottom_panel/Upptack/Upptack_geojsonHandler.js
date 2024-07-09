@@ -55,7 +55,10 @@ setTimeout(function() {
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
                                 var style = getMarkerStyle(layerName);
-                                return L.marker(latlng, { icon: style.icon, feature: feature });
+                                return L.marker(latlng, {
+                                    icon: style.icon,
+                                    feature: feature
+                                });
                             },
                             style: function(feature) {
                                 return getFallbackStyle(layerName);
@@ -81,7 +84,11 @@ setTimeout(function() {
             layer.on('click', function(e) {
                 console.log("Layer clicked", e);
 
-                var properties = e.layer ? e.layer.feature ? e.layer.feature.properties : null : null;
+                // Debugging information
+                console.log("e.layer:", e.layer);
+                console.log("e.layer.feature:", e.layer.feature);
+
+                var properties = e.layer && e.layer.feature ? e.layer.feature.properties : null;
 
                 if (properties) {
                     showPopupPanel(properties);
