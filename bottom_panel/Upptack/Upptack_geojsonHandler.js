@@ -89,12 +89,23 @@ setTimeout(function() {
 
         function handleMarkerClick(marker) {
             var latlng = marker.getLatLng();
-            // Panorera kartan
-            map.panTo(latlng, { animate: true });
-            // Öppna popup-fönstret efter panoreringen
-            setTimeout(function() {
+
+            // Function to pan map to a given latlng and return a Promise
+            function panToLatLng(latlng) {
+                return new Promise((resolve) => {
+                    map.setView(latlng, map.getZoom(), {
+                        animate: true,
+                        duration: 1 // Duration of the animation in seconds
+                    });
+
+                    // Resolve the Promise after a delay to account for animation duration
+                    setTimeout(() => resolve(), 1000); // Adjust timeout as needed
+                });
+            }
+
+            panToLatLng(latlng).then(() => {
                 marker.openPopup();
-            }, 1000); // Timeout som matchar animationens varaktighet
+            });
         }
 
         function toggleLayer(layerName) {
