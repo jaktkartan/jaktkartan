@@ -7,6 +7,11 @@ setTimeout(function() {
         'Jaktskyttebanor': ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
     };
 
+    var map = L.map('map').setView([59.3293, 18.0686], 10); // Initial map center and zoom
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
             'Mässor': true,
@@ -61,8 +66,7 @@ setTimeout(function() {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
-                                var popupContent = generatePopupContent(feature);
-                                layer.bindPopup(popupContent);
+                                addClickHandlerToLayer(layer);
                             }
                         });
 
@@ -113,63 +117,74 @@ setTimeout(function() {
             });
         }
 
-        function generatePopupContent(feature) {
-            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-            var hideProperties = ['id', 'AKTUALITET'];
-            var hideNameOnlyProperties = ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'];
+        function generatePopupContent(properties) {
+            var content = '';
 
-            for (var prop in feature.properties) {
-                if (hideProperties.includes(prop)) continue;
-                var value = feature.properties[prop];
+            for (var key in properties) {
+                if (properties.hasOwnProperty(key)) {
+                    var value = properties[key];
 
-                if (prop === 'BILD' && value) {
-                    popupContent += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
-                } else if ((prop === 'LINK' || prop === 'VAGBESKRIV') && value) {
-                    popupContent += '<p><a href="' + value + '" target="_blank">' + (prop === 'LINK' ? 'Länk' : 'Vägbeskrivning') + '</a></p>';
-                } else if (hideNameOnlyProperties.includes(prop) && value) {
-                    popupContent += '<p>' + value + '</p>';
-                } else if (value) {
-                    popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
+                    if (hideProperties.includes(key) || (hideNameOnlyProperties.includes(key) && !value)) {
+                        continue;
+                    }
+
+                    if (isImageUrl(value)) {
+                        content += '<p><img src="' + value + '" alt="Bild"></p>';
+                    } else {
+                        var translatedKey = translateKey(key);
+                        content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
+                    }
                 }
             }
 
-            popupContent += '</div>';
-            return popupContent;
+            return content;
         }
 
-        function getIconAnchor(iconSize) {
-            return [iconSize[0] / 2, iconSize[1] / 2];
-        }
+        function showPopupPanel(properties) {
+            var content = generatePopupContent(properties);
+            var panelContent = document.getElementById('popup-panel-content');
 
-        function getMarkerStyle(layerName) {
-            var zoomLevel = map.getZoom();
-            var style;
-
-            if (zoomLevel >= 7 && zoomLevel <= 18) {
-                style = {
-                    icon: L.icon({
-                        iconUrl: layerStyles[layerName].iconUrl,
-                        iconSize: layerStyles[layerName].iconSize,
-                        iconAnchor: getIconAnchor(layerStyles[layerName].iconSize),
-                        popupAnchor: [0, -layerStyles[layerName].iconSize[1] / 2]
-                    })
-                };
-            } else {
-                style = {
-                    icon: L.icon({
-                        iconUrl: layerStyles[layerName].fallbackStyle.fallbackIconUrl,
-                        iconSize: layerStyles[layerName].fallbackStyle.fallbackIconSize,
-                        iconAnchor: getIconAnchor(layerStyles[layerName].fallbackStyle.fallbackIconSize),
-                        popupAnchor: [0, -layerStyles[layerName].fallbackStyle.fallbackIconSize[1] / 2]
-                    })
-                };
+            if (!panelContent) {
+                console.error("Elementet 'popup-panel-content' hittades inte.");
+                return;
             }
 
-            return style;
+            panelContent.innerHTML = content;
+            popupPanel.classList.remove('hide');
+            popupPanel.classList.add('show');
+            popupPanelVisible = true;
+
+            // Scroll to the top of the panel
+            requestAnimationFrame(function() {
+                setTimeout(function() {
+                    panelContent.scrollTop = 0;
+                }, 0);
+            });
         }
 
-        function getFallbackStyle(layerName) {
-            return layerStyles[layerName].fallbackStyle;
+        function addClickHandlerToLayer(layer) {
+            layer.on('click', function(e) {
+                try {
+                    if (e.originalEvent) {
+                        e.originalEvent.stopPropagation();
+                    }
+
+                    if (e.target && e.target.feature && e.target.feature.properties) {
+                        var properties = e.target.feature.properties;
+                        console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
+
+                        if (!popupPanelVisible) {
+                            showPopupPanel(properties);
+                        } else {
+                            updatePopupPanelContent(properties);
+                        }
+                    } else {
+                        console.error('Ingen geojson-information hittades i klickhändelsen.');
+                    }
+                } catch (error) {
+                    console.error('Fel vid hantering av klickhändelse:', error);
+                }
+            });
         }
 
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
@@ -186,6 +201,12 @@ setTimeout(function() {
                     });
                 });
             });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (popupPanelVisible && !popupPanel.contains(event.target)) {
+                hidePopupPanel();
+            }
         });
 
         return {
