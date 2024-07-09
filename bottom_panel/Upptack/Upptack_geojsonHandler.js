@@ -73,9 +73,7 @@ setTimeout(function() {
                         }
                     })
                     .catch(function(error) {
-                        console.error("Error fetching GeoJSON data from URL:", geojsonURL);
-                        console.error("Status code:", error.response ? error.response.status : 'No response');
-                        console.error("Error message:", error.message);
+                        console.log("Error fetching GeoJSON data:", error.message);
                     });
             });
         }
