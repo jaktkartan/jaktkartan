@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
         container.style.position = 'relative';
         container.style.display = 'inline-block';
         container.style.marginLeft = '10px';
-
+        
         // Skapa dropdown-knappen
         const button = document.createElement('button');
         button.textContent = 'Filtrera';
@@ -57,8 +57,14 @@ document.addEventListener('DOMContentLoaded', function () {
             link.style.borderBottom = '1px solid rgb(50, 94, 88)';
             link.style.backgroundColor = 'rgb(240, 240, 240)';
             link.style.cursor = 'pointer';
-            link.addEventListener('click', function () {
-                Upptack_geojsonHandler.toggleLayer(filter.action);
+
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); // Förhindra standardlänk-beteende
+                if (typeof Upptack_geojsonHandler !== 'undefined') {
+                    Upptack_geojsonHandler.toggleLayer(filter.action);
+                } else {
+                    console.error("Upptack_geojsonHandler är inte definierad.");
+                }
             });
 
             if (filter.icon) {
@@ -78,8 +84,13 @@ document.addEventListener('DOMContentLoaded', function () {
         container.appendChild(button);
         container.appendChild(dropdownContent);
 
-        // Lägg till containern i body
-        document.body.appendChild(container);
+        // Lägg till containern i tab1
+        const tab1 = document.getElementById('tab1');
+        if (tab1) {
+            tab1.appendChild(container);
+        } else {
+            console.error("Tab1 är inte definierad.");
+        }
 
         // Lägg till eventlyssnare för att visa/dölj dropdown-innehållet
         button.addEventListener('click', function () {
