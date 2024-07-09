@@ -61,8 +61,11 @@ setTimeout(function() {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
-                                var popupContent = generatePopupContent(feature, layerName);
-                                layer.bindPopup(popupContent);
+                                // Använd den anpassade popup-panelen
+                                layer.on('click', function() {
+                                    // Skicka feature properties till din popup-panel
+                                    showPopupPanel(feature.properties);
+                                });
                             }
                         });
 
@@ -113,34 +116,6 @@ setTimeout(function() {
             });
         }
 
-        function generatePopupContent(feature, layerName) {
-            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-            var hideProperties = ['id', 'AKTUALITET'];
-            var hideNameOnlyProperties = ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'];
-
-            for (var prop in feature.properties) {
-                if (hideProperties.includes(prop)) continue;
-                var value = feature.properties[prop];
-
-                if (prop === 'BILD' && value) {
-                    popupContent += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
-                } else if ((prop === 'LINK' || prop === 'VAGBESKRIV') && value) {
-                    popupContent += '<p><a href="' + value + '" target="_blank">' + (prop === 'LINK' ? 'Länk' : 'Vägbeskrivning') + '</a></p>';
-                } else if (hideNameOnlyProperties.includes(prop) && value) {
-                    popupContent += '<p>' + value + '</p>';
-                } else if (value) {
-                    popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
-                }
-            }
-
-            popupContent += '</div>';
-            return popupContent;
-        }
-
-        function getIconAnchor(iconSize) {
-            return [iconSize[0] / 2, iconSize[1] / 2];
-        }
-
         function getMarkerStyle(layerName) {
             var zoomLevel = map.getZoom();
             var style;
@@ -170,6 +145,10 @@ setTimeout(function() {
 
         function getFallbackStyle(layerName) {
             return layerStyles[layerName].fallbackStyle;
+        }
+
+        function getIconAnchor(iconSize) {
+            return [iconSize[0] / 2, iconSize[1] / 2];
         }
 
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
