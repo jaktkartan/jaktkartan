@@ -9,9 +9,9 @@ setTimeout(function() {
 
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': false,
-            'Jaktkort': false,
-            'Jaktskyttebanor': false
+            'Mässor': true,
+            'Jaktkort': true,
+            'Jaktskyttebanor': true
         };
 
         var geojsonLayers = {
@@ -49,11 +49,9 @@ setTimeout(function() {
 
         function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
             geojsonURLs.forEach(function(geojsonURL) {
-                console.log("Fetching GeoJSON data from URL:", geojsonURL); // Debugging
                 axios.get(geojsonURL)
                     .then(function(response) {
                         var geojson = response.data;
-                        console.log("GeoJSON data received:", geojson); // Debugging
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
                                 var style = getMarkerStyle(layerName);
@@ -63,44 +61,56 @@ setTimeout(function() {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
+                                // Använd den anpassade popup-panelen
                                 layer.on('click', function() {
-                                    console.log("Feature clicked:", feature.properties); // Debugging
+                                    // Skicka feature properties till din popup-panel
                                     showPopupPanel(feature.properties);
                                 });
                             }
                         });
 
                         geojsonLayers[layerName].push(layer);
-                        console.log("Layer added:", layerName); // Debugging
 
                         if (layerIsActive[layerName]) {
                             layer.addTo(map);
-                            console.log("Layer added to map:", layerName); // Debugging
                         }
                     })
                     .catch(function(error) {
-                        console.log("Error fetching GeoJSON data:", error.message);
+                        console.error("Error fetching GeoJSON data:", error.message);
                     });
             });
         }
 
+        function toggleLayer(layerName) {
+            if (layerName === 'Visa_allt') {
+                activateAllLayers();
+            } else if (layerName === 'Rensa_allt') {
+                deactivateAllLayers();
+            } else {
+                deactivateAllLayers();
+                activateLayer(layerName);
+            }
+        }
+
         function activateLayer(layerName) {
-            console.log("Activating layer:", layerName); // Debugging
             geojsonLayers[layerName].forEach(function(layer) {
                 layer.addTo(map);
             });
             layerIsActive[layerName] = true;
         }
 
+        function activateAllLayers() {
+            Object.keys(geojsonLayers).forEach(function(layerName) {
+                activateLayer(layerName);
+            });
+        }
+
         function deactivateAllLayers() {
-            console.log("Deactivating all layers."); // Debugging
             Object.keys(layerIsActive).forEach(function(name) {
                 if (layerIsActive[name]) {
                     geojsonLayers[name].forEach(function(layer) {
                         map.removeLayer(layer);
-                        console.log("Layer removed from map:", name); // Debugging
                     });
-                    geojsonLayers[name] = [];
                     layerIsActive[name] = false;
                 }
             });
@@ -158,7 +168,7 @@ setTimeout(function() {
         });
 
         return {
-            activateLayer: activateLayer,
+            toggleLayer: toggleLayer,
             deactivateAllLayers: deactivateAllLayers
         };
     })(map);
