@@ -52,6 +52,8 @@ setTimeout(function() {
                 axios.get(geojsonURL)
                     .then(function(response) {
                         var geojson = response.data;
+                        console.log("Fetched GeoJSON data:", geojson); // Debug log
+
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
                                 var style = getMarkerStyle(layerName);
@@ -115,19 +117,19 @@ setTimeout(function() {
 
         function generatePopupContent(feature, layerName) {
             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-            var hideProperties = ['id', 'AKTUALITET'];
-            var hideNameOnlyProperties = ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'];
+            var hideProperties = ['id']; // Adjust if necessary
+            var hideNameOnlyProperties = ['Rubrik', 'Info', 'Link'];
 
             for (var prop in feature.properties) {
                 if (hideProperties.includes(prop)) continue;
                 var value = feature.properties[prop];
 
-                if (prop === 'BILD' && value) {
-                    popupContent += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
-                } else if ((prop === 'LINK' || prop === 'VAGBESKRIV') && value) {
-                    popupContent += '<p><a href="' + value + '" target="_blank">' + (prop === 'LINK' ? 'Länk' : 'Vägbeskrivning') + '</a></p>';
-                } else if (hideNameOnlyProperties.includes(prop) && value) {
+                if (prop === 'Rubrik' && value) {
+                    popupContent += '<p><strong>' + value + '</strong></p>';
+                } else if (prop === 'Info' && value) {
                     popupContent += '<p>' + value + '</p>';
+                } else if (prop === 'Link' && value) {
+                    popupContent += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
                 } else if (value) {
                     popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
                 }
