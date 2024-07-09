@@ -90,10 +90,14 @@ setTimeout(function() {
         function centerMapOnMarker(marker) {
             var latlng = marker.getLatLng();
             var mapZoom = map.getZoom();
+            var popupOpened = false; // Flagga för att hålla reda på popup-status
 
-            // Skapa en funktion som öppnar popup-fönstret efter att panoreringen är klar
+            // Funktion för att öppna popup-fönstret
             function openPopupAfterPan() {
-                marker.openPopup();
+                if (!popupOpened) {
+                    marker.openPopup();
+                    popupOpened = true;
+                }
             }
 
             // Panorera kartan med en animation och centrera markören
