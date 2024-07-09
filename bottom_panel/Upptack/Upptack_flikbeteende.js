@@ -21,7 +21,7 @@ function openUpptack() {
     // Skapa dropdown-innehåll
     const dropdownContent = document.createElement('div');
     dropdownContent.style.position = 'absolute';
-    dropdownContent.style.top = '100%';
+    dropdownContent.style.bottom = '100%'; // Positionera innehållet ovanför knappen
     dropdownContent.style.left = '0';
     dropdownContent.style.width = '250px';
     dropdownContent.style.maxHeight = '200px';
