@@ -116,12 +116,14 @@ setTimeout(function() {
         }
 
         function generatePopupContent(feature, layerName) {
+            console.log("Feature properties:", feature.properties); // Debug log
+            
             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
 
-            // Adjust according to field names in your GeoJSON data
+            // Definiera fält som ska användas för olika lager
             var fields = {
                 'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
-                'Jaktkort': ['Rubrik', 'Info', 'Link']
+                'Jaktkort': ['Rubrik', 'Info', 'Link', 'VAGBESKRIV']
             };
 
             var hideProperties = [];
@@ -131,13 +133,24 @@ setTimeout(function() {
                 if (hideProperties.includes(prop)) continue;
                 var value = feature.properties[prop];
 
+                // Kontrollera om det är en bild och lägg till den i popupen
                 if (prop === 'BILD' && value) {
                     popupContent += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
-                } else if (prop === 'LINK' || prop === 'Link') {
+                } 
+                // Kontrollera om det är en länk och lägg till den i popupen
+                else if (prop === 'LINK' || prop === 'Link') {
                     if (value) {
                         popupContent += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
                     }
-                } else if (hideNameOnlyProperties.includes(prop) && value) {
+                } 
+                // Kontrollera om det är en vägbeskrivning och lägg till den i popupen
+                else if (prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') {
+                    if (value) {
+                        popupContent += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
+                    }
+                } 
+                // Hantera andra fält
+                else if (hideNameOnlyProperties.includes(prop) && value) {
                     popupContent += '<p>' + value + '</p>';
                 } else if (value) {
                     popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
