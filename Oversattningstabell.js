@@ -298,11 +298,11 @@ var translationTable = {
 
     //Gränsälvsområdet till finnland:
     "blasand_no": "Bläsand",
-    "blasand__1": "Jakttid",
+    //"blasand__1": "Jakttid", måste byta fältnamn, samma som för bläsand i den andra geojsonfilen.
     "GRAGAS": "Grågås",
     "GRAGAS_JAK": "Jakttid",
     "grasand_no": "Gräsand",
-    "grasand__1": "Jakttid",
+    //"grasand__1": "Jakttid", måste byta fältnamn, samma som för bläsand i den andra geojsonfilen.
     "KANADAGÅS": "Kanadagås",
     "KAN_GAS_JA": "Jakttid",
     "KNIPA": "Knipa",
