@@ -9,9 +9,9 @@ setTimeout(function() {
 
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': true,
-            'Jaktkort': true,
-            'Jaktskyttebanor': true
+            'Mässor': false,
+            'Jaktkort': false,
+            'Jaktskyttebanor': false
         };
 
         var geojsonLayers = {
@@ -62,7 +62,7 @@ setTimeout(function() {
                             },
                             onEachFeature: function(feature, layer) {
                                 layer.on('click', function() {
-                                    // Visa popup-panelen med egenskaper
+                                    console.log("Feature clicked:", feature.properties);
                                     showPopupPanel(feature.properties);
                                 });
                             }
@@ -80,28 +80,11 @@ setTimeout(function() {
             });
         }
 
-        function toggleLayer(layerName) {
-            if (layerName === 'Visa_allt') {
-                activateAllLayers();
-            } else if (layerName === 'Rensa_allt') {
-                deactivateAllLayers();
-            } else {
-                deactivateAllLayers();
-                activateLayer(layerName);
-            }
-        }
-
         function activateLayer(layerName) {
             geojsonLayers[layerName].forEach(function(layer) {
                 layer.addTo(map);
             });
             layerIsActive[layerName] = true;
-        }
-
-        function activateAllLayers() {
-            Object.keys(geojsonLayers).forEach(function(layerName) {
-                activateLayer(layerName);
-            });
         }
 
         function deactivateAllLayers() {
@@ -110,6 +93,7 @@ setTimeout(function() {
                     geojsonLayers[name].forEach(function(layer) {
                         map.removeLayer(layer);
                     });
+                    geojsonLayers[name] = [];
                     layerIsActive[name] = false;
                 }
             });
@@ -167,7 +151,7 @@ setTimeout(function() {
         });
 
         return {
-            toggleLayer: toggleLayer,
+            activateLayer: activateLayer,
             deactivateAllLayers: deactivateAllLayers
         };
     })(map);
