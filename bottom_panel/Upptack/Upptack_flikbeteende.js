@@ -21,11 +21,10 @@ function openUpptack() {
     // Skapa dropdown-innehåll
     const dropdownContent = document.createElement('div');
     dropdownContent.style.position = 'absolute';
-    dropdownContent.style.top = '0'; // Positionera innehållet till toppen av knappen
-    dropdownContent.style.left = '100%'; // Positionera innehållet direkt till höger om knappen
-    dropdownContent.style.width = '250px';
-    dropdownContent.style.maxHeight = '200px';
-    dropdownContent.style.overflowY = 'auto'; // Vertikal rullning om innehållet är för stort
+    dropdownContent.style.top = '100%'; // Positionera innehållet direkt under knappen
+    dropdownContent.style.left = '0'; // Positionera innehållet direkt till vänster om knappen
+    dropdownContent.style.whiteSpace = 'nowrap'; // Förhindra radbrytning
+    dropdownContent.style.overflowX = 'auto'; // Horisontell rullning om det inte får plats
     dropdownContent.style.backgroundColor = 'white';
     dropdownContent.style.border = '1px solid rgb(50, 94, 88)';
     dropdownContent.style.borderRadius = '5px';
@@ -34,7 +33,6 @@ function openUpptack() {
     dropdownContent.style.opacity = '0';
     dropdownContent.style.visibility = 'hidden';
     dropdownContent.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
-    dropdownContent.style.whiteSpace = 'nowrap'; // Förhindra radbrytning i dropdown
 
     // Alternativ för filtrering
     const filters = [
@@ -45,6 +43,10 @@ function openUpptack() {
         { text: 'Rensa allt', action: 'Rensa_allt' }
     ];
 
+    // Använd flexbox för att ordna alternativen horisontellt
+    dropdownContent.style.display = 'flex';
+    dropdownContent.style.flexDirection = 'row';
+
     filters.forEach(filter => {
         const link = document.createElement('a');
         link.href = '#';
@@ -54,7 +56,7 @@ function openUpptack() {
         link.style.padding = '8px 12px';
         link.style.textDecoration = 'none';
         link.style.color = 'rgb(50, 94, 88)';
-        link.style.borderBottom = '1px solid rgb(50, 94, 88)';
+        link.style.borderRight = '1px solid rgb(50, 94, 88)';
         link.style.backgroundColor = 'rgb(240, 240, 240)';
         link.style.cursor = 'pointer';
 
@@ -94,8 +96,8 @@ function openUpptack() {
 
     // Lägg till eventlyssnare för att visa/dölj dropdown-innehållet
     button.addEventListener('click', function () {
-        const isVisible = dropdownContent.style.display === 'block';
-        dropdownContent.style.display = isVisible ? 'none' : 'block';
+        const isVisible = dropdownContent.style.display === 'flex';
+        dropdownContent.style.display = isVisible ? 'none' : 'flex';
         dropdownContent.style.opacity = isVisible ? '0' : '1';
         dropdownContent.style.visibility = isVisible ? 'hidden' : 'visible';
     });
