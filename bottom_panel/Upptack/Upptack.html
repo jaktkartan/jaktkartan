@@ -1,131 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropdown Menu Example</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100vh; /* Full viewport height */
-            overflow: hidden; /* Prevent scrolling */
-        }
+document.addEventListener('DOMContentLoaded', function () {
+    // Funktion för att skapa dropdown-menyn
+    function createDropdown() {
+        // Skapa container för dropdown
+        const container = document.createElement('div');
+        container.style.position = 'relative';
+        container.style.display = 'inline-block';
+        container.style.marginLeft = '10px';
 
-        .container {
-            position: absolute; /* Absolute positioning */
-            top: 0;
-            left: 0;
-            height: 15vh; /* Set container height to 15% of viewport height */
-            width: 100%;
-            display: flex;
-            align-items: flex-start; /* Align items to the top */
-            padding: 0; /* Remove any default padding */
-        }
+        // Skapa dropdown-knappen
+        const button = document.createElement('button');
+        button.textContent = 'Filtrera';
+        button.style.padding = '12px 16px';
+        button.style.border = '1px solid rgb(50, 94, 88)';
+        button.style.borderRadius = '5px';
+        button.style.backgroundColor = 'rgb(240, 240, 240)';
+        button.style.color = 'rgb(50, 94, 88)';
+        button.style.cursor = 'pointer';
+        button.style.outline = 'none';
+        button.style.zIndex = '999';
 
-        .dropdown-wrapper {
-            position: relative; /* Position wrapper relative to contain dropdown */
-            margin-left: 10px; /* Move the wrapper 10 pixels to the right */
-        }
+        // Skapa dropdown-innehåll
+        const dropdownContent = document.createElement('div');
+        dropdownContent.style.position = 'absolute';
+        dropdownContent.style.top = '100%';
+        dropdownContent.style.left = '0';
+        dropdownContent.style.width = '250px';
+        dropdownContent.style.maxHeight = '200px';
+        dropdownContent.style.overflowY = 'auto';
+        dropdownContent.style.backgroundColor = 'white';
+        dropdownContent.style.border = '1px solid rgb(50, 94, 88)';
+        dropdownContent.style.borderRadius = '5px';
+        dropdownContent.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+        dropdownContent.style.display = 'none';
+        dropdownContent.style.opacity = '0';
+        dropdownContent.style.visibility = 'hidden';
+        dropdownContent.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
 
-        .dropdown-label {
-            cursor: pointer;
-            padding: 12px 16px; /* Padding around the label */
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: rgb(50, 94, 88);
-            border: 1px solid rgb(50, 94, 88);
-            border-radius: 5px;
-            background-color: rgb(240, 240, 240);
-            box-sizing: border-box;
-            justify-content: space-between;
-            position: relative; /* Ensure it is positioned relative to its container */
-            z-index: 999; /* Ensure dropdown content can overlay the label */
-        }
+        // Alternativ för filtrering
+        const filters = [
+            { text: 'Visa allt', action: 'Visa_allt' },
+            { text: 'Mässor', action: 'Mässor', icon: 'bottom_panel/Upptack/bilder/massa_ikon.png' },
+            { text: 'Jaktkort', action: 'Jaktkort', icon: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png' },
+            { text: 'Jaktskyttebanor', action: 'Jaktskyttebanor', icon: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png' },
+            { text: 'Rensa allt', action: 'Rensa_allt' }
+        ];
 
-        .dropdown-label:hover {
-            background-color: #e0e0e0; /* Change background color on hover */
-        }
+        filters.forEach(filter => {
+            const link = document.createElement('a');
+            link.href = '#';
+            link.textContent = filter.text;
+            link.style.display = 'flex';
+            link.style.alignItems = 'center';
+            link.style.padding = '8px 12px';
+            link.style.textDecoration = 'none';
+            link.style.color = 'rgb(50, 94, 88)';
+            link.style.borderBottom = '1px solid rgb(50, 94, 88)';
+            link.style.backgroundColor = 'rgb(240, 240, 240)';
+            link.style.cursor = 'pointer';
+            link.addEventListener('click', function () {
+                Upptack_geojsonHandler.toggleLayer(filter.action);
+            });
 
-        .dropdown-content {
-            position: absolute;
-            top: 100%; /* Position it directly below the label */
-            left: 0; /* Align it to the left edge of the label */
-            width: 250px; /* Set a fixed width for better visibility */
-            max-height: 200px; /* Set a maximum height for scrolling */
-            overflow-y: auto; /* Enable vertical scrolling if needed */
-            background: white;
-            border: 1px solid rgb(50, 94, 88);
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
-            z-index: 1000; /* Ensure it appears above other content */
-            display: none; /* Hide content initially */
-            opacity: 0; /* Hide content initially */
-            visibility: hidden; /* Hide content initially */
-            transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
-        }
+            if (filter.icon) {
+                const img = document.createElement('img');
+                img.src = filter.icon;
+                img.alt = filter.text;
+                img.style.width = '30px';
+                img.style.height = '30px';
+                img.style.marginRight = '10px';
+                link.insertBefore(img, link.firstChild);
+            }
 
-        .dropdown-wrapper:hover .dropdown-content,
-        .dropdown-wrapper:focus-within .dropdown-content {
-            display: block; /* Show dropdown content on hover or focus */
-            opacity: 1; /* Show content with transition */
-            visibility: visible; /* Make content visible */
-        }
+            dropdownContent.appendChild(link);
+        });
 
-        .dropdown-content a {
-            display: flex;
-            align-items: center;
-            padding: 4px 8px; /* Reduced padding to match the height of images */
-            text-decoration: none; /* Remove underline from links */
-            color: rgb(50, 94, 88); /* Text color */
-            border-bottom: 1px solid rgb(50, 94, 88); /* Border between buttons */
-            background-color: rgb(240, 240, 240); /* Background color */
-        }
+        // Lägg till dropdown-knappen och -innehåll i containern
+        container.appendChild(button);
+        container.appendChild(dropdownContent);
 
-        .dropdown-content a:hover {
-            background-color: #e0e0e0; /* Change background color on hover */
-        }
+        // Lägg till containern i body
+        document.body.appendChild(container);
 
-        .dropdown-content img {
-            width: 30px; /* Adjust size if needed */
-            height: 30px; /* Adjust size if needed */
-            margin-right: 10px; /* Space between image and text */
-        }
+        // Lägg till eventlyssnare för att visa/dölj dropdown-innehållet
+        button.addEventListener('click', function () {
+            const isVisible = dropdownContent.style.display === 'block';
+            dropdownContent.style.display = isVisible ? 'none' : 'block';
+            dropdownContent.style.opacity = isVisible ? '0' : '1';
+            dropdownContent.style.visibility = isVisible ? 'hidden' : 'visible';
+        });
 
-        .dropdown-content a:last-child {
-            border-bottom: none; /* Remove border from the last button */
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="dropdown-wrapper" tabindex="0"> <!-- Add tabindex for focusable div -->
-            <label class="dropdown-label">
-                <span>Filtrera</span>
-                <span>&#9660;</span> <!-- Dropdown arrow -->
-            </label>
-            <div class="dropdown-content">
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Visa_allt')">
-                    <span>Visa allt</span>
-                </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Mässor')">
-                    <img src="bottom_panel/Upptack/bilder/massa_ikon.png" alt="Mässor">
-                    <span>Mässor</span>
-                </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktkort')">
-                    <img src="bottom_panel/Upptack/bilder/jaktkort_ikon.png" alt="Jaktkort">
-                    <span>Jaktkort</span>
-                </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor')">
-                    <img src="bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png" alt="Jaktskyttebanor">
-                    <span>Jaktskyttebanor</span>
-                </a>
-                <a href="#" onclick="Upptack_geojsonHandler.toggleLayer('Rensa_allt')">
-                    <span>Rensa allt</span>
-                </a>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+        // Lägg till eventlyssnare för att stänga dropdown när klickas utanför
+        document.addEventListener('click', function (event) {
+            if (!container.contains(event.target)) {
+                dropdownContent.style.display = 'none';
+                dropdownContent.style.opacity = '0';
+                dropdownContent.style.visibility = 'hidden';
+            }
+        });
+    }
+
+    // Skapa dropdown-menyn när sidan har laddats
+    createDropdown();
+});
