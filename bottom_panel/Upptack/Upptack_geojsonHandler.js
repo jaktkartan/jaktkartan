@@ -104,7 +104,10 @@ setTimeout(function() {
             }
 
             panToLatLng(latlng).then(() => {
-                marker.openPopup();
+                setTimeout(() => {
+                    // Simulera ett klick på markören för att öppna popupen
+                    marker.openPopup();
+                }, 100); // Justera timeout som behövs för att popupen ska öppnas
             });
         }
 
@@ -228,24 +231,8 @@ setTimeout(function() {
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
-        // Lägg till lyssnare för zoomhändelser
-        map.on('zoomend', function() {
-            console.log("Zoom level changed to: " + map.getZoom());
-            Object.keys(geojsonLayers).forEach(function(layerName) {
-                geojsonLayers[layerName].forEach(function(layer) {
-                    var zoomLevel = map.getZoom();
-                    layer.eachLayer(function(marker) {
-                        var style = getMarkerStyle(layerName);
-                        marker.setIcon(style.icon);
-                    });
-                });
-            });
-        });
-
         return {
-            toggleLayer: toggleLayer,
-            deactivateAllLayers: deactivateAllLayers
+            toggleLayer: toggleLayer
         };
     })(map);
-}, 1000);
-
+}, 5000);
