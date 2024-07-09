@@ -61,8 +61,10 @@ setTimeout(function() {
 
                                 // Lägg till klick-event för att centrera kartan och öppna popup
                                 marker.on('click', function() {
-                                    centerMapOnMarker(marker);
-                                    marker.openPopup();
+                                    setTimeout(function() {
+                                        centerMapOnMarker(marker);
+                                        marker.openPopup();
+                                    }, 300); // Vänta lite för att kartan ska hinna panoreras
                                 });
 
                                 return marker;
@@ -236,3 +238,4 @@ setTimeout(function() {
         };
     })(map);
 }, 1000);
+
