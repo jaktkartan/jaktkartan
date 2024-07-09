@@ -89,9 +89,9 @@ setTimeout(function() {
 
         function handleMarkerClick(marker) {
             var latlng = marker.getLatLng();
-            map.panTo(latlng, { animate: true, duration: 1 }); // Panorera kartan med animation
-
-            // Öppna popup-fönstret efter en liten fördröjning
+            // Panorera kartan
+            map.panTo(latlng, { animate: true });
+            // Öppna popup-fönstret efter panoreringen
             setTimeout(function() {
                 marker.openPopup();
             }, 1000); // Timeout som matchar animationens varaktighet
