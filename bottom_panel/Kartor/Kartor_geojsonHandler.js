@@ -142,3 +142,21 @@ function deactivateAllLayersKartor() {
         deactivateAllLayersKartor: deactivateAllLayersKartor  // Exponerar den nya funktionen
     };
 })();
+
+//Gör "Lokala_tid" fältet till länkar.
+function generatePopupContent(feature, layerName) {
+    var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
+
+    for (var prop in feature.properties) {
+        var value = feature.properties[prop];
+
+        if (prop === 'lokala_tid' && value) {
+            popupContent += '<p><a href="' + value + '" target="_blank">' + 'Länk' + '</a></p>';
+        } else if (value) {
+            popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
+        }
+    }
+
+    popupContent += '</div>';
+    return popupContent;
+}
