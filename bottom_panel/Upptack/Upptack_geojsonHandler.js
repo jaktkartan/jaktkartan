@@ -52,7 +52,7 @@ setTimeout(function() {
                 axios.get(geojsonURL)
                     .then(function(response) {
                         var geojson = response.data;
-                        console.log("Fetched GeoJSON data:", geojson); // Debug log
+                        console.log("Fetched GeoJSON data for " + layerName + ":", geojson); // Debug log
 
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
@@ -75,7 +75,7 @@ setTimeout(function() {
                         }
                     })
                     .catch(function(error) {
-                        console.log("Error fetching GeoJSON data:", error.message);
+                        console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                     });
             });
         }
@@ -117,19 +117,28 @@ setTimeout(function() {
 
         function generatePopupContent(feature, layerName) {
             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-            var hideProperties = ['id']; // Adjust if necessary
-            var hideNameOnlyProperties = ['Rubrik', 'Info', 'Link'];
+
+            // Adjust according to field names in your GeoJSON data
+            var fields = {
+                'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
+                'Jaktkort': ['Rubrik', 'Info', 'Link']
+            };
+
+            var hideProperties = [];
+            var hideNameOnlyProperties = fields[layerName] || [];
 
             for (var prop in feature.properties) {
                 if (hideProperties.includes(prop)) continue;
                 var value = feature.properties[prop];
 
-                if (prop === 'Rubrik' && value) {
-                    popupContent += '<p><strong>' + value + '</strong></p>';
-                } else if (prop === 'Info' && value) {
+                if (prop === 'BILD' && value) {
+                    popupContent += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+                } else if (prop === 'LINK' || prop === 'Link') {
+                    if (value) {
+                        popupContent += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
+                    }
+                } else if (hideNameOnlyProperties.includes(prop) && value) {
                     popupContent += '<p>' + value + '</p>';
-                } else if (prop === 'Link' && value) {
-                    popupContent += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
                 } else if (value) {
                     popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
                 }
