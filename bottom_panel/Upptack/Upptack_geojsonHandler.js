@@ -57,14 +57,7 @@ setTimeout(function() {
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
                                 var style = getMarkerStyle(layerName);
-                                var marker = L.marker(latlng, { icon: style.icon });
-
-                                // Lägg till klick-event för att centrera kartan och öppna popup
-                                marker.on('click', function() {
-                                    handleMarkerClick(marker);
-                                });
-
-                                return marker;
+                                return L.marker(latlng, { icon: style.icon });
                             },
                             style: function(feature) {
                                 return getFallbackStyle(layerName);
@@ -84,30 +77,6 @@ setTimeout(function() {
                     .catch(function(error) {
                         console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                     });
-            });
-        }
-
-        function handleMarkerClick(marker) {
-            var latlng = marker.getLatLng();
-
-            // Function to pan map to a given latlng and return a Promise
-            function panToLatLng(latlng) {
-                return new Promise((resolve) => {
-                    map.setView(latlng, map.getZoom(), {
-                        animate: true,
-                        duration: 1 // Duration of the animation in seconds
-                    });
-
-                    // Resolve the Promise after a delay to account for animation duration
-                    setTimeout(() => resolve(), 1000); // Adjust timeout as needed
-                });
-            }
-
-            panToLatLng(latlng).then(() => {
-                setTimeout(() => {
-                    // Simulera ett klick på markören för att öppna popupen
-                    marker.openPopup();
-                }, 100); // Justera timeout som behövs för att popupen ska öppnas
             });
         }
 
@@ -231,8 +200,21 @@ setTimeout(function() {
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
+        map.on('zoomend', function() {
+            Object.keys(geojsonLayers).forEach(function(layerName) {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    var zoomLevel = map.getZoom();
+                    layer.eachLayer(function(marker) {
+                        var style = getMarkerStyle(layerName);
+                        marker.setIcon(style.icon);
+                    });
+                });
+            });
+        });
+
         return {
-            toggleLayer: toggleLayer
+            toggleLayer: toggleLayer,
+            deactivateAllLayers: deactivateAllLayers
         };
     })(map);
-}, 5000);
+}, 1000);
