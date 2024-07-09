@@ -61,7 +61,6 @@ setTimeout(function() {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
-                                // Använd den anpassade popup-panelen
                                 addClickHandlerToLayer(layer);
                             }
                         });
@@ -82,8 +81,13 @@ setTimeout(function() {
             layer.on('click', function(e) {
                 console.log("Layer clicked", e);
 
-                // Visa popup-panelen
-                showPopupPanel(e.layer.feature.properties);
+                var properties = e.layer ? e.layer.feature ? e.layer.feature.properties : null : null;
+
+                if (properties) {
+                    showPopupPanel(properties);
+                } else {
+                    console.error("No properties found in layer click event.");
+                }
             });
         }
 
