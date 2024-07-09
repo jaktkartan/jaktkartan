@@ -1,22 +1,22 @@
-// Funktion för att skapa dropdown-menyn i tab1
+// Funktion för att skapa dropdown-menyn och knappen "Nästkommande mässa" i tab1
 function openUpptack() {
     // Skapa container för dropdown
     const container = document.createElement('div');
     container.style.position = 'relative';
-    container.style.display = 'inline-block';
+    container.style.display = 'inline-flex'; // Använd flexbox för att arrangera knapparna horisontellt
     container.style.marginLeft = '10px';
 
     // Skapa dropdown-knappen
-    const button = document.createElement('button');
-    button.textContent = 'Filtrera';
-    button.style.padding = '12px 16px';
-    button.style.border = '1px solid rgb(50, 94, 88)';
-    button.style.borderRadius = '5px';
-    button.style.backgroundColor = 'rgb(240, 240, 240)';
-    button.style.color = 'rgb(50, 94, 88)';
-    button.style.cursor = 'pointer';
-    button.style.outline = 'none';
-    button.style.zIndex = '999';
+    const filterButton = document.createElement('button');
+    filterButton.textContent = 'Filtrera';
+    filterButton.style.padding = '12px 16px';
+    filterButton.style.border = '1px solid rgb(50, 94, 88)';
+    filterButton.style.borderRadius = '5px';
+    filterButton.style.backgroundColor = 'rgb(240, 240, 240)';
+    filterButton.style.color = 'rgb(50, 94, 88)';
+    filterButton.style.cursor = 'pointer';
+    filterButton.style.outline = 'none';
+    filterButton.style.zIndex = '999';
 
     // Skapa dropdown-innehåll
     const dropdownContent = document.createElement('div');
@@ -82,9 +82,29 @@ function openUpptack() {
         dropdownContent.appendChild(link);
     });
 
-    // Lägg till dropdown-knappen och -innehåll i containern
-    container.appendChild(button);
+    // Skapa knappen "Nästkommande mässa"
+    const nextEventButton = document.createElement('button');
+    nextEventButton.textContent = 'Nästkommande mässa';
+    nextEventButton.style.padding = '12px 16px';
+    nextEventButton.style.border = '1px solid rgb(50, 94, 88)';
+    nextEventButton.style.borderRadius = '5px';
+    nextEventButton.style.backgroundColor = 'rgb(240, 240, 240)';
+    nextEventButton.style.color = 'rgb(50, 94, 88)';
+    nextEventButton.style.cursor = 'pointer';
+    nextEventButton.style.outline = 'none';
+    nextEventButton.style.marginLeft = '10px'; // Lägg till mellanrum mellan knapparna
+    nextEventButton.style.zIndex = '999';
+
+    // Lägg till en eventlyssnare för knappen "Nästkommande mässa"
+    nextEventButton.addEventListener('click', function () {
+        // Implementera vad som ska hända när knappen klickas
+        alert('Här kan du lägga till funktionalitet för att visa nästa mässa!');
+    });
+
+    // Lägg till knapparna i containern
+    container.appendChild(filterButton);
     container.appendChild(dropdownContent);
+    container.appendChild(nextEventButton);
 
     // Lägg till containern i tab1
     const tab1 = document.getElementById('tab1');
@@ -95,7 +115,7 @@ function openUpptack() {
     }
 
     // Lägg till eventlyssnare för att visa/dölj dropdown-innehållet
-    button.addEventListener('click', function () {
+    filterButton.addEventListener('click', function () {
         const isVisible = dropdownContent.style.display === 'flex';
         dropdownContent.style.display = isVisible ? 'none' : 'flex';
         dropdownContent.style.opacity = isVisible ? '0' : '1';
