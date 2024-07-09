@@ -58,13 +58,13 @@ setTimeout(function() {
                             pointToLayer: function(feature, latlng) {
                                 var style = getMarkerStyle(layerName);
                                 var marker = L.marker(latlng, { icon: style.icon });
-                                
-                                // Lägg till klick-event för att centrera kartan
+
+                                // Lägg till klick-event för att centrera kartan och öppna popup
                                 marker.on('click', function() {
                                     centerMapOnMarker(marker);
                                     marker.openPopup();
                                 });
-                                
+
                                 return marker;
                             },
                             style: function(feature) {
@@ -91,7 +91,7 @@ setTimeout(function() {
         function centerMapOnMarker(marker) {
             var latlng = marker.getLatLng();
             map.setView(latlng, map.getZoom(), {
-                animate: true
+                animate: true // Lägg till en animation när kartan panorameteras
             });
             console.log("Map centered on: " + latlng); // Debug log
         }
