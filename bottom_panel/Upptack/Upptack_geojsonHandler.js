@@ -95,12 +95,12 @@ setTimeout(function() {
             map.panTo(latlng, { animate: true, duration: 1 }); // Justera duration för att ändra hastigheten på animationen
 
             // När panoreringen är klar, öppna popupen
-            map.once('moveend', function() {
+            setTimeout(function() {
                 if (isPanoring) {
                     marker.openPopup();
                     isPanoring = false; // Återställ flaggan efter panorering
                 }
-            });
+            }, 1000); // Timeout som matchar animationens varaktighet
         }
 
         function toggleLayer(layerName) {
