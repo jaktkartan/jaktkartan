@@ -61,7 +61,7 @@ setTimeout(function() {
 
                                 // Lägg till klick-event för att centrera kartan och öppna popup
                                 marker.on('click', function() {
-                                    centerMapOnMarker(marker);
+                                    handleMarkerClick(marker);
                                 });
 
                                 return marker;
@@ -87,14 +87,13 @@ setTimeout(function() {
             });
         }
 
-        function centerMapOnMarker(marker) {
+        function handleMarkerClick(marker) {
             var latlng = marker.getLatLng();
-            var mapZoom = map.getZoom();
-            var popupOpened = false; // Flagga för att hålla reda på popup-status
+            var isPanoring = true; // Flagga för att indikera att panorering pågår
+            var popupOpened = false; // Flagga för att hålla reda på om popup är öppnad
 
-            // Funktion för att öppna popup-fönstret
             function openPopupAfterPan() {
-                if (!popupOpened) {
+                if (isPanoring && !popupOpened) {
                     marker.openPopup();
                     popupOpened = true;
                 }
@@ -102,7 +101,12 @@ setTimeout(function() {
 
             // Panorera kartan med en animation och centrera markören
             map.panTo(latlng, { animate: true, duration: 1 }); // Justera duration för att ändra hastigheten på animationen
-            map.once('moveend', openPopupAfterPan);
+
+            // När panoreringen är klar, öppna popupen
+            map.once('moveend', function() {
+                isPanoring = false;
+                openPopupAfterPan();
+            });
         }
 
         function toggleLayer(layerName) {
