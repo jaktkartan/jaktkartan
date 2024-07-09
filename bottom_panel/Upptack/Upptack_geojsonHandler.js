@@ -64,7 +64,9 @@ setTimeout(function() {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
-                                addClickHandlerToLayer(layer);
+                                layer.on('click', function(e) {
+                                    handleLayerClick(e);
+                                });
                             }
                         });
 
@@ -80,22 +82,19 @@ setTimeout(function() {
             });
         }
 
-        function addClickHandlerToLayer(layer) {
-            layer.on('click', function(e) {
-                console.log("Layer clicked", e);
+        function handleLayerClick(e) {
+            console.log("Layer clicked", e);
 
-                // Debugging information
-                console.log("e.layer:", e.layer);
-                console.log("e.layer.feature:", e.layer.feature);
+            // Debugging information
+            console.log("e.layer:", e.layer);
 
-                var properties = e.layer && e.layer.feature ? e.layer.feature.properties : null;
+            var properties = e.layer && e.layer.feature ? e.layer.feature.properties : null;
 
-                if (properties) {
-                    showPopupPanel(properties);
-                } else {
-                    console.error("No properties found in layer click event.");
-                }
-            });
+            if (properties) {
+                showPopupPanel(properties);
+            } else {
+                console.error("No properties found in layer click event.");
+            }
         }
 
         function showPopupPanel(properties) {
@@ -114,8 +113,9 @@ setTimeout(function() {
 
         function createPopupContent(properties) {
             return `<div>
-                        <h3>${properties.title || 'No title'}</h3>
-                        <p>${properties.description || 'No description'}</p>
+                        <h3>${properties.NAMN || 'No title'}</h3>
+                        <p>${properties.INFO || 'No description'}</p>
+                        <a href="${properties.LINK || '#'}" target="_blank">More info</a>
                     </div>`;
         }
 
