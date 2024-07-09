@@ -1,18 +1,15 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-//Knapparna i tab1 (upptäck) rensar geojson lager från tab2 (kartor) fliken.
+// Knapparna i tab1 (upptäck) rensar geojson lager från tab2 (kartor) fliken.
 document.getElementById('tab1').addEventListener('click', function() {
-    // Kontrollera att Kartor_geojsonHandler är definierad
     if (typeof Kartor_geojsonHandler !== 'undefined') {
-        // Anropa den metod som ska avaktivera alla lager
         Kartor_geojsonHandler.deactivateAllLayersKartor();
     } else {
         console.error("Kartor_geojsonHandler är inte definierad.");
     }
 });
 
-//Knapparna i tab2 (kartor) rensar geojson lager från tab1 (upptäck) fliken.
+// Knapparna i tab2 (kartor) rensar geojson lager från tab1 (upptäck) fliken.
 document.getElementById('tab2').addEventListener('click', function() {
-    // Kontrollera att Upptack_geojsonHandler är definierad
     if (typeof Upptack_geojsonHandler !== 'undefined') {
         Upptack_geojsonHandler.deactivateAllLayers();
     } else {
@@ -39,7 +36,22 @@ function openTab(tabId, url) {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block';
 
-    if (tabId === 'tab4') {
+    if (tabId === 'tab1') {
+        openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
+    } else if (tabId === 'tab3') {
+        tab.innerHTML = '';
+
+        var heading = document.createElement('h2');
+        heading.textContent = 'Jaktbart idag';
+        tab.appendChild(heading);
+
+        var paragraph = document.createElement('p');
+        paragraph.textContent = 'Senaste lagrade position:';
+        tab.appendChild(paragraph);
+
+        displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
+
+    } else if (tabId === 'tab4') {
         tab.innerHTML = '';
 
         var heading = document.createElement('h2');
@@ -63,18 +75,7 @@ function openTab(tabId, url) {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
         };
         tab.appendChild(button2);
-    } else if (tabId === 'tab3') {
-        tab.innerHTML = '';
 
-        var heading = document.createElement('h2');
-        heading.textContent = 'Jaktbart idag';
-        tab.appendChild(heading);
-
-        var paragraph = document.createElement('p');
-        paragraph.textContent = 'Senaste lagrade position:';
-        tab.appendChild(paragraph);
-
-        displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
     } else {
         fetch(url)
             .then(response => response.text())
@@ -86,7 +87,6 @@ function openTab(tabId, url) {
             });
     }
 }
-
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
