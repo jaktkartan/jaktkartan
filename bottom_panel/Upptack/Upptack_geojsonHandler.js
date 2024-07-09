@@ -62,10 +62,7 @@ setTimeout(function() {
                             },
                             onEachFeature: function(feature, layer) {
                                 // Använd den anpassade popup-panelen
-                                layer.on('click', function() {
-                                    // Skicka feature properties till din popup-panel
-                                    showPopupPanel(feature.properties);
-                                });
+                                addClickHandlerToLayer(layer);
                             }
                         });
 
@@ -79,6 +76,36 @@ setTimeout(function() {
                         console.error("Error fetching GeoJSON data:", error.message);
                     });
             });
+        }
+
+        function addClickHandlerToLayer(layer) {
+            layer.on('click', function(e) {
+                console.log("Layer clicked", e);
+
+                // Visa popup-panelen
+                showPopupPanel(e.layer.feature.properties);
+            });
+        }
+
+        function showPopupPanel(properties) {
+            console.log("Popup panel triggered with properties:", properties);
+
+            var popupContent = createPopupContent(properties);
+            var popupElement = document.getElementById('popup-panel');
+            
+            if (popupElement) {
+                popupElement.innerHTML = popupContent;
+                popupElement.style.display = 'block';  // Visa popup-panelen
+            } else {
+                console.error("Popup panel element not found.");
+            }
+        }
+
+        function createPopupContent(properties) {
+            return `<div>
+                        <h3>${properties.title || 'No title'}</h3>
+                        <p>${properties.description || 'No description'}</p>
+                    </div>`;
         }
 
         function toggleLayer(layerName) {
@@ -111,6 +138,7 @@ setTimeout(function() {
                     geojsonLayers[name].forEach(function(layer) {
                         map.removeLayer(layer);
                     });
+                    geojsonLayers[name] = [];
                     layerIsActive[name] = false;
                 }
             });
