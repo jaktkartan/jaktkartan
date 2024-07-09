@@ -55,7 +55,7 @@ setTimeout(function() {
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
                                 var style = getMarkerStyle(layerName);
-                                return L.marker(latlng, { icon: style.icon });
+                                return L.marker(latlng, { icon: style.icon, feature: feature });
                             },
                             style: function(feature) {
                                 return getFallbackStyle(layerName);
