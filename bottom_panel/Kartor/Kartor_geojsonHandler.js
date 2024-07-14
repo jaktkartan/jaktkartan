@@ -44,7 +44,7 @@ var Kartor_geojsonHandler = (function() {
                             jakttidToColor[jakttid] = colorScale[currentIndex];
                             currentIndex = (currentIndex + 1) % colorScale.length;
                         }
-                        return { fillColor: jakttidToColor[jakttid], color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.6 };
+                        return { fillColor: jakttidToColor[jakttid], color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.1 };
                     };
                 })()
             },
