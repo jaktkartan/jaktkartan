@@ -58,14 +58,14 @@ body, button, span, div {
     max-height: 90vh; /* Begränsar höjden på modalens innehåll */
 }
 
-/* CSS för att hålla bilder inom modalens innehåll */
+/* CSS för att hålla bilder inom modalens innehåll och vänsterjustera dem */
 .modal-content img {
     max-width: 100%; /* Gör så att bilden inte är bredare än modalens innehåll */
     max-height: 80vh; /* Gör så att bilden inte är högre än modalens innehåll */
     object-fit: contain; /* Bibehåller bildens proportioner och anpassar den inom ramen */
     border-radius: 10px; /* Rundar hörnen på bilderna för att matcha modalen */
-    display: block; /* Förhindrar bilder från att flyta bredvid text eller andra element */
-    margin: 0 auto; /* Centrerar bilden horisontellt om den inte fyller hela bredden */
+    display: block; /* Förhindrar att bilderna flyter vid sidan om text eller andra element */
+    margin: 0; /* Tar bort eventuell standardmarginal runt bilden */
 }
 
 /* CSS för att stänga knappen */
