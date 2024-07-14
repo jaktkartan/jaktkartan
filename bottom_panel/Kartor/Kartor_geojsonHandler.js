@@ -96,6 +96,7 @@ var Kartor_geojsonHandler = (function() {
 
         // Markera lagret som aktivt
         layerIsActive[layerName] = true;
+        updateFAB(layerName, true);
     }
 
     // Funktion för att växla (aktivera/inaktivera) lager
@@ -109,30 +110,52 @@ var Kartor_geojsonHandler = (function() {
 
             geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
+            updateFAB(layerName, false);
         }
     }
 
     // Ny funktion för att inaktivera alla lager
-function deactivateAllLayersKartor() {
-    console.log("Deactivating all layers.");
-    Object.keys(layerIsActive).forEach(function(layerName) {
-        if (layerIsActive[layerName]) {
-            console.log("Deactivating layer:", layerName);
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer); // Ta bort lager från kartan
-            });
-            geojsonLayers[layerName] = []; // Rensa listan med lager
-            layerIsActive[layerName] = false; // Markera som inaktiv
-        }
-    });
-}
-
-
-
+    function deactivateAllLayersKartor() {
+        console.log("Deactivating all layers.");
+        Object.keys(layerIsActive).forEach(function(layerName) {
+            if (layerIsActive[layerName]) {
+                console.log("Deactivating layer:", layerName);
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer); // Ta bort lager från kartan
+                });
+                geojsonLayers[layerName] = []; // Rensa listan med lager
+                layerIsActive[layerName] = false; // Markera som inaktiv
+                updateFAB(layerName, false);
+            }
+        });
+    }
 
     // Funktion för att få filnamnet från en URL
     function getFilenameFromURL(url) {
         return url.split('/').pop();
+    }
+
+    // Funktion för att uppdatera FAB-knappen baserat på lagrets tillstånd
+    function updateFAB(layerName, show) {
+        var fabId = getFABId(layerName);
+        var fabButton = document.getElementById(fabId);
+        if (fabButton) {
+            fabButton.style.display = show ? 'block' : 'none';
+        }
+    }
+
+    // Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
+    function getFABId(layerName) {
+        switch(layerName) {
+            case 'Allmän jakt: Däggdjur':
+                return 'fab-daggdjur';
+            case 'Allmän jakt: Fågel':
+                return 'fab-fagel';
+            case 'Älgjaktskartan':
+                return 'fab-alg';
+            default:
+                return '';
+        }
     }
 
     // Exponerar funktionerna för att växla lager och hämta GeoJSON-data
@@ -142,3 +165,4 @@ function deactivateAllLayersKartor() {
         deactivateAllLayersKartor: deactivateAllLayersKartor  // Exponerar den nya funktionen
     };
 })();
+
