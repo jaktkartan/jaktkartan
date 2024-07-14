@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var modalId = getModalId(layerName);
         var modal = document.getElementById(modalId);
         if (modal) {
-            fetch(`path/to/bottom_panel/Kartor/${modalId}.html`)
+            fetch(`bottom_panel/Kartor/${modalId}.html`)
                 .then(response => response.text())
                 .then(html => {
                     modal.innerHTML = html;
