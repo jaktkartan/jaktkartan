@@ -12,12 +12,12 @@ body, button, span, div {
 
     #fab-container {
         position: fixed;
-        bottom: 20px;
+        bottom: 80px;
         right: 20px;
         z-index: 1000;
     }
     .fab {
-        background-color: #f39c12;
+        background-color: rgb(50, 94, 88);
         border: none;
         border-radius: 50%;
         width: 56px;
