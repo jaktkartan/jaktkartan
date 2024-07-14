@@ -151,8 +151,9 @@
                 }
 
                 var times = SunCalc.getTimes(new Date(), lat, lon);
-                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
-                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Unknown';
+                var sunrise = times.sunrise ? times.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+                var sunset = times.sunset ? times.sunset.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+
                 var sunriseSpan = document.getElementById('sunrise');
                 var sunsetSpan = document.getElementById('sunset');
 
