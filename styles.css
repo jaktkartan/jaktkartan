@@ -32,6 +32,7 @@ body, button, span, div {
     background-color: #0056b3;
 }
 
+/* CSS för modalen */
 .modal {
     display: none; /* Döljer modalen som standard */
     position: fixed; /* Håller modalen på en fast plats på skärmen */
@@ -44,6 +45,7 @@ body, button, span, div {
     background-color: rgba(0,0,0,0.4); /* Svart bakgrund med transparens */
 }
 
+/* CSS för modalens innehåll */
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* Centrerar modalen */
@@ -52,8 +54,21 @@ body, button, span, div {
     width: 80%; /* Ställer in bredden på modalen */
     border-radius: 15px; /* Rundar hörnen på modalens innehåll */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Lägger till en skugga för bättre synlighet */
+    overflow: hidden; /* Hindrar innehåll från att överflöda */
+    max-height: 90vh; /* Begränsar höjden på modalens innehåll */
 }
 
+/* CSS för att hålla bilder inom modalens innehåll */
+.modal-content img {
+    max-width: 100%; /* Gör så att bilden inte är bredare än modalens innehåll */
+    max-height: 80vh; /* Gör så att bilden inte är högre än modalens innehåll */
+    object-fit: contain; /* Bibehåller bildens proportioner och anpassar den inom ramen */
+    border-radius: 10px; /* Rundar hörnen på bilderna för att matcha modalen */
+    display: block; /* Förhindrar bilder från att flyta bredvid text eller andra element */
+    margin: 0 auto; /* Centrerar bilden horisontellt om den inte fyller hela bredden */
+}
+
+/* CSS för att stänga knappen */
 .close {
     color: #aaa;
     float: right;
@@ -67,6 +82,7 @@ body, button, span, div {
     text-decoration: none;
     cursor: pointer;
 }
+
 
 
 
