@@ -1,3 +1,6 @@
+    // I geojson handlern så finns en funktion för att aktivera fab knapparna samtidigt som lagren. den kallas: Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
+
+
 document.addEventListener('DOMContentLoaded', function() {
     // Funktion för att visa modalen och ladda innehåll
     function showModal(layerName) {
