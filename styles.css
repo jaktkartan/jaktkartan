@@ -50,6 +50,8 @@ body, button, span, div {
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Ställer in bredden på modalen */
+    border-radius: 15px; /* Rundar hörnen på modalens innehåll */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Lägger till en skugga för bättre synlighet */
 }
 
 .close {
@@ -65,6 +67,7 @@ body, button, span, div {
     text-decoration: none;
     cursor: pointer;
 }
+
 
 
 
