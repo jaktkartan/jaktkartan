@@ -36,7 +36,7 @@ body, button, span, div {
 .modal {
     display: none; /* Döljer modalen som standard */
     position: fixed; /* Håller modalen på en fast plats på skärmen */
-    z-index: 1001; /* Sätter ett högt z-index så att modalen är över kartan */
+    z-index: 10001; /* Sätter ett högt z-index så att modalen är över kartan */
     left: 0;
     top: 0;
     width: 100%;
