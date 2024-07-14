@@ -10,28 +10,65 @@ body, button, span, div {
     font-family: 'Roboto', sans-serif !important;
 }
 
-    #fab-container {
-        position: fixed;
-        bottom: 80px;
-        right: 20px;
-        z-index: 1000;
-    }
-    .fab {
-        background-color: rgb(50, 94, 88);
-        border: none;
-        border-radius: 50%;
-        width: 56px;
-        height: 56px;
-        color: white;
-        font-size: 24px;
-        box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
-        cursor: pointer;
-        margin-bottom: 10px;
-        display: none; /* Initially hidden */
-    }
-    .fab:hover {
-        background-color: #e67e22;
-    }
+
+/* Anpassad CSS för FAB knappar och Moddal, alltså rutan som kommer upp när man trycker på fab-knappen. */
+.fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000; /* Se till att FAB är över andra element */
+}
+
+.fab:hover {
+    background-color: #0056b3;
+}
+
+.modal {
+    display: none; /* Döljer modalen som standard */
+    position: fixed; /* Håller modalen på en fast plats på skärmen */
+    z-index: 1001; /* Sätter ett högt z-index så att modalen är över kartan */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Lägger till scroll om innehållet är för stort */
+    background-color: rgba(0,0,0,0.4); /* Svart bakgrund med transparens */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Centrerar modalen */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ställer in bredden på modalen */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+
 
 /* Stilsättning för .panel-button */
 .panel-button {
