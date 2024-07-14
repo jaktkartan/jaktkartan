@@ -58,9 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Lägg till klickhändelse för att stänga modal när man klickar utanför modalen
     window.addEventListener('click', function(event) {
         if (event.target.classList.contains('modal')) {
-            closeModal('modal-daggdjur');
-            closeModal('modal-fagel');
-            closeModal('modal-alg');
+            const modals = ['modal-daggdjur', 'modal-fagel', 'modal-alg'];
+            modals.forEach(id => closeModal(id));
         }
     });
 });
