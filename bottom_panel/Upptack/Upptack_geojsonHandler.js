@@ -9,9 +9,9 @@ setTimeout(function() {
 
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': false,
-            'Jaktkort': false,
-            'Jaktskyttebanor': false
+            'Mässor': true,  // Assumes layers should be active initially
+            'Jaktkort': true,
+            'Jaktskyttebanor': true
         };
 
         var geojsonLayers = {
@@ -203,9 +203,13 @@ setTimeout(function() {
             fabUpptackButton.style.display = anyLayerActive ? 'block' : 'none';
         }
 
+        // Initial load of GeoJSON data and activate layers
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+
+        // Activate layers initially if needed
+        activateAllLayers();
 
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
