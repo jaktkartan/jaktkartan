@@ -1,5 +1,13 @@
-// Funktion för att skapa kartor-fliken
 function openKartor() {
+    // Hitta tab-pane för kartor
+    const tabPane = document.getElementById('tab2');
+    if (!tabPane) {
+        console.error('Tab pane for kartor not found.');
+        return;
+    }
+
+    // Rensa tidigare innehåll
+    clearTabPaneContent(tabPane);
 
     // Skapa en container div för att centrera innehållet
     const container = document.createElement('div');
@@ -57,4 +65,7 @@ function openKartor() {
 
     // Lägg till container till body
     document.body.appendChild(container);
+
+    // Debugging
+    console.log('Kartor tab created and added to body');
 }
