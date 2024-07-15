@@ -123,7 +123,10 @@ function openKaliberkravTab(url) {
 // Lyssnare för klick utanför flikar och panelknappar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+    var panelButtons = document.querySelectorAll('.panel-button');
+    
+    // Kontrollera om klicket är utanför tab-content och panel-buttons
+    if (!tabContent.contains(event.target) && !panelButtons.contains(event.target)) {
         resetTabs();
     }
 });
