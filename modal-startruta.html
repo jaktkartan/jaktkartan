@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upptäck</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Grundstilar */
+        /* Grundstilar för content */
         .content {
             display: none; /* Dölj innehållet som standard */
+            padding: 10px;
+            border-top: 1px solid #ddd;
         }
 
         /* Använd checkbox för att styra visning av innehållet */
@@ -33,7 +34,7 @@
         }
 
         /* Visa innehållet när checkboxen är kryssad */
-        input[type="checkbox"]:checked + .content {
+        input[type="checkbox"]:checked + label + .content {
             display: block;
         }
     </style>
