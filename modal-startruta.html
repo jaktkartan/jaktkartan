@@ -6,27 +6,35 @@
     <title>Upptäck</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* Grundstilar */
         .content {
             display: none; /* Dölj innehållet som standard */
         }
 
-        .active {
-            display: block; /* Visa innehållet när det är aktivt */
+        /* Använd checkbox för att styra visning av innehållet */
+        input[type="checkbox"] {
+            display: none; /* Dölj checkboxen */
         }
 
-        .accordion-button {
+        /* Stilar för knappen */
+        label.accordion-button {
             cursor: pointer;
             padding: 10px;
             background-color: #f1f1f1;
             border: none;
             text-align: left;
-            outline: none;
             font-size: 16px;
+            display: block;
             transition: background-color 0.3s;
         }
 
-        .accordion-button:hover {
+        label.accordion-button:hover {
             background-color: #ddd;
+        }
+
+        /* Visa innehållet när checkboxen är kryssad */
+        input[type="checkbox"]:checked + .content {
+            display: block;
         }
     </style>
 </head>
@@ -36,8 +44,10 @@
         <h2>Välkommen till Jaktkartan.se!</h2>
         <p>På Jaktkartan.se hittar du allt du behöver för att effektivt planera och genomföra din jakt direkt i mobilen. Här är en snabb översikt över våra huvudfunktioner:</p>
         
-        <button class="accordion-button" id="toggle-features">Huvudfunktioner:</button>
-        <div class="content" id="features-content">
+        <!-- Checkbox för att styra visningen -->
+        <input type="checkbox" id="toggle-features">
+        <label for="toggle-features" class="accordion-button">Huvudfunktioner:</label>
+        <div class="content">
             <ul>
                 <li><strong>Upptäck:</strong>
                     <ul>
@@ -69,17 +79,5 @@
         
         <p>Jaktkartan.se är designad för att ge dig enkel och uppdaterad information för din jakt. Oavsett om du är nybörjare eller erfaren jägare, kommer du att hitta användbara verktyg och resurser här. Utforska Jaktkartan.se och optimera din jaktupplevelse idag!</p>
     </div>
-
-    <script>
-        document.getElementById('toggle-features').addEventListener('click', function() {
-            var content = document.getElementById('features-content');
-            if (content.classList.contains('active')) {
-                content.classList.remove('active');
-            } else {
-                content.classList.add('active');
-            }
-        });
-    </script>
 </body>
 </html>
-
