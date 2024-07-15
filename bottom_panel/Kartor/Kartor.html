@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kartor Fliken</title>
+    <title>kartor_fliken, innehåll med knappar</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <style>
@@ -19,15 +19,13 @@
 
         .button-container {
             display: flex;
-            justify-content: space-around; /* Fördela knapparna jämnt */
-            align-items: center; /* Centrera knapparna vertikalt */
-            flex-wrap: nowrap; /* Knapparna ska inte brytas till nästa rad */
-            gap: 10px; /* Justera mellanrum mellan knappar */
-            padding: 5px; /* Justera paddingen efter behov */
+            justify-content: space-around; /* Jämnt fördelade knappar */
+            align-items: center; /* Centrera knappar vertikalt */
+            flex-wrap: nowrap; /* Knappar ska inte brytas till ny rad */
+            gap: 10px; /* Mellanrum mellan knappar */
+            padding: 5px; /* Yttre utrymme för knappcontainer */
             width: 100%;
-            height: 100%; /* Låt höjden justeras automatiskt för att fylla föräldern */
-            overflow: hidden;
-            max-height: 100vh; /* Maxhöjd på container */
+            max-width: 800px; /* Maxbredd för att begränsa bredden */
         }
 
         .styled-button {
@@ -38,8 +36,8 @@
             border-radius: 5px;
             overflow: hidden;
             aspect-ratio: 1 / 1; /* Håller knappen kvadratisk */
-            max-height: calc(100% - 10px); /* Begränsa maximal höjd */
-            flex: 1; /* Gör att knapparna växer och krymper jämnt */
+            max-height: 100px; /* Begränsa maximal höjd */
+            flex: 1; /* Knappar växer och krymper jämnt */
         }
 
         .styled-button img {
@@ -84,11 +82,11 @@
             background-color: #e0e0e0; /* Ändra bakgrundsfärg på knappen när den är i hover-läge */
         }
     </style>
+    <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
 </head>
 <body>
     <div id="tab2" class="tab-pane">
         <div class="button-container">
-            <!-- Knappar för att styra kartor -->
             <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])">
                 <img src="bottom_panel/Kartor/bilder/daggdjurikon.png" alt="Allmän jakt: Däggdjur">
             </button>
@@ -97,7 +95,7 @@
                 <img src="bottom_panel/Kartor/bilder/fagelikon.png" alt="Allmän jakt: Fågel">
             </button>
 
-            <!-- Dropdown för älgjakt -->
+            <!-- Dropdown för älgjaktskartan -->
             <div class="dropdown">
                 <button class="styled-button">
                     <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
@@ -111,3 +109,4 @@
     </div>
 </body>
 </html>
+
