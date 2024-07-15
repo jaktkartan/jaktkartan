@@ -2,8 +2,6 @@
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
         Kartor_geojsonHandler.deactivateAllLayersKartor();
-    } else {
-        console.error("Kartor_geojsonHandler är inte definierad.");
     }
     openTab('tab1');
 });
@@ -11,8 +9,6 @@ document.getElementById('tab1').addEventListener('click', function() {
 document.getElementById('tab2').addEventListener('click', function() {
     if (typeof Upptack_geojsonHandler !== 'undefined') {
         Upptack_geojsonHandler.deactivateAllLayers();
-    } else {
-        console.error("Upptack_geojsonHandler är inte definierad.");
     }
     openTab('tab2');
 });
@@ -42,24 +38,18 @@ function openTab(tabId, url) {
         openKartor(); // Implementeras i bottom_panel/Kartor/kartor_flikbeteende.js
     } else if (tabId === 'tab3') {
         tab.innerHTML = '';
-
         var heading = document.createElement('h2');
         heading.textContent = 'Jaktbart idag';
         tab.appendChild(heading);
-
         var paragraph = document.createElement('p');
         paragraph.textContent = 'Senaste lagrade position:';
         tab.appendChild(paragraph);
-
         displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
-
     } else if (tabId === 'tab4') {
         tab.innerHTML = '';
-
         var heading = document.createElement('h2');
         heading.textContent = 'Kaliberkrav';
         tab.appendChild(heading);
-
         var paragraph = document.createElement('p');
         paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
         tab.appendChild(paragraph);
@@ -87,7 +77,6 @@ function openTab(tabId, url) {
             openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
         };
         tab.appendChild(button2);
-
     } else {
         fetch(url)
             .then(response => response.text())
@@ -123,12 +112,7 @@ document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
     
     // Kontrollera om klicket är utanför tab-content
-    if (!tabContent.contains(event.target)) {
+    if (!tabContent.contains(event.target) && !event.target.matches('.tab-button')) {
         resetTabs();
     }
-});
-
-// Lyssnare för när sidan laddas
-document.addEventListener('DOMContentLoaded', function() {
-    displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
 });
