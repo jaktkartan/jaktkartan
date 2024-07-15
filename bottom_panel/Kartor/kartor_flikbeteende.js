@@ -1,6 +1,5 @@
 // Funktion för att skapa kartor-fliken
 function openKartor() {
-
     // Skapa en container div för att centrera innehållet
     const container = document.createElement('div');
     container.style.display = 'flex';
@@ -9,14 +8,18 @@ function openKartor() {
     container.style.height = '100vh';
     container.style.overflow = 'hidden'; // Förhindra scrollning
 
+    // Skapa tab-pane
+    const tabPane = document.createElement('div');
+    tabPane.className = 'tab-pane'; // Se till att detta klassnamn är definierat i din CSS
+
     // Skapa knapp-container
     const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'button-container';
+    buttonContainer.className = 'button-container'; // Se till att detta klassnamn är definierat i din CSS
 
     // Definiera knapparna med deras respektive egenskaper
     const buttons = [
         {
-            className: 'styled-button',
+            className: 'styled-button', // Se till att denna klass är definierad i din CSS
             onclick: "Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])",
             imgSrc: 'bottom_panel/Kartor/bilder/daggdjurikon.png',
             imgAlt: 'Allmän jakt: Däggdjur'
