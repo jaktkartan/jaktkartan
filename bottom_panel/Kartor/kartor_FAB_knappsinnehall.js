@@ -4,13 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
         var modalId = getModalId(layerName);
         var modal = document.getElementById(modalId);
         if (modal) {
-            // Sätt rätt sökväg för modalfilen baserat på lagerets namn
             var modalPath = getModalPath(layerName);
 
             fetch(modalPath)
                 .then(response => response.text())
                 .then(html => {
-                    var modalContent = modal.querySelector('.modal-content');
+                    var modalContent = modal;
                     if (modalContent) {
                         modalContent.innerHTML = html;
                         modal.style.display = 'block';
@@ -25,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 })
                 .catch(error => console.error('Error loading modal content:', error));
+        } else {
+            console.error('Modal not found:', modalId);
         }
     }
 
@@ -33,6 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var modal = document.getElementById(modalId);
         if (modal) {
             modal.style.display = 'none';
+        } else {
+            console.error('Modal not found:', modalId);
         }
     }
 
