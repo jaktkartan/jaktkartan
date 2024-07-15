@@ -32,6 +32,19 @@ body, button, span, div {
     background-color: #0056b3;
 }
 
+/* CSS för modal */
+.modal {
+    display: none; /* Döljer modalen som standard */
+    position: fixed; /* Håller modalen på en fast plats på skärmen */
+    z-index: 10001; /* Sätter ett högt z-index så att modalen är över andra element */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Lägger till scroll om innehållet är för stort */
+    background-color: rgba(0,0,0,0.4); /* Svart bakgrund med transparens */
+}
+
 /* CSS för modalens innehåll */
 .modal-content {
     background-color: #fefefe;
@@ -71,7 +84,6 @@ body, button, span, div {
     text-decoration: none;
     cursor: pointer;
 }
-
 
 
 
