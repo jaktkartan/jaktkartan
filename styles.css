@@ -32,19 +32,6 @@ body, button, span, div {
     background-color: #0056b3;
 }
 
-/* CSS för modalen */
-.modal {
-    display: none; /* Döljer modalen som standard */
-    position: fixed; /* Håller modalen på en fast plats på skärmen */
-    z-index: 10001; /* Sätter ett högt z-index så att modalen är över kartan */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* Lägger till scroll om innehållet är för stort */
-    background-color: rgba(0,0,0,0.4); /* Svart bakgrund med transparens */
-}
-
 /* CSS för modalens innehåll */
 .modal-content {
     background-color: #fefefe;
@@ -57,22 +44,23 @@ body, button, span, div {
     max-height: 80vh; /* Begränsar höjden på modalens innehåll till 80% av viewportens höjd */
     overflow: auto; /* Lägger till en scrollbar om innehållet är för stort */
     color: rgb(50, 94, 88);
+    text-align: left; /* Vänsterjustera all text inom modal-content */
 }
 
-/* CSS för att hålla bilder inom modalens innehåll och vänsterjustera dem */
+/* CSS för bilder inom modalens innehåll */
 .modal-content img {
     max-width: 100%; /* Gör så att bilden inte är bredare än modalens innehåll */
     max-height: 70vh; /* Gör så att bilden inte är högre än modalens innehåll */
     object-fit: contain; /* Bibehåller bildens proportioner och anpassar den inom ramen */
     border-radius: 10px; /* Rundar hörnen på bilderna för att matcha modalen */
     display: block; /* Förhindrar att bilderna flyter vid sidan om text eller andra element */
-    margin: 0; /* Tar bort eventuell standardmarginal runt bilden */
+    margin: 0 auto; /* Centrerar bilden inom modalens innehåll */
 }
 
 /* CSS för att stänga knappen */
 .close {
     color: #aaa;
-    float: right;
+    float: right; /* Flytta stäng-knappen till höger */
     font-size: 28px;
     font-weight: bold;
 }
