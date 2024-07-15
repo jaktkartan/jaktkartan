@@ -121,16 +121,11 @@ function openKaliberkravTab(url) {
 // Lyssnare för klick utanför flikar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
-
+    
     // Kontrollera om klicket är utanför tab-content
     if (!tabContent.contains(event.target)) {
         resetTabs();
     }
-});
-
-// Förhindra stängning när klick inom flikarna
-document.getElementById('tab-content').addEventListener('click', function(event) {
-    event.stopPropagation();
 });
 
 // Lyssnare för när sidan laddas
