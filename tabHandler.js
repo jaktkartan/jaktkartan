@@ -36,10 +36,13 @@ function openTab(tabId, url) {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block';
 
-    if (tabId === 'tab1') {
-        openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
-    } else if (tabId === 'tab3') {
-        tab.innerHTML = '';
+   if (tabId === 'tab1') {
+    openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
+} else if (tabId === 'tab2') {
+    openKartor(); // Implementeras på ett lämpligt ställe
+} else if (tabId === 'tab3') {
+    tab.innerHTML = ''; // Rensar innehållet i tab
+}
 
         var heading = document.createElement('h2');
         heading.textContent = 'Jaktbart idag';
