@@ -52,9 +52,9 @@ const translateWeatherSymbol = (symbolCode) => {
         case 'thunderstorm':
             return 'åska';
         case 'lightrainandthunder':
-            return 'lätt regn och åska'; // Översättning för lightrainandthunder
+            return 'lätt regn och åska';
         case 'rainandthunder':
-            return 'regn och åska'; // Översättning för rainandthunder
+            return 'regn och åska';
         case 'sleet':
             return 'snöblandat regn';
         case 'snow':
@@ -69,6 +69,10 @@ const translateWeatherSymbol = (symbolCode) => {
             return 'snöskurar';
         case 'fog':
             return 'dimma';
+        case 'rainshowers_day':
+            return 'regnskurar';
+        case 'heavyrainandthunder':
+            return 'kraftigt regn och åska';
         default:
             return symbolCode ? `okänt väder (${symbolCode})` : 'okänt väder';
     }
