@@ -9,9 +9,9 @@ setTimeout(function() {
 
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': true,
-            'Jaktkort': true,
-            'Jaktskyttebanor': true
+            'Mässor': false,
+            'Jaktkort': false,
+            'Jaktskyttebanor': false
         };
 
         var geojsonLayers = {
@@ -221,6 +221,12 @@ setTimeout(function() {
 
         // Update FAB button visibility initially
         updateFabUpptackVisibility();
+
+        // Event listener for FAB button
+        document.getElementById('fab-upptack').addEventListener('click', function() {
+            var modal = document.getElementById('modal-upptack');
+            modal.classList.toggle('show');
+        });
 
         return {
             toggleLayer: toggleLayer,
