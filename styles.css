@@ -56,6 +56,7 @@ body, button, span, div {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Lägger till en skugga för bättre synlighet */
     overflow: hidden; /* Hindrar innehåll från att överflöda */
     max-height: 90vh; /* Begränsar höjden på modalens innehåll */
+    color: rgb(50, 94, 88);
 }
 
 /* CSS för att hålla bilder inom modalens innehåll och vänsterjustera dem */
