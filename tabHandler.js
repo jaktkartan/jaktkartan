@@ -1,4 +1,4 @@
-// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+// Funktioner för att toggla flikarna och hantera knapparna
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
         Kartor_geojsonHandler.deactivateAllLayersKartor();
@@ -118,17 +118,17 @@ function openKaliberkravTab(url) {
         });
 }
 
-// Lyssnare för klick utanför flikar och panelknappar
+// Lyssnare för klick utanför flikar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
-    
-    // Om klicket är utanför tab-content, stäng flikarna
-    if (!tabContent.contains(event.target) && !event.target.closest('.panel-button')) {
+
+    // Kontrollera om klicket är utanför tab-content
+    if (!tabContent.contains(event.target)) {
         resetTabs();
     }
 });
 
-// Stäng flikinnehåll om klick sker utanför tab-content, men inte på flikknappar
+// Förhindra stängning när klick inom flikarna
 document.getElementById('tab-content').addEventListener('click', function(event) {
     event.stopPropagation();
 });
