@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'Upptäck':
                 return 'modal-upptack'; // För Upptäck-lagret
             default:
-                return 'modal-upptack'; // Standard till modal-upptack
+                return ''; // Om inget matchar
         }
     }
 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'Upptäck':
                 return 'bottom_panel/Upptack/modal-upptack.html';
             default:
-                return 'bottom_panel/Upptack/modal-upptack.html'; // Default path
+                return ''; // Om inget matchar
         }
     }
 
