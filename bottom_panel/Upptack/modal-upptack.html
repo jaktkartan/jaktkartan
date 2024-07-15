@@ -4,7 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upptäck</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Länk till din externa CSS-fil -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .points-list {
+            list-style-type: none; /* Ta bort punkterna från listan */
+            padding: 0; /* Ta bort standard padding */
+        }
+
+        .points-list li {
+            display: flex; /* Använd flexbox för att placera bilden och texten på en rad */
+            align-items: center; /* Justera vertikalt för att centrera bilden och texten */
+            margin-bottom: 10px; /* Lägg till lite avstånd mellan listobjekten */
+        }
+
+        .points-list img {
+            margin-right: 10px; /* Lägg till avstånd mellan bilden och texten */
+            max-width: 50px; /* Justera bredden på bilderna efter behov */
+            height: auto; /* Behåll bildens proportioner */
+        }
+
+        .points-list p {
+            margin: 0; /* Ta bort standard marginal för paragrafer */
+        }
+
+        h2 {
+            color: #333;
+        }
+    </style>
 </head>
 <body>
     <div class="modal-content">
