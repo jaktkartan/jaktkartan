@@ -1,20 +1,20 @@
-// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-// Knapparna i tab1 (upptäck) rensar geojson lager från tab2 (kartor)fliken.
+// Funktioner för att toggla flikarna och hantera knapparna
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
         Kartor_geojsonHandler.deactivateAllLayersKartor();
     } else {
         console.error("Kartor_geojsonHandler är inte definierad.");
     }
+    openTab('tab1');
 });
 
-// Knapparna i tab2 (kartor) rensar geojson lager från tab1 (upptäck) fliken.
 document.getElementById('tab2').addEventListener('click', function() {
     if (typeof Upptack_geojsonHandler !== 'undefined') {
         Upptack_geojsonHandler.deactivateAllLayers();
     } else {
         console.error("Upptack_geojsonHandler är inte definierad.");
     }
+    openTab('tab2');
 });
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
@@ -36,13 +36,12 @@ function openTab(tabId, url) {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block';
 
-   if (tabId === 'tab1') {
-    openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
-} else if (tabId === 'tab2') {
-    openKartor(); // Implementeras på ett lämpligt ställe
-} else if (tabId === 'tab3') {
-    tab.innerHTML = ''; // Rensar innehållet i tab
-}
+    if (tabId === 'tab1') {
+        openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
+    } else if (tabId === 'tab2') {
+        openKartor(); // Implementeras eller definieras här
+    } else if (tabId === 'tab3') {
+        tab.innerHTML = '';
 
         var heading = document.createElement('h2');
         heading.textContent = 'Jaktbart idag';
@@ -65,40 +64,41 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
         tab.appendChild(paragraph);
 
-var button1 = document.createElement('button');
-var img1 = document.createElement('img');
-img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
-img1.alt = 'Kaliberkrav: Däggdjur';
-img1.style.width = '90px';  // Justera storlek efter behov
-img1.style.height = '90px'; // Justera storlek efter behov
-button1.appendChild(img1);
-button1.onclick = function() {
-    openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-};
-tab.appendChild(button1);
+        var button1 = document.createElement('button');
+        var img1 = document.createElement('img');
+        img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
+        img1.alt = 'Kaliberkrav: Däggdjur';
+        img1.style.width = '90px';  // Justera storlek efter behov
+        img1.style.height = '90px'; // Justera storlek efter behov
+        button1.appendChild(img1);
+        button1.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+        };
+        tab.appendChild(button1);
 
-var button2 = document.createElement('button');
-var img2 = document.createElement('img');
-img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
-img2.alt = 'Kaliberkrav: Fågel';
-img2.style.width = '90px';  // Justera storlek efter behov
-img2.style.height = '90px'; // Justera storlek efter behov
-button2.appendChild(img2);
-button2.onclick = function() {
-    openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-};
-tab.appendChild(button2);
-
+        var button2 = document.createElement('button');
+        var img2 = document.createElement('img');
+        img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
+        img2.alt = 'Kaliberkrav: Fågel';
+        img2.style.width = '90px';  // Justera storlek efter behov
+        img2.style.height = '90px'; // Justera storlek efter behov
+        button2.appendChild(img2);
+        button2.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+        };
+        tab.appendChild(button2);
 
     } else {
-        fetch(url)
-            .then(response => response.text())
-            .then(html => {
-                tab.innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error fetching tab content:', error);
-            });
+        if (url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    tab.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error fetching tab content:', error);
+                });
+        }
     }
 }
 
@@ -120,10 +120,27 @@ function openKaliberkravTab(url) {
         });
 }
 
+// Funktion för att öppna Kartor-fliken
+function openKartor() {
+    // Implementera funktionen här om den inte är definierad någon annanstans
+    // Exempel på vad som kan göras:
+    var tab = document.getElementById('tab2');
+    tab.innerHTML = ''; // Rensa tabben innan innehåll läggs till
+
+    var heading = document.createElement('h2');
+    heading.textContent = 'Kartor';
+    tab.appendChild(heading);
+
+    // Här kan du lägga till innehåll som är specifikt för 'tab2'
+    // Exempel: lägg till en karta eller annan specifik komponent
+}
+
 // Lyssnare för klick utanför flikar och panelknappar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+    var tabButtons = document.querySelectorAll('#tab1, #tab2'); // Flikknapparna
+
+    if (!tabContent.contains(event.target) && !Array.from(tabButtons).includes(event.target)) {
         resetTabs();
     }
 });
