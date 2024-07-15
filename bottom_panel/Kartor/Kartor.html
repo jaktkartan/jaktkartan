@@ -95,15 +95,18 @@
     <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
     <script>
         function openModal() {
+            console.log('Opening modal');
             document.getElementById("myModal").style.display = "block";
         }
 
         function closeModal() {
+            console.log('Closing modal');
             document.getElementById("myModal").style.display = "none";
         }
 
         function showExistingMap() {
             closeModal();
+            console.log('Showing existing map');
             Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [
                 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson', 
                 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson', 
@@ -114,6 +117,7 @@
 
         function showESO() {
             closeModal();
+            console.log('Showing ESO');
             Kartor_geojsonHandler.toggleLayer('ÄSO', [
                 'https://example.com/eso_map_1.geojson',
                 'https://example.com/eso_map_2.geojson'
