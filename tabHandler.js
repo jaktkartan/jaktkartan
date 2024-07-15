@@ -16,15 +16,6 @@ document.getElementById('tab2').addEventListener('click', function() {
     } else {
         console.error("Upptack_geojsonHandler är inte definierad.");
     }
-});
-
-// Knapparna i tab2 (kartor) rensar geojson lager från tab1 (upptäck) fliken.
-document.getElementById('tab2').addEventListener('click', function() {
-    if (typeof Upptack_geojsonHandler !== 'undefined') {
-        Upptack_geojsonHandler.deactivateAllLayers();
-    } else {
-        console.error("Upptack_geojsonHandler är inte definierad.");
-    }
     openTab('tab2');
 });
 
