@@ -1,31 +1,5 @@
-// bottom_panel/Kartor/kartor_FAB_knappsinnehall.js
+    // I geojson handlern så finns en funktion för att aktivera fab knapparna samtidigt som lagren. den kallas: Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
 
-// Exportera hjälpfunktionerna
-export function getModalId(layerName) {
-    switch(layerName) {
-        case 'Allmän jakt: Däggdjur':
-            return 'modal-daggdjur';
-        case 'Allmän jakt: Fågel':
-            return 'modal-fagel';
-        case 'Älgjaktskartan':
-            return 'modal-alg';
-        default:
-            return '';
-    }
-}
-
-export function getFABId(layerName) {
-    switch(layerName) {
-        case 'Allmän jakt: Däggdjur':
-            return 'fab-daggdjur';
-        case 'Allmän jakt: Fågel':
-            return 'fab-fagel';
-        case 'Älgjaktskartan':
-            return 'fab-alg';
-        default:
-            return '';
-    }
-}
 
 document.addEventListener('DOMContentLoaded', function() {
     // Funktion för att visa modalen och ladda innehåll
@@ -56,6 +30,20 @@ document.addEventListener('DOMContentLoaded', function() {
         var modal = document.getElementById(modalId);
         if (modal) {
             modal.style.display = 'none';
+        }
+    }
+
+    // Hjälpfunktion för att få modalens ID baserat på lagrets namn
+    function getModalId(layerName) {
+        switch(layerName) {
+            case 'Allmän jakt: Däggdjur':
+                return 'modal-daggdjur';
+            case 'Allmän jakt: Fågel':
+                return 'modal-fagel';
+            case 'Älgjaktskartan':
+                return 'modal-alg';
+            default:
+                return '';
         }
     }
 
