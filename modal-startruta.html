@@ -6,7 +6,28 @@
     <title>Upptäck</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Lägg till eventuell CSS här om det behövs */
+        .content {
+            display: none; /* Dölj innehållet som standard */
+        }
+
+        .active {
+            display: block; /* Visa innehållet när det är aktivt */
+        }
+
+        .accordion-button {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .accordion-button:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
@@ -15,28 +36,30 @@
         <h2>Välkommen till Jaktkartan.se!</h2>
         <p>På Jaktkartan.se hittar du allt du behöver för att effektivt planera och genomföra din jakt direkt i mobilen. Här är en snabb översikt över våra huvudfunktioner:</p>
         
-        <h3>Huvudfunktioner:</h3>
-        <ul>
-            <li><strong>Upptäck:</strong>
-                <ul>
-                    <li><strong>Jaktmässor:</strong> Information om kommande jaktmässor i Sverige.</li>
-                    <li><strong>Jaktkort:</strong> Hitta områden där du kan köpa dagkort för jakt.</li>
-                    <li><strong>Jaktskyttebanor:</strong> Platser för skytteövning (snart tillgängligt).</li>
-                    <li><strong>Jaktbutiker:</strong> Rekommendationer för butiker som säljer jaktutrustning (snart tillgängligt).</li>
-                </ul>
-            </li>
-            <li><strong>Kartor:</strong>
-                <ul>
-                    <li><strong>Allmän jakt på däggdjur:</strong> Jakttider och regler för däggdjursjakt.</li>
-                    <li><strong>Allmän jakt på fågel:</strong> Jakttider och regler för fågeljakt.</li>
-                    <li><strong>Älgjaktskartan:</strong> Jakttider i olika Älgförvaltningsområden.</li>
-                    <li><strong>Älgskötselområden:</strong> Karta över Älgskötselområden (snart tillgängligt).</li>
-                </ul>
-            </li>
-            <li><strong>Jaktbart Idag:</strong> Aktuell information om vilka djur som är jaktbara baserat på din plats och ditt län.</li>
-            <li><strong>Kaliberkrav:</strong> Detaljer om kaliberkrav och rekommenderad hagelstorlek för jaktbara vilt.</li>
-            <li><strong>Jaktkollen:</strong> Blogg med nyheter och artiklar om jakttrender och tekniker (snart tillgänglig).</li>
-        </ul>
+        <button class="accordion-button" id="toggle-features">Huvudfunktioner:</button>
+        <div class="content" id="features-content">
+            <ul>
+                <li><strong>Upptäck:</strong>
+                    <ul>
+                        <li><strong>Jaktmässor:</strong> Information om kommande jaktmässor i Sverige.</li>
+                        <li><strong>Jaktkort:</strong> Hitta områden där du kan köpa dagkort för jakt.</li>
+                        <li><strong>Jaktskyttebanor:</strong> Platser för skytteövning (snart tillgängligt).</li>
+                        <li><strong>Jaktbutiker:</strong> Rekommendationer för butiker som säljer jaktutrustning (snart tillgängligt).</li>
+                    </ul>
+                </li>
+                <li><strong>Kartor:</strong>
+                    <ul>
+                        <li><strong>Allmän jakt på däggdjur:</strong> Jakttider och regler för däggdjursjakt.</li>
+                        <li><strong>Allmän jakt på fågel:</strong> Jakttider och regler för fågeljakt.</li>
+                        <li><strong>Älgjaktskartan:</strong> Jakttider i olika Älgförvaltningsområden.</li>
+                        <li><strong>Älgskötselområden:</strong> Karta över Älgskötselområden (snart tillgängligt).</li>
+                    </ul>
+                </li>
+                <li><strong>Jaktbart Idag:</strong> Aktuell information om vilka djur som är jaktbara baserat på din plats och ditt län.</li>
+                <li><strong>Kaliberkrav:</strong> Detaljer om kaliberkrav och rekommenderad hagelstorlek för jaktbara vilt.</li>
+                <li><strong>Jaktkollen:</strong> Blogg med nyheter och artiklar om jakttrender och tekniker (snart tillgänglig).</li>
+            </ul>
+        </div>
 
         <h3>Ytterligare funktioner:</h3>
         <ul>
@@ -46,5 +69,17 @@
         
         <p>Jaktkartan.se är designad för att ge dig enkel och uppdaterad information för din jakt. Oavsett om du är nybörjare eller erfaren jägare, kommer du att hitta användbara verktyg och resurser här. Utforska Jaktkartan.se och optimera din jaktupplevelse idag!</p>
     </div>
+
+    <script>
+        document.getElementById('toggle-features').addEventListener('click', function() {
+            var content = document.getElementById('features-content');
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+            } else {
+                content.classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>
+
