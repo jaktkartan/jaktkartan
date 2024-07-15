@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kartor_fliken, innehåll med knappar</title>
+    <title>Kartor Fliken</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="styles.css" />
     <style>
@@ -57,7 +57,7 @@
             justify-content: space-around;
         }
 
-        .modal-buttons button {
+        .modal-buttons a {
             background-color: #4CAF50; /* Green */
             border: none;
             color: white;
@@ -68,6 +68,15 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .modal-buttons a.close {
+            background-color: #f44336; /* Red */
+        }
+
+        .modal:target {
+            display: flex;
         }
 
         .close {
@@ -98,42 +107,24 @@
             </button>
 
             <!-- Knappen för att öppna modalen -->
-            <button class="styled-button" onclick="openModal()">
+            <a href="#modal-alg" class="styled-button">
                 <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
-            </button>
-            
+            </a>
+
             <!-- Modaler för kartor -->
             <div id="modal-daggdjur" class="modal"></div>
             <div id="modal-fagel" class="modal"></div>
             <div id="modal-alg" class="modal">
                 <div class="modal-content">
-                    <span class="close" onclick="closeModal()">&times;</span>
+                    <a href="#" class="close">&times;</a>
                     <h2>Välj älgjaktskarta</h2>
                     <div class="modal-buttons">
-                        <button onclick="Kartor_geojsonHandler.toggleLayer('Befintlig älgjaktskarta', ['https://example.com/befintlig_karta.geojson'])">Befintlig älgjaktskarta</button>
-                        <button onclick="Kartor_geojsonHandler.toggleLayer('ÄSO', ['https://example.com/eso.geojson'])">ÄSO</button>
+                        <a href="#" onclick="Kartor_geojsonHandler.toggleLayer('Befintlig älgjaktskarta', ['https://example.com/befintlig_karta.geojson'])">Befintlig älgjaktskarta</a>
+                        <a href="#" onclick="Kartor_geojsonHandler.toggleLayer('ÄSO', ['https://example.com/eso.geojson'])">ÄSO</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        function openModal() {
-            document.getElementById('modal-alg').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('modal-alg').style.display = 'none';
-        }
-
-        // Stäng modalen om användaren klickar utanför modal-content
-        window.onclick = function(event) {
-            var modal = document.getElementById('modal-alg');
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-    </script>
 </body>
 </html>
