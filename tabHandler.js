@@ -38,8 +38,6 @@ function openTab(tabId, url) {
 
     if (tabId === 'tab1') {
         openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
-        if (tabId === 'tab2') {
-        openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
     } else if (tabId === 'tab3') {
         tab.innerHTML = '';
 
