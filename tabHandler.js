@@ -1,11 +1,12 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-// Knapparna i tab1 (upptäck) rensar geojson lager från tab2 (kartor)fliken.
+// Knapparna i tab1 (upptäck) rensar geojson lager från tab2 (kartor) fliken.
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
         Kartor_geojsonHandler.deactivateAllLayersKartor();
     } else {
         console.error("Kartor_geojsonHandler är inte definierad.");
     }
+    openTab('tab1');
 });
 
 // Knapparna i tab2 (kartor) rensar geojson lager från tab1 (upptäck) fliken.
@@ -15,6 +16,7 @@ document.getElementById('tab2').addEventListener('click', function() {
     } else {
         console.error("Upptack_geojsonHandler är inte definierad.");
     }
+    openTab('tab2');
 });
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
@@ -29,7 +31,7 @@ function resetTabs() {
 }
 
 // Funktion för att öppna en flik
-function openTab(tabId, url) {
+function openTab(tabId) {
     resetTabs();
     var tab = document.getElementById(tabId);
     tab.style.display = 'block';
@@ -38,6 +40,8 @@ function openTab(tabId, url) {
 
     if (tabId === 'tab1') {
         openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
+    } else if (tabId === 'tab2') {
+        openKartor(); // Implementeras i bottom_panel/Kartor/kartor_flikbeteende.js
     } else if (tabId === 'tab3') {
         tab.innerHTML = '';
 
@@ -62,30 +66,29 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
         tab.appendChild(paragraph);
 
-var button1 = document.createElement('button');
-var img1 = document.createElement('img');
-img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
-img1.alt = 'Kaliberkrav: Däggdjur';
-img1.style.width = '90px';  // Justera storlek efter behov
-img1.style.height = '90px'; // Justera storlek efter behov
-button1.appendChild(img1);
-button1.onclick = function() {
-    openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-};
-tab.appendChild(button1);
+        var button1 = document.createElement('button');
+        var img1 = document.createElement('img');
+        img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
+        img1.alt = 'Kaliberkrav: Däggdjur';
+        img1.style.width = '90px';  // Justera storlek efter behov
+        img1.style.height = '90px'; // Justera storlek efter behov
+        button1.appendChild(img1);
+        button1.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+        };
+        tab.appendChild(button1);
 
-var button2 = document.createElement('button');
-var img2 = document.createElement('img');
-img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
-img2.alt = 'Kaliberkrav: Fågel';
-img2.style.width = '90px';  // Justera storlek efter behov
-img2.style.height = '90px'; // Justera storlek efter behov
-button2.appendChild(img2);
-button2.onclick = function() {
-    openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-};
-tab.appendChild(button2);
-
+        var button2 = document.createElement('button');
+        var img2 = document.createElement('img');
+        img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
+        img2.alt = 'Kaliberkrav: Fågel';
+        img2.style.width = '90px';  // Justera storlek efter behov
+        img2.style.height = '90px'; // Justera storlek efter behov
+        button2.appendChild(img2);
+        button2.onclick = function() {
+            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+        };
+        tab.appendChild(button2);
 
     } else {
         fetch(url)
@@ -133,5 +136,5 @@ function closeTabContent() {
 
 // Lyssnare för när sidan laddas
 document.addEventListener('DOMContentLoaded', function() {
-    displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
+    // Lägg till annan kod för att hantera DOMContentLoaded om nödvändigt
 });
