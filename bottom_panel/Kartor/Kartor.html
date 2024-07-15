@@ -30,8 +30,8 @@
         /* Modal styling */
         .modal {
             display: none; /* Dölj modalen som standard */
-            position: fixed;
-            z-index: 1;
+            position: fixed; /* Gör modalen oberoende av andra element */
+            z-index: 1000; /* Högt z-index så att modalen hamnar ovanpå andra element */
             left: 0;
             top: 0;
             width: 100%;
@@ -44,7 +44,7 @@
 
         .modal-content {
             background-color: #fefefe;
-            margin: 15% auto;
+            margin: 10% auto; /* Centrera modalen vertikalt */
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
@@ -98,7 +98,7 @@
             </button>
 
             <!-- Knappen för att öppna modalen -->
-            <button class="styled-button" onclick="document.getElementById('modal-alg').style.display='flex'">
+            <button class="styled-button" onclick="openModal()">
                 <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
             </button>
             
@@ -117,7 +117,12 @@
             </div>
         </div>
     </div>
+
     <script>
+        function openModal() {
+            document.getElementById('modal-alg').style.display = 'flex';
+        }
+
         function closeModal() {
             document.getElementById('modal-alg').style.display = 'none';
         }
@@ -126,7 +131,7 @@
         window.onclick = function(event) {
             var modal = document.getElementById('modal-alg');
             if (event.target == modal) {
-                modal.style.display = "none";
+                closeModal();
             }
         }
     </script>
