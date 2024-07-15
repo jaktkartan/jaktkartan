@@ -71,6 +71,18 @@ function displaySavedUserPosition() {
         // Visa rull-lista för att välja annat län direkt
         showCountySelection(savedPosition); // Flyttad hit för att visa rull-listan först
 
+        // Skapa texten som ska ligga bakom iframe
+        var loadingText = document.createElement('p');
+        loadingText.textContent = 'Laddar innehåll...';
+        loadingText.style.position = 'absolute';
+        loadingText.style.top = '50%';
+        loadingText.style.left = '50%';
+        loadingText.style.transform = 'translate(-50%, -50%)';
+        loadingText.style.zIndex = '1'; // Lägre än iframe
+
+        // Lägg till texten i tab
+        tab.appendChild(loadingText);
+
         // Ladda GeoJSON-filen och avgör län baserat på sparade koordinater
         loadGeoJSON('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
             .then(geojson => {
@@ -160,10 +172,18 @@ function displaySavedUserPosition() {
                     iframe.style.height = '1400px'; // Justera höjden efter behov
                     iframe.setAttribute('frameborder', '0');
                     tab.appendChild(iframe);
+
+                    // Dölj loadingText när iframe har laddats
+                    iframe.onload = function() {
+                        loadingText.style.display = 'none';
+                    };
                 } else {
                     var noDataInfo = document.createElement('p');
                     noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
                     tab.appendChild(noDataInfo);
+
+                    // Dölj loadingText eftersom ingen iframe laddades
+                    loadingText.style.display = 'none';
                 }
             })
             .catch(error => {
@@ -171,11 +191,13 @@ function displaySavedUserPosition() {
                 var errorInfo = document.createElement('p');
                 errorInfo.textContent = 'Fel vid laddning av GeoJSON.';
                 tab.appendChild(errorInfo);
+
+                // Dölj loadingText vid fel
+                loadingText.style.display = 'none';
             });
     } else {
         console.log("Ingen sparad position hittades.");
     }
-}
 
 // Funktion för att visa en lista över län för att välja ett annat län
 function showCountySelection(savedPosition) {
