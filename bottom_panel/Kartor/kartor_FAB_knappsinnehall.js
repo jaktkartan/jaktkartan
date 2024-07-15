@@ -1,3 +1,5 @@
+// bottom_panel/Kartor/kartor_FAB_knappsinnehall.js
+
 // Exportera hjälpfunktionerna
 export function getModalId(layerName) {
     switch(layerName) {
