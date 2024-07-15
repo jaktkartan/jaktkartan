@@ -1,5 +1,3 @@
-import { getFABId, getModalId } from './kartor_FAB_knappsinnehall.js';
-
 var Kartor_geojsonHandler = (function() {
     // Status för vilka lager som är aktiva
     var layerIsActive = {
@@ -146,45 +144,17 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    // Funktion för att lägga till en klickhändelse till ett lager
-    function addClickHandlerToLayer(layer) {
-        layer.on('click', function(e) {
-            var layerName = e.target.feature.properties.layerName;
-            var modalId = getModalId(layerName);
-            if (modalId) {
-                showModal(layerName);
-            }
-        });
-    }
-
-    // Funktion för att visa modalen och ladda innehåll
-    function showModal(layerName) {
-        var modalId = getModalId(layerName);
-        var modal = document.getElementById(modalId);
-        if (modal) {
-            fetch(`bottom_panel/Kartor/${modalId}.html`)
-                .then(response => response.text())
-                .then(html => {
-                    modal.innerHTML = html;
-                    modal.style.display = 'block';
-
-                    // Lägg till klickhändelser för att stänga modalen
-                    var closeBtn = modal.querySelector('.close');
-                    if (closeBtn) {
-                        closeBtn.addEventListener('click', function () {
-                            closeModal(modalId);
-                        });
-                    }
-                })
-                .catch(error => console.error('Error loading modal content:', error));
-        }
-    }
-
-    // Funktion för att stänga modalen
-    function closeModal(modalId) {
-        var modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'none';
+    // Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
+    function getFABId(layerName) {
+        switch(layerName) {
+            case 'Allmän jakt: Däggdjur':
+                return 'fab-daggdjur';
+            case 'Allmän jakt: Fågel':
+                return 'fab-fagel';
+            case 'Älgjaktskartan':
+                return 'fab-alg';
+            default:
+                return '';
         }
     }
 
@@ -195,28 +165,3 @@ var Kartor_geojsonHandler = (function() {
         deactivateAllLayersKartor: deactivateAllLayersKartor  // Exponerar den nya funktionen
     };
 })();
-
-// Lägg till klickhändelse för FAB-knappar
-document.getElementById('fab-daggdjur')?.addEventListener('click', function() {
-    Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', [
-        'geojson/Rvjaktilvdalenskommun_1.geojson',
-        'geojson/Allman_jakt_daggdjur_2.geojson'
-    ]);
-});
-document.getElementById('fab-fagel')?.addEventListener('click', function() {
-    Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', [
-        'geojson/Lnsindelning_1.geojson',
-        'geojson/Grnsfrripjaktilvdalenskommun_2.geojson',
-        'geojson/GrnslvsomrdetillFinland_5.geojson',
-        'geojson/NedanfrLappmarksgrnsen_3.geojson',
-        'geojson/OvanfrLapplandsgrnsen_4.geojson'
-    ]);
-});
-document.getElementById('fab-alg')?.addEventListener('click', function() {
-    Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [
-        'geojson/lgjaktJakttider_1.geojson',
-        'geojson/Omrdemedbrunstuppehll_2.geojson',
-        'geojson/Srskiltjakttidsfnster_3.geojson',
-        'geojson/Kirunakommunnedanodlingsgrns_4.geojson'
-    ]);
-});
