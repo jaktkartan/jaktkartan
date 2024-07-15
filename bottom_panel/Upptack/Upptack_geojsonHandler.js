@@ -89,6 +89,7 @@ setTimeout(function() {
                 deactivateAllLayers();
                 activateLayer(layerName);
             }
+            updateFabUpptackVisibility();
         }
 
         function activateLayer(layerName) {
@@ -196,6 +197,12 @@ setTimeout(function() {
             return layerStyles[layerName].fallbackStyle;
         }
 
+        function updateFabUpptackVisibility() {
+            var anyLayerActive = Object.values(layerIsActive).includes(true);
+            var fabUpptackButton = document.getElementById('fab-upptack');
+            fabUpptackButton.style.display = anyLayerActive ? 'block' : 'none';
+        }
+
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
@@ -211,6 +218,9 @@ setTimeout(function() {
                 });
             });
         });
+
+        // Update FAB button visibility initially
+        updateFabUpptackVisibility();
 
         return {
             toggleLayer: toggleLayer,
