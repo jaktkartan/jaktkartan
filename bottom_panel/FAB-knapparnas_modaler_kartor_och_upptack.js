@@ -1,4 +1,4 @@
-                        // För aktivering / inaktivering av FAB-knapparna, se Upptäck och Kartors geojson handlers.
+                        // För aktivering / inaktivering av FAB-knapparna, se Upptäck och Kartors geojson handlers
 
 document.addEventListener('DOMContentLoaded', function() {
     // Funktion för att visa modalen och ladda innehåll
