@@ -27,70 +27,38 @@
             cursor: pointer;
         }
 
-        /* Modal styling */
-        .modal {
-            display: none; /* Dölj modalen som standard */
-            position: fixed; /* Gör modalen oberoende av andra element */
-            z-index: 1000; /* Högt z-index så att modalen hamnar ovanpå andra element */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto; /* Centrera modalen vertikalt */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px; /* Begränsa modalens bredd */
-            text-align: center;
-        }
-
-        .modal-buttons {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .modal-buttons a {
-            background-color: #4CAF50; /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
+        .dropdown {
+            position: relative;
             display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
         }
 
-        .modal-buttons a.close {
-            background-color: #f44336; /* Red */
+        .dropdown-content {
+            display: none; /* Dölj dropdown som standard */
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            text-align: center;
         }
 
-        .modal:target {
-            display: flex;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
+        .dropdown-content a {
             color: black;
+            padding: 12px 16px;
             text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
         }
     </style>
 </head>
@@ -106,22 +74,14 @@
                 <img src="bottom_panel/Kartor/bilder/fagelikon.png" alt="Allmän jakt: Fågel">
             </button>
 
-            <!-- Knappen för att öppna modalen -->
-            <a href="#modal-alg" class="styled-button">
-                <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
-            </a>
-
-            <!-- Modaler för kartor -->
-            <div id="modal-daggdjur" class="modal"></div>
-            <div id="modal-fagel" class="modal"></div>
-            <div id="modal-alg" class="modal">
-                <div class="modal-content">
-                    <a href="#" class="close">&times;</a>
-                    <h2>Välj älgjaktskarta</h2>
-                    <div class="modal-buttons">
-                        <a href="#" onclick="Kartor_geojsonHandler.toggleLayer('Befintlig älgjaktskarta', ['https://example.com/befintlig_karta.geojson'])">Befintlig älgjaktskarta</a>
-                        <a href="#" onclick="Kartor_geojsonHandler.toggleLayer('ÄSO', ['https://example.com/eso.geojson'])">ÄSO</a>
-                    </div>
+            <!-- Dropdown för älgjakt -->
+            <div class="dropdown">
+                <button class="styled-button">
+                    <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
+                </button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="Kartor_geojsonHandler.toggleLayer('Befintlig älgjaktskarta', ['https://example.com/befintlig_karta.geojson'])">Befintlig älgjaktskarta</a>
+                    <a href="#" onclick="Kartor_geojsonHandler.toggleLayer('ÄSO', ['https://example.com/eso.geojson'])">ÄSO</a>
                 </div>
             </div>
         </div>
