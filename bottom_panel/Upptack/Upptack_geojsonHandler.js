@@ -218,26 +218,3 @@ setTimeout(function() {
         };
     })(map);
 }, 1000);
-
-    // Funktion för att uppdatera FAB-knappen baserat på lagrets tillstånd
-    function updateFAB(layerName, show) {
-        var fabId = getFABId(layerName);
-        var fabButton = document.getElementById(fabId);
-        if (fabButton) {
-            fabButton.style.display = show ? 'block' : 'none';
-        }
-    }
-
-    // Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
-    function getFABId(layerName) {
-        switch(layerName) {
-            case 'Visa allt':
-                return 'fab-upptack';
-            case 'Mässor':
-                return 'fab-upptack';
-            case 'jaktkort':
-                return 'fab-upptack';
-            default:
-                return '';
-        }
-    }
