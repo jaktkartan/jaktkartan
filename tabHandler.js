@@ -1,5 +1,4 @@
 // Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
-// Knapparna i tab1 (upptäck) rensar geojson lager från tab2 (kartor) fliken.
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
         Kartor_geojsonHandler.deactivateAllLayersKartor();
@@ -124,9 +123,9 @@ function openKaliberkravTab(url) {
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
     var panelButtons = document.querySelectorAll('.panel-button');
-    
+
     // Kontrollera om klicket är utanför tab-content och panel-buttons
-    if (!tabContent.contains(event.target) && !panelButtons.contains(event.target)) {
+    if (!tabContent.contains(event.target) && !event.target.closest('.panel-button')) {
         resetTabs();
     }
 });
