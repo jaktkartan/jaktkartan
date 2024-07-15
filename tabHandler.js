@@ -1,20 +1,20 @@
-// Funktioner för att toggla flikarna och hantera knapparna
+// Funktioner för att toggla väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+// Knapparna i tab1 (upptäck) rensar geojson-lager från tab2 (kartor) fliken.
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
         Kartor_geojsonHandler.deactivateAllLayersKartor();
     } else {
         console.error("Kartor_geojsonHandler är inte definierad.");
     }
-    openTab('tab1');
 });
 
+// Knapparna i tab2 (kartor) rensar geojson-lager från tab1 (upptäck) fliken.
 document.getElementById('tab2').addEventListener('click', function() {
     if (typeof Upptack_geojsonHandler !== 'undefined') {
         Upptack_geojsonHandler.deactivateAllLayers();
     } else {
         console.error("Upptack_geojsonHandler är inte definierad.");
     }
-    openTab('tab2');
 });
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
@@ -39,9 +39,9 @@ function openTab(tabId, url) {
     if (tabId === 'tab1') {
         openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
     } else if (tabId === 'tab2') {
-        openKartor(); // Implementeras eller definieras här
+        openKartor(); // Implementeras på ett lämpligt ställe
     } else if (tabId === 'tab3') {
-        tab.innerHTML = '';
+        tab.innerHTML = ''; // Rensar innehållet i tab
 
         var heading = document.createElement('h2');
         heading.textContent = 'Jaktbart idag';
@@ -52,7 +52,6 @@ function openTab(tabId, url) {
         tab.appendChild(paragraph);
 
         displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
-
     } else if (tabId === 'tab4') {
         tab.innerHTML = '';
 
@@ -89,16 +88,14 @@ function openTab(tabId, url) {
         tab.appendChild(button2);
 
     } else {
-        if (url) {
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    tab.innerHTML = html;
-                })
-                .catch(error => {
-                    console.error('Error fetching tab content:', error);
-                });
-        }
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                tab.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error fetching tab content:', error);
+            });
     }
 }
 
@@ -120,27 +117,10 @@ function openKaliberkravTab(url) {
         });
 }
 
-// Funktion för att öppna Kartor-fliken
-function openKartor() {
-    // Implementera funktionen här om den inte är definierad någon annanstans
-    // Exempel på vad som kan göras:
-    var tab = document.getElementById('tab2');
-    tab.innerHTML = ''; // Rensa tabben innan innehåll läggs till
-
-    var heading = document.createElement('h2');
-    heading.textContent = 'Kartor';
-    tab.appendChild(heading);
-
-    // Här kan du lägga till innehåll som är specifikt för 'tab2'
-    // Exempel: lägg till en karta eller annan specifik komponent
-}
-
 // Lyssnare för klick utanför flikar och panelknappar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
-    var tabButtons = document.querySelectorAll('#tab1, #tab2'); // Flikknapparna
-
-    if (!tabContent.contains(event.target) && !Array.from(tabButtons).includes(event.target)) {
+    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
         resetTabs();
     }
 });
