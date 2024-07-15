@@ -4,10 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var modalId = getModalId(layerName);
         var modal = document.getElementById(modalId);
         if (modal) {
-            fetch('bottom_panel/Upptack/modal-upptack.html')
+            // Sätt rätt sökväg för modalfilen baserat på lagerets namn
+            var modalPath = getModalPath(layerName);
+
+            fetch(modalPath)
                 .then(response => response.text())
                 .then(html => {
-                    var modalContent = document.getElementById('modal-upptack-content');
+                    var modalContent = modal.querySelector('.modal-content');
                     if (modalContent) {
                         modalContent.innerHTML = html;
                         modal.style.display = 'block';
@@ -45,7 +48,23 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'Upptäck':
                 return 'modal-upptack'; // För Upptäck-lagret
             default:
-                return '';
+                return 'modal-upptack'; // Standard till modal-upptack
+        }
+    }
+
+    // Hjälpfunktion för att få rätt sökväg till modalfilen baserat på lagrets namn
+    function getModalPath(layerName) {
+        switch(layerName) {
+            case 'Allmän jakt: Däggdjur':
+                return 'bottom_panel/Kartor/modal-daggdjur.html';
+            case 'Allmän jakt: Fågel':
+                return 'bottom_panel/Kartor/modal-fagel.html';
+            case 'Älgjaktskartan':
+                return 'bottom_panel/Kartor/modal-alg.html';
+            case 'Upptäck':
+                return 'bottom_panel/Upptack/modal-upptack.html';
+            default:
+                return 'bottom_panel/Upptack/modal-upptack.html'; // Default path
         }
     }
 
