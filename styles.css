@@ -48,21 +48,21 @@ body, button, span, div {
 /* CSS för modalens innehåll */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* Centrerar modalen */
+    margin: 5% auto; /* Justera marginal för att centrera modalen */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Ställer in bredden på modalen */
     border-radius: 15px; /* Rundar hörnen på modalens innehåll */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Lägger till en skugga för bättre synlighet */
-    overflow: hidden; /* Hindrar innehåll från att överflöda */
-    max-height: 90vh; /* Begränsar höjden på modalens innehåll */
+    max-height: 80vh; /* Begränsar höjden på modalens innehåll till 80% av viewportens höjd */
+    overflow: auto; /* Lägger till en scrollbar om innehållet är för stort */
     color: rgb(50, 94, 88);
 }
 
 /* CSS för att hålla bilder inom modalens innehåll och vänsterjustera dem */
 .modal-content img {
     max-width: 100%; /* Gör så att bilden inte är bredare än modalens innehåll */
-    max-height: 80vh; /* Gör så att bilden inte är högre än modalens innehåll */
+    max-height: 70vh; /* Gör så att bilden inte är högre än modalens innehåll */
     object-fit: contain; /* Bibehåller bildens proportioner och anpassar den inom ramen */
     border-radius: 10px; /* Rundar hörnen på bilderna för att matcha modalen */
     display: block; /* Förhindrar att bilderna flyter vid sidan om text eller andra element */
@@ -83,7 +83,6 @@ body, button, span, div {
     text-decoration: none;
     cursor: pointer;
 }
-
 
 
 
