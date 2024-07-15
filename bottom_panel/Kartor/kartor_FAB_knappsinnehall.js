@@ -1,5 +1,4 @@
-// I geojson handlern så finns en funktion för att aktivera fab knapparna samtidigt som lagren. den kallas: Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
-
+// Exportera hjälpfunktionerna
 export function getModalId(layerName) {
     switch(layerName) {
         case 'Allmän jakt: Däggdjur':
