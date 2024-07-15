@@ -91,52 +91,132 @@ var Kartor_geojsonHandler = (function() {
                         layer.addTo(map);
                     }
                 })
-                .catch(function(error) {
-                    console.error('Error loading GeoJSON data:', error);
+                .catch(function() {
+                    console.error("Error fetching GeoJSON data.");
                 });
         });
 
-        // Aktivera lagret och FAB-knappen
+        // Markera lagret som aktivt
         layerIsActive[layerName] = true;
-        document.getElementById(getFABId(layerName)).classList.add('active');
+        updateFAB(layerName, true);
     }
 
-    // Funktion för att stänga ett lager
+    // Funktion för att växla (aktivera/inaktivera) lager
     function toggleLayer(layerName, geojsonURLs) {
-        if (layerIsActive[layerName]) {
+        if (!layerIsActive[layerName]) {
+            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+        } else {
             geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
+                map.removeLayer(layer);  // Ta bort lager från kartan
             });
+
             geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
-            document.getElementById(getFABId(layerName)).classList.remove('active');
-        } else {
-            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+            updateFAB(layerName, false);
         }
     }
 
-    // Lägg till klickhändelse för FAB-knappar
-    document.getElementById('fab-daggdjur')?.addEventListener('click', function() {
-        toggleLayer('Allmän jakt: Däggdjur', [
-            'geojson/Rvjaktilvdalenskommun_1.geojson',
-            'geojson/Allman_jakt_daggdjur_2.geojson'
-        ]);
-    });
-    document.getElementById('fab-fagel')?.addEventListener('click', function() {
-        toggleLayer('Allmän jakt: Fågel', [
-            'geojson/Lnsindelning_1.geojson',
-            'geojson/Grnsfrripjaktilvdalenskommun_2.geojson',
-            'geojson/GrnslvsomrdetillFinland_5.geojson',
-            'geojson/NedanfrLappmarksgrnsen_3.geojson',
-            'geojson/OvanfrLapplandsgrnsen_4.geojson'
-        ]);
-    });
-    document.getElementById('fab-alg')?.addEventListener('click', function() {
-        toggleLayer('Älgjaktskartan', [
-            'geojson/lgjaktJakttider_1.geojson',
-            'geojson/Omrdemedbrunstuppehll_2.geojson',
-            'geojson/Srskiltjakttidsfnster_3.geojson',
-            'geojson/Kirunakommunnedanodlingsgrns_4.geojson'
-        ]);
-    });
+    // Ny funktion för att inaktivera alla lager
+    function deactivateAllLayersKartor() {
+        console.log("Deactivating all layers.");
+        Object.keys(layerIsActive).forEach(function(layerName) {
+            if (layerIsActive[layerName]) {
+                console.log("Deactivating layer:", layerName);
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer); // Ta bort lager från kartan
+                });
+                geojsonLayers[layerName] = []; // Rensa listan med lager
+                layerIsActive[layerName] = false; // Markera som inaktiv
+                updateFAB(layerName, false);
+            }
+        });
+    }
+
+    // Funktion för att få filnamnet från en URL
+    function getFilenameFromURL(url) {
+        return url.split('/').pop();
+    }
+
+    // Funktion för att uppdatera FAB-knappen baserat på lagrets tillstånd
+    function updateFAB(layerName, show) {
+        var fabId = getFABId(layerName);
+        var fabButton = document.getElementById(fabId);
+        if (fabButton) {
+            fabButton.style.display = show ? 'block' : 'none';
+        }
+    }
+
+    // Funktion för att lägga till en klickhändelse till ett lager
+    function addClickHandlerToLayer(layer) {
+        layer.on('click', function(e) {
+            var layerName = e.target.feature.properties.layerName;
+            var modalId = getModalId(layerName);
+            if (modalId) {
+                showModal(layerName);
+            }
+        });
+    }
+
+    // Funktion för att visa modalen och ladda innehåll
+    function showModal(layerName) {
+        var modalId = getModalId(layerName);
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            fetch(`bottom_panel/Kartor/${modalId}.html`)
+                .then(response => response.text())
+                .then(html => {
+                    modal.innerHTML = html;
+                    modal.style.display = 'block';
+
+                    // Lägg till klickhändelser för att stänga modalen
+                    var closeBtn = modal.querySelector('.close');
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', function () {
+                            closeModal(modalId);
+                        });
+                    }
+                })
+                .catch(error => console.error('Error loading modal content:', error));
+        }
+    }
+
+    // Funktion för att stänga modalen
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Exponerar funktionerna för att växla lager och hämta GeoJSON-data
+    return {
+        toggleLayer: toggleLayer,
+        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
+        deactivateAllLayersKartor: deactivateAllLayersKartor  // Exponerar den nya funktionen
+    };
 })();
+
+// Lägg till klickhändelse för FAB-knappar
+document.getElementById('fab-daggdjur')?.addEventListener('click', function() {
+    Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', [
+        'geojson/Rvjaktilvdalenskommun_1.geojson',
+        'geojson/Allman_jakt_daggdjur_2.geojson'
+    ]);
+});
+document.getElementById('fab-fagel')?.addEventListener('click', function() {
+    Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', [
+        'geojson/Lnsindelning_1.geojson',
+        'geojson/Grnsfrripjaktilvdalenskommun_2.geojson',
+        'geojson/GrnslvsomrdetillFinland_5.geojson',
+        'geojson/NedanfrLappmarksgrnsen_3.geojson',
+        'geojson/OvanfrLapplandsgrnsen_4.geojson'
+    ]);
+});
+document.getElementById('fab-alg')?.addEventListener('click', function() {
+    Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [
+        'geojson/lgjaktJakttider_1.geojson',
+        'geojson/Omrdemedbrunstuppehll_2.geojson',
+        'geojson/Srskiltjakttidsfnster_3.geojson',
+        'geojson/Kirunakommunnedanodlingsgrns_4.geojson'
+    ]);
+});
