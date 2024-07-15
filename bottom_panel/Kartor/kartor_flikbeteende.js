@@ -1,8 +1,5 @@
 // Funktion för att skapa kartor-fliken
 function openKartor() {
-    // Hitta och rensa tab2 innehåll
-    const tabPane = document.getElementById('tab2');
-    tabPane.innerHTML = '';
 
     // Skapa en container div för att centrera innehållet
     const container = document.createElement('div');
