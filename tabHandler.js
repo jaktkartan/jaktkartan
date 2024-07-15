@@ -1,20 +1,20 @@
-// Funktioner för att toggla flikarna och hantera knapparna
+// Funktioner för att toggle väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
+// Knapparna i tab1 (upptäck) rensar geojson lager från tab2 (kartor)fliken.
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
         Kartor_geojsonHandler.deactivateAllLayersKartor();
     } else {
         console.error("Kartor_geojsonHandler är inte definierad.");
     }
-    openTab('tab1');
 });
 
+// Knapparna i tab2 (kartor) rensar geojson lager från tab1 (upptäck) fliken.
 document.getElementById('tab2').addEventListener('click', function() {
     if (typeof Upptack_geojsonHandler !== 'undefined') {
         Upptack_geojsonHandler.deactivateAllLayers();
     } else {
         console.error("Upptack_geojsonHandler är inte definierad.");
     }
-    openTab('tab2');
 });
 
 // Funktion för att återställa flikarna till sitt ursprungliga tillstånd
@@ -62,29 +62,30 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
         tab.appendChild(paragraph);
 
-        var button1 = document.createElement('button');
-        var img1 = document.createElement('img');
-        img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
-        img1.alt = 'Kaliberkrav: Däggdjur';
-        img1.style.width = '90px';  // Justera storlek efter behov
-        img1.style.height = '90px'; // Justera storlek efter behov
-        button1.appendChild(img1);
-        button1.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-        };
-        tab.appendChild(button1);
+var button1 = document.createElement('button');
+var img1 = document.createElement('img');
+img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
+img1.alt = 'Kaliberkrav: Däggdjur';
+img1.style.width = '90px';  // Justera storlek efter behov
+img1.style.height = '90px'; // Justera storlek efter behov
+button1.appendChild(img1);
+button1.onclick = function() {
+    openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+};
+tab.appendChild(button1);
 
-        var button2 = document.createElement('button');
-        var img2 = document.createElement('img');
-        img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
-        img2.alt = 'Kaliberkrav: Fågel';
-        img2.style.width = '90px';  // Justera storlek efter behov
-        img2.style.height = '90px'; // Justera storlek efter behov
-        button2.appendChild(img2);
-        button2.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-        };
-        tab.appendChild(button2);
+var button2 = document.createElement('button');
+var img2 = document.createElement('img');
+img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
+img2.alt = 'Kaliberkrav: Fågel';
+img2.style.width = '90px';  // Justera storlek efter behov
+img2.style.height = '90px'; // Justera storlek efter behov
+button2.appendChild(img2);
+button2.onclick = function() {
+    openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+};
+tab.appendChild(button2);
+
 
     } else {
         fetch(url)
@@ -119,9 +120,7 @@ function openKaliberkravTab(url) {
 // Lyssnare för klick utanför flikar och panelknappar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
-    var tabButtons = document.querySelectorAll('#tab1, #tab2'); // Flikknapparna
-
-    if (!tabContent.contains(event.target) && !Array.from(tabButtons).includes(event.target)) {
+    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
         resetTabs();
     }
 });
