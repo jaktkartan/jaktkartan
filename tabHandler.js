@@ -21,27 +21,27 @@ document.getElementById('tab2').addEventListener('click', function() {
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
-        tabs[i].style.display = 'none';
-        tabs[i].innerHTML = '';
+        tabs[i].style.display = 'none'; // Döljer alla flikar
+        clearTabPaneContent(tabs[i]); // Rensar innehåll i varje flik
     }
     var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none';
+    tabContent.style.display = 'none'; // Döljer tab-content behållaren
 }
 
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
-    resetTabs();
+    resetTabs(); // Rensa tidigare flikar
     var tab = document.getElementById(tabId);
-    tab.style.display = 'block';
+    tab.style.display = 'block'; // Visa den valda fliken
     var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'block';
+    tabContent.style.display = 'block'; // Visa tab-content behållaren
 
     if (tabId === 'tab1') {
-        openUpptack(); // Implementeras i bottom_panel/Upptack/Upptack_flikbeteende.js
+        openUpptack(); // Anropar funktion för tab1
     } else if (tabId === 'tab2') {
-        openKartor(); // Implementeras på ett lämpligt ställe
+        openKartor(); // Anropar funktion för tab2
     } else if (tabId === 'tab3') {
-        tab.innerHTML = ''; // Rensar innehållet i tab
+        tab.innerHTML = ''; // Rensar innehållet i tab3
 
         var heading = document.createElement('h2');
         heading.textContent = 'Jaktbart idag';
@@ -51,7 +51,7 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Senaste lagrade position:';
         tab.appendChild(paragraph);
 
-        displaySavedUserPosition(); // Anropar direkt för att visa rull-listan
+        displaySavedUserPosition(); // Anropar funktion för att visa position
     } else if (tabId === 'tab4') {
         tab.innerHTML = '';
 
@@ -87,17 +87,25 @@ function openTab(tabId, url) {
         };
         tab.appendChild(button2);
 
-    } else {
+    } else if (tabId === 'tab5') {
         fetch(url)
             .then(response => response.text())
             .then(html => {
-                tab.innerHTML = html;
+                tab.innerHTML = html; // Lägg till innehållet för tab5
             })
             .catch(error => {
                 console.error('Error fetching tab content:', error);
             });
     }
 }
+
+// Funktion för att rensa innehållet i en tab-pane på ett säkert sätt
+function clearTabPaneContent(tabPane) {
+    while (tabPane.firstChild) {
+        tabPane.removeChild(tabPane.firstChild);
+    }
+}
+
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
