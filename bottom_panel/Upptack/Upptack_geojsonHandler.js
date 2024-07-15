@@ -9,7 +9,7 @@ setTimeout(function() {
 
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': true,  // Assumes layers should be active initially
+            'Mässor': true,
             'Jaktkort': true,
             'Jaktskyttebanor': true
         };
@@ -52,7 +52,6 @@ setTimeout(function() {
                 axios.get(geojsonURL)
                     .then(function(response) {
                         var geojson = response.data;
-                        console.log("Fetched GeoJSON data for " + layerName + ":", geojson); // Debug log
 
                         var layer = L.geoJSON(geojson, {
                             pointToLayer: function(feature, latlng) {
@@ -114,14 +113,12 @@ setTimeout(function() {
                     layerIsActive[name] = false;
                 }
             });
+            updateFabUpptackVisibility();
         }
 
         function generatePopupContent(feature, layerName) {
-            console.log("Feature properties:", feature.properties); // Debug log
-            
             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
 
-            // Definiera fält som ska användas för olika lager
             var fields = {
                 'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
                 'Jaktkort': ['Rubrik', 'Info', 'Link', 'VAGBESKRIV']
@@ -134,24 +131,17 @@ setTimeout(function() {
                 if (hideProperties.includes(prop)) continue;
                 var value = feature.properties[prop];
 
-                // Kontrollera om det är en bild och lägg till den i popupen
                 if (prop === 'BILD' && value) {
                     popupContent += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
-                } 
-                // Kontrollera om det är en länk och lägg till den i popupen
-                else if (prop === 'LINK' || prop === 'Link') {
+                } else if (prop === 'LINK' || prop === 'Link') {
                     if (value) {
                         popupContent += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
                     }
-                } 
-                // Kontrollera om det är en vägbeskrivning och lägg till den i popupen
-                else if (prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') {
+                } else if (prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') {
                     if (value) {
                         popupContent += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
                     }
-                } 
-                // Hantera andra fält
-                else if (hideNameOnlyProperties.includes(prop) && value) {
+                } else if (hideNameOnlyProperties.includes(prop) && value) {
                     popupContent += '<p>' + value + '</p>';
                 } else if (value) {
                     popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
@@ -203,12 +193,10 @@ setTimeout(function() {
             fabUpptackButton.style.display = anyLayerActive ? 'block' : 'none';
         }
 
-        // Initial load of GeoJSON data and activate layers
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
-        // Activate layers initially if needed
         activateAllLayers();
 
         map.on('zoomend', function() {
@@ -223,10 +211,8 @@ setTimeout(function() {
             });
         });
 
-        // Update FAB button visibility initially
         updateFabUpptackVisibility();
 
-        // Event listener for FAB button
         document.getElementById('fab-upptack').addEventListener('click', function() {
             var modal = document.getElementById('modal-upptack');
             modal.classList.toggle('show');
