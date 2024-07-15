@@ -16,27 +16,71 @@
             justify-content: center; /* Centrera innehållet horisontellt */
             align-items: center; /* Centrera innehållet vertikalt */
         }
+        .button-container {
+            position: relative;
+        }
+        .extra-buttons {
+            display: none; /* Dolda knapparna som standard */
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: white;
+            border: 1px solid black;
+            padding: 10px;
+            z-index: 10;
+        }
+        .extra-buttons button {
+            display: block;
+            margin-bottom: 10px;
+        }
     </style>
-    <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
 </head>
 <body>
     <div id="tab2" class="tab-pane">
         <div class="button-container">
+            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])">
+                <img src="bottom_panel/Kartor/bilder/daggdjurikon.png" alt="Allmän jakt: Däggdjur">
+            </button>
 
-<button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])">
-    <img src="bottom_panel/Kartor/bilder/daggdjurikon.png" alt="Allmän jakt: Däggdjur">
-</button>
+            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson','https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'])">
+                <img src="bottom_panel/Kartor/bilder/fagelikon.png" alt="Allmän jakt: Fågel">
+            </button>
 
-<button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson','https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'])">
-    <img src="bottom_panel/Kartor/bilder/fagelikon.png" alt="Allmän jakt: Fågel">
-</button>
+            <button class="styled-button" onclick="toggleExtraButtons()">
+                <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
+            </button>
 
-<button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'])">
-    <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
-</button>
-
-
+            <div id="extra-buttons" class="extra-buttons">
+                <button onclick="showAlgJaktsKartan()">Visa Älgjaktskartan</button>
+                <button onclick="showEso()">Visa ÄSO</button>
+            </div>
         </div>
     </div>
+
+    <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
+    <script>
+        function toggleExtraButtons() {
+            var extraButtons = document.getElementById('extra-buttons');
+            if (extraButtons.style.display === 'none' || extraButtons.style.display === '') {
+                extraButtons.style.display = 'block';
+            } else {
+                extraButtons.style.display = 'none';
+            }
+        }
+
+        function showAlgJaktsKartan() {
+            // Stänger av extra-knapparna
+            toggleExtraButtons();
+            // Här triggar vi den ursprungliga funktionen för Älgjaktskartan
+            Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson']);
+        }
+
+        function showEso() {
+            // Stänger av extra-knapparna
+            toggleExtraButtons();
+            // Här kan du lägga till funktionalitet för ÄSO-knappen
+            alert('ÄSO-knappen är inte ännu implementerad.');
+        }
+    </script>
 </body>
 </html>
