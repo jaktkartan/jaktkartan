@@ -29,7 +29,7 @@ function resetTabs() {
 }
 
 // Funktion för att öppna en flik
-function openTab(tabId) {
+function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
     tab.style.display = 'block';
@@ -121,14 +121,19 @@ function openKaliberkravTab(url) {
 // Lyssnare för klick utanför flikar och panelknappar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
-
-    // Kontrollera om klicket är utanför tab-content
+    
+    // Om klicket är utanför tab-content, stäng flikarna
     if (!tabContent.contains(event.target) && !event.target.closest('.panel-button')) {
         resetTabs();
     }
 });
 
-// Lyssnare för att förhindra att klick inom tab-content stänger flikarna
+// Stäng flikinnehåll om klick sker utanför tab-content, men inte på flikknappar
 document.getElementById('tab-content').addEventListener('click', function(event) {
     event.stopPropagation();
+});
+
+// Lyssnare för när sidan laddas
+document.addEventListener('DOMContentLoaded', function() {
+    displaySavedUserPosition(); // Visa sparade positionen när sidan laddas
 });
