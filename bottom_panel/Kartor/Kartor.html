@@ -3,43 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kartor_fliken, innehåll med knappar</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <title>Kartor Fliken</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
-        /* Lägg till nödvändiga stilar för extra-knapparna och deras container */
-        .button-container {
-            display: flex;
-            justify-content: space-around; /* Fördela knapparna jämnt */
-            align-items: center; /* Centrera knapparna vertikalt */
-            flex-wrap: nowrap; /* Knapparna ska inte brytas till nästa rad */
-            gap: 10px; /* Justera mellanrum mellan knappar */
-            padding: 5px; /* Justera paddingen efter behov */
-            width: 100%;
-            height: 100%; /* Låt höjden justeras automatiskt för att fylla föräldern */
-            overflow: hidden;
-            max-height: 100vh; /* Maxhöjd på container */
-            position: relative; /* För att positionera extra-knappar ovanpå */
-        }
-
-        .styled-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgb(50, 94, 88);
-            border-radius: 5px;
-            overflow: hidden;
-            aspect-ratio: 1 / 1; /* Håller knappen kvadratisk */
-            max-height: calc(100% - 10px); /* Begränsa maximal höjd */
-            flex: 1; /* Gör att knapparna växer och krymper jämnt */
-            position: relative; /* För att positionera extra-knappar ovanpå */
-        }
-
-        .styled-button img {
-            width: auto;
-            height: 100%;
-            object-fit: contain; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
-        }
+        /* CSS-kod */
 
         .extra-buttons {
             display: none; /* Dolda knapparna som standard */
@@ -53,7 +20,7 @@
             z-index: 10;
             width: 100%; /* Matchar bredden på den ursprungliga knappen */
             box-sizing: border-box;
-            max-height: 200px; /* Begränsa höjden på extra-knapparna för att förhindra överlappning */
+            max-height: 200px; /* Begränsa höjden på extra-knapparna */
             overflow-y: auto; /* Lägg till skrollning om det finns många knappar */
         }
 
@@ -71,30 +38,30 @@
 <body>
     <div id="tab2" class="tab-pane">
         <div class="button-container">
-            <button class="styled-button" onclick="toggleExtraButtons()">
+            <div class="styled-button" onclick="toggleExtraButtons()">
                 <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
+                <div id="extra-buttons" class="extra-buttons">
+                    <button onclick="showAlgJaktsKartan()">Visa Älgjaktskartan</button>
+                    <button onclick="showEso()">Visa ÄSO</button>
+                </div>
+            </div>
+            
+            <!-- Andra knappar -->
+            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])">
+                <img src="bottom_panel/Kartor/bilder/daggdjurikon.png" alt="Allmän jakt: Däggdjur">
             </button>
 
-            <div id="extra-buttons" class="extra-buttons">
-                <button onclick="showAlgJaktsKartan()">Visa Älgjaktskartan</button>
-                <button onclick="showEso()">Visa ÄSO</button>
-            </div>
+            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson','https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'])">
+                <img src="bottom_panel/Kartor/bilder/fagelikon.png" alt="Allmän jakt: Fågel">
+            </button>
         </div>
-
-        <!-- Andra knappar -->
-        <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])">
-            <img src="bottom_panel/Kartor/bilder/daggdjurikon.png" alt="Allmän jakt: Däggdjur">
-        </button>
-
-        <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson','https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'])">
-            <img src="bottom_panel/Kartor/bilder/fagelikon.png" alt="Allmän jakt: Fågel">
-        </button>
     </div>
 
     <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
     <script>
         function toggleExtraButtons() {
             var extraButtons = document.getElementById('extra-buttons');
+            // Växla visibiliteten för extra-knapparna
             if (extraButtons.style.display === 'none' || extraButtons.style.display === '') {
                 extraButtons.style.display = 'block';
             } else {
