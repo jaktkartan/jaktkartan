@@ -1,5 +1,3 @@
-                        // För aktivering / inaktivering av FAB-knapparna, se Upptäck och Kartors geojson handlers
-
 document.addEventListener('DOMContentLoaded', function() {
     // Funktion för att visa modalen och ladda innehåll
     function showModal(layerName) {
@@ -52,6 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return 'modal-alg';
             case 'Upptäck':
                 return 'modal-upptack'; // För Upptäck-lagret
+            case 'Startmodal':
+                return 'modal-startruta'; // För startmodalen
             default:
                 return ''; // Om inget matchar
         }
@@ -68,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return 'bottom_panel/Kartor/modal-alg.html';
             case 'Upptäck':
                 return 'bottom_panel/Upptack/modal-upptack.html';
+            case 'Startmodal':
+                return 'modal-startruta.html'; // Sökväg till startmodalen
             default:
                 return ''; // Om inget matchar
         }
@@ -90,8 +92,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Lägg till klickhändelse för att stänga modal när man klickar utanför modalen
     window.addEventListener('click', function(event) {
         if (event.target.classList.contains('modal')) {
-            const modals = ['modal-daggdjur', 'modal-fagel', 'modal-alg', 'modal-upptack'];
+            const modals = ['modal-daggdjur', 'modal-fagel', 'modal-alg', 'modal-upptack', 'modal-startruta'];
             modals.forEach(id => closeModal(id));
         }
     });
+
+    // Visa startmodalen när sidan initieras
+    showModal('Startmodal');
 });
