@@ -24,8 +24,8 @@
             border: none;
             cursor: pointer;
         }
-        .modal {
-            display: none;
+        .modal-container {
+            display: none; /* Dölj modalen som standard */
             position: fixed;
             z-index: 1;
             left: 0;
@@ -34,6 +34,8 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
         }
         .modal-content {
             background-color: #fefefe;
@@ -41,89 +43,64 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+            text-align: center;
         }
         .modal-buttons {
             display: flex;
             justify-content: space-around;
+        }
+        .modal-buttons button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        #openModal:checked ~ .modal-container {
+            display: flex; /* Visa modalen när checkbox är markerad */
+        }
+        .close-modal {
+            display: none; /* Döljer close-knappen */
+        }
+        #openModal:checked ~ .close-modal {
+            display: block; /* Visa close-knappen när checkbox är markerad */
         }
     </style>
 </head>
 <body>
     <div id="tab2" class="tab-pane">
         <div class="button-container">
-            <!-- Knappen för Allmän jakt: Däggdjur -->
-            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])">
-                <img src="bottom_panel/Kartor/bilder/daggdjurikon.png" alt="Allmän jakt: Däggdjur">
-            </button>
-
-            <!-- Knappen för Allmän jakt: Fågel -->
-            <button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson','https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'])">
-                <img src="bottom_panel/Kartor/bilder/fagelikon.png" alt="Allmän jakt: Fågel">
-            </button>
-
-            <!-- Knappen för Älgjaktskartan som öppnar modal -->
-            <button class="styled-button" onclick="openModal()">
+            <!-- Knappen för Älgjaktskartan -->
+            <label for="openModal" class="styled-button">
                 <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
-            </button>
+            </label>
 
-            <!-- Modal för Älgjaktskartan -->
-            <div id="myModal" class="modal">
+            <!-- Hidden checkbox to control modal visibility -->
+            <input type="checkbox" id="openModal" style="display:none;">
+
+            <!-- Modal container -->
+            <div class="modal-container">
                 <div class="modal-content">
-                    <span class="close" onclick="closeModal()">&times;</span>
                     <h2>Välj älgjaktskarta</h2>
                     <div class="modal-buttons">
-                        <button onclick="showExistingMap()">Befintlig älgjaktskarta</button>
-                        <button onclick="showESO()">ÄSO</button>
+                        <a href="javascript:void(0)" onclick="document.getElementById('openModal').checked = false;">
+                            Befintlig älgjaktskarta
+                        </a>
+                        <a href="javascript:void(0)" onclick="document.getElementById('openModal').checked = false;">
+                            ÄSO
+                        </a>
                     </div>
                 </div>
             </div>
+
+            <!-- Hidden close button -->
+            <label for="openModal" class="close-modal">Stäng</label>
         </div>
     </div>
-
-    <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
-    <script>
-        // JavaScript funktioner
-        function openModal() {
-            console.log('Opening modal');
-            document.getElementById("myModal").style.display = "block";
-        }
-
-        function closeModal() {
-            console.log('Closing modal');
-            document.getElementById("myModal").style.display = "none";
-        }
-
-        function showExistingMap() {
-            closeModal();
-            console.log('Showing existing map');
-            Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [
-                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson', 
-                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson', 
-                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson', 
-                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
-            ]);
-        }
-
-        function showESO() {
-            closeModal();
-            console.log('Showing ESO');
-            Kartor_geojsonHandler.toggleLayer('ÄSO', [
-                'https://example.com/eso_map_1.geojson',
-                'https://example.com/eso_map_2.geojson'
-            ]);
-        }
-    </script>
 </body>
 </html>
