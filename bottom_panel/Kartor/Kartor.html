@@ -3,154 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kartor Fliken</title>
+    <title>kartor_fliken, innehåll med knappar</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* Förhindra rullning */
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            gap: 10px;
-            padding: 5px;
-            width: 100%;
             height: 100%;
-            position: relative;
-        }
-
-        .styled-button {
+            overflow: hidden; /* Förhindrar skrollning */
             display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgb(50, 94, 88);
-            border-radius: 5px;
-            overflow: hidden;
-            aspect-ratio: 1 / 1; /* Håller knappen kvadratisk */
-            max-height: calc(100% - 10px);
-            flex: 1;
-            position: relative;
-            z-index: 1; /* Se till att knappen är över andra element */
-        }
-
-        .styled-button img {
-            width: auto;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .extra-buttons {
-            display: none; /* Döljer extra knappar som standard */
-            position: fixed; /* Fixerad position för att täcka hela skärmen */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Centrerar extra knapparna */
-            background: white;
-            border: 1px solid rgb(50, 94, 88);
-            border-radius: 5px;
-            padding: 20px;
-            box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
-            z-index: 10; /* För att säkerställa att extra-knapparna är ovanpå andra element */
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .extra-buttons button {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid rgb(50, 94, 88);
-            border-radius: 5px;
-            background-color: white;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .extra-buttons button:hover {
-            background-color: rgb(50, 94, 88);
-            color: white;
-        }
-
-        .overlay {
-            display: none; /* Döljer overlay som standard */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3); /* Halvtransparent bakgrund */
-            z-index: 9; /* Placera overlay bakom extra-knapparna */
+            justify-content: center; /* Centrera innehållet horisontellt */
+            align-items: center; /* Centrera innehållet vertikalt */
         }
     </style>
+    <script src="bottom_panel/Kartor/Kartor_geojsonHandler.js"></script>
 </head>
 <body>
-    <div class="overlay" id="overlay" onclick="hideExtraOptions()"></div>
-
     <div id="tab2" class="tab-pane">
         <div class="button-container">
-            <!-- Existerande knappar -->
-            <button class="styled-button" onclick="toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])">
-                <img src="bottom_panel/Kartor/bilder/daggdjurikon.png" alt="Allmän jakt: Däggdjur">
-            </button>
 
-            <button class="styled-button" onclick="toggleLayer('Allmän jakt: Fågel', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson','https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'])">
-                <img src="bottom_panel/Kartor/bilder/fagelikon.png" alt="Allmän jakt: Fågel">
-            </button>
+<button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])">
+    <img src="bottom_panel/Kartor/bilder/daggdjurikon.png" alt="Allmän jakt: Däggdjur">
+</button>
 
-            <!-- Knapp för att visa extra knappar -->
-            <button class="styled-button" onclick="showExtraOptions()">
-                <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
-            </button>
+<button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson','https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson'])">
+    <img src="bottom_panel/Kartor/bilder/fagelikon.png" alt="Allmän jakt: Fågel">
+</button>
+
+<button class="styled-button" onclick="Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', ['https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson', 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'])">
+    <img src="bottom_panel/Kartor/bilder/algikon.png" alt="Älgjaktskartan">
+</button>
+
+
         </div>
     </div>
-
-    <!-- Extra knappar som visas när huvudknappen trycks -->
-    <div id="extra-buttons" class="extra-buttons">
-        <button onclick="showAlgJaktsKartan()">Visa Älgjaktskartan</button>
-        <button onclick="showEso()">Visa ÄSO</button>
-    </div>
-
-    <script>
-        function showExtraOptions() {
-            const extraButtons = document.getElementById('extra-buttons');
-            const overlay = document.getElementById('overlay');
-            // Visa extra knappar och overlay
-            extraButtons.style.display = 'flex';
-            overlay.style.display = 'block';
-        }
-
-        function hideExtraOptions() {
-            const extraButtons = document.getElementById('extra-buttons');
-            const overlay = document.getElementById('overlay');
-            // Dölja extra knappar och overlay
-            extraButtons.style.display = 'none';
-            overlay.style.display = 'none';
-        }
-
-        function showAlgJaktsKartan() {
-            hideExtraOptions(); // Stänger av extra-knapparna
-            // Din funktion för att visa Älgjaktskartan
-            alert('Visar Älgjaktskartan'); // Ersätt med din faktiska kod
-            // Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [...]);
-        }
-
-        function showEso() {
-            hideExtraOptions(); // Stänger av extra-knapparna
-            // Din funktion för att visa ÄSO
-            alert('ÄSO-knappen är inte ännu implementerad.');
-        }
-
-        function toggleLayer(layerName, urls) {
-            // Denna funktion bör vara definierad i din kartbibliotek
-            console.log(`Toggle layer ${layerName} with urls:`, urls);
-        }
-    </script>
 </body>
 </html>
