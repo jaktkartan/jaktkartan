@@ -62,19 +62,30 @@ function openTab(tabId, url) {
         paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
         tab.appendChild(paragraph);
 
-        var button1 = document.createElement('button');
-        button1.textContent = 'Kaliberkrav: Däggdjur';
-        button1.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-        };
-        tab.appendChild(button1);
+var button1 = document.createElement('button');
+var img1 = document.createElement('img');
+img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
+img1.alt = 'Kaliberkrav: Däggdjur';
+img1.style.width = '30px';  // Justera storlek efter behov
+img1.style.height = '30px'; // Justera storlek efter behov
+button1.appendChild(img1);
+button1.onclick = function() {
+    openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+};
+tab.appendChild(button1);
 
-        var button2 = document.createElement('button');
-        button2.textContent = 'Kaliberkrav: Fågel';
-        button2.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-        };
-        tab.appendChild(button2);
+var button2 = document.createElement('button');
+var img2 = document.createElement('img');
+img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
+img2.alt = 'Kaliberkrav: Fågel';
+img2.style.width = '30px';  // Justera storlek efter behov
+img2.style.height = '30px'; // Justera storlek efter behov
+button2.appendChild(img2);
+button2.onclick = function() {
+    openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+};
+tab.appendChild(button2);
+
 
     } else {
         fetch(url)
