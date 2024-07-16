@@ -71,6 +71,7 @@ function loadWMSLayer(url, params) {
     console.log("Loading WMS layer with URL:", url);
     console.log("Params:", params);
     
+    // Rätt konfiguration av WMS-lagret
     var wmsLayer = L.tileLayer.wms(url, params);
     layers['Älgjaktsområden'].push(wmsLayer);
 
