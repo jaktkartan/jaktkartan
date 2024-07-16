@@ -1,29 +1,24 @@
 function openKartor() {
-    // Hitta tab-pane för kartor
     const tabPane = document.getElementById('tab2');
     if (!tabPane) {
         console.error('Tab pane for kartor not found.');
         return;
     }
 
-    // Rensa tidigare innehåll
     tabPane.innerHTML = '';
 
-    // Skapa en container div för att centrera innehållet
     const container = document.createElement('div');
     container.style.display = 'flex';
     container.style.flexDirection = 'column';
     container.style.justifyContent = 'center';
     container.style.alignItems = 'center';
     container.style.height = '100vh';
-    container.style.overflow = 'hidden'; // Förhindra scrollning
+    container.style.overflow = 'hidden';
 
-    // Skapa knapp-container
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'button-container';
     buttonContainer.style.display = 'flex';
 
-    // Definiera knapparna med deras respektive egenskaper
     const buttons = [
         {
             className: 'styled-button',
@@ -45,7 +40,6 @@ function openKartor() {
         }
     ];
 
-    // Skapa knappar och lägg till dem i knapp-container
     buttons.forEach(button => {
         const btn = document.createElement('button');
         btn.className = button.className;
@@ -60,33 +54,25 @@ function openKartor() {
         buttonContainer.appendChild(btn);
     });
 
-    // Lägg till knapp-container till tab-pane
     tabPane.appendChild(buttonContainer);
 
-    // Lägg till tab-pane till container
     container.appendChild(tabPane);
-
-    // Lägg till container till body
     document.body.appendChild(container);
 
-    // Skapa en meny för Älgjaktskartan-knappen
     const elkMapButton = document.getElementById('elgjaktskartan-button');
 
-    // Hantera klick på huvudknappen
     elkMapButton.addEventListener('click', function(event) {
-        event.stopPropagation(); // Förhindra att klick utanför menyn stänger den
+        event.stopPropagation();
         showElkMapOptions();
     });
 
-    // Funktion för att visa alternativ för Älgjaktskartan
     function showElkMapOptions() {
-        buttonContainer.innerHTML = ''; // Rensa knappcontainern
+        buttonContainer.innerHTML = '';
 
         const elkJaktsomradenButton = document.createElement('button');
         elkJaktsomradenButton.className = 'styled-button';
         elkJaktsomradenButton.onclick = function() {
-            // Ladda WMS-lager för Älgjaktsområden
-            loadElgjaktsomradenWMS();
+            Kartor_geojsonHandler.toggleLayer('Älgjaktsområden', []);
         };
 
         const elkAlternativButton = document.createElement('button');
@@ -113,11 +99,9 @@ function openKartor() {
         buttonContainer.appendChild(elkAlternativButton);
     }
 
-    // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
         buttonContainer.innerHTML = '';
 
-        // Skapa och lägg till ursprungliga knappar
         buttons.forEach(button => {
             if (button.id !== 'elgjaktskartan-button') {
                 const btn = document.createElement('button');
@@ -133,33 +117,8 @@ function openKartor() {
             }
         });
 
-        // Lägg till knappen för Älgjaktskartan igen
         buttonContainer.appendChild(elkMapButton);
     }
 
-    // Debugging
     console.log('Kartor tab created and added to body');
 }
-
-function loadElgjaktsomradenWMS() {
-    // Kolla om Leaflet är tillgängligt
-    if (typeof L !== 'undefined') {
-        // Skapa och konfigurera WMS-lager för Leaflet
-        const wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
-            layers: '1',
-            format: 'image/png',
-            transparent: true,
-            opacity: 0.35
-        });
-
-        // Lägg till WMS-lagret till kartan
-        if (window.map) {
-            wmsLayer.addTo(window.map);
-        } else {
-            console.error('Map not found. Please ensure the map is initialized.');
-        }
-    } else {
-        console.error('Leaflet library is not available.');
-    }
-}
-
