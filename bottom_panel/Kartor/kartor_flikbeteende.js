@@ -71,72 +71,55 @@ function openKartor() {
 
     // Skapa en meny för Älgjaktskartan-knappen
     const elkMapButton = document.getElementById('elgjaktskartan-button');
-    const optionsPanel = document.createElement('div');
-    optionsPanel.className = 'options-panel';
-    optionsPanel.style.display = 'none'; // Dölja panelen initialt
-    optionsPanel.style.flexDirection = 'row'; // Sida vid sida
-    optionsPanel.style.justifyContent = 'center';
-    optionsPanel.style.alignItems = 'center';
-
-    // Alternativ 1: Älgjaktskartan: Jakttider
-    const jakttiderButton = document.createElement('button');
-    jakttiderButton.className = 'styled-button';
-    jakttiderButton.onclick = function() {
-        Kartor_geojsonHandler.toggleLayer('Älgjaktskartan Jakttider', [
-            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
-            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
-        ]);
-        restoreOriginalButtons();
-    };
-
-    // Alternativ 2: Älgskötselområden
-    const skotselomradenButton = document.createElement('button');
-    skotselomradenButton.className = 'styled-button';
-    skotselomradenButton.onclick = function() {
-        Kartor_geojsonHandler.toggleLayer('Älgskötselområden', [
-            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson',
-            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
-        ]);
-        restoreOriginalButtons();
-    };
-
-    // Lägg till bilder till alternativknapparna
-    const jakttiderImg = document.createElement('img');
-    jakttiderImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
-    jakttiderImg.alt = 'Älgjaktskartan: Jakttider';
-    jakttiderButton.appendChild(jakttiderImg);
-
-    const skotselomradenImg = document.createElement('img');
-    skotselomradenImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
-    skotselomradenImg.alt = 'Älgskötselområden';
-    skotselomradenButton.appendChild(skotselomradenImg);
-
-    // Lägg till knappar till panelen
-    optionsPanel.appendChild(jakttiderButton);
-    optionsPanel.appendChild(skotselomradenButton);
-
-    // Lägg till panelen till buttonContainer
-    buttonContainer.appendChild(optionsPanel);
 
     // Hantera klick på huvudknappen
     elkMapButton.addEventListener('click', function(event) {
         event.stopPropagation(); // Förhindra att klick utanför menyn stänger den
-        buttonContainer.innerHTML = ''; // Rensa knappcontainern
-        buttonContainer.appendChild(optionsPanel);
-        optionsPanel.style.display = 'flex'; // Visa alternativknappar
+        showElkMapOptions();
     });
 
-    // Dölj alternativs-panel och återställ ursprungliga knappar när man klickar utanför
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('.options-panel') && !event.target.closest('#elgjaktskartan-button')) {
+    // Funktion för att visa alternativ för Älgjaktskartan
+    function showElkMapOptions() {
+        buttonContainer.innerHTML = ''; // Rensa knappcontainern
+
+        const jakttiderButton = document.createElement('button');
+        jakttiderButton.className = 'styled-button';
+        jakttiderButton.onclick = function() {
+            Kartor_geojsonHandler.toggleLayer('Älgjaktskartan Jakttider', [
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
+            ]);
             restoreOriginalButtons();
-        }
-    });
+        };
+
+        const skotselomradenButton = document.createElement('button');
+        skotselomradenButton.className = 'styled-button';
+        skotselomradenButton.onclick = function() {
+            Kartor_geojsonHandler.toggleLayer('Älgskötselområden', [
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson',
+                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
+            ]);
+            restoreOriginalButtons();
+        };
+
+        const jakttiderImg = document.createElement('img');
+        jakttiderImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
+        jakttiderImg.alt = 'Älgjaktskartan: Jakttider';
+        jakttiderButton.appendChild(jakttiderImg);
+
+        const skotselomradenImg = document.createElement('img');
+        skotselomradenImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
+        skotselomradenImg.alt = 'Älgskötselområden';
+        skotselomradenButton.appendChild(skotselomradenImg);
+
+        // Lägg till knappar till panelen
+        buttonContainer.appendChild(jakttiderButton);
+        buttonContainer.appendChild(skotselomradenButton);
+    }
 
     // Funktion för att återställa ursprungliga knappar
     function restoreOriginalButtons() {
         buttonContainer.innerHTML = ''; // Rensa knappcontainern
-        optionsPanel.style.display = 'none'; // Dölj alternativknappar
         buttons.forEach(button => {
             const btn = document.createElement('button');
             btn.className = button.className;
