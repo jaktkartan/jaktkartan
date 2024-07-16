@@ -53,6 +53,17 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktsområden': {} // WMS-lagerhantering här
     };
 
+    // Definiera EPSG:3006 koordinatsystem
+    proj4.defs("EPSG:3006", "+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs");
+
+    // Lägg till CRS i Leaflet
+    var EPSG3006 = L.Proj.CRS('EPSG:3006',
+        "+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs",
+        {
+            resolutions: [156543.03392804097, 78271.51696402048, 39135.75848201024, 19567.87924100512, 9783.93962050256, 4891.96981025128, 2445.98490512564, 1222.99245256282, 611.49622628141, 305.74811314070, 152.87405657035, 76.43702828517]
+        }
+    );
+
     // Funktion för att hämta GeoJSON-data och skapa ett lager
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         Object.keys(layerIsActive).forEach(function(name) {
@@ -95,7 +106,8 @@ var Kartor_geojsonHandler = (function() {
     function loadWMSLayer(url, params) {
         console.log("Loading WMS layer with URL:", url);
         console.log("Params:", params);
-        
+
+        // Definiera CRS och använd proj4leaflet
         var wmsLayer = L.tileLayer.wms(url, params);
         layers['Älgjaktsområden'].push(wmsLayer);
 
@@ -109,12 +121,12 @@ var Kartor_geojsonHandler = (function() {
         if (!layerIsActive[layerName]) {
             if (layerName === 'Älgjaktsområden') {
                 loadWMSLayer('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
-                    layers: '1',
+                    layers: '2',
                     format: 'image/png',
                     transparent: true,
                     opacity: 0.35,
                     version: '1.1.1',
-                    crs: 'EPSG:3006' // Lägg till CRS här om det behövs
+                    crs: EPSG3006 // Använd den definierade CRS här
                 });
             } else {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
