@@ -6,9 +6,6 @@ function openKartor() {
         return;
     }
 
-    // Rensa tidigare innehåll
-    clearTabPaneContent(tabPane);
-
     // Skapa en container div för att centrera innehållet
     const container = document.createElement('div');
     container.style.display = 'flex';
