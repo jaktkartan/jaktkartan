@@ -42,7 +42,16 @@
         .centered-image {
             display: block;
             margin: 0 auto; /* Centrera bilden */
-            max-width: 100px; /* Maxbredd för bilden */
+            width: 40%; /* Standardstorlek */
+            max-width: 300px; /* Maxbredd för bilden */
+        }
+
+        /* Gör bilden fullbredd på små skärmar (mobiler) */
+        @media (max-width: 600px) {
+            .centered-image {
+                width: 100%; /* Fullbredd på mobiler */
+                max-width: none; /* Ingen maxbredd */
+            }
         }
     </style>
 </head>
