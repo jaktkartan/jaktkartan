@@ -243,12 +243,7 @@
                 updateUserPosition(parsedPosition.latitude, parsedPosition.longitude, "Stored");
             }
         });
-
-        // Funktion för att spara användarens position i localStorage
-        function saveUserPosition(lat, lon) {
-            var position = { latitude: lat, longitude: lon };
-            localStorage.setItem('lastKnownPosition', JSON.stringify(position));
-        }
+        
     </script>
     <script src="Oversattningstabell.js"></script>
     <script src="popupHandler.js"></script>
