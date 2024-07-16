@@ -106,46 +106,65 @@ function openKartor() {
 
         const alternativImg = document.createElement('img');
         alternativImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
-        alternativImg.alt = 'Älgjaktskartan';
+        alternativImg.alt = 'Älgjaktsalternativ';
         elkAlternativButton.appendChild(alternativImg);
 
-        // Lägg till knappar till panelen
         buttonContainer.appendChild(elkJaktsomradenButton);
         buttonContainer.appendChild(elkAlternativButton);
     }
 
-    // Funktion för att återställa ursprungliga knappar
+    // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
-        buttonContainer.innerHTML = ''; // Rensa knappcontainern
+        buttonContainer.innerHTML = '';
+
+        // Skapa och lägg till ursprungliga knappar
         buttons.forEach(button => {
-            const btn = document.createElement('button');
-            btn.className = button.className;
-            btn.setAttribute('onclick', button.onclick || '');
-            btn.id = button.id || '';
+            if (button.id !== 'elgjaktskartan-button') {
+                const btn = document.createElement('button');
+                btn.className = button.className;
+                btn.setAttribute('onclick', button.onclick || '');
 
-            const img = document.createElement('img');
-            img.src = button.imgSrc;
-            img.alt = button.imgAlt;
+                const img = document.createElement('img');
+                img.src = button.imgSrc;
+                img.alt = button.imgAlt;
 
-            btn.appendChild(img);
-            buttonContainer.appendChild(btn);
+                btn.appendChild(img);
+                buttonContainer.appendChild(btn);
+            }
         });
-    }
 
-    // Funktion för att ladda WMS-lager för Älgjaktsområden
-    function loadElgjaktsomradenWMS() {
-        // Lägg till OpenLayers scriptet
-        const olScript = document.createElement('script');
-        olScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.js';
-        olScript.onload = function() {
-            // När OpenLayers är laddat, lägg till scriptet för Älgjaktsområden
-            const script = document.createElement('script');
-            script.src = 'bottom_panel/Kartor/Algjaktskartan/WMS/Algjaktsomraden.js';
-            document.head.appendChild(script);
-        };
-        document.head.appendChild(olScript);
+        // Lägg till knappen för Älgjaktskartan igen
+        buttonContainer.appendChild(elkMapButton);
     }
 
     // Debugging
     console.log('Kartor tab created and added to body');
+}
+
+function loadElgjaktsomradenWMS() {
+    // Kolla om OpenLayers är tillgängligt
+    if (typeof ol !== 'undefined') {
+        // Skapa och konfigurera WMS-lager
+        const wmsLayer = new ol.layer.Tile({
+            source: new ol.source.TileWMS({
+                url: "https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer",
+                params: {
+                    "LAYERS": "1",
+                    "TILED": "true",
+                    "VERSION": "1.3.0"
+                }
+            }),
+            title: "Älgjaktsområden",
+            opacity: 0.35
+        });
+
+        // Anta att vi har en befintlig karta, lägg till WMS-lager till den
+        if (window.map) {
+            window.map.addLayer(wmsLayer);
+        } else {
+            console.error('Map not found. Please ensure the map is initialized.');
+        }
+    } else {
+        console.error('OpenLayers library is not available.');
+    }
 }
