@@ -113,7 +113,7 @@ function openKartor() {
         event.stopPropagation(); // Förhindra att klick utanför menyn stänger den
         const rect = elkMapButton.getBoundingClientRect();
         optionsPanel.style.left = `${rect.left}px`;
-        optionsPanel.style.top = `${rect.bottom}px`;
+        optionsPanel.style.top = `${rect.top - optionsPanel.offsetHeight}px`; // Placera panelen ovanför knappen
         optionsPanel.style.display = optionsPanel.style.display === 'none' ? 'block' : 'none';
     });
 
