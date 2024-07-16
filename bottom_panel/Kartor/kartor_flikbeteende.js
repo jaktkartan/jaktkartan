@@ -1,4 +1,3 @@
-// Funktion för att skapa och visa kartfliken
 function openKartor() {
     // Hitta tab-pane för kartor
     const tabPane = document.getElementById('tab2');
@@ -25,9 +24,9 @@ function openKartor() {
 
     // Skapa huvudknappen för Älgjaktskartan
     const elkMapButton = document.createElement('button');
-    elkMapButton.textContent = 'Älgjaktskartan';
     elkMapButton.className = 'styled-button';
     elkMapButton.id = 'elgjaktskartan-main';
+    elkMapButton.textContent = 'Älgjaktskartan';
 
     // Skapa en panel för att visa alternativen
     const optionsPanel = document.createElement('div');
@@ -51,7 +50,6 @@ function openKartor() {
     skotselomradenButton.textContent = 'Älgskötselområden';
     skotselomradenButton.className = 'styled-button';
     skotselomradenButton.onclick = function() {
-        // Anropa funktion för att visa Älgskötselområden
         loadElgSkotselOmraden();
         optionsPanel.classList.remove('show'); // Stäng panelen efter val
     };
@@ -157,7 +155,14 @@ style.textContent = `
     }
 
     .button-container {
-        position: relative; /* Behövs för att panelen ska positioneras korrekt */
+        display: flex;
+        flex-direction: column; /* Ordna knapparna vertikalt */
+        align-items: center;
+    }
+
+    .button-container button {
+        display: flex;
+        align-items: center;
     }
 `;
 document.head.appendChild(style);
