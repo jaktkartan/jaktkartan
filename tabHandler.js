@@ -142,13 +142,16 @@ function fetchTab5Content(url) {
         });
 }
 
+
 // Lyssnare för klick utanför flikar och panelknappar
 document.addEventListener('click', function(event) {
     var tabContent = document.getElementById('tab-content');
-    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img')) {
+    // Kontrollera om klicket är utanför tabContent och inte på en panel-knapp
+    if (!tabContent.contains(event.target) && !event.target.matches('.panel-button img') && !event.target.closest('.tab-pane')) {
         resetTabs();
     }
 });
+
 
 // Funktion för att stänga flikinnehåll
 function closeTabContent() {
