@@ -21,6 +21,7 @@ function openKartor() {
     // Skapa knapp-container
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'button-container';
+    buttonContainer.style.position = 'relative'; // För att positionera alternativknappar korrekt
 
     // Definiera knapparna med deras respektive egenskaper
     const buttons = [
@@ -73,6 +74,7 @@ function openKartor() {
     const optionsPanel = document.createElement('div');
     optionsPanel.className = 'options-panel';
     optionsPanel.style.display = 'none'; // Dölja panelen initialt
+    optionsPanel.style.flexDirection = 'column'; // Vertikalt
 
     // Alternativ 1: Älgjaktskartan: Jakttider
     const jakttiderButton = document.createElement('button');
@@ -107,7 +109,11 @@ function openKartor() {
     // Hantera klick på huvudknappen
     elkMapButton.addEventListener('click', function(event) {
         event.stopPropagation(); // Förhindra att klick utanför menyn stänger den
-        buttonContainer.style.display = 'none'; // Dölj ursprungliga knappar
+        buttonContainer.querySelectorAll('button').forEach(btn => {
+            if (btn !== elkMapButton) {
+                btn.style.display = 'none'; // Dölj alla andra knappar
+            }
+        });
         optionsPanel.style.display = 'flex'; // Visa alternativknappar
     });
 
@@ -115,7 +121,11 @@ function openKartor() {
     document.addEventListener('click', function(event) {
         if (!event.target.matches('#elgjaktskartan-button') && !event.target.closest('.options-panel')) {
             optionsPanel.style.display = 'none';
-            buttonContainer.style.display = 'flex'; // Visa ursprungliga knappar igen
+            buttonContainer.querySelectorAll('button').forEach(btn => {
+                if (btn !== elkMapButton) {
+                    btn.style.display = 'flex'; // Visa alla andra knappar igen
+                }
+            });
         }
     });
 
