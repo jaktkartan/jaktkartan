@@ -20,6 +20,8 @@ document.getElementById('tab2').addEventListener('click', function() {
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
+        // Se till att rensa varje flik
+        clearTabPaneContent(tabs[i]);
         tabs[i].style.display = 'none'; // Döljer alla flikar
     }
     var tabContent = document.getElementById('tab-content');
@@ -34,6 +36,7 @@ function openTab(tabId, url) {
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'block'; // Visa tab-content behållaren
 
+    // Fyll fliken baserat på tabId
     if (tabId === 'tab1') {
         openUpptack(); // Anropar funktion för tab1
     } else if (tabId === 'tab2') {
