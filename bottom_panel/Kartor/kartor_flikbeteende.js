@@ -39,9 +39,9 @@ function openKartor() {
         },
         {
             className: 'styled-button',
-            id: 'elgjaktskartan-button',
+            id: 'huvudknapp-älgjakt-button', // Ändrad id
             imgSrc: 'bottom_panel/Kartor/bilder/algikon.png',
-            imgAlt: 'Älgjaktskartan'
+            imgAlt: 'Huvudknapp-Älgjakt' // Ändrad imgAlt
         }
     ];
 
@@ -69,11 +69,11 @@ function openKartor() {
     // Lägg till container till body
     document.body.appendChild(container);
 
-    // Skapa en meny för Älgjaktskartan-knappen
-    const elkMapButton = document.getElementById('elgjaktskartan-button');
+    // Skapa en meny för huvudknappen Älgjakt
+    const huvudknappAlgjaktButton = document.getElementById('huvudknapp-älgjakt-button');
 
     // Hantera klick på huvudknappen
-    elkMapButton.addEventListener('click', function(event) {
+    huvudknappAlgjaktButton.addEventListener('click', function(event) {
         event.stopPropagation(); // Förhindra att klick utanför menyn stänger den
         showElkMapOptions();
     });
@@ -106,7 +106,7 @@ function openKartor() {
 
         const alternativImg = document.createElement('img');
         alternativImg.src = 'bottom_panel/Kartor/bilder/Algjaktskartan_ikon.png';
-        alternativImg.alt = 'Älgjaktsalternativ';
+        alternativImg.alt = 'Älgjaktskartan'; // Ändrad imgAlt
         elkAlternativButton.appendChild(alternativImg);
 
         buttonContainer.appendChild(elkJaktsomradenButton);
@@ -119,7 +119,7 @@ function openKartor() {
 
         // Skapa och lägg till ursprungliga knappar
         buttons.forEach(button => {
-            if (button.id !== 'elgjaktskartan-button') {
+            if (button.id !== 'huvudknapp-älgjakt-button') {
                 const btn = document.createElement('button');
                 btn.className = button.className;
                 btn.setAttribute('onclick', button.onclick || '');
@@ -133,33 +133,10 @@ function openKartor() {
             }
         });
 
-        // Lägg till knappen för Älgjaktskartan igen
-        buttonContainer.appendChild(elkMapButton);
+        // Lägg till knappen för Huvudknapp Älgjakt igen
+        buttonContainer.appendChild(huvudknappAlgjaktButton);
     }
 
     // Debugging
     console.log('Kartor tab created and added to body');
 }
-
-function loadElgjaktsomradenWMS() {
-    // Kolla om Leaflet är tillgängligt
-    if (typeof L !== 'undefined') {
-        // Skapa och konfigurera WMS-lager för Leaflet
-        const wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
-            layers: '1',
-            format: 'image/png',
-            transparent: true,
-            opacity: 0.35
-        });
-
-        // Lägg till WMS-lagret till kartan
-        if (window.map) {
-            wmsLayer.addTo(window.map);
-        } else {
-            console.error('Map not found. Please ensure the map is initialized.');
-        }
-    } else {
-        console.error('Leaflet library is not available.');
-    }
-}
-
