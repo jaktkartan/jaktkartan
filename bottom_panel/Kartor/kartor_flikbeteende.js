@@ -21,7 +21,7 @@ function openKartor() {
     // Skapa knapp-container
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'button-container';
-    buttonContainer.style.display = 'flex'; // Lägg till display flex här
+    buttonContainer.style.display = 'flex';
 
     // Definiera knapparna med deras respektive egenskaper
     const buttons = [
@@ -39,7 +39,7 @@ function openKartor() {
         },
         {
             className: 'styled-button',
-            id: 'elgjaktskartan-button', // Ändra id för att referera till knappen
+            id: 'elgjaktskartan-button',
             imgSrc: 'bottom_panel/Kartor/bilder/algikon.png',
             imgAlt: 'Älgjaktskartan'
         }
@@ -93,7 +93,10 @@ function openKartor() {
     const skotselomradenButton = document.createElement('button');
     skotselomradenButton.className = 'styled-button';
     skotselomradenButton.onclick = function() {
-        loadElgSkotselOmraden();
+        Kartor_geojsonHandler.toggleLayer('Älgskötselområden', [
+            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson',
+            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
+        ]);
         restoreOriginalButtons();
     };
 
@@ -147,15 +150,6 @@ function openKartor() {
             btn.appendChild(img);
             buttonContainer.appendChild(btn);
         });
-    }
-
-    // Funktion för att ladda Älgskötselområden
-    function loadElgSkotselOmraden() {
-        Kartor_geojsonHandler.toggleLayer('Älgskötselområden', [
-            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson',
-            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
-        ]);
-        console.log('Visar Älgskötselområden');
     }
 
     // Debugging
