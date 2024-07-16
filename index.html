@@ -91,28 +91,54 @@
 
     <script>
       // Declare map as a global variable
-        var map;
+// Declare map as a global variable
+var map;
 
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("Initializing map...");
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Initializing map...");
 
-            map = L.map('map', {
-                zoomControl: false // Ta bort standardzoomkontrollerna
-            }).setView([62.0, 15.0], 5);
+    // Initialisera Leaflet-kartan med EPSG:4326
+    map = L.map('map', {
+        crs: L.CRS.EPSG4326, // Använd EPSG:4326 som CRS
+        zoomControl: false // Ta bort standardzoomkontrollerna
+    }).setView([62.0, 15.0], 5);
 
-            L.control.zoom({
-                position: 'topleft' // Ändra positionen på zoomkontrollerna
-            }).addTo(map);
+    L.control.zoom({
+        position: 'topleft' // Ändra positionen på zoomkontrollerna
+    }).addTo(map);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-            // Lägg till lyssnare för zoomhändelser
-            map.on('zoomend', function() {
-                console.log("Zoom level changed to: " + map.getZoom());
-                // Här kan du lägga till din egen logik eller anrop till funktioner vid zoomförändringar
-            });
+    // Lägg till lyssnare för zoomhändelser
+    map.on('zoomend', function() {
+        console.log("Zoom level changed to: " + map.getZoom());
+        // Här kan du lägga till din egen logik eller anrop till funktioner vid zoomförändringar
+    });
+
+    // Definiera anpassad CRS för EPSG:3006
+    var crsEPSG3006 = L.Proj.CRS('EPSG:3006',
+        '+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs', {
+            resolutions: [8192, 4096, 2048, 1024, 512, 256, 128],
+            origin: [218128.7031, 6126002.9379],
+            bounds: L.bounds([218128.7031, 6126002.9379], [1283040.8281, 7692974.1641])
+        });
+
+    // Skapa WMS-lager med EPSG:3006
+    var wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
+        layers: '2',                // Layer ID: 2 är LST Älgjaktområden
+        format: 'image/png',        // Bildformat
+        transparent: true,          // Transparent bakgrund
+        version: '1.3.0',           // WMS-version
+        opacity: 0.35,              // Opacitet
+        crs: crsEPSG3006            // Använd anpassad CRS för WMS-lagret
+    });
+
+    // Lägg till WMS-lagret till kartan
+    wmsLayer.addTo(map);
+});
+
     
             var accuracyCircle;
             var userMarker;
@@ -256,8 +282,10 @@
     <script src="bottom_panel/Jaktbart_idag/Jaktbart_idag_flikbeteende.js"></script>
     <script src="bottom_panel/Upptack/Upptack_flikbeteende.js"></script>
     <script src="bottom_panel/Kartor/kartor_flikbeteende.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js"></script> // Skript för att kunna använda WMS och konvertera dessa till kartans koordinatsystem EPSG: 4326 - WGS 84
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/0.7.1/proj4leaflet.js"></script> // Skript för att kunna använda WMS och konvertera dessa till kartans koordinatsystem EPSG: 4326 - WGS 84
+    
+    <!-- 2 Skript för att kunna använda WMS och konvertera dessa till kartans koordinatsystem EPSG: 4326 - WGS 84 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/0.7.1/proj4leaflet.js"></script>
     
 </body>
 </html>
