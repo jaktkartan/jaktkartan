@@ -1,3 +1,45 @@
+// Kontrollera att proj4leaflet är inkluderat och definiera CRS
+(function() {
+    if (typeof L.Proj === 'undefined') {
+        console.error("proj4leaflet is not loaded.");
+    } else {
+        // Definiera CRS EPSG:3006
+        window.EPSG3006 = new L.Proj.CRS('EPSG:3006',
+            '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs',
+            {
+                resolutions: [10, 5, 2.5, 1.25], // Exempel på upplösningar
+                origin: [0, 0] // Ursprungspunkt för CRS
+            }
+        );
+    }
+})();
+
+// Declare map as a global variable
+var map;
+
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Initializing map...");
+
+    map = L.map('map', {
+        zoomControl: false // Ta bort standardzoomkontrollerna
+    }).setView([62.0, 15.0], 5);
+
+    L.control.zoom({
+        position: 'topleft' // Ändra positionen på zoomkontrollerna
+    }).addTo(map);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Lägg till lyssnare för zoomhändelser
+    map.on('zoomend', function() {
+        console.log("Zoom level changed to: " + map.getZoom());
+        // Här kan du lägga till din egen logik eller anrop till funktioner vid zoomförändringar
+    });
+});
+
+// Huvudmodul för att hantera GeoJSON och WMS-lager
 var Kartor_geojsonHandler = (function() {
     // Status för vilka lager som är aktiva
     var layerIsActive = {
@@ -28,7 +70,7 @@ var Kartor_geojsonHandler = (function() {
             'NedanfrLappmarksgrnsen_3.geojson': { fillColor: '#fdae61', color: '#edf8e9', weight: 2, fillOpacity: 0.5, dashArray: '5, 10' },
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: '#a6d96a', color: '#edf8e9', weight: 2, fillOpacity: 0.5 }
         },
-        'Älgjaktskartan': {
+        'Älgjaktskarten': {
             'lgjaktJakttider_1.geojson': {
                 style: (function() {
                     var colorScale = [
@@ -52,14 +94,6 @@ var Kartor_geojsonHandler = (function() {
         },
         'Älgjaktsområden': {} // WMS-lagerhantering här
     };
-
-    // Definiera CRS för EPSG:3006
-    var EPSG3006 = new L.Proj.CRS('EPSG:3006', 
-        '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs', {
-            resolutions: [10, 5, 2.5, 1.25], // Exempel på upplösningar, justera efter behov
-            origin: [0, 0] // Ursprungspunkt för CRS
-        }
-    );
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
@@ -117,12 +151,12 @@ var Kartor_geojsonHandler = (function() {
         if (!layerIsActive[layerName]) {
             if (layerName === 'Älgjaktsområden') {
                 loadWMSLayer('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
-                    layers: '2', // Använd rätt lager-ID här
+                    layers: '2', // För jaktområden, kontrollera rätt lager
                     format: 'image/png',
                     transparent: true,
                     opacity: 0.35,
                     version: '1.1.1',
-                    crs: 'EPSG:3006' // CRS som textsträng
+                    crs: 'EPSG:3006' // Lägg till CRS om det behövs
                 });
             } else {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
