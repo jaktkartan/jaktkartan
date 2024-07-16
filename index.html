@@ -92,24 +92,28 @@
 
     <script>
       // Declare map as a global variable
-var map = L.map('map', {
-            crs: L.CRS.EPSG4326, // Anger CRS som EPSG:4326
-            zoomControl: false // Ta bort standardzoomkontrollerna
-        }).setView([62.0, 15.0], 5); // Initialt centrera kartan och sätt zoomnivå
+        var map;
 
-        L.control.zoom({
-            position: 'topleft' // Ändra positionen på zoomkontrollerna
-        }).addTo(map);
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Initializing map...");
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+            map = L.map('map', {
+                zoomControl: false // Ta bort standardzoomkontrollerna
+            }).setView([62.0, 15.0], 5);
 
-        // Lägg till lyssnare för zoomhändelser
-        map.on('zoomend', function() {
-            console.log("Zoom level changed to: " + map.getZoom());
-            // Här kan du lägga till din egen logik eller anrop till funktioner vid zoomförändringar
-        });
+            L.control.zoom({
+                position: 'topleft' // Ändra positionen på zoomkontrollerna
+            }).addTo(map);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Lägg till lyssnare för zoomhändelser
+            map.on('zoomend', function() {
+                console.log("Zoom level changed to: " + map.getZoom());
+                // Här kan du lägga till din egen logik eller anrop till funktioner vid zoomförändringar
+            });
 
             
             var accuracyCircle;
