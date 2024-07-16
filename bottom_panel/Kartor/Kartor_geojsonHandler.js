@@ -3,14 +3,16 @@ var Kartor_geojsonHandler = (function() {
     var layerIsActive = {
         'Allmän jakt: Däggdjur': false,
         'Allmän jakt: Fågel': false,
-        'Älgjaktskartan': false
+        'Älgjaktskartan': false,
+        'Älgjaktsområden': false // Nytt lager för WMS-tjänst
     };
 
     // Objekt som lagrar GeoJSON-lager för varje lager
     var geojsonLayers = {
         'Allmän jakt: Däggdjur': [],
         'Allmän jakt: Fågel': [],
-        'Älgjaktskartan': []
+        'Älgjaktskartan': [],
+        'Älgjaktsområden': [] // Nytt lager för WMS-tjänst
     };
 
     // Stilar för olika lager och GeoJSON-filer
@@ -49,7 +51,8 @@ var Kartor_geojsonHandler = (function() {
                 })()
             },
             'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 7, dashArray: '5, 10' }
-        }
+        },
+        'Älgjaktsområden': {} // Ingen specifik stil för WMS-lagret
     };
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager
@@ -57,9 +60,7 @@ var Kartor_geojsonHandler = (function() {
         // Inaktivera andra lager om de är aktiva
         Object.keys(layerIsActive).forEach(function(name) {
             if (name !== layerName && layerIsActive[name]) {
-                toggleLayer(name, geojsonLayers[name].map(function(layer) {
-                    return layer.options.url;
-                }));
+                toggleLayer(name);
             }
         });
 
@@ -97,18 +98,59 @@ var Kartor_geojsonHandler = (function() {
         updateFAB(layerName, true);
     }
 
+    // Funktion för att lägga till WMS-lager
+    function addWMSLayer(layerName) {
+        // Inaktivera andra lager om de är aktiva
+        Object.keys(layerIsActive).forEach(function(name) {
+            if (name !== layerName && layerIsActive[name]) {
+                toggleLayer(name);
+            }
+        });
+
+        // URL och lagerinställningar för WMS-tjänsten
+        var wmsURL = 'URL_TILL_WMS_TJANSTEN'; // Ersätt med den faktiska URL:en till WMS-tjänsten
+        var wmsLayer = L.tileLayer.wms(wmsURL, {
+            layers: 'LAYER_NAME', // Ange rätt lager från WMS-tjänsten
+            format: 'image/png',
+            transparent: true,
+            attribution: 'Attribution text' // Ersätt med lämplig attribution
+        });
+
+        // Lägg till WMS-lagret till kartan och lagra det
+        wmsLayer.addTo(map);
+        geojsonLayers[layerName].push(wmsLayer);
+
+        // Markera lagret som aktivt
+        layerIsActive[layerName] = true;
+        updateFAB(layerName, true);
+    }
+
     // Funktion för att växla (aktivera/inaktivera) lager
     function toggleLayer(layerName, geojsonURLs) {
-        if (!layerIsActive[layerName]) {
-            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-        } else {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);  // Ta bort lager från kartan
-            });
+        if (layerName === 'Älgjaktsområden') {
+            if (!layerIsActive[layerName]) {
+                addWMSLayer(layerName);
+            } else {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer);  // Ta bort lager från kartan
+                });
 
-            geojsonLayers[layerName] = [];
-            layerIsActive[layerName] = false;
-            updateFAB(layerName, false);
+                geojsonLayers[layerName] = [];
+                layerIsActive[layerName] = false;
+                updateFAB(layerName, false);
+            }
+        } else {
+            if (!layerIsActive[layerName]) {
+                fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+            } else {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer);  // Ta bort lager från kartan
+                });
+
+                geojsonLayers[layerName] = [];
+                layerIsActive[layerName] = false;
+                updateFAB(layerName, false);
+            }
         }
     }
 
@@ -151,6 +193,8 @@ var Kartor_geojsonHandler = (function() {
                 return 'fab-fagel';
             case 'Älgjaktskartan':
                 return 'fab-alg';
+            case 'Älgjaktsområden':
+                return 'fab-algjaktsomraden'; // Nytt FAB-ID för WMS-lagret
             default:
                 return '';
         }
@@ -160,6 +204,6 @@ var Kartor_geojsonHandler = (function() {
     return {
         toggleLayer: toggleLayer,
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
-        deactivateAllLayersKartor: deactivateAllLayersKartor  // Exponerar den nya funktionen
+        deactivateAllLayersKartor: deactivateAllLayersKartor
     };
 })();
