@@ -1,4 +1,3 @@
-// Funktioner för att toggla väderfliken, knapparna i bottenpanelen och särskilt för kaliberkravsfliken som ger användaren två knappar för att välja vilken flik som ska visas.
 // Knapparna i tab1 (upptäck) rensar geojson-lager från tab2 (kartor) fliken.
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
@@ -22,7 +21,6 @@ function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
         tabs[i].style.display = 'none'; // Döljer alla flikar
-        clearTabPaneContent(tabs[i]); // Rensar innehåll i varje flik
     }
     var tabContent = document.getElementById('tab-content');
     tabContent.style.display = 'none'; // Döljer tab-content behållaren
@@ -41,61 +39,11 @@ function openTab(tabId, url) {
     } else if (tabId === 'tab2') {
         openKartor(); // Anropar funktion för tab2
     } else if (tabId === 'tab3') {
-        tab.innerHTML = ''; // Rensar innehållet i tab3
-
-        var heading = document.createElement('h2');
-        heading.textContent = 'Jaktbart idag';
-        tab.appendChild(heading);
-
-        var paragraph = document.createElement('p');
-        paragraph.textContent = 'Senaste lagrade position:';
-        tab.appendChild(paragraph);
-
-        displaySavedUserPosition(); // Anropar funktion för att visa position
+        populateTab3(); // Anropar funktion för tab3
     } else if (tabId === 'tab4') {
-        tab.innerHTML = '';
-
-        var heading = document.createElement('h2');
-        heading.textContent = 'Kaliberkrav';
-        tab.appendChild(heading);
-
-        var paragraph = document.createElement('p');
-        paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
-        tab.appendChild(paragraph);
-
-        var button1 = document.createElement('button');
-        var img1 = document.createElement('img');
-        img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
-        img1.alt = 'Kaliberkrav: Däggdjur';
-        img1.style.width = '90px';  // Justera storlek efter behov
-        img1.style.height = '90px'; // Justera storlek efter behov
-        button1.appendChild(img1);
-        button1.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
-        };
-        tab.appendChild(button1);
-
-        var button2 = document.createElement('button');
-        var img2 = document.createElement('img');
-        img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
-        img2.alt = 'Kaliberkrav: Fågel';
-        img2.style.width = '90px';  // Justera storlek efter behov
-        img2.style.height = '90px'; // Justera storlek efter behov
-        button2.appendChild(img2);
-        button2.onclick = function() {
-            openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
-        };
-        tab.appendChild(button2);
-
+        populateTab4(); // Anropar funktion för tab4
     } else if (tabId === 'tab5') {
-        fetch(url)
-            .then(response => response.text())
-            .then(html => {
-                tab.innerHTML = html; // Lägg till innehållet för tab5
-            })
-            .catch(error => {
-                console.error('Error fetching tab content:', error);
-            });
+        fetchTab5Content(url); // Anropar funktion för tab5
     }
 }
 
@@ -105,7 +53,6 @@ function clearTabPaneContent(tabPane) {
         tabPane.removeChild(tabPane.firstChild);
     }
 }
-
 
 // Funktion för att öppna Kaliberkrav-fliken
 function openKaliberkravTab(url) {
@@ -122,6 +69,73 @@ function openKaliberkravTab(url) {
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
+        });
+}
+
+// Funktion för att fylla tab3
+function populateTab3() {
+    var tab = document.getElementById('tab3');
+    tab.innerHTML = ''; // Rensar innehållet i tab3
+
+    var heading = document.createElement('h2');
+    heading.textContent = 'Jaktbart idag';
+    tab.appendChild(heading);
+
+    var paragraph = document.createElement('p');
+    paragraph.textContent = 'Senaste lagrade position:';
+    tab.appendChild(paragraph);
+
+    displaySavedUserPosition(); // Anropar funktion för att visa position
+}
+
+// Funktion för att fylla tab4
+function populateTab4() {
+    var tab = document.getElementById('tab4');
+    tab.innerHTML = '';
+
+    var heading = document.createElement('h2');
+    heading.textContent = 'Kaliberkrav';
+    tab.appendChild(heading);
+
+    var paragraph = document.createElement('p');
+    paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
+    tab.appendChild(paragraph);
+
+    var button1 = document.createElement('button');
+    var img1 = document.createElement('img');
+    img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
+    img1.alt = 'Kaliberkrav: Däggdjur';
+    img1.style.width = '90px';  // Justera storlek efter behov
+    img1.style.height = '90px'; // Justera storlek efter behov
+    button1.appendChild(img1);
+    button1.onclick = function() {
+        openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
+    };
+    tab.appendChild(button1);
+
+    var button2 = document.createElement('button');
+    var img2 = document.createElement('img');
+    img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
+    img2.alt = 'Kaliberkrav: Fågel';
+    img2.style.width = '90px';  // Justera storlek efter behov
+    img2.style.height = '90px'; // Justera storlek efter behov
+    button2.appendChild(img2);
+    button2.onclick = function() {
+        openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
+    };
+    tab.appendChild(button2);
+}
+
+// Funktion för att hämta innehållet för tab5
+function fetchTab5Content(url) {
+    var tab = document.getElementById('tab5');
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            tab.innerHTML = html; // Lägg till innehållet för tab5
+        })
+        .catch(error => {
+            console.error('Error fetching tab content:', error);
         });
 }
 
