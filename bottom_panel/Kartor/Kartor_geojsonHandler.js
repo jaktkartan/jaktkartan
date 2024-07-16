@@ -122,7 +122,7 @@ var Kartor_geojsonHandler = (function() {
                     transparent: true,
                     opacity: 0.35,
                     version: '1.1.1',
-                    crs: 'EPSG:3006' // Här är CRS som textsträng
+                    crs: 'EPSG:3006' // CRS som textsträng
                 });
             } else {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
