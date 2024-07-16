@@ -87,7 +87,6 @@ function openKartor() {
         elkJaktsomradenButton.onclick = function() {
             // Ladda WMS-lager för Älgjaktsområden
             loadElgjaktsomradenWMS();
-            restoreOriginalButtons();
         };
 
         const elkAlternativButton = document.createElement('button');
@@ -135,10 +134,16 @@ function openKartor() {
 
     // Funktion för att ladda WMS-lager för Älgjaktsområden
     function loadElgjaktsomradenWMS() {
-        // Dynamiskt ladda och exekvera scriptet för Älgjaktsområden
-        const script = document.createElement('script');
-        script.src = 'bottom_panel/Kartor/Algjaktskartan/WMS/Algjaktsomraden.js';
-        document.head.appendChild(script);
+        // Lägg till OpenLayers scriptet
+        const olScript = document.createElement('script');
+        olScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/ol3/3.19.1/ol.js';
+        olScript.onload = function() {
+            // När OpenLayers är laddat, lägg till scriptet för Älgjaktsområden
+            const script = document.createElement('script');
+            script.src = 'bottom_panel/Kartor/Algjaktskartan/WMS/Algjaktsomraden.js';
+            document.head.appendChild(script);
+        };
+        document.head.appendChild(olScript);
     }
 
     // Debugging
