@@ -7,8 +7,8 @@
         window.EPSG3006 = new L.Proj.CRS('EPSG:3006',
             '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs',
             {
-                resolutions: [10, 5, 2.5, 1.25], // Exempel på upplösningar
-                origin: [0, 0] // Ursprungspunkt för CRS
+                resolutions: [10, 5, 2.5, 1.25],
+                origin: [0, 0]
             }
         );
     }
@@ -20,28 +20,30 @@ var map;
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Initializing map...");
 
-    map = L.map('map', {
-        zoomControl: false // Ta bort standardzoomkontrollerna
-    }).setView([62.0, 15.0], 5);
+    // Kontrollera om kartan redan är initialiserad
+    if (!map) {
+        map = L.map('map', {
+            zoomControl: false // Ta bort standardzoomkontrollerna
+        }).setView([62.0, 15.0], 5);
 
-    L.control.zoom({
-        position: 'topleft' // Ändra positionen på zoomkontrollerna
-    }).addTo(map);
+        L.control.zoom({
+            position: 'topleft' // Ändra positionen på zoomkontrollerna
+        }).addTo(map);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-    // Lägg till lyssnare för zoomhändelser
-    map.on('zoomend', function() {
-        console.log("Zoom level changed to: " + map.getZoom());
-        // Här kan du lägga till din egen logik eller anrop till funktioner vid zoomförändringar
-    });
+        // Lägg till lyssnare för zoomhändelser
+        map.on('zoomend', function() {
+            console.log("Zoom level changed to: " + map.getZoom());
+            // Här kan du lägga till din egen logik eller anrop till funktioner vid zoomförändringar
+        });
+    }
 });
 
 // Huvudmodul för att hantera GeoJSON och WMS-lager
 var Kartor_geojsonHandler = (function() {
-    // Status för vilka lager som är aktiva
     var layerIsActive = {
         'Allmän jakt: Däggdjur': false,
         'Allmän jakt: Fågel': false,
@@ -49,7 +51,6 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktsområden': false
     };
 
-    // Objekt som lagrar GeoJSON-lager och WMS-lager för varje lager
     var layers = {
         'Allmän jakt: Däggdjur': [],
         'Allmän jakt: Fågel': [],
@@ -57,7 +58,6 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktsområden': []
     };
 
-    // Stilar för olika lager och GeoJSON-filer
     var layerStyles = {
         'Allmän jakt: Däggdjur': {
             'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'orange', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
@@ -68,56 +68,20 @@ var Kartor_geojsonHandler = (function() {
             'Grnsfrripjaktilvdalenskommun_2.geojson': { fillColor: 'rgb(50, 94, 88)', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
             'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'blue', color: 'blue', weight: 8, fillOpacity: 0.5, dashArray: '5, 10' },
             'NedanfrLappmarksgrnsen_3.geojson': { fillColor: '#fdae61', color: '#edf8e9', weight: 2, fillOpacity: 0.5, dashArray: '5, 10' },
-            'OvanfrLapplandsgrnsen_4.geojson': { fillColor: '#a6d96a', color: '#edf8e9', weight: 2, fillOpacity: 0.5 }
+            'OvanfrLappmarksgrnsen_4.geojson': { fillColor: '#ff7f00', color: '#e5f5f9', weight: 2, fillOpacity: 0.5, dashArray: '5, 10' }
         },
-        'Älgjaktskarten': {
-            'lgjaktJakttider_1.geojson': {
-                style: (function() {
-                    var colorScale = [
-                        '#ffd54f', '#72d572', '#ff7043', '#1ba01b', '#20beea',
-                        '#81d4fa', '#ab47bc', '#e9a6f4', '#78909c', '#9c8019', '#b5f2b5'
-                    ];
-                    var jakttidToColor = {};
-                    var currentIndex = 0;
-                    
-                    return function(feature) {
-                        var jakttid = feature.properties['jakttid'];
-                        if (!jakttidToColor[jakttid]) {
-                            jakttidToColor[jakttid] = colorScale[currentIndex];
-                            currentIndex = (currentIndex + 1) % colorScale.length;
-                        }
-                        return { fillColor: jakttidToColor[jakttid], color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.5 };
-                    };
-                })()
-            },
-            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 7, dashArray: '5, 10' }
-        },
-        'Älgjaktsområden': {} // WMS-lagerhantering här
+        'Älgjaktskartan': {},
+        'Älgjaktsområden': {}
     };
 
-    // Funktion för att hämta GeoJSON-data och skapa ett lager
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        Object.keys(layerIsActive).forEach(function(name) {
-            if (name !== layerName && layerIsActive[name]) {
-                toggleLayer(name, []);
-            }
-        });
-
-        geojsonURLs.forEach(function(geojsonURL) {
-            axios.get(geojsonURL)
+        geojsonURLs.forEach(function(url) {
+            axios.get(url)
                 .then(function(response) {
-                    var geojson = response.data;
-                    
-                    var layer = L.geoJSON(geojson, {
-                        style: function(feature) {
-                            var filename = getFilenameFromURL(geojsonURL);
-                            return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
-                        },
-                        onEachFeature: function(feature, layer) {
-                            addClickHandlerToLayer(layer);
-                        }
+                    var layer = L.geoJSON(response.data, {
+                        style: layerStyles[layerName][getFilenameFromURL(url)]
                     });
-
+                    
                     layers[layerName].push(layer);
 
                     if (layerIsActive[layerName]) {
@@ -133,7 +97,6 @@ var Kartor_geojsonHandler = (function() {
         updateFAB(layerName, true);
     }
 
-    // Funktion för att ladda WMS-lager
     function loadWMSLayer(url, params) {
         console.log("Loading WMS layer with URL:", url);
         console.log("Params:", params);
@@ -146,17 +109,16 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    // Funktion för att växla (aktivera/inaktivera) lager
     function toggleLayer(layerName, geojsonURLs) {
         if (!layerIsActive[layerName]) {
             if (layerName === 'Älgjaktsområden') {
                 loadWMSLayer('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
-                    layers: '2', // För jaktområden, kontrollera rätt lager
+                    layers: '2', // Korrekt lagerparameter för Älgjaktsområden
                     format: 'image/png',
                     transparent: true,
                     opacity: 0.35,
                     version: '1.1.1',
-                    crs: 'EPSG:3006' // Lägg till CRS om det behövs
+                    crs: 'EPSG:3006' // CRS för WMS-lagret
                 });
             } else {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
