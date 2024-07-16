@@ -100,7 +100,7 @@ function openKartor() {
         };
 
         const jaktsomradenImg = document.createElement('img');
-        jaktsomradenImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
+        jaktsomradenImg.src = 'bottom_panel/Kartor/bilder/algjaktsomraden_ikon.png';
         jaktsomradenImg.alt = 'Älgjaktsområden';
         elkJaktsomradenButton.appendChild(jaktsomradenImg);
 
