@@ -53,22 +53,27 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktsområden': {} // WMS-lagerhantering här
     };
 
+    // Definiera CRS för EPSG:3006
+    var EPSG3006 = new L.Proj.CRS('EPSG:3006', 
+        '+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs', {
+            resolutions: [10, 5, 2.5, 1.25], // Exempel på upplösningar, justera efter behov
+            origin: [0, 0] // Ursprungspunkt för CRS
+        }
+    );
+
     // Funktion för att hämta GeoJSON-data och skapa ett lager
     function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        // Ta bort alla aktiva GeoJSON-lager som inte är det aktuella
         Object.keys(layerIsActive).forEach(function(name) {
             if (name !== layerName && layerIsActive[name]) {
                 toggleLayer(name, []);
             }
         });
 
-        // Hämta och lägg till GeoJSON-data
         geojsonURLs.forEach(function(geojsonURL) {
             axios.get(geojsonURL)
                 .then(function(response) {
                     var geojson = response.data;
-
-                    // Skapa GeoJSON-lagret
+                    
                     var layer = L.geoJSON(geojson, {
                         style: function(feature) {
                             var filename = getFilenameFromURL(geojsonURL);
@@ -79,18 +84,17 @@ var Kartor_geojsonHandler = (function() {
                         }
                     });
 
-                    // Lägg till laget i listan och på kartan om det är aktivt
                     layers[layerName].push(layer);
+
                     if (layerIsActive[layerName]) {
                         layer.addTo(map);
                     }
                 })
-                .catch(function(error) {
-                    console.error("Error fetching GeoJSON data:", error);
+                .catch(function() {
+                    console.error("Error fetching GeoJSON data.");
                 });
         });
 
-        // Uppdatera lagerstatus och FAB-knapp
         layerIsActive[layerName] = true;
         updateFAB(layerName, true);
     }
@@ -99,12 +103,10 @@ var Kartor_geojsonHandler = (function() {
     function loadWMSLayer(url, params) {
         console.log("Loading WMS layer with URL:", url);
         console.log("Params:", params);
-
-        // Skapa WMS-lagret och lägg till det i listan
+        
         var wmsLayer = L.tileLayer.wms(url, params);
         layers['Älgjaktsområden'].push(wmsLayer);
 
-        // Lägg till laget på kartan om det är aktivt
         if (layerIsActive['Älgjaktsområden']) {
             wmsLayer.addTo(map);
         }
@@ -120,23 +122,22 @@ var Kartor_geojsonHandler = (function() {
                     transparent: true,
                     opacity: 0.35,
                     version: '1.1.1',
-                    crs: EPSG3006 // Använd den definierade CRS här
+                    crs: 'EPSG:3006' // Här är CRS som textsträng
                 });
             } else {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
             }
         } else {
-            // Ta bort aktiva lager
             layers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
+
             layers[layerName] = [];
             layerIsActive[layerName] = false;
             updateFAB(layerName, false);
         }
     }
 
-    // Funktion för att deaktivera alla lager
     function deactivateAllLayersKartor() {
         Object.keys(layerIsActive).forEach(function(layerName) {
             if (layerIsActive[layerName]) {
@@ -150,12 +151,10 @@ var Kartor_geojsonHandler = (function() {
         });
     }
 
-    // Funktion för att hämta filnamnet från en URL
     function getFilenameFromURL(url) {
         return url.split('/').pop();
     }
 
-    // Funktion för att uppdatera FAB-knappar
     function updateFAB(layerName, show) {
         var fabId = getFABId(layerName);
         var fabButton = document.getElementById(fabId);
@@ -164,7 +163,6 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    // Funktion för att hämta FAB-knappens ID baserat på lagernamnet
     function getFABId(layerName) {
         switch(layerName) {
             case 'Allmän jakt: Däggdjur':
