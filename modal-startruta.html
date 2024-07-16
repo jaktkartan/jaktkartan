@@ -37,13 +37,22 @@
         input[type="checkbox"]:checked + label + .content {
             display: block;
         }
+
+        /* Stilar för att centrera och justera bildstorleken */
+        .centered-image {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%; /* Justera storleken som önskat */
+            max-width: 300px; /* Maxbredd för bilden */
+        }
     </style>
 </head>
 <body>
     <div class="modal-content">
         <span class="close" id="close-upptack">&times;</span>
-        <h2>Välkommen till Jaktkartan.se!</h2>
-        <p>Utforska Jaktkartan.se och upptäck våra verktyg och resurser som gör jakten både enklare och givande. Nedan finns en flik med information om kartans olika funktioner.</p>
+        <img src="bilder/Jaktkartan_logga.png" alt="Jaktkartan Logga" class="centered-image">
+        <p>Välkommen till Jaktkartan.se! Utforska Jaktkartan.se och upptäck våra verktyg och resurser som gör jakten både enklare och givande. Nedan finns en flik med information om kartans olika funktioner.</p>
         
         <!-- Checkbox för att styra visningen -->
         <input type="checkbox" id="toggle-features">
@@ -88,4 +97,3 @@
     </div>
 </body>
 </html>
-
