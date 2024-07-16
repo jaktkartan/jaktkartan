@@ -38,7 +38,7 @@ function openKartor() {
         },
         {
             className: 'styled-button',
-            id: 'elgjaktskartan-main',
+            id: 'elgjaktskartan-button', // Ändra id för att referera till knappen
             imgSrc: 'bottom_panel/Kartor/bilder/algikon.png',
             imgAlt: 'Älgjaktskartan'
         }
@@ -69,7 +69,7 @@ function openKartor() {
     document.body.appendChild(container);
 
     // Skapa en meny för Älgjaktskartan-knappen
-    const elkMapButton = document.getElementById('elgjaktskartan-main');
+    const elkMapButton = document.getElementById('elgjaktskartan-button');
     const optionsPanel = document.createElement('div');
     optionsPanel.className = 'options-panel';
     optionsPanel.style.position = 'absolute';
@@ -119,7 +119,7 @@ function openKartor() {
 
     // Dölj alternativs-panel när man klickar utanför
     document.addEventListener('click', function(event) {
-        if (!event.target.matches('#elgjaktskartan-main') && !event.target.closest('.options-panel')) {
+        if (!event.target.matches('#elgjaktskartan-button') && !event.target.closest('.options-panel')) {
             optionsPanel.style.display = 'none';
         }
     });
