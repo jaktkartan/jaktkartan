@@ -72,13 +72,7 @@ function openKartor() {
     const elkMapButton = document.getElementById('elgjaktskartan-button');
     const optionsPanel = document.createElement('div');
     optionsPanel.className = 'options-panel';
-    optionsPanel.style.position = 'absolute';
     optionsPanel.style.display = 'none'; // Dölja panelen initialt
-    optionsPanel.style.backgroundColor = 'white';
-    optionsPanel.style.border = '1px solid #ccc';
-    optionsPanel.style.padding = '10px';
-    optionsPanel.style.boxShadow = '0px 0px 10px rgba(0,0,0,0.1)';
-    optionsPanel.style.zIndex = '1000';
 
     // Alternativ 1: Älgjaktskartan: Jakttider
     const jakttiderButton = document.createElement('button');
@@ -90,6 +84,7 @@ function openKartor() {
             'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
         ]);
         optionsPanel.style.display = 'none'; // Stäng panelen efter val
+        buttonContainer.style.display = 'flex'; // Visa ursprungliga knappar igen
     };
 
     // Alternativ 2: Älgskötselområden
@@ -99,28 +94,28 @@ function openKartor() {
     skotselomradenButton.onclick = function() {
         loadElgSkotselOmraden();
         optionsPanel.style.display = 'none'; // Stäng panelen efter val
+        buttonContainer.style.display = 'flex'; // Visa ursprungliga knappar igen
     };
 
     // Lägg till knappar till panelen
     optionsPanel.appendChild(jakttiderButton);
     optionsPanel.appendChild(skotselomradenButton);
 
-    // Lägg till panelen till body
-    document.body.appendChild(optionsPanel);
+    // Lägg till panelen till buttonContainer
+    buttonContainer.appendChild(optionsPanel);
 
     // Hantera klick på huvudknappen
     elkMapButton.addEventListener('click', function(event) {
         event.stopPropagation(); // Förhindra att klick utanför menyn stänger den
-        const rect = elkMapButton.getBoundingClientRect();
-        optionsPanel.style.left = `${rect.left}px`;
-        optionsPanel.style.top = `${rect.top - optionsPanel.offsetHeight}px`; // Placera panelen ovanför knappen
-        optionsPanel.style.display = optionsPanel.style.display === 'none' ? 'block' : 'none';
+        buttonContainer.style.display = 'none'; // Dölj ursprungliga knappar
+        optionsPanel.style.display = 'flex'; // Visa alternativknappar
     });
 
     // Dölj alternativs-panel när man klickar utanför
     document.addEventListener('click', function(event) {
         if (!event.target.matches('#elgjaktskartan-button') && !event.target.closest('.options-panel')) {
             optionsPanel.style.display = 'none';
+            buttonContainer.style.display = 'flex'; // Visa ursprungliga knappar igen
         }
     });
 
