@@ -69,6 +69,20 @@ body, button, span, div {
     margin: 0; /* Tar bort eventuell standardmarginal runt bilden */
 }
 
+/* Media query för att göra modalen smalare på större skärmar */
+@media (min-width: 768px) {
+    .modal-content {
+        width: 60%; /* Mindre bredd på modalen för större skärmar */
+    }
+}
+
+@media (min-width: 1200px) {
+    .modal-content {
+        width: 40%; /* Ännu mindre bredd på modalen för ännu större skärmar */
+    }
+}
+
+
 /* CSS för att stänga knappen */
 .close {
     color: #aaa;
