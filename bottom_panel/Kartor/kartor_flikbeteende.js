@@ -142,29 +142,24 @@ function openKartor() {
 }
 
 function loadElgjaktsomradenWMS() {
-    // Kolla om OpenLayers är tillgängligt
-    if (typeof ol !== 'undefined') {
-        // Skapa och konfigurera WMS-lager
-        const wmsLayer = new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: "https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer",
-                params: {
-                    "LAYERS": "1",
-                    "TILED": "true",
-                    "VERSION": "1.3.0"
-                }
-            }),
-            title: "Älgjaktsområden",
+    // Kolla om Leaflet är tillgängligt
+    if (typeof L !== 'undefined') {
+        // Skapa och konfigurera WMS-lager för Leaflet
+        const wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
+            layers: '1',
+            format: 'image/png',
+            transparent: true,
             opacity: 0.35
         });
 
-        // Anta att vi har en befintlig karta, lägg till WMS-lager till den
+        // Lägg till WMS-lagret till kartan
         if (window.map) {
-            window.map.addLayer(wmsLayer);
+            wmsLayer.addTo(window.map);
         } else {
             console.error('Map not found. Please ensure the map is initialized.');
         }
     } else {
-        console.error('OpenLayers library is not available.');
+        console.error('Leaflet library is not available.');
     }
 }
+
