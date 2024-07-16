@@ -3,14 +3,16 @@ var Kartor_geojsonHandler = (function() {
     var layerIsActive = {
         'Allmän jakt: Däggdjur': false,
         'Allmän jakt: Fågel': false,
-        'Älgjaktskartan': false
+        'Älgjaktskartan': false,
+        'Älgjaktsområden': false  // Lägg till WMS-lagret
     };
 
     // Objekt som lagrar GeoJSON-lager för varje lager
     var geojsonLayers = {
         'Allmän jakt: Däggdjur': [],
         'Allmän jakt: Fågel': [],
-        'Älgjaktskartan': []
+        'Älgjaktskartan': [],
+        'Älgjaktsområden': []  // Lägg till WMS-lagret
     };
 
     // Stilar för olika lager och GeoJSON-filer
@@ -99,69 +101,86 @@ var Kartor_geojsonHandler = (function() {
         updateFAB(layerName, true);
     }
 
-    // Funktion för att växla (aktivera/inaktivera) lager
-    function toggleLayer(layerName, geojsonURLs) {
-        if (!layerIsActive[layerName]) {
-            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-        } else {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);  // Ta bort lager från kartan
-            });
+    // Funktion för att ladda och hantera WMS-lager
+    function loadWMSLayer(layerName) {
+        // Definiera EPSG:4326 (WGS84) CRS
+        var EPSG4326 = new L.Proj.CRS('EPSG:4326',
+            '+proj=longlat +datum=WGS84 +no_defs',
+            {
+                resolutions: [
+                    8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25
+                ],
+                origin: [0, 0]
+            }
+        );
 
+        // Definiera URL för WMS-lagret
+        var wmsUrl = 'https://geodata.nationell.geodataportalen.se/land/ows?service=WMS';
+
+        // Skapa WMS-lager
+        var wmsLayer = L.tileLayer.wms(wmsUrl, {
+            layers: 'algar:algjaktsomraden',
+            format: 'image/png',
+            transparent: true,
+            crs: EPSG4326,  // Använd rätt CRS
+            srs: 'EPSG:3006'  // Specificera SRS för att servern ska veta att den ska leverera i EPSG:3006
+        });
+
+        // Lägg till lagret om det inte redan är aktivt
+        if (!layerIsActive[layerName]) {
+            map.addLayer(wmsLayer);
+            geojsonLayers[layerName].push(wmsLayer);
+            layerIsActive[layerName] = true;
+            updateFAB(layerName, true);
+        } else {
+            map.removeLayer(wmsLayer);
             geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
             updateFAB(layerName, false);
         }
     }
 
-    // Ny funktion för att inaktivera alla lager
+    // Funktion för att växla (aktivera/inaktivera) lager
+    function toggleLayer(layerName, geojsonURLs) {
+        if (layerName === 'Älgjaktsområden') {
+            loadWMSLayer(layerName);
+        } else {
+            if (!layerIsActive[layerName]) {
+                fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+            } else {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer);  // Ta bort lager från kartan
+                });
+
+                geojsonLayers[layerName] = [];
+                layerIsActive[layerName] = false;
+                updateFAB(layerName, false);
+            }
+        }
+    }
+
+    // Funktion för att inaktivera alla lager
     function deactivateAllLayersKartor() {
         console.log("Deactivating all layers.");
         Object.keys(layerIsActive).forEach(function(layerName) {
             if (layerIsActive[layerName]) {
                 console.log("Deactivating layer:", layerName);
                 geojsonLayers[layerName].forEach(function(layer) {
-                    map.removeLayer(layer); // Ta bort lager från kartan
+                    map.removeLayer(layer);
                 });
-                geojsonLayers[layerName] = []; // Rensa listan med lager
-                layerIsActive[layerName] = false; // Markera som inaktiv
+
+                geojsonLayers[layerName] = [];
+                layerIsActive[layerName] = false;
                 updateFAB(layerName, false);
             }
         });
     }
 
-    // Funktion för att få filnamnet från en URL
-    function getFilenameFromURL(url) {
-        return url.split('/').pop();
-    }
+    // Lägg till fler funktioner här om det behövs
 
-    // Funktion för att uppdatera FAB-knappen baserat på lagrets tillstånd
-    function updateFAB(layerName, show) {
-        var fabId = getFABId(layerName);
-        var fabButton = document.getElementById(fabId);
-        if (fabButton) {
-            fabButton.style.display = show ? 'block' : 'none';
-        }
-    }
-
-    // Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
-    function getFABId(layerName) {
-        switch(layerName) {
-            case 'Allmän jakt: Däggdjur':
-                return 'fab-daggdjur';
-            case 'Allmän jakt: Fågel':
-                return 'fab-fagel';
-            case 'Älgjaktskartan':
-                return 'fab-alg';
-            default:
-                return '';
-        }
-    }
-
-    // Exponerar funktionerna för att växla lager och hämta GeoJSON-data
     return {
         toggleLayer: toggleLayer,
-        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
-        deactivateAllLayersKartor: deactivateAllLayersKartor  // Exponerar den nya funktionen
+        deactivateAllLayersKartor: deactivateAllLayersKartor
     };
 })();
+
