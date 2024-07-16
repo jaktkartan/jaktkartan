@@ -43,6 +43,7 @@ function openKartor() {
             'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
             'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
         ]);
+        optionsPanel.classList.remove('show'); // Stäng panelen efter val
     };
 
     // Alternativ 2: Älgskötselområden
@@ -52,6 +53,7 @@ function openKartor() {
     skotselomradenButton.onclick = function() {
         // Anropa funktion för att visa Älgskötselområden
         loadElgSkotselOmraden();
+        optionsPanel.classList.remove('show'); // Stäng panelen efter val
     };
 
     // Lägg till knappar till panelen
@@ -155,7 +157,7 @@ style.textContent = `
     }
 
     .button-container {
-        position: relative; /* Behövs för att panelen ska placeras korrekt */
+        position: relative; /* Behövs för att panelen ska positioneras korrekt */
     }
 `;
 document.head.appendChild(style);
