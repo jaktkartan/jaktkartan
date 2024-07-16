@@ -93,6 +93,9 @@ var Kartor_geojsonHandler = (function() {
 
     // Funktion för att ladda WMS-lager
     function loadWMSLayer(url, params) {
+        console.log("Loading WMS layer with URL:", url);
+        console.log("Params:", params);
+        
         var wmsLayer = L.tileLayer.wms(url, params);
         layers['Älgjaktsområden'].push(wmsLayer);
 
@@ -109,7 +112,9 @@ var Kartor_geojsonHandler = (function() {
                     layers: '1',
                     format: 'image/png',
                     transparent: true,
-                    opacity: 0.35
+                    opacity: 0.35,
+                    version: '1.1.1',
+                    crs: 'EPSG:3006' // Lägg till CRS om det behövs
                 });
             } else {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
