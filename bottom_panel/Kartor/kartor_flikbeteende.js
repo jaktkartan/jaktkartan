@@ -82,9 +82,17 @@ function openKartor() {
     function showElkMapOptions() {
         buttonContainer.innerHTML = ''; // Rensa knappcontainern
 
-        const elkJakttiderButton = document.createElement('button');
-        elkJakttiderButton.className = 'styled-button';
-        elkJakttiderButton.onclick = function() {
+        const elkJaktsomradenButton = document.createElement('button');
+        elkJaktsomradenButton.className = 'styled-button';
+        elkJaktsomradenButton.onclick = function() {
+            // Ladda WMS-lager för Älgjaktsområden
+            loadElgjaktsomradenWMS();
+            restoreOriginalButtons();
+        };
+
+        const elkAlternativButton = document.createElement('button');
+        elkAlternativButton.className = 'styled-button';
+        elkAlternativButton.onclick = function() {
             Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [
                 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
                 'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
@@ -92,29 +100,19 @@ function openKartor() {
             restoreOriginalButtons();
         };
 
-        const elkSkotselomradenButton = document.createElement('button');
-        elkSkotselomradenButton.className = 'styled-button';
-        elkSkotselomradenButton.onclick = function() {
-            Kartor_geojsonHandler.toggleLayer('Älgskötselområden', [
-                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson',
-                'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
-            ]);
-            restoreOriginalButtons();
-        };
+        const jaktsomradenImg = document.createElement('img');
+        jaktsomradenImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
+        jaktsomradenImg.alt = 'Älgjaktsområden';
+        elkJaktsomradenButton.appendChild(jaktsomradenImg);
 
-        const jakttiderImg = document.createElement('img');
-        jakttiderImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
-        jakttiderImg.alt = 'Älgjaktskartan';
-        elkJakttiderButton.appendChild(jakttiderImg);
-
-        const skotselomradenImg = document.createElement('img');
-        skotselomradenImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
-        skotselomradenImg.alt = 'Älgskötselområden';
-        elkSkotselomradenButton.appendChild(skotselomradenImg);
+        const alternativImg = document.createElement('img');
+        alternativImg.src = 'bottom_panel/Kartor/bilder/algikon.png';
+        alternativImg.alt = 'Älgjaktskartan';
+        elkAlternativButton.appendChild(alternativImg);
 
         // Lägg till knappar till panelen
-        buttonContainer.appendChild(elkJakttiderButton);
-        buttonContainer.appendChild(elkSkotselomradenButton);
+        buttonContainer.appendChild(elkJaktsomradenButton);
+        buttonContainer.appendChild(elkAlternativButton);
     }
 
     // Funktion för att återställa ursprungliga knappar
@@ -133,6 +131,14 @@ function openKartor() {
             btn.appendChild(img);
             buttonContainer.appendChild(btn);
         });
+    }
+
+    // Funktion för att ladda WMS-lager för Älgjaktsområden
+    function loadElgjaktsomradenWMS() {
+        // Dynamiskt ladda och exekvera scriptet för Älgjaktsområden
+        const script = document.createElement('script');
+        script.src = 'bottom_panel/Kartor/Algjaktskartan/WMS/Algjaktsomraden.js';
+        document.head.appendChild(script);
     }
 
     // Debugging
