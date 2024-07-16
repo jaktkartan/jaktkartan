@@ -72,7 +72,13 @@ function openKartor() {
     const elkMapButton = document.getElementById('elgjaktskartan-main');
     const optionsPanel = document.createElement('div');
     optionsPanel.className = 'options-panel';
+    optionsPanel.style.position = 'absolute';
     optionsPanel.style.display = 'none'; // Dölja panelen initialt
+    optionsPanel.style.backgroundColor = 'white';
+    optionsPanel.style.border = '1px solid #ccc';
+    optionsPanel.style.padding = '10px';
+    optionsPanel.style.boxShadow = '0px 0px 10px rgba(0,0,0,0.1)';
+    optionsPanel.style.zIndex = '1000';
 
     // Alternativ 1: Älgjaktskartan: Jakttider
     const jakttiderButton = document.createElement('button');
@@ -105,6 +111,9 @@ function openKartor() {
     // Hantera klick på huvudknappen
     elkMapButton.addEventListener('click', function(event) {
         event.stopPropagation(); // Förhindra att klick utanför menyn stänger den
+        const rect = elkMapButton.getBoundingClientRect();
+        optionsPanel.style.left = `${rect.left}px`;
+        optionsPanel.style.top = `${rect.bottom}px`;
         optionsPanel.style.display = optionsPanel.style.display === 'none' ? 'block' : 'none';
     });
 
