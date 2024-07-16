@@ -145,8 +145,7 @@ function getFABId(layerName) {
 }
 
 // Exponera funktioner som används utanför modulen
-window.KartorGeojsonHandler = {
+window.Kartor_geojsonHandler = {
     toggleLayer: toggleLayer,
     deactivateAllLayersKartor: deactivateAllLayersKartor
 };
-
