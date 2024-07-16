@@ -21,7 +21,6 @@ function openKartor() {
     // Skapa knapp-container
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'button-container';
-    buttonContainer.style.position = 'relative'; // För att positionera alternativknappar korrekt
     buttonContainer.style.display = 'flex'; // Lägg till display flex här
 
     // Definiera knapparna med deras respektive egenskaper
@@ -87,21 +86,7 @@ function openKartor() {
             'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
             'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
         ]);
-        optionsPanel.style.display = 'none'; // Stäng panelen efter val
-        buttonContainer.innerHTML = ''; // Rensa knappcontainern
-        buttons.forEach(button => {
-            const btn = document.createElement('button');
-            btn.className = button.className;
-            btn.setAttribute('onclick', button.onclick || '');
-            btn.id = button.id || '';
-
-            const img = document.createElement('img');
-            img.src = button.imgSrc;
-            img.alt = button.imgAlt;
-
-            btn.appendChild(img);
-            buttonContainer.appendChild(btn);
-        });
+        restoreOriginalButtons();
     };
 
     // Alternativ 2: Älgskötselområden
@@ -109,21 +94,7 @@ function openKartor() {
     skotselomradenButton.className = 'styled-button';
     skotselomradenButton.onclick = function() {
         loadElgSkotselOmraden();
-        optionsPanel.style.display = 'none'; // Stäng panelen efter val
-        buttonContainer.innerHTML = ''; // Rensa knappcontainern
-        buttons.forEach(button => {
-            const btn = document.createElement('button');
-            btn.className = button.className;
-            btn.setAttribute('onclick', button.onclick || '');
-            btn.id = button.id || '';
-
-            const img = document.createElement('img');
-            img.src = button.imgSrc;
-            img.alt = button.imgAlt;
-
-            btn.appendChild(img);
-            buttonContainer.appendChild(btn);
-        });
+        restoreOriginalButtons();
     };
 
     // Lägg till bilder till alternativknapparna
@@ -147,44 +118,46 @@ function openKartor() {
     // Hantera klick på huvudknappen
     elkMapButton.addEventListener('click', function(event) {
         event.stopPropagation(); // Förhindra att klick utanför menyn stänger den
-        buttonContainer.querySelectorAll('button').forEach(btn => {
-            if (btn !== elkMapButton) {
-                btn.style.display = 'none'; // Dölj alla andra knappar
-            }
-        });
+        buttonContainer.innerHTML = ''; // Rensa knappcontainern
+        buttonContainer.appendChild(optionsPanel);
         optionsPanel.style.display = 'flex'; // Visa alternativknappar
     });
 
-    // Dölj alternativs-panel när man klickar utanför
+    // Dölj alternativs-panel och återställ ursprungliga knappar när man klickar utanför
     document.addEventListener('click', function(event) {
-        if (!event.target.matches('#elgjaktskartan-button') && !event.target.closest('.options-panel')) {
-            optionsPanel.style.display = 'none';
-            buttonContainer.innerHTML = ''; // Rensa knappcontainern
-            buttons.forEach(button => {
-                const btn = document.createElement('button');
-                btn.className = button.className;
-                btn.setAttribute('onclick', button.onclick || '');
-                btn.id = button.id || '';
-
-                const img = document.createElement('img');
-                img.src = button.imgSrc;
-                img.alt = button.imgAlt;
-
-                btn.appendChild(img);
-                buttonContainer.appendChild(btn);
-            });
+        if (!event.target.closest('.options-panel') && !event.target.closest('#elgjaktskartan-button')) {
+            restoreOriginalButtons();
         }
     });
 
+    // Funktion för att återställa ursprungliga knappar
+    function restoreOriginalButtons() {
+        buttonContainer.innerHTML = ''; // Rensa knappcontainern
+        optionsPanel.style.display = 'none'; // Dölj alternativknappar
+        buttons.forEach(button => {
+            const btn = document.createElement('button');
+            btn.className = button.className;
+            btn.setAttribute('onclick', button.onclick || '');
+            btn.id = button.id || '';
+
+            const img = document.createElement('img');
+            img.src = button.imgSrc;
+            img.alt = button.imgAlt;
+
+            btn.appendChild(img);
+            buttonContainer.appendChild(btn);
+        });
+    }
+
+    // Funktion för att ladda Älgskötselområden
+    function loadElgSkotselOmraden() {
+        Kartor_geojsonHandler.toggleLayer('Älgskötselområden', [
+            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson',
+            'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
+        ]);
+        console.log('Visar Älgskötselområden');
+    }
+
     // Debugging
     console.log('Kartor tab created and added to body');
-}
-
-// Funktion för att ladda Älgskötselområden
-function loadElgSkotselOmraden() {
-    Kartor_geojsonHandler.toggleLayer('Älgskötselområden', [
-        'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Srskiltjakttidsfnster_3.geojson',
-        'https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Kirunakommunnedanodlingsgrns_4.geojson'
-    ]);
-    console.log('Visar Älgskötselområden');
 }
