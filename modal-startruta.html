@@ -64,7 +64,13 @@
             background-color: #d0d0d0;
         }
 
+        /* Visa underflik när radio-knapp är vald */
         input[type="radio"]:checked + label + .sub-content {
+            display: block;
+        }
+
+        /* För att endast en flik ska vara öppen åt gången */
+        .accordion-button + .content input[type="radio"]:checked + label + .sub-content {
             display: block;
         }
     </style>
@@ -149,8 +155,8 @@
                 <ol>
                     <li>Öppna Edge och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
                     <li>Klicka på de tre prickarna i det övre högra hörnet av webbläsaren.</li>
-                    <li>Välj "Apps" och sedan "Installera den här webbplatsen som en app".</li>
-                    <li>Ge genvägen ett namn och klicka på "Installera".</li>
+                    <li>Välj "Fler verktyg" och sedan "Fäst på startskärmen".</li>
+                    <li>Ge genvägen ett namn och klicka på "Fäst".</li>
                 </ol>
                 <h4>På en Android-enhet (Microsoft Edge):</h4>
                 <ol>
