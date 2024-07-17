@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Startruta</title>
+    <title>Älgjakt_modal</title>
     <style>
         /* Grundstilar för content */
         .content {
@@ -47,23 +47,33 @@
 
         .content ul li {
             margin-bottom: 10px; /* Lägg till utrymme mellan listpunkterna */
+            display: flex; /* Använd flexbox för att placera etiketter och text på samma rad */
+            align-items: center; /* Vertikal centrering */
         }
 
         .content ul li span {
             font-weight: bold; /* Fetstil för etiketter */
-            display: block; /* Gör etiketter till blockelement så att de hamnar på nya rader */
+            margin-right: 5px; /* Lite utrymme mellan etikett och text */
         }
 
         /* Stilar för rubriker */
         h3 {
             margin-top: 0; /* Ta bort eventuell övre marginal för rubriken */
         }
+
+        /* Fetstil för huvudrubrik */
+        .main-title {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px; /* Lägg till lite utrymme under huvudrubriken */
+        }
     </style>
 </head>
 <body>
     <div class="modal-content">
         <span class="close" id="close-upptack">&times;</span>
-        <p>Älgjaktskartan! Denna interaktiva karta visar detaljerad information om jakttider och områden med brunstuppehåll i olika älgförvaltningsområden i Sverige. Nedan finner du en teckenförklaring för att underlätta förståelsen för kartan.</p>
+        <p class="main-title">Älgjaktskartan!</p>
+        <p>Denna interaktiva karta visar detaljerad information om jakttider och områden med brunstuppehåll i olika älgförvaltningsområden i Sverige. Nedan finner du en teckenförklaring för att underlätta förståelsen för kartan.</p>
         
         <!-- Checkbox för att styra visningen -->
         <input type="checkbox" id="toggle-features">
