@@ -1,10 +1,96 @@
-<div class="modal-content">
-    <span class="close" id="close-daggdjur">&times;</span>
-    <h2>Allmän jakt: Däggdjur</h2>
-    <p>Kartan innehåller information om allmän jakt på däggdjur.</p>
-    <img src="bottom_panel/Kartor/bilder/teckenforklaring_daggdjur.png" alt="Bild för Däggdjur">
-    <p>Ytterligare detaljer och bilder.</p>
-</div>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal för Allmän jakt: Däggdjur</title>
+    <style>
+        /* Grundstilar för content */
+        .content {
+            display: none; /* Dölj innehållet som standard */
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
 
+        /* Använd checkbox för att styra visning av innehållet */
+        input[type="checkbox"] {
+            display: none; /* Dölj checkboxen */
+        }
 
+        /* Stilar för knappen */
+        label.accordion-button {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: none;
+            text-align: left;
+            font-size: 16px;
+            display: block;
+            transition: background-color 0.3s;
+        }
 
+        label.accordion-button:hover {
+            background-color: #ddd;
+        }
+
+        /* Visa innehållet när checkboxen är kryssad */
+        input[type="checkbox"]:checked + label + .content {
+            display: block;
+        }
+
+        /* Stilar för listan och etiketter */
+        .content ul {
+            list-style-type: none; /* Ta bort standardpunkt för listan */
+            padding: 0; /* Ta bort inre marginaler */
+            margin: 0; /* Ta bort yttre marginaler */
+        }
+
+        .content ul li {
+            margin-bottom: 10px; /* Lägg till utrymme mellan listpunkterna */
+        }
+
+        .content ul li span {
+            font-weight: bold; /* Fetstil för etiketter */
+            display: block; /* Gör etiketter till blockelement så att de hamnar på nya rader */
+        }
+
+        /* Stilar för rubriker */
+        h3 {
+            margin-top: 0; /* Ta bort eventuell övre marginal för rubriken */
+        }
+
+        /* Specifika stilar för Älgjaktskartan */
+        .main-title {
+            font-weight: bold;
+            font-size: 24px; /* Justera storleken efter behov */
+            margin-bottom: 10px; /* Lägg till utrymme under titeln */
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-content">
+        <span class="close" id="close-upptack">&times;</span>
+        <p class="main-title">Allmän jakt: Däggdjur!</p>
+        <p>Kartan visar detaljerad information om den allmänna jakten på olika däggdjur i Sverige indelat per län. Nedan finns en en förklarande text över kartans funktion.</p>
+        
+        <!-- Checkbox för att styra visningen -->
+        <input type="checkbox" id="toggle-features">
+        <label for="toggle-features" class="accordion-button">Kartans innehåll</label>
+        <div class="content">
+            <h3>Information för respektive Län</h3>
+            <ul>
+                <li><span>Däggdjur:</span> Artnamn och tillhörande bild för att underlätta artbestämmande.</li>
+                <li><span>Jakttid:</span> Anger jakttiden specifikt för respektive län.</li>
+                <li><span>Jakt under dygnet:</span> Visar när under dygnet det är tillåtet att jaga.</li>
+                <li><span>Kaliberkrav:</span> Anger vilken kaliber som krävs vid jakten.</li>
+            </ul>
+        </div>
+
+        <input type="checkbox" id="toggle-under-construction">
+        <label for="toggle-under-construction" class="accordion-button">Teckenförklaring</label>
+        <div class="content">
+        <img src="bottom_panel/Kartor/bilder/teckenforklaring_daggdjur.png" alt="Bild för Däggdjur">
+        </div>
+    </div>
+</body>
+</html>
