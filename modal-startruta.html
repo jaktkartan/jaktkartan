@@ -37,8 +37,6 @@
         input[type="checkbox"]:checked + label + .content {
             display: block;
         }
-
-
     </style>
 </head>
 <body>
@@ -46,8 +44,8 @@
         <span class="close" id="close-upptack">&times;</span>
         <img src="bilder/Jaktkartan_logga.png" alt="Jaktkartan Logga" class="centered-image">
         <p>Välkommen till Jaktkartan.se! Utforska kartan och upptäck våra verktyg och resurser som gör jakten både enklare och mer givande. Nedan finns en flik med information om kartans olika funktioner.</p>
-        
-        <!-- Checkbox för att styra visningen -->
+
+        <!-- Sektion för kartans funktioner -->
         <input type="checkbox" id="toggle-features-startruta">
         <label for="toggle-features-startruta" class="accordion-button">Kartans funktioner</label>
         <div class="content">
@@ -81,11 +79,44 @@
             </ul>
         </div>
 
-        <!-- Sektion om att sidan är under uppbyggnad -->
+        <!-- Sektion för hjälp och feedback -->
         <input type="checkbox" id="toggle-hjalp-oss-flik">
         <label for="toggle-hjalp-oss-flik" class="accordion-button">Hjälp oss bli bättre!</label>
         <div class="content">
             <p>Hemsidan är under uppbyggnad och vi arbetar ständigt med att förbättra den. Vi uppskattar om du som användare vill hjälpa oss genom att rapportera eventuella faktafel eller andra förbättringsförslag. Kontakta oss gärna via vår <a href="https://jaktkartan.se/Kontakt/">kontaktsida</a>.</p>
+        </div>
+
+        <!-- Ny sektion för att lägga till Jaktkartan som app eller genväg -->
+        <input type="checkbox" id="toggle-add-to-home">
+        <label for="toggle-add-to-home" class="accordion-button">Lägg till Jaktkartan.se som genväg eller app</label>
+        <div class="content">
+            <h3>Instruktioner för att lägga till Jaktkartan.se som genväg eller app:</h3>
+            <ul>
+                <li><strong>På en dator (Google Chrome):</strong>
+                    <ol>
+                        <li>Öppna Chrome och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
+                        <li>Klicka på de tre prickarna i det övre högra hörnet av webbläsaren.</li>
+                        <li>Välj "Fler verktyg" och sedan "Skapa genväg...".</li>
+                        <li>Ge genvägen ett namn och klicka på "Skapa".</li>
+                    </ol>
+                </li>
+                <li><strong>På en Android-enhet (Google Chrome):</strong>
+                    <ol>
+                        <li>Öppna Chrome och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
+                        <li>Klicka på de tre prickarna i det övre högra hörnet av webbläsaren.</li>
+                        <li>Välj "Lägg till på startskärmen".</li>
+                        <li>Ge genvägen ett namn och tryck på "Lägg till".</li>
+                    </ol>
+                </li>
+                <li><strong>I Safari på en iPhone eller iPad:</strong>
+                    <ol>
+                        <li>Öppna Safari och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
+                        <li>Klicka på delningsikonen (fyrkant med en uppåtpil) längst ner på skärmen.</li>
+                        <li>Välj "Lägg till på hemskärmen".</li>
+                        <li>Ge genvägen ett namn och tryck på "Lägg till".</li>
+                    </ol>
+                </li>
+            </ul>
         </div>
     </div>
 </body>
