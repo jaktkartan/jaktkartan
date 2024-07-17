@@ -71,6 +71,20 @@
         .radio-button-container {
             margin-top: 10px;
         }
+
+        /* Stilar för bild */
+        .icon-image {
+            width: 50px; /* Justera storleken på bilden */
+            height: auto; /* Behåll bildens proportioner */
+            vertical-align: middle; /* Justera bildens vertikala position */
+            margin-left: 10px; /* Lägga till ett litet avstånd till texten */
+        }
+
+        .image-container {
+            display: flex;
+            align-items: center; /* Vertikal centrering av bild och text */
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -124,8 +138,11 @@
         <input type="checkbox" id="toggle-add-to-home">
         <label for="toggle-add-to-home" class="accordion-button">Lägg till Jaktkartan.se som genväg eller app</label>
         <div class="content">
-            <h3>Instruktioner för att lägga till Jaktkartan.se som genväg eller app:</h3>
-
+            <div class="image-container">
+                <h3>Instruktioner för att lägga till Jaktkartan.se som genväg eller app:</h3>
+                <img src="bilder/ikon_jaktkartanApp.jpg" alt="Jaktkartan App Icon" class="icon-image">
+            </div>
+            
             <!-- Radio knappar för att välja webbläsare -->
             <div class="radio-button-container">
                 <input type="radio" id="chrome" name="browser">
