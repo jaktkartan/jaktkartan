@@ -37,13 +37,28 @@
         input[type="checkbox"]:checked + label + .content {
             display: block;
         }
+
+        /* Stilar för listan */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        li span {
+            font-weight: bold;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="modal-content">
         <span class="close" id="close-upptack">&times;</span>
         <p class="main-title">Allmän jakt: Däggdjur!</p>
-        <p>Kartan visar detaljerad information om den allmänna jakten på olika däggdjur i Sverige indelat per län. Nedan finns en en förklarande text över kartans funktion.</p>
+        <p>Kartan visar detaljerad information om den allmänna jakten på olika däggdjur i Sverige indelat per län. Nedan finns en förklarande text över kartans funktion.</p>
         
         <!-- Checkbox för att styra visningen -->
         <input type="checkbox" id="toggle-features-daggdjur">
@@ -61,8 +76,9 @@
         <input type="checkbox" id="toggle-teckenforklaring-daggdjur">
         <label for="toggle-teckenforklaring-daggdjur" class="accordion-button">Teckenförklaring</label>
         <div class="content">
-        <img src="bottom_panel/Kartor/bilder/teckenforklaring_daggdjur.png" alt="Bild för Däggdjur">
+            <img src="bottom_panel/Kartor/bilder/teckenforklaring_daggdjur.png" alt="Bild för Däggdjur">
         </div>
     </div>
 </body>
 </html>
+
