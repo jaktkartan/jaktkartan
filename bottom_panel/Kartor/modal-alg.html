@@ -58,12 +58,20 @@
         h3 {
             margin-top: 0; /* Ta bort eventuell övre marginal för rubriken */
         }
+
+        /* Specifika stilar för Älgjaktskartan */
+        .main-title {
+            font-weight: bold;
+            font-size: 24px; /* Justera storleken efter behov */
+            margin-bottom: 10px; /* Lägg till utrymme under titeln */
+        }
     </style>
 </head>
 <body>
     <div class="modal-content">
         <span class="close" id="close-upptack">&times;</span>
-        <p>Älgjaktskartan! Denna interaktiva karta visar detaljerad information om jakttider och områden med brunstuppehåll i olika älgförvaltningsområden i Sverige. Nedan finner du en teckenförklaring för att underlätta förståelsen för kartan.</p>
+        <p class="main-title">Älgjaktskartan!</p>
+        <p>Denna interaktiva karta visar detaljerad information om jakttider och områden med brunstuppehåll i olika älgförvaltningsområden i Sverige. Nedan finner du en teckenförklaring för att underlätta förståelsen för kartan.</p>
         
         <!-- Checkbox för att styra visningen -->
         <input type="checkbox" id="toggle-features">
