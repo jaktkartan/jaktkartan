@@ -37,6 +37,36 @@
         input[type="checkbox"]:checked + label + .content {
             display: block;
         }
+
+        /* Stilar för underflikar */
+        .sub-content {
+            display: none; /* Dölj underflikar som standard */
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        input[type="radio"] {
+            display: none; /* Dölj radio knappar */
+        }
+
+        label.radio-button {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #e1e1e1;
+            border: none;
+            text-align: left;
+            font-size: 14px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        label.radio-button:hover {
+            background-color: #d0d0d0;
+        }
+
+        input[type="radio"]:checked + label + .sub-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -91,32 +121,57 @@
         <label for="toggle-add-to-home" class="accordion-button">Lägg till Jaktkartan.se som genväg eller app</label>
         <div class="content">
             <h3>Instruktioner för att lägga till Jaktkartan.se som genväg eller app:</h3>
-            <ul>
-                <li><strong>På en dator (Google Chrome):</strong>
-                    <ol>
-                        <li>Öppna Chrome och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
-                        <li>Klicka på de tre prickarna i det övre högra hörnet av webbläsaren.</li>
-                        <li>Välj "Fler verktyg" och sedan "Skapa genväg...".</li>
-                        <li>Ge genvägen ett namn och klicka på "Skapa".</li>
-                    </ol>
-                </li>
-                <li><strong>På en Android-enhet (Google Chrome):</strong>
-                    <ol>
-                        <li>Öppna Chrome och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
-                        <li>Klicka på de tre prickarna i det övre högra hörnet av webbläsaren.</li>
-                        <li>Välj "Lägg till på startskärmen".</li>
-                        <li>Ge genvägen ett namn och tryck på "Lägg till".</li>
-                    </ol>
-                </li>
-                <li><strong>I Safari på en iPhone eller iPad:</strong>
-                    <ol>
-                        <li>Öppna Safari och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
-                        <li>Klicka på delningsikonen (fyrkant med en uppåtpil) längst ner på skärmen.</li>
-                        <li>Välj "Lägg till på hemskärmen".</li>
-                        <li>Ge genvägen ett namn och tryck på "Lägg till".</li>
-                    </ol>
-                </li>
-            </ul>
+            
+            <!-- Radio knappar för att välja webbläsare -->
+            <input type="radio" id="chrome" name="browser">
+            <label for="chrome" class="radio-button">Google Chrome</label>
+            <div class="sub-content">
+                <h4>På en dator (Google Chrome):</h4>
+                <ol>
+                    <li>Öppna Chrome och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
+                    <li>Klicka på de tre prickarna i det övre högra hörnet av webbläsaren.</li>
+                    <li>Välj "Fler verktyg" och sedan "Skapa genväg...".</li>
+                    <li>Ge genvägen ett namn och klicka på "Skapa".</li>
+                </ol>
+                <h4>På en Android-enhet (Google Chrome):</h4>
+                <ol>
+                    <li>Öppna Chrome och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
+                    <li>Klicka på de tre prickarna i det övre högra hörnet av webbläsaren.</li>
+                    <li>Välj "Lägg till på startskärmen".</li>
+                    <li>Ge genvägen ett namn och tryck på "Lägg till".</li>
+                </ol>
+            </div>
+            
+            <input type="radio" id="edge" name="browser">
+            <label for="edge" class="radio-button">Microsoft Edge</label>
+            <div class="sub-content">
+                <h4>På en dator (Microsoft Edge):</h4>
+                <ol>
+                    <li>Öppna Edge och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
+                    <li>Klicka på de tre prickarna i det övre högra hörnet av webbläsaren.</li>
+                    <li>Välj "Apps" och sedan "Installera den här webbplatsen som en app".</li>
+                    <li>Ge genvägen ett namn och klicka på "Installera".</li>
+                </ol>
+                <h4>På en Android-enhet (Microsoft Edge):</h4>
+                <ol>
+                    <li>Öppna Edge och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
+                    <li>Klicka på de tre prickarna i det övre högra hörnet av webbläsaren.</li>
+                    <li>Välj "Lägg till på startskärmen".</li>
+                    <li>Ge genvägen ett namn och tryck på "Lägg till".</li>
+                </ol>
+            </div>
+            
+            <input type="radio" id="safari" name="browser">
+            <label for="safari" class="radio-button">Safari (iPhone/iPad)</label>
+            <div class="sub-content">
+                <h4>I Safari på en iPhone eller iPad:</h4>
+                <ol>
+                    <li>Öppna Safari och gå till <a href="https://www.jaktkartan.se">Jaktkartan.se</a>.</li>
+                    <li>Klicka på delningsikonen (fyrkant med en uppåtpil) längst ner på skärmen.</li>
+                    <li>Välj "Lägg till på hemskärmen".</li>
+                    <li>Ge genvägen ett namn och tryck på "Lägg till".</li>
+                </ol>
+            </div>
         </div>
     </div>
 </body>
