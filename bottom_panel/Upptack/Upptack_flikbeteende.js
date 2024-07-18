@@ -98,7 +98,7 @@ function openUpptack() {
     // Lägg till en eventlyssnare för knappen "Nästkommande mässa"
     nextEventButton.addEventListener('click', function () {
         // Implementera vad som ska hända när knappen klickas
-        alert('Här kan du lägga till funktionalitet för att visa nästa mässa!');
+        alert('Funktionalitet för att visa nästkommande mässa kommer snart!');
     });
 
     // Lägg till knapparna i containern
