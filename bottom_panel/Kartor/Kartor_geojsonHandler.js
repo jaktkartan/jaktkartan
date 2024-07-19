@@ -53,7 +53,7 @@ var Kartor_geojsonHandler = (function() {
     };
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager
-    function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+    async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         // Inaktivera andra lager om de är aktiva
         Object.keys(layerIsActive).forEach(function(name) {
             if (name !== layerName && layerIsActive[name]) {
@@ -63,37 +63,37 @@ var Kartor_geojsonHandler = (function() {
             }
         });
 
-        // Hämta GeoJSON-data från URL och skapa lager
-        geojsonURLs.forEach(function(geojsonURL) {
-            axios.get(geojsonURL)
-                .then(function(response) {
-                    var geojson = response.data;
-                    
-                    // Skapa GeoJSON-lager med stil och klickhändelse
-                    var layer = L.geoJSON(geojson, {
-                        style: function(feature) {
-                            var filename = getFilenameFromURL(geojsonURL);
-                            return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
-                        },
-                        onEachFeature: function(feature, layer) {
-                            addClickHandlerToLayer(layer);
-                        }
-                    });
-
-                    geojsonLayers[layerName].push(layer);
-
-                    // Lägg till lagret på kartan om det är aktivt
-                    if (layerIsActive[layerName]) {
-                        layer.addTo(map);
-                    }
-                })
-                .catch(function() {
-                    console.error("Error fetching GeoJSON data.");
-                });
-        });
-
         // Markera lagret som aktivt
         layerIsActive[layerName] = true;
+
+        // Hämta GeoJSON-data från URL och skapa lager i ordning
+        for (const geojsonURL of geojsonURLs) {
+            try {
+                const response = await axios.get(geojsonURL);
+                const geojson = response.data;
+                
+                // Skapa GeoJSON-lager med stil och klickhändelse
+                const layer = L.geoJSON(geojson, {
+                    style: function(feature) {
+                        var filename = getFilenameFromURL(geojsonURL);
+                        return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
+                    },
+                    onEachFeature: function(feature, layer) {
+                        addClickHandlerToLayer(layer);
+                    }
+                });
+
+                geojsonLayers[layerName].push(layer);
+
+                // Lägg till lagret på kartan om det är aktivt
+                if (layerIsActive[layerName]) {
+                    layer.addTo(map);
+                }
+            } catch (error) {
+                console.error("Error fetching GeoJSON data.");
+            }
+        }
+
         updateFAB(layerName, true);
     }
 
