@@ -1,32 +1,64 @@
-var wms_layers = [];
+// Funktion för att generera en slumpmässig färg i en naturlig nyans
+function getRandomColor() {
+    var hue = Math.floor(Math.random() * 360); // Färgton
+    var lightness = Math.floor(Math.random() * 40) + 40; // Ljushet från 40 till 80
+    return `hsl(${hue}, 70%, ${lightness}%)`;
+}
 
+// Färgcache för att bevara färger för varje feature
+var colorCache = {};
 
-        var lyr_OSMStandard_0 = new ol.layer.Tile({
-            'title': 'OSM Standard',
-            //'type': 'base',
-            'opacity': 1.000000,
+// Funktion för att lägga till feature layer
+function addFeatureLayer() {
+    var featureLayer = L.esri.featureLayer({
+        url: 'https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/rest/services/Jaktadm/lst_jaktadm_visning/MapServer/0',
+        style: function (feature) {
+            // Om feature inte redan har en färg i cache, generera och spara i cache
+            if (!colorCache[feature.id]) {
+                colorCache[feature.id] = getRandomColor();
+            }
+            return {
+                color: colorCache[feature.id], // Kantfärg
+                weight: 2, // Kantens tjocklek
+                opacity: 1, // Kantens opacitet
+                fillColor: colorCache[feature.id], // Fyllningsfärg
+                fillOpacity: 0.5 // Konstant transparens på fyllningen
+            };
+        },
+        onEachFeature: function (feature, layer) {
+            // Bygg en HTML-tabell med attributdata
+            var popupContent = '<table class="popup-table">';
+            if (feature.properties) {
+                for (var key in feature.properties) {
+                    if (feature.properties.hasOwnProperty(key)) {
+                        popupContent += '<tr><th>' + key + '</th><td>' + feature.properties[key] + '</td></tr>';
+                    }
+                }
+            }
+            popupContent += '</table>';
             
-            
-            source: new ol.source.XYZ({
-    attributions: ' &middot; <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
-                url: 'http://tile.openstreetmap.org/{z}/{x}/{y}.png'
-            })
-        });
-var lyr_lgjaktomrden_1 = new ol.layer.Tile({
-                            source: new ol.source.TileWMS(({
-                              url: "https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer",
-    attributions: ' ',
-                              params: {
-                                "LAYERS": "2",
-                                "TILED": "true",
-                                "VERSION": "1.3.0"},
-                            })),
-                            title: "Älgjaktområden",
-                            opacity: 0.350000,
-                            
-                            
-                          });
-              wms_layers.push([lyr_lgjaktomrden_1, 1]);
+            // Bind popup med HTML-tabellen
+            layer.bindPopup(popupContent);
+        }
+    }).addTo(window.map);
 
-lyr_OSMStandard_0.setVisible(true);lyr_lgjaktomrden_1.setVisible(true);
-var layersList = [lyr_OSMStandard_0,lyr_lgjaktomrden_1];
+    // Funktion som döljer eller visar lagret baserat på zoomnivå
+    function updateLayerVisibility() {
+        var zoomLevel = window.map.getZoom();
+        if (zoomLevel >= 13) { // Visa lagret vid zoomnivå 13 eller högre
+            if (!window.map.hasLayer(featureLayer)) {
+                featureLayer.addTo(window.map);
+            }
+        } else {
+            if (window.map.hasLayer(featureLayer)) {
+                window.map.removeLayer(featureLayer);
+            }
+        }
+    }
+
+    // Lägg till en "zoomend" lyssnare för att uppdatera lagrets synlighet när användaren zoomar
+    window.map.on('zoomend', updateLayerVisibility);
+
+    // Initial kontroll för att ställa in lagrets synlighet när kartan först laddas
+    updateLayerVisibility();
+}
