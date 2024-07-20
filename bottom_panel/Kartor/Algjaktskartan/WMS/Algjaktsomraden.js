@@ -1,3 +1,5 @@
+// funktionen triggas från bottom_panel/Kartor/kartor_flikbeteende.js
+function loadElgjaktsomradenWMS() {
 // Funktion för att generera en slumpmässig färg i en naturlig nyans
 function getRandomColor() {
     var hue = Math.floor(Math.random() * 360); // Färgton
