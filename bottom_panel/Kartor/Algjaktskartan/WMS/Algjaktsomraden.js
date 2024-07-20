@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="sv">
 <head>
-    <title>Leaflet Map with WMS Layer</title>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Karta med WMS Lager</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map {
@@ -20,7 +20,7 @@
         var map = L.map('map').setView([63.0, 16.0], 5);
 
         // Lägg till OSM Standard-baskarta
-        var osmStandard = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        var osmStandard = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors, CC-BY-SA'
         }).addTo(map);
@@ -52,6 +52,10 @@
             console.error('WMS layer could not be loaded:', error);
             alert('Failed to load WMS layer. Please check the WMS URL and parameters.');
         });
+
+        // Lägg till en funktionslogg för att se om WMS-lagret laddas korrekt
+        console.log('Map initialized and layers added.');
+
     </script>
 </body>
 </html>
