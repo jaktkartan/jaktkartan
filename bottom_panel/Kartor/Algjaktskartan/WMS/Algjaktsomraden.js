@@ -17,7 +17,7 @@ var lyr_lgjaktomrden_1 = new ol.layer.Tile({
                               url: "https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer",
     attributions: ' ',
                               params: {
-                                "LAYERS": "1",
+                                "LAYERS": "2",
                                 "TILED": "true",
                                 "VERSION": "1.3.0"},
                             })),
