@@ -38,7 +38,7 @@ var Kartor_geojsonHandler = (function() {
                     ];
                     var jakttidToColor = {};
                     var currentIndex = 0;
-
+                    
                     // Returnerar en funktion som tilldelar färg baserat på jakttid
                     return function(feature) {
                         var jakttid = feature.properties['jakttid'];
@@ -61,12 +61,12 @@ var Kartor_geojsonHandler = (function() {
             try {
                 const response = await axios.get(geojsonURL);
                 const geojson = response.data;
-
+                
                 // Skapa GeoJSON-lager med stil och klickhändelse
                 const layer = L.geoJSON(geojson, {
                     style: function(feature) {
                         var filename = getFilenameFromURL(geojsonURL);
-                        return layerStyles[layerName][filename]?.style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
+                        return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                     },
                     onEachFeature: function(feature, layer) {
                         addClickHandlerToLayer(layer);
@@ -80,7 +80,7 @@ var Kartor_geojsonHandler = (function() {
                     layer.addTo(map);
                 }
             } catch (error) {
-                console.error("Error fetching GeoJSON data:", error);
+                console.error("Error fetching GeoJSON data.");
             }
         }
 
@@ -113,15 +113,13 @@ var Kartor_geojsonHandler = (function() {
     function loadElgjaktsomradenWMS(add) {
         if (add) {
             // Lägg till WMS-lagret
-            if (!geojsonLayers['Älgjaktsområden']) {
-                var wmsLayer = L.tileLayer.wms('https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer', {
-                    layers: '0',
-                    format: 'image/png',
-                    transparent: true,
-                    attribution: 'Naturvårdsverket'
-                }).addTo(map);
-                geojsonLayers['Älgjaktsområden'] = wmsLayer;
-            }
+            var wmsLayer = L.tileLayer.wms('https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer', {
+                layers: '0',
+                format: 'image/png',
+                transparent: true,
+                attribution: 'Naturvårdsverket'
+            }).addTo(map);
+            geojsonLayers['Älgjaktsområden'] = wmsLayer;
         } else {
             if (geojsonLayers['Älgjaktsområden']) {
                 // Ta bort WMS-lagret
@@ -195,7 +193,7 @@ var Kartor_geojsonHandler = (function() {
         function getRandomColor() {
             var hue = Math.floor(Math.random() * 360); // Färgton
             var lightness = Math.floor(Math.random() * 40) + 40; // Ljushet från 40 till 80
-            return `hsl(${hue}, 70%, ${lightness}%)`;
+            return hsl(${hue}, 70%, ${lightness}%);
         }
 
         // Färgcache för att bevara färger för varje feature
@@ -228,7 +226,7 @@ var Kartor_geojsonHandler = (function() {
                     }
                 }
                 popupContent += '</table>';
-
+                
                 // Bind popup med HTML-tabellen
                 layer.bindPopup(popupContent);
             }
