@@ -86,7 +86,7 @@ function openKartor() {
         elkJaktsomradenButton.className = 'styled-button';
         elkJaktsomradenButton.onclick = function() {
             // Ladda FeatureLayer för Älgjaktsområden
-            loadElgjaktsomradenFeatureLayer();
+            Kartor_geojsonHandler.toggleLayer('Älgjaktsområden', []);
         };
 
         const elkAlternativButton = document.createElement('button');
