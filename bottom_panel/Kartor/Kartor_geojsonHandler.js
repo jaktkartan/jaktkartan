@@ -136,6 +136,7 @@ var Kartor_geojsonHandler = (function() {
                 featureLayer.metadata(function(error, metadata) {
                     if (error) {
                         console.error('Error fetching metadata:', error);
+                        console.log('Metadata URL:', featureLayer.options.url + '?f=pjson');
                         return;
                     }
                     if (metadata.featureCount === 0) {
