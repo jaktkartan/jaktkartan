@@ -27,13 +27,26 @@ function openKartor() {
     const buttons = [
         {
             className: 'styled-button',
-            onclick: "Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'])",
+            onclick: function() {
+                Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', [
+                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 
+                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'
+                ]);
+            },
             imgSrc: 'bottom_panel/Kartor/bilder/daggdjurikon.png',
             imgAlt: 'Allmän jakt: Däggdjur'
         },
         {
             className: 'styled-button',
-            onclick: "Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson', 'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson'])",
+            onclick: function() {
+                Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', [
+                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson', 
+                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 
+                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 
+                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 
+                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson'
+                ]);
+            },
             imgSrc: 'bottom_panel/Kartor/bilder/fagelikon.png',
             imgAlt: 'Allmän jakt: Fågel'
         },
@@ -49,8 +62,11 @@ function openKartor() {
     buttons.forEach(button => {
         const btn = document.createElement('button');
         btn.className = button.className;
-        btn.setAttribute('onclick', button.onclick || '');
         btn.id = button.id || '';
+
+        if (button.onclick) {
+            btn.onclick = button.onclick;
+        }
 
         const img = document.createElement('img');
         img.src = button.imgSrc;
@@ -86,7 +102,7 @@ function openKartor() {
         elkJaktsomradenButton.className = 'styled-button';
         elkJaktsomradenButton.onclick = function() {
             // Ladda WMS-lager för Älgjaktsområden
-            loadElgjaktsomradenWMS();
+            Kartor_geojsonHandler.toggleLayer('Älgjaktsområden');
         };
 
         const elkAlternativButton = document.createElement('button');
@@ -122,7 +138,9 @@ function openKartor() {
             if (button.id !== 'huvudknapp-älgjakt-button') {
                 const btn = document.createElement('button');
                 btn.className = button.className;
-                btn.setAttribute('onclick', button.onclick || '');
+                if (button.onclick) {
+                    btn.onclick = button.onclick;
+                }
 
                 const img = document.createElement('img');
                 img.src = button.imgSrc;
