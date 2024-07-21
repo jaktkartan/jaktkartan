@@ -92,7 +92,7 @@ var Kartor_geojsonHandler = (function() {
                     layer.addTo(map);
                 }
             } catch (error) {
-                console.error("Error fetching GeoJSON data.");
+                console.error("Error fetching GeoJSON data.", error);
             }
         }
 
@@ -104,14 +104,7 @@ var Kartor_geojsonHandler = (function() {
         if (!layerIsActive[layerName]) {
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         } else {
-            if (layerName === 'Älgjaktsområden') {
-                if (geojsonLayers['Älgjaktsområden']) {
-                    geojsonLayers['Älgjaktsområden'].forEach(function(layer) {
-                        map.removeLayer(layer);
-                    });
-                    geojsonLayers['Älgjaktsområden'] = [];
-                }
-            } else {
+            if (geojsonLayers[layerName]) {
                 geojsonLayers[layerName].forEach(function(layer) {
                     map.removeLayer(layer);
                 });
@@ -128,14 +121,7 @@ var Kartor_geojsonHandler = (function() {
         Object.keys(layerIsActive).forEach(function(layerName) {
             if (layerIsActive[layerName]) {
                 console.log("Deactivating layer:", layerName);
-                if (layerName === 'Älgjaktsområden') {
-                    if (geojsonLayers['Älgjaktsområden']) {
-                        geojsonLayers['Älgjaktsområden'].forEach(function(layer) {
-                            map.removeLayer(layer);
-                        });
-                        geojsonLayers['Älgjaktsområden'] = [];
-                    }
-                } else {
+                if (geojsonLayers[layerName]) {
                     geojsonLayers[layerName].forEach(function(layer) {
                         map.removeLayer(layer);
                     });
