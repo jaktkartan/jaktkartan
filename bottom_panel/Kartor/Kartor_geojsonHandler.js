@@ -152,26 +152,22 @@ var Kartor_geojsonHandler = (function() {
                     wmsLayer,
                     map,
                     {
-                        'info_format': 'text/xml',
+                        'info_format': 'application/json', // Använd JSON som standardformat
                         'propertyName': 'NAME,AREA_CODE'
                     }
                 );
 
-                fetch(url)
-                    .then(response => response.text())
-                    .then(data => {
-                        var parser = new DOMParser();
-                        var xmlDoc = parser.parseFromString(data, "text/xml");
-                        var features = xmlDoc.getElementsByTagName("FeatureInfo");
+                console.log("GetFeatureInfo URL:", url); // Log URL for debugging
 
-                        if (features.length > 0) {
-                            var properties = features[0].childNodes;
+                fetch(url)
+                    .then(response => response.json()) // Försök att tolka som JSON
+                    .then(data => {
+                        console.log("FeatureInfo data:", data); // Logga svaret för debugging
+                        if (data.features && data.features.length > 0) {
+                            var properties = data.features[0].properties;
                             var popupContent = "<table>";
-                            for (var i = 0; i < properties.length; i++) {
-                                var property = properties[i];
-                                if (property.nodeType === 1) { // Element node
-                                    popupContent += "<tr><th>" + property.nodeName + "</th><td>" + property.textContent + "</td></tr>";
-                                }
+                            for (var key in properties) {
+                                popupContent += "<tr><th>" + key + "</th><td>" + properties[key] + "</td></tr>";
                             }
                             popupContent += "</table>";
                             L.popup()
@@ -276,7 +272,7 @@ var Kartor_geojsonHandler = (function() {
                 width: size.x,
                 layers: wmsLayer.wmsParams.layers,
                 query_layers: wmsLayer.wmsParams.layers,
-                info_format: 'text/xml'
+                info_format: 'application/json'
             };
 
         var params = L.Util.extend(defaultParams, params);
