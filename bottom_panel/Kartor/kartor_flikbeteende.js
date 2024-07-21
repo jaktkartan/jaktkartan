@@ -85,7 +85,7 @@ function openKartor() {
         const elkJaktsomradenButton = document.createElement('button');
         elkJaktsomradenButton.className = 'styled-button';
         elkJaktsomradenButton.onclick = function() {
-            // Ladda WMS-lager för Älgjaktsområden
+            console.log('Loading WMS layer...');
             Kartor_geojsonHandler.loadElgjaktsomradenWMS();
             restoreOriginalButtons(); // Återställ knappar efter val
         };
