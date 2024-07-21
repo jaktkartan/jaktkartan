@@ -9,49 +9,63 @@ function loadElgjaktsomradenWMS() {
     // Färgcache för att bevara färger för varje feature
     var colorCache = {};
 
-    // Caching inställningar
-    var cache = {};
-
-    function getTileUrl(tilePoint) {
-        var key = tilePoint.z + '/' + tilePoint.x + '/' + tilePoint.y;
-        if (cache[key]) {
-            return cache[key];
-        }
-        var url = L.Util.template('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WmsServer', tilePoint);
-        cache[key] = url;
-        return url;
-    }
-
-    // Skapa WMS-lagret
-    var wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WmsServer', {
-        layers: '0',
-        format: 'image/png',
-        transparent: true,
-        attribution: 'Lantmäteriet',
-        tileSize: 512,
-        detectRetina: true
+    // Skapa FeatureLayer
+    var featureLayer = L.esri.featureLayer({
+        url: 'https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/rest/services/Jaktadm/lst_jaktadm_visning/MapServer/0',
+        style: function (feature) {
+            // Om feature inte redan har en färg i cache, generera och spara i cache
+            if (!colorCache[feature.id]) {
+                colorCache[feature.id] = getRandomColor();
+            }
+            return {
+                color: colorCache[feature.id], // Kantfärg
+                weight: 2, // Kantens tjocklek
+                opacity: 1, // Kantens opacitet
+                fillColor: colorCache[feature.id], // Fyllningsfärg
+                fillOpacity: 0.5 // Konstant transparens på fyllningen
+            };
+        },
+        onEachFeature: function (feature, layer) {
+            // Bygg en HTML-tabell med attributdata
+            var popupContent = '<table class="popup-table">';
+            if (feature.properties) {
+                for (var key in feature.properties) {
+                    if (feature.properties.hasOwnProperty(key)) {
+                        popupContent += '<tr><th>' + key + '</th><td>' + feature.properties[key] + '</td></tr>';
+                    }
+                }
+            }
+            popupContent += '</table>';
+            
+            // Bind popup med HTML-tabellen
+            layer.bindPopup(popupContent);
+        },
+        // Hämta endast de polygoner som finns inom det aktuella kartutsnittet
+        where: "1=1",
+        useCors: false
     });
 
-    // Lägg till WMS-lagret till kartan
-    window.map.addLayer(wmsLayer);
+    // Lägg till FeatureLayer till kartan
+    window.map.addLayer(featureLayer);
 
-    // Funktion som döljer eller visar lagret baserat på zoomnivå
-    function updateLayerVisibility() {
-        var zoomLevel = window.map.getZoom();
-        if (zoomLevel >= 13) { // Visa lagret vid zoomnivå 13 eller högre
-            if (!window.map.hasLayer(wmsLayer)) {
-                window.map.addLayer(wmsLayer);
+    // Funktion som uppdaterar datalagret baserat på kartans bounding box
+    function updateFeatureLayer() {
+        var bounds = window.map.getBounds();
+        var query = featureLayer.createQuery();
+        query.intersects(bounds);
+        featureLayer.queryFeatures(query, function (error, featureCollection) {
+            if (error) {
+                console.error('Error querying features:', error);
+                return;
             }
-        } else {
-            if (window.map.hasLayer(wmsLayer)) {
-                window.map.removeLayer(wmsLayer);
-            }
-        }
+            featureLayer.clearLayers();
+            featureLayer.addData(featureCollection.features);
+        });
     }
 
-    // Lägg till en "zoomend" lyssnare för att uppdatera lagrets synlighet när användaren zoomar
-    window.map.on('zoomend', updateLayerVisibility);
+    // Uppdatera datalagret när användaren panorerar eller zoomar
+    window.map.on('moveend', updateFeatureLayer);
 
-    // Initial kontroll för att ställa in lagrets synlighet när kartan först laddas
-    updateLayerVisibility();
+    // Initial uppdatering när kartan först laddas
+    updateFeatureLayer();
 }
