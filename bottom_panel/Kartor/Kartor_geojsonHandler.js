@@ -1,4 +1,4 @@
-"var Kartor_geojsonHandler = (function() {
+var Kartor_geojsonHandler = (function() {
     // Status för vilka lager som är aktiva
     var layerIsActive = {
         'Allmän jakt: Däggdjur': false,
@@ -185,4 +185,4 @@
         deactivateAllLayersKartor: deactivateAllLayersKartor, // Exponerar den nya funktionen
         loadElgjaktsomradenWMS: loadElgjaktsomradenWMS // Exponerar funktionen för WMS-lagret
     };
-})();"
+})();
