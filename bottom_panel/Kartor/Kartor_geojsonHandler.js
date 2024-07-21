@@ -117,14 +117,14 @@ var Kartor_geojsonHandler = (function() {
                 map.removeLayer(geojsonLayers['Älgjaktsområden']);
                 geojsonLayers['Älgjaktsområden'] = null;
             }
-            // Lägg till WMS-lagret
-            var wmsLayer = L.tileLayer.wms('https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer', {
-                layers: '0',
-                format: 'image/png',
-                transparent: true,
-                attribution: 'Naturvårdsverket'
+            // Lägg till Esri Feature Layer istället för WMS-lagret
+            var featureLayer = L.esri.featureLayer({
+                url: 'https://geodata.naturvardsverket.se/arcgis/rest/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/0',
+                style: function () {
+                    return { color: '#70ca49', weight: 2 };
+                }
             }).addTo(map);
-            geojsonLayers['Älgjaktsområden'] = wmsLayer;
+            geojsonLayers['Älgjaktsområden'] = featureLayer;
         } else {
             if (geojsonLayers['Älgjaktsområden']) {
                 // Ta bort lagret om det redan finns
@@ -201,15 +201,3 @@ var Kartor_geojsonHandler = (function() {
         loadElgjaktsomradenWMS: loadElgjaktsomradenWMS // Exponerar funktionen för WMS-lagret
     };
 })();
-
-
-// Funktion för att uppdatera featureLayer
-function updateFeatureLayer(layerName) {
-    const featureLayer = geojsonLayers[layerName];
-    if (featureLayer && featureLayer.createQuery) {
-        const query = featureLayer.createQuery();
-        // Gör något med query
-    } else {
-        console.error('Feature layer not found or invalid.');
-    }
-}
