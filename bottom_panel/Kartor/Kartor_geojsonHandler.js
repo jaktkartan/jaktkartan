@@ -112,8 +112,8 @@ var Kartor_geojsonHandler = (function() {
     // Funktion för att ladda eller ta bort WMS-lager för Älgjaktsområden
     function loadElgjaktsomradenWMS(add) {
         if (add) {
-            if (!geojsonLayers['Älgjaktsområden']) { // Kontrollera om lagret redan finns
-                // Lägg till WMS-lagret
+            // Lägg till WMS-lagret
+            if (!geojsonLayers['Älgjaktsområden']) {
                 var wmsLayer = L.tileLayer.wms('https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer', {
                     layers: '0',
                     format: 'image/png',
@@ -152,7 +152,7 @@ var Kartor_geojsonHandler = (function() {
 
         // Ta bort WMS-lagret om det är aktivt
         if (layerName === 'Älgjaktsområden' && geojsonLayers[layerName]) {
-            loadElgjaktsomradenWMS(false); // Detta kommer att ta bort WMS-lagret
+            loadElgjaktsomradenWMS(false);
         }
 
         layerIsActive[layerName] = false; // Markera som inaktiv
@@ -173,23 +173,110 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    // Hjälpfunktion för att få FAB-id baserat på lager
+    // Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
     function getFABId(layerName) {
-        switch (layerName) {
+        switch(layerName) {
             case 'Allmän jakt: Däggdjur':
                 return 'fab-daggdjur';
             case 'Allmän jakt: Fågel':
                 return 'fab-fagel';
             case 'Älgjaktskartan':
-                return 'fab-algjaktskartan';
+                return 'fab-alg';
             case 'Älgjaktsområden':
-                return 'fab-algjaktsomraden';
+                return 'fab-alg-omraden';
             default:
                 return '';
         }
     }
 
+    // Funktion för att hämta och lägga till GeoJSON-lager till kartan
+    function loadElgjaktsomradenFeatureLayer() {
+        // Funktion för att generera en slumpmässig färg i en naturlig nyans
+        function getRandomColor() {
+            var hue = Math.floor(Math.random() * 360); // Färgton
+            var lightness = Math.floor(Math.random() * 40) + 40; // Ljushet från 40 till 80
+            return `hsl(${hue}, 70%, ${lightness}%)`;
+        }
+
+        // Färgcache för att bevara färger för varje feature
+        var colorCache = {};
+
+        // Skapa FeatureLayer
+        var featureLayer = L.esri.featureLayer({
+            url: 'https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/rest/services/Jaktadm/lst_jaktadm_visning/MapServer/0',
+            style: function (feature) {
+                // Om feature inte redan har en färg i cache, generera och spara i cache
+                if (!colorCache[feature.id]) {
+                    colorCache[feature.id] = getRandomColor();
+                }
+                return {
+                    color: colorCache[feature.id], // Kantfärg
+                    weight: 2, // Kantens tjocklek
+                    opacity: 1, // Kantens opacitet
+                    fillColor: colorCache[feature.id], // Fyllningsfärg
+                    fillOpacity: 0.5 // Konstant transparens på fyllningen
+                };
+            },
+            onEachFeature: function (feature, layer) {
+                // Bygg en HTML-tabell med attributdata
+                var popupContent = '<table class="popup-table">';
+                if (feature.properties) {
+                    for (var key in feature.properties) {
+                        if (feature.properties.hasOwnProperty(key)) {
+                            popupContent += '<tr><th>' + key + '</th><td>' + feature.properties[key] + '</td></tr>';
+                        }
+                    }
+                }
+                popupContent += '</table>';
+                
+                // Bind popup med HTML-tabellen
+                layer.bindPopup(popupContent);
+            }
+        });
+
+        // Lägg till FeatureLayer till kartan
+        if (window.map) {
+            // Om det redan finns ett FeatureLayer, ta bort det först
+            if (window.existingFeatureLayer) {
+                window.map.removeLayer(window.existingFeatureLayer);
+            }
+            window.map.addLayer(featureLayer);
+            window.existingFeatureLayer = featureLayer; // Spara referens till det befintliga lagret
+        } else {
+            console.error('Map object not found.');
+        }
+
+        // Funktion som uppdaterar datalagret baserat på kartans bounding box
+        function updateFeatureLayer() {
+            if (window.map) {
+                var bounds = window.map.getBounds();
+                L.esri.query({
+                    url: 'https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/rest/services/Jaktadm/lst_jaktadm_visning/MapServer/0'
+                }).within(bounds).run(function (error, featureCollection) {
+                    if (error) {
+                        console.error('Error querying features:', error);
+                        return;
+                    }
+                    // Uppdatera lagret med nya data
+                    if (window.existingFeatureLayer) {
+                        window.existingFeatureLayer.clearLayers(); // Rensa gamla features
+                        window.existingFeatureLayer.addData(featureCollection.features); // Lägg till nya features
+                    }
+                });
+            }
+        }
+
+        // Uppdatera datalagret när användaren panorerar eller zoomar
+        if (window.map) {
+            window.map.on('moveend', updateFeatureLayer);
+            updateFeatureLayer();
+        } else {
+            console.error('Map object not found.');
+        }
+    }
+
     return {
-        toggleLayer: toggleLayer
+        toggleLayer: toggleLayer,
+        loadElgjaktsomradenFeatureLayer: loadElgjaktsomradenFeatureLayer
     };
 })();
