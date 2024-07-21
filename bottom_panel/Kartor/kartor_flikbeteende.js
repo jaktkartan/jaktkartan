@@ -86,7 +86,8 @@ function openKartor() {
         elkJaktsomradenButton.className = 'styled-button';
         elkJaktsomradenButton.onclick = function() {
             // Ladda WMS-lager för Älgjaktsområden
-            loadElgjaktsomradenWMS();
+            Kartor_geojsonHandler.loadElgjaktsomradenWMS();
+            restoreOriginalButtons(); // Återställ knappar efter val
         };
 
         const elkAlternativButton = document.createElement('button');
@@ -96,7 +97,7 @@ function openKartor() {
                 'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
                 'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
             ]);
-            restoreOriginalButtons();
+            restoreOriginalButtons(); // Återställ knappar efter val
         };
 
         const jaktsomradenImg = document.createElement('img');
