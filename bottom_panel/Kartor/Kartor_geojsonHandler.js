@@ -123,48 +123,34 @@ var Kartor_geojsonHandler = (function() {
                 return;
             }
             console.log('Adding Älgjaktsområden layer.');
-            var wmsLayer = L.tileLayer.wms('https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer', {
-                layers: '0',
-                format: 'image/png',
-                transparent: true,
-                attribution: 'Naturvårdsverket'
+            var featureLayer = L.esri.featureLayer({
+                url: 'https://geodata.naturvardsverket.se/arcgis/rest/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/0',
+                style: function () {
+                    return { color: '#70ca49', weight: 2 };
+                }
             }).addTo(map);
 
-            wmsLayer.on('add', function() {
-                console.log('WMS layer added to map.');
+            featureLayer.on('add', function() {
+                console.log('Feature layer added to map.');
             });
 
-            wmsLayer.on('load', function() {
-                console.log('WMS layer loaded.');
-                checkLayerVisibility(wmsLayer);
+            featureLayer.on('load', function() {
+                console.log('Feature layer loaded.');
+                // checkLayerVisibility(featureLayer); // Kommentera ut denna rad tillfälligt
             });
 
-            wmsLayer.on('tileerror', function(error) {
-                console.error('Error loading WMS layer tile:', error);
+            featureLayer.on('requesterror', function(error) {
+                console.error('Error loading feature layer:', error);
             });
 
-            console.log('WMS layer added to map:', wmsLayer);
-            geojsonLayers['Älgjaktsområden'] = wmsLayer;
+            console.log('Feature layer added to map:', featureLayer);
+            geojsonLayers['Älgjaktsområden'] = featureLayer;
         } else {
             if (geojsonLayers['Älgjaktsområden']) {
-                console.log('Removing Älgjaktsområden layer.');
+                console.log('Removing feature layer for Älgjaktsområden.');
                 map.removeLayer(geojsonLayers['Älgjaktsområden']);
                 geojsonLayers['Älgjaktsområden'] = null;
             }
-        }
-    }
-
-    // Funktion för att kontrollera om lagret är synligt
-    function checkLayerVisibility(layer) {
-        var bounds = map.getBounds();
-        var layerBounds = layer.getBounds();
-        console.log('Map bounds:', bounds);
-        console.log('Layer bounds:', layerBounds);
-
-        if (bounds.intersects(layerBounds)) {
-            console.log('Layer is visible within the current map bounds.');
-        } else {
-            console.log('Layer is not visible within the current map bounds.');
         }
     }
 
@@ -189,7 +175,6 @@ var Kartor_geojsonHandler = (function() {
 
         // Ta bort WMS-lagret om det är aktivt
         if (layerName === 'Älgjaktsområden' && geojsonLayers['Älgjaktsområden']) {
-            console.log('Removing WMS layer for Älgjaktsområden');
             map.removeLayer(geojsonLayers['Älgjaktsområden']);
             geojsonLayers['Älgjaktsområden'] = null; // Rensa WMS-lagret
         }
