@@ -12,7 +12,7 @@ var Kartor_geojsonHandler = (function() {
         'Allmän jakt: Däggdjur': [],
         'Allmän jakt: Fågel': [],
         'Älgjaktskartan': [],
-        'Älgjaktsområden': [] // Nytt lager, ändrat till array
+        'Älgjaktsområden': null // Nytt lager
     };
 
     // Stilar för olika lager och GeoJSON-filer
@@ -92,7 +92,7 @@ var Kartor_geojsonHandler = (function() {
                     layer.addTo(map);
                 }
             } catch (error) {
-                console.error("Error fetching GeoJSON data.", error);
+                console.error("Error fetching GeoJSON data.");
             }
         }
 
@@ -104,58 +104,85 @@ var Kartor_geojsonHandler = (function() {
         if (!layerIsActive[layerName]) {
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         } else {
-            if (geojsonLayers[layerName]) {
-                geojsonLayers[layerName].forEach(function(layer) {
-                    map.removeLayer(layer);
-                });
-                geojsonLayers[layerName] = [];
-            }
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer);  // Ta bort lager från kartan
+            });
+
+            geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
             updateFAB(layerName, false);
         }
     }
 
-    // Funktion för att avaktivera alla lager
+    // Funktion för att ladda WMS-lager för Älgjaktsområden
+    function loadElgjaktsomradenWMS() {
+        if (geojsonLayers['Älgjaktsområden']) {
+            // Ta bort lagret om det redan finns
+            map.removeLayer(geojsonLayers['Älgjaktsområden']);
+            geojsonLayers['Älgjaktsområden'] = null;
+        } else {
+            // Lägg till WMS-lagret
+            var wmsLayer = L.tileLayer.wms('https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer', {
+                layers: '0',
+                format: 'image/png',
+                transparent: true,
+                attribution: 'Naturvårdsverket'
+            }).addTo(map);
+            geojsonLayers['Älgjaktsområden'] = wmsLayer;
+        }
+    }
+
+    // Ny funktion för att inaktivera alla lager
     function deactivateAllLayersKartor() {
         console.log("Deactivating all layers.");
         Object.keys(layerIsActive).forEach(function(layerName) {
             if (layerIsActive[layerName]) {
                 console.log("Deactivating layer:", layerName);
-                if (geojsonLayers[layerName]) {
-                    geojsonLayers[layerName].forEach(function(layer) {
-                        map.removeLayer(layer);
-                    });
-                    geojsonLayers[layerName] = [];
-                }
-                layerIsActive[layerName] = false;
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer); // Ta bort lager från kartan
+                });
+                geojsonLayers[layerName] = []; // Rensa listan med lager
+                layerIsActive[layerName] = false; // Markera som inaktiv
                 updateFAB(layerName, false);
             }
         });
     }
 
+    // Funktion för att få filnamnet från en URL
+    function getFilenameFromURL(url) {
+        return url.split('/').pop();
+    }
+
+    // Funktion för att uppdatera FAB-knappen baserat på lagrets tillstånd
+    function updateFAB(layerName, show) {
+        var fabId = getFABId(layerName);
+        var fabButton = document.getElementById(fabId);
+        if (fabButton) {
+            fabButton.style.display = show ? 'block' : 'none';
+        }
+    }
+
+    // Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
+    function getFABId(layerName) {
+        switch(layerName) {
+            case 'Allmän jakt: Däggdjur':
+                return 'fab-daggdjur';
+            case 'Allmän jakt: Fågel':
+                return 'fab-fagel';
+            case 'Älgjaktskartan':
+                return 'fab-alg';
+            case 'Älgjaktsområden':
+                return 'fab-alg-omraden'; // Nytt fall för Älgjaktsområden
+            default:
+                return '';
+        }
+    }
+
+    // Exponerar funktionerna för att växla lager och hämta GeoJSON-data
     return {
-        activateLayer: function(layerName, geojsonURLs) {
-            toggleLayer(layerName, geojsonURLs);
-        },
-        deactivateAllLayersKartor: deactivateAllLayersKartor
+        toggleLayer: toggleLayer,
+        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
+        deactivateAllLayersKartor: deactivateAllLayersKartor, // Exponerar den nya funktionen
+        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS // Exponerar funktionen för WMS-lagret
     };
 })();
-
-function getFilenameFromURL(url) {
-    return url.split('/').pop().split('?')[0];
-}
-
-function addClickHandlerToLayer(layer) {
-    // Exempel på hur du kan lägga till en klickhändelse på lagret
-    layer.on('click', function(e) {
-        console.log('Clicked feature:', e.target.feature);
-    });
-}
-
-function updateFAB(layerName, isActive) {
-    // Exempel på hur du uppdaterar knappar eller annan UI baserat på lagerstatus
-    var button = document.querySelector('#' + layerName);
-    if (button) {
-        button.classList.toggle('active', isActive);
-    }
-}
