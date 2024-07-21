@@ -196,8 +196,8 @@ var Kartor_geojsonHandler = (function() {
     };
 })();
 
-// Separat funktion för att ladda WMS-lager (t.ex. 'Älgjaktsområden')
-function loadElgjaktsomradenWMS() {
+// Separat funktion för att ladda FeatureLayer (t.ex. 'Älgjaktsområden')
+function loadElgjaktsomradenFeatureLayer() {
     // Funktion för att generera en slumpmässig färg i en naturlig nyans
     function getRandomColor() {
         var hue = Math.floor(Math.random() * 360); // Färgton
@@ -238,10 +238,7 @@ function loadElgjaktsomradenWMS() {
             
             // Bind popup med HTML-tabellen
             layer.bindPopup(popupContent);
-        },
-        // Hämta endast de polygoner som finns inom det aktuella kartutsnittet
-        where: "1=1",
-        useCors: false
+        }
     });
 
     // Lägg till FeatureLayer till kartan
@@ -250,9 +247,9 @@ function loadElgjaktsomradenWMS() {
     // Funktion som uppdaterar datalagret baserat på kartans bounding box
     function updateFeatureLayer() {
         var bounds = window.map.getBounds();
-        var query = featureLayer.createQuery();
-        query.intersects(bounds);
-        featureLayer.queryFeatures(query, function (error, featureCollection) {
+        var query = L.esri.query({
+            url: 'https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/rest/services/Jaktadm/lst_jaktadm_visning/MapServer/0'
+        }).within(bounds).run(function (error, featureCollection) {
             if (error) {
                 console.error('Error querying features:', error);
                 return;
