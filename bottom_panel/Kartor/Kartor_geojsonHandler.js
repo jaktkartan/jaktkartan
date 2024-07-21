@@ -135,22 +135,25 @@ var Kartor_geojsonHandler = (function() {
                     wmsLayer,
                     map,
                     {
-                        'info_format': 'application/json',
-                        'propertyName': 'NAME,AREA_CODE'
+                        'info_format': 'text/xml',
+                        'propertyName': 'Områdesnamn,Områdesnummer'
                     }
                 );
 
                 console.log("GetFeatureInfo URL:", url);
 
                 fetch(url)
-                    .then(response => response.json())
+                    .then(response => response.text())
                     .then(data => {
                         console.log("FeatureInfo data:", data);
-                        if (data.features && data.features.length > 0) {
-                            var properties = data.features[0].properties;
+                        var parser = new DOMParser();
+                        var xmlDoc = parser.parseFromString(data, "application/xml");
+                        var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
+                        if (fields) {
                             var popupContent = "<table>";
-                            for (var key in properties) {
-                                popupContent += "<tr><th>" + key + "</th><td>" + properties[key] + "</td></tr>";
+                            for (var i = 0; i < fields.attributes.length; i++) {
+                                var attr = fields.attributes[i];
+                                popupContent += "<tr><th>" + attr.name + "</th><td>" + attr.value + "</td></tr>";
                             }
                             popupContent += "</table>";
                             L.popup()
@@ -227,7 +230,6 @@ var Kartor_geojsonHandler = (function() {
     }
 
     function updateFAB(layerName, add) {
-        // Uppdatera FAB-knappen baserat på lagrets status
         var fabButton = document.getElementById('fab-' + layerName.toLowerCase().replace(/\s+/g, '-'));
         if (fabButton) {
             fabButton.style.display = add ? 'block' : 'none';
