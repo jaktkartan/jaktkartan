@@ -37,7 +37,7 @@ function openKartor() {
             id: 'huvudknapp-älgjakt-button',
             imgSrc: 'bottom_panel/Kartor/bilder/algikon.png',
             imgAlt: 'Huvudknapp-Älgjakt',
-            onclick: "Kartor_geojsonHandler.toggleLayer('Älgjaktsområden')" // Korrekt växling för Älgjaktsområden
+            onclick: "Kartor_geojsonHandler.toggleLayer('Älgjaktsområden')" // Korrekt anrop för att växla Älgjaktsområden
         }
     ];
 
@@ -71,7 +71,7 @@ function openKartor() {
         const elkJaktsomradenButton = document.createElement('button');
         elkJaktsomradenButton.className = 'styled-button';
         elkJaktsomradenButton.onclick = function() {
-            Kartor_geojsonHandler.toggleLayer('Älgjaktsområden'); // Använder toggleLayer för att korrekt hantera lager
+            Kartor_geojsonHandler.toggleLayer('Älgjaktsområden');  // Korrekt växling med toggleLayer
         };
         const jaktsomradenImg = document.createElement('img');
         jaktsomradenImg.src = 'bottom_panel/Kartor/bilder/Algjaktsomraden_ikon.png';
