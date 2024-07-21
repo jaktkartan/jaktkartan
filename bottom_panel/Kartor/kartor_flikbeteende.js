@@ -37,7 +37,7 @@ function openKartor() {
             id: 'huvudknapp-älgjakt-button',
             imgSrc: 'bottom_panel/Kartor/bilder/algikon.png',
             imgAlt: 'Huvudknapp-Älgjakt',
-            onclick: "Kartor_geojsonHandler.toggleLayer('Älgjaktsområden')" // Lägger till korrekt växling för Älgjaktsområden
+            onclick: "Kartor_geojsonHandler.toggleLayer('Älgjaktsområden')" // Korrekt växling för Älgjaktsområden
         }
     ];
 
@@ -99,4 +99,3 @@ function openKartor() {
         buttonContainer.appendChild(huvudknappAlgjaktButton);
     }
 }
-
