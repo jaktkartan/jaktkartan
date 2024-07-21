@@ -56,28 +56,22 @@ var Kartor_geojsonHandler = (function() {
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager
     async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        // Inaktivera andra lager om de är aktiva
-        Object.keys(layerIsActive).forEach(function(name) {
-            if (name !== layerName && layerIsActive[name]) {
-                toggleLayer(name, geojsonLayers[name].map(function(layer) {
-                    return layer.options.url;
-                }));
-            }
-        });
+        try {
+            // Inaktivera andra lager om de är aktiva
+            deactivateOtherLayers(layerName);
 
-        // Markera lagret som aktivt
-        layerIsActive[layerName] = true;
+            // Markera lagret som aktivt
+            layerIsActive[layerName] = true;
 
-        // Hämta GeoJSON-data från URL och skapa lager i ordning
-        for (const geojsonURL of geojsonURLs) {
-            try {
+            // Hämta GeoJSON-data och skapa lager
+            for (const geojsonURL of geojsonURLs) {
                 const response = await axios.get(geojsonURL);
                 const geojson = response.data;
-                
+
                 // Skapa GeoJSON-lager med stil och klickhändelse
                 const layer = L.geoJSON(geojson, {
                     style: function(feature) {
-                        var filename = getFilenameFromURL(geojsonURL);
+                        const filename = getFilenameFromURL(geojsonURL);
                         return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                     },
                     onEachFeature: function(feature, layer) {
@@ -87,16 +81,16 @@ var Kartor_geojsonHandler = (function() {
 
                 geojsonLayers[layerName].push(layer);
 
-                // Lägg till lagret på kartan om det är aktivt
+                // Lägg till lagret på kartan
                 if (layerIsActive[layerName]) {
                     layer.addTo(map);
                 }
-            } catch (error) {
-                console.error("Error fetching GeoJSON data.");
             }
-        }
 
-        updateFAB(layerName, true);
+            updateFAB(layerName, true);
+        } catch (error) {
+            console.error("Error fetching GeoJSON data:", error);
+        }
     }
 
     // Funktion för att växla (aktivera/inaktivera) lager
@@ -130,6 +124,17 @@ var Kartor_geojsonHandler = (function() {
             }).addTo(map);
             geojsonLayers['Älgjaktsområden'] = wmsLayer;
         }
+    }
+
+    // Funktion för att inaktivera andra lager
+    function deactivateOtherLayers(activeLayerName) {
+        Object.keys(layerIsActive).forEach(function(name) {
+            if (name !== activeLayerName && layerIsActive[name]) {
+                toggleLayer(name, geojsonLayers[name].map(function(layer) {
+                    return layer.options.url;
+                }));
+            }
+        });
     }
 
     // Ny funktion för att inaktivera alla lager
@@ -181,8 +186,7 @@ var Kartor_geojsonHandler = (function() {
     // Exponerar funktionerna för att växla lager och hämta GeoJSON-data
     return {
         toggleLayer: toggleLayer,
-        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
-        deactivateAllLayersKartor: deactivateAllLayersKartor, // Exponerar den nya funktionen
-        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS // Exponerar funktionen för WMS-lagret
+        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS,
+        deactivateAllLayersKartor: deactivateAllLayersKartor
     };
 })();
