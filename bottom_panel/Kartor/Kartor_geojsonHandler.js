@@ -145,23 +145,41 @@ var Kartor_geojsonHandler = (function() {
                 attribution: 'Länsstyrelsen'
             }).addTo(map);
 
-            wmsLayer.on('add', function() {
-                console.log('WMS layer added to map.');
+            wmsLayer.on('click', function(e) {
+                var latlng = e.latlng;
+                var url = getFeatureInfoUrl(
+                    latlng,
+                    wmsLayer,
+                    map,
+                    {
+                        'info_format': 'application/json',
+                        'propertyName': 'NAME,AREA_CODE'
+                    }
+                );
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        var properties = data.features[0].properties;
+                        var popupContent = "<table>";
+                        for (var key in properties) {
+                            popupContent += "<tr><th>" + key + "</th><td>" + properties[key] + "</td></tr>";
+                        }
+                        popupContent += "</table>";
+                        L.popup()
+                            .setLatLng(latlng)
+                            .setContent(popupContent)
+                            .openOn(map);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching feature info:', error);
+                    });
             });
 
-            wmsLayer.on('load', function() {
-                console.log('WMS layer loaded.');
-            });
-
-            wmsLayer.on('tileerror', function(error) {
-                console.error('Error loading WMS layer tile:', error);
-            });
-
-            console.log('WMS layer added to map:', wmsLayer);
             geojsonLayers['Älgjaktsområden'] = wmsLayer;
         } else {
             if (geojsonLayers['Älgjaktsområden']) {
-                console.log('Removing WMS layer for Älgjaktsområden.');
+                console.log('Removing Älgjaktsområden layer.');
                 map.removeLayer(geojsonLayers['Älgjaktsområden']);
                 geojsonLayers['Älgjaktsområden'] = null;
             }
@@ -225,6 +243,36 @@ var Kartor_geojsonHandler = (function() {
             default:
                 return '';
         }
+    }
+
+    // Funktion för att generera GetFeatureInfo URL
+    function getFeatureInfoUrl(latlng, wmsLayer, map, params) {
+        var point = map.latLngToContainerPoint(latlng, map.getZoom()),
+            size = map.getSize(),
+            bounds = map.getBounds(),
+            sw = bounds.getSouthWest(),
+            ne = bounds.getNorthEast(),
+            defaultParams = {
+                request: 'GetFeatureInfo',
+                service: 'WMS',
+                srs: 'EPSG:4326',
+                styles: '',
+                transparent: true,
+                version: '1.1.1',
+                format: 'image/png',
+                bbox: bounds.toBBoxString(),
+                height: size.y,
+                width: size.x,
+                layers: wmsLayer.wmsParams.layers,
+                query_layers: wmsLayer.wmsParams.layers,
+                info_format: 'application/json'
+            };
+
+        var params = L.Util.extend(defaultParams, params);
+        params[params.version === '1.3.0' ? 'i' : 'x'] = Math.floor(point.x);
+        params[params.version === '1.3.0' ? 'j' : 'y'] = Math.floor(point.y);
+
+        return wmsLayer._url + L.Util.getParamString(params, wmsLayer._url, true);
     }
 
     // Exponerar funktionerna för att växla lager och hämta GeoJSON-data
