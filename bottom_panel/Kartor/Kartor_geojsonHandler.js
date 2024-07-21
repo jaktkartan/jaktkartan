@@ -4,7 +4,7 @@ var Kartor_geojsonHandler = (function() {
         'Allmän jakt: Däggdjur': false,
         'Allmän jakt: Fågel': false,
         'Älgjaktskartan': false,
-        'Älgjaktsområden': false // Nytt lager
+        'Älgjaktsområden': false // Nytt lager.
     };
 
     // Objekt som lagrar GeoJSON-lager för varje lager
