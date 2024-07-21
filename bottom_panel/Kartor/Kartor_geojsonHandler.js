@@ -113,7 +113,7 @@ var Kartor_geojsonHandler = (function() {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
             } else if (layerName === 'Älgjaktsområden') {
                 // Om det är Älgjaktsområden, ladda WMS-lagret
-                loadElgjaktsomradenWMS();
+                loadElgjaktsomradenWMS(true);
             }
         } else {
             // Om lagret redan är aktivt, ta bort det
@@ -128,12 +128,13 @@ var Kartor_geojsonHandler = (function() {
     }
 
     // Funktion för att ladda WMS-lager för Älgjaktsområden
-    function loadElgjaktsomradenWMS() {
-        if (geojsonLayers['Älgjaktsområden']) {
-            // Ta bort lagret om det redan finns
-            map.removeLayer(geojsonLayers['Älgjaktsområden']);
-            geojsonLayers['Älgjaktsområden'] = null;
-        } else {
+    function loadElgjaktsomradenWMS(add) {
+        if (add) {
+            if (geojsonLayers['Älgjaktsområden']) {
+                // Ta bort lagret om det redan finns
+                map.removeLayer(geojsonLayers['Älgjaktsområden']);
+                geojsonLayers['Älgjaktsområden'] = null;
+            }
             // Lägg till WMS-lagret
             var wmsLayer = L.tileLayer.wms('https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer', {
                 layers: '0',
@@ -142,6 +143,12 @@ var Kartor_geojsonHandler = (function() {
                 attribution: 'Naturvårdsverket'
             }).addTo(map);
             geojsonLayers['Älgjaktsområden'] = wmsLayer;
+        } else {
+            if (geojsonLayers['Älgjaktsområden']) {
+                // Ta bort lagret om det redan finns
+                map.removeLayer(geojsonLayers['Älgjaktsområden']);
+                geojsonLayers['Älgjaktsområden'] = null;
+            }
         }
     }
 
