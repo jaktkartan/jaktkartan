@@ -123,31 +123,30 @@ var Kartor_geojsonHandler = (function() {
                 return;
             }
             console.log('Adding Älgjaktsområden layer.');
-            var featureLayer = L.esri.featureLayer({
-                url: 'https://geodata.naturvardsverket.se/arcgis/rest/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/0',
-                style: function () {
-                    return { color: '#70ca49', weight: 2 };
-                }
+            var wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
+                layers: '2',
+                format: 'image/png',
+                transparent: true,
+                attribution: 'Länsstyrelsen'
             }).addTo(map);
 
-            featureLayer.on('add', function() {
-                console.log('Feature layer added to map.');
+            wmsLayer.on('add', function() {
+                console.log('WMS layer added to map.');
             });
 
-            featureLayer.on('load', function() {
-                console.log('Feature layer loaded.');
-                // checkLayerVisibility(featureLayer); // Kommentera ut denna rad tillfälligt
+            wmsLayer.on('load', function() {
+                console.log('WMS layer loaded.');
             });
 
-            featureLayer.on('requesterror', function(error) {
-                console.error('Error loading feature layer:', error);
+            wmsLayer.on('tileerror', function(error) {
+                console.error('Error loading WMS layer tile:', error);
             });
 
-            console.log('Feature layer added to map:', featureLayer);
-            geojsonLayers['Älgjaktsområden'] = featureLayer;
+            console.log('WMS layer added to map:', wmsLayer);
+            geojsonLayers['Älgjaktsområden'] = wmsLayer;
         } else {
             if (geojsonLayers['Älgjaktsområden']) {
-                console.log('Removing feature layer for Älgjaktsområden.');
+                console.log('Removing WMS layer for Älgjaktsområden.');
                 map.removeLayer(geojsonLayers['Älgjaktsområden']);
                 geojsonLayers['Älgjaktsområden'] = null;
             }
