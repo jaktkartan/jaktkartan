@@ -1,4 +1,4 @@
-var Kartor_geojsonHandler = (function() {
+"var Kartor_geojsonHandler = (function() {
     // Status för vilka lager som är aktiva
     var layerIsActive = {
         'Allmän jakt: Däggdjur': false,
@@ -122,7 +122,6 @@ var Kartor_geojsonHandler = (function() {
             geojsonLayers['Älgjaktsområden'] = null;
         } else {
             // Lägg till WMS-lagret
-            console.log('Adding WMS layer for Älgjaktsområden'); // Debug-utskrift
             var wmsLayer = L.tileLayer.wms('https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer', {
                 layers: '0',
                 format: 'image/png',
@@ -173,30 +172,17 @@ var Kartor_geojsonHandler = (function() {
             case 'Älgjaktskartan':
                 return 'fab-alg';
             case 'Älgjaktsområden':
-                return 'fab-alg-omraden'; // FAB-ID för Älgjaktsområden
+                return 'fab-alg-omraden'; // Nytt fall för Älgjaktsområden
             default:
                 return '';
         }
     }
 
-    // Funktion för att lägga till klickhändelse till lager
-    function addClickHandlerToLayer(layer) {
-        layer.on('click', function(e) {
-            var popupContent = '';
-            if (e.layer.feature && e.layer.feature.properties) {
-                for (var key in e.layer.feature.properties) {
-                    if (e.layer.feature.properties.hasOwnProperty(key)) {
-                        popupContent += '<b>' + key + ':</b> ' + e.layer.feature.properties[key] + '<br>';
-                    }
-                }
-            }
-            e.layer.bindPopup(popupContent).openPopup();
-        });
-    }
-
+    // Exponerar funktionerna för att växla lager och hämta GeoJSON-data
     return {
         toggleLayer: toggleLayer,
-        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS,
-        deactivateAllLayersKartor: deactivateAllLayersKartor
+        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
+        deactivateAllLayersKartor: deactivateAllLayersKartor, // Exponerar den nya funktionen
+        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS // Exponerar funktionen för WMS-lagret
     };
-})();
+})();"
