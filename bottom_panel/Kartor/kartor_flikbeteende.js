@@ -85,33 +85,20 @@ function openKartor() {
         const elkJaktsomradenButton = document.createElement('button');
         elkJaktsomradenButton.className = 'styled-button';
         elkJaktsomradenButton.onclick = function() {
-            console.log('Attempting to load Älgjaktsområden');
-            try {
-                Kartor_geojsonHandler.toggleLayer('Älgjaktsområden', null);
-                console.log('Älgjaktsområden should be activated');
-            } catch (error) {
-                console.error('Error activating Älgjaktsområden:', error);
-            }
-            restoreOriginalButtons(); // Återställ knappar
+            // Ladda FeatureLayer för Älgjaktsområden
+            loadElgjaktsomradenFeatureLayer();
         };
 
         const elkAlternativButton = document.createElement('button');
         elkAlternativButton.className = 'styled-button';
         elkAlternativButton.onclick = function() {
-            console.log('Attempting to load Älgjaktskartan');
-            try {
-                Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [
-                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
-                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
-                ]);
-                console.log('Älgjaktskartan should be activated');
-            } catch (error) {
-                console.error('Error activating Älgjaktskartan:', error);
-            }
+            Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [
+                'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
+                'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
+            ]);
             restoreOriginalButtons();
         };
 
-        // Lägg till bilder till knappar
         const jaktsomradenImg = document.createElement('img');
         jaktsomradenImg.src = 'bottom_panel/Kartor/bilder/Algjaktsomraden_ikon.png';
         jaktsomradenImg.alt = 'Älgjaktsområden';
