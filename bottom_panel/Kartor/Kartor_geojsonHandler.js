@@ -129,6 +129,7 @@ var Kartor_geojsonHandler = (function() {
                     return { color: '#70ca49', weight: 2 };
                 }
             }).addTo(map);
+            console.log('Feature layer added to map:', featureLayer);
             geojsonLayers['Älgjaktsområden'] = featureLayer;
         } else {
             if (geojsonLayers['Älgjaktsområden']) {
@@ -160,6 +161,7 @@ var Kartor_geojsonHandler = (function() {
 
         // Ta bort WMS-lagret om det är aktivt
         if (layerName === 'Älgjaktsområden' && geojsonLayers['Älgjaktsområden']) {
+            console.log('Removing WMS layer for Älgjaktsområden');
             map.removeLayer(geojsonLayers['Älgjaktsområden']);
             geojsonLayers['Älgjaktsområden'] = null; // Rensa WMS-lagret
         }
