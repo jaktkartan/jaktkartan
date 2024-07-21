@@ -132,15 +132,21 @@ var Kartor_geojsonHandler = (function() {
 
             featureLayer.on('load', function() {
                 console.log('Feature layer loaded.');
-                // Kontrollera om lagret har några funktioner
-                if (featureLayer.getLayers().length === 0) {
-                    console.log('No features found in the layer.');
-                } else if (featureLayer.getBounds) {
-                    console.log('Zooming to feature layer bounds.');
-                    map.fitBounds(featureLayer.getBounds());
-                } else {
-                    console.log('No bounds available for feature layer.');
-                }
+                // Kontrollera om lagret har några funktioner via metadata
+                featureLayer.metadata(function(error, metadata) {
+                    if (error) {
+                        console.error('Error fetching metadata:', error);
+                        return;
+                    }
+                    if (metadata.featureCount === 0) {
+                        console.log('No features found in the layer.');
+                    } else if (featureLayer.getBounds) {
+                        console.log('Zooming to feature layer bounds.');
+                        map.fitBounds(featureLayer.getBounds());
+                    } else {
+                        console.log('No bounds available for feature layer.');
+                    }
+                });
             });
 
             console.log('Feature layer added to map:', featureLayer);
