@@ -201,3 +201,15 @@ var Kartor_geojsonHandler = (function() {
         loadElgjaktsomradenWMS: loadElgjaktsomradenWMS // Exponerar funktionen för WMS-lagret
     };
 })();
+
+
+// Funktion för att uppdatera featureLayer
+function updateFeatureLayer(layerName) {
+    const featureLayer = geojsonLayers[layerName];
+    if (featureLayer && featureLayer.createQuery) {
+        const query = featureLayer.createQuery();
+        // Gör något med query
+    } else {
+        console.error('Feature layer not found or invalid.');
+    }
+}
