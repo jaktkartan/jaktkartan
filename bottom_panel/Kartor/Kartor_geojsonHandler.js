@@ -1,4 +1,3 @@
-// bottom_panel/Kartor/Kartor_geojsonHandler.js
 var Kartor_geojsonHandler = (function() {
     // Status för vilka lager som är aktiva
     var layerIsActive = {
@@ -86,6 +85,22 @@ var Kartor_geojsonHandler = (function() {
         }
 
         updateFAB(layerName, true);
+    }
+
+    // Funktion för att lägga till en klickhändelse på varje lager
+    function addClickHandlerToLayer(layer) {
+        layer.on('click', function (e) {
+            var properties = e.target.feature.properties;
+            var popupContent = "<table>";
+            for (var key in properties) {
+                popupContent += "<tr><th>" + key + "</th><td>" + properties[key] + "</td></tr>";
+            }
+            popupContent += "</table>";
+            L.popup()
+                .setLatLng(e.latlng)
+                .setContent(popupContent)
+                .openOn(map);
+        });
     }
 
     // Funktion för att växla (aktivera/inaktivera) lager
