@@ -56,18 +56,6 @@ var Kartor_geojsonHandler = (function() {
 
     // Funktion för att hämta GeoJSON-data och skapa ett lager
     async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-        // Inaktivera andra lager om de är aktiva
-        Object.keys(layerIsActive).forEach(function(name) {
-            if (name !== layerName && layerIsActive[name]) {
-                toggleLayer(name, geojsonLayers[name].map(function(layer) {
-                    return layer.options.url;
-                }));
-            }
-        });
-
-        // Markera lagret som aktivt
-        layerIsActive[layerName] = true;
-
         // Hämta GeoJSON-data från URL och skapa lager i ordning
         for (const geojsonURL of geojsonURLs) {
             try {
@@ -117,17 +105,11 @@ var Kartor_geojsonHandler = (function() {
             }
         } else {
             // Om lagret redan är aktivt, ta bort det
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer); // Ta bort lager från kartan
-            });
-
-            geojsonLayers[layerName] = []; // Rensa lager
-            layerIsActive[layerName] = false;
-            updateFAB(layerName, false);
+            deactivateLayer(layerName);
         }
     }
 
-    // Funktion för att ladda WMS-lager för Älgjaktsområden
+    // Funktion för att ladda eller ta bort WMS-lager för Älgjaktsområden
     function loadElgjaktsomradenWMS(add) {
         if (add) {
             if (geojsonLayers['Älgjaktsområden']) {
@@ -152,31 +134,33 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    // Ny funktion för att inaktivera alla lager
+    // Funktion för att inaktivera alla lager
     function deactivateAllLayersKartor() {
-        console.log("Deactivating all layers.");
         Object.keys(layerIsActive).forEach(function(layerName) {
             if (layerIsActive[layerName]) {
-                console.log("Deactivating layer:", layerName);
-
-                // Ta bort alla GeoJSON-lager
-                if (geojsonLayers[layerName] && geojsonLayers[layerName].length > 0) {
-                    geojsonLayers[layerName].forEach(function(layer) {
-                        map.removeLayer(layer); // Ta bort lager från kartan
-                    });
-                    geojsonLayers[layerName] = []; // Rensa listan med lager
-                }
-
-                // Ta bort WMS-lagret om det är aktivt
-                if (layerName === 'Älgjaktsområden' && geojsonLayers['Älgjaktsområden']) {
-                    map.removeLayer(geojsonLayers['Älgjaktsområden']);
-                    geojsonLayers['Älgjaktsområden'] = null; // Rensa WMS-lagret
-                }
-
-                layerIsActive[layerName] = false; // Markera som inaktiv
-                updateFAB(layerName, false);
+                deactivateLayer(layerName);
             }
         });
+    }
+
+    // Funktion för att inaktivera ett specifikt lager
+    function deactivateLayer(layerName) {
+        // Ta bort alla GeoJSON-lager
+        if (geojsonLayers[layerName] && geojsonLayers[layerName].length > 0) {
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer); // Ta bort lager från kartan
+            });
+            geojsonLayers[layerName] = []; // Rensa listan med lager
+        }
+
+        // Ta bort WMS-lagret om det är aktivt
+        if (layerName === 'Älgjaktsområden' && geojsonLayers['Älgjaktsområden']) {
+            map.removeLayer(geojsonLayers['Älgjaktsområden']);
+            geojsonLayers['Älgjaktsområden'] = null; // Rensa WMS-lagret
+        }
+
+        layerIsActive[layerName] = false; // Markera som inaktiv
+        updateFAB(layerName, false);
     }
 
     // Funktion för att få filnamnet från en URL
