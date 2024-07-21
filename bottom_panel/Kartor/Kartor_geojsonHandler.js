@@ -145,7 +145,7 @@ var Kartor_geojsonHandler = (function() {
                 attribution: 'Länsstyrelsen'
             }).addTo(map);
 
-            wmsLayer.on('click', function(e) {
+            map.on('click', function(e) {
                 var latlng = e.latlng;
                 var url = getFeatureInfoUrl(
                     latlng,
@@ -160,16 +160,20 @@ var Kartor_geojsonHandler = (function() {
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
-                        var properties = data.features[0].properties;
-                        var popupContent = "<table>";
-                        for (var key in properties) {
-                            popupContent += "<tr><th>" + key + "</th><td>" + properties[key] + "</td></tr>";
+                        if (data.features && data.features.length > 0) {
+                            var properties = data.features[0].properties;
+                            var popupContent = "<table>";
+                            for (var key in properties) {
+                                popupContent += "<tr><th>" + key + "</th><td>" + properties[key] + "</td></tr>";
+                            }
+                            popupContent += "</table>";
+                            L.popup()
+                                .setLatLng(latlng)
+                                .setContent(popupContent)
+                                .openOn(map);
+                        } else {
+                            console.log('No feature information found.');
                         }
-                        popupContent += "</table>";
-                        L.popup()
-                            .setLatLng(latlng)
-                            .setContent(popupContent)
-                            .openOn(map);
                     })
                     .catch(error => {
                         console.error('Error fetching feature info:', error);
@@ -255,7 +259,7 @@ var Kartor_geojsonHandler = (function() {
             defaultParams = {
                 request: 'GetFeatureInfo',
                 service: 'WMS',
-                srs: 'EPSG:4326',
+                srs: 'EPSG:3857',
                 styles: '',
                 transparent: true,
                 version: '1.1.1',
