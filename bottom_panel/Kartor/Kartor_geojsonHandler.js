@@ -100,32 +100,12 @@ var Kartor_geojsonHandler = (function() {
             if (geojsonURLs) {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
             } else if (layerName === 'Älgjaktsområden') {
-                // Om det är Älgjaktsområden, ladda WMS-lagret
-                loadElgjaktsomradenWMS(true);
+                // Om det är Älgjaktsområden, ladda FeatureLayer
+                loadElgjaktsomradenFeatureLayer();
             }
         } else {
             // Om lagret redan är aktivt, ta bort det
             deactivateLayer(layerName);
-        }
-    }
-
-    // Funktion för att ladda eller ta bort WMS-lager för Älgjaktsområden
-    function loadElgjaktsomradenWMS(add) {
-        if (add) {
-            // Lägg till WMS-lagret
-            var wmsLayer = L.tileLayer.wms('https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer', {
-                layers: '0',
-                format: 'image/png',
-                transparent: true,
-                attribution: 'Naturvårdsverket'
-            }).addTo(map);
-            geojsonLayers['Älgjaktsområden'] = wmsLayer;
-        } else {
-            if (geojsonLayers['Älgjaktsområden']) {
-                // Ta bort WMS-lagret
-                map.removeLayer(geojsonLayers['Älgjaktsområden']);
-                geojsonLayers['Älgjaktsområden'] = null;
-            }
         }
     }
 
@@ -148,9 +128,10 @@ var Kartor_geojsonHandler = (function() {
             geojsonLayers[layerName] = []; // Rensa listan med lager
         }
 
-        // Ta bort WMS-lagret om det är aktivt
+        // Ta bort FeatureLayer om det är aktivt
         if (layerName === 'Älgjaktsområden' && geojsonLayers[layerName]) {
-            loadElgjaktsomradenWMS(false);
+            map.removeLayer(geojsonLayers['Älgjaktsområden']);
+            geojsonLayers['Älgjaktsområden'] = null;
         }
 
         layerIsActive[layerName] = false; // Markera som inaktiv
@@ -192,7 +173,7 @@ var Kartor_geojsonHandler = (function() {
         toggleLayer: toggleLayer,
         fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
         deactivateAllLayersKartor: deactivateAllLayersKartor, // Exponerar den nya funktionen
-        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS // Exponerar funktionen för WMS-lagret
+        loadElgjaktsomradenFeatureLayer: loadElgjaktsomradenFeatureLayer // Exponerar funktionen för FeatureLayer
     };
 })();
 
@@ -242,26 +223,34 @@ function loadElgjaktsomradenFeatureLayer() {
     });
 
     // Lägg till FeatureLayer till kartan
-    window.map.addLayer(featureLayer);
+    if (window.map) {
+        window.map.addLayer(featureLayer);
+    } else {
+        console.error('Map object not found.');
+    }
 
     // Funktion som uppdaterar datalagret baserat på kartans bounding box
     function updateFeatureLayer() {
-        var bounds = window.map.getBounds();
-        var query = L.esri.query({
-            url: 'https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/rest/services/Jaktadm/lst_jaktadm_visning/MapServer/0'
-        }).within(bounds).run(function (error, featureCollection) {
-            if (error) {
-                console.error('Error querying features:', error);
-                return;
-            }
-            featureLayer.clearLayers();
-            featureLayer.addData(featureCollection.features);
-        });
+        if (window.map) {
+            var bounds = window.map.getBounds();
+            var query = L.esri.query({
+                url: 'https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/rest/services/Jaktadm/lst_jaktadm_visning/MapServer/0'
+            }).within(bounds).run(function (error, featureCollection) {
+                if (error) {
+                    console.error('Error querying features:', error);
+                    return;
+                }
+                featureLayer.clearLayers();
+                featureLayer.addData(featureCollection.features);
+            });
+        }
     }
 
     // Uppdatera datalagret när användaren panorerar eller zoomar
-    window.map.on('moveend', updateFeatureLayer);
-
-    // Initial uppdatering när kartan först laddas
-    updateFeatureLayer();
+    if (window.map) {
+        window.map.on('moveend', updateFeatureLayer);
+        updateFeatureLayer();
+    } else {
+        console.error('Map object not found.');
+    }
 }
