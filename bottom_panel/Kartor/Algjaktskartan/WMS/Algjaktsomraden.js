@@ -68,4 +68,4 @@ function loadElgjaktsomradenWMS() {
 
     // Initial uppdatering när kartan först laddas
     updateFeatureLayer();
-}"
+}
