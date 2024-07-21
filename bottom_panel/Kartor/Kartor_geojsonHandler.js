@@ -152,19 +152,26 @@ var Kartor_geojsonHandler = (function() {
                     wmsLayer,
                     map,
                     {
-                        'info_format': 'application/json',
+                        'info_format': 'text/xml',
                         'propertyName': 'NAME,AREA_CODE'
                     }
                 );
 
                 fetch(url)
-                    .then(response => response.json())
+                    .then(response => response.text())
                     .then(data => {
-                        if (data.features && data.features.length > 0) {
-                            var properties = data.features[0].properties;
+                        var parser = new DOMParser();
+                        var xmlDoc = parser.parseFromString(data, "text/xml");
+                        var features = xmlDoc.getElementsByTagName("FeatureInfo");
+
+                        if (features.length > 0) {
+                            var properties = features[0].childNodes;
                             var popupContent = "<table>";
-                            for (var key in properties) {
-                                popupContent += "<tr><th>" + key + "</th><td>" + properties[key] + "</td></tr>";
+                            for (var i = 0; i < properties.length; i++) {
+                                var property = properties[i];
+                                if (property.nodeType === 1) { // Element node
+                                    popupContent += "<tr><th>" + property.nodeName + "</th><td>" + property.textContent + "</td></tr>";
+                                }
                             }
                             popupContent += "</table>";
                             L.popup()
@@ -172,11 +179,11 @@ var Kartor_geojsonHandler = (function() {
                                 .setContent(popupContent)
                                 .openOn(map);
                         } else {
-                            console.log('No feature information found.');
+                            console.log("No features found.");
                         }
                     })
                     .catch(error => {
-                        console.error('Error fetching feature info:', error);
+                        console.error("Error fetching feature info:", error);
                     });
             });
 
@@ -269,7 +276,7 @@ var Kartor_geojsonHandler = (function() {
                 width: size.x,
                 layers: wmsLayer.wmsParams.layers,
                 query_layers: wmsLayer.wmsParams.layers,
-                info_format: 'application/json'
+                info_format: 'text/xml'
             };
 
         var params = L.Util.extend(defaultParams, params);
