@@ -3,7 +3,7 @@ function loadElgjaktsomradenWMS() {
     function getRandomColor() {
         var hue = Math.floor(Math.random() * 360); // Färgton
         var lightness = Math.floor(Math.random() * 40) + 40; // Ljushet från 40 till 80
-        return hsl(${hue}, 70%, ${lightness}%);
+        return `hsl(${hue}, 70%, ${lightness}%)`;
     }
 
     // Färgcache för att bevara färger för varje feature
