@@ -129,6 +129,17 @@ var Kartor_geojsonHandler = (function() {
                     return { color: '#70ca49', weight: 2 };
                 }
             }).addTo(map);
+
+            featureLayer.on('load', function() {
+                console.log('Feature layer loaded.');
+                if (featureLayer.getBounds) {
+                    console.log('Zooming to feature layer bounds.');
+                    map.fitBounds(featureLayer.getBounds());
+                } else {
+                    console.log('No bounds available for feature layer.');
+                }
+            });
+
             console.log('Feature layer added to map:', featureLayer);
             geojsonLayers['Älgjaktsområden'] = featureLayer;
         } else {
