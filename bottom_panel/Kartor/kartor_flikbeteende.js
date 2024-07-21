@@ -1,3 +1,4 @@
+// bottom_panel/Kartor/kartor_flikbeteende.js
 function openKartor() {
     // Hitta tab-pane för kartor
     const tabPane = document.getElementById('tab2');
