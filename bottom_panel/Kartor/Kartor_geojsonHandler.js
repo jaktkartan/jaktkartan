@@ -38,7 +38,7 @@ var Kartor_geojsonHandler = (function() {
                     ];
                     var jakttidToColor = {};
                     var currentIndex = 0;
-                    
+
                     // Returnerar en funktion som tilldelar färg baserat på jakttid
                     return function(feature) {
                         var jakttid = feature.properties['jakttid'];
@@ -61,12 +61,12 @@ var Kartor_geojsonHandler = (function() {
             try {
                 const response = await axios.get(geojsonURL);
                 const geojson = response.data;
-                
+
                 // Skapa GeoJSON-lager med stil och klickhändelse
                 const layer = L.geoJSON(geojson, {
                     style: function(feature) {
                         var filename = getFilenameFromURL(geojsonURL);
-                        return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
+                        return layerStyles[layerName][filename]?.style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
                     },
                     onEachFeature: function(feature, layer) {
                         addClickHandlerToLayer(layer);
@@ -80,7 +80,7 @@ var Kartor_geojsonHandler = (function() {
                     layer.addTo(map);
                 }
             } catch (error) {
-                console.error("Error fetching GeoJSON data.");
+                console.error("Error fetching GeoJSON data:", error);
             }
         }
 
@@ -228,7 +228,7 @@ var Kartor_geojsonHandler = (function() {
                     }
                 }
                 popupContent += '</table>';
-                
+
                 // Bind popup med HTML-tabellen
                 layer.bindPopup(popupContent);
             }
