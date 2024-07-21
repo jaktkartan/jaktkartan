@@ -1,3 +1,4 @@
+// bottom_panel/Kartor/Kartor_geojsonHandler.js
 var Kartor_geojsonHandler = (function() {
     // Status för vilka lager som är aktiva
     var layerIsActive = {
