@@ -120,7 +120,7 @@ var Kartor_geojsonHandler = (function() {
             }
             console.log('Adding Älgjaktsområden layer.');
             var wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
-                layers: '0',
+                layers: '2',
                 format: 'image/png',
                 transparent: true,
                 attribution: 'Länsstyrelsen'
