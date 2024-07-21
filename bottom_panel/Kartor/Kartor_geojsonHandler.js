@@ -130,8 +130,17 @@ var Kartor_geojsonHandler = (function() {
                 attribution: 'Naturvårdsverket'
             }).addTo(map);
 
+            wmsLayer.on('add', function() {
+                console.log('WMS layer added to map.');
+            });
+
             wmsLayer.on('load', function() {
                 console.log('WMS layer loaded.');
+                checkLayerVisibility(wmsLayer);
+            });
+
+            wmsLayer.on('tileerror', function(error) {
+                console.error('Error loading WMS layer tile:', error);
             });
 
             console.log('WMS layer added to map:', wmsLayer);
@@ -142,6 +151,20 @@ var Kartor_geojsonHandler = (function() {
                 map.removeLayer(geojsonLayers['Älgjaktsområden']);
                 geojsonLayers['Älgjaktsområden'] = null;
             }
+        }
+    }
+
+    // Funktion för att kontrollera om lagret är synligt
+    function checkLayerVisibility(layer) {
+        var bounds = map.getBounds();
+        var layerBounds = layer.getBounds();
+        console.log('Map bounds:', bounds);
+        console.log('Layer bounds:', layerBounds);
+
+        if (bounds.intersects(layerBounds)) {
+            console.log('Layer is visible within the current map bounds.');
+        } else {
+            console.log('Layer is not visible within the current map bounds.');
         }
     }
 
