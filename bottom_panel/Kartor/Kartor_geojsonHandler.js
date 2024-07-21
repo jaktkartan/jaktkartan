@@ -132,7 +132,10 @@ var Kartor_geojsonHandler = (function() {
 
             featureLayer.on('load', function() {
                 console.log('Feature layer loaded.');
-                if (featureLayer.getBounds) {
+                // Kontrollera om lagret har några funktioner
+                if (featureLayer.getLayers().length === 0) {
+                    console.log('No features found in the layer.');
+                } else if (featureLayer.getBounds) {
                     console.log('Zooming to feature layer bounds.');
                     map.fitBounds(featureLayer.getBounds());
                 } else {
