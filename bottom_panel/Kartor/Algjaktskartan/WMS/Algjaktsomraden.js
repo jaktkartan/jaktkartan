@@ -27,7 +27,7 @@ window.map.on('moveend', updateFeatureLayer);
 // Function to load data into the feature layer
 function loadFeatureLayerData() {
     // Define the URL for the feature layer data
-    const featureLayerURL = 'https://example.com/your-feature-layer-url';
+    const featureLayerURL = 'https://geodata.naturvardsverket.se/arcgis/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/WmsServer';
 
     // Fetch the feature layer data
     fetch(featureLayerURL)
