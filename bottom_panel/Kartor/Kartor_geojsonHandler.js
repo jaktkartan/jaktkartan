@@ -124,7 +124,7 @@ var Kartor_geojsonHandler = (function() {
             }
             console.log('Adding Älgjaktsområden layer.');
             var featureLayer = L.esri.featureLayer({
-                url: 'https://geodata.naturvardsverket.se/arcgis/rest/services/Inspire_SE_Harvest_object_Harvest_object_HR/MapServer/0',
+                url: 'https://geodata.naturvardsverket.se/arcgis/rest/services/Inspire_SE_Harvest_object/MapServer/0',
                 style: function () {
                     return { color: '#70ca49', weight: 2 };
                 }
@@ -132,6 +132,17 @@ var Kartor_geojsonHandler = (function() {
 
             featureLayer.on('load', function() {
                 console.log('Feature layer loaded.');
+                // Fallback om metadata inte kan hämtas
+                if (!featureLayer.metadata) {
+                    console.log('No metadata function available, zooming to feature layer bounds if available.');
+                    if (featureLayer.getBounds) {
+                        map.fitBounds(featureLayer.getBounds());
+                    } else {
+                        console.log('No bounds available for feature layer.');
+                    }
+                    return;
+                }
+
                 // Kontrollera om lagret har några funktioner via metadata
                 featureLayer.metadata(function(error, metadata) {
                     if (error) {
