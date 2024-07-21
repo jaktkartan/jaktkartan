@@ -113,9 +113,8 @@ var Kartor_geojsonHandler = (function() {
     function loadElgjaktsomradenWMS(add) {
         if (add) {
             if (geojsonLayers['Älgjaktsområden']) {
-                // Ta bort lagret om det redan finns
-                map.removeLayer(geojsonLayers['Älgjaktsområden']);
-                geojsonLayers['Älgjaktsområden'] = null;
+                // Lagret är redan tillagt, så vi behöver inte göra något
+                return;
             }
             // Lägg till Esri Feature Layer istället för WMS-lagret
             var featureLayer = L.esri.featureLayer({
