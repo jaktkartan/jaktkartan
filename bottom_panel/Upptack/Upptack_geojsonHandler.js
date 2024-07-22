@@ -5,6 +5,7 @@ var layerURLs = {
     'Jaktskyttebanor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
 };
 
+
 var Upptack_geojsonHandler;
 
 setTimeout(function() {
@@ -77,7 +78,15 @@ setTimeout(function() {
                     console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                 }
             }
-            updateFABVisibility();
+            updateFAB(layerName, true);
+        }
+
+        function activateAllLayers() {
+            for (const layerName in layerURLs) {
+                if (layerURLs.hasOwnProperty(layerName)) {
+                    activateLayer(layerName, layerURLs[layerName]);
+                }
+            }
         }
 
         function toggleLayer(layerName, geojsonURLs) {
@@ -90,8 +99,6 @@ setTimeout(function() {
 
             if (geojsonURLs) {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-            } else {
-                updateFABVisibility();
             }
         }
 
@@ -100,8 +107,6 @@ setTimeout(function() {
                 layerIsActive[layerName] = true;
                 if (geojsonURLs) {
                     fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-                } else {
-                    updateFABVisibility();
                 }
             }
         }
@@ -120,7 +125,7 @@ setTimeout(function() {
                 geojsonLayers[layerName] = [];
             }
             layerIsActive[layerName] = false;
-            updateFABVisibility();
+            updateFAB(layerName, false);
         }
 
         function generatePopupContent(feature, layerName) {
@@ -192,11 +197,10 @@ setTimeout(function() {
             return layerStyles[layerName].fallbackStyle;
         }
 
-        function updateFABVisibility() {
+        function updateFAB(layerName, show) {
             var fabButton = document.getElementById('fab-upptack');
             if (fabButton) {
-                var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive);
-                fabButton.style.display = anyLayerActive ? 'block' : 'none';
+                fabButton.style.display = show ? 'block' : 'none';
             } else {
                 console.error("fab-upptack element not found.");
             }
