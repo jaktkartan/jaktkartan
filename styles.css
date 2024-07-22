@@ -101,6 +101,7 @@ html, body {
 }
 
 .tab-pane {
+    display: none; /* Dölj flikarna som standard */
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -123,10 +124,11 @@ html, body {
 #tab1.tab-pane, #tab2.tab-pane {
     height: 15vh; /* Specifik höjd för tab1 och tab2 */
     width: 100%;
-    display: flex; /* Lägg till flexbox layout här också */
+    display: none; /* Dölj specifikt tab1 och tab2 */
     flex-direction: column; /* Säkerställ att barnen ordnas i kolumner */
     padding: 1px;
 }
+
 
 
 
