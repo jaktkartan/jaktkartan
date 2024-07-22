@@ -5,7 +5,7 @@
     right: 20px;
     min-width: 60px; /* Standardbredd för knappen */
     height: 60px;
-    padding: 0 16px; /* Lägg till horisontellt padding för att rymma längre text */
+    padding: 0 10px; /* Minska horisontellt padding för att rymma längre text */
     border-radius: 30px; /* Gör knappen oval */
     background-color: rgb(50, 94, 88);
     color: white;
@@ -19,11 +19,10 @@
     justify-content: center;
     white-space: nowrap; /* Förhindra att texten bryts */
     overflow: hidden;
-    transition: all 0.3s ease; /* Lägg till en övergång för smidigare förändring */
 }
 
 .fab:hover {
-    background-color: #0056b3;
+    background-color: #004d3a; /* Mörkare grön färg vid hovring */
 }
 
 /* CSS för modalen */
