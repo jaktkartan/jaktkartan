@@ -180,14 +180,11 @@ setTimeout(function() {
         }
 
         function updateFAB(layerName, show) {
-            var fabButtons = document.querySelectorAll('.fab');
-            fabButtons.forEach(function(button) {
-                button.style.display = 'none';
-            });
-
             var fabButton = document.getElementById('fab-upptack');
             if (fabButton) {
                 fabButton.style.display = show ? 'block' : 'none';
+            } else {
+                console.error("fab-upptack element not found.");
             }
         }
 
@@ -195,9 +192,8 @@ setTimeout(function() {
 
         if (fabUpptack) {
             fabUpptack.addEventListener('click', function() {
-                toggleLayer('Mässor', layerURLs['Mässor']);
-                toggleLayer('Jaktkort', layerURLs['Jaktkort']);
-                toggleLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+                // Hantera knappen för att deaktivera alla lager
+                deactivateAllLayers();
             });
         } else {
             console.error("fab-upptack element not found.");
