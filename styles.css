@@ -31,7 +31,7 @@ body, button, span, div {
     align-items: center; /* Centrera knapparna vertikalt */
     flex-wrap: nowrap; /* Knapparna ska inte brytas till nästa rad */
     gap: 10px; /* Justera mellanrum mellan knappar */
-    padding: 5px; /* Justera paddingen efter behov */
+    padding: 0px; /* Justera paddingen efter behov */
     width: 100%;
     height: 100%; /* Låt höjden justeras automatiskt för att fylla föräldern */
     overflow: hidden;
