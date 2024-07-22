@@ -1,3 +1,4 @@
+// CSS för popup-panelen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
