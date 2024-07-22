@@ -34,6 +34,7 @@ var Kartor_geojsonHandler = (function() {
                     ];
                     var jakttidToColor = {};
                     var currentIndex = 0;
+                    
                     return function(feature) {
                         var jakttid = feature.properties['jakttid'];
                         if (!jakttidToColor[jakttid]) {
@@ -53,6 +54,7 @@ var Kartor_geojsonHandler = (function() {
             try {
                 const response = await axios.get(geojsonURL);
                 const geojson = response.data;
+                
                 const layer = L.geoJSON(geojson, {
                     style: function(feature) {
                         var filename = getFilenameFromURL(geojsonURL);
@@ -76,21 +78,6 @@ var Kartor_geojsonHandler = (function() {
         updateFAB(layerName, true);
     }
 
-    function addClickHandlerToLayer(layer) {
-        layer.on('click', function (e) {
-            var properties = e.target.feature.properties;
-            var popupContent = "<table>";
-            for (var key in properties) {
-                popupContent += "<tr><th>" + key + "</th><td>" + properties[key] + "</td></tr>";
-            }
-            popupContent += "</table>";
-            L.popup()
-                .setLatLng(e.latlng)
-                .setContent(popupContent)
-                .openOn(map);
-        });
-    }
-
     function toggleLayer(layerName, geojsonURLs) {
         deactivateAllLayersKartor();
 
@@ -112,150 +99,155 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-function loadElgjaktsomradenWMS(add) {
-    if (add) {
-        if (geojsonLayers['Älgjaktsområden']) {
-            console.log('Layer is already added. No action taken.');
-            return;
-        }
-        console.log('Adding Älgjaktsområden layer.');
-        var wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
-            layers: '2',
-            format: 'image/png',
-            transparent: true,
-            attribution: 'Länsstyrelsen'
-        }).addTo(map);
-
-        geojsonLayers['Älgjaktsområden'] = wmsLayer;
-
-        map.on('click', handleWmsLayerClick);
-
-        console.log("WMS layer added to map:", wmsLayer);
-    } else {
-        if (geojsonLayers['Älgjaktsområden']) {
-            console.log('Removing Älgjaktsområden layer.');
-            map.off('click', handleWmsLayerClick);
-            map.removeLayer(geojsonLayers['Älgjaktsområden']);
-            geojsonLayers['Älgjaktsområden'] = null;
-        }
-    }
-}
-
-function handleWmsLayerClick(e) {
-    var latlng = e.latlng;
-    var wmsLayer = geojsonLayers['Älgjaktsområden'];
-    var url = getFeatureInfoUrl(
-        latlng,
-        wmsLayer,
-        map,
-        {
-            'info_format': 'text/xml',
-            'propertyName': 'Områdesnamn,Områdesnummer'
-        }
-    );
-
-    console.log("GetFeatureInfo URL:", url);
-
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            console.log("FeatureInfo data:", data);
-            var parser = new DOMParser();
-            var xmlDoc = parser.parseFromString(data, "application/xml");
-            var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
-            if (fields) {
-                var popupContent = "<table>";
-                for (var i = 0; i < fields.attributes.length; i++) {
-                    var attr = fields.attributes[i];
-                    popupContent += "<tr><th>" + attr.name + "</th><td>" + attr.value + "</td></tr>";
-                }
-                popupContent += "</table>";
-                L.popup()
-                    .setLatLng(latlng)
-                    .setContent(popupContent)
-                    .openOn(map);
-            } else {
-                console.log("No features found.");
+    function loadElgjaktsomradenWMS(add) {
+        if (add) {
+            if (geojsonLayers['Älgjaktsområden']) {
+                console.log('Layer is already added. No action taken.');
+                return;
             }
-        })
-        .catch(error => {
-            console.error("Error fetching feature info:", error);
-        });
-}
+            console.log('Adding Älgjaktsområden layer.');
+            var wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
+                layers: '2',
+                format: 'image/png',
+                transparent: true,
+                attribution: 'Länsstyrelsen'
+            }).addTo(map);
+
+            geojsonLayers['Älgjaktsområden'] = wmsLayer;
+
+            map.on('click', handleWmsLayerClick);
 
             console.log("WMS layer added to map:", wmsLayer);
         } else {
             if (geojsonLayers['Älgjaktsområden']) {
                 console.log('Removing Älgjaktsområden layer.');
+                map.off('click', handleWmsLayerClick);
                 map.removeLayer(geojsonLayers['Älgjaktsområden']);
                 geojsonLayers['Älgjaktsområden'] = null;
             }
         }
     }
 
-    function getFeatureInfoUrl(latlng, wmsLayer, map, params) {
-        var point = map.latLngToContainerPoint(latlng, map.getZoom());
-        var size = map.getSize();
-        var bounds = map.getBounds();
-        var crs = map.options.crs;
+    function handleWmsLayerClick(e) {
+        var latlng = e.latlng;
+        var wmsLayer = geojsonLayers['Älgjaktsområden'];
+        var url = getFeatureInfoUrl(
+            latlng,
+            wmsLayer,
+            map,
+            {
+                'info_format': 'text/xml',
+                'propertyName': 'Områdesnamn,Områdesnummer'
+            }
+        );
 
-        var sw = crs.project(bounds.getSouthWest());
-        var ne = crs.project(bounds.getNorthEast());
+        console.log("GetFeatureInfo URL:", url);
 
-        var defaultParams = {
-            request: 'GetFeatureInfo',
-            service: 'WMS',
-            srs: crs.code,
-            styles: '',
-            version: wmsLayer._wmsVersion,
-            format: wmsLayer.options.format,
-            bbox: sw.x + ',' + sw.y + ',' + ne.x + ',' + ne.y,
-            height: size.y,
-            width: size.x,
-            layers: wmsLayer.wmsParams.layers,
-            query_layers: wmsLayer.wmsParams.layers,
-            info_format: 'application/json'
-        };
-
-        params = L.Util.extend(defaultParams, params);
-
-        params[params.version === '1.3.0' ? 'i' : 'x'] = Math.round(point.x);
-        params[params.version === '1.3.0' ? 'j' : 'y'] = Math.round(point.y);
-
-        return wmsLayer._url + L.Util.getParamString(params, wmsLayer._url, true);
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                console.log("FeatureInfo data:", data);
+                var parser = new DOMParser();
+                var xmlDoc = parser.parseFromString(data, "application/xml");
+                var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
+                if (fields) {
+                    var popupContent = "<table>";
+                    for (var i = 0; i < fields.attributes.length; i++) {
+                        var attr = fields.attributes[i];
+                        popupContent += "<tr><th>" + attr.name + "</th><td>" + attr.value + "</td></tr>";
+                    }
+                    popupContent += "</table>";
+                    L.popup()
+                        .setLatLng(latlng)
+                        .setContent(popupContent)
+                        .openOn(map);
+                } else {
+                    console.log("No features found.");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching feature info:", error);
+            });
     }
 
     function deactivateAllLayersKartor() {
         Object.keys(layerIsActive).forEach(function(layerName) {
             if (layerIsActive[layerName]) {
-                layerIsActive[layerName] = false;
                 deactivateLayer(layerName);
             }
         });
     }
 
     function deactivateLayer(layerName) {
-        if (geojsonLayers[layerName]) {
+        if (geojsonLayers[layerName] && geojsonLayers[layerName].length > 0) {
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
             geojsonLayers[layerName] = [];
         }
-    }
 
-    function updateFAB(layerName, add) {
-        var fabButton = document.getElementById('fab-' + layerName.toLowerCase().replace(/\s+/g, '-'));
-        if (fabButton) {
-            fabButton.style.display = add ? 'block' : 'none';
+        if (layerName === 'Älgjaktsområden' && geojsonLayers['Älgjaktsområden']) {
+            map.removeLayer(geojsonLayers['Älgjaktsområden']);
+            geojsonLayers['Älgjaktsområden'] = null;
         }
+
+        layerIsActive[layerName] = false;
+        updateFAB(layerName, false);
     }
 
     function getFilenameFromURL(url) {
-        return url.substring(url.lastIndexOf('/') + 1);
+        return url.split('/').pop();
+    }
+
+    function updateFAB(layerName, show) {
+        var fabId = getFABId(layerName);
+        var fabButton = document.getElementById(fabId);
+        if (fabButton) {
+            fabButton.style.display = show ? 'block' : 'none';
+        }
+    }
+
+    function getFABId(layerName) {
+        switch(layerName) {
+            case 'Allmän jakt: Däggdjur':
+                return 'fab-daggdjur';
+            case 'Allmän jakt: Fågel':
+                return 'fab-fagel';
+            case 'Älgjaktskartan':
+                return 'fab-alg';
+            case 'Älgjaktsområden':
+                return 'fab-alg-omraden';
+            default:
+                return '';
+        }
+    }
+
+    function getFeatureInfoUrl(latlng, wmsLayer, map, infoParams) {
+        var point = map.latLngToContainerPoint(latlng, map.getZoom());
+        var size = map.getSize();
+        var params = {
+            request: 'GetFeatureInfo',
+            service: 'WMS',
+            srs: 'EPSG:3857',
+            styles: '',
+            version: '1.1.1',
+            format: 'image/png',
+            bbox: map.getBounds().toBBoxString(),
+            height: size.y,
+            width: size.x,
+            layers: wmsLayer.wmsParams.layers,
+            query_layers: wmsLayer.wmsParams.layers,
+            info_format: infoParams.info_format || 'application/json'
+        };
+        params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
+        params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
+        return wmsLayer._url + L.Util.getParamString(params, wmsLayer._url, true);
     }
 
     return {
         toggleLayer: toggleLayer,
+        fetchGeoJSONDataAndCreateLayer: fetchGeoJSONDataAndCreateLayer,
+        deactivateAllLayersKartor: deactivateAllLayersKartor,
         loadElgjaktsomradenWMS: loadElgjaktsomradenWMS
     };
 })();
