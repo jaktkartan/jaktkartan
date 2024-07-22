@@ -238,3 +238,26 @@ var Kartor_geojsonHandler = (function() {
         loadElgjaktsomradenWMS: loadElgjaktsomradenWMS
     };
 })();
+
+    // Funktion för att uppdatera FAB-knappen baserat på lagrets tillstånd
+    function updateFAB(layerName, show) {
+        var fabId = getFABId(layerName);
+        var fabButton = document.getElementById(fabId);
+        if (fabButton) {
+            fabButton.style.display = show ? 'block' : 'none';
+        }
+    }
+
+    // Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
+    function getFABId(layerName) {
+        switch(layerName) {
+            case 'Allmän jakt: Däggdjur':
+                return 'fab-daggdjur';
+            case 'Allmän jakt: Fågel':
+                return 'fab-fagel';
+            case 'Älgjaktskartan':
+                return 'fab-alg';
+            default:
+                return '';
+        }
+    }
