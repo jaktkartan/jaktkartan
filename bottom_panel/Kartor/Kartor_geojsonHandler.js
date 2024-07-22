@@ -112,62 +112,76 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    function loadElgjaktsomradenWMS(add) {
-        if (add) {
-            if (geojsonLayers['Älgjaktsområden']) {
-                console.log('Layer is already added. No action taken.');
-                return;
+function loadElgjaktsomradenWMS(add) {
+    if (add) {
+        if (geojsonLayers['Älgjaktsområden']) {
+            console.log('Layer is already added. No action taken.');
+            return;
+        }
+        console.log('Adding Älgjaktsområden layer.');
+        var wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
+            layers: '2',
+            format: 'image/png',
+            transparent: true,
+            attribution: 'Länsstyrelsen'
+        }).addTo(map);
+
+        geojsonLayers['Älgjaktsområden'] = wmsLayer;
+
+        map.on('click', handleWmsLayerClick);
+
+        console.log("WMS layer added to map:", wmsLayer);
+    } else {
+        if (geojsonLayers['Älgjaktsområden']) {
+            console.log('Removing Älgjaktsområden layer.');
+            map.off('click', handleWmsLayerClick);
+            map.removeLayer(geojsonLayers['Älgjaktsområden']);
+            geojsonLayers['Älgjaktsområden'] = null;
+        }
+    }
+}
+
+function handleWmsLayerClick(e) {
+    var latlng = e.latlng;
+    var wmsLayer = geojsonLayers['Älgjaktsområden'];
+    var url = getFeatureInfoUrl(
+        latlng,
+        wmsLayer,
+        map,
+        {
+            'info_format': 'text/xml',
+            'propertyName': 'Områdesnamn,Områdesnummer'
+        }
+    );
+
+    console.log("GetFeatureInfo URL:", url);
+
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            console.log("FeatureInfo data:", data);
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(data, "application/xml");
+            var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
+            if (fields) {
+                var popupContent = "<table>";
+                for (var i = 0; i < fields.attributes.length; i++) {
+                    var attr = fields.attributes[i];
+                    popupContent += "<tr><th>" + attr.name + "</th><td>" + attr.value + "</td></tr>";
+                }
+                popupContent += "</table>";
+                L.popup()
+                    .setLatLng(latlng)
+                    .setContent(popupContent)
+                    .openOn(map);
+            } else {
+                console.log("No features found.");
             }
-            console.log('Adding Älgjaktsområden layer.');
-            var wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
-                layers: '2',
-                format: 'image/png',
-                transparent: true,
-                attribution: 'Länsstyrelsen'
-            }).addTo(map);
-
-            geojsonLayers['Älgjaktsområden'] = wmsLayer;
-
-            map.on('click', function(e) {
-                var latlng = e.latlng;
-                var url = getFeatureInfoUrl(
-                    latlng,
-                    wmsLayer,
-                    map,
-                    {
-                        'info_format': 'text/xml',
-                        'propertyName': 'Områdesnamn,Områdesnummer'
-                    }
-                );
-
-                console.log("GetFeatureInfo URL:", url);
-
-                fetch(url)
-                    .then(response => response.text())
-                    .then(data => {
-                        console.log("FeatureInfo data:", data);
-                        var parser = new DOMParser();
-                        var xmlDoc = parser.parseFromString(data, "application/xml");
-                        var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
-                        if (fields) {
-                            var popupContent = "<table>";
-                            for (var i = 0; i < fields.attributes.length; i++) {
-                                var attr = fields.attributes[i];
-                                popupContent += "<tr><th>" + attr.name + "</th><td>" + attr.value + "</td></tr>";
-                            }
-                            popupContent += "</table>";
-                            L.popup()
-                                .setLatLng(latlng)
-                                .setContent(popupContent)
-                                .openOn(map);
-                        } else {
-                            console.log("No features found.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error fetching feature info:", error);
-                    });
-            });
+        })
+        .catch(error => {
+            console.error("Error fetching feature info:", error);
+        });
+}
 
             console.log("WMS layer added to map:", wmsLayer);
         } else {
