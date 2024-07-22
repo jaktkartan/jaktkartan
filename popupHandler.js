@@ -146,11 +146,7 @@ function addClickHandlerToLayer(layer) {
                 var properties = e.target.feature.properties;
                 console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
 
-                if (!popupPanelVisible) {
-                    showPopupPanel(properties);
-                } else {
-                    updatePopupPanelContent(properties);
-                }
+                showPopupPanel(properties);
             } else {
                 console.error('Ingen geojson-information hittades i klickhändelsen.');
             }
