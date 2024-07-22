@@ -1,5 +1,5 @@
 function openUpptack() {
-    // Dölj andra flikar.
+    // Dölj andra flikar
     document.getElementById('tab2').style.display = 'none';
 
     // Hitta tab-pane för upptäck
