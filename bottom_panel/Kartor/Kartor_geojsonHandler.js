@@ -77,6 +77,13 @@ var Kartor_geojsonHandler = (function() {
         updateFAB(layerName, true);
     }
 
+    function addClickHandlerToLayer(layer) {
+        layer.on('click', function(e) {
+            var properties = e.target.feature.properties;
+            showPopupPanel(properties);
+        });
+    }
+
     function toggleLayer(layerName, geojsonURLs) {
         deactivateAllLayersKartor();
 
@@ -96,6 +103,8 @@ var Kartor_geojsonHandler = (function() {
                 deactivateLayer(layerName);
             }
         }
+
+        updateFABVisibility(layerName);
     }
 
     function loadElgjaktsomradenWMS(add) {
@@ -228,6 +237,16 @@ var Kartor_geojsonHandler = (function() {
         if (fabButton) {
             fabButton.style.display = show ? 'block' : 'none';
         }
+    }
+
+    function updateFABVisibility(activeLayerName) {
+        Object.keys(layerIsActive).forEach(function(layerName) {
+            var fabId = getFABId(layerName);
+            var fabButton = document.getElementById(fabId);
+            if (fabButton) {
+                fabButton.style.display = layerName === activeLayerName ? 'block' : 'none';
+            }
+        });
     }
 
     function getFABId(layerName) {
