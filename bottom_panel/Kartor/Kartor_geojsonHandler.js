@@ -222,24 +222,6 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    function updateFAB(layerName, add) {
-        var fabButton = document.getElementById('fab-' + layerName.toLowerCase().replace(/\s+/g, '-'));
-        if (fabButton) {
-            fabButton.style.display = add ? 'block' : 'none';
-        }
-    }
-
-    function getFilenameFromURL(url) {
-        return url.substring(url.lastIndexOf('/') + 1);
-    }
-
-    return {
-        toggleLayer: toggleLayer,
-        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS
-    };
-})();
-
-    // Funktion för att uppdatera FAB-knappen baserat på lagrets tillstånd
     function updateFAB(layerName, show) {
         var fabId = getFABId(layerName);
         var fabButton = document.getElementById(fabId);
@@ -262,3 +244,13 @@ var Kartor_geojsonHandler = (function() {
                 return '';
         }
     }
+
+    function getFilenameFromURL(url) {
+        return url.substring(url.lastIndexOf('/') + 1);
+    }
+
+    return {
+        toggleLayer: toggleLayer,
+        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS
+    };
+})();
