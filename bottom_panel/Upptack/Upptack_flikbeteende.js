@@ -25,6 +25,7 @@ function openUpptack() {
     showAllButton.textContent = 'Visa allt';
     showAllButton.onclick = function() {
         if (typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Activating all layers');
             Upptack_geojsonHandler.toggleLayer('Visa_allt');
         } else {
             console.error("Upptack_geojsonHandler är inte definierad.");
@@ -52,6 +53,7 @@ function openUpptack() {
                 className: 'styled-button',
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating Mässor layer');
                         Upptack_geojsonHandler.toggleLayer('Mässor', [
                             'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/Massor.geojson'
                         ]);
@@ -67,6 +69,7 @@ function openUpptack() {
                 className: 'styled-button',
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating Jaktkort layer');
                         Upptack_geojsonHandler.toggleLayer('Jaktkort', [
                             'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktkort.geojson'
                         ]);
@@ -82,6 +85,7 @@ function openUpptack() {
                 className: 'styled-button',
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating Jaktskyttebanor layer');
                         Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', [
                             'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson'
                         ]);
@@ -98,6 +102,7 @@ function openUpptack() {
                 textContent: 'Rensa allt',
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Clearing all layers');
                         Upptack_geojsonHandler.toggleLayer('Rensa_allt');
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
@@ -128,7 +133,6 @@ function openUpptack() {
     // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
         container.innerHTML = '';
-
         container.appendChild(showAllButton);
         container.appendChild(filterButton);
     }
