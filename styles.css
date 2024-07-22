@@ -23,7 +23,7 @@ body, button, span, div {
     object-fit: contain;
 }
 
-/* funktion för elementet som håller knapparna när man tryckt på upptäck eller kartor */
+/* Stil för elementet som håller knapparna när man tryckt på upptäck eller kartor */
 .button-container {
     display: flex;
     justify-content: center; /* Centrera knapparna horisontellt */
@@ -110,7 +110,7 @@ html, body {
     color: rgb(50, 94, 88);
     padding: 10px;
     z-index: 1000;
-    overflow-y: auto;
+    overflow-y: hidden; /* Ändra till hidden för att undvika att fliken skrollar */
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -127,6 +127,7 @@ html, body {
     flex-direction: column; /* Säkerställ att barnen ordnas i kolumner */
     padding: 1px;
 }
+
 
 
 /* Lägg till ytterligare flikar här om det behövs med olika höjder */
