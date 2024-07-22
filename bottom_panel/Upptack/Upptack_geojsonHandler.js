@@ -78,14 +78,7 @@ setTimeout(function() {
                 }
             }
             updateFAB(layerName, true);
-        }
-
-        function activateAllLayers() {
-            for (const layerName in layerURLs) {
-                if (layerURLs.hasOwnProperty(layerName)) {
-                    activateLayer(layerName, layerURLs[layerName]);
-                }
-            }
+            updateFABVisibility();
         }
 
         function toggleLayer(layerName, geojsonURLs) {
@@ -98,6 +91,8 @@ setTimeout(function() {
 
             if (geojsonURLs) {
                 fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+            } else {
+                updateFABVisibility();
             }
         }
 
@@ -106,6 +101,8 @@ setTimeout(function() {
                 layerIsActive[layerName] = true;
                 if (geojsonURLs) {
                     fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+                } else {
+                    updateFABVisibility();
                 }
             }
         }
@@ -125,6 +122,7 @@ setTimeout(function() {
             }
             layerIsActive[layerName] = false;
             updateFAB(layerName, false);
+            updateFABVisibility();
         }
 
         function generatePopupContent(feature, layerName) {
@@ -197,9 +195,14 @@ setTimeout(function() {
         }
 
         function updateFAB(layerName, show) {
+            // Denna funktion är nu tom
+        }
+
+        function updateFABVisibility() {
             var fabButton = document.getElementById('fab-upptack');
             if (fabButton) {
-                fabButton.style.display = show ? 'block' : 'none';
+                var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive);
+                fabButton.style.display = anyLayerActive ? 'block' : 'none';
             } else {
                 console.error("fab-upptack element not found.");
             }
