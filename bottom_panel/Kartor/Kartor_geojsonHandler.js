@@ -19,6 +19,45 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktskartan': { /* Ditt lager stil */ }
     };
 
+    async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+        for (const geojsonURL of geojsonURLs) {
+            try {
+                const response = await axios.get(geojsonURL);
+                const geojson = response.data;
+                const layer = L.geoJSON(geojson, {
+                    style: function(feature) {
+                        var filename = getFilenameFromURL(geojsonURL);
+                        return layerStyles[layerName][filename].style ? layerStyles[layerName][filename].style(feature) : layerStyles[layerName][filename];
+                    },
+                    onEachFeature: function(feature, layer) {
+                        addClickHandlerToLayer(layer);
+                    }
+                });
+
+                geojsonLayers[layerName].push(layer);
+
+                if (layerIsActive[layerName]) {
+                    layer.addTo(map);
+                }
+            } catch (error) {
+                console.error("Error fetching GeoJSON data.");
+            }
+        }
+
+        updateFAB(layerName, true);
+    }
+
+    function addClickHandlerToLayer(layer) {
+        layer.on('click', function(e) {
+            var properties = e.target.feature.properties;
+            if (!popupPanelVisible) {
+                showPopupPanel(properties);
+            } else {
+                updatePopupPanelContent(properties);
+            }
+        });
+    }
+
     function toggleLayer(layerName, geojsonURLs) {
         deactivateAllLayersKartor();
 
@@ -147,10 +186,15 @@ var Kartor_geojsonHandler = (function() {
 
     function deactivateLayer(layerName) {
         if (geojsonLayers[layerName]) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
-            });
-            geojsonLayers[layerName] = [];
+            if (Array.isArray(geojsonLayers[layerName])) {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer);
+                });
+                geojsonLayers[layerName] = [];
+            } else {
+                map.removeLayer(geojsonLayers[layerName]);
+                geojsonLayers[layerName] = null;
+            }
         }
     }
 
