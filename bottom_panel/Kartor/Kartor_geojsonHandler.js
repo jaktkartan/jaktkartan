@@ -49,6 +49,8 @@ var Kartor_geojsonHandler = (function() {
         }
     };
 
+    var currentWMSLayer = null;
+
     async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         for (const geojsonURL of geojsonURLs) {
             try {
@@ -114,12 +116,12 @@ var Kartor_geojsonHandler = (function() {
 
     function loadElgjaktsomradenWMS(add) {
         if (add) {
-            if (geojsonLayers['Älgjaktsområden']) {
+            if (currentWMSLayer) {
                 console.log('Layer is already added. No action taken.');
                 return;
             }
             console.log('Adding Älgjaktsområden layer.');
-            var wmsLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
+            currentWMSLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
                 layers: '2',
                 format: 'image/png',
                 transparent: true,
@@ -127,53 +129,53 @@ var Kartor_geojsonHandler = (function() {
                 opacity: 0.5
             }).addTo(map);
 
-            geojsonLayers['Älgjaktsområden'] = wmsLayer;
+            map.on('click', handleWMSClick);
 
-            map.on('click', function(e) {
-                var latlng = e.latlng;
-                var url = getFeatureInfoUrl(latlng, wmsLayer, map, {
-                    'info_format': 'text/xml',
-                    'propertyName': 'Områdesnamn,Områdesnummer'
-                });
-
-                console.log("GetFeatureInfo URL:", url);
-
-                fetch(url)
-                    .then(response => response.text())
-                    .then(data => {
-                        console.log("FeatureInfo data:", data);
-                        var parser = new DOMParser();
-                        var xmlDoc = parser.parseFromString(data, "application/xml");
-                        var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
-                        if (fields) {
-                            var properties = {};
-                            for (var i = 0; i < fields.attributes.length; i++) {
-                                var attr = fields.attributes[i];
-                                properties[attr.name] = attr.value;
-                            }
-                            if (!popupPanelVisible) {
-                                showPopupPanel(properties);
-                            } else {
-                                updatePopupPanelContent(properties);
-                            }
-                        } else {
-                            console.log("No features found.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error fetching feature info:", error);
-                    });
-            });
-
-            console.log("WMS layer added to map:", wmsLayer);
+            console.log("WMS layer added to map:", currentWMSLayer);
         } else {
-            if (geojsonLayers['Älgjaktsområden']) {
+            if (currentWMSLayer) {
                 console.log('Removing Älgjaktsområden layer.');
-                map.off('click');  // Remove the click listener
-                map.removeLayer(geojsonLayers['Älgjaktsområden']);
-                geojsonLayers['Älgjaktsområden'] = null;
+                map.off('click', handleWMSClick);
+                map.removeLayer(currentWMSLayer);
+                currentWMSLayer = null;
             }
         }
+    }
+
+    function handleWMSClick(e) {
+        var latlng = e.latlng;
+        var url = getFeatureInfoUrl(latlng, currentWMSLayer, map, {
+            'info_format': 'text/xml',
+            'propertyName': 'Områdesnamn,Områdesnummer'
+        });
+
+        console.log("GetFeatureInfo URL:", url);
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                console.log("FeatureInfo data:", data);
+                var parser = new DOMParser();
+                var xmlDoc = parser.parseFromString(data, "application/xml");
+                var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
+                if (fields) {
+                    var properties = {};
+                    for (var i = 0; i < fields.attributes.length; i++) {
+                        var attr = fields.attributes[i];
+                        properties[attr.name] = attr.value;
+                    }
+                    if (!popupPanelVisible) {
+                        showPopupPanel(properties);
+                    } else {
+                        updatePopupPanelContent(properties);
+                    }
+                } else {
+                    console.log("No features found.");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching feature info:", error);
+            });
     }
 
     function getFeatureInfoUrl(latlng, wmsLayer, map, params) {
