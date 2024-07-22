@@ -222,6 +222,7 @@ var Kartor_geojsonHandler = (function() {
             if (layerIsActive[layerName]) {
                 layerIsActive[layerName] = false;
                 deactivateLayer(layerName);
+                updateFAB(layerName, false); // Lägg till detta för att dölja FAB-knappen
             }
         });
     }
