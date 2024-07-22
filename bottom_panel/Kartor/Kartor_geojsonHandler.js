@@ -144,6 +144,8 @@ var Kartor_geojsonHandler = (function() {
     }
 
     function handleWmsLayerClick(e) {
+        if (!layerIsActive['Älgjaktsområden']) return; // Only handle click if the layer is active
+
         var latlng = e.latlng;
         var wmsLayer = geojsonLayers['Älgjaktsområden'];
         var url = getFeatureInfoUrl(
