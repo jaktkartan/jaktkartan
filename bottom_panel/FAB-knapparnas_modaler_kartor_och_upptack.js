@@ -106,4 +106,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Visa startmodalen när sidan initieras
     showModal('Startmodal');
+    
+    // Rensar geojson-lager från tab1 (upptäck) fliken och uppdaterar FAB-knappen
+    document.getElementById('tab2').addEventListener('click', function() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            Upptack_geojsonHandler.deactivateAllLayers();
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
+        }
+    });
+    
+    // Aktivera alla lager igen när man återvänder till fliken "Upptäck"
+    document.getElementById('tab1').addEventListener('click', function() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            Upptack_geojsonHandler.activateAllLayers();
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
+        }
+    });
 });
