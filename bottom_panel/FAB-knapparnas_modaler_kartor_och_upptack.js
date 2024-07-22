@@ -48,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return 'modal-fagel';
             case 'Älgjaktskartan':
                 return 'modal-alg';
+            case 'Älgjaktsområden':
+                return 'modal-alg-omraden'; // För startmodalen
             case 'Upptäck':
                 return 'modal-upptack'; // För Upptäck-lagret
             case 'Startmodal':
@@ -66,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return 'bottom_panel/Kartor/modal-fagel.html';
             case 'Älgjaktskartan':
                 return 'bottom_panel/Kartor/modal-alg.html';
+            case 'Älgjaktsområden':
+                return 'bottom_panel/Kartor/modal-alg-omraden';
             case 'Upptäck':
                 return 'bottom_panel/Upptack/modal-upptack.html';
             case 'Startmodal':
@@ -85,6 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('fab-alg')?.addEventListener('click', function() {
         showModal('Älgjaktskartan');
     });
+    document.getElementById('fab-alg-omraden')?.addEventListener('click', function() {
+        showModal('Älgjaktsområden');
+    });
     document.getElementById('fab-upptack')?.addEventListener('click', function() {
         showModal('Upptäck');
     });
@@ -92,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Lägg till klickhändelse för att stänga modal när man klickar utanför modalen
     window.addEventListener('click', function(event) {
         if (event.target.classList.contains('modal')) {
-            const modals = ['modal-daggdjur', 'modal-fagel', 'modal-alg', 'modal-upptack', 'modal-startruta'];
+            const modals = ['modal-daggdjur', 'modal-fagel', 'modal-alg', 'modal-upptack', 'modal-startruta', 'modal-alg-omraden'];
             modals.forEach(id => closeModal(id));
         }
     });
