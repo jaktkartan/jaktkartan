@@ -50,6 +50,7 @@ var Kartor_geojsonHandler = (function() {
     };
 
     var currentWMSLayer = null;
+    var wmsClickHandler = null;
 
     async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         for (const geojsonURL of geojsonURLs) {
@@ -129,15 +130,19 @@ var Kartor_geojsonHandler = (function() {
                 opacity: 0.5
             }).addTo(map);
 
-            map.on('click', handleWMSClick);
+            wmsClickHandler = function(e) {
+                handleWMSClick(e);
+            };
+            map.on('click', wmsClickHandler);
 
             console.log("WMS layer added to map:", currentWMSLayer);
         } else {
             if (currentWMSLayer) {
                 console.log('Removing Älgjaktsområden layer.');
-                map.off('click', handleWMSClick);
+                map.off('click', wmsClickHandler);
                 map.removeLayer(currentWMSLayer);
                 currentWMSLayer = null;
+                wmsClickHandler = null;
             }
         }
     }
