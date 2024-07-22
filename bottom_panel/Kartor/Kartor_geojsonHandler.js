@@ -118,7 +118,8 @@ var Kartor_geojsonHandler = (function() {
                 layers: '2',
                 format: 'image/png',
                 transparent: true,
-                attribution: 'Länsstyrelsen'
+                attribution: 'Länsstyrelsen',
+                opacity: 0.5 // Sätt opacitet här
             }).addTo(map);
 
             geojsonLayers['Älgjaktsområden'] = wmsLayer;
