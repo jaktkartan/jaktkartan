@@ -1,11 +1,17 @@
 // bottom_panel/Kartor/kartor_flikbeteende.js
 function openKartor() {
+    // Dölj andra flikar
+    document.getElementById('tab1').style.display = 'none';
+
     // Hitta tab-pane för kartor
     const tabPane = document.getElementById('tab2');
     if (!tabPane) {
         console.error('Tab pane for kartor not found.');
         return;
     }
+
+    // Visa tab2
+    tabPane.style.display = 'flex';
 
     // Rensa tidigare innehåll
     tabPane.innerHTML = '';
