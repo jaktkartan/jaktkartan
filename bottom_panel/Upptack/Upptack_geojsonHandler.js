@@ -77,7 +77,6 @@ setTimeout(function() {
                     console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                 }
             }
-            updateFAB(layerName, true);
             updateFABVisibility();
         }
 
@@ -121,7 +120,6 @@ setTimeout(function() {
                 geojsonLayers[layerName] = [];
             }
             layerIsActive[layerName] = false;
-            updateFAB(layerName, false);
             updateFABVisibility();
         }
 
@@ -192,10 +190,6 @@ setTimeout(function() {
 
         function getFallbackStyle(layerName) {
             return layerStyles[layerName].fallbackStyle;
-        }
-
-        function updateFAB(layerName, show) {
-            // Denna funktion är nu tom
         }
 
         function updateFABVisibility() {
