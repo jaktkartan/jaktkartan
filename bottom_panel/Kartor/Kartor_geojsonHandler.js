@@ -237,7 +237,7 @@ var Kartor_geojsonHandler = (function() {
             width: size.x,
             layers: wmsLayer.wmsParams.layers,
             query_layers: wmsLayer.wmsParams.layers,
-            info_format: infoParams.info_format || 'application/json'
+            info_format: infoParams.info_format || 'text/xml'
         };
         params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
         params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
