@@ -45,7 +45,7 @@ body, button, span, div {
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
     overflow: hidden;
-    height: 5vh; /* Maxhöjd för knapparna */
+    height: 9vh; /* Maxhöjd för knapparna */
     flex: 1; /* Gör att knapparna växer och krymper jämnt */
     background-color: rgb(240, 240, 240);
     color: rgb(50, 94, 88);
@@ -209,4 +209,3 @@ html, body {
     font-size: 18px;
     color: rgb(50, 94, 88);
 }
-
