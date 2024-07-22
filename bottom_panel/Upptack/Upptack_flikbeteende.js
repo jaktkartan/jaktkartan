@@ -26,7 +26,11 @@ function openUpptack() {
     showAllButton.onclick = function() {
         if (typeof Upptack_geojsonHandler !== 'undefined') {
             console.log('Activating all layers');
-            Upptack_geojsonHandler.toggleLayer('Visa_allt');
+            for (const layerName in layerURLs) {
+                if (layerURLs.hasOwnProperty(layerName)) {
+                    Upptack_geojsonHandler.toggleLayer(layerName, layerURLs[layerName]);
+                }
+            }
         } else {
             console.error("Upptack_geojsonHandler är inte definierad.");
         }
