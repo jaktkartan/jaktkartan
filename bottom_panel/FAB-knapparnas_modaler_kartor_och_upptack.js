@@ -49,11 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'Älgjaktskartan':
                 return 'modal-alg';
             case 'Älgjaktsområden':
-                return 'modal-alg-omraden'; // För startmodalen
+                return 'modal-alg-omraden';
             case 'Upptäck':
-                return 'modal-upptack'; // För Upptäck-lagret
+                return 'modal-upptack';
             case 'Startmodal':
-                return 'modal-startruta'; // För startmodalen
+                return 'modal-startruta';
             default:
                 return ''; // Om inget matchar
         }
@@ -69,32 +69,51 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'Älgjaktskartan':
                 return 'bottom_panel/Kartor/modal-alg.html';
             case 'Älgjaktsområden':
-                return 'bottom_panel/Kartor/modal-alg-omraden';
+                return 'bottom_panel/Kartor/modal-alg-omraden.html';
             case 'Upptäck':
                 return 'bottom_panel/Upptack/modal-upptack.html';
             case 'Startmodal':
-                return 'modal-startruta.html'; // Sökväg till startmodalen
+                return 'modal-startruta.html';
             default:
                 return ''; // Om inget matchar
         }
     }
 
     // Lägg till klickhändelser för att visa modaler
-    document.getElementById('fab-daggdjur')?.addEventListener('click', function() {
-        showModal('Allmän jakt: Däggdjur');
-    });
-    document.getElementById('fab-fagel')?.addEventListener('click', function() {
-        showModal('Allmän jakt: Fågel');
-    });
-    document.getElementById('fab-alg')?.addEventListener('click', function() {
-        showModal('Älgjaktskartan');
-    });
-    document.getElementById('fab-alg-omraden')?.addEventListener('click', function() {
-        showModal('Älgjaktsområden');
-    });
-    document.getElementById('fab-upptack')?.addEventListener('click', function() {
-        showModal('Upptäck');
-    });
+    var fabDaggdjur = document.getElementById('fab-daggdjur');
+    if (fabDaggdjur) {
+        fabDaggdjur.addEventListener('click', function() {
+            showModal('Allmän jakt: Däggdjur');
+        });
+    }
+
+    var fabFagel = document.getElementById('fab-fagel');
+    if (fabFagel) {
+        fabFagel.addEventListener('click', function() {
+            showModal('Allmän jakt: Fågel');
+        });
+    }
+
+    var fabAlg = document.getElementById('fab-alg');
+    if (fabAlg) {
+        fabAlg.addEventListener('click', function() {
+            showModal('Älgjaktskartan');
+        });
+    }
+
+    var fabAlgOmraden = document.getElementById('fab-alg-omraden');
+    if (fabAlgOmraden) {
+        fabAlgOmraden.addEventListener('click', function() {
+            showModal('Älgjaktsområden');
+        });
+    }
+
+    var fabUpptack = document.getElementById('fab-upptack');
+    if (fabUpptack) {
+        fabUpptack.addEventListener('click', function() {
+            showModal('Upptäck');
+        });
+    }
 
     // Lägg till klickhändelse för att stänga modal när man klickar utanför modalen
     window.addEventListener('click', function(event) {
