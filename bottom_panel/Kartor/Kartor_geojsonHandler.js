@@ -136,6 +136,7 @@ var Kartor_geojsonHandler = (function() {
             map.on('click', wmsClickHandler);
 
             console.log("WMS layer added to map:", currentWMSLayer);
+            updateFAB('Älgjaktsområden', true); // Lägg till detta för att säkerställa att FAB-knappen visas
         } else {
             if (currentWMSLayer) {
                 console.log('Removing Älgjaktsområden layer.');
@@ -222,7 +223,6 @@ var Kartor_geojsonHandler = (function() {
             if (layerIsActive[layerName]) {
                 layerIsActive[layerName] = false;
                 deactivateLayer(layerName);
-                updateFAB(layerName, false); // Lägg till detta för att dölja FAB-knappen
             }
         });
     }
