@@ -254,3 +254,4 @@ var Kartor_geojsonHandler = (function() {
         loadElgjaktsomradenWMS: loadElgjaktsomradenWMS
     };
 })();
+
