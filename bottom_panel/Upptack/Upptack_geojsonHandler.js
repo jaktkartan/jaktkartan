@@ -205,17 +205,33 @@ setTimeout(function() {
             }
         }
 
-        document.getElementById('fab-massor').addEventListener('click', function() {
-            toggleLayer('Mässor', layerURLs['Mässor']);
-        });
+        const fabMassor = document.getElementById('fab-massor');
+        const fabJaktkort = document.getElementById('fab-jaktkort');
+        const fabJaktskyttebanor = document.getElementById('fab-jaktskyttebanor');
 
-        document.getElementById('fab-jaktkort').addEventListener('click', function() {
-            toggleLayer('Jaktkort', layerURLs['Jaktkort']);
-        });
+        if (fabMassor) {
+            fabMassor.addEventListener('click', function() {
+                toggleLayer('Mässor', layerURLs['Mässor']);
+            });
+        } else {
+            console.error("fab-massor element not found.");
+        }
 
-        document.getElementById('fab-jaktskyttebanor').addEventListener('click', function() {
-            toggleLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
-        });
+        if (fabJaktkort) {
+            fabJaktkort.addEventListener('click', function() {
+                toggleLayer('Jaktkort', layerURLs['Jaktkort']);
+            });
+        } else {
+            console.error("fab-jaktkort element not found.");
+        }
+
+        if (fabJaktskyttebanor) {
+            fabJaktskyttebanor.addEventListener('click', function() {
+                toggleLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+            });
+        } else {
+            console.error("fab-jaktskyttebanor element not found.");
+        }
 
         return {
             toggleLayer: toggleLayer,
