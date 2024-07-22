@@ -238,6 +238,15 @@ var Kartor_geojsonHandler = (function() {
                 geojsonLayers[layerName] = null;
             }
         }
+
+        // Specifically handle WMS layer deactivation
+        if (layerName === 'Älgjaktsområden' && currentWMSLayer) {
+            console.log('Specifically removing Älgjaktsområden layer.');
+            map.off('click', wmsClickHandler);
+            map.removeLayer(currentWMSLayer);
+            currentWMSLayer = null;
+            wmsClickHandler = null;
+        }
     }
 
     function updateFAB(layerName, show) {
