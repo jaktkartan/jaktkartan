@@ -1,11 +1,12 @@
-/* Anpassad CSS för FAB knappar och Moddal, alltså rutan som kommer upp när man trycker på fab-knappen. */
+/* Anpassad CSS för FAB knappar och Modal, alltså rutan som kommer upp när man trycker på fab-knappen. */
 .fab {
     position: fixed;
     bottom: 100px;
     right: 20px;
-    width: 60px;
+    min-width: 60px; /* Standardbredd för knappen */
     height: 60px;
-    border-radius: 50%;
+    padding: 0 16px; /* Lägg till horisontellt padding för att rymma längre text */
+    border-radius: 30px; /* Gör knappen oval */
     background-color: rgb(50, 94, 88);
     color: white;
     font-size: 12px;
@@ -13,6 +14,12 @@
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     z-index: 1000; /* Se till att FAB är över andra element */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap; /* Förhindra att texten bryts */
+    overflow: hidden;
+    transition: all 0.3s ease; /* Lägg till en övergång för smidigare förändring */
 }
 
 .fab:hover {
@@ -68,7 +75,6 @@
         width: 40%; /* Ännu mindre bredd på modalen för ännu större skärmar */
     }
 }
-
 
 /* CSS för att stänga knappen */
 .close {
