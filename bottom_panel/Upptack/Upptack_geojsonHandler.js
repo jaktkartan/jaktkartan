@@ -236,7 +236,8 @@ setTimeout(function() {
 
         return {
             toggleLayer: toggleLayer,
-            deactivateAllLayers: deactivateAllLayers
+            deactivateAllLayers: deactivateAllLayers,
+            activateAllLayers: activateAllLayers // Lägg till denna rad för att exportera funktionen
         };
     })(map);
 }, 1000);
