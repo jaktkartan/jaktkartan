@@ -85,7 +85,6 @@ setTimeout(function() {
                 return;
             }
 
-            deactivateAllLayers();
             layerIsActive[layerName] = true;
 
             if (geojsonURLs) {
@@ -95,17 +94,17 @@ setTimeout(function() {
 
         function deactivateAllLayers() {
             Object.keys(layerIsActive).forEach(function(layerName) {
-                if (layerIsActive[layerName]) {
-                    deactivateLayer(layerName);
-                }
+                deactivateLayer(layerName);
             });
         }
 
         function deactivateLayer(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
-            });
-            geojsonLayers[layerName] = [];
+            if (geojsonLayers[layerName]) {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer);
+                });
+                geojsonLayers[layerName] = [];
+            }
             layerIsActive[layerName] = false;
             updateFAB(layerName, false);
         }
