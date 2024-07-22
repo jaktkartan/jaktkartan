@@ -81,15 +81,7 @@ var Kartor_geojsonHandler = (function() {
     function addClickHandlerToLayer(layer) {
         layer.on('click', function(e) {
             var properties = e.target.feature.properties;
-            var popupContent = "<table>";
-            for (var key in properties) {
-                popupContent += "<tr><th>" + key + "</th><td>" + properties[key] + "</td></tr>";
-            }
-            popupContent += "</table>";
-            L.popup()
-                .setLatLng(e.latlng)
-                .setContent(popupContent)
-                .openOn(map);
+            showPopupPanel(properties);
         });
     }
 
@@ -168,16 +160,12 @@ var Kartor_geojsonHandler = (function() {
                 var xmlDoc = parser.parseFromString(data, "application/xml");
                 var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
                 if (fields) {
-                    var popupContent = "<table>";
+                    var properties = {};
                     for (var i = 0; i < fields.attributes.length; i++) {
                         var attr = fields.attributes[i];
-                        popupContent += "<tr><th>" + attr.name + "</th><td>" + attr.value + "</td></tr>";
+                        properties[attr.name] = attr.value;
                     }
-                    popupContent += "</table>";
-                    L.popup()
-                        .setLatLng(latlng)
-                        .setContent(popupContent)
-                        .openOn(map);
+                    showPopupPanel(properties);
                 } else {
                     console.log("No features found.");
                 }
