@@ -113,23 +113,23 @@ var Kartor_geojsonHandler = (function() {
     }
 
     function toggleLayer(layerName, geojsonURLs) {
+        // Check if the layer is already active
+        if (layerIsActive[layerName]) {
+            // If active, deactivate it
+            layerIsActive[layerName] = false;
+            deactivateLayer(layerName);
+            return; // Exit the function
+        }
+
+        // If not active, proceed with deactivating all layers and activating the selected one
         deactivateAllLayersKartor();
 
-        if (!layerIsActive[layerName]) {
-            layerIsActive[layerName] = true;
+        layerIsActive[layerName] = true;
 
-            if (geojsonURLs) {
-                fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
-            } else if (layerName === 'Älgjaktsområden') {
-                loadElgjaktsomradenWMS(true);
-            }
-        } else {
-            layerIsActive[layerName] = false;
-            if (layerName === 'Älgjaktsområden') {
-                loadElgjaktsomradenWMS(false);
-            } else {
-                deactivateLayer(layerName);
-            }
+        if (geojsonURLs) {
+            fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+        } else if (layerName === 'Älgjaktsområden') {
+            loadElgjaktsomradenWMS(true);
         }
     }
 
