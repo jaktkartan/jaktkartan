@@ -136,6 +136,3 @@ function openUpptack() {
     // Lägg till knapp-container till tab-pane
     tabPane.appendChild(container);
 }
-
-// Anropa openUpptack-funktionen för att generera innehållet
-openUpptack();
