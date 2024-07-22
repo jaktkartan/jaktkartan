@@ -23,6 +23,8 @@ function openUpptack() {
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'button-container';
     buttonContainer.style.display = 'flex';
+    buttonContainer.style.flexWrap = 'wrap'; // För att säkerställa att alla knappar visas på samma rad
+    buttonContainer.style.gap = '10px'; // Mellanrum mellan knapparna
 
     // Definiera knapparna med deras respektive egenskaper
     const buttons = [
@@ -67,6 +69,28 @@ function openUpptack() {
             },
             imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
             imgAlt: 'Jaktskyttebanor'
+        },
+        {
+            className: 'styled-button',
+            onclick: function() {
+                if (typeof Upptack_geojsonHandler !== 'undefined') {
+                    Upptack_geojsonHandler.toggleLayer('Visa_allt');
+                } else {
+                    console.error("Upptack_geojsonHandler är inte definierad.");
+                }
+            },
+            textContent: 'Visa allt'
+        },
+        {
+            className: 'styled-button',
+            onclick: function() {
+                if (typeof Upptack_geojsonHandler !== 'undefined') {
+                    Upptack_geojsonHandler.toggleLayer('Rensa_allt');
+                } else {
+                    console.error("Upptack_geojsonHandler är inte definierad.");
+                }
+            },
+            textContent: 'Rensa allt'
         }
     ];
 
@@ -76,11 +100,15 @@ function openUpptack() {
         btn.className = button.className;
         btn.onclick = button.onclick;
 
-        const img = document.createElement('img');
-        img.src = button.imgSrc;
-        img.alt = button.imgAlt;
+        if (button.imgSrc) {
+            const img = document.createElement('img');
+            img.src = button.imgSrc;
+            img.alt = button.imgAlt;
+            btn.appendChild(img);
+        } else if (button.textContent) {
+            btn.textContent = button.textContent;
+        }
 
-        btn.appendChild(img);
         buttonContainer.appendChild(btn);
     });
 
@@ -110,3 +138,6 @@ function openUpptack() {
     // Lägg till containern i tab-pane
     tabPane.appendChild(container);
 }
+
+// Anropa openUpptack-funktionen för att generera innehållet
+openUpptack();
