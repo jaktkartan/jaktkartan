@@ -13,7 +13,7 @@ var Kartor_geojsonHandler = (function() {
         'Älgjaktsområden': null
     };
 
-     var layerStyles = {
+    var layerStyles = {
         'Allmän jakt: Däggdjur': {
             'Rvjaktilvdalenskommun_1.geojson': { fillColor: 'orange', color: 'rgb(50, 94, 88)', weight: 2, dashArray: '5, 10', fillOpacity: 0.001 },
             'Allman_jakt_daggdjur_2.geojson': { fillColor: 'blue', color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.001 }
@@ -48,6 +48,7 @@ var Kartor_geojsonHandler = (function() {
             'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 7, dashArray: '5, 10' }
         }
     };
+
     async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         for (const geojsonURL of geojsonURLs) {
             try {
@@ -78,6 +79,9 @@ var Kartor_geojsonHandler = (function() {
 
     function addClickHandlerToLayer(layer) {
         layer.on('click', function(e) {
+            if (e.originalEvent) {
+                e.originalEvent.stopPropagation();
+            }
             var properties = e.target.feature.properties;
             if (!popupPanelVisible) {
                 showPopupPanel(properties);
