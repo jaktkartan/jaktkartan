@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-/* Anpassad CSS för att ändra zoomkontrollernas position. */
-.leaflet-top.leaflet-left {
-    top: 80px !important;
-    left: 10px !important;
-}
-
 body, button, span, div {
     font-family: 'Roboto', sans-serif !important;
 }
@@ -32,7 +26,7 @@ body, button, span, div {
 /* funktion för elementet som håller knapparna när man tryckt på upptäck eller kartor */
 .button-container {
     display: flex;
-    justify-content: space-around; /* Fördela knapparna jämnt */
+    justify-content: center; /* Centrera knapparna horisontellt */
     align-items: center; /* Centrera knapparna vertikalt */
     flex-wrap: nowrap; /* Knapparna ska inte brytas till nästa rad */
     gap: 10px; /* Justera mellanrum mellan knappar */
@@ -47,21 +41,22 @@ body, button, span, div {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 12px 16px;
+    margin: 5px;
     border: 1px solid rgb(50, 94, 88);
     border-radius: 5px;
-    overflow: hidden;
-    aspect-ratio: 1 / 1; /* Håller knappen kvadratisk */
-    max-height: calc(100% - 10px); /* Begränsa maximal höjd */
-    flex: 1; /* Gör att knapparna växer och krymper jämnt */
+    background-color: rgb(240, 240, 240);
+    color: rgb(50, 94, 88);
+    cursor: pointer;
+    outline: none;
+    z-index: 999;
 }
 
 .styled-button img {
-    width: auto;
-    height: 100%;
-    object-fit: contain; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
 }
-
-
 
 html, body {
     margin: 0;
