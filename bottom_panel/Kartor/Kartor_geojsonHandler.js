@@ -136,6 +136,7 @@ var Kartor_geojsonHandler = (function() {
             map.on('click', wmsClickHandler);
 
             console.log("WMS layer added to map:", currentWMSLayer);
+            updateFAB('Älgjaktsområden', true);
         } else {
             if (currentWMSLayer) {
                 console.log('Removing Älgjaktsområden layer.');
@@ -143,6 +144,7 @@ var Kartor_geojsonHandler = (function() {
                 map.removeLayer(currentWMSLayer);
                 currentWMSLayer = null;
                 wmsClickHandler = null;
+                updateFAB('Älgjaktsområden', false);
             }
         }
     }
@@ -246,6 +248,7 @@ var Kartor_geojsonHandler = (function() {
             map.removeLayer(currentWMSLayer);
             currentWMSLayer = null;
             wmsClickHandler = null;
+            updateFAB('Älgjaktsområden', false);
         }
     }
 
