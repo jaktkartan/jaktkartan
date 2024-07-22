@@ -9,9 +9,9 @@ setTimeout(function() {
 
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': true,
-            'Jaktkort': true,
-            'Jaktskyttebanor': true
+            'Mässor': false,
+            'Jaktkort': false,
+            'Jaktskyttebanor': false
         };
 
         var geojsonLayers = {
@@ -72,6 +72,8 @@ setTimeout(function() {
                         if (layerIsActive[layerName]) {
                             layer.addTo(map);
                         }
+
+                        updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager skapas
                     })
                     .catch(function(error) {
                         console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
@@ -85,10 +87,14 @@ setTimeout(function() {
             } else if (layerName === 'Rensa_allt') {
                 deactivateAllLayers();
             } else {
-                deactivateAllLayers();
-                activateLayer(layerName);
+                if (layerIsActive[layerName]) {
+                    deactivateLayer(layerName);
+                } else {
+                    deactivateAllLayers();
+                    activateLayer(layerName);
+                }
             }
-            updateFabUpptackVisibility();
+            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager togglas
         }
 
         function activateLayer(layerName) {
@@ -96,12 +102,22 @@ setTimeout(function() {
                 layer.addTo(map);
             });
             layerIsActive[layerName] = true;
+            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager aktiveras
+        }
+
+        function deactivateLayer(layerName) {
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer);
+            });
+            layerIsActive[layerName] = false;
+            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager avaktiveras
         }
 
         function activateAllLayers() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 activateLayer(layerName);
             });
+            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när alla lager aktiveras
         }
 
         function deactivateAllLayers() {
@@ -113,7 +129,7 @@ setTimeout(function() {
                     layerIsActive[name] = false;
                 }
             });
-            updateFabUpptackVisibility();
+            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när alla lager avaktiveras
         }
 
         function generatePopupContent(feature, layerName) {
