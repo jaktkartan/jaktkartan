@@ -185,52 +185,22 @@ setTimeout(function() {
                 button.style.display = 'none';
             });
 
-            var fabId = getFABId(layerName);
-            var fabButton = document.getElementById(fabId);
+            var fabButton = document.getElementById('fab-upptack');
             if (fabButton) {
                 fabButton.style.display = show ? 'block' : 'none';
             }
         }
 
-        function getFABId(layerName) {
-            switch(layerName) {
-                case 'Mässor':
-                    return 'fab-massor';
-                case 'Jaktkort':
-                    return 'fab-jaktkort';
-                case 'Jaktskyttebanor':
-                    return 'fab-jaktskyttebanor';
-                default:
-                    return '';
-            }
-        }
+        const fabUpptack = document.getElementById('fab-upptack');
 
-        const fabMassor = document.getElementById('fab-massor');
-        const fabJaktkort = document.getElementById('fab-jaktkort');
-        const fabJaktskyttebanor = document.getElementById('fab-jaktskyttebanor');
-
-        if (fabMassor) {
-            fabMassor.addEventListener('click', function() {
+        if (fabUpptack) {
+            fabUpptack.addEventListener('click', function() {
                 toggleLayer('Mässor', layerURLs['Mässor']);
-            });
-        } else {
-            console.error("fab-massor element not found.");
-        }
-
-        if (fabJaktkort) {
-            fabJaktkort.addEventListener('click', function() {
                 toggleLayer('Jaktkort', layerURLs['Jaktkort']);
-            });
-        } else {
-            console.error("fab-jaktkort element not found.");
-        }
-
-        if (fabJaktskyttebanor) {
-            fabJaktskyttebanor.addEventListener('click', function() {
                 toggleLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
             });
         } else {
-            console.error("fab-jaktskyttebanor element not found.");
+            console.error("fab-upptack element not found.");
         }
 
         return {
