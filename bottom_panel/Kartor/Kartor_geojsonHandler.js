@@ -313,7 +313,8 @@ var Kartor_geojsonHandler = (function() {
 
     return {
         toggleLayer: toggleLayer,
-        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS
+        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS,
+        deactivateAllLayersKartor: deactivateAllLayersKartor // Lägg till denna rad för att exportera funktionen
     };
 })();
 
