@@ -1,4 +1,3 @@
-// CSS för popup-panelen.
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -146,7 +145,11 @@ function addClickHandlerToLayer(layer) {
                 var properties = e.target.feature.properties;
                 console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
 
-                showPopupPanel(properties);
+                if (!popupPanelVisible) {
+                    showPopupPanel(properties);
+                } else {
+                    updatePopupPanelContent(properties);
+                }
             } else {
                 console.error('Ingen geojson-information hittades i klickhändelsen.');
             }
