@@ -1,11 +1,16 @@
-// bottom_panel/Upptack/Upptack_flikbeteende.js
 function openUpptack() {
+    // Dölj andra flikar
+    document.getElementById('tab2').style.display = 'none';
+
     // Hitta tab-pane för upptäck
     const tabPane = document.getElementById('tab1');
     if (!tabPane) {
         console.error('Tab pane for upptäck not found.');
         return;
     }
+
+    // Visa tab1
+    tabPane.style.display = 'flex';
 
     // Rensa tidigare innehåll
     tabPane.innerHTML = '';
