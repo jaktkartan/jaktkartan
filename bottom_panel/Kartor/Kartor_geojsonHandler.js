@@ -248,7 +248,6 @@ var Kartor_geojsonHandler = (function() {
             map.removeLayer(currentWMSLayer);
             currentWMSLayer = null;
             wmsClickHandler = null;
-            updateFAB('Älgjaktsområden', false); // Hide FAB button for Älgjaktsområden
         }
     }
 
