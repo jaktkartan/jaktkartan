@@ -28,7 +28,7 @@ function openUpptack() {
             console.log('Activating all layers');
             for (const layerName in layerURLs) {
                 if (layerURLs.hasOwnProperty(layerName)) {
-                    Upptack_geojsonHandler.toggleLayer(layerName, layerURLs[layerName]);
+                    Upptack_geojsonHandler.activateLayer(layerName, layerURLs[layerName]);
                 }
             }
         } else {
@@ -58,9 +58,7 @@ function openUpptack() {
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Activating Mässor layer');
-                        Upptack_geojsonHandler.toggleLayer('Mässor', [
-                            'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/Massor.geojson'
-                        ]);
+                        Upptack_geojsonHandler.toggleLayer('Mässor', layerURLs['Mässor']);
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
@@ -74,9 +72,7 @@ function openUpptack() {
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Activating Jaktkort layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktkort', [
-                            'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktkort.geojson'
-                        ]);
+                        Upptack_geojsonHandler.toggleLayer('Jaktkort', layerURLs['Jaktkort']);
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
@@ -90,9 +86,7 @@ function openUpptack() {
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Activating Jaktskyttebanor layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', [
-                            'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson'
-                        ]);
+                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
