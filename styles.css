@@ -33,7 +33,7 @@ body, button, span, div {
     gap: 10px; /* Justera mellanrum mellan knappar */
     padding: 0px; /* Justera paddingen efter behov */
     width: 100%;
-    height: 100%; /* Låt höjden justeras automatiskt för att fylla föräldern */
+    height: 11vh; /* Låt höjden justeras automatiskt för att fylla föräldern */
     overflow: hidden;
     max-height: 100vh; /* Maxhöjd på container */
 }
