@@ -1,3 +1,4 @@
+/* Anpassad CSS för FAB knappar och Moddal, alltså rutan som kommer upp när man trycker på fab-knappen. */
 .fab {
     position: fixed;
     bottom: 100px;
