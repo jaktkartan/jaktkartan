@@ -116,10 +116,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Aktivera alla lager igen när man återvänder till fliken "Upptäck"
+    // Aktivera specifika lager igen när man återvänder till fliken "Upptäck"
     document.getElementById('tab1').addEventListener('click', function() {
         if (typeof Upptack_geojsonHandler !== 'undefined') {
-            Upptack_geojsonHandler.activateAllLayers();
+            // Här kan du anropa toggleLayer eller activateLayer beroende på vad användaren har valt tidigare
+            // Exempel:
+            Upptack_geojsonHandler.activateLayer('Mässor'); // Aktivera 'Mässor' som ett exempel, justera efter behov
+            Upptack_geojsonHandler.activateLayer('Jaktkort'); // Aktivera 'Jaktkort' som ett exempel, justera efter behov
+            Upptack_geojsonHandler.activateLayer('Jaktskyttebanor'); // Aktivera 'Jaktskyttebanor' som ett exempel, justera efter behov
         } else {
             console.error("Upptack_geojsonHandler är inte definierad.");
         }
