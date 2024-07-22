@@ -250,6 +250,15 @@ var Kartor_geojsonHandler = (function() {
                 deactivateLayer(layerName);
             }
         });
+
+        hideAllFABs(); // Lägg till detta för att dölja alla FAB-knappar
+    }
+
+    function hideAllFABs() {
+        var fabButtons = document.querySelectorAll('.fab');
+        fabButtons.forEach(function(button) {
+            button.style.display = 'none';
+        });
     }
 
     function deactivateLayer(layerName) {
