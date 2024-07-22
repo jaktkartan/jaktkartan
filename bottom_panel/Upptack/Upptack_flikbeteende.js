@@ -103,7 +103,7 @@ function openUpptack() {
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Clearing all layers');
-                        Upptack_geojsonHandler.toggleLayer('Rensa_allt');
+                        Upptack_geojsonHandler.deactivateAllLayers();
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
