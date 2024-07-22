@@ -130,7 +130,7 @@ html, body {
     width: 100%;
     display: flex; /* Lägg till flexbox layout här också */
     flex-direction: column; /* Säkerställ att barnen ordnas i kolumner */
-    padding: 1px;
+    padding: 0px;
     justify-content: flex-end; /* Placera innehållet längst ner */
 }
 
