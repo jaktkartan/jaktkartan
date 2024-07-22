@@ -248,7 +248,6 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    // Hjälpfunktion för att få FAB-knappens ID baserat på lagrets namn
     function getFABId(layerName) {
         switch(layerName) {
             case 'Allmän jakt: Däggdjur':
@@ -257,6 +256,8 @@ var Kartor_geojsonHandler = (function() {
                 return 'fab-fagel';
             case 'Älgjaktskartan':
                 return 'fab-alg';
+            case 'Älgjaktsområden':
+                return 'fab-alg-omraden';
             default:
                 return '';
         }
