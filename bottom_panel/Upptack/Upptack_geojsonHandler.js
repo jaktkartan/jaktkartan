@@ -9,9 +9,9 @@ setTimeout(function() {
 
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': true,
-            'Jaktkort': true,
-            'Jaktskyttebanor': true
+            'Mässor': false,
+            'Jaktkort': false,
+            'Jaktskyttebanor': false
         };
 
         var geojsonLayers = {
@@ -47,99 +47,75 @@ setTimeout(function() {
             }
         };
 
-        function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-            geojsonURLs.forEach(function(geojsonURL) {
-                axios.get(geojsonURL)
-                    .then(function(response) {
-                        var geojson = response.data;
+        async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+            for (const geojsonURL of geojsonURLs) {
+                try {
+                    const response = await axios.get(geojsonURL);
+                    const geojson = response.data;
 
-                        var layer = L.geoJSON(geojson, {
-                            pointToLayer: function(feature, latlng) {
-                                var style = getMarkerStyle(layerName);
-                                return L.marker(latlng, { icon: style.icon });
-                            },
-                            style: function(feature) {
-                                return getFallbackStyle(layerName);
-                            },
-                            onEachFeature: function(feature, layer) {
-                                var popupContent = generatePopupContent(feature, layerName);
-                                layer.bindPopup(popupContent);
-                            }
-                        });
-
-                        geojsonLayers[layerName].push(layer);
-
-                        if (layerIsActive[layerName]) {
-                            layer.addTo(map);
+                    const layer = L.geoJSON(geojson, {
+                        pointToLayer: function(feature, latlng) {
+                            var style = getMarkerStyle(layerName);
+                            return L.marker(latlng, { icon: style.icon });
+                        },
+                        style: function(feature) {
+                            return getFallbackStyle(layerName);
+                        },
+                        onEachFeature: function(feature, layer) {
+                            var popupContent = generatePopupContent(feature, layerName);
+                            layer.bindPopup(popupContent);
                         }
-
-                        updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager skapas
-                    })
-                    .catch(function(error) {
-                        console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                     });
-            });
-        }
 
-        function toggleLayer(layerName) {
-            if (layerName === 'Visa_allt') {
-                activateAllLayers();
-            } else if (layerName === 'Rensa_allt') {
-                deactivateAllLayers();
-            } else {
-                if (layerIsActive[layerName]) {
-                    deactivateLayer(layerName);
-                } else {
-                    deactivateAllLayers();
-                    activateLayer(layerName);
+                    geojsonLayers[layerName].push(layer);
+
+                    if (layerIsActive[layerName]) {
+                        layer.addTo(map);
+                    }
+                } catch (error) {
+                    console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                 }
             }
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager togglas
+            updateFAB(layerName, true);
         }
 
-        function activateLayer(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                layer.addTo(map);
-            });
+        function toggleLayer(layerName, geojsonURLs) {
+            if (layerIsActive[layerName]) {
+                deactivateLayer(layerName);
+                return;
+            }
+
+            deactivateAllLayers();
             layerIsActive[layerName] = true;
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager aktiveras
+
+            if (geojsonURLs) {
+                fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
+            }
+        }
+
+        function deactivateAllLayers() {
+            Object.keys(layerIsActive).forEach(function(layerName) {
+                if (layerIsActive[layerName]) {
+                    deactivateLayer(layerName);
+                }
+            });
         }
 
         function deactivateLayer(layerName) {
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
+            geojsonLayers[layerName] = [];
             layerIsActive[layerName] = false;
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager avaktiveras
-        }
-
-        function activateAllLayers() {
-            Object.keys(geojsonLayers).forEach(function(layerName) {
-                activateLayer(layerName);
-            });
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när alla lager aktiveras
-        }
-
-        function deactivateAllLayers() {
-            Object.keys(layerIsActive).forEach(function(name) {
-                if (layerIsActive[name]) {
-                    geojsonLayers[name].forEach(function(layer) {
-                        map.removeLayer(layer);
-                    });
-                    layerIsActive[name] = false;
-                }
-            });
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när alla lager avaktiveras
+            updateFAB(layerName, false);
         }
 
         function generatePopupContent(feature, layerName) {
             var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-
             var fields = {
                 'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
                 'Jaktkort': ['Rubrik', 'Info', 'Link', 'VAGBESKRIV']
             };
-
             var hideProperties = [];
             var hideNameOnlyProperties = fields[layerName] || [];
 
@@ -203,42 +179,48 @@ setTimeout(function() {
             return layerStyles[layerName].fallbackStyle;
         }
 
-        function updateFabUpptackVisibility() {
-            var anyLayerActive = Object.values(layerIsActive).includes(true);
-            var fabUpptackButton = document.getElementById('fab-upptack');
-            fabUpptackButton.style.display = anyLayerActive ? 'block' : 'none';
+        function updateFAB(layerName, show) {
+            var fabButtons = document.querySelectorAll('.fab');
+            fabButtons.forEach(function(button) {
+                button.style.display = 'none';
+            });
+
+            var fabId = getFABId(layerName);
+            var fabButton = document.getElementById(fabId);
+            if (fabButton) {
+                fabButton.style.display = show ? 'block' : 'none';
+            }
         }
 
-        // Initialisera alla lager från början och uppdatera FAB-knappen
-        fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
-        fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
-        fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+        function getFABId(layerName) {
+            switch(layerName) {
+                case 'Mässor':
+                    return 'fab-massor';
+                case 'Jaktkort':
+                    return 'fab-jaktkort';
+                case 'Jaktskyttebanor':
+                    return 'fab-jaktskyttebanor';
+                default:
+                    return '';
+            }
+        }
 
-        // Uppdatera FAB-knappen initialt
-        updateFabUpptackVisibility();
-
-        map.on('zoomend', function() {
-            Object.keys(geojsonLayers).forEach(function(layerName) {
-                geojsonLayers[layerName].forEach(function(layer) {
-                    var zoomLevel = map.getZoom();
-                    layer.eachLayer(function(marker) {
-                        var style = getMarkerStyle(layerName);
-                        marker.setIcon(style.icon);
-                    });
-                });
-            });
+        document.getElementById('fab-massor').addEventListener('click', function() {
+            toggleLayer('Mässor', layerURLs['Mässor']);
         });
 
-        document.getElementById('fab-upptack').addEventListener('click', function() {
-            var modal = document.getElementById('modal-upptack');
-            modal.classList.toggle('show');
+        document.getElementById('fab-jaktkort').addEventListener('click', function() {
+            toggleLayer('Jaktkort', layerURLs['Jaktkort']);
+        });
+
+        document.getElementById('fab-jaktskyttebanor').addEventListener('click', function() {
+            toggleLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
         });
 
         return {
             toggleLayer: toggleLayer,
             deactivateAllLayers: deactivateAllLayers,
-            activateAllLayers: activateAllLayers, // Lägg till denna rad för att exportera funktionen
-            activateLayer: activateLayer // Lägg till denna rad för att exportera funktionen
         };
     })(map);
 }, 1000);
+
