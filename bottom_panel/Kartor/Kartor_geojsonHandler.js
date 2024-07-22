@@ -54,7 +54,6 @@ var Kartor_geojsonHandler = (function() {
             try {
                 const response = await axios.get(geojsonURL);
                 const geojson = response.data;
-
                 const layer = L.geoJSON(geojson, {
                     style: function(feature) {
                         var filename = getFilenameFromURL(geojsonURL);
@@ -76,13 +75,6 @@ var Kartor_geojsonHandler = (function() {
         }
 
         updateFAB(layerName, true);
-    }
-
-    function addClickHandlerToLayer(layer) {
-        layer.on('click', function(e) {
-            var properties = e.target.feature.properties;
-            showPopupPanel(properties);
-        });
     }
 
     function toggleLayer(layerName, geojsonURLs) {
@@ -128,18 +120,18 @@ var Kartor_geojsonHandler = (function() {
         } else {
             if (geojsonLayers['Älgjaktsområden']) {
                 console.log('Removing Älgjaktsområden layer.');
-                map.off('click', handleWmsLayerClick);
                 map.removeLayer(geojsonLayers['Älgjaktsområden']);
                 geojsonLayers['Älgjaktsområden'] = null;
+                map.off('click', handleWmsLayerClick);
             }
         }
     }
 
     function handleWmsLayerClick(e) {
-        if (!layerIsActive['Älgjaktsområden']) return; // Only handle click if the layer is active
-
         var latlng = e.latlng;
         var wmsLayer = geojsonLayers['Älgjaktsområden'];
+        if (!wmsLayer) return;
+
         var url = getFeatureInfoUrl(
             latlng,
             wmsLayer,
@@ -165,6 +157,7 @@ var Kartor_geojsonHandler = (function() {
                         var attr = fields.attributes[i];
                         properties[attr.name] = attr.value;
                     }
+                    console.log('Egenskaper från WMS:', properties);
                     showPopupPanel(properties);
                 } else {
                     console.log("No features found.");
