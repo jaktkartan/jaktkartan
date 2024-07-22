@@ -143,39 +143,41 @@ var Kartor_geojsonHandler = (function() {
     }
 
     function handleWMSClick(e) {
-        var latlng = e.latlng;
-        var url = getFeatureInfoUrl(latlng, currentWMSLayer, map, {
-            'info_format': 'text/xml',
-            'propertyName': 'Områdesnamn,Områdesnummer'
-        });
-
-        console.log("GetFeatureInfo URL:", url);
-
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                console.log("FeatureInfo data:", data);
-                var parser = new DOMParser();
-                var xmlDoc = parser.parseFromString(data, "application/xml");
-                var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
-                if (fields) {
-                    var properties = {};
-                    for (var i = 0; i < fields.attributes.length; i++) {
-                        var attr = fields.attributes[i];
-                        properties[attr.name] = attr.value;
-                    }
-                    if (!popupPanelVisible) {
-                        showPopupPanel(properties);
-                    } else {
-                        updatePopupPanelContent(properties);
-                    }
-                } else {
-                    console.log("No features found.");
-                }
-            })
-            .catch(error => {
-                console.error("Error fetching feature info:", error);
+        if (currentWMSLayer) {
+            var latlng = e.latlng;
+            var url = getFeatureInfoUrl(latlng, currentWMSLayer, map, {
+                'info_format': 'text/xml',
+                'propertyName': 'Områdesnamn,Områdesnummer'
             });
+
+            console.log("GetFeatureInfo URL:", url);
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    console.log("FeatureInfo data:", data);
+                    var parser = new DOMParser();
+                    var xmlDoc = parser.parseFromString(data, "application/xml");
+                    var fields = xmlDoc.getElementsByTagName("FIELDS")[0];
+                    if (fields) {
+                        var properties = {};
+                        for (var i = 0; i < fields.attributes.length; i++) {
+                            var attr = fields.attributes[i];
+                            properties[attr.name] = attr.value;
+                        }
+                        if (!popupPanelVisible) {
+                            showPopupPanel(properties);
+                        } else {
+                            updatePopupPanelContent(properties);
+                        }
+                    } else {
+                        console.log("No features found.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching feature info:", error);
+                });
+        }
     }
 
     function getFeatureInfoUrl(latlng, wmsLayer, map, params) {
