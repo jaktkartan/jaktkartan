@@ -197,9 +197,9 @@ setTimeout(function() {
                 case 'Mässor':
                     return 'fab-massor';
                 case 'Jaktkort':
-                    return 'fab-jaktkort';
+                    return 'fab-massor';
                 case 'Jaktskyttebanor':
-                    return 'fab-jaktskyttebanor';
+                    return 'fab-massor';
                 default:
                     return '';
             }
@@ -207,14 +207,6 @@ setTimeout(function() {
 
         document.getElementById('fab-massor').addEventListener('click', function() {
             toggleLayer('Mässor', layerURLs['Mässor']);
-        });
-
-        document.getElementById('fab-jaktkort').addEventListener('click', function() {
-            toggleLayer('Jaktkort', layerURLs['Jaktkort']);
-        });
-
-        document.getElementById('fab-jaktskyttebanor').addEventListener('click', function() {
-            toggleLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
         });
 
         return {
