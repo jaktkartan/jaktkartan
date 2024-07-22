@@ -106,26 +106,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Visa startmodalen när sidan initieras
     showModal('Startmodal');
-    
-    // Rensar geojson-lager från tab1 (upptäck) fliken och uppdaterar FAB-knappen
-    document.getElementById('tab2').addEventListener('click', function() {
-        if (typeof Upptack_geojsonHandler !== 'undefined') {
-            Upptack_geojsonHandler.deactivateAllLayers();
-        } else {
-            console.error("Upptack_geojsonHandler är inte definierad.");
-        }
-    });
-    
-    // Aktivera specifika lager igen när man återvänder till fliken "Upptäck"
-    document.getElementById('tab1').addEventListener('click', function() {
-        if (typeof Upptack_geojsonHandler !== 'undefined') {
-            // Här kan du anropa toggleLayer eller activateLayer beroende på vad användaren har valt tidigare
-            // Exempel:
-            Upptack_geojsonHandler.activateLayer('Mässor'); // Aktivera 'Mässor' som ett exempel, justera efter behov
-            Upptack_geojsonHandler.activateLayer('Jaktkort'); // Aktivera 'Jaktkort' som ett exempel, justera efter behov
-            Upptack_geojsonHandler.activateLayer('Jaktskyttebanor'); // Aktivera 'Jaktskyttebanor' som ett exempel, justera efter behov
-        } else {
-            console.error("Upptack_geojsonHandler är inte definierad.");
-        }
-    });
 });
