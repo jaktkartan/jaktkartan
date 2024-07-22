@@ -52,6 +52,16 @@ var Kartor_geojsonHandler = (function() {
     var currentWMSLayer = null;
     var wmsClickHandler = null;
 
+    function showZoomMessage() {
+        var zoomMessage = document.getElementById('zoom-message');
+        zoomMessage.style.display = 'block';
+    }
+
+    function hideZoomMessage() {
+        var zoomMessage = document.getElementById('zoom-message');
+        zoomMessage.style.display = 'none';
+    }
+
     async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         for (const geojsonURL of geojsonURLs) {
             try {
@@ -121,6 +131,11 @@ var Kartor_geojsonHandler = (function() {
                 console.log('Layer is already added. No action taken.');
                 return;
             }
+            if (map.getZoom() < 11) {
+                showZoomMessage();
+            } else {
+                hideZoomMessage();
+            }
             console.log('Adding Älgjaktsområden layer.');
             currentWMSLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
                 layers: '2',
@@ -144,6 +159,7 @@ var Kartor_geojsonHandler = (function() {
                 map.removeLayer(currentWMSLayer);
                 currentWMSLayer = null;
                 wmsClickHandler = null;
+                hideZoomMessage(); // Dölj meddelandet när lagret tas bort
                 updateFAB('Älgjaktsområden', false); // Säkerställ att FAB-knappen döljs
             }
         }
