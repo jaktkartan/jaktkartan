@@ -1,4 +1,4 @@
-// Funktion för att skapa knappar i tab1
+// bottom_panel/Upptack/Upptack_flikbeteende.js
 function openUpptack() {
     // Hitta tab-pane för upptäck
     const tabPane = document.getElementById('tab1');
@@ -12,20 +12,7 @@ function openUpptack() {
 
     // Skapa en container div för att centrera innehållet
     const container = document.createElement('div');
-    container.style.display = 'flex';
-    container.style.flexDirection = 'column';
-    container.style.justifyContent = 'center';
-    container.style.alignItems = 'center';
-    container.style.height = '100vh';
-    container.style.overflow = 'hidden'; // Förhindra scrollning
-
-    // Skapa knapp-container
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'button-container';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.flexWrap = 'nowrap'; // Förhindra radbrytning
-    buttonContainer.style.gap = '10px'; // Mellanrum mellan knapparna
-    buttonContainer.style.justifyContent = 'center'; // Centrera knapparna horisontellt
+    container.className = 'button-container';
 
     // Skapa "Visa allt"-knappen
     const showAllButton = document.createElement('button');
@@ -38,7 +25,7 @@ function openUpptack() {
             console.error("Upptack_geojsonHandler är inte definierad.");
         }
     };
-    buttonContainer.appendChild(showAllButton);
+    container.appendChild(showAllButton);
 
     // Skapa "Filtrera"-knappen
     const filterButton = document.createElement('button');
@@ -49,11 +36,11 @@ function openUpptack() {
         event.stopPropagation();
         showFilterOptions();
     };
-    buttonContainer.appendChild(filterButton);
+    container.appendChild(filterButton);
 
     // Skapa en meny för "Filtrera"-knappen
     function showFilterOptions() {
-        buttonContainer.innerHTML = ''; // Rensa knappcontainern
+        container.innerHTML = ''; // Rensa knappcontainern
 
         const filters = [
             {
@@ -129,22 +116,19 @@ function openUpptack() {
                 btn.textContent = filter.textContent;
             }
 
-            buttonContainer.appendChild(btn);
+            container.appendChild(btn);
         });
     }
 
     // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
-        buttonContainer.innerHTML = '';
+        container.innerHTML = '';
 
-        buttonContainer.appendChild(showAllButton);
-        buttonContainer.appendChild(filterButton);
+        container.appendChild(showAllButton);
+        container.appendChild(filterButton);
     }
 
-    // Lägg till knapp-container till containern
-    container.appendChild(buttonContainer);
-
-    // Lägg till containern i tab-pane
+    // Lägg till knapp-container till tab-pane
     tabPane.appendChild(container);
 }
 
