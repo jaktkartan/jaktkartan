@@ -62,6 +62,14 @@ var Kartor_geojsonHandler = (function() {
         zoomMessage.style.display = 'none';
     }
 
+    function checkZoomLevel() {
+        if (map.getZoom() < 11) {
+            showZoomMessage();
+        } else {
+            hideZoomMessage();
+        }
+    }
+
     async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
         for (const geojsonURL of geojsonURLs) {
             try {
@@ -131,11 +139,7 @@ var Kartor_geojsonHandler = (function() {
                 console.log('Layer is already added. No action taken.');
                 return;
             }
-            if (map.getZoom() < 11) {
-                showZoomMessage();
-            } else {
-                hideZoomMessage();
-            }
+            checkZoomLevel();
             console.log('Adding Älgjaktsområden layer.');
             currentWMSLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
                 layers: '2',
@@ -150,6 +154,9 @@ var Kartor_geojsonHandler = (function() {
             };
             map.on('click', wmsClickHandler);
 
+            // Lägg till händelse för att övervaka zoomnivån
+            map.on('zoomend', checkZoomLevel);
+
             console.log("WMS layer added to map:", currentWMSLayer);
             updateFAB('Älgjaktsområden', true); // Säkerställ att FAB-knappen visas
         } else {
@@ -160,6 +167,7 @@ var Kartor_geojsonHandler = (function() {
                 currentWMSLayer = null;
                 wmsClickHandler = null;
                 hideZoomMessage(); // Dölj meddelandet när lagret tas bort
+                map.off('zoomend', checkZoomLevel); // Ta bort händelsen för zoomnivån
                 updateFAB('Älgjaktsområden', false); // Säkerställ att FAB-knappen döljs
             }
         }
@@ -264,6 +272,8 @@ var Kartor_geojsonHandler = (function() {
             map.removeLayer(currentWMSLayer);
             currentWMSLayer = null;
             wmsClickHandler = null;
+            hideZoomMessage(); // Dölj meddelandet när lagret tas bort
+            map.off('zoomend', checkZoomLevel); // Ta bort händelsen för zoomnivån
         }
     }
 
@@ -306,3 +316,9 @@ var Kartor_geojsonHandler = (function() {
         loadElgjaktsomradenWMS: loadElgjaktsomradenWMS
     };
 })();
+
+// Lägg till meddelandet till HTML
+var zoomMessageDiv = document.createElement('div');
+zoomMessageDiv.id = 'zoom-message';
+zoomMessageDiv.innerText = 'Zooma in i kartan för att data ska visas';
+document.body.appendChild(zoomMessageDiv);
