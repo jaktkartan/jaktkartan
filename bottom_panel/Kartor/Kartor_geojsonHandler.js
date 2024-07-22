@@ -228,10 +228,14 @@ var Kartor_geojsonHandler = (function() {
 
     function deactivateLayer(layerName) {
         if (geojsonLayers[layerName]) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                map.removeLayer(layer);
-            });
-            geojsonLayers[layerName] = [];
+            if (layerName === 'Älgjaktsområden') {
+                loadElgjaktsomradenWMS(false);
+            } else {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    map.removeLayer(layer);
+                });
+                geojsonLayers[layerName] = [];
+            }
         }
     }
 
