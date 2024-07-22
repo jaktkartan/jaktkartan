@@ -9,9 +9,9 @@ setTimeout(function() {
 
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': false,
-            'Jaktkort': false,
-            'Jaktskyttebanor': false
+            'Mässor': true,
+            'Jaktkort': true,
+            'Jaktskyttebanor': true
         };
 
         var geojsonLayers = {
@@ -209,25 +209,13 @@ setTimeout(function() {
             fabUpptackButton.style.display = anyLayerActive ? 'block' : 'none';
         }
 
+        // Initialisera alla lager från början och uppdatera FAB-knappen
         fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
         fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
         fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
 
-        // Observera om lagren är aktiva eller inte för att uppdatera FAB-knappen
-        var observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.attributeName === 'data-active') {
-                    updateFabUpptackVisibility();
-                }
-            });
-        });
-
-        Object.keys(layerIsActive).forEach(function(layerName) {
-            var layerElement = document.createElement('div');
-            layerElement.id = 'layer-' + layerName;
-            layerElement.setAttribute('data-active', layerIsActive[layerName]);
-            observer.observe(layerElement, { attributes: true });
-        });
+        // Uppdatera FAB-knappen initialt
+        updateFabUpptackVisibility();
 
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
@@ -252,4 +240,3 @@ setTimeout(function() {
         };
     })(map);
 }, 1000);
-
