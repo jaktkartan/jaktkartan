@@ -5,7 +5,6 @@ var layerURLs = {
     'Jaktskyttebanor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
 };
 
-
 var Upptack_geojsonHandler;
 
 setTimeout(function() {
@@ -79,6 +78,14 @@ setTimeout(function() {
                 }
             }
             updateFAB(layerName, true);
+        }
+
+        function activateAllLayers() {
+            for (const layerName in layerURLs) {
+                if (layerURLs.hasOwnProperty(layerName)) {
+                    activateLayer(layerName, layerURLs[layerName]);
+                }
+            }
         }
 
         function toggleLayer(layerName, geojsonURLs) {
@@ -202,12 +209,14 @@ setTimeout(function() {
 
         if (fabUpptack) {
             fabUpptack.addEventListener('click', function() {
-                // Hantera knappen för att deaktivera alla lager
-                deactivateAllLayers();
+                // Här kan du lägga till annan logik om det behövs
+                console.log('FAB knapp tryckt');
             });
         } else {
             console.error("fab-upptack element not found.");
         }
+
+        activateAllLayers(); // Aktivera alla lager vid initialisering
 
         return {
             toggleLayer: toggleLayer,
