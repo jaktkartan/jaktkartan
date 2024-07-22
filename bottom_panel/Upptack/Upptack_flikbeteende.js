@@ -23,115 +23,126 @@ function openUpptack() {
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'button-container';
     buttonContainer.style.display = 'flex';
+    buttonContainer.style.flexWrap = 'nowrap'; // Förhindra radbrytning
+    buttonContainer.style.gap = '10px'; // Mellanrum mellan knapparna
+    buttonContainer.style.justifyContent = 'center'; // Centrera knapparna horisontellt
 
-    // Definiera knapparna med deras respektive egenskaper
-    const buttons = [
-        {
-            className: 'styled-button',
-            onclick: function() {
-                if (typeof Upptack_geojsonHandler !== 'undefined') {
-                    Upptack_geojsonHandler.toggleLayer('Mässor', [
-                        'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/Massor.geojson'
-                    ]);
-                } else {
-                    console.error("Upptack_geojsonHandler är inte definierad.");
-                }
-            },
-            imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
-            imgAlt: 'Mässor'
-        },
-        {
-            className: 'styled-button',
-            onclick: function() {
-                if (typeof Upptack_geojsonHandler !== 'undefined') {
-                    Upptack_geojsonHandler.toggleLayer('Jaktkort', [
-                        'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktkort.geojson'
-                    ]);
-                } else {
-                    console.error("Upptack_geojsonHandler är inte definierad.");
-                }
-            },
-            imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
-            imgAlt: 'Jaktkort'
-        },
-        {
-            className: 'styled-button',
-            onclick: function() {
-                if (typeof Upptack_geojsonHandler !== 'undefined') {
-                    Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', [
-                        'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson'
-                    ]);
-                } else {
-                    console.error("Upptack_geojsonHandler är inte definierad.");
-                }
-            },
-            imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
-            imgAlt: 'Jaktskyttebanor'
-        },
-        {
-            className: 'styled-button',
-            onclick: function() {
-                if (typeof Upptack_geojsonHandler !== 'undefined') {
-                    Upptack_geojsonHandler.toggleLayer('Visa_allt');
-                } else {
-                    console.error("Upptack_geojsonHandler är inte definierad.");
-                }
-            },
-            textContent: 'Visa allt'
-        },
-        {
-            className: 'styled-button',
-            onclick: function() {
-                if (typeof Upptack_geojsonHandler !== 'undefined') {
-                    Upptack_geojsonHandler.toggleLayer('Rensa_allt');
-                } else {
-                    console.error("Upptack_geojsonHandler är inte definierad.");
-                }
-            },
-            textContent: 'Rensa allt'
+    // Skapa "Visa allt"-knappen
+    const showAllButton = document.createElement('button');
+    showAllButton.className = 'styled-button';
+    showAllButton.textContent = 'Visa allt';
+    showAllButton.onclick = function() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            Upptack_geojsonHandler.toggleLayer('Visa_allt');
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
         }
-    ];
+    };
+    buttonContainer.appendChild(showAllButton);
 
-    // Skapa knappar och lägg till dem i knapp-container
-    buttons.forEach(button => {
-        const btn = document.createElement('button');
-        btn.className = button.className;
-        btn.onclick = button.onclick;
+    // Skapa "Filtrera"-knappen
+    const filterButton = document.createElement('button');
+    filterButton.className = 'styled-button';
+    filterButton.textContent = 'Filtrera';
+    filterButton.id = 'filter-button';
+    filterButton.onclick = function(event) {
+        event.stopPropagation();
+        showFilterOptions();
+    };
+    buttonContainer.appendChild(filterButton);
 
-        if (button.imgSrc) {
-            const img = document.createElement('img');
-            img.src = button.imgSrc;
-            img.alt = button.imgAlt;
-            btn.appendChild(img);
-        } else if (button.textContent) {
-            btn.textContent = button.textContent;
-        }
+    // Skapa en meny för "Filtrera"-knappen
+    function showFilterOptions() {
+        buttonContainer.innerHTML = ''; // Rensa knappcontainern
 
-        buttonContainer.appendChild(btn);
-    });
+        const filters = [
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        Upptack_geojsonHandler.toggleLayer('Mässor', [
+                            'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/Massor.geojson'
+                        ]);
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    restoreOriginalButtons();
+                },
+                imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
+                imgAlt: 'Mässor'
+            },
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        Upptack_geojsonHandler.toggleLayer('Jaktkort', [
+                            'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktkort.geojson'
+                        ]);
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    restoreOriginalButtons();
+                },
+                imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
+                imgAlt: 'Jaktkort'
+            },
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', [
+                            'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson'
+                        ]);
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    restoreOriginalButtons();
+                },
+                imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
+                imgAlt: 'Jaktskyttebanor'
+            },
+            {
+                className: 'styled-button',
+                textContent: 'Rensa allt',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        Upptack_geojsonHandler.toggleLayer('Rensa_allt');
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    restoreOriginalButtons();
+                }
+            }
+        ];
 
-    // Skapa knappen "Nästkommande mässa"
-    const nextEventButton = document.createElement('button');
-    nextEventButton.className = 'styled-button';
-    nextEventButton.textContent = 'Nästkommande mässa';
-    nextEventButton.style.padding = '12px 16px';
-    nextEventButton.style.border = '1px solid rgb(50, 94, 88)';
-    nextEventButton.style.borderRadius = '5px';
-    nextEventButton.style.backgroundColor = 'rgb(240, 240, 240)';
-    nextEventButton.style.color = 'rgb(50, 94, 88)';
-    nextEventButton.style.cursor = 'pointer';
-    nextEventButton.style.outline = 'none';
-    nextEventButton.style.marginLeft = '10px'; // Lägg till mellanrum mellan knapparna
-    nextEventButton.style.zIndex = '999';
+        filters.forEach(filter => {
+            const btn = document.createElement('button');
+            btn.className = filter.className;
+            btn.onclick = filter.onclick;
 
-    // Lägg till en eventlyssnare för knappen "Nästkommande mässa"
-    nextEventButton.addEventListener('click', function() {
-        alert('Funktionalitet för att visa nästkommande mässa kommer snart!');
-    });
+            if (filter.imgSrc) {
+                const img = document.createElement('img');
+                img.src = filter.imgSrc;
+                img.alt = filter.imgAlt;
+                btn.appendChild(img);
+            } else if (filter.textContent) {
+                btn.textContent = filter.textContent;
+            }
 
-    // Lägg till knapp-container och knappen "Nästkommande mässa" till containern
+            buttonContainer.appendChild(btn);
+        });
+    }
+
+    // Funktion för att återställa de ursprungliga knapparna
+    function restoreOriginalButtons() {
+        buttonContainer.innerHTML = '';
+
+        buttonContainer.appendChild(showAllButton);
+        buttonContainer.appendChild(filterButton);
+    }
+
+    // Lägg till knapp-container till containern
     container.appendChild(buttonContainer);
-    container.appendChild(nextEventButton);
 
     // Lägg till containern i tab-pane
     tabPane.appendChild(container);
