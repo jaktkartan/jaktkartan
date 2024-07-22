@@ -159,6 +159,3 @@ function openKartor() {
     // Debugging
     console.log('Kartor tab created and added to body');
 }
-
-// Anropa openKartor-funktionen för att generera innehållet
-openKartor();
