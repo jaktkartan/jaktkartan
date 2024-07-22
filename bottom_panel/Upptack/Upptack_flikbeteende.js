@@ -23,8 +23,6 @@ function openUpptack() {
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'button-container';
     buttonContainer.style.display = 'flex';
-    buttonContainer.style.flexWrap = 'wrap'; // För att säkerställa att alla knappar visas på samma rad
-    buttonContainer.style.gap = '10px'; // Mellanrum mellan knapparna
 
     // Definiera knapparna med deras respektive egenskaper
     const buttons = [
