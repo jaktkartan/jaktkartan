@@ -5,9 +5,10 @@ var layerURLs = {
     'Jaktskyttebanor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
 };
 
-// Flytta definitionen av Upptack_geojsonHandler efter global definition
+
 var Upptack_geojsonHandler;
 
+setTimeout(function() {
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
             'Mässor': false,
