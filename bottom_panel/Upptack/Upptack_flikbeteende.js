@@ -135,9 +135,9 @@ function openUpptack() {
             requestAnimationFrame(() => {
                 const isOverflowing = span.scrollWidth > spanContainer.clientWidth;
                 if (isOverflowing) {
-                    span.style.animation = 'scrollText 10s linear infinite';
+                    spanContainer.classList.add('animate');
                 } else {
-                    span.style.animation = 'none';
+                    spanContainer.classList.remove('animate');
                 }
             });
         });
