@@ -221,9 +221,11 @@ setTimeout(function() {
             var fabUpptackButton = document.getElementById('fab-upptack');
             if (anyLayerActive) {
                 fabUpptackButton.style.display = 'flex';
+                fabUpptackButton.classList.add('show'); // Lägg till 'show' klass för säkerhets skull
                 console.log("FAB button set to display: flex");
             } else {
                 fabUpptackButton.style.display = 'none';
+                fabUpptackButton.classList.remove('show'); // Ta bort 'show' klass för säkerhets skull
                 console.log("FAB button set to display: none");
             }
             console.log(`FAB button visibility updated: ${anyLayerActive ? 'visible' : 'hidden'}`);
