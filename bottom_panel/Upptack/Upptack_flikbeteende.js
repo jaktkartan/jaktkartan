@@ -106,7 +106,7 @@ function openUpptack() {
                 },
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
                 imgAlt: 'Jaktskyttebanor',
-                text: 'Jaktskyttebanor'
+                text: 'Jaktskytte-<br>banor' // Exempel på radbrytning
             }
         ];
 
@@ -124,26 +124,14 @@ function openUpptack() {
 
             const textDiv = document.createElement('div');
             textDiv.className = 'text-content';
-            textDiv.textContent = filter.text;
+            textDiv.innerHTML = filter.text; // Använd innerHTML för att tolka <br>
             btn.appendChild(textDiv);
 
             container.appendChild(btn);
-
-            adjustTextSize(textDiv, btn);
         });
 
         // Lägg till "Rensa allt"-knappen igen
         container.appendChild(clearAllButton);
-    }
-
-    // Funktion för att justera textstorleken
-    function adjustTextSize(textElement, buttonElement) {
-        let fontSize = 1.2; // Startstorlek på texten i em
-        textElement.style.fontSize = fontSize + 'em';
-        while (textElement.scrollWidth > buttonElement.clientWidth && fontSize > 0.5) { // 0.5em som minsta fontstorlek
-            fontSize -= 0.1;
-            textElement.style.fontSize = fontSize + 'em';
-        }
     }
 
     // Funktion för att återställa de ursprungliga knapparna
