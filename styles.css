@@ -59,19 +59,19 @@ body, button, span, div {
     outline: none;
     z-index: 999;
     position: relative; /* Lägg till för att få texten att positionera korrekt */
-    flex-direction: column; /* Lägg till detta för att placera bilden ovanpå texten */
     text-align: center; /* Centrerar texten */
+    flex-direction: column; /* Placera innehållet i en kolumn */
 }
 
 .styled-button img {
     width: 100%; /* Bilden tar upp hela knappens bredd */
-    height: 8vh; /* Bilden tar upp 8 vh av knappens höjd */
+    max-height: 100%; /* Bilden tar upp hela knappens höjd */
     object-fit: cover; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
 }
 
 .styled-button .text-content {
     position: absolute; /* Lägg texten över bilden */
-    bottom: 0; /* Placera texten längst ner */
+    top: 0; /* Placera texten högst upp */
     width: 100%;
     color: rgb(240, 240, 240); /* Textens färg */
     text-shadow: -1px -1px 0 #325E58, 1px -1px 0 #325E58, -1px 1px 0 #325E58, 1px 1px 0 #325E58; /* Textens outline */
@@ -82,6 +82,7 @@ body, button, span, div {
     line-height: 1.2em; /* Justera radavståndet */
     padding: 5px; /* Padding för texten */
     box-sizing: border-box; /* Inkludera padding i elementets totala bredd och höjd */
+    background-color: rgba(0, 0, 0, 0.5); /* Lägg till en bakgrundsfärg för läsbarhet */
 }
 
 
