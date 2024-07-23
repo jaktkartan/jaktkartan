@@ -118,6 +118,7 @@ setTimeout(function() {
             Object.keys(layerURLs).forEach(function(layerName) {
                 activateLayer(layerName);
             });
+            updateFabUpptackVisibility();
         }
 
         function deactivateAllLayers() {
@@ -129,6 +130,7 @@ setTimeout(function() {
                     layerIsActive[name] = false;
                 }
             });
+            updateFabUpptackVisibility();
         }
 
         function filterLayer(layerName) {
@@ -211,9 +213,11 @@ setTimeout(function() {
             var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive === true);
             var fabUpptackButton = document.getElementById('fab-upptack');
             if (anyLayerActive) {
-                fabUpptackButton.style.display = 'block';
+                fabUpptackButton.style.display = 'flex';
+                console.log("FAB button set to display: flex");
             } else {
                 fabUpptackButton.style.display = 'none';
+                console.log("FAB button set to display: none");
             }
             console.log(`FAB button visibility updated: ${anyLayerActive ? 'visible' : 'hidden'}`);
         }
