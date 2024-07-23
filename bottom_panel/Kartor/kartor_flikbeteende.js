@@ -121,11 +121,6 @@ function openKartor() {
         alternativImg.alt = 'Älgjaktskartan'; // Ändrad imgAlt
         elkAlternativButton.appendChild(alternativImg);
 
-        const alternativText = document.createElement('div');
-        alternativText.className = 'text-content';
-        alternativText.innerHTML = 'Älgjaktskartan';
-        elkAlternativButton.appendChild(alternativText);
-
         buttonContainer.appendChild(elkJaktsomradenButton);
         buttonContainer.appendChild(elkAlternativButton);
     }
