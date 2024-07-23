@@ -1,4 +1,3 @@
-// bottom_panel/Kartor/kartor_flikbeteende.js
 function openKartor() {
     // Dölj andra flikar
     document.getElementById('tab1').style.display = 'none';
@@ -35,7 +34,8 @@ function openKartor() {
                 ]);
             },
             imgSrc: 'bottom_panel/Kartor/bilder/daggdjurikon.png',
-            imgAlt: 'Allmän jakt: Däggdjur'
+            imgAlt: 'Allmän jakt: Däggdjur',
+            text: 'Allmän jakt: Däggdjur'
         },
         {
             className: 'styled-button', // Använd samma klass för stilsättning
@@ -49,13 +49,15 @@ function openKartor() {
                 ]);
             },
             imgSrc: 'bottom_panel/Kartor/bilder/fagelikon.png',
-            imgAlt: 'Allmän jakt: Fågel'
+            imgAlt: 'Allmän jakt: Fågel',
+            text: 'Allmän jakt: Fågel'
         },
         {
             className: 'styled-button', // Använd samma klass för stilsättning
             id: 'huvudknapp-älgjakt-button', // Ändrad id
             imgSrc: 'bottom_panel/Kartor/bilder/algikon.png',
-            imgAlt: 'Huvudknapp-Älgjakt' // Ändrad imgAlt
+            imgAlt: 'Huvudknapp-Älgjakt', // Ändrad imgAlt
+            text: 'Huvudknapp-Älgjakt'
         }
     ];
 
@@ -72,8 +74,13 @@ function openKartor() {
         const img = document.createElement('img');
         img.src = button.imgSrc;
         img.alt = button.imgAlt;
-
         btn.appendChild(img);
+
+        const textDiv = document.createElement('div');
+        textDiv.className = 'text-content';
+        textDiv.innerHTML = button.text; // Använd innerHTML för att tolka <br>
+        btn.appendChild(textDiv);
+
         buttonContainer.appendChild(btn);
     });
 
@@ -126,6 +133,16 @@ function openKartor() {
         alternativImg.alt = 'Älgjaktskartan'; // Ändrad imgAlt
         elkAlternativButton.appendChild(alternativImg);
 
+        const jaktsomradenText = document.createElement('div');
+        jaktsomradenText.className = 'text-content';
+        jaktsomradenText.innerHTML = 'Älgjaktsområden';
+        elkJaktsomradenButton.appendChild(jaktsomradenText);
+
+        const alternativText = document.createElement('div');
+        alternativText.className = 'text-content';
+        alternativText.innerHTML = 'Älgjaktskartan';
+        elkAlternativButton.appendChild(alternativText);
+
         buttonContainer.appendChild(elkJaktsomradenButton);
         buttonContainer.appendChild(elkAlternativButton);
     }
@@ -147,7 +164,12 @@ function openKartor() {
                 img.src = button.imgSrc;
                 img.alt = button.imgAlt;
 
+                const textDiv = document.createElement('div');
+                textDiv.className = 'text-content';
+                textDiv.innerHTML = button.text; // Använd innerHTML för att tolka <br>
                 btn.appendChild(img);
+                btn.appendChild(textDiv);
+
                 buttonContainer.appendChild(btn);
             }
         });
