@@ -75,7 +75,8 @@ function openUpptack() {
                     restoreOriginalButtons();
                 },
                 imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
-                imgAlt: 'Mässor'
+                imgAlt: 'Mässor',
+                text: 'Mässor'
             },
             {
                 className: 'styled-button',
@@ -89,7 +90,8 @@ function openUpptack() {
                     restoreOriginalButtons();
                 },
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
-                imgAlt: 'Jaktkort'
+                imgAlt: 'Jaktkort',
+                text: 'Jaktkort'
             },
             {
                 className: 'styled-button',
@@ -103,7 +105,8 @@ function openUpptack() {
                     restoreOriginalButtons();
                 },
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
-                imgAlt: 'Jaktskyttebanor'
+                imgAlt: 'Jaktskyttebanor',
+                text: 'Jaktskyttebanor'
             }
         ];
 
@@ -118,6 +121,11 @@ function openUpptack() {
                 img.alt = filter.imgAlt;
                 btn.appendChild(img);
             }
+
+            const span = document.createElement('span');
+            span.className = 'scrolling-text';
+            span.textContent = filter.text;
+            btn.appendChild(span);
 
             container.appendChild(btn);
         });
