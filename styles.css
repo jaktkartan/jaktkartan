@@ -92,11 +92,6 @@ body, button, span, div {
     box-sizing: border-box; /* Inkludera padding i elementets totala bredd och höjd */
 }
 
-
-
-
-
-
 html, body {
     margin: 0;
     padding: 0;
@@ -179,12 +174,20 @@ html, body {
     color: rgb(50, 94, 88);
 }
 
-
 #tab1 .button-container, #tab2 .button-container {
     margin-top: 5vh; /* Glipa mellan knapparnas överkant och flikens överkant */
 }
 
-/* Lägg till ytterligare flikar här om det behövs med olika höjder */
+/* Skrollbara flikar */
+#tab3.tab-pane, #tab5.tab-pane {
+    height: 50vh; /* Specifik höjd för tab3 och tab5 */
+    width: 100%;
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Kolumnlayout */
+    padding: 0px;
+    justify-content: flex-start; /* Placera innehållet längst upp */
+    overflow-y: auto; /* Gör fliken skrollbar */
+}
 
 #info-panel {
     position: absolute;
