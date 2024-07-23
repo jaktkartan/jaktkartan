@@ -34,8 +34,7 @@ function openKartor() {
                 ]);
             },
             imgSrc: 'bottom_panel/Kartor/bilder/daggdjurikon.png',
-            imgAlt: 'Allmän jakt: Däggdjur',
-            text: 'Allmän jakt: Däggdjur'
+            imgAlt: 'Allmän jakt: Däggdjur'
         },
         {
             className: 'styled-button', // Använd samma klass för stilsättning
@@ -49,15 +48,13 @@ function openKartor() {
                 ]);
             },
             imgSrc: 'bottom_panel/Kartor/bilder/fagelikon.png',
-            imgAlt: 'Allmän jakt: Fågel',
-            text: 'Allmän jakt: Fågel'
+            imgAlt: 'Allmän jakt: Fågel'
         },
         {
             className: 'styled-button', // Använd samma klass för stilsättning
             id: 'huvudknapp-älgjakt-button', // Ändrad id
             imgSrc: 'bottom_panel/Kartor/bilder/algikon.png',
-            imgAlt: 'Huvudknapp-Älgjakt', // Ändrad imgAlt
-            text: 'Huvudknapp-Älgjakt'
+            imgAlt: 'Huvudknapp-Älgjakt' // Ändrad imgAlt
         }
     ];
 
@@ -75,11 +72,6 @@ function openKartor() {
         img.src = button.imgSrc;
         img.alt = button.imgAlt;
         btn.appendChild(img);
-
-        const textDiv = document.createElement('div');
-        textDiv.className = 'text-content';
-        textDiv.innerHTML = button.text; // Använd innerHTML för att tolka <br>
-        btn.appendChild(textDiv);
 
         buttonContainer.appendChild(btn);
     });
@@ -108,6 +100,7 @@ function openKartor() {
 
         const elkJaktsomradenButton = document.createElement('button');
         elkJaktsomradenButton.className = 'styled-button';
+        elkJaktsomradenButton.textContent = 'Älgjaktsområden'; // Lägg till texten direkt
         elkJaktsomradenButton.onclick = function() {
             // Ladda WMS-lager för Älgjaktsområden
             Kartor_geojsonHandler.toggleLayer('Älgjaktsområden');
@@ -123,20 +116,10 @@ function openKartor() {
             restoreOriginalButtons();
         };
 
-        const jaktsomradenImg = document.createElement('img');
-        jaktsomradenImg.src = 'bottom_panel/Kartor/bilder/Algjaktsomraden_ikon.png';
-        jaktsomradenImg.alt = 'Älgjaktsområden';
-        elkJaktsomradenButton.appendChild(jaktsomradenImg);
-
         const alternativImg = document.createElement('img');
         alternativImg.src = 'bottom_panel/Kartor/bilder/Algjaktskartan_ikon.png';
         alternativImg.alt = 'Älgjaktskartan'; // Ändrad imgAlt
         elkAlternativButton.appendChild(alternativImg);
-
-        const jaktsomradenText = document.createElement('div');
-        jaktsomradenText.className = 'text-content';
-        jaktsomradenText.innerHTML = 'Älgjaktsområden';
-        elkJaktsomradenButton.appendChild(jaktsomradenText);
 
         const alternativText = document.createElement('div');
         alternativText.className = 'text-content';
@@ -164,12 +147,7 @@ function openKartor() {
                 img.src = button.imgSrc;
                 img.alt = button.imgAlt;
 
-                const textDiv = document.createElement('div');
-                textDiv.className = 'text-content';
-                textDiv.innerHTML = button.text; // Använd innerHTML för att tolka <br>
                 btn.appendChild(img);
-                btn.appendChild(textDiv);
-
                 buttonContainer.appendChild(btn);
             }
         });
