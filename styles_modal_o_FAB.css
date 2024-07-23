@@ -1,24 +1,28 @@
-/* Anpassad CSS för FAB knappar och Modal, alltså rutan som kommer upp när man trycker på fab-knappen. */
+/* Anpassad CSS för FAB knappar och Modal */
 .fab {
     position: fixed;
     bottom: 100px;
     right: 20px;
-    min-width: 60px; /* Standardbredd för knappen */
+    min-width: 60px;
     height: 60px;
-    padding: 0 10px; /* Minska horisontellt padding för att rymma längre text */
-    border-radius: 30px; /* Gör knappen oval */
+    padding: 0 10px;
+    border-radius: 30px;
     background-color: rgb(50, 94, 88);
     color: white;
     font-size: 12px;
     border: none;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    z-index: 1000; /* Se till att FAB är över andra element */
-    display: flex;
+    z-index: 1000;
+    display: none; /* Bör vara dold från början */
     align-items: center;
     justify-content: center;
-    white-space: nowrap; /* Förhindra att texten bryts */
+    white-space: nowrap;
     overflow: hidden;
+}
+
+.fab.show {
+    display: flex; /* Visa när klassen "show" läggs till */
 }
 
 .fab:hover {
@@ -28,50 +32,50 @@
 /* CSS för modalen */
 .modal {
     display: none; /* Döljer modalen som standard */
-    position: fixed; /* Håller modalen på en fast plats på skärmen */
-    z-index: 10001; /* Sätter ett högt z-index så att modalen är över kartan */
+    position: fixed;
+    z-index: 10001;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Lägger till scroll om innehållet är för stort */
-    background-color: rgba(0,0,0,0.4); /* Svart bakgrund med transparens */
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
 }
 
 /* CSS för modalens innehåll */
 .modal-content {
     background-color: #fefefe;
-    margin: 5% auto; /* Justera marginal för att centrera modalen */
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Ställer in bredden på modalen */
-    border-radius: 15px; /* Rundar hörnen på modalens innehåll */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Lägger till en skugga för bättre synlighet */
-    max-height: 80vh; /* Begränsar höjden på modalens innehåll till 80% av viewportens höjd */
-    overflow: auto; /* Lägger till en scrollbar om innehållet är för stort */
+    width: 80%;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-height: 80vh;
+    overflow: auto;
     color: rgb(50, 94, 88);
 }
 
 /* CSS för att hålla bilder inom modalens innehåll och vänsterjustera dem */
 .modal-content img {
-    max-width: 100%; /* Gör så att bilden inte är bredare än modalens innehåll */
-    max-height: 70vh; /* Gör så att bilden inte är högre än modalens innehåll */
-    object-fit: contain; /* Bibehåller bildens proportioner och anpassar den inom ramen */
-    border-radius: 10px; /* Rundar hörnen på bilderna för att matcha modalen */
-    display: block; /* Förhindrar att bilderna flyter vid sidan om text eller andra element */
-    margin: 0; /* Tar bort eventuell standardmarginal runt bilden */
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 10px;
+    display: block;
+    margin: 0;
 }
 
 /* Media query för att göra modalen smalare på större skärmar */
 @media (min-width: 768px) {
     .modal-content {
-        width: 60%; /* Mindre bredd på modalen för större skärmar */
+        width: 60%;
     }
 }
 
 @media (min-width: 1200px) {
     .modal-content {
-        width: 40%; /* Ännu mindre bredd på modalen för ännu större skärmar */
+        width: 40%;
     }
 }
 
