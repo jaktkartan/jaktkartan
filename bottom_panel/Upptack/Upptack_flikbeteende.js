@@ -139,6 +139,8 @@ function openUpptack() {
                     span.textContent += " \u00A0 \u00A0 \u00A0 " + filter.text; // Lägg till mellanrum och duplicera text
                 } else {
                     spanContainer.classList.remove('animate');
+                    span.textContent = filter.text; // Säkerställ att texten inte är duplicerad
+                    span.style.transform = 'none'; // Återställ transform för statisk text
                 }
             });
         });
