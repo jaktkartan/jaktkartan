@@ -71,7 +71,6 @@ body, button, span, div {
 
 .styled-button .scrolling-text {
     position: relative;
-    bottom: 0;
     width: 100%;
     overflow: hidden;
     padding: 0 10px; /* Lägg till padding för lite mellanrum från kanten */
