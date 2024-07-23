@@ -127,6 +127,7 @@ function openUpptack() {
             const span = document.createElement('span');
             span.textContent = filter.text;
             spanContainer.appendChild(span);
+            spanContainer.appendChild(span.cloneNode(true)); // Duplicera texten för att skapa kontinuerlig loop
             btn.appendChild(spanContainer);
 
             container.appendChild(btn);
