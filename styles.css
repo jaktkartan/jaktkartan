@@ -65,7 +65,7 @@ body, button, span, div {
 
 .styled-button img {
     width: 100%; /* Bilden tar upp hela knappens bredd */
-    height: 90%; /* Bilden tar upp 90% av knappens höjd */
+    height: 8vh; /* Bilden tar upp 8 vh av knappens höjd */
     object-fit: cover; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
 }
 
