@@ -25,14 +25,12 @@ body, button, span, div {
 
 .panel-button img {
     display: block;
-    width: 100%; /* Bilden tar upp hela knappens bredd */
-    height: 90%; /* Bilden tar upp 90% av knappens höjd */
-    object-fit: cover; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
-    position: absolute;
-    top: 0;
-    left: 0;
+    max-width: 100%;
+    max-height: 90px;
+    object-fit: contain;
 }
 
+/* Stil för elementet som håller knapparna när man tryckt på upptäck eller kartor */
 .button-container {
     display: flex;
     justify-content: space-around; /* Fördela knapparna jämnt */
@@ -73,7 +71,7 @@ body, button, span, div {
 
 .styled-button .text-content {
     position: absolute; /* Lägg texten över bilden */
-    bottom: 5%; /* Placera texten längst ner */
+    bottom: 0; /* Placera texten längst ner */
     width: 100%;
     color: rgb(240, 240, 240); /* Textens färg */
     text-shadow: -1px -1px 0 #325E58, 1px -1px 0 #325E58, -1px 1px 0 #325E58, 1px 1px 0 #325E58; /* Textens outline */
@@ -81,7 +79,11 @@ body, button, span, div {
     overflow: hidden;
     white-space: pre-line; /* Gör att radbrytning fungerar med <br> */
     text-align: center; /* Centrerar texten horisontellt */
+    line-height: 1.2em; /* Justera radavståndet */
+    padding: 5px; /* Padding för texten */
+    box-sizing: border-box; /* Inkludera padding i elementets totala bredd och höjd */
 }
+
 
 
 html, body {
