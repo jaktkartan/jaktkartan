@@ -71,7 +71,7 @@ body, button, span, div {
 
 .styled-button .scrolling-text {
     position: relative;
-    width: 100%;
+    width: 100%; /* Säkerställ att textbehållaren håller sig inom knappens bredd */
     overflow: hidden;
     padding: 0 10px; /* Lägg till padding för lite mellanrum från kanten */
     text-align: center; /* Centrerar texten horisontellt */
@@ -84,6 +84,7 @@ body, button, span, div {
 .styled-button .scrolling-text span {
     display: inline-block;
     white-space: nowrap;
+    max-width: 100%; /* Begränsa span till knappens bredd */
 }
 
 .styled-button .scrolling-text.animate span {
