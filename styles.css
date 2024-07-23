@@ -73,15 +73,18 @@ body, button, span, div {
     position: relative;
     bottom: 0;
     width: 100%;
-    white-space: nowrap;
     overflow: hidden;
     padding: 0 10px; /* Lägg till padding för lite mellanrum från kanten */
     text-align: center; /* Centrerar texten horisontellt */
     box-sizing: border-box;
+    display: flex; /* Lägg till flexbox för att kunna animera texten korrekt */
+    justify-content: center; /* Centrerar texten */
+    white-space: nowrap;
 }
 
 .styled-button .scrolling-text span {
     display: inline-block;
+    padding-right: 10px; /* Skapar ett litet mellanrum mellan textens slut och början */
 }
 
 .styled-button .scrolling-text.animate span {
@@ -90,7 +93,7 @@ body, button, span, div {
 
 @keyframes scrollText {
     0% {
-        transform: translateX(100%);
+        transform: translateX(0);
     }
     100% {
         transform: translateX(-100%);
