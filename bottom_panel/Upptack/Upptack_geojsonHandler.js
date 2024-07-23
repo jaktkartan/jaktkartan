@@ -210,7 +210,11 @@ setTimeout(function() {
         function updateFabUpptackVisibility() {
             var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive === true);
             var fabUpptackButton = document.getElementById('fab-upptack');
-            fabUpptackButton.style.display = anyLayerActive ? 'block' : 'none';
+            if (anyLayerActive) {
+                fabUpptackButton.classList.add('show');
+            } else {
+                fabUpptackButton.classList.remove('show');
+            }
             console.log(`FAB button visibility updated: ${anyLayerActive ? 'visible' : 'hidden'}`);
         }
 
