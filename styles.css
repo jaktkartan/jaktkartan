@@ -60,6 +60,7 @@ body, button, span, div {
     z-index: 999;
     position: relative; /* Lägg till för att få texten att positionera korrekt */
     flex-direction: column; /* Lägg till detta för att placera bilden ovanpå texten */
+    text-align: center; /* Centrerar texten */
 }
 
 .styled-button img {
@@ -69,36 +70,14 @@ body, button, span, div {
     object-fit: contain; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
 }
 
-.styled-button .scrolling-text {
-    position: relative;
-    width: 100%; /* Säkerställ att textbehållaren håller sig inom knappens bredd */
+.styled-button .text-content {
+    font-size: 1.2em; /* Startstorlek på texten */
     overflow: hidden;
-    padding: 0 10px; /* Lägg till padding för lite mellanrum från kanten */
-    text-align: center; /* Centrerar texten horisontellt */
-    box-sizing: border-box;
-    display: flex; /* Lägg till flexbox för att kunna animera texten korrekt */
-    justify-content: center; /* Centrerar texten */
     white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
-.styled-button .scrolling-text span {
-    display: inline-block;
-    white-space: nowrap;
-    max-width: 100%; /* Begränsa span till knappens bredd */
-}
-
-.styled-button .scrolling-text.animate span {
-    animation: scrollText 10s linear infinite;
-}
-
-@keyframes scrollText {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
 
 html, body {
     margin: 0;
