@@ -1,7 +1,7 @@
 var layerURLs = {
     'Mässor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/Massor.geojson'],
     'Jaktkort': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktkort.geojson'],
-    'Jaktskyttebanor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktkort.geojson']
+    'Jaktskyttebanor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
 };
 
 var Upptack_geojsonHandler;
@@ -73,6 +73,7 @@ setTimeout(function() {
                             layer.addTo(map);
                         }
 
+                        console.log(`Layer ${layerName} fetched and created.`);
                         updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager skapas
                     })
                     .catch(function(error) {
@@ -82,6 +83,7 @@ setTimeout(function() {
         }
 
         function toggleLayer(layerName) {
+            console.log(`Toggling layer: ${layerName}`);
             if (layerName === 'Visa_allt') {
                 activateAllLayers();
             } else if (layerName === 'Rensa_allt') {
@@ -93,6 +95,7 @@ setTimeout(function() {
         }
 
         function activateLayer(layerName) {
+            console.log(`Activating layer: ${layerName}`);
             if (!geojsonLayers[layerName].length) {
                 fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
             } else {
@@ -106,6 +109,7 @@ setTimeout(function() {
         }
 
         function deactivateLayer(layerName) {
+            console.log(`Deactivating layer: ${layerName}`);
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
@@ -115,6 +119,7 @@ setTimeout(function() {
         }
 
         function activateAllLayers() {
+            console.log("Activating all layers");
             Object.keys(layerURLs).forEach(function(layerName) {
                 activateLayer(layerName);
             });
@@ -122,6 +127,7 @@ setTimeout(function() {
         }
 
         function deactivateAllLayers() {
+            console.log("Deactivating all layers");
             Object.keys(layerIsActive).forEach(function(name) {
                 if (layerIsActive[name]) {
                     geojsonLayers[name].forEach(function(layer) {
@@ -134,6 +140,7 @@ setTimeout(function() {
         }
 
         function filterLayer(layerName) {
+            console.log(`Filtering to layer: ${layerName}`);
             deactivateAllLayers();
             activateLayer(layerName);
         }
