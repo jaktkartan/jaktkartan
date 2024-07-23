@@ -136,9 +136,9 @@ function openUpptack() {
                 const isOverflowing = span.scrollWidth > spanContainer.clientWidth;
                 if (isOverflowing) {
                     spanContainer.classList.add('animate');
-                    span.textContent = filter.text;
+                    span.textContent = filter.text + '   '; // Lägg till mellanslag för att skapa avstånd
                     const spanClone = span.cloneNode(true);
-                    span.appendChild(spanClone);
+                    span.appendChild(spanClone); // Klona texten för att skapa en loop
                 } else {
                     spanContainer.classList.remove('animate');
                     span.textContent = filter.text; // Säkerställ att texten inte är duplicerad
