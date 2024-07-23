@@ -76,6 +76,10 @@ body, button, span, div {
     white-space: pre-line; /* Gör att radbrytning fungerar med <br> */
     width: 100%;
     text-align: center; /* Centrerar texten horisontellt */
+    flex-grow: 1; /* Låt texten ta upp resterande utrymme i knappen */
+    display: flex;
+    align-items: center; /* Centrera texten vertikalt */
+    justify-content: center;
 }
 
 
