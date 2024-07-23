@@ -15,6 +15,14 @@ function openUpptack() {
     // Rensa tidigare innehåll
     tabPane.innerHTML = '';
 
+    // Skapa och lägg till en rubrik högst upp
+    const header = document.createElement('h1');
+    header.textContent = 'Upptäck!';
+    header.style.position = 'absolute';
+    header.style.top = '10px';
+    header.style.left = '10px';
+    tabPane.appendChild(header);
+
     // Skapa en container div för att centrera innehållet
     const container = document.createElement('div');
     container.className = 'button-container';
