@@ -71,12 +71,12 @@ body, button, span, div {
 }
 
 .styled-button .text-content {
-    font-size: 1.2em; /* Startstorlek på texten */
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     width: 100%;
 }
+
 
 
 html, body {
