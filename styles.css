@@ -58,6 +58,7 @@ body, button, span, div {
     cursor: pointer;
     outline: none;
     z-index: 999;
+    position: relative; /* Lägg till för att få texten att positionera korrekt */
 }
 
 .styled-button img {
@@ -66,6 +67,31 @@ body, button, span, div {
     max-height: 10vh; /* Maxhöjd för bilderna */
     object-fit: contain; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
     margin: auto; /* Centrerar bilden inom knappen */
+}
+
+.styled-button .scrolling-text {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 10px; /* Lägg till padding för lite mellanrum från kanten */
+}
+
+.styled-button .scrolling-text::before {
+    content: attr(data-text);
+    position: absolute;
+    animation: scrollText 10s linear infinite;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
 html, body {
@@ -143,7 +169,6 @@ html, body {
 #tab1 .button-container, #tab2 .button-container {
     margin-top: 5vh; /* Glipa mellan knapparnas överkant och flikens överkant */
 }
-
 
 /* Lägg till ytterligare flikar här om det behövs med olika höjder */
 
