@@ -87,12 +87,7 @@ setTimeout(function() {
             } else if (layerName === 'Rensa_allt') {
                 deactivateAllLayers();
             } else {
-                if (layerIsActive[layerName]) {
-                    deactivateLayer(layerName);
-                } else {
-                    deactivateAllLayers();
-                    activateLayer(layerName);
-                }
+                filterLayer(layerName);
             }
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager togglas
         }
@@ -134,6 +129,11 @@ setTimeout(function() {
                 }
             });
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när alla lager avaktiveras
+        }
+
+        function filterLayer(layerName) {
+            deactivateAllLayers();
+            activateLayer(layerName);
         }
 
         function generatePopupContent(feature, layerName) {
@@ -214,12 +214,7 @@ setTimeout(function() {
         }
 
         // Initialisera alla lager från början och uppdatera FAB-knappen
-        Object.keys(layerURLs).forEach(function(layerName) {
-            fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
-        });
-
-        // Uppdatera FAB-knappen initialt
-        updateFabUpptackVisibility();
+        activateAllLayers();
 
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
