@@ -122,10 +122,12 @@ function openUpptack() {
                 btn.appendChild(img);
             }
 
+            const spanContainer = document.createElement('div');
+            spanContainer.className = 'scrolling-text';
             const span = document.createElement('span');
-            span.className = 'scrolling-text';
             span.textContent = filter.text;
-            btn.appendChild(span);
+            spanContainer.appendChild(span);
+            btn.appendChild(spanContainer);
 
             container.appendChild(btn);
         });
