@@ -73,7 +73,6 @@ body, button, span, div {
     position: absolute; /* Lägg texten över bilden */
     bottom: 0; /* Placera texten längst ner */
     width: 100%;
-    height: 8%;
     color: rgb(50, 94, 88); /* Textens färg */
     text-shadow: 
         -1px -1px 0 rgb(240, 240, 240),
@@ -84,12 +83,17 @@ body, button, span, div {
         2px -2px 0 rgb(240, 240, 240),
         -2px 2px 0 rgb(240, 240, 240),
         2px 2px 0 rgb(240, 240, 240); /* Bredare textskugga */
+    font-size: 1.2em; /* Startstorlek på texten */
     overflow: hidden;
     white-space: pre-line; /* Gör att radbrytning fungerar med <br> */
     text-align: center; /* Centrerar texten horisontellt */
     line-height: 1.2em; /* Justera radavståndet */
+    padding: 2px; /* Padding för texten */
     box-sizing: border-box; /* Inkludera padding i elementets totala bredd och höjd */
 }
+
+
+
 
 
 
