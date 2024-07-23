@@ -169,6 +169,17 @@ html, body {
     justify-content: flex-end; /* Placera innehållet längst ner */
 }
 
+.tab1-2-header-title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    color: rgb(50, 94, 88);
+}
+
+
 #tab1 .button-container, #tab2 .button-container {
     margin-top: 5vh; /* Glipa mellan knapparnas överkant och flikens överkant */
 }
