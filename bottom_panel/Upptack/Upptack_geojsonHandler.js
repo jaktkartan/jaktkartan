@@ -208,7 +208,7 @@ setTimeout(function() {
         }
 
         function updateFabUpptackVisibility() {
-            var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive === true);
+            var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive);
             var fabUpptackButton = document.getElementById('fab-upptack');
             fabUpptackButton.style.display = anyLayerActive ? 'block' : 'none';
         }
