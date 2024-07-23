@@ -87,7 +87,7 @@ body, button, span, div {
     overflow: hidden;
     white-space: pre-line; /* Gör att radbrytning fungerar med <br> */
     text-align: center; /* Centrerar texten horisontellt */
-    line-height: 1.2em; /* Justera radavståndet */
+    line-height: 2em; /* Justera radavståndet */
     padding: 5px; /* Padding för texten */
     box-sizing: border-box; /* Inkludera padding i elementets totala bredd och höjd */
 }
