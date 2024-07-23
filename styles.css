@@ -75,7 +75,7 @@ body, button, span, div {
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
-    padding: 0 5px; /* Lägg till padding för lite mellanrum från kanten */
+    padding: 0 10px; /* Lägg till padding för lite mellanrum från kanten */
     text-align: center; /* Centrerar texten horisontellt */
     box-sizing: border-box;
     display: flex; /* Lägg till flexbox för att kunna animera texten korrekt */
@@ -84,6 +84,7 @@ body, button, span, div {
 
 .styled-button .scrolling-text span {
     display: inline-block;
+    padding-right: 100%; /* Skapar mellanrum mellan textens slut och början */
     animation: scrollText 10s linear infinite;
 }
 
@@ -156,6 +157,10 @@ html, body {
     height: 50vh; /* Generell höjd för flikar */
     display: flex;
     flex-direction: column; /* Lägg till detta för att använda flexbox layout */
+}
+/* Specifika stilar för #tab5 gör den skrollbar */
+#tab5.tab-pane {
+    overflow-y: auto;
 }
 
 /* Specifika stilar för #tab1 och #tab2 */
