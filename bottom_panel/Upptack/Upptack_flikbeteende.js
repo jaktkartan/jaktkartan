@@ -128,8 +128,6 @@ function openUpptack() {
             btn.appendChild(textDiv);
 
             container.appendChild(btn);
-
-            adjustTextSize(textDiv, btn);
         });
 
         // Lägg till "Rensa allt"-knappen igen
