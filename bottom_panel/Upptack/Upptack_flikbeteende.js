@@ -136,7 +136,7 @@ function openUpptack() {
                 const isOverflowing = span.scrollWidth > spanContainer.clientWidth;
                 if (isOverflowing) {
                     spanContainer.classList.add('animate');
-                    span.textContent = filter.text; // Lägg till mellanrum för att skapa avstånd
+                    span.textContent = filter.text + ' \u00A0 \u00A0 \u00A0 \u00A0 ' + filter.text; // Lägg till tillräckligt med mellanrum för att skapa avstånd
                 } else {
                     spanContainer.classList.remove('animate');
                     span.textContent = filter.text; // Säkerställ att texten inte är duplicerad
