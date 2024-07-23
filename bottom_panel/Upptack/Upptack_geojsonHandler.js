@@ -9,9 +9,9 @@ var Upptack_geojsonHandler;
 setTimeout(function() {
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': false,
-            'Jaktkort': false,
-            'Jaktskyttebanor': false
+            'Mässor': true,
+            'Jaktkort': true,
+            'Jaktskyttebanor': true
         };
 
         var geojsonLayers = {
@@ -101,6 +101,7 @@ setTimeout(function() {
                 });
             }
             layerIsActive[layerName] = true;
+            console.log(`Layer ${layerName} activated.`);
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager aktiveras
         }
 
@@ -109,6 +110,7 @@ setTimeout(function() {
                 map.removeLayer(layer);
             });
             layerIsActive[layerName] = false;
+            console.log(`Layer ${layerName} deactivated.`);
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager avaktiveras
         }
 
@@ -209,6 +211,7 @@ setTimeout(function() {
             var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive === true);
             var fabUpptackButton = document.getElementById('fab-upptack');
             fabUpptackButton.style.display = anyLayerActive ? 'block' : 'none';
+            console.log(`FAB button visibility updated: ${anyLayerActive ? 'visible' : 'hidden'}`);
         }
 
         // Initialisera alla lager från början och uppdatera FAB-knappen
@@ -225,8 +228,6 @@ setTimeout(function() {
                 });
             });
         });
-
-        map.on('layeradd layerremove', updateFabUpptackVisibility);
 
         document.getElementById('fab-upptack').addEventListener('click', function() {
             var modal = document.getElementById('modal-upptack');
