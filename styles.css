@@ -84,7 +84,7 @@ body, button, span, div {
 
 .styled-button .scrolling-text span {
     display: inline-block;
-    animation: scrollText 10s linear infinite;
+    padding-right: 50%; /* Skapar mellanrum mellan textens slut och början */
 }
 
 @keyframes scrollText {
