@@ -22,7 +22,7 @@
 }
 
 .fab.show {
-    display: flex; /* Visa när klassen "show" läggs till */
+    display: flex !important; /* Visa när klassen "show" läggs till, använd !important för att säkerställa visning */
 }
 
 .fab:hover {
