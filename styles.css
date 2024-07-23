@@ -61,6 +61,7 @@ body, button, span, div {
     position: relative; /* Lägg till för att få texten att positionera korrekt */
     text-align: center; /* Centrerar texten */
     flex-direction: column; /* Placera innehållet i en kolumn */
+    font-size: 16px; /* Vanlig fontstorlek */
 }
 
 .styled-button img {
@@ -83,12 +84,12 @@ body, button, span, div {
         2px -2px 0 rgb(240, 240, 240),
         -2px 2px 0 rgb(240, 240, 240),
         2px 2px 0 rgb(240, 240, 240); /* Bredare textskugga */
-    font-size: 1.2em; /* Startstorlek på texten */
+    font-size: 16px; /* Vanlig fontstorlek */
     overflow: hidden;
     white-space: pre-line; /* Gör att radbrytning fungerar med <br> */
     text-align: center; /* Centrerar texten horisontellt */
     line-height: 1.2em; /* Justera radavståndet */
-    padding: 5px; /* Padding för texten */
+    padding: 2px; /* Padding för texten */
     box-sizing: border-box; /* Inkludera padding i elementets totala bredd och höjd */
 }
 
