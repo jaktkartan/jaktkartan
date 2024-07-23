@@ -122,31 +122,27 @@ function openUpptack() {
                 btn.appendChild(img);
             }
 
-            const spanContainer = document.createElement('div');
-            spanContainer.className = 'scrolling-text';
-            const span = document.createElement('span');
-            span.textContent = filter.text;
-            spanContainer.appendChild(span);
-            btn.appendChild(spanContainer);
+            const textDiv = document.createElement('div');
+            textDiv.className = 'text-content';
+            textDiv.textContent = filter.text;
+            btn.appendChild(textDiv);
 
             container.appendChild(btn);
 
-            // Kontrollera om texten är för bred och lägg till animation vid behov
-            requestAnimationFrame(() => {
-                const isOverflowing = span.scrollWidth > spanContainer.clientWidth;
-                if (isOverflowing) {
-                    spanContainer.classList.add('animate');
-                    span.textContent = filter.text + ' \u00A0 \u00A0 \u00A0 \u00A0 ' + filter.text; // Lägg till tillräckligt med mellanrum för att skapa avstånd
-                } else {
-                    spanContainer.classList.remove('animate');
-                    span.textContent = filter.text; // Säkerställ att texten inte är duplicerad
-                    span.style.transform = 'none'; // Återställ transform för statisk text
-                }
-            });
+            adjustTextSize(textDiv, btn);
         });
 
         // Lägg till "Rensa allt"-knappen igen
         container.appendChild(clearAllButton);
+    }
+
+    // Funktion för att justera textstorleken
+    function adjustTextSize(textElement, buttonElement) {
+        let fontSize = parseFloat(window.getComputedStyle(textElement, null).getPropertyValue('font-size'));
+        while (textElement.scrollWidth > buttonElement.clientWidth && fontSize > 10) { // 10px som minsta fontstorlek
+            fontSize -= 1;
+            textElement.style.fontSize = fontSize + 'px';
+        }
     }
 
     // Funktion för att återställa de ursprungliga knapparna
