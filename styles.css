@@ -60,6 +60,7 @@ body, button, span, div {
     z-index: 999;
     position: relative; /* Lägg till för att få texten att positionera korrekt */
     text-align: center; /* Centrerar texten */
+    font-size: 1.2em;
     flex-direction: column; /* Placera innehållet i en kolumn */
 }
 
