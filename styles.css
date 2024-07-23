@@ -71,11 +71,13 @@ body, button, span, div {
 }
 
 .styled-button .text-content {
+    font-size: 1.2em; /* Startstorlek på texten */
     overflow: hidden;
     white-space: pre-line; /* Gör att radbrytning fungerar med <br> */
     width: 100%;
     text-align: center; /* Centrerar texten horisontellt */
 }
+
 
 
 html, body {
