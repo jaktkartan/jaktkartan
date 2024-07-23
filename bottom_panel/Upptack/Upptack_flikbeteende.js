@@ -127,7 +127,6 @@ function openUpptack() {
             const span = document.createElement('span');
             span.textContent = filter.text;
             spanContainer.appendChild(span);
-            spanContainer.appendChild(span.cloneNode(true)); // Duplicera texten för att skapa kontinuerlig loop
             btn.appendChild(spanContainer);
 
             container.appendChild(btn);
@@ -137,6 +136,7 @@ function openUpptack() {
                 const isOverflowing = span.scrollWidth > spanContainer.clientWidth;
                 if (isOverflowing) {
                     spanContainer.classList.add('animate');
+                    span.textContent += " \u00A0 \u00A0 \u00A0 " + filter.text; // Lägg till mellanrum och duplicera text
                 } else {
                     spanContainer.classList.remove('animate');
                 }
