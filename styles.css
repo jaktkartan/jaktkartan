@@ -84,7 +84,7 @@ body, button, span, div {
         2px -2px 0 rgb(240, 240, 240),
         -2px 2px 0 rgb(240, 240, 240),
         2px 2px 0 rgb(240, 240, 240); /* Bredare textskugga */
-    font-size: 16px; /* Vanlig fontstorlek */
+    font-size: 24px; /* Vanlig fontstorlek */
     overflow: hidden;
     white-space: pre-line; /* Gör att radbrytning fungerar med <br> */
     text-align: center; /* Centrerar texten horisontellt */
