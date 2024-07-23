@@ -95,7 +95,7 @@ var Kartor_geojsonHandler = (function() {
             }
         }
 
-        updateFabKartorVisibility(); // Uppdatera FAB-knappen när lager skapas
+        updateFAB(layerName, true);
     }
 
     function addClickHandlerToLayer(layer) {
@@ -158,7 +158,7 @@ var Kartor_geojsonHandler = (function() {
             map.on('zoomend', checkZoomLevel);
 
             console.log("WMS layer added to map:", currentWMSLayer);
-            updateFabKartorVisibility(); // Uppdatera FAB-knappen när lager aktiveras
+            updateFAB('Älgjaktsområden', true); // Säkerställ att FAB-knappen visas
         } else {
             if (currentWMSLayer) {
                 console.log('Removing Älgjaktsområden layer.');
@@ -168,7 +168,7 @@ var Kartor_geojsonHandler = (function() {
                 wmsClickHandler = null;
                 hideZoomMessage(); // Dölj meddelandet när lagret tas bort
                 map.off('zoomend', checkZoomLevel); // Ta bort händelsen för zoomnivån
-                updateFabKartorVisibility(); // Uppdatera FAB-knappen när lager avaktiveras
+                updateFAB('Älgjaktsområden', false); // Säkerställ att FAB-knappen döljs
             }
         }
     }
@@ -251,7 +251,14 @@ var Kartor_geojsonHandler = (function() {
             }
         });
 
-        updateFabKartorVisibility(); // Uppdatera FAB-knappen när alla lager avaktiveras
+        hideAllFABs(); // Lägg till detta för att dölja alla FAB-knappar
+    }
+
+    function hideAllFABs() {
+        var fabButtons = document.querySelectorAll('.fab');
+        fabButtons.forEach(function(button) {
+            button.style.display = 'none';
+        });
     }
 
     function deactivateLayer(layerName) {
@@ -279,25 +286,44 @@ var Kartor_geojsonHandler = (function() {
         }
     }
 
-    function updateFabKartorVisibility() {
-        var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive === true);
-        var fabKartorButton = document.getElementById('fab-kartor');
-        if (anyLayerActive) {
-            fabKartorButton.style.display = 'flex';
-            fabKartorButton.classList.add('show'); // Lägg till 'show' klass för säkerhets skull
-            console.log("FAB button set to display: flex");
-        } else {
-            fabKartorButton.style.display = 'none';
-            fabKartorButton.classList.remove('show'); // Ta bort 'show' klass för säkerhets skull
-            console.log("FAB button set to display: none");
+    function updateFAB(layerName, show) {
+        // Hide all FAB buttons
+        var fabButtons = document.querySelectorAll('.fab');
+        fabButtons.forEach(function(button) {
+            button.style.display = 'none';
+        });
+
+        // Show the correct FAB button
+        var fabId = getFABId(layerName);
+        var fabButton = document.getElementById(fabId);
+        if (fabButton) {
+            fabButton.style.display = show ? 'block' : 'none';
         }
-        console.log(`FAB button visibility updated: ${anyLayerActive ? 'visible' : 'hidden'}`);
+    }
+
+    function getFABId(layerName) {
+        switch(layerName) {
+            case 'Allmän jakt: Däggdjur':
+                return 'fab-daggdjur';
+            case 'Allmän jakt: Fågel':
+                return 'fab-fagel';
+            case 'Älgjaktskartan':
+                return 'fab-alg';
+            case 'Älgjaktsområden':
+                return 'fab-alg-omraden';
+            default:
+                return '';
+        }
+    }
+
+    function getFilenameFromURL(url) {
+        return url.substring(url.lastIndexOf('/') + 1);
     }
 
     return {
         toggleLayer: toggleLayer,
         loadElgjaktsomradenWMS: loadElgjaktsomradenWMS,
-        deactivateAllLayersKartor: deactivateAllLayersKartor
+        deactivateAllLayersKartor: deactivateAllLayersKartor // Lägg till denna rad för att exportera funktionen
     };
 })();
 
