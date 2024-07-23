@@ -1,17 +1,17 @@
-setTimeout(function() {
-    var layerURLs = {
-        'Mässor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/Massor.geojson'],
-        'Jaktkort': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktkort.geojson'],
-        'Jaktskyttebanor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
-    };
+var layerURLs = {
+    'Mässor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/Massor.geojson'],
+    'Jaktkort': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktkort.geojson'],
+    'Jaktskyttebanor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktskyttebanor.geojson']
+};
 
 var Upptack_geojsonHandler;
 
+setTimeout(function() {
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': true,
-            'Jaktkort': true,
-            'Jaktskyttebanor': true
+            'Mässor': false,
+            'Jaktkort': false,
+            'Jaktskyttebanor': false
         };
 
         var geojsonLayers = {
@@ -98,9 +98,13 @@ var Upptack_geojsonHandler;
         }
 
         function activateLayer(layerName) {
-            geojsonLayers[layerName].forEach(function(layer) {
-                layer.addTo(map);
-            });
+            if (!geojsonLayers[layerName].length) {
+                fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
+            } else {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    layer.addTo(map);
+                });
+            }
             layerIsActive[layerName] = true;
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager aktiveras
         }
@@ -114,7 +118,7 @@ var Upptack_geojsonHandler;
         }
 
         function activateAllLayers() {
-            Object.keys(geojsonLayers).forEach(function(layerName) {
+            Object.keys(layerURLs).forEach(function(layerName) {
                 activateLayer(layerName);
             });
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när alla lager aktiveras
@@ -210,9 +214,9 @@ var Upptack_geojsonHandler;
         }
 
         // Initialisera alla lager från början och uppdatera FAB-knappen
-        fetchGeoJSONDataAndCreateLayer('Mässor', layerURLs['Mässor']);
-        fetchGeoJSONDataAndCreateLayer('Jaktkort', layerURLs['Jaktkort']);
-        fetchGeoJSONDataAndCreateLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+        Object.keys(layerURLs).forEach(function(layerName) {
+            fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
+        });
 
         // Uppdatera FAB-knappen initialt
         updateFabUpptackVisibility();
