@@ -74,7 +74,7 @@ body, button, span, div {
     bottom: 0; /* Placera texten längst ner */
     width: 100%;
     color: rgb(50, 94, 88); /* Textens färg */
-    text-shadow: -2px -2px 3px rgba(240, 240, 240, 0.7), 2px -2px 3px rgba(240, 240, 240, 0.7), -2px 2px 3px rgba(240, 240, 240, 0.7), 2px 2px 3px rgba(240, 240, 240, 0.7); /* Bredare och transparent textskugga */
+    text-shadow: -2px -2px 3px rgba(240, 240, 240), 2px -2px 3px rgba(240, 240, 240), -2px 2px 3px rgba(240, 240, 240), 2px 2px 3px rgba(240, 240, 240); /* Bredare och transparent textskugga */
     font-size: 1.2em; /* Startstorlek på texten */
     overflow: hidden;
     white-space: pre-line; /* Gör att radbrytning fungerar med <br> */
