@@ -116,7 +116,6 @@ setTimeout(function() {
             Object.keys(layerURLs).forEach(function(layerName) {
                 activateLayer(layerName);
             });
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när alla lager aktiveras
         }
 
         function deactivateAllLayers() {
@@ -128,7 +127,6 @@ setTimeout(function() {
                     layerIsActive[name] = false;
                 }
             });
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när alla lager avaktiveras
         }
 
         function filterLayer(layerName) {
@@ -208,7 +206,7 @@ setTimeout(function() {
         }
 
         function updateFabUpptackVisibility() {
-            var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive);
+            var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive === true);
             var fabUpptackButton = document.getElementById('fab-upptack');
             fabUpptackButton.style.display = anyLayerActive ? 'block' : 'none';
         }
@@ -227,6 +225,8 @@ setTimeout(function() {
                 });
             });
         });
+
+        map.on('layeradd layerremove', updateFabUpptackVisibility);
 
         document.getElementById('fab-upptack').addEventListener('click', function() {
             var modal = document.getElementById('modal-upptack');
