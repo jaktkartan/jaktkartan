@@ -26,16 +26,26 @@ function openUpptack() {
     showAllButton.onclick = function() {
         if (typeof Upptack_geojsonHandler !== 'undefined') {
             console.log('Activating all layers');
-            for (const layerName in layerURLs) {
-                if (layerURLs.hasOwnProperty(layerName)) {
-                    Upptack_geojsonHandler.activateLayer(layerName, layerURLs[layerName]);
-                }
-            }
+            Upptack_geojsonHandler.toggleLayer('Visa_allt');
         } else {
             console.error("Upptack_geojsonHandler är inte definierad.");
         }
     };
     container.appendChild(showAllButton);
+
+    // Skapa "Rensa allt"-knappen
+    const clearAllButton = document.createElement('button');
+    clearAllButton.className = 'styled-button';
+    clearAllButton.textContent = 'Rensa allt';
+    clearAllButton.onclick = function() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Clearing all layers');
+            Upptack_geojsonHandler.toggleLayer('Rensa_allt');
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
+        }
+    };
+    container.appendChild(clearAllButton);
 
     // Skapa "Filtrera"-knappen
     const filterButton = document.createElement('button');
@@ -58,7 +68,7 @@ function openUpptack() {
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Activating Mässor layer');
-                        Upptack_geojsonHandler.toggleLayer('Mässor', layerURLs['Mässor']);
+                        Upptack_geojsonHandler.toggleLayer('Mässor');
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
@@ -72,7 +82,7 @@ function openUpptack() {
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Activating Jaktkort layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktkort', layerURLs['Jaktkort']);
+                        Upptack_geojsonHandler.toggleLayer('Jaktkort');
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
@@ -86,7 +96,7 @@ function openUpptack() {
                 onclick: function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Activating Jaktskyttebanor layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', layerURLs['Jaktskyttebanor']);
+                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
@@ -94,19 +104,6 @@ function openUpptack() {
                 },
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
                 imgAlt: 'Jaktskyttebanor'
-            },
-            {
-                className: 'styled-button',
-                textContent: 'Rensa allt',
-                onclick: function() {
-                    if (typeof Upptack_geojsonHandler !== 'undefined') {
-                        console.log('Clearing all layers');
-                        Upptack_geojsonHandler.deactivateAllLayers();
-                    } else {
-                        console.error("Upptack_geojsonHandler är inte definierad.");
-                    }
-                    restoreOriginalButtons();
-                }
             }
         ];
 
@@ -120,12 +117,13 @@ function openUpptack() {
                 img.src = filter.imgSrc;
                 img.alt = filter.imgAlt;
                 btn.appendChild(img);
-            } else if (filter.textContent) {
-                btn.textContent = filter.textContent;
             }
 
             container.appendChild(btn);
         });
+
+        // Lägg till "Rensa allt"-knappen igen
+        container.appendChild(clearAllButton);
     }
 
     // Funktion för att återställa de ursprungliga knapparna
