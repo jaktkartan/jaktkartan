@@ -75,7 +75,7 @@ body, button, span, div {
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
-    padding: 0 10px; /* Lägg till padding för lite mellanrum från kanten */
+    padding: 0 5px; /* Lägg till padding för lite mellanrum från kanten */
     text-align: center; /* Centrerar texten horisontellt */
     box-sizing: border-box;
     display: flex; /* Lägg till flexbox för att kunna animera texten korrekt */
@@ -91,11 +91,8 @@ body, button, span, div {
     0% {
         transform: translateX(100%);
     }
-    50% {
-        transform: translateX(-100%);
-    }
     100% {
-        transform: translateX(100%);
+        transform: translateX(-100%);
     }
 }
 
