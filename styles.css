@@ -78,14 +78,12 @@ body, button, span, div {
     text-align: center; /* Centrerar texten horisontellt */
     box-sizing: border-box;
     display: flex; /* Lägg till flexbox för att kunna animera texten korrekt */
-    justify-content: center; /* Centrerar texten */
     white-space: nowrap;
 }
 
 .styled-button .scrolling-text span {
     display: inline-block;
     white-space: nowrap;
-    animation: none; /* Inaktivera animation som standard */
 }
 
 .styled-button .scrolling-text.animate span {
