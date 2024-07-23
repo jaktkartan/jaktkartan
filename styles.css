@@ -83,7 +83,7 @@ body, button, span, div {
         2px -2px 0 rgb(240, 240, 240),
         -2px 2px 0 rgb(240, 240, 240),
         2px 2px 0 rgb(240, 240, 240); /* Bredare textskugga */
-    font-size: 1.2em; /* Startstorlek på texten */
+    font-size: 2em; /* Ökad storlek på texten */
     overflow: hidden;
     white-space: pre-line; /* Gör att radbrytning fungerar med <br> */
     text-align: center; /* Centrerar texten horisontellt */
@@ -91,9 +91,6 @@ body, button, span, div {
     padding: 5px; /* Padding för texten */
     box-sizing: border-box; /* Inkludera padding i elementets totala bredd och höjd */
 }
-
-
-
 
 
 
