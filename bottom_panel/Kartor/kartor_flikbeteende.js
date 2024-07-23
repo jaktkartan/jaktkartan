@@ -1,16 +1,15 @@
-// bottom_panel/Kartor/kartor_flikbeteende.js
-function openKartor() {
+function openUpptack() {
     // Dölj andra flikar
-    document.getElementById('tab1').style.display = 'none';
+    document.getElementById('tab2').style.display = 'none';
 
-    // Hitta tab-pane för kartor
-    const tabPane = document.getElementById('tab2');
+    // Hitta tab-pane för upptäck
+    const tabPane = document.getElementById('tab1');
     if (!tabPane) {
-        console.error('Tab pane for kartor not found.');
+        console.error('Tab pane for upptäck not found.');
         return;
     }
 
-    // Visa tab2
+    // Visa tab1
     tabPane.style.display = 'flex';
 
     // Rensa tidigare innehåll
@@ -18,144 +17,130 @@ function openKartor() {
 
     // Skapa en container div för att centrera innehållet
     const container = document.createElement('div');
-    container.className = 'button-container'; // Använd samma klass för stilsättning
+    container.className = 'button-container';
 
-    // Skapa knapp-container
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'button-container'; // Använd samma klass för stilsättning
-
-    // Definiera knapparna med deras respektive egenskaper
-    const buttons = [
-        {
-            className: 'styled-button', // Använd samma klass för stilsättning
-            onclick: function() {
-                Kartor_geojsonHandler.toggleLayer('Allmän jakt: Däggdjur', [
-                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Rvjaktilvdalenskommun_1.geojson', 
-                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_daggdjur/geojsonfiler/Allman_jakt_daggdjur_2.geojson'
-                ]);
-            },
-            imgSrc: 'bottom_panel/Kartor/bilder/daggdjurikon.png',
-            imgAlt: 'Allmän jakt: Däggdjur'
-        },
-        {
-            className: 'styled-button', // Använd samma klass för stilsättning
-            onclick: function() {
-                Kartor_geojsonHandler.toggleLayer('Allmän jakt: Fågel', [
-                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/OvanfrLapplandsgrnsen_4.geojson', 
-                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/NedanfrLappmarksgrnsen_3.geojson', 
-                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Grnsfrripjaktilvdalenskommun_2.geojson', 
-                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/Lnsindelning_1.geojson', 
-                    'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Allman_jakt_Fagel/geojsonfiler/GrnslvsomrdetillFinland_5.geojson'
-                ]);
-            },
-            imgSrc: 'bottom_panel/Kartor/bilder/fagelikon.png',
-            imgAlt: 'Allmän jakt: Fågel'
-        },
-        {
-            className: 'styled-button', // Använd samma klass för stilsättning
-            id: 'huvudknapp-älgjakt-button', // Ändrad id
-            imgSrc: 'bottom_panel/Kartor/bilder/algikon.png',
-            imgAlt: 'Huvudknapp-Älgjakt' // Ändrad imgAlt
+    // Skapa "Visa allt"-knappen
+    const showAllButton = document.createElement('button');
+    showAllButton.className = 'styled-button';
+    showAllButton.textContent = 'Visa allt';
+    showAllButton.onclick = function() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Activating all layers');
+            Upptack_geojsonHandler.toggleLayer('Visa_allt');
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
         }
-    ];
+    };
+    container.appendChild(showAllButton);
 
-    // Skapa knappar och lägg till dem i knapp-container
-    buttons.forEach(button => {
-        const btn = document.createElement('button');
-        btn.className = button.className;
-        btn.id = button.id || '';
-
-        if (button.onclick) {
-            btn.onclick = button.onclick;
+    // Skapa "Rensa allt"-knappen
+    const clearAllButton = document.createElement('button');
+    clearAllButton.className = 'styled-button';
+    clearAllButton.textContent = 'Rensa allt';
+    clearAllButton.onclick = function() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Clearing all layers');
+            Upptack_geojsonHandler.toggleLayer('Rensa_allt');
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
         }
+    };
+    container.appendChild(clearAllButton);
 
-        const img = document.createElement('img');
-        img.src = button.imgSrc;
-        img.alt = button.imgAlt;
+    // Skapa "Filtrera"-knappen
+    const filterButton = document.createElement('button');
+    filterButton.className = 'styled-button';
+    filterButton.textContent = 'Filtrera';
+    filterButton.id = 'filter-button';
+    filterButton.onclick = function(event) {
+        event.stopPropagation();
+        showFilterOptions();
+    };
+    container.appendChild(filterButton);
 
-        btn.appendChild(img);
-        buttonContainer.appendChild(btn);
-    });
+    // Skapa en meny för "Filtrera"-knappen
+    function showFilterOptions() {
+        container.innerHTML = ''; // Rensa knappcontainern
 
-    // Lägg till knapp-container till tab-pane
-    tabPane.appendChild(buttonContainer);
+        const filters = [
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating Mässor layer');
+                        Upptack_geojsonHandler.toggleLayer('Mässor');
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    restoreOriginalButtons();
+                },
+                imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
+                imgAlt: 'Mässor',
+                text: 'Mässor'
+            },
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating Jaktkort layer');
+                        Upptack_geojsonHandler.toggleLayer('Jaktkort');
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    restoreOriginalButtons();
+                },
+                imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
+                imgAlt: 'Jaktkort',
+                text: 'Jaktkort'
+            },
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating Jaktskyttebanor layer');
+                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    restoreOriginalButtons();
+                },
+                imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
+                imgAlt: 'Jaktskyttebanor',
+                text: 'Jaktskytte-<br>banor' // Exempel på radbrytning
+            }
+        ];
 
-    // Lägg till tab-pane till container
-    container.appendChild(tabPane);
+        filters.forEach(filter => {
+            const btn = document.createElement('button');
+            btn.className = filter.className;
+            btn.onclick = filter.onclick;
 
-    // Lägg till container till body
-    document.body.appendChild(container);
+            if (filter.imgSrc) {
+                const img = document.createElement('img');
+                img.src = filter.imgSrc;
+                img.alt = filter.imgAlt;
+                btn.appendChild(img);
+            }
 
-    // Skapa en meny för huvudknappen Älgjakt
-    const huvudknappAlgjaktButton = document.getElementById('huvudknapp-älgjakt-button');
+            const textDiv = document.createElement('div');
+            textDiv.className = 'text-content';
+            textDiv.innerHTML = filter.text; // Använd innerHTML för att tolka <br>
+            btn.appendChild(textDiv);
 
-    // Hantera klick på huvudknappen
-    huvudknappAlgjaktButton.addEventListener('click', function(event) {
-        event.stopPropagation(); // Förhindra att klick utanför menyn stänger den
-        showElkMapOptions();
-    });
+            container.appendChild(btn);
+        });
 
-    // Funktion för att visa alternativ för Älgjaktskartan
-    function showElkMapOptions() {
-        buttonContainer.innerHTML = ''; // Rensa knappcontainern
-
-        const elkJaktsomradenButton = document.createElement('button');
-        elkJaktsomradenButton.className = 'styled-button';
-        elkJaktsomradenButton.onclick = function() {
-            // Ladda WMS-lager för Älgjaktsområden
-            Kartor_geojsonHandler.toggleLayer('Älgjaktsområden');
-        };
-
-        const elkAlternativButton = document.createElement('button');
-        elkAlternativButton.className = 'styled-button';
-        elkAlternativButton.onclick = function() {
-            Kartor_geojsonHandler.toggleLayer('Älgjaktskartan', [
-                'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/lgjaktJakttider_1.geojson',
-                'https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Kartor/Algjaktskartan/geojsonfiler/Omrdemedbrunstuppehll_2.geojson'
-            ]);
-            restoreOriginalButtons();
-        };
-
-        const jaktsomradenImg = document.createElement('img');
-        jaktsomradenImg.src = 'bottom_panel/Kartor/bilder/Algjaktsomraden_ikon.png';
-        jaktsomradenImg.alt = 'Älgjaktsområden';
-        elkJaktsomradenButton.appendChild(jaktsomradenImg);
-
-        const alternativImg = document.createElement('img');
-        alternativImg.src = 'bottom_panel/Kartor/bilder/Algjaktskartan_ikon.png';
-        alternativImg.alt = 'Älgjaktskartan'; // Ändrad imgAlt
-        elkAlternativButton.appendChild(alternativImg);
-
-        buttonContainer.appendChild(elkJaktsomradenButton);
-        buttonContainer.appendChild(elkAlternativButton);
+        // Lägg till "Rensa allt"-knappen igen
+        container.appendChild(clearAllButton);
     }
 
     // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
-        buttonContainer.innerHTML = '';
-
-        // Skapa och lägg till ursprungliga knappar
-        buttons.forEach(button => {
-            if (button.id !== 'huvudknapp-älgjakt-button') {
-                const btn = document.createElement('button');
-                btn.className = button.className;
-                if (button.onclick) {
-                    btn.onclick = button.onclick;
-                }
-
-                const img = document.createElement('img');
-                img.src = button.imgSrc;
-                img.alt = button.imgAlt;
-
-                btn.appendChild(img);
-                buttonContainer.appendChild(btn);
-            }
-        });
-
-        // Lägg till knappen för Huvudknapp Älgjakt igen
-        buttonContainer.appendChild(huvudknappAlgjaktButton);
+        container.innerHTML = '';
+        container.appendChild(showAllButton);
+        container.appendChild(filterButton);
     }
 
-    // Debugging
-    console.log('Kartor tab created and added to body');
+    // Lägg till knapp-container till tab-pane
+    tabPane.appendChild(container);
 }
