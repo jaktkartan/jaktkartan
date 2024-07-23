@@ -59,38 +59,41 @@ body, button, span, div {
     outline: none;
     z-index: 999;
     position: relative; /* Lägg till för att få texten att positionera korrekt */
+    flex-direction: column; /* Lägg till detta för att placera bilden ovanpå texten */
 }
 
 .styled-button img {
     width: auto;
-    height: 100%;
-    max-height: 10vh; /* Maxhöjd för bilderna */
+    height: 70%; /* Mindre storlek på bilderna för att ge plats åt texten */
+    max-height: 70%; /* Maxhöjd för bilderna */
     object-fit: contain; /* Sätt objektet att fylla innehållsramen och bibehålla proportionerna */
-    margin: auto; /* Centrerar bilden inom knappen */
 }
 
 .styled-button .scrolling-text {
-    position: absolute;
-    bottom: 0;
+    position: relative;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 0 10px; /* Lägg till padding för lite mellanrum från kanten */
+    bottom: 0; /* Placera texten längst ner */
 }
 
 .styled-button .scrolling-text::before {
     content: attr(data-text);
     position: absolute;
-    animation: scrollText 10s linear infinite;
+    animation: scrollText 5s linear infinite;
 }
 
 @keyframes scrollText {
     0% {
         transform: translateX(100%);
     }
-    100% {
+    50% {
         transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
     }
 }
 
