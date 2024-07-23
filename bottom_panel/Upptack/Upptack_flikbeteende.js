@@ -136,7 +136,9 @@ function openUpptack() {
                 const isOverflowing = span.scrollWidth > spanContainer.clientWidth;
                 if (isOverflowing) {
                     spanContainer.classList.add('animate');
-                    span.textContent = `${filter.text} \u00A0 \u00A0 \u00A0 ${filter.text}`;
+                    span.textContent = filter.text;
+                    const spanClone = span.cloneNode(true);
+                    span.appendChild(spanClone);
                 } else {
                     spanContainer.classList.remove('animate');
                     span.textContent = filter.text; // Säkerställ att texten inte är duplicerad
