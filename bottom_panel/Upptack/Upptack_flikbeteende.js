@@ -130,6 +130,16 @@ function openUpptack() {
             btn.appendChild(spanContainer);
 
             container.appendChild(btn);
+
+            // Kontrollera om texten är för bred och lägg till animation vid behov
+            requestAnimationFrame(() => {
+                const isOverflowing = span.scrollWidth > spanContainer.clientWidth;
+                if (isOverflowing) {
+                    span.style.animation = 'scrollText 10s linear infinite';
+                } else {
+                    span.style.animation = 'none';
+                }
+            });
         });
 
         // Lägg till "Rensa allt"-knappen igen
