@@ -84,7 +84,8 @@ body, button, span, div {
 
 .styled-button .scrolling-text span {
     display: inline-block;
-    padding-right: 10px; /* Skapar ett litet mellanrum mellan textens slut och början */
+    white-space: nowrap;
+    padding-right: 20px; /* Skapar ett litet mellanrum mellan textens slut och början */
 }
 
 .styled-button .scrolling-text.animate span {
@@ -93,7 +94,7 @@ body, button, span, div {
 
 @keyframes scrollText {
     0% {
-        transform: translateX(0);
+        transform: translateX(100%);
     }
     100% {
         transform: translateX(-100%);
