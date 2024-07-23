@@ -129,7 +129,7 @@ function openUpptack() {
 
             container.appendChild(btn);
 
-            adjustTextSize(textDiv, btn);
+            adjustTextSize(textDiv, btn, filter.text.includes('<br>'));
         });
 
         // Lägg till "Rensa allt"-knappen igen
@@ -137,10 +137,10 @@ function openUpptack() {
     }
 
     // Funktion för att justera textstorleken
-    function adjustTextSize(textElement, buttonElement) {
-        let fontSize = 1.2; // Startstorlek på texten i em
+    function adjustTextSize(textElement, buttonElement, isMultiline) {
+        let fontSize = isMultiline ? 0.6 : 1.2; // Startstorlek på texten: mindre om radbrytning behövs
         textElement.style.fontSize = fontSize + 'em';
-        while ((textElement.scrollWidth > buttonElement.clientWidth || textElement.scrollHeight > buttonElement.clientHeight) && fontSize > 0.5) { // 0.5em som minsta fontstorlek
+        while ((textElement.scrollHeight > buttonElement.clientHeight || textElement.scrollWidth > buttonElement.clientWidth) && fontSize > 0.5) { // 0.5em som minsta fontstorlek
             fontSize -= 0.1;
             textElement.style.fontSize = fontSize + 'em';
         }
