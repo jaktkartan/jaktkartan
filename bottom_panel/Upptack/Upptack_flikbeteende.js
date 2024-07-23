@@ -136,17 +136,6 @@ function openUpptack() {
         container.appendChild(clearAllButton);
     }
 
-    // Funktion för att justera textstorleken
-    function adjustTextSize(textElement, buttonElement) {
-        let fontSize = 1.2; // Startstorlek på texten i em
-        textElement.style.fontSize = fontSize + 'em';
-        const maxHeight = buttonElement.clientHeight * 0.3; // Maxhöjd för texten är 30% av knappens höjd
-        while ((textElement.scrollHeight > maxHeight || textElement.scrollWidth > buttonElement.clientWidth) && fontSize > 0.5) { // 0.5em som minsta fontstorlek
-            fontSize -= 0.1;
-            textElement.style.fontSize = fontSize + 'em';
-        }
-    }
-
     // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
         container.innerHTML = '';
