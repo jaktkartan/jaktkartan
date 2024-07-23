@@ -71,11 +71,15 @@ body, button, span, div {
 
 .styled-button .scrolling-text {
     position: relative;
+    bottom: 0;
     width: 100%;
     overflow: hidden;
     padding: 0 10px; /* Lägg till padding för lite mellanrum från kanten */
     text-align: center; /* Centrerar texten horisontellt */
     box-sizing: border-box;
+    display: flex; /* Lägg till flexbox för att kunna animera texten korrekt */
+    justify-content: center; /* Centrerar texten */
+    white-space: nowrap;
 }
 
 .styled-button .scrolling-text span {
@@ -94,10 +98,6 @@ body, button, span, div {
     100% {
         transform: translateX(-100%);
     }
-}
-
-.styled-button .scrolling-text.animate span::after {
-    content: ' \u00A0 \u00A0 \u00A0 ';
 }
 
 html, body {
