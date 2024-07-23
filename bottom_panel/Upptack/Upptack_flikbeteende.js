@@ -138,7 +138,7 @@ function openUpptack() {
 
     // Funktion för att justera textstorleken
     function adjustTextSize(textElement, buttonElement) {
-        let fontSize = 1.2; // Maxstorlek på texten i em
+        let fontSize = 1.2; // Startstorlek på texten i em
         textElement.style.fontSize = fontSize + 'em';
         while (textElement.scrollWidth > buttonElement.clientWidth && fontSize > 0.5) { // 0.5em som minsta fontstorlek
             fontSize -= 0.1;
