@@ -25,20 +25,6 @@ function openUpptack() {
     const container = document.createElement('div');
     container.className = 'button-container';
 
-    // Skapa "Visa allt"-knappen
-    const showAllButton = document.createElement('button');
-    showAllButton.className = 'styled-button';
-    showAllButton.textContent = 'Visa allt';
-    showAllButton.onclick = function() {
-        if (typeof Upptack_geojsonHandler !== 'undefined') {
-            console.log('Activating all layers');
-            Upptack_geojsonHandler.toggleLayer('Visa_allt');
-        } else {
-            console.error("Upptack_geojsonHandler är inte definierad.");
-        }
-    };
-    container.appendChild(showAllButton);
-
     // Skapa "Filtrera"-knappen
     const filterButton = document.createElement('button');
     filterButton.className = 'styled-button';
@@ -53,6 +39,20 @@ function openUpptack() {
     // Skapa en meny för "Filtrera"-knappen
     function showFilterOptions() {
         container.innerHTML = ''; // Rensa knappcontainern
+
+        // Skapa "Visa allt"-knappen
+        const showAllButton = document.createElement('button');
+        showAllButton.className = 'styled-button';
+        showAllButton.textContent = 'Visa allt';
+        showAllButton.onclick = function() {
+            if (typeof Upptack_geojsonHandler !== 'undefined') {
+                console.log('Activating all layers');
+                Upptack_geojsonHandler.toggleLayer('Visa_allt');
+            } else {
+                console.error("Upptack_geojsonHandler är inte definierad.");
+            }
+        };
+        container.appendChild(showAllButton);
 
         const filters = [
             {
@@ -126,7 +126,6 @@ function openUpptack() {
     // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
         container.innerHTML = '';
-        container.appendChild(showAllButton);
         container.appendChild(filterButton);
     }
 
