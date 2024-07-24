@@ -52,7 +52,7 @@ function openUpptack() {
                     }
                     restoreOriginalButtons();
                 },
-                imgSrc: 'bottom_panel/Kartor/bilder/visa_allt_ikon.png',
+                imgSrc: 'bottom_panel/Upptack/bilder/visa_allt_ikon.png',
                 imgAlt: 'Visa allt',
                 text: 'Visa allt'
             },
