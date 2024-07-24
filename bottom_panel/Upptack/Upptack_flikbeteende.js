@@ -40,21 +40,22 @@ function openUpptack() {
     function showFilterOptions() {
         container.innerHTML = ''; // Rensa knappcontainern
 
-        // Skapa "Visa allt"-knappen
-        const showAllButton = document.createElement('button');
-        showAllButton.className = 'styled-button';
-        showAllButton.textContent = 'Visa allt';
-        showAllButton.onclick = function() {
-            if (typeof Upptack_geojsonHandler !== 'undefined') {
-                console.log('Activating all layers');
-                Upptack_geojsonHandler.toggleLayer('Visa_allt');
-            } else {
-                console.error("Upptack_geojsonHandler är inte definierad.");
-            }
-        };
-        container.appendChild(showAllButton);
-
         const filters = [
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating all layers');
+                        Upptack_geojsonHandler.toggleLayer('Visa_allt');
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    restoreOriginalButtons();
+                },
+                imgSrc: 'bottom_panel/Kartor/bilder/visa_allt_ikon.png',
+                imgAlt: 'Visa allt',
+                text: 'Visa allt'
+            },
             {
                 className: 'styled-button',
                 onclick: function() {
