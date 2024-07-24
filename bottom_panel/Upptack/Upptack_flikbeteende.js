@@ -39,7 +39,6 @@ function openUpptack() {
     };
     container.appendChild(showAllButton);
 
-
     // Skapa "Filtrera"-knappen
     const filterButton = document.createElement('button');
     filterButton.className = 'styled-button';
@@ -122,7 +121,7 @@ function openUpptack() {
 
             container.appendChild(btn);
         });
-
+    }
 
     // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
