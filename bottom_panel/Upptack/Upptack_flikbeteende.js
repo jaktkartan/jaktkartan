@@ -39,19 +39,6 @@ function openUpptack() {
     };
     container.appendChild(showAllButton);
 
-    // Skapa "Rensa allt"-knappen
-    const clearAllButton = document.createElement('button');
-    clearAllButton.className = 'styled-button';
-    clearAllButton.textContent = 'Rensa allt';
-    clearAllButton.onclick = function() {
-        if (typeof Upptack_geojsonHandler !== 'undefined') {
-            console.log('Clearing all layers');
-            Upptack_geojsonHandler.toggleLayer('Rensa_allt');
-        } else {
-            console.error("Upptack_geojsonHandler är inte definierad.");
-        }
-    };
-    container.appendChild(clearAllButton);
 
     // Skapa "Filtrera"-knappen
     const filterButton = document.createElement('button');
@@ -136,9 +123,6 @@ function openUpptack() {
             container.appendChild(btn);
         });
 
-        // Lägg till "Rensa allt"-knappen igen
-        container.appendChild(clearAllButton);
-    }
 
     // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
