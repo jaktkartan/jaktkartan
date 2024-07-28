@@ -341,7 +341,7 @@ select, input[type="date"] {
     width: auto;
     display: block;
     margin-bottom: 5px; /* Mindre radavstånd */
-    max-width: 300px; /* Gör att menyn inte är bredare än nödvändigt */
+    max-width: 150px; /* Gör att menyn inte är bredare än nödvändigt */
 }
 
 #results {
