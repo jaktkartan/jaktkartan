@@ -352,7 +352,7 @@ select, input[type="date"] {
 
 .result-item {
     padding: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
