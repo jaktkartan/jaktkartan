@@ -327,7 +327,7 @@ h1 {
     border: 1px solid #ddd;
     padding: 5px;
     margin-bottom: 20px;
-    margin-top: 20px; /* Ökad radavstånd från rubriken till disclaimer */
+    margin-top: 100px; /* Ökad radavstånd från rubriken till disclaimer */
     border-radius: 5px;
 }
 
