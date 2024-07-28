@@ -329,7 +329,6 @@ style.innerHTML = `
 label {
     margin-right: 10px;
     font-weight: bold;
-    margin-bottom: 50px;
 }
 
 select, input[type="date"] {
