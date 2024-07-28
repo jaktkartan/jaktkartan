@@ -15,6 +15,7 @@ function openJaktbartIdag() {
     // Visa tab3
     tabPane.style.display = 'flex';
     tabPane.style.flexDirection = 'column';
+    tabPane.style.alignItems = 'center'; // Centrera innehållet horisontellt
 
     // Rensa tidigare innehåll
     tabPane.innerHTML = '';
@@ -401,14 +402,16 @@ select, input[type="date"] {
 
 .selection-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centrera innehållet horisontellt */
     width: 100%;
     padding: 10px 0;
+    gap: 20px; /* Lägg till utrymme mellan containerna */
 }
 
 .county-container, .date-container {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Centrera innehållet vertikalt inom containerna */
 }
 `;
 document.head.appendChild(style);
