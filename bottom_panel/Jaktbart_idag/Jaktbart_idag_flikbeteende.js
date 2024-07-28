@@ -317,7 +317,6 @@ function initializePage() {
 
 const style = document.createElement('style');
 style.innerHTML = `
-
 #disclaimer {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -361,6 +360,11 @@ select, input[type="date"] {
     margin-top: 0;
 }
 
+.result-item p {
+    margin: 2px 0; /* Minska radavståndet mellan starttid och sluttid */
+    padding: 0; /* Ta bort extra padding */
+}
+
 .slide-down {
     animation: slideDown 0.5s ease-in-out;
 }
@@ -377,3 +381,4 @@ select, input[type="date"] {
 }
 `;
 document.head.appendChild(style);
+
