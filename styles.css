@@ -181,7 +181,7 @@ html, body {
 /* Skrollbara flikar */
 #tab3.tab-pane, #tab5.tab-pane {
     height: 50vh; /* Specifik höjd för tab3 och tab5 */
-    width: 100%;
+    width: 95%;
     display: flex; /* Flexbox layout */
     flex-direction: column; /* Kolumnlayout */
     padding: 0px;
