@@ -318,7 +318,7 @@ function initializePage() {
 const style = document.createElement('style');
 style.innerHTML = `
 h1 {
-    margin-bottom: 20px; /* Ökad radavstånd från rubriken till nästa element */
+    margin-bottom: 50px; /* Ökad radavstånd från rubriken till nästa element */
     text-align: center;
 }
 
