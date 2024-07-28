@@ -14,6 +14,7 @@ function openJaktbartIdag() {
 
     // Visa tab3
     tabPane.style.display = 'flex';
+    tabPane.style.flexDirection = 'column';
 
     // Rensa tidigare innehåll
     tabPane.innerHTML = '';
@@ -24,10 +25,19 @@ function openJaktbartIdag() {
     header.className = 'tab3-header-title';
     tabPane.appendChild(header);
 
+    // Skapa en container för län och datum val
+    const selectionContainer = document.createElement('div');
+    selectionContainer.className = 'selection-container';
+    tabPane.appendChild(selectionContainer);
+
+    const countyContainer = document.createElement('div');
+    countyContainer.className = 'county-container';
+    selectionContainer.appendChild(countyContainer);
+
     const countyLabel = document.createElement('label');
     countyLabel.htmlFor = 'county';
     countyLabel.textContent = 'Välj annat län:';
-    tabPane.appendChild(countyLabel);
+    countyContainer.appendChild(countyLabel);
 
     const countySelect = document.createElement('select');
     countySelect.id = 'county';
@@ -39,23 +49,23 @@ function openJaktbartIdag() {
         option.textContent = county;
         countySelect.appendChild(option);
     });
-    tabPane.appendChild(countySelect);
+    countyContainer.appendChild(countySelect);
 
-    tabPane.appendChild(document.createElement('br'));
+    const dateContainer = document.createElement('div');
+    dateContainer.className = 'date-container';
+    selectionContainer.appendChild(dateContainer);
 
     const dateLabel = document.createElement('label');
     dateLabel.htmlFor = 'date';
     dateLabel.textContent = 'Välj annat datum:';
-    tabPane.appendChild(dateLabel);
+    dateContainer.appendChild(dateLabel);
 
     const dateInput = document.createElement('input');
     dateInput.type = 'date';
     dateInput.id = 'date';
     dateInput.name = 'date';
     dateInput.onchange = getHuntingInfo;
-    tabPane.appendChild(dateInput);
-
-    tabPane.appendChild(document.createElement('br'));
+    dateContainer.appendChild(dateInput);
 
     const resultsDiv = document.createElement('div');
     resultsDiv.id = 'results';
@@ -335,14 +345,13 @@ select, input[type="date"] {
     padding: 5px;
     font-size: 1em;
     width: auto;
-    display: block;
     margin-bottom: 5px; /* Mindre radavstånd */
     max-width: 150px; /* Gör att menyn inte är bredare än nödvändigt */
 }
 
 .tab3-header-title {
-    position: relative; /* Ändrat från absolute till relative */
-    margin-top: 20px; /* Lagt till denna rad för att lägga till marginal ovanför rubriken */
+    position: relative;
+    margin-top: 20px;
     padding: 0;
     font-size: 24px;
     color: rgb(50, 94, 88);
@@ -350,8 +359,8 @@ select, input[type="date"] {
 }
 
 #results {
-    margin-left: 10px; /* Minska marginal till skärmens kanter */
-    margin-right: 10px; /* Minska marginal till skärmens kanter */
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .result-heading {
@@ -371,8 +380,8 @@ select, input[type="date"] {
 }
 
 .result-item p {
-    margin: 2px 0; /* Minska radavståndet mellan starttid och sluttid */
-    padding: 0; /* Ta bort extra padding */
+    margin: 2px 0;
+    padding: 0;
 }
 
 .slide-down {
@@ -388,6 +397,18 @@ select, input[type="date"] {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.selection-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.county-container, .date-container {
+    display: flex;
+    flex-direction: column;
 }
 `;
 document.head.appendChild(style);
