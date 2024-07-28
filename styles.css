@@ -134,7 +134,7 @@ html, body {
     right: 0;
 }
 
-.tab-pane {
+.container .tab-pane {
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -142,7 +142,7 @@ html, body {
     width: 95%;
     background-color: white;
     color: rgb(50, 94, 88);
-    padding: 10px;
+    padding: 5px;
     z-index: 1000;
     overflow-y: hidden; /* Ändra till hidden för att undvika att fliken skrollar */
     border-top-left-radius: 15px;
@@ -153,6 +153,25 @@ html, body {
     display: flex;
     flex-direction: column; /* Lägg till detta för att använda flexbox layout */
 }
+
+/* För mobil enheter */
+@media (max-width: 768px) {
+    .container .tab-pane {
+        width: 100%;
+        left: 0;
+        transform: none;
+    }
+}
+
+/* För större skärmar */
+@media (min-width: 769px) {
+    .container .tab-pane {
+        width: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
 
 /* Specifika stilar för #tab1 och #tab2 */
 #tab1.tab-pane, #tab2.tab-pane {
