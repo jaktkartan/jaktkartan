@@ -346,6 +346,7 @@ select, input[type="date"] {
     padding: 0;
     font-size: 24px;
     color: rgb(50, 94, 88);
+    text-align: center;
 }
 
 #results {
