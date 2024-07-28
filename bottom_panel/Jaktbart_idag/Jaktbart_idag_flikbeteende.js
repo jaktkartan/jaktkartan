@@ -323,13 +323,13 @@ style.innerHTML = `
     border: 1px solid #ddd;
     padding: 5px;
     margin-bottom: 10px;
-    margin-top: 45px; /* Ökad radavstånd från rubriken till disclaimer */
-    border-radius: 5px;
+    margin-top: 10px;
 }
 
 label {
     margin-right: 10px;
     font-weight: bold;
+    margin-bottom: 50px;
 }
 
 select, input[type="date"] {
