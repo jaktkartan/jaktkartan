@@ -323,7 +323,7 @@ style.innerHTML = `
     border: 1px solid #ddd;
     padding: 5px;
     margin-bottom: 20px;
-    margin-top: 30px; /* Ökad radavstånd från rubriken till disclaimer */
+    margin-top: 45px; /* Ökad radavstånd från rubriken till disclaimer */
     border-radius: 5px;
 }
 
