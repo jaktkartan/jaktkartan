@@ -78,8 +78,8 @@ function openJaktbartIdag() {
     disclaimer.innerHTML = '<p>Observera: Försäkra dig alltid om att informationen stämmer genom att kontrollera <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/jaktforordning-1987905_sfs-1987-905/" target="_blank">Bilaga 1 i Jaktförordningen (1987:905)</a>.</p>';
     tabPane.appendChild(disclaimer);
 
-    // Starta sidan med dagens datum
-    const today = new Date().toISOString().split('T')[0];
+    // Starta sidan med dagens datum i svensk tid
+    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Stockholm' }).split('T')[0];
     dateInput.value = today;
     displaySavedUserPosition().then(getHuntingInfo);
 }
