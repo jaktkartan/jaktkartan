@@ -341,10 +341,8 @@ select, input[type="date"] {
 }
 
 .tab3-header-title {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    margin: 0;
+    position: relative; /* Ändrat från absolute till relative */
+    margin-top: 20px; /* Lagt till denna rad för att lägga till marginal ovanför rubriken */
     padding: 0;
     font-size: 24px;
     color: rgb(50, 94, 88);
