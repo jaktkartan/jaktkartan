@@ -322,7 +322,7 @@ style.innerHTML = `
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     padding: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     margin-top: 45px; /* Ökad radavstånd från rubriken till disclaimer */
     border-radius: 5px;
 }
@@ -352,7 +352,7 @@ select, input[type="date"] {
 
 .result-item {
     padding: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
