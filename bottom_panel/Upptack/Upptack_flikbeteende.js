@@ -18,7 +18,7 @@ function openUpptack() {
     // Skapa och lägg till en rubrik högst upp
     const header = document.createElement('h1');
     header.textContent = 'Upptäck!';
-    header.className = 'tab1-3-header-title';
+    header.className = 'tab1-2-header-title';
     tabPane.appendChild(header);
 
     // Skapa en container div för att centrera innehållet
