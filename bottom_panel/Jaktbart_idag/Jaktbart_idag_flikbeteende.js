@@ -24,11 +24,6 @@ function openJaktbartIdag() {
     header.className = 'tab1-3-header-title';
     tabPane.appendChild(header);
 
-    const disclaimer = document.createElement('div');
-    disclaimer.id = 'disclaimer';
-    disclaimer.innerHTML = '<p>Observera: Försäkra dig alltid om att informationen stämmer genom att kontrollera <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/jaktforordning-1987905_sfs-1987-905/" target="_blank">Bilaga 1 i Jaktförordningen (1987:905)</a>.</p>';
-    tabPane.appendChild(disclaimer);
-
     const countyLabel = document.createElement('label');
     countyLabel.htmlFor = 'county';
     countyLabel.textContent = 'Välj annat län:';
@@ -65,6 +60,12 @@ function openJaktbartIdag() {
     const resultsDiv = document.createElement('div');
     resultsDiv.id = 'results';
     tabPane.appendChild(resultsDiv);
+
+    // Flytta disclaimer till slutet av funktionen
+    const disclaimer = document.createElement('div');
+    disclaimer.id = 'disclaimer';
+    disclaimer.innerHTML = '<p>Observera: Försäkra dig alltid om att informationen stämmer genom att kontrollera <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/jaktforordning-1987905_sfs-1987-905/" target="_blank">Bilaga 1 i Jaktförordningen (1987:905)</a>.</p>';
+    tabPane.appendChild(disclaimer);
 
     // Starta sidan med dagens datum
     const today = new Date().toISOString().split('T')[0];
@@ -382,4 +383,3 @@ select, input[type="date"] {
 }
 `;
 document.head.appendChild(style);
-
