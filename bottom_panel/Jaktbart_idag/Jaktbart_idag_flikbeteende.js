@@ -1,15 +1,74 @@
-// Ladda GeoJSON-filen med Sveriges länspolygoner.
-async function loadGeoJSON(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Failed to load GeoJSON file');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error loading GeoJSON:', error);
-        return null;
+function openJaktbartIdag() {
+    // Dölj andra flikar
+    document.getElementById('tab1').style.display = 'none';
+    document.getElementById('tab2').style.display = 'none';
+    document.getElementById('tab4').style.display = 'none';
+    document.getElementById('tab5').style.display = 'none';
+
+    // Hitta tab-pane för jaktbart idag
+    const tabPane = document.getElementById('tab3');
+    if (!tabPane) {
+        console.error('Tab pane for jaktbart idag not found.');
+        return;
     }
+
+    // Visa tab3
+    tabPane.style.display = 'flex';
+
+    // Rensa tidigare innehåll
+    tabPane.innerHTML = '';
+
+    // Skapa och lägg till grundläggande HTML-element dynamiskt
+    const h1 = document.createElement('h1');
+    h1.textContent = 'Jaktbart idag!';
+    tabPane.appendChild(h1);
+
+    const disclaimer = document.createElement('div');
+    disclaimer.id = 'disclaimer';
+    disclaimer.innerHTML = '<p>Observera: Försäkra dig alltid om att informationen stämmer genom att kontrollera <a href="https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/jaktforordning-1987905_sfs-1987-905/" target="_blank">Bilaga 1 i Jaktförordningen (1987:905)</a>.</p>';
+    tabPane.appendChild(disclaimer);
+
+    const countyLabel = document.createElement('label');
+    countyLabel.htmlFor = 'county';
+    countyLabel.textContent = 'Välj annat län:';
+    tabPane.appendChild(countyLabel);
+
+    const countySelect = document.createElement('select');
+    countySelect.id = 'county';
+    countySelect.onchange = getHuntingInfo;
+    const counties = ["Blekinge län", "Dalarnas län", "Gotlands län", "Gävleborgs län", "Hallands län", "Jämtlands län", "Jönköpings län", "Kalmar län", "Kronobergs län", "Norrbottens län", "Skåne län", "Stockholms län", "Södermanlands län", "Uppsala län", "Värmlands län", "Västerbottens län", "Västernorrlands län", "Västmanlands län", "Västra Götalands län", "Örebro län", "Östergötlands län"];
+    counties.forEach(county => {
+        const option = document.createElement('option');
+        option.value = county;
+        option.textContent = county;
+        countySelect.appendChild(option);
+    });
+    tabPane.appendChild(countySelect);
+
+    tabPane.appendChild(document.createElement('br'));
+
+    const dateLabel = document.createElement('label');
+    dateLabel.htmlFor = 'date';
+    dateLabel.textContent = 'Välj annat datum:';
+    tabPane.appendChild(dateLabel);
+
+    const dateInput = document.createElement('input');
+    dateInput.type = 'date';
+    dateInput.id = 'date';
+    dateInput.name = 'date';
+    dateInput.onchange = getHuntingInfo;
+    tabPane.appendChild(dateInput);
+
+    tabPane.appendChild(document.createElement('br'));
+
+    const resultsDiv = document.createElement('div');
+    resultsDiv.id = 'results';
+    tabPane.appendChild(resultsDiv);
+
+    // Starta sidan med dagens datum
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.value = today;
+    displaySavedUserPosition().then(getHuntingInfo);
 }
 
 // Jämför användarens sparade position med länspolygoner
@@ -23,18 +82,18 @@ function findCountyForCoordinates(latitude, longitude, geojson) {
         if (feature.geometry && feature.geometry.type === 'MultiPolygon') {
             for (let polygon of feature.geometry.coordinates) {
                 if (isPointInPolygon([longitude, latitude], polygon)) {
-                    return feature.properties.LÄN;
+                    return feature.properties["LÄN"];
                 }
             }
         }
     }
 
-    return 'Okänt län'; // Om ingen matchning hittades
+    return 'Okänt län';
 }
 
-// Funktion för att avgöra om en punkt ligger inuti en polygon
 function isPointInPolygon(point, polygon) {
     if (!polygon || polygon.length === 0 || polygon[0].length === 0) {
+        console.error('Polygon data is invalid.');
         return false;
     }
 
@@ -50,7 +109,6 @@ function isPointInPolygon(point, polygon) {
     return inside;
 }
 
-// Hämta användarens sparade position från localStorage
 function getSavedUserPosition() {
     var storedPosition = localStorage.getItem('lastKnownPosition');
     if (storedPosition) {
@@ -61,250 +119,264 @@ function getSavedUserPosition() {
     }
 }
 
-// Visa användarens sparade position i fliken
-function displaySavedUserPosition() {
+async function loadGeoJSON(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to load GeoJSON file');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error loading GeoJSON:', error);
+        return null;
+    }
+}
+
+async function displaySavedUserPosition() {
     var savedPosition = getSavedUserPosition();
     if (savedPosition) {
-        var tab = document.getElementById('tab3');
-        tab.innerHTML = '';
+        const geojson = await loadGeoJSON('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson');
+        if (!geojson) {
+            console.error('GeoJSON is null or undefined.');
+            return;
+        }
 
-        // Visa rull-lista för att välja annat län direkt
-        showCountySelection(savedPosition); // Flyttad hit för att visa rull-listan först
+        var county = findCountyForCoordinates(savedPosition.latitude, savedPosition.longitude, geojson);
+        var countySelect = document.getElementById('county');
+        countySelect.value = county;
+    }
+}
 
-        // Ladda GeoJSON-filen och avgör län baserat på sparade koordinater
-        loadGeoJSON('bottom_panel/Jaktbart_idag/Sveriges_lan.geojson')
-            .then(geojson => {
-                var county = findCountyForCoordinates(savedPosition.latitude, savedPosition.longitude, geojson);
+async function fetchHuntingData() {
+    try {
+        const response = await fetch('bottom_panel/Jaktbart_idag/jakttider.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching hunting data:", error);
+        return [];
+    }
+}
 
-                // Bygg URL för Google Sheets baserat på länets namn
-                var googleSheetsURL;
-                switch (county.toUpperCase()) {
-                    case '':
-                        googleSheetsURL = '';
-                        break;
+const months = {
+    'January': 'Januari',
+    'February': 'Februari',
+    'March': 'Mars',
+    'April': 'April',
+    'May': 'Maj',
+    'June': 'Juni',
+    'July': 'Juli',
+    'August': 'Augusti',
+    'September': 'September',
+    'October': 'Oktober',
+    'November': 'November',
+    'December': 'December'
+};
 
-                        case 'BLEKINGE LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'DALARNAS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'GOTLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'GÄVLEBORGS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'HALLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2BFE-SRmBCBS-0yByDhuEVp_sTnVw1zTiknHvfzE0Fmw4efRYz0EPMwnhGKiy5g/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'JÄMTLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTG9X1E7-ZXI7gp9-BizmipzFh701pawm3hxzVKu_DyRtQ1p2zshsjLy4-PB2exEw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'JÖNKÖPINGS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0cpVw1Eu79k1YIHiSLawV2PbV9kYxiRtrpM8dp33OdC-U-qsWS7GkqWMbTi2WkQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'KALMARS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR72MO0TobqcwmZI2ioQ9lJGw38V1B2qECC5RILBDJHSHR7sOV3U_P3ucSolLieMg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'KRONOBERGS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpPY36rcqD3cp18IHfEeZcyJ2m-N4MZMX63_3lVZEaxvlR00JeQ8-mLyPHCyPD4Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'NORRBOTTENS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSE8OM2nEjFB8MPX8Uq9x5eRkFiLAOUUc_f358zWCxEYZUP2I_FDG1JCNFbM9Vuyg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'SKÅNES LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRH9Vp7_2DfEMY2qkQ7TI_haVuWH4u14zSff5NyOSafAzgGG22pIENzyRKpDObpEA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'STOCKHOLMS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9BnmJgLti5F3KZmXVMQXZO1cSJ9-3GJiDMgoTcd0Yyiv4fCbNkpycpG80nrcNnA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'SÖDERMANLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQvDQei2FICBkyASfI0ZKktuRKVeOnLtk4RMEXqT_Ycg-ycmWydMbIQQM72O1Ctiw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'UPPSALA LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtBAPI022uMmngp6WwyK6dTD0IU8xM5j_WuN3T5dgpssPCg5gatmDGVtGc4r_aWQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄRMLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQyx5mAaJouc0DkfdjF9LGND-LrEk3b7ndFCRb_4ever12Gf95c1K5hLjYph3mcmw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄSTERBOTTENS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTQY5Xy7Mp13JyoehpsZcZiELwv1EBKybInh2HPSR8OK1c-_PZOvUTS4rD4uhFHRQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄSTERNORRLAND':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTK_yxu8WaXUNqFvMBFY1B-AtjrmRJ6KzoHJpK_0pOmEGF_UNgP7U-EoO5_ujSE4A/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄSTMANLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSU9ys200Rvtft1xU8Vz6hwCTiNlAK-9poMwuLht1l9SYzIqtIfOnb_XM8toL2pfA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄSTRA GÖTALAND':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgFOYLMInhQ7SZDQ4SFE17OJBpcUYSZcyVeCY_q2zBKNsdc5hbSwoRNMoFOMIeag/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'ÖREBROS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTeXGD1OrUQ2L43q1pCdmt1clCZ5aCgbNSKaH2Bi_UOCrv8SXMOY_ePD5uzF7nBSQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'ÖSTERGÖTLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;       
+const monthsReverse = {
+    'Januari': '01',
+    'Februari': '02',
+    'Mars': '03',
+    'April': '04',
+    'Maj': '05',
+    'Juni': '06',
+    'Juli': '07',
+    'Augusti': '08',
+    'September': '09',
+    'Oktober': '10',
+    'November': '11',
+    'December': '12'
+};
 
-                    default:
-                        googleSheetsURL = ''; // Om län inte hittas, tom URL
-                        break;
-                }
+function translateMonth(monthName) {
+    return months[monthName] || Object.keys(monthsReverse).find(key => monthsReverse[key] === monthName);
+}
 
-                // Visa Google Sheets i en iframe om URL är definierad
-                if (googleSheetsURL) {
-                    var iframe = document.createElement('iframe');
-                    iframe.src = googleSheetsURL;
-                    iframe.style.width = '100%';
-                    iframe.style.height = '1400px'; // Justera höjden efter behov
-                    iframe.setAttribute('frameborder', '0');
-                    tab.appendChild(iframe);
-                } else {
-                    var noDataInfo = document.createElement('p');
-                    noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
-                    tab.appendChild(noDataInfo);
-                }
-            })
-            .catch(error => {
-                console.error('Error loading GeoJSON:', error);
-                var errorInfo = document.createElement('p');
-                errorInfo.textContent = 'Fel vid laddning av GeoJSON.';
-                tab.appendChild(errorInfo);
-            });
+function formatDateForDisplay(dateString) {
+    const [day, month] = dateString.split(' ');
+    const translatedMonth = translateMonth(month);
+    return `${parseInt(day)} ${translatedMonth}`;
+}
+
+function parseDateWithoutYear(dateString) {
+    const [day, month] = dateString.split(' ');
+    const monthNumber = monthsReverse[translateMonth(month)];
+    if (!monthNumber) {
+        console.error(`Invalid month: ${month}`);
+        return null;
+    }
+    return `${monthNumber}-${day.padStart(2, '0')}`;
+}
+
+function isWithinDateRange(startDate, endDate, checkDate) {
+    const check = new Date(checkDate);
+    const checkMonthDay = `${(check.getMonth() + 1).toString().padStart(2, '0')}-${check.getDate().toString().padStart(2, '0')}`;
+
+    const [startDay, startMonth] = startDate.split(' ');
+    const [endDay, endMonth] = endDate.split(' ');
+
+    const startMonthDay = `${monthsReverse[translateMonth(startMonth)]}-${startDay.padStart(2, '0')}`;
+    const endMonthDay = `${monthsReverse[translateMonth(endMonth)]}-${endDay.padStart(2, '0')}`;
+
+    if (startMonthDay <= endMonthDay) {
+        return startMonthDay <= checkMonthDay && checkMonthDay <= endMonthDay;
     } else {
-        console.log("Ingen sparad position hittades.");
+        return startMonthDay <= checkMonthDay || checkMonthDay <= endMonthDay;
     }
 }
 
-// Funktion för att visa en lista över län för att välja ett annat län
-function showCountySelection(savedPosition) {
-    var tab = document.getElementById('tab3');
-    var countyList = document.createElement('div');
-    countyList.className = 'county-list';
-    tab.appendChild(countyList);
-
-    var select = document.createElement('select');
-    countyList.appendChild(select);
-    
-    // Lägg till ett tomt alternativ först
-    var optionElement = document.createElement('option');
-    optionElement.textContent = 'Välj annat län'; // Tomt alternativ
-    select.appendChild(optionElement);
-    
-    // Alternativ för varje län
-    var options = ['BLEKINGE LÄN', 'DALARNAS LÄN', 'GOTLANDS LÄN', 'GÄVLEBORGS LÄN', 'HALLANDS LÄN', 
-    'JÄMTLANDS LÄN', 'JÖNKÖPINGS LÄN', 'KALMARS LÄN', 'KRONOBERGS LÄN', 'NORRBOTTENS LÄN', 
-    'SKÅNES LÄN', 'STOCKHOLMS LÄN', 'SÖDERMANLANDS LÄN', 'UPPSALA LÄN', 'VÄRMLANDS LÄN', 
-    'VÄSTERBOTTENS LÄN', 'VÄSTERNORRLAND', 'VÄSTMANLANDS LÄN', 'VÄSTRA GÖTALAND', 
-    'ÖREBROS LÄN', 'ÖSTERGÖTLANDS LÄN'];
-    options.forEach(option => {
-        var optionElement = document.createElement('option');
-        optionElement.textContent = option;
-        select.appendChild(optionElement);
-    });
-
-    // Lyssnare för val av län
-    select.addEventListener('change', function() {
-        var selectedCounty = select.value;
-        updateIframeForCounty(selectedCounty);
-    });
-}
-
-// Funktion för att uppdatera iframen för det valda länet
-function updateIframeForCounty(county) {
-    var tab = document.getElementById('tab3');
-    var existingIframe = tab.querySelector('iframe');
-
-    // Bygg URL för Google Sheets baserat på det valda länet
-    var googleSheetsURL;
-    switch (county.toUpperCase()) {
-                        case 'BLEKINGE LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsxbRSsqhB9xtsgieRjlGw7BZyavANLgf6Q1I_7vmW1JT7vidkcQyXr3S_i8DS7Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'DALARNAS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdU_PeaOHXTCF6kaZb0k-431-WY47GIhhfJHaXD17-fC72GvBp2j1Tedcoko-cHQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'GOTLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnahCXZhD9i9dBjwHe70vxPgeoOE6bG7syOVElw-yYfTzFoh_ANDxov5ttmQWYCw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'GÄVLEBORGS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBoQAP9xihDzgBbm3t_SFZ70leHTWK0tJ82v1koj9QzSFJQxxkPmKLwATSoAPMA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'HALLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR2BFE-SRmBCBS-0yByDhuEVp_sTnVw1zTiknHvfzE0Fmw4efRYz0EPMwnhGKiy5g/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'JÄMTLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTG9X1E7-ZXI7gp9-BizmipzFh701pawm3hxzVKu_DyRtQ1p2zshsjLy4-PB2exEw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'JÖNKÖPINGS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR0cpVw1Eu79k1YIHiSLawV2PbV9kYxiRtrpM8dp33OdC-U-qsWS7GkqWMbTi2WkQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'KALMARS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR72MO0TobqcwmZI2ioQ9lJGw38V1B2qECC5RILBDJHSHR7sOV3U_P3ucSolLieMg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'KRONOBERGS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpPY36rcqD3cp18IHfEeZcyJ2m-N4MZMX63_3lVZEaxvlR00JeQ8-mLyPHCyPD4Q/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'NORRBOTTENS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSE8OM2nEjFB8MPX8Uq9x5eRkFiLAOUUc_f358zWCxEYZUP2I_FDG1JCNFbM9Vuyg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'SKÅNES LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRH9Vp7_2DfEMY2qkQ7TI_haVuWH4u14zSff5NyOSafAzgGG22pIENzyRKpDObpEA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'STOCKHOLMS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9BnmJgLti5F3KZmXVMQXZO1cSJ9-3GJiDMgoTcd0Yyiv4fCbNkpycpG80nrcNnA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'SÖDERMANLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQvDQei2FICBkyASfI0ZKktuRKVeOnLtk4RMEXqT_Ycg-ycmWydMbIQQM72O1Ctiw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'UPPSALA LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtBAPI022uMmngp6WwyK6dTD0IU8xM5j_WuN3T5dgpssPCg5gatmDGVtGc4r_aWQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄRMLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQyx5mAaJouc0DkfdjF9LGND-LrEk3b7ndFCRb_4ever12Gf95c1K5hLjYph3mcmw/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄSTERBOTTENS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTQY5Xy7Mp13JyoehpsZcZiELwv1EBKybInh2HPSR8OK1c-_PZOvUTS4rD4uhFHRQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄSTERNORRLAND':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTK_yxu8WaXUNqFvMBFY1B-AtjrmRJ6KzoHJpK_0pOmEGF_UNgP7U-EoO5_ujSE4A/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄSTMANLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSU9ys200Rvtft1xU8Vz6hwCTiNlAK-9poMwuLht1l9SYzIqtIfOnb_XM8toL2pfA/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'VÄSTRA GÖTALAND':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTgFOYLMInhQ7SZDQ4SFE17OJBpcUYSZcyVeCY_q2zBKNsdc5hbSwoRNMoFOMIeag/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'ÖREBROS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTeXGD1OrUQ2L43q1pCdmt1clCZ5aCgbNSKaH2Bi_UOCrv8SXMOY_ePD5uzF7nBSQ/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;
-                        case 'ÖSTERGÖTLANDS LÄN':
-                            googleSheetsURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQOyZdJccrGY4NDIGozjnF_IEpyp4_ZjjFxGY7trJVIieueJIJn3y76OqnsVEbMDg/pubhtml?gid=1144895507&single=true&widget=false&headers=false&chrome=false';
-                            break;       
-        default:
-            googleSheetsURL = ''; // Om län inte hittas, tom URL
-            break;
+function formatResult(result, county, isEven) {
+    let extraInfo = result['Upplysning'];
+    if (county !== 'Norrbottens län' && extraInfo.includes('Gäller utom gränsälvsområdet')) {
+        extraInfo = '';
+    }
+    if (county !== 'Dalarnas län' && extraInfo.includes('Gäller ej Älvdalens kommun, se separat jakttid')) {
+        extraInfo = '';
     }
 
-    // Uppdatera eller skapa iframen
-    if (googleSheetsURL) {
-        if (existingIframe) {
-            existingIframe.src = googleSheetsURL;
+    const backgroundColor = isEven ? 'lightgray' : '#f9f9f9';
+
+    return `
+        <div class="result-item" style="background-color: ${backgroundColor};">
+            <h3>${result['Slag av vilt']}</h3>
+            <p><strong>Starttid:</strong> ${formatDateForDisplay(result['Starttid'])}</p>
+            <p><strong>Sluttid:</strong> ${formatDateForDisplay(result['Sluttid'])}</p>
+            ${extraInfo ? `<p><strong>Upplysning:</strong> ${extraInfo}</p>` : ''}
+        </div>
+    `;
+}
+
+async function getHuntingInfo() {
+    const county = document.getElementById('county').value.trim();
+    const date = document.getElementById('date').value;
+
+    if (!county || !date) {
+        document.getElementById('results').innerHTML = "Vänligen välj både län och datum.";
+        return;
+    }
+
+    const data = await fetchHuntingData();
+
+    if (data.length === 0) {
+        document.getElementById('results').innerHTML = "Inga resultat funna.";
+        return;
+    }
+
+    const results = data.filter(entry => {
+        const areas = entry['Område'].split(',');
+        const isInCounty = areas.some(area => area.trim() === county || area.trim() === "Alla län");
+        const isInDateRange = isWithinDateRange(entry['Starttid'], entry['Sluttid'], date);
+        return isInCounty && isInDateRange;
+    });
+
+    results.sort((a, b) => {
+        if (a['Grupp'] === b['Grupp']) {
+            return a['Slag av vilt'].localeCompare(b['Slag av vilt']);
         } else {
-            var iframe = document.createElement('iframe');
-            iframe.src = googleSheetsURL;
-            iframe.style.width = '100%';
-            iframe.style.height = '600px'; // Justera höjden efter behov
-            iframe.setAttribute('frameborder', '0');
-            tab.appendChild(iframe);
+            const groupOrder = ['Däggdjur', 'Fågelarter'];
+            return groupOrder.indexOf(a['Grupp']) - groupOrder.indexOf(b['Grupp']);
         }
-    } else {
-        if (existingIframe) {
-            existingIframe.remove();
+    });
+
+    let mammalResults = '';
+    let birdResults = '';
+
+    results.forEach((result, index) => {
+        const isEven = index % 2 === 0; // Börja med mörkare bakgrundsfärg
+        if (result['Grupp'] === 'Däggdjur') {
+            if (mammalResults === '') {
+                mammalResults += '<h2 class="result-heading">Däggdjur:</h2>';
+            }
+            mammalResults += formatResult(result, county, isEven);
+        } else if (result['Grupp'] === 'Fågelarter') {
+            if (birdResults === '') {
+                birdResults += '<h2 class="result-heading">Fågelarter:</h2>';
+            }
+            birdResults += formatResult(result, county, isEven);
         }
-        var noDataInfo = document.createElement('p');
-        noDataInfo.textContent = 'Ingen data tillgänglig för detta län.';
-        tab.appendChild(noDataInfo);
+    });
+
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = mammalResults + birdResults || "Inga resultat funna.";
+
+    const resultItems = resultsDiv.querySelectorAll('.result-item');
+    resultItems.forEach(item => {
+        item.classList.add('slide-down');
+    });
+}
+
+function initializePage() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').value = today;
+    displaySavedUserPosition().then(getHuntingInfo);
+}
+
+// Lägg till CSS-stilar
+const style = document.createElement('style');
+style.innerHTML = `
+h1 {
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+#disclaimer {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+select, input[type="date"] {
+    padding: 5px;
+    font-size: 1em;
+    width: auto;
+    display: block;
+    margin-bottom: 5px; /* Mindre radavstånd */
+    max-width: 300px; /* Gör att menyn inte är bredare än nödvändigt */
+}
+
+#results {
+    margin-top: 20px;
+}
+
+.result-heading {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.result-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.result-item h3 {
+    margin-top: 0;
+}
+
+.slide-down {
+    animation: slideDown 0.5s ease-in-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
+`;
+document.head.appendChild(style);
