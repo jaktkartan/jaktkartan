@@ -341,7 +341,6 @@ select, input[type="date"] {
 }
 
 #results {
-    margin-top: 20px;
     margin-left: 10px; /* Minska marginal till skärmens kanter */
     margin-right: 10px; /* Minska marginal till skärmens kanter */
 }
