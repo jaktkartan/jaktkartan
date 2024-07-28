@@ -18,10 +18,11 @@ function openJaktbartIdag() {
     // Rensa tidigare innehåll
     tabPane.innerHTML = '';
 
-    // Skapa och lägg till grundläggande HTML-element dynamiskt
-    const h1 = document.createElement('h1');
-    h1.textContent = 'Jaktbart idag!';
-    tabPane.appendChild(h1);
+    // Skapa och lägg till en rubrik högst upp
+    const header = document.createElement('h1');
+    header.textContent = 'Jaktbart idag';
+    header.className = 'tab1-3-header-title';
+    tabPane.appendChild(header);
 
     const disclaimer = document.createElement('div');
     disclaimer.id = 'disclaimer';
