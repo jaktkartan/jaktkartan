@@ -317,17 +317,13 @@ function initializePage() {
 
 const style = document.createElement('style');
 style.innerHTML = `
-h1 {
-    margin-bottom: 50px; /* Ökad radavstånd från rubriken till nästa element */
-    text-align: center;
-}
 
 #disclaimer {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     padding: 5px;
     margin-bottom: 20px;
-    margin-top: 100px; /* Ökad radavstånd från rubriken till disclaimer */
+    margin-top: 30px; /* Ökad radavstånd från rubriken till disclaimer */
     border-radius: 5px;
 }
 
