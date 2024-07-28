@@ -21,7 +21,7 @@ function openJaktbartIdag() {
     // Skapa och lägg till en rubrik högst upp
     const header = document.createElement('h1');
     header.textContent = 'Jaktbart idag';
-    header.className = 'tab1-3-header-title';
+    header.className = 'tab3-header-title';
     tabPane.appendChild(header);
 
     const countyLabel = document.createElement('label');
@@ -338,6 +338,16 @@ select, input[type="date"] {
     display: block;
     margin-bottom: 5px; /* Mindre radavstånd */
     max-width: 150px; /* Gör att menyn inte är bredare än nödvändigt */
+}
+
+.tab3-header-title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    color: rgb(50, 94, 88);
 }
 
 #results {
