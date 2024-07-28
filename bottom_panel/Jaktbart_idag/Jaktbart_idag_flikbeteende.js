@@ -315,11 +315,10 @@ function initializePage() {
     displaySavedUserPosition().then(getHuntingInfo);
 }
 
-// Lägg till CSS-stilar
 const style = document.createElement('style');
 style.innerHTML = `
 h1 {
-    margin-bottom: 4px;
+    margin-bottom: 20px; /* Ökad radavstånd från rubriken till nästa element */
     text-align: center;
 }
 
@@ -328,6 +327,7 @@ h1 {
     border: 1px solid #ddd;
     padding: 5px;
     margin-bottom: 20px;
+    margin-top: 20px; /* Ökad radavstånd från rubriken till disclaimer */
     border-radius: 5px;
 }
 
