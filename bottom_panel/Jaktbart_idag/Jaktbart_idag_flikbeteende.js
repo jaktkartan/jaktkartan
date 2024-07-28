@@ -22,7 +22,7 @@ function openJaktbartIdag() {
 
     // Skapa och lägg till en rubrik högst upp
     const header = document.createElement('h1');
-    header.textContent = 'Jaktbart idag';
+    header.textContent = 'Jaktbart idag!';
     header.className = 'tab3-header-title';
     tabPane.appendChild(header);
 
@@ -37,7 +37,7 @@ function openJaktbartIdag() {
 
     const countyLabel = document.createElement('label');
     countyLabel.htmlFor = 'county';
-    countyLabel.textContent = 'Välj annat län:';
+    countyLabel.textContent = 'Välj län:';
     countyContainer.appendChild(countyLabel);
 
     const countySelect = document.createElement('select');
@@ -58,7 +58,7 @@ function openJaktbartIdag() {
 
     const dateLabel = document.createElement('label');
     dateLabel.htmlFor = 'date';
-    dateLabel.textContent = 'Välj annat datum:';
+    dateLabel.textContent = 'Välj datum:';
     dateContainer.appendChild(dateLabel);
 
     const dateInput = document.createElement('input');
