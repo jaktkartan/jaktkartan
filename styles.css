@@ -134,62 +134,7 @@ html, body {
     right: 0;
 }
 
-@keyframes slideDown {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
 
-@keyframes slideUp {
-    from {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-}
-
-.tab-pane {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 95%;
-    background-color: white;
-    color: rgb(50, 94, 88);
-    padding: 10px;
-    z-index: 1000;
-    overflow-y: hidden; /* Ändra till hidden för att undvika att fliken skrollar */
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    height: 50vh; /* Generell höjd för flikar */
-    display: flex;
-    flex-direction: column; /* Lägg till detta för att använda flexbox layout */
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    opacity: 0;
-    transform: translateY(100%);
-}
-
-.tab-pane.active {
-    animation: slideDown 0.3s forwards;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.tab-pane.inactive {
-    animation: slideUp 0.3s forwards;
-    opacity: 0;
-    transform: translateY(100%);
-}
 
 /* Media query för att göra tabbarna smalare på större skärmar */
 @media (min-width: 768px) {
