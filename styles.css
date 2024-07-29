@@ -232,8 +232,9 @@ html, body {
     border: none;
     border-top: 1px solid rgb(50, 94, 88);
     width: 100px;
-    margin: 2px 0; /* Adjust the margin to control space around the line */
+    margin: 2px auto; /* Centrerar linjen horisontellt */
 }
+
 
 
 .pulsing-circle {
