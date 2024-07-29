@@ -184,6 +184,11 @@ function openKaliberkravTab(url) {
         });
 }
 
+function openJaktbartIdag() {
+    var tab = document.getElementById('tab3');
+    tab.innerHTML = '<p>Innehåll för Jaktbart Idag</p>';
+}
+
 function populateTab4() {
     var tab = document.getElementById('tab4');
     tab.innerHTML = '';
