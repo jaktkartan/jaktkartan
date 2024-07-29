@@ -47,38 +47,36 @@ setTimeout(function() {
             }
         };
 
-        function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
-            geojsonURLs.forEach(function(geojsonURL) {
-                axios.get(geojsonURL)
-                    .then(function(response) {
-                        var geojson = response.data;
-
-                        var layer = L.geoJSON(geojson, {
-                            pointToLayer: function(feature, latlng) {
-                                var style = getMarkerStyle(layerName);
-                                return L.marker(latlng, { icon: style.icon });
-                            },
-                            style: function(feature) {
-                                return getFallbackStyle(layerName);
-                            },
-                            onEachFeature: function(feature, layer) {
-                                addClickHandlerToLayer(layer, layerName);
-                            }
-                        });
-
-                        geojsonLayers[layerName].push(layer);
-
-                        if (layerIsActive[layerName]) {
-                            layer.addTo(map);
+        async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
+            for (const geojsonURL of geojsonURLs) {
+                try {
+                    const response = await axios.get(geojsonURL);
+                    const geojson = response.data;
+                    const layer = L.geoJSON(geojson, {
+                        pointToLayer: function(feature, latlng) {
+                            var style = getMarkerStyle(layerName);
+                            return L.marker(latlng, { icon: style.icon });
+                        },
+                        style: function(feature) {
+                            return getFallbackStyle(layerName);
+                        },
+                        onEachFeature: function(feature, layer) {
+                            addClickHandlerToLayer(layer, layerName);
                         }
-
-                        console.log(`Layer ${layerName} fetched and created.`);
-                        updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager skapas
-                    })
-                    .catch(function(error) {
-                        console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                     });
-            });
+
+                    geojsonLayers[layerName].push(layer);
+
+                    if (layerIsActive[layerName]) {
+                        layer.addTo(map);
+                    }
+
+                    console.log(`Layer ${layerName} fetched and created.`);
+                    updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager skapas
+                } catch (error) {
+                    console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
+                }
+            }
         }
 
         function toggleLayer(layerName) {
@@ -251,8 +249,16 @@ setTimeout(function() {
 
         function addClickHandlerToLayer(layer, layerName) {
             layer.on('click', function(e) {
+                if (e.originalEvent) {
+                    e.originalEvent.stopPropagation();
+                }
                 var properties = e.target.feature.properties;
-                showPopupPanel(properties);
+                console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
+                if (!popupPanelVisible) {
+                    showPopupPanel(properties);
+                } else {
+                    updatePopupPanelContent(properties);
+                }
             });
         }
 
