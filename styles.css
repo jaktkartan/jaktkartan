@@ -134,10 +134,9 @@ html, body {
     right: 0;
 }
 
-/* Stil för panelerna som öppnas vid knapptryck på bottompanel */
 @keyframes slideDown {
     from {
-        transform: translateY(-100%);
+        transform: translateY(100%);
         opacity: 0;
     }
     to {
@@ -152,7 +151,7 @@ html, body {
         opacity: 1;
     }
     to {
-        transform: translateY(-100%);
+        transform: translateY(100%);
         opacity: 0;
     }
 }
@@ -177,7 +176,7 @@ html, body {
     flex-direction: column; /* Lägg till detta för att använda flexbox layout */
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     opacity: 0;
-    transform: translateY(-100%);
+    transform: translateY(100%);
 }
 
 .tab-pane.active {
@@ -189,14 +188,13 @@ html, body {
 .tab-pane.inactive {
     animation: slideUp 0.3s forwards;
     opacity: 0;
-    transform: translateY(-100%);
+    transform: translateY(100%);
 }
 
-}
 /* Media query för att göra tabbarna smalare på större skärmar */
 @media (min-width: 768px) {
     .tab-pane {
-        width: 95%;
+        width: 70%;
     }
 }
 
@@ -274,8 +272,6 @@ html, body {
     width: 165px;
     margin: 0px auto; /* Centrerar linjen horisontellt */
 }
-
-
 
 .pulsing-circle {
     width: 8px;
