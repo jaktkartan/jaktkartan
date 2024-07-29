@@ -166,6 +166,7 @@ function clearTabPaneContent(tabPane) {
     }
 }
 
+// Funktion för att öppna "Kaliberkrav" fliken
 function openKaliberkravTab(url) {
     var tabContent = document.getElementById('tab-content');
     var tab = document.createElement('div');
@@ -184,10 +185,13 @@ function openKaliberkravTab(url) {
         });
 }
 
-// Lägg till openJaktbartIdag funktionen
-function openJaktbartIdag() {
-    var tab = document.getElementById('tab3');
-    tab.innerHTML = '<p>Innehåll för Jaktbart Idag</p>';
+// Andra flikfunktioner
+function openUpptack() {
+    // Innehåll för fliken "Upptäck"
+}
+
+function openKartor() {
+    // Innehåll för fliken "Kartor"
 }
 
 function populateTab4() {
