@@ -231,7 +231,7 @@ html, body {
 .separator-line {
     border: none;
     border-top: 1px solid rgb(50, 94, 88);
-    width: 100px;
+    width: 165px;
     margin: 2px auto; /* Centrerar linjen horisontellt */
 }
 
