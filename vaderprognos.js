@@ -1,44 +1,22 @@
-// CSS för transition-effekt
-const style = document.createElement('style');
-style.innerHTML = `
-#weather-info {
-    display: none; /* Startar som dold */
-    max-height: 0; /* Initial höjd 0 */
-    overflow: hidden; /* Döljer innehåll utanför gränserna */
-    transition: max-height 0.5s ease-out; /* Transition-effekt för höjd */
-}
-
-#weather-info.show {
-    display: block; /* Visar elementet */
-    max-height: 500px; /* Maximal höjd när synlig, justera vid behov */
-}
-`;
-document.head.appendChild(style);
-
 // Funktion för att toggle väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.classList.contains('show')) {
-        console.log("Hiding weather panel...");
-        weatherInfo.classList.remove('show');
-        setTimeout(function() {
-            weatherInfo.style.display = 'none';
-        }, 500); // Väntar tills transitionen är klar innan display:none
-    } else {
+    if (weatherInfo.style.display === 'none') {
         console.log("Showing weather panel...");
         weatherInfo.style.display = 'block';
-        setTimeout(function() {
-            weatherInfo.classList.add('show');
-        }, 10); // Kort fördröjning för att säkerställa att display:block har trätt i kraft
         getUserPosition(function(lat, lon) {
             console.log("Current position:", lat, lon);
             getWeatherForecast(lat, lon);
         }, function(error) {
             console.error("Error getting position:", error);
         });
+    } else {
+        console.log("Hiding weather panel...");
+        weatherInfo.style.display = 'none';
     }
 }
+
 
 // Funktion som översätter vädersymbolkoder till förståeliga strängar på svenska.
 const translateWeatherSymbol = (symbolCode) => {
@@ -96,14 +74,15 @@ const translateWeatherSymbol = (symbolCode) => {
         case 'heavyrainandthunder':
             return 'kraftigt regn och åska';
         default:
-            return symbolCode ? \`okänt väder (\${symbolCode})\` : 'okänt väder';
+            return symbolCode ? `okänt väder (${symbolCode})` : 'okänt väder';
     }
 }
+
 
 // Funktion för att hämta väderprognosen från en väder-API baserat på givna latitud- och longitudvärden.
 const getWeatherForecast = (latitude, longitude) => {
     console.log('Hämtar väderprognos för lat:', latitude, 'lon:', longitude);
-    const forecastAPIURL = \`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=\${latitude}&lon=\${longitude}\`;
+    const forecastAPIURL = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latitude}&lon=${longitude}`;
     document.getElementById('weather-text').innerHTML = 'Laddar väderprognos...'; // Laddningsindikator
 
     fetch(forecastAPIURL)
@@ -135,7 +114,7 @@ const getWeatherForecast = (latitude, longitude) => {
                     if (weather !== currentWeather) {
                         if (currentWeather !== null) {
                             // Slutet av föregående väderintervall
-                            weatherForecast += \`\${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit' })}-\${weatherIntervalEnd.toLocaleTimeString([], { hour: '2-digit' })}: \${currentWeather}<br>\`;
+                            weatherForecast += `${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit' })}-${weatherIntervalEnd.toLocaleTimeString([], { hour: '2-digit' })}: ${currentWeather}<br>`;
                         }
                         // Början av nytt väderintervall
                         currentWeather = weather;
@@ -149,7 +128,7 @@ const getWeatherForecast = (latitude, longitude) => {
             });
             // Lägg till sista väderintervallet
             if (currentWeather !== null) {
-                weatherForecast += \`\${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit' })}-\${weatherIntervalEnd.toLocaleTimeString([], { hour: '2-digit' })}: \${currentWeather}<br>\`;
+                weatherForecast += `${weatherIntervalStart.toLocaleTimeString([], { hour: '2-digit' })}-${weatherIntervalEnd.toLocaleTimeString([], { hour: '2-digit' })}: ${currentWeather}<br>`;
             }
             document.getElementById('weather-text').innerHTML = weatherForecast;
         })
@@ -157,7 +136,7 @@ const getWeatherForecast = (latitude, longitude) => {
             console.error('Fel vid hämtning av väderprognos:', error);
             document.getElementById('weather-text').innerHTML = 'Misslyckades att hämta väderprognos.';
         });
-}
+};
 
 // Funktion för att hämta och visa väderprognosen baserat på användarens position
 const showWeatherForecast = () => {
@@ -181,7 +160,7 @@ const showWeatherForecast = () => {
         console.error('Geolocation är inte tillgängligt.');
         document.getElementById('weather-text').innerHTML = 'Geolocation är inte tillgängligt.';
     }
-}
+};
 
 // Kör funktionen för att hämta väderprognosen när sidan laddas
 window.onload = showWeatherForecast;
