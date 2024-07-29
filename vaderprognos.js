@@ -23,6 +23,21 @@ function togglePanel() {
     }
 }
 
+// Lägg till en händelselyssnare för att stänga väderpanelen när man klickar utanför
+document.addEventListener('click', function(event) {
+    var topPanel = document.getElementById('top-panel');
+    var weatherInfoWrapper = document.getElementById('weather-info-wrapper');
+    var weatherInfo = document.getElementById('weather-info');
+
+    if (!topPanel.contains(event.target) && weatherInfoWrapper.style.height !== '0px') {
+        console.log("Click outside top-panel, hiding weather panel...");
+        weatherInfoWrapper.style.height = '0';
+        setTimeout(() => {
+            weatherInfo.style.display = 'none';
+        }, 500); // Match the duration of the CSS transition
+    }
+});
+
 // Funktion som översätter vädersymbolkoder till förståeliga strängar på svenska.
 const translateWeatherSymbol = (symbolCode) => {
     switch(symbolCode) {
