@@ -50,9 +50,6 @@ style.textContent = `
 .tab-pane.hide {
     animation: slideOut 0.5s forwards;
 }
-`;
-document.head.appendChild(style);
-
 
 /* Media query för att göra tabbarna smalare på större skärmar */
 @media (min-width: 768px) {
@@ -99,6 +96,8 @@ document.head.appendChild(style);
     justify-content: flex-start; /* Placera innehållet längst upp */
     overflow-y: auto; /* Gör fliken skrollbar */
 }
+`;
+document.head.appendChild(style);
 
 // Knappen tab1 (upptäck) rensar geojson-lager och WMS från tab2 (kartor) fliken.
 document.getElementById('tab1').addEventListener('click', function() {
