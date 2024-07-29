@@ -199,7 +199,7 @@ html, body {
     overflow-y: auto; /* Gör fliken skrollbar */
 }
 
-#info-panel {
+#top-panel {
     position: absolute;
     top: 0;
     left: 0;
@@ -213,8 +213,20 @@ html, body {
     text-align: center;
 }
 
-#info-panel * {
+#top-panel * {
     color: rgb(50, 94, 88);
+}
+
+#weather-info {
+    display: none;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
+}
+
+#weather-info.show {
+    display: block;
+    max-height: 500px; /* Adjust this value according to your content's height */
 }
 
 .pulsing-circle {
