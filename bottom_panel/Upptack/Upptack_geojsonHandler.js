@@ -256,29 +256,6 @@ setTimeout(function() {
             });
         }
 
-        function showPopupPanel(properties, layerName) {
-            var panel = document.getElementById('popup-panel');
-            var panelContent = document.getElementById('popup-panel-content');
-            panelContent.innerHTML = generatePanelContent(properties, layerName);
-            panel.classList.add('show');
-            panel.classList.remove('hide');
-            popupPanelVisible = true;
-        }
-
-        function hidePopupPanel() {
-            var panel = document.getElementById('popup-panel');
-            panel.classList.remove('show');
-            panel.classList.add('hide');
-            popupPanelVisible = false;
-        }
-
-        document.addEventListener('click', function(event) {
-            var panel = document.getElementById('popup-panel');
-            if (popupPanelVisible && !panel.contains(event.target)) {
-                hidePopupPanel();
-            }
-        });
-
         return {
             toggleLayer: toggleLayer,
             deactivateAllLayers: deactivateAllLayers,
