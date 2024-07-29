@@ -2,9 +2,11 @@
 function togglePanel() {
     console.log("Toggling weather panel...");
     var weatherInfo = document.getElementById('weather-info');
-    if (!weatherInfo.classList.contains('show')) {
+    if (weatherInfo.style.display === 'none' || weatherInfo.style.display === '') {
         console.log("Showing weather panel...");
-        weatherInfo.classList.add('show');
+        weatherInfo.style.display = 'block';
+        weatherInfo.style.height = weatherInfo.scrollHeight + 'px';
+        weatherInfo.style.padding = '10px 0';
         getUserPosition(function(lat, lon) {
             console.log("Current position:", lat, lon);
             getWeatherForecast(lat, lon);
@@ -13,7 +15,11 @@ function togglePanel() {
         });
     } else {
         console.log("Hiding weather panel...");
-        weatherInfo.classList.remove('show');
+        weatherInfo.style.height = '0';
+        weatherInfo.style.padding = '0';
+        setTimeout(() => {
+            weatherInfo.style.display = 'none';
+        }, 500); // Match the duration of the CSS transition
     }
 }
 
