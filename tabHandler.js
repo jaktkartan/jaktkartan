@@ -1,3 +1,58 @@
+// Lägg till stilar dynamiskt
+const style = document.createElement('style');
+style.textContent = `
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(100%);
+    }
+}
+
+.tab-pane {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-height: 40%;
+    background-color: #fff;
+    border-top: 5px solid #fff;
+    border-left: 5px solid #fff;
+    border-right: 5px solid #fff;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    overflow-y: auto;
+    word-wrap: break-word;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(50, 94, 88);
+    transform: translateY(100%);
+    transition: transform 0.5s ease-in-out;
+}
+
+.tab-pane.show {
+    animation: slideIn 0.5s forwards;
+}
+
+.tab-pane.hide {
+    animation: slideOut 0.5s forwards;
+}
+`;
+document.head.appendChild(style);
+
 // Knappen tab1 (upptäck) rensar geojson-lager och WMS från tab2 (kartor) fliken.
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
@@ -20,8 +75,8 @@ document.getElementById('tab2').addEventListener('click', function() {
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
-        tabs[i].classList.remove('active');
-        tabs[i].classList.add('inactive');
+        tabs[i].classList.remove('show');
+        tabs[i].classList.add('hide');
     }
     setTimeout(function() {
         var tabs = document.getElementsByClassName('tab-pane');
@@ -31,7 +86,7 @@ function resetTabs() {
         }
         var tabContent = document.getElementById('tab-content');
         tabContent.style.display = 'none';
-    }, 300); // Vänta tills animationen är klar
+    }, 500); // Vänta tills animationen är klar
 }
 
 // Funktion för att öppna en flik
@@ -42,8 +97,8 @@ function openTab(tabId, url) {
         var tabContent = document.getElementById('tab-content');
         tabContent.style.display = 'block';
         tab.style.display = 'block';
-        tab.classList.remove('inactive');
-        tab.classList.add('active');
+        tab.classList.remove('hide');
+        tab.classList.add('show');
 
         if (tabId === 'tab1') {
             openUpptack();
@@ -56,7 +111,7 @@ function openTab(tabId, url) {
         } else if (tabId === 'tab5') {
             fetchTab5Content(url);
         }
-    }, 300); // Vänta tills resetTabs är klar
+    }, 500); // Vänta tills resetTabs är klar
 }
 
 function clearTabPaneContent(tabPane) {
@@ -76,6 +131,7 @@ function openKaliberkravTab(url) {
         .then(html => {
             tab.innerHTML += html;
             tab.style.display = 'block';
+            tab.classList.add('show');
         })
         .catch(error => {
             console.error('Error fetching Kaliberkrav content:', error);
