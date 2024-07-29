@@ -139,26 +139,25 @@ function resetTabs() {
 function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
-    setTimeout(function() {
-        var tabContent = document.getElementById('tab-content');
-        tabContent.style.display = 'block';
-        tab.style.display = 'block';
-        tab.classList.remove('hide');
-        tab.classList.add('show');
+    var tabContent = document.getElementById('tab-content');
+    tabContent.style.display = 'block';
+    tab.style.display = 'block';
+    tab.classList.remove('hide');
+    tab.classList.add('show');
 
-        if (tabId === 'tab1') {
-            openUpptack();
-        } else if (tabId === 'tab2') {
-            openKartor();
-        } else if (tabId === 'tab3') {
-            openJaktbartIdag();
-        } else if (tabId === 'tab4') {
-            populateTab4();
-        } else if (tabId === 'tab5') {
-            fetchTab5Content(url);
-        }
-    }, 500); // Vänta tills resetTabs är klar
+    if (tabId === 'tab1') {
+        openUpptack();
+    } else if (tabId === 'tab2') {
+        openKartor();
+    } else if (tabId === 'tab3') {
+        openJaktbartIdag();
+    } else if (tabId === 'tab4') {
+        populateTab4();
+    } else if (tabId === 'tab5') {
+        fetchTab5Content(url);
+    }
 }
+
 
 function clearTabPaneContent(tabPane) {
     while (tabPane.firstChild) {
