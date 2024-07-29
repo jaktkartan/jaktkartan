@@ -226,7 +226,6 @@ html, body {
 #weather-info.show {
     display: block;
     height: auto;
-    padding: 10px 0; /* Optional: Add some padding to the content */
 }
 
 
