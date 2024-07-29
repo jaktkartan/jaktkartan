@@ -173,6 +173,7 @@ function generatePanelContent(properties, layerName) {
     return content;
 }
 
+
         function getIconAnchor(iconSize) {
             return [iconSize[0] / 2, iconSize[1] / 2];
         }
