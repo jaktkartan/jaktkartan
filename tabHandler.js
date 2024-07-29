@@ -20,32 +20,43 @@ document.getElementById('tab2').addEventListener('click', function() {
 function resetTabs() {
     var tabs = document.getElementsByClassName('tab-pane');
     for (var i = 0; i < tabs.length; i++) {
-        clearTabPaneContent(tabs[i]);
-        tabs[i].style.display = 'none';
+        tabs[i].classList.remove('active');
+        tabs[i].classList.add('inactive');
     }
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'none';
+    setTimeout(function() {
+        var tabs = document.getElementsByClassName('tab-pane');
+        for (var i = 0; i < tabs.length; i++) {
+            clearTabPaneContent(tabs[i]);
+            tabs[i].style.display = 'none';
+        }
+        var tabContent = document.getElementById('tab-content');
+        tabContent.style.display = 'none';
+    }, 300); // Vänta tills animationen är klar
 }
 
 // Funktion för att öppna en flik
 function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
-    tab.style.display = 'block';
-    var tabContent = document.getElementById('tab-content');
-    tabContent.style.display = 'block';
+    setTimeout(function() {
+        tab.style.display = 'block';
+        tab.classList.remove('inactive');
+        tab.classList.add('active');
+        var tabContent = document.getElementById('tab-content');
+        tabContent.style.display = 'block';
 
-    if (tabId === 'tab1') {
-        openUpptack();
-    } else if (tabId === 'tab2') {
-        openKartor();
-    } else if (tabId === 'tab3') {
-        openJaktbartIdag();
-    } else if (tabId === 'tab4') {
-        populateTab4();
-    } else if (tabId === 'tab5') {
-        fetchTab5Content(url);
-    }
+        if (tabId === 'tab1') {
+            openUpptack();
+        } else if (tabId === 'tab2') {
+            openKartor();
+        } else if (tabId === 'tab3') {
+            openJaktbartIdag();
+        } else if (tabId === 'tab4') {
+            populateTab4();
+        } else if (tabId === 'tab5') {
+            fetchTab5Content(url);
+        }
+    }, 300); // Vänta tills resetTabs är klar
 }
 
 function clearTabPaneContent(tabPane) {
@@ -70,7 +81,6 @@ function openKaliberkravTab(url) {
             console.error('Error fetching Kaliberkrav content:', error);
         });
 }
-
 
 function populateTab4() {
     var tab = document.getElementById('tab4');
