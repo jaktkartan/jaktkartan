@@ -134,6 +134,71 @@ html, body {
     right: 0;
 }
 
+.tab-pane {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    background-color: white;
+    color: rgb(50, 94, 88);
+    padding: 10px;
+    z-index: 1000;
+    overflow-y: hidden; /* Ändra till hidden för att undvika att fliken skrollar */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    height: 50vh; /* Generell höjd för flikar */
+    display: flex;
+    flex-direction: column; /* Lägg till detta för att använda flexbox layout */
+}
+/* Media query för att göra tabbarna smalare på större skärmar */
+@media (min-width: 768px) {
+    .tab-pane {
+        width: 95%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .tab-pane {
+        width: 40%;
+    }
+}
+
+/* Specifika stilar för #tab1 och #tab2 */
+#tab1.tab-pane, #tab2.tab-pane {
+    height: 15vh; /* Specifik höjd för tab1 och tab2 */
+    display: flex; /* Lägg till flexbox layout här också */
+    flex-direction: column; /* Säkerställ att barnen ordnas i kolumner */
+    padding: 0px;
+    justify-content: flex-end; /* Placera innehållet längst ner */
+}
+
+.tab1-2-header-title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    color: rgb(50, 94, 88);
+}
+
+#tab1 .button-container, #tab2 .button-container {
+    margin-top: 5vh; /* Glipa mellan knapparnas överkant och flikens överkant */
+}
+
+/* Skrollbara flikar */
+#tab3.tab-pane, #tab5.tab-pane {
+    height: 50vh; /* Specifik höjd för tab3 och tab5 */
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Kolumnlayout */
+    padding: 0px;
+    justify-content: flex-start; /* Placera innehållet längst upp */
+    overflow-y: auto; /* Gör fliken skrollbar */
+}
+
 #top-panel {
     position: absolute;
     top: 0;
@@ -169,6 +234,8 @@ html, body {
     width: 165px;
     margin: 0px auto; /* Centrerar linjen horisontellt */
 }
+
+
 
 .pulsing-circle {
     width: 8px;
