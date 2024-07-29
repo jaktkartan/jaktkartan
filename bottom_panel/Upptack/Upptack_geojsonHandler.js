@@ -144,27 +144,45 @@ setTimeout(function() {
 
 function generatePanelContent(properties, layerName) {
     var content = '<div style="max-width: 300px; overflow-y: auto;">';
+
+    // Definiera vilka fält som ska visas för olika lager
     var fields = {
         'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
         'Jaktkort': ['Rubrik', 'Info', 'Link', 'VAGBESKRIV']
     };
 
+    // Definiera egenskaper som ska döljas eller bara visas med namn
     var hideProperties = [];
     var hideNameOnlyProperties = fields[layerName] || [];
 
+    // Iterera genom alla egenskaper i GeoJSON-funktionen
     for (var prop in properties) {
+        // Hoppa över dolda egenskaper
         if (hideProperties.includes(prop)) continue;
+        
         var value = properties[prop];
 
+        // Kontrollera om egenskapen är en bild-URL
         if (prop === 'BILD' && value && isImageUrl(value)) {
             content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
-        } else if ((prop === 'LINK' || prop === 'Link') && value) {
+        }
+        // Kontrollera om egenskapen är en länk
+        else if ((prop === 'LINK' || prop === 'Link') && value) {
+            // Lägg till en hyperlänk med texten "Länk" som länkar till URL:en
             content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
-        } else if ((prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') && value) {
+        }
+        // Kontrollera om egenskapen är en vägbeskrivning
+        else if ((prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') && value) {
+            // Lägg till en hyperlänk med texten "Vägbeskrivning" som länkar till URL:en
             content += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
-        } else if (hideNameOnlyProperties.includes(prop) && value) {
+        }
+        // Kontrollera om egenskapen ska visas endast med namn
+        else if (hideNameOnlyProperties.includes(prop) && value) {
             content += '<p>' + value + '</p>';
-        } else if (value) {
+        }
+        // Annars, visa egenskapen som text
+        else if (value) {
+            // Visa egenskapens namn och värde
             content += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
         }
     }
@@ -172,6 +190,7 @@ function generatePanelContent(properties, layerName) {
     content += '</div>';
     return content;
 }
+
 
 
         function getIconAnchor(iconSize) {
