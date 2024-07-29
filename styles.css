@@ -220,14 +220,15 @@ html, body {
 #weather-info {
     display: none;
     overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.5s ease-in-out;
+    transition: height 0.5s ease-in-out, padding 0.5s ease-in-out;
 }
 
 #weather-info.show {
     display: block;
-    max-height: 500px; /* Adjust this value according to your content's height */
+    height: auto;
+    padding: 10px 0; /* Optional: Add some padding to the content */
 }
+
 
 .pulsing-circle {
     width: 8px;
