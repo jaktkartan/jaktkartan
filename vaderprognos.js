@@ -1,12 +1,13 @@
 // Funktion för att toggle väderpanelen
 function togglePanel() {
     console.log("Toggling weather panel...");
+    var weatherInfoWrapper = document.getElementById('weather-info-wrapper');
     var weatherInfo = document.getElementById('weather-info');
-    if (weatherInfo.style.display === 'none' || weatherInfo.style.display === '') {
+
+    if (weatherInfoWrapper.style.height === '0px' || weatherInfoWrapper.style.height === '') {
         console.log("Showing weather panel...");
         weatherInfo.style.display = 'block';
-        weatherInfo.style.height = weatherInfo.scrollHeight + 'px';
-        weatherInfo.style.padding = '10px 0';
+        weatherInfoWrapper.style.height = weatherInfo.scrollHeight + 'px';
         getUserPosition(function(lat, lon) {
             console.log("Current position:", lat, lon);
             getWeatherForecast(lat, lon);
@@ -15,8 +16,7 @@ function togglePanel() {
         });
     } else {
         console.log("Hiding weather panel...");
-        weatherInfo.style.height = '0';
-        weatherInfo.style.padding = '0';
+        weatherInfoWrapper.style.height = '0';
         setTimeout(() => {
             weatherInfo.style.display = 'none';
         }, 500); // Match the duration of the CSS transition
