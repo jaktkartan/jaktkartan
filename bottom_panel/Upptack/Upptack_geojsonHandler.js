@@ -252,7 +252,7 @@ setTimeout(function() {
         function addClickHandlerToLayer(layer, layerName) {
             layer.on('click', function(e) {
                 var properties = e.target.feature.properties;
-                showPopupPanel(properties, layerName);
+                showPopupPanel(properties);
             });
         }
 
