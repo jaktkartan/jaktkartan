@@ -194,6 +194,11 @@ function openKartor() {
     // Innehåll för fliken "Kartor"
 }
 
+function openJaktbartIdag() {
+    // Innehåll för fliken "Kartor"
+}
+
+
 function populateTab4() {
     var tab = document.getElementById('tab4');
     tab.innerHTML = '';
