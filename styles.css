@@ -231,6 +231,7 @@ html, body {
 .separator-line {
     border: none;
     border-top: 1px solid rgb(50, 94, 88);
+    width: 100px;
     margin: 2px 0; /* Adjust the margin to control space around the line */
 }
 
