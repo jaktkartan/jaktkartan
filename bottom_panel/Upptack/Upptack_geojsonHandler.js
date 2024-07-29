@@ -142,40 +142,40 @@ setTimeout(function() {
             activateLayer(layerName);
         }
 
-        function generatePanelContent(properties, layerName) {
-            var content = '<div style="max-width: 300px; overflow-y: auto;">';
-            var fields = {
-                'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
-                'Jaktkort': ['Rubrik', 'Info', 'Link', 'VAGBESKRIV']
-            };
+function generatePanelContent(properties, layerName) {
+    var content = '<div style="max-width: 300px; overflow-y: auto;">';
+    var fields = {
+        'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
+        'Jaktkort': ['Rubrik', 'Info', 'Link', 'VAGBESKRIV']
+    };
 
-            var hideProperties = [];
-            var hideNameOnlyProperties = fields[layerName] || [];
+    var hideProperties = [];
+    var hideNameOnlyProperties = fields[layerName] || [];
 
-            for (var prop in properties) {
-                if (hideProperties.includes(prop)) continue;
-                var value = properties[prop];
+    for (var prop in properties) {
+        if (hideProperties.includes(prop)) continue;
+        var value = properties[prop];
 
-                if (prop === 'BILD' && value) {
-                    content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
-                } else if (prop === 'LINK' || prop === 'Link') {
-                    if (value) {
-                        content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
-                    }
-                } else if (prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') {
-                    if (value) {
-                        content += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
-                    }
-                } else if (hideNameOnlyProperties.includes(prop) && value) {
-                    content += '<p>' + value + '</p>';
-                } else if (value) {
-                    content += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
-                }
+        if (prop === 'BILD' && value) {
+            content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+        } else if (prop === 'LINK' || prop === 'Link') {
+            if (value) {
+                content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
             }
-
-            content += '</div>';
-            return content;
+        } else if (prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') {
+            if (value) {
+                content += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
+            }
+        } else if (hideNameOnlyProperties.includes(prop) && value) {
+            content += '<p>' + value + '</p>';
+        } else if (value) {
+            content += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
         }
+    }
+
+    content += '</div>';
+    return content;
+}
 
         function getIconAnchor(iconSize) {
             return [iconSize[0] / 2, iconSize[1] / 2];
