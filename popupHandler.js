@@ -63,7 +63,7 @@ var popupPanel = document.getElementById('popup-panel');
 var popupPanelVisible = false;
 
 function isImageUrl(url) {
-    return typeof url === 'string' && (url.match(/\.(jpeg|jpg|png|webp|gif)$/i) || (url.includes('github.com') && url.includes('?raw=true')));
+    return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp|gif)$/i);
 }
 
 function translateKey(key) {
@@ -76,6 +76,7 @@ function showPopupPanel(properties) {
     popupPanel.classList.remove('hide');
     popupPanel.classList.add('show');
     popupPanelVisible = true;
+    console.log('Popup panel shown');
 
     requestAnimationFrame(function() {
         setTimeout(function() {
@@ -92,6 +93,7 @@ function hidePopupPanel() {
     popupPanel.classList.remove('show');
     popupPanel.classList.add('hide');
     popupPanelVisible = false;
+    console.log('Popup panel hidden');
 }
 
 function updatePopupPanelContent(properties) {
@@ -116,6 +118,9 @@ function updatePopupPanelContent(properties) {
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
                 console.log('Bild URL:', value);
+            } else if (key.toLowerCase() === 'link' && value) {
+                content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
+                console.log('Länk URL:', value);
             } else {
                 var translatedKey = translateKey(key);
                 content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
@@ -140,6 +145,7 @@ function addClickHandlerToLayer(layer) {
         try {
             if (e.originalEvent) {
                 e.originalEvent.stopPropagation();
+                console.log('Klick på kartobjekt stoppat från att bubbla');
             }
 
             if (e.target && e.target.feature && e.target.feature.properties) {
@@ -163,6 +169,8 @@ function addClickHandlerToLayer(layer) {
 document.addEventListener('click', function(event) {
     if (popupPanelVisible && !popupPanel.contains(event.target)) {
         hidePopupPanel();
+    } else {
+        console.log('Klick inträffade men popup-panelen var antingen inte synlig eller klickade inuti panelen');
     }
 });
 
