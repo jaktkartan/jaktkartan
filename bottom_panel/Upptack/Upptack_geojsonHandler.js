@@ -156,16 +156,12 @@ function generatePanelContent(properties, layerName) {
         if (hideProperties.includes(prop)) continue;
         var value = properties[prop];
 
-        if (prop === 'BILD' && value) {
+        if (prop === 'BILD' && value && isImageUrl(value)) {
             content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
-        } else if (prop === 'LINK' || prop === 'Link') {
-            if (value) {
-                content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
-            }
-        } else if (prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') {
-            if (value) {
-                content += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
-            }
+        } else if ((prop === 'LINK' || prop === 'Link') && value) {
+            content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
+        } else if ((prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') && value) {
+            content += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
         } else if (hideNameOnlyProperties.includes(prop) && value) {
             content += '<p>' + value + '</p>';
         } else if (value) {
