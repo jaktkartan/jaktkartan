@@ -184,6 +184,7 @@ function openKaliberkravTab(url) {
         });
 }
 
+// Lägg till openJaktbartIdag funktionen
 function openJaktbartIdag() {
     var tab = document.getElementById('tab3');
     tab.innerHTML = '<p>Innehåll för Jaktbart Idag</p>';
