@@ -169,7 +169,6 @@ html, body {
 /* Specifika stilar för #tab1 och #tab2 */
 #tab1.tab-pane, #tab2.tab-pane {
     height: 15vh; /* Specifik höjd för tab1 och tab2 */
-    width: 95%;
     display: flex; /* Lägg till flexbox layout här också */
     flex-direction: column; /* Säkerställ att barnen ordnas i kolumner */
     padding: 0px;
@@ -193,7 +192,6 @@ html, body {
 /* Skrollbara flikar */
 #tab3.tab-pane, #tab5.tab-pane {
     height: 50vh; /* Specifik höjd för tab3 och tab5 */
-    width: 95%;
     display: flex; /* Flexbox layout */
     flex-direction: column; /* Kolumnlayout */
     padding: 0px;
