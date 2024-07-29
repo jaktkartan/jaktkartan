@@ -153,7 +153,7 @@ html, body {
     display: flex;
     flex-direction: column; /* Lägg till detta för att använda flexbox layout */
 }
-/* Media query för att göra modalen smalare på större skärmar */
+/* Media query för att göra tabbarna smalare på större skärmar */
 @media (min-width: 768px) {
     .tab-pane {
         width: 95%;
