@@ -53,6 +53,53 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+
+/* Media query för att göra tabbarna smalare på större skärmar */
+@media (min-width: 768px) {
+    .tab-pane {
+        width: 70%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .tab-pane {
+        width: 40%;
+    }
+}
+
+/* Specifika stilar för #tab1 och #tab2 */
+#tab1.tab-pane, #tab2.tab-pane {
+    height: 15vh; /* Specifik höjd för tab1 och tab2 */
+    display: flex; /* Lägg till flexbox layout här också */
+    flex-direction: column; /* Säkerställ att barnen ordnas i kolumner */
+    padding: 0px;
+    justify-content: flex-end; /* Placera innehållet längst ner */
+}
+
+.tab1-2-header-title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    color: rgb(50, 94, 88);
+}
+
+#tab1 .button-container, #tab2 .button-container {
+    margin-top: 5vh; /* Glipa mellan knapparnas överkant och flikens överkant */
+}
+
+/* Skrollbara flikar */
+#tab3.tab-pane, #tab5.tab-pane {
+    height: 50vh; /* Specifik höjd för tab3 och tab5 */
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Kolumnlayout */
+    padding: 0px;
+    justify-content: flex-start; /* Placera innehållet längst upp */
+    overflow-y: auto; /* Gör fliken skrollbar */
+}
+
 // Knappen tab1 (upptäck) rensar geojson-lager och WMS från tab2 (kartor) fliken.
 document.getElementById('tab1').addEventListener('click', function() {
     if (typeof Kartor_geojsonHandler !== 'undefined') {
