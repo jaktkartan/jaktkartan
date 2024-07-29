@@ -62,8 +62,7 @@ setTimeout(function() {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
-                                var popupContent = generatePopupContent(feature, layerName);
-                                layer.bindPopup(popupContent);
+                                addClickHandlerToLayer(layer);
                             }
                         });
 
@@ -145,9 +144,8 @@ setTimeout(function() {
             activateLayer(layerName);
         }
 
-        function generatePopupContent(feature, layerName) {
-            var popupContent = '<div style="max-width: 300px; overflow-y: auto;">';
-
+        function generatePanelContent(properties) {
+            var content = '<div style="max-width: 300px; overflow-y: auto;">';
             var fields = {
                 'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
                 'Jaktkort': ['Rubrik', 'Info', 'Link', 'VAGBESKRIV']
@@ -156,29 +154,29 @@ setTimeout(function() {
             var hideProperties = [];
             var hideNameOnlyProperties = fields[layerName] || [];
 
-            for (var prop in feature.properties) {
+            for (var prop in properties) {
                 if (hideProperties.includes(prop)) continue;
-                var value = feature.properties[prop];
+                var value = properties[prop];
 
                 if (prop === 'BILD' && value) {
-                    popupContent += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+                    content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
                 } else if (prop === 'LINK' || prop === 'Link') {
                     if (value) {
-                        popupContent += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
+                        content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
                     }
                 } else if (prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') {
                     if (value) {
-                        popupContent += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
+                        content += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
                     }
                 } else if (hideNameOnlyProperties.includes(prop) && value) {
-                    popupContent += '<p>' + value + '</p>';
+                    content += '<p>' + value + '</p>';
                 } else if (value) {
-                    popupContent += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
+                    content += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
                 }
             }
 
-            popupContent += '</div>';
-            return popupContent;
+            content += '</div>';
+            return content;
         }
 
         function getIconAnchor(iconSize) {
@@ -249,6 +247,32 @@ setTimeout(function() {
         document.getElementById('fab-upptack').addEventListener('click', function() {
             var modal = document.getElementById('modal-upptack');
             modal.classList.toggle('show');
+        });
+
+        function addClickHandlerToLayer(layer) {
+            layer.on('click', function(e) {
+                var properties = e.target.feature.properties;
+                showPopupPanel(properties);
+            });
+        }
+
+        function showPopupPanel(properties) {
+            var panel = document.getElementById('popup-panel');
+            var panelContent = document.getElementById('popup-panel-content');
+            panelContent.innerHTML = generatePanelContent(properties);
+            panel.classList.add('visible');
+        }
+
+        function hidePopupPanel() {
+            var panel = document.getElementById('popup-panel');
+            panel.classList.remove('visible');
+        }
+
+        document.addEventListener('click', function(event) {
+            var panel = document.getElementById('popup-panel');
+            if (!panel.contains(event.target)) {
+                hidePopupPanel();
+            }
         });
 
         return {
