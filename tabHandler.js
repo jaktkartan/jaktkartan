@@ -39,11 +39,11 @@ function openTab(tabId, url) {
     resetTabs();
     var tab = document.getElementById(tabId);
     setTimeout(function() {
+        var tabContent = document.getElementById('tab-content');
+        tabContent.style.display = 'block';
         tab.style.display = 'block';
         tab.classList.remove('inactive');
         tab.classList.add('active');
-        var tabContent = document.getElementById('tab-content');
-        tabContent.style.display = 'block';
 
         if (tabId === 'tab1') {
             openUpptack();
