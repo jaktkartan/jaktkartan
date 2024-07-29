@@ -155,13 +155,13 @@ html, body {
 }
 /* Media query för att göra modalen smalare på större skärmar */
 @media (min-width: 768px) {
-    .modal-content {
+    .tab-pane {
         width: 95%;
     }
 }
 
 @media (min-width: 1200px) {
-    .modal-content {
+    .tab-pane {
         width: 40%;
     }
 }
