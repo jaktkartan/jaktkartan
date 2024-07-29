@@ -62,7 +62,7 @@ setTimeout(function() {
                                 return getFallbackStyle(layerName);
                             },
                             onEachFeature: function(feature, layer) {
-                                addClickHandlerToLayer(layer);
+                                addClickHandlerToLayer(layer, layerName);
                             }
                         });
 
@@ -144,7 +144,7 @@ setTimeout(function() {
             activateLayer(layerName);
         }
 
-        function generatePanelContent(properties) {
+        function generatePanelContent(properties, layerName) {
             var content = '<div style="max-width: 300px; overflow-y: auto;">';
             var fields = {
                 'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
@@ -249,17 +249,17 @@ setTimeout(function() {
             modal.classList.toggle('show');
         });
 
-        function addClickHandlerToLayer(layer) {
+        function addClickHandlerToLayer(layer, layerName) {
             layer.on('click', function(e) {
                 var properties = e.target.feature.properties;
-                showPopupPanel(properties);
+                showPopupPanel(properties, layerName);
             });
         }
 
-        function showPopupPanel(properties) {
+        function showPopupPanel(properties, layerName) {
             var panel = document.getElementById('popup-panel');
             var panelContent = document.getElementById('popup-panel-content');
-            panelContent.innerHTML = generatePanelContent(properties);
+            panelContent.innerHTML = generatePanelContent(properties, layerName);
             panel.classList.add('show');
             panel.classList.remove('hide');
             popupPanelVisible = true;
