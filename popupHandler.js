@@ -121,6 +121,9 @@ function updatePopupPanelContent(properties) {
             } else if (key.toLowerCase() === 'link' && value) {
                 content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
                 console.log('Länk URL:', value);
+            } else if (key.toLowerCase() === 'lokala_tid' && value) {
+                content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
+                console.log('Länk URL:', value);
             } else {
                 var translatedKey = translateKey(key);
                 content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
