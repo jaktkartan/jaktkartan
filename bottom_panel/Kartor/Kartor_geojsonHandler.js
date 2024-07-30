@@ -331,7 +331,7 @@ var Kartor_geojsonHandler = (function() {
                     content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
                 }
                 // Kontrollera om egenskapen är en länk och heter "För lokala jakttider, se"
-                else if ((prop === 'För lokala jakttider, se' || prop.toLowerCase() === 'för lokala jakttider, se') && value) {
+                else if ((prop === 'lokala_tid' || prop.toLowerCase() === 'lokala_tid') && value) {
                     content += '<p>För lokala jakttider, se: <a href="' + value + '" target="_blank">Länk</a></p>';
                 }
                 // Annars, visa egenskapen som text
