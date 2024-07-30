@@ -115,13 +115,18 @@ function updatePopupPanelContent(properties) {
                 continue;
             }
 
-            var translatedKey = translateKey(key);
-            content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
+            if (isImageUrl(value)) {
+                content += '<p><img src="' + value + '" alt="Bild"></p>';
+                console.log('Bild URL:', value);
+            } else if (key.toLowerCase() === 'link' && value) {
+                content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
+                console.log('Länk URL:', value);
+            } else {
+                var translatedKey = translateKey(key);
+                content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
+            }
         }
     }
-
-    panelContent.innerHTML = content;
-}
 
 
 
