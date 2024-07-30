@@ -96,37 +96,11 @@ function hidePopupPanel() {
     console.log('Popup panel hidden');
 }
 
-function updatePopupPanelContent(properties) {
-    var panelContent = document.getElementById('popup-panel-content');
-    if (!panelContent) {
-        console.error("Elementet 'popup-panel-content' hittades inte.");
-        return;
-    }
 
-    console.log('Egenskaper som skickas till popup-panelen:', properties);
 
-    var content = '';
 
-    for (var key in properties) {
-        if (properties.hasOwnProperty(key)) {
-            var value = properties[key];
 
-            if (hideProperties.includes(key) || (hideNameOnlyProperties.includes(key) && !value)) {
-                continue;
-            }
 
-            if (isImageUrl(value)) {
-                content += '<p><img src="' + value + '" alt="Bild"></p>';
-                console.log('Bild URL:', value);
-            } else if (key.toLowerCase() === 'link' && value) {
-                content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
-                console.log('Länk URL:', value);
-            } else {
-                var translatedKey = translateKey(key);
-                content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
-            }
-        }
-    }
 
     panelContent.innerHTML = '';
     setTimeout(function() {
