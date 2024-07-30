@@ -96,7 +96,32 @@ function hidePopupPanel() {
     console.log('Popup panel hidden');
 }
 
+function updatePopupPanelContent(properties) {
+    var panelContent = document.getElementById('popup-panel-content');
+    if (!panelContent) {
+        console.error("Elementet 'popup-panel-content' hittades inte.");
+        return;
+    }
 
+    console.log('Egenskaper som skickas till popup-panelen:', properties);
+
+    var content = '';
+
+    for (var key in properties) {
+        if (properties.hasOwnProperty(key)) {
+            var value = properties[key];
+
+            if (hideProperties.includes(key) || (hideNameOnlyProperties.includes(key) && !value)) {
+                continue;
+            }
+
+            var translatedKey = translateKey(key);
+            content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
+        }
+    }
+
+    panelContent.innerHTML = content;
+}
 
 
 
