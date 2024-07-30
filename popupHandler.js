@@ -50,6 +50,11 @@ styleTag.innerHTML = `
         animation: slideOut 0.5s forwards;
     }
 
+        .bold-center {
+        font-weight: bold;
+        text-align: center;
+    }
+
     #popup-panel img {
         max-width: 100%;
         border-radius: 10px; /* Rundade hörn för bilder */
@@ -124,12 +129,27 @@ function updatePopupPanelContent(properties) {
             } else if (key.toLowerCase() === 'lokala_tid' && value) {
                 content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
                 console.log('Länk URL:', value);
+            } else if (key === 'TYP' && value === 'Mässa') {
+                content += '<p class="bold-center">Mässa</p>';
             } else {
                 var translatedKey = translateKey(key);
                 content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
             }
         }
     }
+
+    panelContent.innerHTML = '';
+    setTimeout(function() {
+        panelContent.innerHTML = content;
+        requestAnimationFrame(function() {
+            setTimeout(function() {
+                panelContent.scrollTop = 0;
+                console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
+            }, 0);
+        });
+    }, 0);
+}
+
 
 
 
