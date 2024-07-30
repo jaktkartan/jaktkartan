@@ -38,7 +38,7 @@ setTimeout(function() {
                 }
             },
             'Jaktskyttebanor': {
-                iconUrl: 'https://github.com/jaktkartan/jaktkartan/blob/main/bilder/ikon_jaktskyttebanor.png?raw=true',
+                iconUrl: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
                 iconSize: [40, 40],
                 fallbackStyle: {
                     fallbackIconUrl: 'bottom_panel/Upptack/bilder/punkt_jaktskyttebanor.png',
