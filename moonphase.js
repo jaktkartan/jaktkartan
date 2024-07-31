@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
 // Importera Moon och LunarPhase från lunarphase-js ESM-modul från Skypack CDN
 import { Moon, LunarPhase, Hemisphere } from 'https://cdn.skypack.dev/lunarphase-js@2.0.2';
 
@@ -11,12 +9,14 @@ function addStyles(styles) {
     document.head.appendChild(styleSheet);
 }
 
-body, button, span, div {
-    font-family: 'Roboto', sans-serif !important;
-}
-
 // Lägg till CSS-stilar
 addStyles(`
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body, button, span, div {
+        font-family: 'Roboto', sans-serif !important;
+    }
+
     #moon-phase-container {
         position: fixed;
         top: 4px;
@@ -33,12 +33,9 @@ addStyles(`
     }
     #moon-phase-label {
         font-size: 12px; /* Ställ in textstorlek */
-        margin-top: -10px; /* Lägg till marginal ovanför texten */
+        margin-top: -10px; /* Använd negativ marginal för att flytta texten närmare bilden */
     }
 `);
-
-// Logga alla möjliga månfaser
-console.log('Possible moon phases:', LunarPhase);
 
 // Vänta tills dokumentet är laddat
 document.addEventListener('DOMContentLoaded', () => {
