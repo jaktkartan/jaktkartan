@@ -22,17 +22,17 @@ styleTag.innerHTML = `
         color: rgb(50, 94, 88);
         transform: translateY(100%);
         transition: transform 0.5s ease-in-out;
-        position: relative; /* Lägg till denna rad för att positionera kryssrutan relativt till panelen */
     }
 
     #close-button {
-        position: absolute;
-        top: 10px;
+        position: fixed;
+        top: 5px;
         right: 10px;
         background-color: transparent;
         border: none;
         font-size: 20px;
         cursor: pointer;
+        z-index: 1001;
     }
 
     @keyframes slideIn {
@@ -80,7 +80,7 @@ closeButton.innerHTML = '&times;';
 closeButton.addEventListener('click', function() {
     hidePopupPanel();
 });
-popupPanel.appendChild(closeButton);
+document.body.appendChild(closeButton);
 
 function isImageUrl(url) {
     return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp|gif)$/i);
