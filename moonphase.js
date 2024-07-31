@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 // Importera Moon och LunarPhase från lunarphase-js ESM-modul från Skypack CDN
 import { Moon, LunarPhase, Hemisphere } from 'https://cdn.skypack.dev/lunarphase-js@2.0.2';
 
