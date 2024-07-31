@@ -1,5 +1,5 @@
 // Importera Moon och LunarPhase från lunarphase-js ESM-modul från Skypack CDN
-import { Moon, LunarPhase } from 'https://cdn.skypack.dev/lunarphase-js@2.0.2';
+import { Moon, LunarPhase, Hemisphere } from 'https://cdn.skypack.dev/lunarphase-js@2.0.2';
 
 // Funktion för att lägga till CSS-stilar dynamiskt
 function addStyles(styles) {
@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hämta dagens datum
     const today = new Date();
 
-    // Beräkna månens fas
-    const moonPhase = Moon.lunarPhase(today);
+    // Beräkna månens fas för norra halvklotet
+    const moonPhase = Moon.lunarPhase(today, { hemisphere: Hemisphere.NORTHERN });
     console.log(`Today's moon phase: ${moonPhase}`); // Lägg till loggning för månfasen
     const moonPhaseElement = document.getElementById('moon-phase');
     const moonImageElement = document.getElementById('moon-image');
