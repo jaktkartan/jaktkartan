@@ -1,5 +1,5 @@
 // Importera Moon från lunarphase-js ESM-modul från Skypack CDN
-import { Moon } from 'https://cdn.skypack.dev/lunarphase-js@2.0.2';
+import { Moon, LunarPhase } from 'https://cdn.skypack.dev/lunarphase-js@2.0.2';
 
 // Funktion för att lägga till CSS-stilar dynamiskt
 function addStyles(styles) {
@@ -27,6 +27,9 @@ addStyles(`
     }
 `);
 
+// Logga alla möjliga månfaser
+console.log('Possible moon phases:', LunarPhase);
+
 // Vänta tills dokumentet är laddat
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Document fully loaded and parsed");
@@ -46,28 +49,28 @@ document.addEventListener('DOMContentLoaded', () => {
         // Bestäm bild baserat på månens fas
         let moonImageSrc;
         switch(moonPhase) {
-            case 'NEW':
+            case LunarPhase.NEW:
                 moonImageSrc = 'bilder/moonface/moonface-new-moon.png';
                 break;
-            case 'WAXING_CRESCENT':
+            case LunarPhase.WAXING_CRESCENT:
                 moonImageSrc = 'bilder/moonface/moonface-waxing-crescent-moon.png';
                 break;
-            case 'FIRST_QUARTER':
+            case LunarPhase.FIRST_QUARTER:
                 moonImageSrc = 'bilder/moonface/moonface-first-quarter-moon.png';
                 break;
-            case 'WAXING_GIBBOUS':
+            case LunarPhase.WAXING_GIBBOUS:
                 moonImageSrc = 'bilder/moonface/moonface-waxing-gibbous-moon.png';
                 break;
-            case 'FULL':
+            case LunarPhase.FULL:
                 moonImageSrc = 'bilder/moonface/moonface-full-moon.png';
                 break;
-            case 'WANING_GIBBOUS':
+            case LunarPhase.WANING_GIBBOUS:
                 moonImageSrc = 'bilder/moonface/moonface-waning-gibbous-moon.png';
                 break;
-            case 'LAST_QUARTER':
+            case LunarPhase.LAST_QUARTER:
                 moonImageSrc = 'bilder/moonface/moonface-last-quarter-moon.png';
                 break;
-            case 'WANING_CRESCENT':
+            case LunarPhase.WANING_CRESCENT:
                 moonImageSrc = 'bilder/moonface/moonface-waning-crescent-moon.png';
                 break;
             default:
