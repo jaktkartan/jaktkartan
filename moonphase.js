@@ -27,12 +27,18 @@ addStyles(`
 // Hämta dagens datum
 const today = new Date();
 
-// Beräkna månens fas
-const moonPhase = LunarPhase.lunarPhase(today);
-
 // Vänta tills dokumentet är laddat
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Document fully loaded and parsed");
+
+    // Kontrollera om LunarPhase är tillgängligt
+    if (typeof LunarPhase === 'undefined') {
+        console.error("LunarPhase is not defined");
+        return;
+    }
+
+    // Beräkna månens fas
+    const moonPhase = LunarPhase.lunarPhase(today);
     const moonPhaseElement = document.getElementById('moon-phase');
     const moonImageElement = document.getElementById('moon-image');
 
