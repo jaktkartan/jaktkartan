@@ -40,12 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Beräkna månens fas för norra halvklotet
     const moonPhase = Moon.lunarPhase(today, { hemisphere: Hemisphere.NORTHERN });
     console.log(`Today's moon phase: ${moonPhase}`); // Lägg till loggning för månfasen
-    const moonPhaseElement = document.getElementById('moon-phase');
     const moonImageElement = document.getElementById('moon-image');
 
-    if (moonPhaseElement && moonImageElement) {
-        moonPhaseElement.innerText = `Dagens månfas: ${moonPhase}`;
-
+    if (moonImageElement) {
         // Bestäm bild baserat på månens fas
         let moonImageSrc;
         switch(moonPhase) {
@@ -86,6 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(`Failed to load image: ${moonImageSrc}`);
         };
     } else {
-        console.error("Moon phase element or moon image element not found");
+        console.error("Moon image element not found");
     }
 });
