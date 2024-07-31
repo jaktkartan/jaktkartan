@@ -32,7 +32,10 @@ const moonPhase = LunarPhase.lunarPhase(today);
 
 // Vänta tills dokumentet är laddat
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('moon-phase').innerText = `Dagens månfas: ${moonPhase.phaseName}`;
+    const moonPhaseElement = document.getElementById('moon-phase');
+    const moonImageElement = document.getElementById('moon-image');
+
+    moonPhaseElement.innerText = `Dagens månfas: ${moonPhase.phaseName}`;
 
     // Bestäm bild baserat på månens fas
     let moonImageSrc;
@@ -67,5 +70,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Sätt bildens källa
-    document.getElementById('moon-image').src = moonImageSrc;
+    moonImageElement.src = moonImageSrc;
 });
