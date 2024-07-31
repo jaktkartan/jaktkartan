@@ -25,8 +25,8 @@ styleTag.innerHTML = `
     }
 
     #close-button {
-        position: fixed;
-        top: 5px;
+        position: absolute;
+        top: 10px;
         right: 10px;
         background-color: transparent;
         border: none;
@@ -77,10 +77,11 @@ var popupPanelVisible = false;
 var closeButton = document.createElement('button');
 closeButton.id = 'close-button';
 closeButton.innerHTML = '&times;';
-closeButton.addEventListener('click', function() {
+closeButton.addEventListener('click', function(event) {
+    event.stopPropagation(); // Förhindra att klicket bubblar upp till panelen
     hidePopupPanel();
 });
-document.body.appendChild(closeButton);
+popupPanel.appendChild(closeButton);
 
 function isImageUrl(url) {
     return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp|gif)$/i);
