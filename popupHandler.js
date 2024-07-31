@@ -22,7 +22,7 @@ styleTag.innerHTML = `
         color: rgb(50, 94, 88);
         transform: translateY(100%);
         transition: transform 0.5s ease-in-out;
-        position: relative;
+        position: relative; /* Lägg till denna rad för att positionera kryssrutan relativt till panelen */
     }
 
     #close-button {
