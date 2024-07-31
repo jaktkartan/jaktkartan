@@ -11,6 +11,10 @@ function addStyles(styles) {
     document.head.appendChild(styleSheet);
 }
 
+body, button, span, div {
+    font-family: 'Roboto', sans-serif !important;
+}
+
 // Lägg till CSS-stilar
 addStyles(`
     #moon-phase-container {
