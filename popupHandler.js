@@ -22,6 +22,17 @@ styleTag.innerHTML = `
         color: rgb(50, 94, 88);
         transform: translateY(100%);
         transition: transform 0.5s ease-in-out;
+        position: relative;
+    }
+
+    #close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: transparent;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
     }
 
     @keyframes slideIn {
@@ -61,6 +72,15 @@ document.head.appendChild(styleTag);
 
 var popupPanel = document.getElementById('popup-panel');
 var popupPanelVisible = false;
+
+// Skapa och lägg till stäng-knappen
+var closeButton = document.createElement('button');
+closeButton.id = 'close-button';
+closeButton.innerHTML = '&times;';
+closeButton.addEventListener('click', function() {
+    hidePopupPanel();
+});
+popupPanel.appendChild(closeButton);
 
 function isImageUrl(url) {
     return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp|gif)$/i);
@@ -130,10 +150,6 @@ function updatePopupPanelContent(properties) {
             }
         }
     }
-
-
-
-
 
     panelContent.innerHTML = '';
     setTimeout(function() {
