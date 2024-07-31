@@ -28,9 +28,9 @@ addStyles(`
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Document fully loaded and parsed");
 
-    // Kontrollera om Moon är tillgängligt
-    if (typeof Moon === 'undefined') {
-        console.error("Moon is not defined");
+    // Kontrollera om LunarPhase är tillgängligt
+    if (typeof LunarPhase === 'undefined') {
+        console.error("LunarPhase is not defined");
         return;
     }
 
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
 
     // Beräkna månens fas
-    const moonPhase = Moon.lunarPhase(today);
+    const moonPhase = LunarPhase.Moon.lunarPhase(today);
     const moonPhaseElement = document.getElementById('moon-phase');
     const moonImageElement = document.getElementById('moon-image');
 
