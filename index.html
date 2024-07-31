@@ -35,6 +35,12 @@
         <img src="bilder/jaktkartan_logga_liten.png" alt="Jaktkartan.se" style="width: 45px; height: auto;">
     </a>
 
+    <!-- Månfas uppe till höger -->
+    <div id="moon-phase-container">
+        <span id="moon-phase"></span>
+        <img id="moon-image" src="" alt="Moon Phase Image" />
+    </div>
+    
 <div id="fab-container">
     <button id="fab-daggdjur" class="fab" style="display:none;">Däggdjur</button>
     <button id="fab-fagel" class="fab" style="display:none;">Fågel</button>
@@ -98,6 +104,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="bottom_panel/FAB-knapparnas_modaler_kartor_och_upptack.js"></script>
 <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lunarphase-js@1.1.0/lunarphase.min.js"></script>
 
 <script>
   // Declare map as a global variable
