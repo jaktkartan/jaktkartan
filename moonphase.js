@@ -1,3 +1,6 @@
+// Importera Moon från lunarphase-js ESM-modul
+import { Moon } from 'https://cdn.jsdelivr.net/npm/lunarphase-js@2.0.3/dist/lunarphase.esm.min.js';
+
 // Funktion för att lägga till CSS-stilar dynamiskt
 function addStyles(styles) {
     const styleSheet = document.createElement('style');
@@ -28,17 +31,19 @@ addStyles(`
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Document fully loaded and parsed");
 
-    // Kontrollera om LunarPhase är tillgängligt
-    if (typeof LunarPhase === 'undefined') {
-        console.error("LunarPhase is not defined");
+    // Kontrollera om Moon är tillgängligt
+    if (typeof Moon === 'undefined') {
+        console.error("Moon is not defined");
         return;
     }
+
+    console.log(Moon); // Logga Moon för att se dess struktur
 
     // Hämta dagens datum
     const today = new Date();
 
     // Beräkna månens fas
-    const moonPhase = LunarPhase.Moon.lunarPhase(today);
+    const moonPhase = Moon.lunarPhase(today);
     const moonPhaseElement = document.getElementById('moon-phase');
     const moonImageElement = document.getElementById('moon-image');
 
