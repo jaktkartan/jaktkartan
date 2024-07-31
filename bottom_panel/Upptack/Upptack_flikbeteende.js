@@ -36,26 +36,29 @@ function openUpptack() {
     };
     container.appendChild(filterButton);
 
+    // Skapa "Visa allt"-knappen
+    const showAllButton = document.createElement('button');
+    showAllButton.className = 'styled-button';
+    showAllButton.textContent = 'Visa allt';
+    showAllButton.id = 'show-all-button';
+    showAllButton.onclick = function() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Activating all layers');
+            Upptack_geojsonHandler.toggleLayer('Visa_allt');
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
+        }
+    };
+    container.appendChild(showAllButton);
+
+    // Lägg till knappcontainern till tab-pane
+    tabPane.appendChild(container);
+
     // Skapa en meny för "Filtrera"-knappen
     function showFilterOptions() {
         container.innerHTML = ''; // Rensa knappcontainern
 
         const filters = [
-            {
-                className: 'styled-button',
-                onclick: function() {
-                    if (typeof Upptack_geojsonHandler !== 'undefined') {
-                        console.log('Activating all layers');
-                        Upptack_geojsonHandler.toggleLayer('Visa_allt');
-                    } else {
-                        console.error("Upptack_geojsonHandler är inte definierad.");
-                    }
-                    restoreOriginalButtons();
-                },
-                imgSrc: 'bottom_panel/Upptack/bilder/visa_allt_ikon.png',
-                imgAlt: 'Visa allt',
-                text: 'Visa allt'
-            },
             {
                 className: 'styled-button',
                 onclick: function() {
@@ -128,8 +131,6 @@ function openUpptack() {
     function restoreOriginalButtons() {
         container.innerHTML = '';
         container.appendChild(filterButton);
+        container.appendChild(showAllButton);
     }
-
-    // Lägg till knapp-container till tab-pane
-    tabPane.appendChild(container);
 }
