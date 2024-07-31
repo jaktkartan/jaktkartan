@@ -91,6 +91,8 @@ const translateWeatherSymbol = (symbolCode) => {
             return 'dimma';
         case 'rainshowers_day':
             return 'regnskurar';
+        case 'rainshowersandthunder_day':
+            return 'regnskurar och åska';
         case 'heavyrainandthunder':
             return 'kraftigt regn och åska';
         default:
