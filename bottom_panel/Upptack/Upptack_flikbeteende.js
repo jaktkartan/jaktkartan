@@ -25,6 +25,28 @@ function openUpptack() {
     const container = document.createElement('div');
     container.className = 'button-container';
 
+    // Skapa "Visa allt"-knappen
+    const showAllButton = document.createElement('button');
+    showAllButton.className = 'styled-button';
+    showAllButton.id = 'show-all-button';
+    showAllButton.onclick = function() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Activating all layers');
+            Upptack_geojsonHandler.toggleLayer('Visa_allt');
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
+        }
+    };
+    const showAllImg = document.createElement('img');
+    showAllImg.src = 'bottom_panel/Upptack/bilder/visa_allt_ikon.png';
+    showAllImg.alt = 'Visa allt';
+    showAllButton.appendChild(showAllImg);
+    const showAllText = document.createElement('div');
+    showAllText.className = 'text-content';
+    showAllText.textContent = 'Visa allt';
+    showAllButton.appendChild(showAllText);
+    container.appendChild(showAllButton);
+
     // Skapa "Filtrera"-knappen
     const filterButton = document.createElement('button');
     filterButton.className = 'styled-button';
@@ -35,21 +57,6 @@ function openUpptack() {
         showFilterOptions();
     };
     container.appendChild(filterButton);
-
-    // Skapa "Visa allt"-knappen
-    const showAllButton = document.createElement('button');
-    showAllButton.className = 'styled-button';
-    showAllButton.textContent = 'Visa allt';
-    showAllButton.id = 'show-all-button';
-    showAllButton.onclick = function() {
-        if (typeof Upptack_geojsonHandler !== 'undefined') {
-            console.log('Activating all layers');
-            Upptack_geojsonHandler.toggleLayer('Visa_allt');
-        } else {
-            console.error("Upptack_geojsonHandler är inte definierad.");
-        }
-    };
-    container.appendChild(showAllButton);
 
     // Lägg till knappcontainern till tab-pane
     tabPane.appendChild(container);
@@ -130,7 +137,7 @@ function openUpptack() {
     // Funktion för att återställa de ursprungliga knapparna
     function restoreOriginalButtons() {
         container.innerHTML = '';
-        container.appendChild(filterButton);
         container.appendChild(showAllButton);
+        container.appendChild(filterButton);
     }
 }
