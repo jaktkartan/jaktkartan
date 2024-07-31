@@ -1,10 +1,36 @@
+// Funktion för att lägga till CSS-stilar dynamiskt
+function addStyles(styles) {
+    const styleSheet = document.createElement('style');
+    styleSheet.type = 'text/css';
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+}
+
+// Lägg till CSS-stilar
+addStyles(`
+    #moon-phase-container {
+        position: fixed;
+        top: 4px;
+        right: 4px;
+        z-index: 9999;
+        text-align: right;
+    }
+    #moon-phase {
+        display: block;
+    }
+    #moon-image {
+        width: 45px;
+        height: auto;
+    }
+`);
+
 // Hämta dagens datum
 const today = new Date();
 
 // Beräkna månens fas
 const moonPhase = LunarPhase.lunarPhase(today);
 
-// Visa månens fas
+// Vänta tills dokumentet är laddat
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('moon-phase').innerText = `Dagens månfas: ${moonPhase.phaseName}`;
 
