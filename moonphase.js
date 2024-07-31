@@ -27,7 +27,7 @@ addStyles(`
     }
     #moon-phase-label {
         font-size: 12px; /* Ställ in textstorlek */
-        margin-top: 0px; /* Lägg till marginal ovanför texten */
+        margin-top: -10px; /* Lägg till marginal ovanför texten */
     }
 `);
 
