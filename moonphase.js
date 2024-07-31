@@ -24,62 +24,58 @@ addStyles(`
     }
 `);
 
-// Hämta dagens datum
-const today = new Date();
-
 // Vänta tills dokumentet är laddat
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Document fully loaded and parsed");
 
-    // Kontrollera om LunarPhase är tillgängligt
-    if (typeof LunarPhase === 'undefined') {
-        console.error("LunarPhase is not defined");
+    // Kontrollera om Moon är tillgängligt
+    if (typeof Moon === 'undefined') {
+        console.error("Moon is not defined");
         return;
     }
 
+    // Hämta dagens datum
+    const today = new Date();
+
     // Beräkna månens fas
-    const moonPhase = LunarPhase.lunarPhase(today);
+    const moonPhase = Moon.lunarPhase(today);
     const moonPhaseElement = document.getElementById('moon-phase');
     const moonImageElement = document.getElementById('moon-image');
 
     if (moonPhaseElement && moonImageElement) {
-        moonPhaseElement.innerText = `Dagens månfas: ${moonPhase.phaseName}`;
-        console.log(`Moon phase: ${moonPhase.phaseName}`);
+        moonPhaseElement.innerText = `Dagens månfas: ${moonPhase}`;
 
         // Bestäm bild baserat på månens fas
         let moonImageSrc;
-        switch(moonPhase.phaseName) {
-            case 'New Moon':
+        switch(moonPhase) {
+            case 'NEW':
                 moonImageSrc = 'bilder/moonface/moonface-new-moon.png';
                 break;
-            case 'Waxing Crescent':
+            case 'WAXING_CRESCENT':
                 moonImageSrc = 'bilder/moonface/moonface-waxing-crescent-moon.png';
                 break;
-            case 'First Quarter':
+            case 'FIRST_QUARTER':
                 moonImageSrc = 'bilder/moonface/moonface-first-quarter-moon.png';
                 break;
-            case 'Waxing Gibbous':
+            case 'WAXING_GIBBOUS':
                 moonImageSrc = 'bilder/moonface/moonface-waxing-gibbous-moon.png';
                 break;
-            case 'Full Moon':
+            case 'FULL':
                 moonImageSrc = 'bilder/moonface/moonface-full-moon.png';
                 break;
-            case 'Waning Gibbous':
+            case 'WANING_GIBBOUS':
                 moonImageSrc = 'bilder/moonface/moonface-waning-gibbous-moon.png';
                 break;
-            case 'Last Quarter':
+            case 'LAST_QUARTER':
                 moonImageSrc = 'bilder/moonface/moonface-last-quarter-moon.png';
                 break;
-            case 'Waning Crescent':
+            case 'WANING_CRESCENT':
                 moonImageSrc = 'bilder/moonface/moonface-waning-crescent-moon.png';
                 break;
             default:
-                moonImageSrc = 'bilder/moonface/default-moon.png'; // fallback if phase is unknown
+                moonImageSrc = 'bilder/moonface/default-moon.png';
                 break;
         }
-
-        // Logga bildsökvägen
-        console.log(`Moon image source: ${moonImageSrc}`);
 
         // Sätt bildens källa
         moonImageElement.src = moonImageSrc;
