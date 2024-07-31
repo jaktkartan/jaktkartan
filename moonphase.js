@@ -31,19 +31,12 @@ addStyles(`
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Document fully loaded and parsed");
 
-    // Kontrollera om Moon är tillgängligt
-    if (typeof Moon === 'undefined') {
-        console.error("Moon is not defined");
-        return;
-    }
-
-    console.log(Moon); // Logga Moon för att se dess struktur
-
     // Hämta dagens datum
     const today = new Date();
 
     // Beräkna månens fas
     const moonPhase = Moon.lunarPhase(today);
+    console.log(`Today's moon phase: ${moonPhase}`); // Lägg till loggning för månfasen
     const moonPhaseElement = document.getElementById('moon-phase');
     const moonImageElement = document.getElementById('moon-image');
 
@@ -83,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Sätt bildens källa
+        console.log(`Setting moon image source to: ${moonImageSrc}`); // Lägg till loggning för bildkällan
         moonImageElement.src = moonImageSrc;
         moonImageElement.onerror = function() {
             console.error(`Failed to load image: ${moonImageSrc}`);
