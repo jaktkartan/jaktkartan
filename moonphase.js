@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
 
     // Beräkna månens fas
-    const moonPhase = Moon.lunarPhase(today).trim().toUpperCase();
+    const moonPhase = Moon.lunarPhase(today);
     console.log(`Today's moon phase: ${moonPhase}`); // Lägg till loggning för månfasen
     const moonPhaseElement = document.getElementById('moon-phase');
     const moonImageElement = document.getElementById('moon-image');
@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 moonImageSrc = 'bilder/moonface/moonface-waning-crescent-moon.png';
                 break;
             default:
+                console.log(`Unhandled moon phase: ${moonPhase}`);
                 moonImageSrc = 'bilder/moonface/default-moon.png';
                 break;
         }
