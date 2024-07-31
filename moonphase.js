@@ -16,7 +16,7 @@ addStyles(`
         top: 4px;
         right: 4px;
         z-index: 9999;
-        text-align: right;
+        text-align: center; /* Centrera text och bild */
     }
     #moon-phase {
         display: block;
@@ -24,6 +24,10 @@ addStyles(`
     #moon-image {
         width: 45px;
         height: auto;
+    }
+    #moon-phase-label {
+        font-size: 12px; /* Ställ in textstorlek */
+        margin-top: 4px; /* Lägg till marginal ovanför texten */
     }
 `);
 
@@ -40,9 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Beräkna månens fas för norra halvklotet
     const moonPhase = Moon.lunarPhase(today, { hemisphere: Hemisphere.NORTHERN });
     console.log(`Today's moon phase: ${moonPhase}`); // Lägg till loggning för månfasen
+
+    const moonPhaseContainer = document.getElementById('moon-phase-container');
     const moonImageElement = document.getElementById('moon-image');
 
-    if (moonImageElement) {
+    if (moonPhaseContainer && moonImageElement) {
         // Bestäm bild baserat på månens fas
         let moonImageSrc;
         switch(moonPhase) {
@@ -82,7 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
         moonImageElement.onerror = function() {
             console.error(`Failed to load image: ${moonImageSrc}`);
         };
+
+        // Lägg till texten "Månfas" under bilden
+        let moonPhaseLabel = document.getElementById('moon-phase-label');
+        if (!moonPhaseLabel) {
+            moonPhaseLabel = document.createElement('div');
+            moonPhaseLabel.id = 'moon-phase-label';
+            moonPhaseLabel.innerText = 'Månfas';
+            moonPhaseContainer.appendChild(moonPhaseLabel);
+        }
     } else {
-        console.error("Moon image element not found");
+        console.error("Moon phase container or moon image element not found");
     }
 });
