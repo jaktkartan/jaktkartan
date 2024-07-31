@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
 
     // Beräkna månens fas
-    const moonPhase = Moon.lunarPhase(today);
+    const moonPhase = Moon.lunarPhase(today).trim().toUpperCase();
     console.log(`Today's moon phase: ${moonPhase}`); // Lägg till loggning för månfasen
     const moonPhaseElement = document.getElementById('moon-phase');
     const moonImageElement = document.getElementById('moon-image');
