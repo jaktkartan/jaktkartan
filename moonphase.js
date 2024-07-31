@@ -1,4 +1,4 @@
-// Importera Moon från lunarphase-js ESM-modul från Skypack CDN
+// Importera Moon och LunarPhase från lunarphase-js ESM-modul från Skypack CDN
 import { Moon, LunarPhase } from 'https://cdn.skypack.dev/lunarphase-js@2.0.2';
 
 // Funktion för att lägga till CSS-stilar dynamiskt
