@@ -104,7 +104,10 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="bottom_panel/FAB-knapparnas_modaler_kartor_och_upptack.js"></script>
 <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
-<script type="module" src="moonphase.js"></script>
+    <script type="module">
+        import { Moon } from 'https://cdn.jsdelivr.net/npm/lunarphase-js@2.0.3/dist/lunarphase.esm.min.js';
+        import './moonphase.js';
+    </script>
 
 <script>
   // Declare map as a global variable
