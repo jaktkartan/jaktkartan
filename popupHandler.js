@@ -123,41 +123,7 @@ function translateKey(key) {
     return translationTable[key] || key;
 }
 
-function showPopupPanel(properties) {
-    updatePopupPanelContent(properties);
-
-    popupPanel.classList.remove('hide');
-    popupPanel.classList.add('show');
-    popupPanelVisible = true;
-    console.log('Popup panel shown');
-
-    requestAnimationFrame(function() {
-        setTimeout(function() {
-            var panelContent = document.getElementById('popup-panel-content');
-            if (panelContent) {
-                panelContent.scrollTop = 0;
-                console.log('Scroll position återställd till toppen när panelen visades');
-            }
-        }, 0);
-    });
-}
-
-function hidePopupPanel() {
-    popupPanel.classList.remove('show');
-    popupPanel.classList.add('hide');
-    popupPanelVisible = false;
-    console.log('Popup panel hidden');
-}
-
-function updatePopupPanelContent(properties) {
-    var panelContent = document.getElementById('popup-panel-content');
-    if (!panelContent) {
-        console.error("Elementet 'popup-panel-content' hittades inte.");
-        return;
-    }
-
-    console.log('Egenskaper som skickas till popup-panelen:', properties);
-
+function generatePopupContent(properties) {
     var content = '';
 
     for (var key in properties) {
@@ -181,7 +147,6 @@ function updatePopupPanelContent(properties) {
 
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
-                console.log('Bild URL:', value);
             } else if ((key.toLowerCase() === 'link' || key.toLowerCase() === 'lokala_tid') && value) {
                 content += `
                     <p>
@@ -190,7 +155,6 @@ function updatePopupPanelContent(properties) {
                             <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                         </button>
                     </p>`;
-                console.log('Länk URL:', value);
             } else {
                 var translatedKey = translateKey(key);
                 content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
@@ -198,13 +162,47 @@ function updatePopupPanelContent(properties) {
         }
     }
 
+    return content;
+}
+
+function showPopupPanel(properties) {
+    updatePopupPanelContent(properties);
+
+    popupPanel.classList.remove('hide');
+    popupPanel.classList.add('show');
+    popupPanelVisible = true;
+
+    requestAnimationFrame(function() {
+        setTimeout(function() {
+            var panelContent = document.getElementById('popup-panel-content');
+            if (panelContent) {
+                panelContent.scrollTop = 0;
+            }
+        }, 0);
+    });
+}
+
+function hidePopupPanel() {
+    popupPanel.classList.remove('show');
+    popupPanel.classList.add('hide');
+    popupPanelVisible = false;
+}
+
+function updatePopupPanelContent(properties) {
+    var panelContent = document.getElementById('popup-panel-content');
+    if (!panelContent) {
+        console.error("Elementet 'popup-panel-content' hittades inte.");
+        return;
+    }
+
+    var content = generatePopupContent(properties);
+
     panelContent.innerHTML = '';
     setTimeout(function() {
         panelContent.innerHTML = content;
         requestAnimationFrame(function() {
             setTimeout(function() {
                 panelContent.scrollTop = 0;
-                console.log('Scroll position återställd till toppen efter att innehållet uppdaterats');
             }, 0);
         });
     }, 0);
@@ -215,12 +213,10 @@ function addClickHandlerToLayer(layer) {
         try {
             if (e.originalEvent) {
                 e.originalEvent.stopPropagation();
-                console.log('Klick på kartobjekt stoppat från att bubbla');
             }
 
             if (e.target && e.target.feature && e.target.feature.properties) {
                 var properties = e.target.feature.properties;
-                console.log('Klickade på ett geojson-objekt med egenskaper:', properties);
 
                 if (!popupPanelVisible) {
                     showPopupPanel(properties);
@@ -239,8 +235,6 @@ function addClickHandlerToLayer(layer) {
 document.addEventListener('click', function(event) {
     if (popupPanelVisible && !popupPanel.contains(event.target)) {
         hidePopupPanel();
-    } else {
-        console.log('Klick inträffade men popup-panelen var antingen inte synlig eller klickade inuti panelen');
     }
 });
 
