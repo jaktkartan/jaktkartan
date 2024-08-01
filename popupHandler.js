@@ -1,4 +1,4 @@
-// CSS för popup-panelen
+// CSS för popup-panelen och knappen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -64,6 +64,28 @@ styleTag.innerHTML = `
     #popup-panel img {
         max-width: 100%;
         border-radius: 10px; /* Rundade hörn för bilder */
+    }
+
+    .link-button {
+        display: inline-flex;
+        align-items: center;
+        background-color: #4CAF50; /* Ändra färg efter behov */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        max-height: 50px; /* Begränsar höjden */
+        overflow: hidden;
+    }
+
+    .link-button img {
+        max-height: 20px; /* Ändrar storlek på bilden */
+        margin-left: 10px;
     }
 `;
 
@@ -139,11 +161,14 @@ function updatePopupPanelContent(properties) {
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
                 console.log('Bild URL:', value);
-            } else if (key.toLowerCase() === 'link' && value) {
-                content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
-                console.log('Länk URL:', value);
-            } else if (key.toLowerCase() === 'lokala_tid' && value) {
-                content += '<p><a href="' + value + '" target="_blank">Länk</a></p>';
+            } else if ((key.toLowerCase() === 'link' || key.toLowerCase() === 'lokala_tid') && value) {
+                content += `
+                    <p>
+                        <button class="link-button" onclick="window.open('${value}', '_blank')">
+                            Läs mer hos bolaget
+                            <img src="bilder/extern_link.png" alt="Extern länk">
+                        </button>
+                    </p>`;
                 console.log('Länk URL:', value);
             } else {
                 var translatedKey = translateKey(key);
