@@ -152,7 +152,7 @@ setTimeout(function() {
             };
 
             // Fält som ska visas utan fältnamn
-            var hideFieldNames = ['Rubrik', 'Kommun', 'Info', 'TYP', 'BILD', 'NAMN', 'INFO'];
+            var hideFieldNames = ['Rubrik', 'Kommun', 'Info', 'TYP', 'BILD', 'NAMN', 'INFO', 'id'];
 
             // Iterera genom alla egenskaper i GeoJSON-funktionen
             for (var prop in properties) {
