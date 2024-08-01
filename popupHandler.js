@@ -110,6 +110,9 @@ closeButton.addEventListener('click', function(event) {
 });
 popupPanel.appendChild(closeButton);
 
+var hideProperties = ['VAGBESKRIV', 'BILD']; // Lägg till fält som ska döljas
+var hideNameOnlyProperties = ['NAMN', 'INFO', 'Kommun', 'TYP']; // Lägg till fält som endast ska visa värden utan namn
+
 function isImageUrl(url) {
     return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp|gif)$/i);
 }
@@ -159,7 +162,14 @@ function updatePopupPanelContent(properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
-            if (hideProperties.includes(key) || (hideNameOnlyProperties.includes(key) && !value)) {
+            if (hideProperties.includes(key)) {
+                continue;
+            }
+
+            if (hideNameOnlyProperties.includes(key)) {
+                if (value) {
+                    content += '<p>' + value + '</p>';
+                }
                 continue;
             }
 
