@@ -3,10 +3,16 @@
 //Dölj all data i popupfönstrena med följande fältnamn
 var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field', 'omrade'];
 // Dölj fältnamn visa bara innehåll
-var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link'];
+var hideNameOnlyProperties = ['namn', 'bild', 'info', 'link', 'Kommun', 'TYP', 'NAMN', 'INFO'];
 
 // Översättningstabell i popup-panelerna
 var translationTable = {
+    // Översättningstabell i popup-panelerna
+    
+    // Upptäck
+    'DATUM_FRAN': 'Börjar',
+    'DATUM_TILL': 'Till',
+    
     // Allmän jakt: Däggdjur
     // Bäver
     "baver1_all": "Jakt",
