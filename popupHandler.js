@@ -110,9 +110,6 @@ closeButton.addEventListener('click', function(event) {
 });
 popupPanel.appendChild(closeButton);
 
-var hideProperties = ['id', 'VAGBESKRIV', 'BILD']; // Lägg till fält som ska döljas
-var hideNameOnlyProperties = ['NAMN', 'INFO', 'Kommun', 'TYP', 'Rubrik', 'Info']; // Lägg till fält som endast ska visa värden utan namn
-
 function isImageUrl(url) {
     return typeof url === 'string' && url.match(/\.(jpeg|jpg|png|webp|gif)$/i);
 }
