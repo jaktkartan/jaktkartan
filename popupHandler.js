@@ -170,7 +170,7 @@ function updatePopupPanelContent(properties) {
                 content += `
                     <p>
                         <button class="link-button" onclick="window.open('${value}', '_blank')">
-                            Läs mer hos bolaget
+                            Besök sidan
                             <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                         </button>
                     </p>`;
