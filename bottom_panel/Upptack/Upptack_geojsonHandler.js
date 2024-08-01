@@ -154,13 +154,18 @@ setTimeout(function() {
             // Fält som ska visas utan fältnamn
             var hideFieldNames = ['Rubrik', 'Kommun', 'Info', 'TYP', 'BILD', 'NAMN', 'INFO', 'id'];
 
-            // Iterera genom alla egenskaper i GeoJSON-funktionen
+            var translationTable = {
+                'DATUM_FRAN': 'Börjar',
+                'DATUM_TILL': 'Till'
+            };
+
             for (var prop in properties) {
                 if (!properties.hasOwnProperty(prop) || hideFieldNames.includes(prop)) {
                     continue; // Hoppa över om fältet finns i hideFieldNames
                 }
 
                 var value = properties[prop];
+                var translatedProp = translationTable[prop] || prop;
 
                 // Kontrollera om egenskapen är en bild-URL
                 if (prop === 'BILD' && value && isImageUrl(value)) {
@@ -183,7 +188,7 @@ setTimeout(function() {
                 // Annars, visa egenskapen som text
                 else if (value) {
                     // Visa egenskapens namn och värde
-                    content += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
+                    content += '<p><strong>' + translatedProp + ':</strong> ' + value + '</p>';
                 }
             }
 
