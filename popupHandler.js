@@ -118,10 +118,6 @@ function isImageUrl(url) {
 }
 
 function translateKey(key) {
-    var translationTable = {
-        'DATUM_FRAN': 'Börjar',
-        'DATUM_TILL': 'Till'
-    };
     return translationTable[key] || key;
 }
 
