@@ -136,7 +136,7 @@ function generatePopupContent(properties) {
 
             if (hideNameOnlyProperties.includes(key)) {
                 if (value) {
-                    if (key === 'NAMN') {
+                    if (key === 'NAMN' || key === 'Rubrik') {
                         content += '<p class="bold-center">' + value + '</p>';
                     } else {
                         content += '<p>' + value + '</p>';
