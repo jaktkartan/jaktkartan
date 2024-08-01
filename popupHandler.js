@@ -1,3 +1,4 @@
+// CSS för popup-panelen och knappen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -85,7 +86,7 @@ styleTag.innerHTML = `
     .link-button img {
         max-height: 20px; /* Ändrar storlek på bilden */
         margin-left: 10px;
-        object-fit: contain; /* Säkerställer att hela bilden visas */
+        border-radius: 0; /* Tar bort rundade hörn */
     }
 `;
 
