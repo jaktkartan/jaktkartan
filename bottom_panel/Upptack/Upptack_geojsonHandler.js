@@ -156,6 +156,10 @@ setTimeout(function() {
 
             // Iterera genom alla egenskaper i GeoJSON-funktionen
             for (var prop in properties) {
+                if (!properties.hasOwnProperty(prop) || hideFieldNames.includes(prop)) {
+                    continue; // Hoppa över om fältet finns i hideFieldNames
+                }
+
                 var value = properties[prop];
 
                 // Kontrollera om egenskapen är en bild-URL
