@@ -154,15 +154,8 @@ setTimeout(function() {
             // Fält som ska visas utan fältnamn
             var hideFieldNames = ['Rubrik', 'Kommun', 'Info', 'TYP', 'BILD', 'NAMN', 'INFO'];
 
-            // Definiera egenskaper som ska döljas eller bara visas med namn
-            var hideProperties = [];
-            var hideNameOnlyProperties = fields[layerName] || [];
-
             // Iterera genom alla egenskaper i GeoJSON-funktionen
             for (var prop in properties) {
-                // Hoppa över dolda egenskaper
-                if (hideProperties.includes(prop)) continue;
-
                 var value = properties[prop];
 
                 // Kontrollera om egenskapen är en bild-URL
@@ -178,10 +171,6 @@ setTimeout(function() {
                 else if ((prop === 'VAGBESKRIV' || prop === 'VägBeskrivning') && value) {
                     // Lägg till en hyperlänk med texten "Vägbeskrivning" som länkar till URL:en
                     content += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
-                }
-                // Kontrollera om egenskapen ska visas endast med namn
-                else if (hideNameOnlyProperties.includes(prop) && value) {
-                    content += '<p>' + value + '</p>';
                 }
                 // Kontrollera om egenskapen ska visas utan fältnamn
                 else if (hideFieldNames.includes(prop) && value) {
