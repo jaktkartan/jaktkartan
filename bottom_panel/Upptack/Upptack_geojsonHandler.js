@@ -169,7 +169,11 @@ setTimeout(function() {
                 }
                 // Kontrollera om egenskapen ska visas utan fältnamn
                 else if (hideNameOnlyProperties.includes(prop) && value) {
-                    content += '<p>' + value + '</p>';
+                    if (prop === 'NAMN') {
+                        content += '<p class="bold-center">' + value + '</p>';
+                    } else {
+                        content += '<p>' + value + '</p>';
+                    }
                 }
                 // Annars, visa egenskapen som text
                 else if (value) {
