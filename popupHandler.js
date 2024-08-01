@@ -84,7 +84,7 @@ styleTag.innerHTML = `
     }
 
     .link-button img {
-        max-height: 20px; /* Ändrar storlek på bilden */
+        max-height: 16px; /* Ändrar storlek på bilden */
         margin-left: 10px;
         border-radius: 0; /* Tar bort rundade hörn */
     }
