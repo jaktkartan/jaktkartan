@@ -96,6 +96,7 @@ styleTag.innerHTML = `
     .bold-center {
         font-weight: bold;
         text-align: center;
+        font-size: 1.2em; /* Ändrar textstorleken */
     }
 `;
 
