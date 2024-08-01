@@ -69,7 +69,7 @@ styleTag.innerHTML = `
     .link-button {
         display: inline-flex;
         align-items: center;
-        background-color: #4CAF50; /* Ändra färg efter behov */
+        background-color: rgb(50, 94, 88); /* Färg på knappen */
         color: white;
         border: none;
         padding: 10px 20px;
