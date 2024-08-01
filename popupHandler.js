@@ -92,6 +92,11 @@ styleTag.innerHTML = `
     .link-button .custom-image {
         border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
     }
+
+    .bold-center {
+        font-weight: bold;
+        text-align: center;
+    }
 `;
 
 // Lägg till style-taggen till <head>
@@ -165,7 +170,11 @@ function updatePopupPanelContent(properties) {
 
             if (hideNameOnlyProperties.includes(key)) {
                 if (value) {
-                    content += '<p>' + value + '</p>';
+                    if (key === 'NAMN') {
+                        content += '<p class="bold-center">' + value + '</p>';
+                    } else {
+                        content += '<p>' + value + '</p>';
+                    }
                 }
                 continue;
             }
