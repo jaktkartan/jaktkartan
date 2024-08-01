@@ -145,22 +145,13 @@ setTimeout(function() {
         function generatePanelContent(properties, layerName) {
             var content = '<div style="max-width: 300px; overflow-y: auto;">';
 
-            // Definiera vilka fält som ska visas för olika lager
-            var fields = {
-                'Mässor': ['NAMN', 'INFO', 'LINK', 'VAGBESKRIV'],
-                'Jaktkort': ['Rubrik', 'Info', 'Link', 'VAGBESKRIV']
-            };
-
-            // Fält som ska visas utan fältnamn
-            var hideFieldNames = ['Rubrik', 'Kommun', 'Info', 'TYP', 'BILD', 'NAMN', 'INFO', 'id'];
-
-            // Iterera genom alla egenskaper i GeoJSON-funktionen
             for (var prop in properties) {
-                if (!properties.hasOwnProperty(prop) || hideFieldNames.includes(prop)) {
-                    continue; // Hoppa över om fältet finns i hideFieldNames
+                if (!properties.hasOwnProperty(prop) || hideProperties.includes(prop)) {
+                    continue; // Hoppa över om fältet finns i hideProperties
                 }
 
                 var value = properties[prop];
+                var translatedProp = translationTable[prop] || prop;
 
                 // Kontrollera om egenskapen är en bild-URL
                 if (prop === 'BILD' && value && isImageUrl(value)) {
@@ -177,13 +168,13 @@ setTimeout(function() {
                     content += '<p><a href="' + value + '" target="_blank">Vägbeskrivning</a></p>';
                 }
                 // Kontrollera om egenskapen ska visas utan fältnamn
-                else if (hideFieldNames.includes(prop) && value) {
+                else if (hideNameOnlyProperties.includes(prop) && value) {
                     content += '<p>' + value + '</p>';
                 }
                 // Annars, visa egenskapen som text
                 else if (value) {
                     // Visa egenskapens namn och värde
-                    content += '<p><strong>' + prop + ':</strong> ' + value + '</p>';
+                    content += '<p><strong>' + translatedProp + ':</strong> ' + value + '</p>';
                 }
             }
 
