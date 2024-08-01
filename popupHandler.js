@@ -84,9 +84,13 @@ styleTag.innerHTML = `
     }
 
     .link-button img {
-        max-height: 16px; /* Ändrar storlek på bilden */
+        max-height: 20px; /* Ändrar storlek på bilden */
         margin-left: 10px;
-        border-radius: 0; /* Tar bort rundade hörn */
+        border-radius: 0 !important; /* Tar bort rundade hörn med !important */
+    }
+
+    .link-button .custom-image {
+        border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
     }
 `;
 
@@ -167,7 +171,7 @@ function updatePopupPanelContent(properties) {
                     <p>
                         <button class="link-button" onclick="window.open('${value}', '_blank')">
                             Läs mer hos bolaget
-                            <img src="bilder/extern_link.png" alt="Extern länk">
+                            <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                         </button>
                     </p>`;
                 console.log('Länk URL:', value);
