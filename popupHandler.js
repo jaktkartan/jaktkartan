@@ -25,6 +25,9 @@ styleTag.innerHTML = `
     transition: transform 0.5s ease-in-out;
 }
 
+    #popup-panel-content {
+        margin-top: 0;
+    }
 
     #close-button {
         position: absolute;
