@@ -26,7 +26,9 @@ styleTag.innerHTML = `
 }
 
 #popup-panel.show {
-    margin: 0; /* Sätt margin till 0 även här */
+    margin-top: 0 !important; /* Ta bort marginalen längst upp */
+    margin: 0 !important; /* Sätt margin till 0 även här */
+    
 }
 
     #popup-panel-content {
