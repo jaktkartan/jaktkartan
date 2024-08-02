@@ -98,6 +98,19 @@ styleTag.innerHTML = `
         text-align: center;
         font-size: 1.2em; /* Ändrar textstorleken */
     }
+
+    /* Anpassa bredden på popup-panelen för större skärmar */
+    @media (min-width: 768px) {
+        #popup-panel {
+            width: 50%;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        #popup-panel {
+            width: 30%;
+        }
+    }
 `;
 
 // Lägg till style-taggen till <head>
