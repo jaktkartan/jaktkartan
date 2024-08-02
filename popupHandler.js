@@ -25,6 +25,10 @@ styleTag.innerHTML = `
     transition: transform 0.5s ease-in-out;
 }
 
+#popup-panel.show {
+    margin: 0; /* Sätt margin till 0 även här */
+}
+
     #popup-panel-content {
         margin-top: 0; /* Ta bort marginalen längst upp */
         padding-top: 0; /* För säkerhets skull, nollställ padding också */
