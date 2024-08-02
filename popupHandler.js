@@ -26,7 +26,12 @@ styleTag.innerHTML = `
 }
 
     #popup-panel-content {
-        margin-top: 0;
+        margin-top: 0; /* Ta bort marginalen längst upp */
+        padding-top: 0; /* För säkerhets skull, nollställ padding också */
+    }
+
+    #popup-panel p {
+        margin: 0; /* Ta bort marginaler från p-element */
     }
 
     #close-button {
