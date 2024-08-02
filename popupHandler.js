@@ -11,8 +11,7 @@ styleTag.innerHTML = `
     border-top: 5px solid #fff;
     border-left: 5px solid #fff;
     border-right: 5px solid #fff;
-    padding: 10px;
-    padding-top: 0;
+    padding: 0px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     z-index: 1000;
     overflow-y: auto;
