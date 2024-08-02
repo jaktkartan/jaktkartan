@@ -35,8 +35,8 @@ styleTag.innerHTML = `
 
     #close-button {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 5px;
+        right: 5px;
         background-color: transparent;
         border: none;
         font-size: 20px;
