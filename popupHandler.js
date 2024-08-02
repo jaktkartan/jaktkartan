@@ -3,26 +3,28 @@ var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
     #popup-panel {
-        position: fixed;
-        bottom: 0px;
-        width: 95%;
-        max-height: 40%;
-        background-color: #fff;
-        border-top: 5px solid #fff;
-        border-left: 5px solid #fff;
-        border-right: 5px solid #fff;
-        padding: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        z-index: 1000;
-        overflow-y: auto;
-        word-wrap: break-word;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        font-family: 'Roboto', sans-serif;
-        color: rgb(50, 94, 88);
-        transform: translateY(100%);
-        transition: transform 0.5s ease-in-out;
-    }
+    position: fixed;
+    bottom: 0px;
+    width: 95%;
+    max-height: 40%;
+    background-color: #fff;
+    border-top: 5px solid #fff;
+    border-left: 5px solid #fff;
+    border-right: 5px solid #fff;
+    padding: 10px;
+    padding-top: 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    overflow-y: auto;
+    word-wrap: break-word;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(50, 94, 88);
+    transform: translateY(100%);
+    transition: transform 0.5s ease-in-out;
+}
+
 
     #close-button {
         position: absolute;
@@ -95,7 +97,6 @@ styleTag.innerHTML = `
 
     .bold-center {
         font-weight: bold;
-        text-align: center;
         font-size: 1.2em; /* Ändrar textstorleken */
     }
 
