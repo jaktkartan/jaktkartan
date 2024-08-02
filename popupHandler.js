@@ -25,15 +25,9 @@ styleTag.innerHTML = `
     transition: transform 0.5s ease-in-out;
 }
 
-#popup-panel.show {
-    margin-top: 0 !important; /* Ta bort marginalen längst upp */
-    margin: 0 !important; /* Sätt margin till 0 även här */
-    
-}
-
     #popup-panel-content {
-        margin-top: 0; /* Ta bort marginalen längst upp */
-        padding-top: 0; /* För säkerhets skull, nollställ padding också */
+        margin: 0;
+        padding: 0;
     }
 
     #popup-panel p {
