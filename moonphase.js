@@ -89,7 +89,11 @@ function getUpcomingMoonPhases(hemisphere, startDate) {
     // Hoppa till nästa dag
     currentDate.setDate(currentDate.getDate() + 1);
 
-    while (phases.length < 8) {
+    // Begränsa antalet iterationer för att förhindra oändlig loop
+    let iterations = 0;
+    const maxIterations = 365; // ett år
+
+    while (phases.length < 8 && iterations < maxIterations) {
         const phase = Moon.lunarPhase(currentDate, { hemisphere });
 
         // Lägg bara till fasen om den är annorlunda än den nuvarande
@@ -98,6 +102,7 @@ function getUpcomingMoonPhases(hemisphere, startDate) {
         }
 
         currentDate.setDate(currentDate.getDate() + 1);
+        iterations++;
     }
 
     return phases;
