@@ -81,15 +81,19 @@ function getMoonPhaseImageSrc(phase) {
 }
 
 // Funktion för att beräkna kommande månfaser
-function getUpcomingMoonPhases(hemisphere) {
+function getUpcomingMoonPhases(hemisphere, startDate) {
     const phases = [];
-    const currentDate = new Date();
-    let count = 0;
+    const currentDate = new Date(startDate);
+    const currentPhase = Moon.lunarPhase(currentDate, { hemisphere });
+
+    // Hoppa till nästa dag
+    currentDate.setDate(currentDate.getDate() + 1);
 
     while (phases.length < 8) {
         const phase = Moon.lunarPhase(currentDate, { hemisphere });
 
-        if (!phases.find(p => p.phase === phase)) {
+        // Lägg bara till fasen om den är annorlunda än den nuvarande
+        if (phase !== currentPhase && !phases.find(p => p.phase === phase)) {
             phases.push({ phase, date: new Date(currentDate) });
         }
 
@@ -136,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Hantera klickhändelsen för månfasbilden
         moonImageElement.addEventListener('click', () => {
-            const upcomingPhases = getUpcomingMoonPhases(Hemisphere.NORTHERN);
+            const upcomingPhases = getUpcomingMoonPhases(Hemisphere.NORTHERN, today);
             moonPhaseInfo.innerHTML = '<strong>Kommande månfaser:</strong><br>';
             upcomingPhases.forEach(phase => {
                 const phaseItem = document.createElement('div');
