@@ -46,7 +46,39 @@ addStyles(`
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+    .moon-phase-item {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .moon-phase-item img {
+        width: 45px;
+        height: auto;
+    }
 `);
+
+// Funktion för att få bildkälla baserat på månfas
+function getMoonPhaseImageSrc(phase) {
+    switch(phase) {
+        case LunarPhase.NEW:
+            return 'bilder/moonface/moonface-new-moon.png';
+        case LunarPhase.WAXING_CRESCENT:
+            return 'bilder/moonface/moonface-waxing-crescent-moon.png';
+        case LunarPhase.FIRST_QUARTER:
+            return 'bilder/moonface/moonface-first-quarter-moon.png';
+        case LunarPhase.WAXING_GIBBOUS:
+            return 'bilder/moonface/moonface-waxing-gibbous-moon.png';
+        case LunarPhase.FULL:
+            return 'bilder/moonface/moonface-full-moon.png';
+        case LunarPhase.WANING_GIBBOUS:
+            return 'bilder/moonface/moonface-waning-gibbous-moon.png';
+        case LunarPhase.LAST_QUARTER:
+            return 'bilder/moonface/moonface-last-quarter-moon.png';
+        case LunarPhase.WANING_CRESCENT:
+            return 'bilder/moonface/moonface-waning-crescent-moon.png';
+        default:
+            return 'bilder/moonface/default-moon.png';
+    }
+}
 
 // Funktion för att beräkna kommande månfaser
 function getUpcomingMoonPhases(hemisphere) {
@@ -84,37 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (moonPhaseContainer && moonImageElement) {
         // Bestäm bild baserat på månens fas
-        let moonImageSrc;
-        switch(moonPhase) {
-            case LunarPhase.NEW:
-                moonImageSrc = 'bilder/moonface/moonface-new-moon.png';
-                break;
-            case LunarPhase.WAXING_CRESCENT:
-                moonImageSrc = 'bilder/moonface/moonface-waxing-crescent-moon.png';
-                break;
-            case LunarPhase.FIRST_QUARTER:
-                moonImageSrc = 'bilder/moonface/moonface-first-quarter-moon.png';
-                break;
-            case LunarPhase.WAXING_GIBBOUS:
-                moonImageSrc = 'bilder/moonface/moonface-waxing-gibbous-moon.png';
-                break;
-            case LunarPhase.FULL:
-                moonImageSrc = 'bilder/moonface/moonface-full-moon.png';
-                break;
-            case LunarPhase.WANING_GIBBOUS:
-                moonImageSrc = 'bilder/moonface/moonface-waning-gibbous-moon.png';
-                break;
-            case LunarPhase.LAST_QUARTER:
-                moonImageSrc = 'bilder/moonface/moonface-last-quarter-moon.png';
-                break;
-            case LunarPhase.WANING_CRESCENT:
-                moonImageSrc = 'bilder/moonface/moonface-waning-crescent-moon.png';
-                break;
-            default:
-                console.log(`Unhandled moon phase: ${moonPhase}`);
-                moonImageSrc = 'bilder/moonface/default-moon.png';
-                break;
-        }
+        let moonImageSrc = getMoonPhaseImageSrc(moonPhase);
 
         // Sätt bildens källa
         console.log(`Setting moon image source to: ${moonImageSrc}`); // Lägg till loggning för bildkällan
@@ -137,7 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const upcomingPhases = getUpcomingMoonPhases(Hemisphere.NORTHERN);
             moonPhaseInfo.innerHTML = '<strong>Kommande månfaser:</strong><br>';
             upcomingPhases.forEach(phase => {
-                moonPhaseInfo.innerHTML += `${phase.phase}: ${phase.date.toLocaleDateString()}<br>`;
+                const phaseItem = document.createElement('div');
+                phaseItem.className = 'moon-phase-item';
+                phaseItem.innerHTML = `
+                    <img src="${getMoonPhaseImageSrc(phase.phase)}" alt="${phase.phase}" />
+                    <div>${phase.date.toLocaleDateString()}</div>
+                `;
+                moonPhaseInfo.appendChild(phaseItem);
             });
             moonPhaseInfo.style.display = 'block';
         });
@@ -146,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('click', (event) => {
             if (!moonPhaseContainer.contains(event.target)) {
                 moonPhaseInfo.style.display = 'none';
+                moonPhaseInfo.innerHTML = ''; // Töm innehållet när popup stängs
             }
         });
     } else {
