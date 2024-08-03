@@ -52,10 +52,18 @@ addStyles(`
 function getUpcomingMoonPhases(hemisphere) {
     const phases = [];
     const currentDate = new Date();
-    for (let i = 0; i < 8; i++) {
-        const phaseDate = Moon.lunarPhaseDate(currentDate, i, { hemisphere });
-        phases.push({ phase: LunarPhase[i], date: phaseDate });
+    let count = 0;
+
+    while (phases.length < 8) {
+        const phase = Moon.lunarPhase(currentDate, { hemisphere });
+
+        if (!phases.find(p => p.phase === phase)) {
+            phases.push({ phase, date: new Date(currentDate) });
+        }
+
+        currentDate.setDate(currentDate.getDate() + 1);
     }
+
     return phases;
 }
 
