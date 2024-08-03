@@ -52,19 +52,12 @@ addStyles(`
         border: 1px solid #ccc; /* Ram för varje månfas-item */
         padding: 5px;
         border-radius: 5px;
+        display: inline-block; /* Förhindra radbrytning */
+        white-space: nowrap; /* Förhindra radbrytning av datum */
     }
     .moon-phase-item img {
         width: 45px;
         height: auto;
-        border: 1px solid #ccc; /* Ram för varje bild */
-        border-radius: 5px;
-        padding: 2px;
-    }
-    .moon-phase-item div {
-        margin-top: 5px;
-        border: 1px solid #ccc; /* Ram för varje datum */
-        border-radius: 5px;
-        padding: 2px;
     }
 `);
 
