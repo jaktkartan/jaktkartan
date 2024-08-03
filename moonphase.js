@@ -34,7 +34,7 @@ addStyles(`
     }
     #moon-phase-label {
         font-size: 12px; /* Ställ in textstorlek */
-        margin-top: -10px; /* Använd negativ marginal för att flytta texten närmare bilden */
+        margin-top: -5px; /* Använd mindre negativ marginal för att flytta texten närmare bilden */
     }
     #moon-phase-info {
         position: absolute;
@@ -42,15 +42,15 @@ addStyles(`
         right: 0;
         background-color: white;
         border: 1px solid #ccc;
-        padding: 10px;
+        padding: 5px; /* Minska padding */
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     .moon-phase-item {
-        margin-bottom: 10px;
+        margin-bottom: 5px; /* Minska marginalen mellan ramarna */
         text-align: center;
         border: 1px solid #ccc; /* Ram för varje månfas-item */
-        padding: 5px;
+        padding: 2px; /* Minska padding i varje ram */
         border-radius: 5px;
         display: inline-block; /* Förhindra radbrytning */
         white-space: nowrap; /* Förhindra radbrytning av datum */
