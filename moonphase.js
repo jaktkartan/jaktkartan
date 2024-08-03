@@ -30,12 +30,34 @@ addStyles(`
     #moon-image {
         width: 45px;
         height: auto;
+        cursor: pointer; /* Visa att bilden är klickbar */
     }
     #moon-phase-label {
         font-size: 12px; /* Ställ in textstorlek */
         margin-top: -10px; /* Använd negativ marginal för att flytta texten närmare bilden */
     }
+    #moon-phase-info {
+        position: absolute;
+        top: 50px; /* Justera positionen som behövs */
+        right: 0;
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
 `);
+
+// Funktion för att beräkna kommande månfaser
+function getUpcomingMoonPhases(hemisphere) {
+    const phases = [];
+    const currentDate = new Date();
+    for (let i = 0; i < 8; i++) {
+        const phaseDate = Moon.lunarPhaseDate(currentDate, i, { hemisphere });
+        phases.push({ phase: LunarPhase[i], date: phaseDate });
+    }
+    return phases;
+}
 
 // Vänta tills dokumentet är laddat
 document.addEventListener('DOMContentLoaded', () => {
@@ -50,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const moonPhaseContainer = document.getElementById('moon-phase-container');
     const moonImageElement = document.getElementById('moon-image');
+    const moonPhaseInfo = document.getElementById('moon-phase-info');
 
     if (moonPhaseContainer && moonImageElement) {
         // Bestäm bild baserat på månens fas
@@ -100,6 +123,23 @@ document.addEventListener('DOMContentLoaded', () => {
             moonPhaseLabel.innerText = 'Månfas';
             moonPhaseContainer.appendChild(moonPhaseLabel);
         }
+
+        // Hantera klickhändelsen för månfasbilden
+        moonImageElement.addEventListener('click', () => {
+            const upcomingPhases = getUpcomingMoonPhases(Hemisphere.NORTHERN);
+            moonPhaseInfo.innerHTML = '<strong>Kommande månfaser:</strong><br>';
+            upcomingPhases.forEach(phase => {
+                moonPhaseInfo.innerHTML += `${phase.phase}: ${phase.date.toLocaleDateString()}<br>`;
+            });
+            moonPhaseInfo.style.display = 'block';
+        });
+
+        // Stäng informationen när användaren klickar utanför den
+        document.addEventListener('click', (event) => {
+            if (!moonPhaseContainer.contains(event.target)) {
+                moonPhaseInfo.style.display = 'none';
+            }
+        });
     } else {
         console.error("Moon phase container or moon image element not found");
     }
