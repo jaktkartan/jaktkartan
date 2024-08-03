@@ -15,6 +15,7 @@ addStyles(`
 
     body, button, span, div {
         font-family: 'Roboto', sans-serif !important;
+        color: rgb(50, 94, 88); /* Textfärg */
     }
 
     #moon-phase-container {
@@ -41,7 +42,7 @@ addStyles(`
         top: 50px; /* Justera positionen som behövs */
         right: 0;
         background-color: white;
-        border: 1px solid #ccc;
+        border: 1px solid rgb(50, 94, 88); /* Ramfärg */
         padding: 5px; /* Minska padding */
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -49,7 +50,7 @@ addStyles(`
     .moon-phase-item {
         margin-bottom: 5px; /* Minska marginalen mellan ramarna */
         text-align: center;
-        border: 1px solid #ccc; /* Ram för varje månfas-item */
+        border: 1px solid rgb(50, 94, 88); /* Ramfärg */
         padding: 2px; /* Minska padding i varje ram */
         border-radius: 5px;
         display: inline-block; /* Förhindra radbrytning */
