@@ -147,28 +147,23 @@ function translateKey(key) {
 
 // Tabell som matchar "Förvaltandelän" med motsvarande URL
 var länURLTabell = {
-    'Länsstyrelsen i Blekinge län': 'https://www.lansstyrelsen.se/blekinge/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen  Dalarnas län': 'https://www.lansstyrelsen.se/dalarna/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Gävleborgs län': 'https://www.lansstyrelsen.se/gavleborg/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Hallands län': 'https://www.lansstyrelsen.se/halland/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Jämtlands län': 'https://www.lansstyrelsen.se/jamtland/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Jönköpings län': 'https://www.lansstyrelsen.se/jonkoping/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Kalmar län': 'https://www.lansstyrelsen.se/kalmar/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Kronobergs län': 'https://www.lansstyrelsen.se/kronoberg/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Norrbottens Län': 'https://www.lansstyrelsen.se/norrbotten/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Skåne län': 'https://www.lansstyrelsen.se/skane/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Stockholm': 'https://www.lansstyrelsen.se/stockholm/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen Södermanland': 'https://www.lansstyrelsen.se/sodermanland/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Uppsala län': 'https://www.lansstyrelsen.se/uppsala/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Värmlands län': 'https://www.lansstyrelsen.se/varmland/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Västerbottens län': 'https://www.lansstyrelsen.se/vasterbotten/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen Västra Götalands län': 'https://www.lansstyrelsen.se/vastragotaland/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Västernorrlands län': 'https://www.lansstyrelsen.se/vasternorrland/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Västmanlands län': 'https://www.lansstyrelsen.se/vastmanland/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen i Örebro län': 'https://www.lansstyrelsen.se/orebro/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen Östergötland': 'https://www.lansstyrelsen.se/ostergotland/djur/jakt-och-vilt/algjakt.html'
+    'Länsstyrelsen i Norrbottens län': 'https://www.lansstyrelsen.se/norrbotten',
+    'Länsstyrelsen i Västerbottens län': 'https://www.lansstyrelsen.se/vasterbotten',
+    'Länsstyrelsen i Västernorrlands län': 'https://www.lansstyrelsen.se/vasternorrland',
+    'Länsstyrelsen i Jämtlands län': 'https://www.lansstyrelsen.se/jamtland',
+    'Länsstyrelsen i Dalarnas län': 'https://www.lansstyrelsen.se/dalarna',
+    'Länsstyrelsen i Värmlands län': 'https://www.lansstyrelsen.se/varmland',
+    'Länsstyrelsen i Östergötland': 'https://www.lansstyrelsen.se/ostergotland',
+    'Länsstyrelsen i Stockholm': 'https://www.lansstyrelsen.se/stockholm',
+    'Länsstyrelsen i Uppsala län': 'https://www.lansstyrelsen.se/uppsala',
+    'Länsstyrelsen i Västra Götalands län': 'https://www.lansstyrelsen.se/vastragotaland',
+    'Länsstyrelsen i Kalmar län': 'https://www.lansstyrelsen.se/kalmar',
+    'Länsstyrelsen i Blekinge län': 'https://www.lansstyrelsen.se/blekinge',
+    'Länsstyrelsen i Kronobergs län': 'https://www.lansstyrelsen.se/kronoberg',
+    'Länsstyrelsen i Skåne län': 'https://www.lansstyrelsen.se/skane',
+    'Länsstyrelsen i Gävleborgs län': 'https://www.lansstyrelsen.se/gavleborg',
+    // Lägg till fler län och deras URL:er här
 };
-
 
 function generatePopupContent(properties) {
     var content = '';
@@ -184,7 +179,7 @@ function generatePopupContent(properties) {
 
             if (hideNameOnlyProperties.includes(key)) {
                 if (value) {
-                    if (key === 'NAMN' || key === 'Rubrik' || key === 'lan_namn') {
+                    if (key === 'NAMN' || key === 'Rubrik') {
                         content += '<p class="bold-center">' + value + '</p>';
                     } else {
                         content += '<p>' + value + '</p>';
@@ -211,7 +206,7 @@ function generatePopupContent(properties) {
         content += `
             <p>
                 <button class="link-button" onclick="window.open('${länURLTabell[förvaltandelän]}', '_blank')">
-                    Jakttid: ${förvaltandelän}
+                    Besök ${förvaltandelän}
                     <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                 </button>
             </p>`;
