@@ -2,14 +2,14 @@ var Kartor_geojsonHandler = (function() {
     var layerIsActive = {
         'Allmän jakt: Däggdjur': false,
         'Allmän jakt: Fågel': false,
-        'Älgjaktskartan': false,
+        'Algforvaltningsomrade': false,
         'Älgjaktsområden': false
     };
 
     var geojsonLayers = {
         'Allmän jakt: Däggdjur': [],
         'Allmän jakt: Fågel': [],
-        'Älgjaktskartan': [],
+        'Algforvaltningsomrade': null, // Ändrat till null
         'Älgjaktsområden': null
     };
 
@@ -24,28 +24,6 @@ var Kartor_geojsonHandler = (function() {
             'GrnslvsomrdetillFinland_5.geojson': { fillColor: 'blue', color: 'blue', weight: 8, fillOpacity: 0.5, dashArray: '5, 10' },
             'NedanfrLappmarksgrnsen_3.geojson': { fillColor: '#fdae61', color: '#edf8e9', weight: 2, fillOpacity: 0.5, dashArray: '5, 10' },
             'OvanfrLapplandsgrnsen_4.geojson': { fillColor: '#a6d96a', color: '#edf8e9', weight: 2, fillOpacity: 0.5 }
-        },
-        'Älgjaktskartan': {
-            'lgjaktJakttider_1.geojson': {
-                style: (function() {
-                    var colorScale = [
-                        '#ffd54f', '#72d572', '#ff7043', '#1ba01b', '#20beea',
-                        '#81d4fa', '#ab47bc', '#e9a6f4', '#78909c', '#9c8019', '#b5f2b5'
-                    ];
-                    var jakttidToColor = {};
-                    var currentIndex = 0;
-
-                    return function(feature) {
-                        var jakttid = feature.properties['jakttid'];
-                        if (!jakttidToColor[jakttid]) {
-                            jakttidToColor[jakttid] = colorScale[currentIndex];
-                            currentIndex = (currentIndex + 1) % colorScale.length;
-                        }
-                        return { fillColor: jakttidToColor[jakttid], color: 'rgb(50, 94, 88)', weight: 2, fillOpacity: 0.5 };
-                    };
-                })()
-            },
-            'Omrdemedbrunstuppehll_2.geojson': { fill: false, color: 'black', weight: 7, dashArray: '5, 10' }
         }
     };
 
@@ -129,11 +107,13 @@ var Kartor_geojsonHandler = (function() {
         if (geojsonURLs) {
             fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs);
         } else if (layerName === 'Älgjaktsområden') {
-            loadElgjaktsomradenWMS(true);
+            loadElgjaktWMS(true);
+        } else if (layerName === 'Algforvaltningsomrade') {
+            loadAlgforvaltningsomradeWMS(true); // Lägg till detta anrop
         }
     }
 
-    function loadElgjaktsomradenWMS(add) {
+    function loadElgjaktWMS(add) {
         if (add) {
             if (currentWMSLayer) {
                 console.log('Layer is already added. No action taken.');
@@ -169,6 +149,46 @@ var Kartor_geojsonHandler = (function() {
                 hideZoomMessage(); // Dölj meddelandet när lagret tas bort
                 map.off('zoomend', checkZoomLevel); // Ta bort händelsen för zoomnivån
                 updateFAB('Älgjaktsområden', false); // Säkerställ att FAB-knappen döljs
+            }
+        }
+    }
+
+    function loadAlgforvaltningsomradeWMS(add) {
+        if (add) {
+            if (currentWMSLayer) {
+                console.log('Layer is already added. No action taken.');
+                return;
+            }
+            checkZoomLevel();
+            console.log('Adding Algforvaltningsomrade layer.');
+            currentWMSLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
+                layers: '1',
+                format: 'image/png',
+                transparent: true,
+                attribution: 'Länsstyrelsen',
+                opacity: 0.5
+            }).addTo(map);
+
+            wmsClickHandler = function(e) {
+                handleWMSClick(e);
+            };
+            map.on('click', wmsClickHandler);
+
+            // Lägg till händelse för att övervaka zoomnivån
+            map.on('zoomend', checkZoomLevel);
+
+            console.log("WMS layer added to map:", currentWMSLayer);
+            updateFAB('Algforvaltningsomrade', true); // Säkerställ att FAB-knappen visas
+        } else {
+            if (currentWMSLayer) {
+                console.log('Removing Algforvaltningsomrade layer.');
+                map.off('click', wmsClickHandler);
+                map.removeLayer(currentWMSLayer);
+                currentWMSLayer = null;
+                wmsClickHandler = null;
+                hideZoomMessage(); // Dölj meddelandet när lagret tas bort
+                map.off('zoomend', checkZoomLevel); // Ta bort händelsen för zoomnivån
+                updateFAB('Algforvaltningsomrade', false); // Säkerställ att FAB-knappen döljs
             }
         }
     }
@@ -275,8 +295,8 @@ var Kartor_geojsonHandler = (function() {
         }
 
         // Specifically handle WMS layer deactivation
-        if (layerName === 'Älgjaktsområden' && currentWMSLayer) {
-            console.log('Specifically removing Älgjaktsområden layer.');
+        if ((layerName === 'Älgjaktsområden' || layerName === 'Algforvaltningsomrade') && currentWMSLayer) {
+            console.log('Specifically removing ' + layerName + ' layer.');
             map.off('click', wmsClickHandler);
             map.removeLayer(currentWMSLayer);
             currentWMSLayer = null;
@@ -307,7 +327,7 @@ var Kartor_geojsonHandler = (function() {
                 return 'fab-daggdjur';
             case 'Allmän jakt: Fågel':
                 return 'fab-fagel';
-            case 'Älgjaktskartan':
+            case 'Algforvaltningsomrade':
                 return 'fab-alg';
             case 'Älgjaktsområden':
                 return 'fab-alg-omraden';
@@ -320,10 +340,29 @@ var Kartor_geojsonHandler = (function() {
         return url.substring(url.lastIndexOf('/') + 1);
     }
 
+function generatePopupContent(properties) {
+    var content = '<div style="max-width: 300px; overflow-y: auto;">';
+
+    for (var prop in properties) {
+        if (properties.hasOwnProperty(prop)) {
+            var value = properties[prop];
+
+            if (prop === 'BILD' && value && /\.(jpg|jpeg|png|gif)$/.test(value)) {
+                content += '<p><img src="' + value + '" style="max-width: 100%;" alt="Bild"></p>';
+            }
+        }
+    }
+
+    content += '</div>';
+    return content;
+}
+
+
     return {
         toggleLayer: toggleLayer,
-        loadElgjaktsomradenWMS: loadElgjaktsomradenWMS,
-        deactivateAllLayersKartor: deactivateAllLayersKartor // Lägg till denna rad för att exportera funktionen
+        loadElgjaktWMS: loadElgjaktWMS,
+        loadAlgforvaltningsomradeWMS: loadAlgforvaltningsomradeWMS, // Lägg till denna export
+        deactivateAllLayersKartor: deactivateAllLayersKartor
     };
 })();
 
