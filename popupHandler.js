@@ -190,6 +190,14 @@ function generatePopupContent(properties) {
 
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
+            } else if (key.toLowerCase() === 'link' && value) {
+                content += `
+                    <p>
+                        <button class="link-button" onclick="window.open('${value}', '_blank')">
+                            Besök sidan
+                            <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
+                        </button>
+                    </p>`;
             } else {
                 var translatedKey = translateKey(key);
                 content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
