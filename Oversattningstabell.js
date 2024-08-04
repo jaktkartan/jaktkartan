@@ -325,12 +325,6 @@ var translationTable = {
     "STORK_JAKT": "Jakttid",
     "VIGG": "Vigg",
     "VIGG_JAKTT": "Jakttid",
-    "gransalvso": "Gränsälvsområdet till Finland",
+    "gransalvso": "Gränsälvsområdet till Finland"
 
-    //Älgjaktskartan
-    "jakttid": "Jakttid",
-    "kalv_tid": "Jakttid kalv på oregistrerad mark",
-    "namn_afo": "Älgförvaltningsområde",
-    "forvaltare": "Förvaltare:",
-    "afo_id": "Älgförvaltningsområde ID"
 };
