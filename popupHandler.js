@@ -192,6 +192,13 @@ function generatePopupContent(properties) {
                 continue;
             }
 
+            if (hidePropertiesOnlyName.includes(key)) {
+                if (key) {
+                    content += '<p><strong>' + translateKey(key) + ':</strong></p>';
+                }
+                continue;
+            }
+
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
             } else if (key.toLowerCase() === 'link' && value) {
