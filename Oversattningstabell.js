@@ -1,7 +1,7 @@
 // Oversattningstabell.js
 
 //Dölj all data i popupfönstrena med följande fältnamn
-var hideProperties = ['id', 'shape_leng', 'objectid_2', 'objectid', 'shape_area', 'shape_le_2', 'field', 'omrade', 'AKTUALITET', 'TYP'];
+var hideProperties = ['id', 'shape_leng', 'objectid', 'shape_area', 'field', 'omrade', 'AKTUALITET', 'TYP'];
 // Dölj fältnamn visa bara innehåll
 var hideNameOnlyProperties = ['namn', 'BILD', 'Info', 'link', 'Kommun', 'NAMN', 'INFO', 'Rubrik', 'AKTUALITET'];
 
