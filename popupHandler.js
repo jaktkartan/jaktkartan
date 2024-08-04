@@ -181,10 +181,11 @@ function generatePopupContent(properties) {
             } else {
                 var translatedKey = translateKey(key);
                 content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
+            }
 
-                if (key === 'Förvaltandelän' && value) {
-                    förvaltandelän = value;
-                }
+            // Hämta länkar för Förvaltandelän
+            if (key === 'Förvaltandelän' && value) {
+                förvaltandelän = value;
             }
         }
     }
