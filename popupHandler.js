@@ -147,9 +147,20 @@ function translateKey(key) {
 
 // Tabell som matchar "Förvaltandelän" med motsvarande URL
 var länURLTabell = {
-    'Länsstyrelsen i Gävleborgs län': 'https://www.lansstyrelsen.se/gavleborg',
-    'Länsstyrelsen i Stockholms län': 'https://www.lansstyrelsen.se/stockholm',
+    'Länsstyrelsen i Norrbottens län': 'https://www.lansstyrelsen.se/norrbotten',
+    'Länsstyrelsen i Västerbottens län': 'https://www.lansstyrelsen.se/vasterbotten',
+    'Länsstyrelsen i Västernorrlands län': 'https://www.lansstyrelsen.se/vasternorrland',
+    'Länsstyrelsen i Jämtlands län': 'https://www.lansstyrelsen.se/jamtland',
+    'Länsstyrelsen i Dalarnas län': 'https://www.lansstyrelsen.se/dalarna',
+    'Länsstyrelsen i Värmlands län': 'https://www.lansstyrelsen.se/varmland',
+    'Länsstyrelsen i Östergötland': 'https://www.lansstyrelsen.se/ostergotland',
+    'Länsstyrelsen i Stockholm': 'https://www.lansstyrelsen.se/stockholm',
+    'Länsstyrelsen i Uppsala län': 'https://www.lansstyrelsen.se/uppsala',
     'Länsstyrelsen i Västra Götalands län': 'https://www.lansstyrelsen.se/vastragotaland',
+    'Länsstyrelsen i Kalmar län': 'https://www.lansstyrelsen.se/kalmar',
+    'Länsstyrelsen i Blekinge län': 'https://www.lansstyrelsen.se/blekinge',
+    'Länsstyrelsen i Kronobergs län': 'https://www.lansstyrelsen.se/kronoberg',
+    'Länsstyrelsen i Skåne län': 'https://www.lansstyrelsen.se/skane',
     // Lägg till fler län och deras URL:er här
 };
 
