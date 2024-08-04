@@ -30,9 +30,8 @@ styleTag.innerHTML = `
     }
 
     #popup-panel p {
-    margin: 0 0 2px 0; /* Marginal endast nedåt */
-}
-
+        margin: 0 0 2px 0; /* Marginal endast nedåt */
+    }
 
     #close-button {
         position: absolute;
@@ -178,17 +177,17 @@ function generatePopupContent(properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
-            if (hideProperties.includes(key)) {
+            if (hideProperties.includes(key) || value == null || value === '') {
                 continue;
             }
 
             if (hideNameOnlyProperties.includes(key)) {
                 if (value) {
                     if (key === 'NAMN' || key === 'Rubrik' || key === 'LÄN' || key === 'lan_namn') {
-    content += '<p class="bold-center">' + value + '</p>';
-} else {
-    content += '<p>' + value + '</p>';
-}
+                        content += '<p class="bold-center">' + value + '</p>';
+                    } else {
+                        content += '<p>' + value + '</p>';
+                    }
                 }
                 continue;
             }
