@@ -211,7 +211,7 @@ function generatePopupContent(properties) {
         content += `
             <p>
                 <button class="link-button" onclick="window.open('${länURLTabell[förvaltandelän]}', '_blank')">
-                    Jakttider ${förvaltandelän}
+                    Jakttid: ${förvaltandelän}
                     <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                 </button>
             </p>`;
