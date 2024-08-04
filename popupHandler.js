@@ -145,8 +145,17 @@ function translateKey(key) {
     return translationTable[key] || key;
 }
 
+// Tabell som matchar "Förvaltandelän" med motsvarande URL
+var länURLTabell = {
+    'Länsstyrelsen i Gävleborgs län': 'https://www.lansstyrelsen.se/gavleborg',
+    'Länsstyrelsen i Stockholms län': 'https://www.lansstyrelsen.se/stockholm',
+    'Länsstyrelsen i Västra Götalands län': 'https://www.lansstyrelsen.se/vastragotaland',
+    // Lägg till fler län och deras URL:er här
+};
+
 function generatePopupContent(properties) {
     var content = '';
+    var förvaltandelän = null;
 
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
@@ -169,19 +178,23 @@ function generatePopupContent(properties) {
 
             if (isImageUrl(value)) {
                 content += '<p><img src="' + value + '" alt="Bild"></p>';
-            } else if ((key.toLowerCase() === 'link' || key.toLowerCase() === 'lokala_tid') && value) {
-                content += `
-                    <p>
-                        <button class="link-button" onclick="window.open('${value}', '_blank')">
-                            Besök sidan
-                            <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
-                        </button>
-                    </p>`;
+            } else if (key === 'Förvaltandelän' && value) {
+                förvaltandelän = value;
             } else {
                 var translatedKey = translateKey(key);
                 content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
             }
         }
+    }
+
+    if (förvaltandelän && länURLTabell[förvaltandelän]) {
+        content += `
+            <p>
+                <button class="link-button" onclick="window.open('${länURLTabell[förvaltandelän]}', '_blank')">
+                    Besök ${förvaltandelän}
+                    <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
+                </button>
+            </p>`;
     }
 
     return content;
