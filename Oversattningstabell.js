@@ -3,7 +3,7 @@
 //Dölj all data i popupfönstrena med följande fältnamn
 var hideProperties = ['id', 'shape_leng', 'objectid', 'shape_area', 'field', 'omrade', 'AKTUALITET', 'TYP', 'Shape', 'GlobalID', 'OBJECTID', 'VATTENAREAL', 'LANDAREAL', 'ODLADAREAL', 'OVER_700_HM_AREAL', 'TATORTAREAL', 'UNGSKOGSAREAL', 'TOTALAREAL', 'Beslutadlandarealha', 'Senastebeslutsdatum'];
 // Dölj fältnamn visa bara innehåll
-var hideNameOnlyProperties = ['namn', 'BILD', 'Info', 'link', 'Kommun', 'NAMN', 'INFO', 'Rubrik', 'LÄN', 'lan_namn'];
+var hideNameOnlyProperties = ['namn', 'BILD', 'Info', 'link', 'Kommun', 'NAMN', 'INFO', 'Rubrik', 'LÄN', 'lan_namn','blasand__1','blasgas__1','dalripa__1','fasan_ajt','fiskmas__1','fjallripa1','gragas_ajt','gratrut__1','grasand__1','jarpe_info','kaja_ajt','kanadagas1','knipa_ajt','kricka_ajt','kraka_ajt','morkulla_1','notskrika1','orre_ajt','orrtupp_in','rapphona_1','ringduva_1','raka_info','sjoorre__1','skata_ajt','storkrake1','tjader_ajt','tjadertu_1','trana_ajt','vigg_alt','vitkindad1','BÄVER','DOVVILT','FÄLTHARE','GRÄVLING','ILLER','KRONVILT','RÅDJUR','RÖDRÄV','SKOGSHARE','SKOGSMÅRD','VILDSVIN','ÄLG'];
 
 // Översättningstabell i popup-panelerna
 var translationTable = {
