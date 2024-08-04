@@ -47,7 +47,7 @@ function loadAlgforvaltningsomradeWMS(add) {
         checkZoomLevel();
         console.log('Adding Algforvaltningsomrade layer.');
         currentWMSLayer = L.tileLayer.wms('https://ext-geodata-applikationer.lansstyrelsen.se/arcgis/services/Jaktadm/lst_jaktadm_visning/MapServer/WMSServer', {
-            layers: '0',
+            layers: '3',
             format: 'image/png',
             transparent: true,
             attribution: 'Länsstyrelsen',
