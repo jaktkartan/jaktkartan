@@ -30,7 +30,7 @@ styleTag.innerHTML = `
     }
 
     #popup-panel p {
-        margin: 3; /* Ta bort marginaler från p-element */
+        margin: 0; /* Ta bort marginaler från p-element */
     }
 
     #close-button {
