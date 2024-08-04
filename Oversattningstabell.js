@@ -125,8 +125,6 @@ var translationTable = {
     "xalg5_hage": "Hagelvapen",
 
     //Allmän jakt: Fågel
-    
-    "lan_namn": "LÄN",
 
     // Bläsand
     "blasand__1": "Bläsand",
