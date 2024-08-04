@@ -148,7 +148,7 @@ function translateKey(key) {
 // Tabell som matchar "Förvaltandelän" med motsvarande URL
 var länURLTabell = {
     'Länsstyrelsen i Blekinge län': 'https://www.lansstyrelsen.se/blekinge/djur/jakt-och-vilt/algjakt.html',
-    'Länsstyrelsen Dalarnas län': 'https://www.lansstyrelsen.se/dalarna/djur/jakt-och-vilt/algjakt.html',
+    'Länsstyrelsen Dalarnas län ': 'https://www.lansstyrelsen.se/dalarna/djur/jakt-och-vilt/algjakt.html',
     'Länsstyrelsen i Gävleborgs län': 'https://www.lansstyrelsen.se/gavleborg/djur/jakt-och-vilt/algjakt.html',
     'Länsstyrelsen i Hallands län': 'https://www.lansstyrelsen.se/halland/djur/jakt-och-vilt/algjakt.html',
     'Länsstyrelsen i Jämtlands län': 'https://www.lansstyrelsen.se/jamtland/djur/jakt-och-vilt/algjakt.html',
