@@ -127,13 +127,13 @@ var translationTable = {
     //Allmän jakt: Fågel
 
     // Bläsand
-    "blasand__1": "",
+    "blasand__1": " ",
     "blasand_aj": "Jakttid",
     "blasand_kl": "Jakt under dygnet",
     "blasand_ka": "Kaliberkrav",
 
     // Bläsgås
-    "blasgas__1": "",
+    "blasgas__1": " ",
     "blasgas_aj": "Jakttid",
     "blasgas_kl": "Jakt under dygnet",
     "blasgas_ka": "Kaliberkrav",
