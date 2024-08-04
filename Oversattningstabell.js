@@ -3,7 +3,7 @@
 //Dölj all data i popupfönstrena med följande fältnamn
 var hideProperties = ['id', 'shape_leng', 'objectid', 'shape_area', 'field', 'omrade', 'AKTUALITET', 'TYP', 'Shape', 'GlobalID', 'OBJECTID', 'VATTENAREAL', 'LANDAREAL', 'ODLADAREAL', 'OVER_700_HM_AREAL', 'TATORTAREAL', 'UNGSKOGSAREAL', 'TOTALAREAL', 'Beslutadlandarealha', 'Senastebeslutsdatum'];
 // Dölj fältnamn visa bara innehåll
-var hideNameOnlyProperties = ['namn', 'BILD', 'Info', 'link', 'Kommun', 'NAMN', 'INFO', 'Rubrik'];
+var hideNameOnlyProperties = ['namn', 'BILD', 'Info', 'link', 'Kommun', 'NAMN', 'INFO', 'Rubrik', 'LÄN'];
 
 // Översättningstabell i popup-panelerna
 var translationTable = {
