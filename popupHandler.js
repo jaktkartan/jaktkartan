@@ -30,8 +30,9 @@ styleTag.innerHTML = `
     }
 
     #popup-panel p {
-        margin: 0; /* Ta bort marginaler från p-element */
-    }
+    margin: 0 0 2px 0; /* Marginal endast nedåt */
+}
+
 
     #close-button {
         position: absolute;
