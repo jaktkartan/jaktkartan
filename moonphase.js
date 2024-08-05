@@ -20,7 +20,7 @@ addStyles(`
 
     #moon-phase-container {
         position: fixed;
-        top: 4px;
+        top: 3px;
         right: 4px;
         z-index: 9999;
         text-align: center; /* Centrera text och bild */
@@ -35,7 +35,7 @@ addStyles(`
     }
     #moon-phase-label {
         font-size: 12px; /* Ställ in textstorlek */
-        margin-top: -5px; /* Använd mindre negativ marginal för att flytta texten närmare bilden */
+        margin-top: -6px; /* Använd mindre negativ marginal för att flytta texten närmare bilden */
     }
     #moon-phase-info {
         position: absolute;
