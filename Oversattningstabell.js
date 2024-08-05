@@ -304,25 +304,7 @@ var translationTable = {
     "vitkindad1": "VITKINDAD GÅS",
     "vitkindad_": "Jakttid",
     "vitkinda_1": "Jakt under dygnet",
-    "vitkinda_2": "Kaliberkrav",
+    "vitkinda_2": "Kaliberkrav"
 
-    //Gränsälvsområdet till finnland:
-    "blasand_no": "Bläsand",
-    //"blasand__1": "Jakttid", måste byta fältnamn, samma som för bläsand i den andra geojsonfilen.
-    "GRAGAS": "Grågås",
-    "GRAGAS_JAK": "Jakttid",
-    "grasand_no": "Gräsand",
-    //"grasand__1": "Jakttid", måste byta fältnamn, samma som för bläsand i den andra geojsonfilen.
-    "KANADAGÅS": "Kanadagås",
-    "KAN_GAS_JA": "Jakttid",
-    "KNIPA": "Knipa",
-    "KNIPA_JAKT": "Jakttid",
-    "kricka_nor": "Kricka",
-    "kricka_n_1": "Jakttid",
-    "STORKRAKE": "Storskrake",
-    "STORK_JAKT": "Jakttid",
-    "VIGG": "Vigg",
-    "VIGG_JAKTT": "Jakttid",
-    "gransalvso": "Gränsälvsområdet till Finland"
 
 };
