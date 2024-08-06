@@ -50,6 +50,14 @@ function openUpptack() {
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+        .geojson-feature h3 {
+            margin: 0;
+            padding: 5px 0; /* Minska padding */
+        }
+        .geojson-feature p {
+            margin: 0;
+            padding: 3px 0; /* Minska padding */
+        }
         .geojson-feature img {
             max-width: 200px; /* Öka bildstorleken */
             display: block;
