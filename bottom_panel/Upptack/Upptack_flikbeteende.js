@@ -131,6 +131,9 @@ function openUpptack() {
                 let currentIndex = 0;
                 const features = data.features;
 
+                // Sortera funktionerna baserat på "DATUM_FRAN"
+                features.sort((a, b) => new Date(a.properties.DATUM_FRAN) - new Date(b.properties.DATUM_FRAN));
+
                 const container = document.createElement('div');
                 container.className = 'geojson-container';
                 contentDiv.appendChild(container);
