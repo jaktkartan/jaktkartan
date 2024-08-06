@@ -63,15 +63,15 @@ document.addEventListener('DOMContentLoaded', function() {
 function getModalPath(layerName) {
     switch(layerName) {
         case 'Allmän jakt: Däggdjur':
-            return 'modaler/Kartor/modal-daggdjur.html';
+            return 'modaler/modal-daggdjur.html';
         case 'Allmän jakt: Fågel':
-            return 'modaler/Kartor/modal-fagel.html';
+            return 'modaler/modal-fagel.html';
         case 'Älgjaktskartan':
-            return 'modaler/Kartor/modal-alg.html';
+            return 'modaler/modal-alg.html';
         case 'Älgjaktsområden':
-            return 'modaler/Kartor/modal-alg-omraden.html';
+            return 'modaler/modal-alg-omraden.html';
         case 'Upptäck':
-            return 'modaler/Upptack/modal-upptack.html';
+            return 'modaler/modal-upptack.html';
         case 'Startmodal':
             return 'modaler/modal-startruta.html'; // Sökväg till startmodalen
         default:
