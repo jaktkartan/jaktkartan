@@ -65,7 +65,7 @@ function openUpptack() {
             padding: 3px 0; /* Minska padding */
         }
         .geojson-feature img {
-            width: 100%; /* Gör så att bilden tar upp all tillgänglig plats */
+            width: 90%;
             display: block;
             margin-bottom: 5px;
         }
