@@ -41,6 +41,20 @@ function openUpptack() {
         .tab-content {
             display: none;
         }
+        .geojson-container {
+            margin-bottom: 20px;
+        }
+        .geojson-feature {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .geojson-feature img {
+            max-width: 100px;
+            display: block;
+            margin-bottom: 5px;
+        }
     `;
     document.head.appendChild(style);
 
@@ -106,124 +120,168 @@ function openUpptack() {
     }
 
     function createUpptackContent(contentDiv) {
-        // Skapa en container div för att centrera innehållet
-        const container = document.createElement('div');
-        container.className = 'button-container';
+        fetch('bottom_panel/Upptack/Massor.geojson')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.createElement('div');
+                container.className = 'geojson-container';
 
-        // Skapa "Visa allt"-knappen
-        const showAllButton = document.createElement('button');
-        showAllButton.className = 'styled-button';
-        showAllButton.id = 'show-all-button';
-        showAllButton.onclick = function() {
-            if (typeof Upptack_geojsonHandler !== 'undefined') {
-                console.log('Activating all layers');
-                Upptack_geojsonHandler.toggleLayer('Visa_allt');
-            } else {
-                console.error("Upptack_geojsonHandler är inte definierad.");
-            }
-        };
-        const showAllImg = document.createElement('img');
-        showAllImg.src = 'bottom_panel/Upptack/bilder/visa_allt_ikon.png';
-        showAllImg.alt = 'Visa allt';
-        showAllButton.appendChild(showAllImg);
-        const showAllText = document.createElement('div');
-        showAllText.className = 'text-content';
-        showAllText.textContent = 'Visa allt';
-        showAllButton.appendChild(showAllText);
-        container.appendChild(showAllButton);
+                data.features.forEach(feature => {
+                    const featureDiv = document.createElement('div');
+                    featureDiv.className = 'geojson-feature';
 
-        // Skapa "Filtrera"-knappen
-        const filterButton = document.createElement('button');
-        filterButton.className = 'styled-button';
-        filterButton.textContent = 'Filtrera';
-        filterButton.id = 'filter-button';
-        filterButton.onclick = function(event) {
-            event.stopPropagation();
-            showFilterOptions();
-        };
-        container.appendChild(filterButton);
-
-        // Lägg till knappcontainern till content-div
-        contentDiv.appendChild(container);
-
-        // Skapa en meny för "Filtrera"-knappen
-        function showFilterOptions() {
-            container.innerHTML = ''; // Rensa knappcontainern
-
-            const filters = [
-                {
-                    className: 'styled-button',
-                    onclick: function() {
-                        if (typeof Upptack_geojsonHandler !== 'undefined') {
-                            console.log('Activating Mässor layer');
-                            Upptack_geojsonHandler.toggleLayer('Mässor');
-                        } else {
-                            console.error("Upptack_geojsonHandler är inte definierad.");
-                        }
-                        restoreOriginalButtons();
-                    },
-                    imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
-                    imgAlt: 'Mässor',
-                    text: 'Mässor'
-                },
-                {
-                    className: 'styled-button',
-                    onclick: function() {
-                        if (typeof Upptack_geojsonHandler !== 'undefined') {
-                            console.log('Activating Jaktkort layer');
-                            Upptack_geojsonHandler.toggleLayer('Jaktkort');
-                        } else {
-                            console.error("Upptack_geojsonHandler är inte definierad.");
-                        }
-                        restoreOriginalButtons();
-                    },
-                    imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
-                    imgAlt: 'Jaktkort',
-                    text: 'Jaktkort'
-                },
-                {
-                    className: 'styled-button',
-                    onclick: function() {
-                        if (typeof Upptack_geojsonHandler !== 'undefined') {
-                            console.log('Activating Jaktskyttebanor layer');
-                            Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
-                        } else {
-                            console.error("Upptack_geojsonHandler är inte definierad.");
-                        }
-                        restoreOriginalButtons();
-                    },
-                    imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
-                    imgAlt: 'Jaktskyttebanor',
-                    text: 'Jaktskytte-<br>banor' // Exempel på radbrytning
-                }
-            ];
-
-            filters.forEach(filter => {
-                const btn = document.createElement('button');
-                btn.className = filter.className;
-                btn.onclick = filter.onclick;
-
-                if (filter.imgSrc) {
                     const img = document.createElement('img');
-                    img.src = filter.imgSrc;
-                    img.alt = filter.imgAlt;
-                    btn.appendChild(img);
-                }
+                    img.src = feature.properties.Bild_massor;
+                    img.alt = feature.properties.NAMN;
+                    featureDiv.appendChild(img);
 
-                const textDiv = document.createElement('div');
-                textDiv.className = 'text-content';
-                textDiv.innerHTML = filter.text; // Använd innerHTML för att tolka <br>
-                btn.appendChild(textDiv);
+                    const name = document.createElement('h3');
+                    name.textContent = feature.properties.NAMN;
+                    featureDiv.appendChild(name);
 
-                container.appendChild(btn);
+                    const dates = document.createElement('p');
+                    dates.textContent = `Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL}`;
+                    featureDiv.appendChild(dates);
+
+                    const info = document.createElement('p');
+                    info.textContent = `Info: ${feature.properties.INFO}`;
+                    featureDiv.appendChild(info);
+
+                    const link = document.createElement('a');
+                    link.href = feature.properties.LINK;
+                    link.textContent = 'Mer info';
+                    featureDiv.appendChild(link);
+
+                    container.appendChild(featureDiv);
+                });
+
+                contentDiv.appendChild(container);
+                createButtons(contentDiv);
+            })
+            .catch(error => {
+                console.error('Error loading GeoJSON:', error);
             });
-        }
 
-        // Funktion för att återställa de ursprungliga knapparna
-        function restoreOriginalButtons() {
-            container.innerHTML = '';
+        function createButtons(contentDiv) {
+            // Skapa en container div för att centrera innehållet
+            const container = document.createElement('div');
+            container.className = 'button-container';
+
+            // Skapa "Visa allt"-knappen
+            const showAllButton = document.createElement('button');
+            showAllButton.className = 'styled-button';
+            showAllButton.id = 'show-all-button';
+            showAllButton.onclick = function() {
+                if (typeof Upptack_geojsonHandler !== 'undefined') {
+                    console.log('Activating all layers');
+                    Upptack_geojsonHandler.toggleLayer('Visa_allt');
+                } else {
+                    console.error("Upptack_geojsonHandler är inte definierad.");
+                }
+            };
+            const showAllImg = document.createElement('img');
+            showAllImg.src = 'bottom_panel/Upptack/bilder/visa_allt_ikon.png';
+            showAllImg.alt = 'Visa allt';
+            showAllButton.appendChild(showAllImg);
+            const showAllText = document.createElement('div');
+            showAllText.className = 'text-content';
+            showAllText.textContent = 'Visa allt';
+            showAllButton.appendChild(showAllText);
             container.appendChild(showAllButton);
+
+            // Skapa "Filtrera"-knappen
+            const filterButton = document.createElement('button');
+            filterButton.className = 'styled-button';
+            filterButton.textContent = 'Filtrera';
+            filterButton.id = 'filter-button';
+            filterButton.onclick = function(event) {
+                event.stopPropagation();
+                showFilterOptions();
+            };
             container.appendChild(filterButton);
+
+            // Lägg till knappcontainern till content-div
+            contentDiv.appendChild(container);
+
+            // Skapa en meny för "Filtrera"-knappen
+            function showFilterOptions() {
+                container.innerHTML = ''; // Rensa knappcontainern
+
+                const filters = [
+                    {
+                        className: 'styled-button',
+                        onclick: function() {
+                            if (typeof Upptack_geojsonHandler !== 'undefined') {
+                                console.log('Activating Mässor layer');
+                                Upptack_geojsonHandler.toggleLayer('Mässor');
+                            } else {
+                                console.error("Upptack_geojsonHandler är inte definierad.");
+                            }
+                            restoreOriginalButtons();
+                        },
+                        imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
+                        imgAlt: 'Mässor',
+                        text: 'Mässor'
+                    },
+                    {
+                        className: 'styled-button',
+                        onclick: function() {
+                            if (typeof Upptack_geojsonHandler !== 'undefined') {
+                                console.log('Activating Jaktkort layer');
+                                Upptack_geojsonHandler.toggleLayer('Jaktkort');
+                            } else {
+                                console.error("Upptack_geojsonHandler är inte definierad.");
+                            }
+                            restoreOriginalButtons();
+                        },
+                        imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
+                        imgAlt: 'Jaktkort',
+                        text: 'Jaktkort'
+                    },
+                    {
+                        className: 'styled-button',
+                        onclick: function() {
+                            if (typeof Upptack_geojsonHandler !== 'undefined') {
+                                console.log('Activating Jaktskyttebanor layer');
+                                Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
+                            } else {
+                                console.error("Upptack_geojsonHandler är inte definierad.");
+                            }
+                            restoreOriginalButtons();
+                        },
+                        imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
+                        imgAlt: 'Jaktskyttebanor',
+                        text: 'Jaktskytte-<br>banor' // Exempel på radbrytning
+                    }
+                ];
+
+                filters.forEach(filter => {
+                    const btn = document.createElement('button');
+                    btn.className = filter.className;
+                    btn.onclick = filter.onclick;
+
+                    if (filter.imgSrc) {
+                        const img = document.createElement('img');
+                        img.src = filter.imgSrc;
+                        img.alt = filter.imgAlt;
+                        btn.appendChild(img);
+                    }
+
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'text-content';
+                    textDiv.innerHTML = filter.text; // Använd innerHTML för att tolka <br>
+                    btn.appendChild(textDiv);
+
+                    container.appendChild(btn);
+                });
+            }
+
+            // Funktion för att återställa de ursprungliga knapparna
+            function restoreOriginalButtons() {
+                container.innerHTML = '';
+                container.appendChild(showAllButton);
+                container.appendChild(filterButton);
+            }
         }
     }
 
