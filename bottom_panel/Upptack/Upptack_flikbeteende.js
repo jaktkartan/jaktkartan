@@ -68,6 +68,25 @@ function openUpptack() {
             justify-content: space-between;
             margin-top: 10px;
         }
+        .nav-buttons button {
+            background-color: #326E58; /* Bakgrundsfärg */
+            color: white; /* Textfärg */
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, box-shadow 0.3s; /* Övergångseffekt */
+        }
+        .nav-buttons button:hover {
+            background-color: #274E44; /* Mörkare bakgrundsfärg vid hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Skugga vid hover */
+        }
+        .nav-buttons button:active {
+            background-color: #19362E; /* Ännu mörkare bakgrundsfärg vid klick */
+        }
         .button-container {
             margin-top: 10px;
         }
@@ -178,7 +197,7 @@ function openUpptack() {
                 navButtons.className = 'nav-buttons';
 
                 const prevButton = document.createElement('button');
-                prevButton.textContent = 'Föregående';
+                prevButton.textContent = '< Föregående';
                 prevButton.onclick = () => {
                     if (currentIndex > 0) {
                         currentIndex--;
@@ -187,7 +206,7 @@ function openUpptack() {
                 };
 
                 const nextButton = document.createElement('button');
-                nextButton.textContent = 'Nästa';
+                nextButton.textContent = 'Nästa >';
                 nextButton.onclick = () => {
                     if (currentIndex < features.length - 1) {
                         currentIndex++;
