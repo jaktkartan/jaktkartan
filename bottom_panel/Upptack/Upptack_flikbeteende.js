@@ -63,6 +63,30 @@ function openUpptack() {
         .button-container {
             margin-top: 10px;
         }
+        .link-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgb(50, 94, 88); /* Färg på knappen */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            max-height: 50px; /* Begränsar höjden */
+            overflow: hidden;
+        }
+        .link-button img {
+            max-height: 20px; /* Ändrar storlek på bilden */
+            margin-left: 10px;
+            border-radius: 0 !important; /* Tar bort rundade hörn med !important */
+        }
+        .link-button .custom-image {
+            border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
+        }
     `;
     document.head.appendChild(style);
 
@@ -191,10 +215,18 @@ function openUpptack() {
                     info.textContent = `Info: ${feature.properties.INFO}`;
                     featureDiv.appendChild(info);
 
-                    const link = document.createElement('a');
-                    link.href = feature.properties.LINK;
-                    link.textContent = 'Mer info';
-                    featureDiv.appendChild(link);
+                    const linkButton = document.createElement('button');
+                    linkButton.className = 'link-button';
+                    linkButton.onclick = () => {
+                        window.open(feature.properties.LINK, '_blank');
+                    };
+                    linkButton.textContent = 'Mer info';
+                    const linkImg = document.createElement('img');
+                    linkImg.src = 'bilder/extern_link.png'; // Ange den korrekta sökvägen till bilden
+                    linkImg.alt = 'Extern länk';
+                    linkImg.className = 'custom-image';
+                    linkButton.appendChild(linkImg);
+                    featureDiv.appendChild(linkButton);
 
                     container.appendChild(featureDiv);
                 }
