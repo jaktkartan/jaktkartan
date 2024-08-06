@@ -65,9 +65,9 @@ function openUpptack() {
             padding: 3px 0; /* Minska padding */
         }
         .geojson-feature img {
-            width: 90%;
+            width: 90%; /* Gör så att bilden tar upp 90% av tillgänglig plats */
             display: block;
-            margin-bottom: 5px;
+            margin: 0 auto 5px auto; /* Centrera bilden horisontellt och lägg till marginal nedåt */
         }
         .nav-button {
             background-color: #326E58; /* Bakgrundsfärg */
