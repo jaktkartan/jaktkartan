@@ -109,8 +109,6 @@ function openUpptack() {
             margin: 4px 2px;
             cursor: pointer;
             border-radius: 5px;
-            max-height: 50px; /* Begränsar höjden */
-            overflow: hidden;
         }
         .link-button img {
             max-height: 20px; /* Ändrar storlek på bilden */
