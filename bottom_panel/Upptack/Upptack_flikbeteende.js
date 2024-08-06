@@ -44,11 +44,17 @@ function openUpptack() {
         .geojson-container {
             margin-bottom: 10px; /* Minska avståndet mellan rader */
         }
+        .geojson-feature-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
         .geojson-feature {
-            margin-bottom: 5px; /* Minska avståndet mellan funktionerna */
+            margin: 0 10px; /* Minska avståndet mellan funktionerna */
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            flex-grow: 1;
         }
         .geojson-feature h3 {
             margin: 0;
@@ -63,28 +69,28 @@ function openUpptack() {
             display: block;
             margin-bottom: 5px;
         }
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .nav-buttons button {
+        .nav-button {
             background-color: #326E58; /* Bakgrundsfärg */
             color: white; /* Textfärg */
             border: none;
-            padding: 10px 20px;
+            width: 40px;
+            height: 40px;
             text-align: center;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 20px;
+            line-height: 40px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 50%;
             transition: background-color 0.3s, box-shadow 0.3s; /* Övergångseffekt */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .nav-buttons button:hover {
+        .nav-button:hover {
             background-color: #274E44; /* Mörkare bakgrundsfärg vid hover */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Skugga vid hover */
         }
-        .nav-buttons button:active {
+        .nav-button:active {
             background-color: #19362E; /* Ännu mörkare bakgrundsfärg vid klick */
         }
         .button-container {
@@ -193,11 +199,12 @@ function openUpptack() {
                 container.className = 'geojson-container';
                 contentDiv.appendChild(container);
 
-                const navButtons = document.createElement('div');
-                navButtons.className = 'nav-buttons';
+                const navButtonsContainer = document.createElement('div');
+                navButtonsContainer.className = 'geojson-feature-container';
 
                 const prevButton = document.createElement('button');
-                prevButton.textContent = '< Föregående';
+                prevButton.className = 'nav-button';
+                prevButton.textContent = '<';
                 prevButton.onclick = () => {
                     if (currentIndex > 0) {
                         currentIndex--;
@@ -206,7 +213,8 @@ function openUpptack() {
                 };
 
                 const nextButton = document.createElement('button');
-                nextButton.textContent = 'Nästa >';
+                nextButton.className = 'nav-button';
+                nextButton.textContent = '>';
                 nextButton.onclick = () => {
                     if (currentIndex < features.length - 1) {
                         currentIndex++;
@@ -214,16 +222,20 @@ function openUpptack() {
                     }
                 };
 
-                navButtons.appendChild(prevButton);
-                navButtons.appendChild(nextButton);
-                contentDiv.appendChild(navButtons);
+                navButtonsContainer.appendChild(prevButton);
+
+                const featureContainer = document.createElement('div');
+                featureContainer.className = 'geojson-feature';
+
+                navButtonsContainer.appendChild(featureContainer);
+                navButtonsContainer.appendChild(nextButton);
+                container.appendChild(navButtonsContainer);
 
                 function updateFeatureDisplay() {
-                    container.innerHTML = '';
+                    featureContainer.innerHTML = '';
 
                     const feature = features[currentIndex];
                     const featureDiv = document.createElement('div');
-                    featureDiv.className = 'geojson-feature';
 
                     const img = document.createElement('img');
                     img.src = feature.properties.Bild_massor;
@@ -255,7 +267,7 @@ function openUpptack() {
                     linkButton.appendChild(linkImg);
                     featureDiv.appendChild(linkButton);
 
-                    container.appendChild(featureDiv);
+                    featureContainer.appendChild(featureDiv);
                 }
 
                 updateFeatureDisplay();
