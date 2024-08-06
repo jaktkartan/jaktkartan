@@ -131,8 +131,9 @@ function openUpptack() {
         fetch('bottom_panel/Upptack/Massor.geojson')
             .then(response => response.json())
             .then(data => {
+                const today = new Date();
                 let currentIndex = 0;
-                const features = data.features;
+                const features = data.features.filter(feature => new Date(feature.properties.DATUM_TILL) >= today);
 
                 // Sortera funktionerna baserat på "DATUM_FRAN"
                 features.sort((a, b) => new Date(a.properties.DATUM_FRAN) - new Date(b.properties.DATUM_FRAN));
