@@ -58,33 +58,33 @@ function openUpptack() {
         }
         .geojson-feature h3 {
             margin: 0;
-            padding: 5px 0;
+            padding: 5px 0; /* Minska padding */
         }
         .geojson-feature p {
             margin: 0;
-            padding: 3px 0;
+            padding: 3px 0; /* Minska padding */
         }
         .geojson-feature img {
-            max-width: 100%;
+            width: 100%; /* Gör så att bilden tar upp all tillgänglig plats */
             display: block;
             margin-bottom: 5px;
         }
         .nav-button {
-            background-color: #326E58;
-            color: white;
+            background-color: #326E58; /* Bakgrundsfärg */
+            color: white; /* Textfärg */
             border: none;
             width: 40px;
             height: 40px;
             text-align: center;
             text-decoration: none;
             font-size: 20px;
-            line-height: 40px;
             cursor: pointer;
             border-radius: 50%;
             transition: background-color 0.3s, box-shadow 0.3s; /* Övergångseffekt */
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
         .nav-button:hover {
             background-color: #274E44; /* Mörkare bakgrundsfärg vid hover */
