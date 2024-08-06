@@ -35,7 +35,7 @@ function openUpptack() {
             display: flex;
             flex-direction: column;
             width: 100%;
-            padding: 20px;
+            padding: 15px 0px 5px 0px;
             box-sizing: border-box;
         }
         .tab-content {
