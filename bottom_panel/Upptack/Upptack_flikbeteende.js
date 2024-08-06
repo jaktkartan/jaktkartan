@@ -109,9 +109,11 @@ function openUpptack() {
             margin: 4px 2px;
             cursor: pointer;
             border-radius: 5px;
+            white-space: nowrap; /* Förhindra radbrytning */
         }
         .link-button img {
-            max-height: 20px; /* Ändrar storlek på bilden */
+            height: 20px; /* Ändrar storlek på bilden */
+            width: auto;
             margin-left: 10px;
             border-radius: 0 !important; /* Tar bort rundade hörn med !important */
         }
