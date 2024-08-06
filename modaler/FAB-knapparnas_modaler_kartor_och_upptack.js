@@ -59,25 +59,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Hjälpfunktion för att få rätt sökväg till modalfilen baserat på lagrets namn
-    function getModalPath(layerName) {
-        switch(layerName) {
-            case 'Allmän jakt: Däggdjur':
-                return 'bottom_panel/Kartor/modal-daggdjur.html';
-            case 'Allmän jakt: Fågel':
-                return 'bottom_panel/Kartor/modal-fagel.html';
-            case 'Älgjaktskartan':
-                return 'bottom_panel/Kartor/modal-alg.html';
-            case 'Älgjaktsområden':
-                return 'bottom_panel/Kartor/modal-alg-omraden.html';
-            case 'Upptäck':
-                return 'bottom_panel/Upptack/modal-upptack.html';
-            case 'Startmodal':
-                return 'modal-startruta.html'; // Sökväg till startmodalen
-            default:
-                return ''; // Om inget matchar
-        }
+// Hjälpfunktion för att få rätt sökväg till modalfilen baserat på lagrets namn
+function getModalPath(layerName) {
+    switch(layerName) {
+        case 'Allmän jakt: Däggdjur':
+            return 'modaler/Kartor/modal-daggdjur.html';
+        case 'Allmän jakt: Fågel':
+            return 'modaler/Kartor/modal-fagel.html';
+        case 'Älgjaktskartan':
+            return 'modaler/Kartor/modal-alg.html';
+        case 'Älgjaktsområden':
+            return 'modaler/Kartor/modal-alg-omraden.html';
+        case 'Upptäck':
+            return 'modaler/Upptack/modal-upptack.html';
+        case 'Startmodal':
+            return 'modaler/modal-startruta.html'; // Sökväg till startmodalen
+        default:
+            return ''; // Om inget matchar
     }
+}
+
 
     // Lägg till klickhändelser för att visa modaler
     document.getElementById('fab-daggdjur')?.addEventListener('click', function() {
