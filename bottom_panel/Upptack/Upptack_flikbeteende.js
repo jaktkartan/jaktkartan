@@ -55,6 +55,11 @@ function openUpptack() {
             display: block;
             margin-bottom: 5px;
         }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
     `;
     document.head.appendChild(style);
 
@@ -123,10 +128,42 @@ function openUpptack() {
         fetch('bottom_panel/Upptack/Massor.geojson')
             .then(response => response.json())
             .then(data => {
+                let currentIndex = 0;
+                const features = data.features;
+
                 const container = document.createElement('div');
                 container.className = 'geojson-container';
+                contentDiv.appendChild(container);
 
-                data.features.forEach(feature => {
+                const navButtons = document.createElement('div');
+                navButtons.className = 'nav-buttons';
+
+                const prevButton = document.createElement('button');
+                prevButton.textContent = 'Föregående';
+                prevButton.onclick = () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateFeatureDisplay();
+                    }
+                };
+
+                const nextButton = document.createElement('button');
+                nextButton.textContent = 'Nästa';
+                nextButton.onclick = () => {
+                    if (currentIndex < features.length - 1) {
+                        currentIndex++;
+                        updateFeatureDisplay();
+                    }
+                };
+
+                navButtons.appendChild(prevButton);
+                navButtons.appendChild(nextButton);
+                contentDiv.appendChild(navButtons);
+
+                function updateFeatureDisplay() {
+                    container.innerHTML = '';
+
+                    const feature = features[currentIndex];
                     const featureDiv = document.createElement('div');
                     featureDiv.className = 'geojson-feature';
 
@@ -153,9 +190,9 @@ function openUpptack() {
                     featureDiv.appendChild(link);
 
                     container.appendChild(featureDiv);
-                });
+                }
 
-                contentDiv.appendChild(container);
+                updateFeatureDisplay();
                 createButtons(contentDiv);
             })
             .catch(error => {
