@@ -277,21 +277,17 @@ function openUpptack() {
                     featureContainer.appendChild(featureDiv);
                 }
 
-function zoomToCoordinates(coordinates) {
-    // Använd Leaflet för att zooma till koordinaterna med offset
-    if (typeof map !== 'undefined') {
-        var mapHeight = map.getSize().y;
-        var offsetY = mapHeight / 3; // En tredjedel från toppen
-
-        // Sätt initial vy för att centrera objektet
-        map.setView([coordinates[1], coordinates[0]], map.getZoom(), { animate: false });
-
-        // Panorera kartan med en offset
-        map.panBy([0, -offsetY], { animate: true });
-    } else {
-        console.error("Kartan är inte definierad.");
-    }
-}
+                function zoomToCoordinates(coordinates) {
+                    // Använd Leaflet för att zooma till koordinaterna med offset
+                    if (typeof map !== 'undefined') {
+                        var offsetY = map.getSize().y / 3; // En tredjedel från toppen
+                        var targetPoint = map.project([coordinates[1], coordinates[0]], map.getZoom()).subtract([0, offsetY]);
+                        var targetLatLng = map.unproject(targetPoint, map.getZoom());
+                        map.setView(targetLatLng, map.getZoom());
+                    } else {
+                        console.error("Kartan är inte definierad.");
+                    }
+                }
 
                 updateFeatureDisplay();
             })
