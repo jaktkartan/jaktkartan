@@ -50,6 +50,9 @@ function openUpptack() {
             justify-content: space-between;
         }
         .geojson-feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin: 0 10px; /* Minska avståndet mellan funktionerna */
             padding: 10px;
             border: 1px solid #ddd;
@@ -110,6 +113,7 @@ function openUpptack() {
             cursor: pointer;
             border-radius: 5px;
             white-space: nowrap; /* Förhindra radbrytning */
+            justify-content: center; /* Lägg till detta för att centrera innehållet horisontellt */
         }
         .link-button img {
             height: 20px; /* Ändrar storlek på bilden */
@@ -185,129 +189,133 @@ function openUpptack() {
     }
 
     function createUpptackContent(contentDiv) {
-    fetch('bottom_panel/Upptack/Massor.geojson')
-        .then(response => response.json())
-        .then(data => {
-            const today = new Date();
-            let currentIndex = 0;
-            const features = data.features.filter(feature => new Date(feature.properties.DATUM_TILL) >= today);
+        fetch('bottom_panel/Upptack/Massor.geojson')
+            .then(response => response.json())
+            .then(data => {
+                const today = new Date();
+                let currentIndex = 0;
+                const features = data.features.filter(feature => new Date(feature.properties.DATUM_TILL) >= today);
 
-            features.sort((a, b) => new Date(a.properties.DATUM_FRAN) - new Date(b.properties.DATUM_FRAN));
+                features.sort((a, b) => new Date(a.properties.DATUM_FRAN) - new Date(b.properties.DATUM_FRAN));
 
-            const container = document.createElement('div');
-            container.className = 'geojson-container';
-            contentDiv.appendChild(container);
+                const container = document.createElement('div');
+                container.className = 'geojson-container';
+                contentDiv.appendChild(container);
 
-            const navButtonsContainer = document.createElement('div');
-            navButtonsContainer.className = 'geojson-feature-container';
+                const navButtonsContainer = document.createElement('div');
+                navButtonsContainer.className = 'geojson-feature-container';
 
-            const prevButton = document.createElement('button');
-            prevButton.className = 'nav-button';
-            prevButton.textContent = '<';
-            prevButton.onclick = () => {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    updateFeatureDisplay();
-                }
-            };
-
-            const nextButton = document.createElement('button');
-            nextButton.className = 'nav-button';
-            nextButton.textContent = '>';
-            nextButton.onclick = () => {
-                if (currentIndex < features.length - 1) {
-                    currentIndex++;
-                    updateFeatureDisplay();
-                }
-            };
-
-            navButtonsContainer.appendChild(prevButton);
-
-            const featureContainer = document.createElement('div');
-            featureContainer.className = 'geojson-feature';
-
-            navButtonsContainer.appendChild(featureContainer);
-            navButtonsContainer.appendChild(nextButton);
-            container.appendChild(navButtonsContainer);
-
-            function updateFeatureDisplay() {
-                featureContainer.innerHTML = '';
-
-                const feature = features[currentIndex];
-                const featureDiv = document.createElement('div');
-
-                const img = document.createElement('img');
-                img.src = feature.properties.Bild_massor;
-                img.alt = feature.properties.NAMN;
-                featureDiv.appendChild(img);
-
-                const name = document.createElement('h3');
-                name.textContent = feature.properties.NAMN;
-                featureDiv.appendChild(name);
-
-                const dates = document.createElement('p');
-                dates.textContent = `Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL}`;
-                featureDiv.appendChild(dates);
-
-                const info = document.createElement('p');
-                info.textContent = `Info: ${feature.properties.INFO}`;
-                featureDiv.appendChild(info);
-
-                const linkButton = document.createElement('button');
-                linkButton.className = 'link-button';
-                linkButton.onclick = () => {
-                    window.open(feature.properties.LINK, '_blank');
+                const prevButton = document.createElement('button');
+                prevButton.className = 'nav-button';
+                prevButton.textContent = '<';
+                prevButton.onclick = () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateFeatureDisplay();
+                    }
                 };
-                linkButton.textContent = 'Mer info';
-                const linkImg = document.createElement('img');
-                linkImg.src = 'bilder/extern_link.png'; 
-                linkImg.alt = 'Extern länk';
-                linkImg.className = 'custom-image';
-                linkButton.appendChild(linkImg);
-                featureDiv.appendChild(linkButton);
 
-                const zoomButton = document.createElement('button');
-                zoomButton.className = 'link-button';
-                zoomButton.textContent = 'Zooma till';
-                zoomButton.onclick = () => {
-                    zoomToCoordinates(feature.geometry.coordinates);
+                const nextButton = document.createElement('button');
+                nextButton.className = 'nav-button';
+                nextButton.textContent = '>';
+                nextButton.onclick = () => {
+                    if (currentIndex < features.length - 1) {
+                        currentIndex++;
+                        updateFeatureDisplay();
+                    }
                 };
-                featureDiv.appendChild(zoomButton);
 
-                featureContainer.appendChild(featureDiv);
-            }
+                navButtonsContainer.appendChild(prevButton);
 
-function zoomToCoordinates(coordinates) {
-    // Använd Leaflet för att zooma till koordinaterna
-    if (typeof map !== 'undefined') {
-        const zoomLevel = 13; // Justera zoomnivån efter behov
-        const latLng = L.latLng(coordinates[1], coordinates[0]);
+                const featureContainer = document.createElement('div');
+                featureContainer.className = 'geojson-feature';
 
-        // Zooma till koordinaterna först
-        map.setView(latLng, zoomLevel);
+                navButtonsContainer.appendChild(featureContainer);
+                navButtonsContainer.appendChild(nextButton);
+                container.appendChild(navButtonsContainer);
 
-        // Lägg till en offset
-        const offset = [0, 100]; // Justera offsetten (x, y) i pixlar
+                function updateFeatureDisplay() {
+                    featureContainer.innerHTML = '';
 
-        // Konvertera offset till latLng
-        const point = map.latLngToContainerPoint(latLng); // Konvertera latLng till pixelpunkter
-        const newPoint = L.point(point.x + offset[0], point.y + offset[1]); // Lägg till offset
-        const newLatLng = map.containerPointToLatLng(newPoint); // Konvertera tillbaka till latLng
+                    const feature = features[currentIndex];
+                    const featureDiv = document.createElement('div');
 
-        // Panorera till den nya positionen med offset
-        map.setView(newLatLng, zoomLevel);
-    } else {
-        console.error("Kartan är inte definierad.");
+                    const img = document.createElement('img');
+                    img.src = feature.properties.Bild_massor;
+                    img.alt = feature.properties.NAMN;
+                    featureDiv.appendChild(img);
+
+                    const name = document.createElement('h3');
+                    name.textContent = feature.properties.NAMN;
+                    featureDiv.appendChild(name);
+
+                    const dates = document.createElement('p');
+                    dates.textContent = `Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL}`;
+                    featureDiv.appendChild(dates);
+
+                    const info = document.createElement('p');
+                    info.textContent = `Info: ${feature.properties.INFO}`;
+                    featureDiv.appendChild(info);
+
+                    const buttonsContainer = document.createElement('div');
+                    buttonsContainer.style.display = 'flex';
+                    buttonsContainer.style.justifyContent = 'space-between'; /* Fördela utrymmet mellan knapparna */
+
+                    const linkButton = document.createElement('button');
+                    linkButton.className = 'link-button';
+                    linkButton.onclick = () => {
+                        window.open(feature.properties.LINK, '_blank');
+                    };
+                    linkButton.textContent = 'Mer info';
+                    const linkImg = document.createElement('img');
+                    linkImg.src = 'bilder/extern_link.png';
+                    linkImg.alt = 'Extern länk';
+                    linkImg.className = 'custom-image';
+                    linkButton.appendChild(linkImg);
+                    buttonsContainer.appendChild(linkButton);
+
+                    const zoomButton = document.createElement('button');
+                    zoomButton.className = 'link-button';
+                    zoomButton.textContent = 'Zooma till';
+                    zoomButton.onclick = () => {
+                        zoomToCoordinates(feature.geometry.coordinates);
+                    };
+                    buttonsContainer.appendChild(zoomButton);
+
+                    featureDiv.appendChild(buttonsContainer);
+                    featureContainer.appendChild(featureDiv);
+                }
+
+                function zoomToCoordinates(coordinates) {
+                    // Använd Leaflet för att zooma till koordinaterna
+                    if (typeof map !== 'undefined') {
+                        const zoomLevel = 13; // Justera zoomnivån efter behov
+                        const latLng = L.latLng(coordinates[1], coordinates[0]);
+
+                        // Zooma till koordinaterna först
+                        map.setView(latLng, zoomLevel);
+
+                        // Lägg till en offset
+                        const offset = [0, 100]; // Justera offsetten (x, y) i pixlar
+
+                        // Konvertera offset till latLng
+                        const point = map.latLngToContainerPoint(latLng); // Konvertera latLng till pixelpunkter
+                        const newPoint = L.point(point.x + offset[0], point.y + offset[1]); // Lägg till offset
+                        const newLatLng = map.containerPointToLatLng(newPoint); // Konvertera tillbaka till latLng
+
+                        // Panorera till den nya positionen med offset
+                        map.setView(newLatLng, zoomLevel);
+                    } else {
+                        console.error("Kartan är inte definierad.");
+                    }
+                }
+
+                updateFeatureDisplay();
+            })
+            .catch(error => {
+                console.error('Error loading GeoJSON:', error);
+            });
     }
-}
-
-
-            updateFeatureDisplay();
-        })
-        .catch(error => {
-            console.error('Error loading GeoJSON:', error);
-        });
-}
 
     function createFilterContent(contentDiv) {
         // Skapa en container div för att centrera innehållet
