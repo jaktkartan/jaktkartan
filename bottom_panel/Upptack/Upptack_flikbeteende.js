@@ -188,19 +188,10 @@ function openUpptack() {
         document.getElementById(tabId).classList.add('active');
 
         // Om upptäck fliken visas, kör funktioner som "Visa allt" skulle köra
-        if (contentId === 'upptackContent') {
-            runShowAllFunctions();
-        }
-    }
-
-    function runShowAllFunctions() {
-        if (typeof Upptack_geojsonHandler !== 'undefined') {
-            console.log('Running show all functions');
-            Upptack_geojsonHandler.showAllLayers();
-            Upptack_geojsonHandler.zoomToAllFeatures();
+        if (contentId === 'upptackContent' && typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Activating all layers');
+            Upptack_geojsonHandler.toggleLayer('Visa_allt');
             // Lägg till fler funktioner om det behövs
-        } else {
-            console.error("Upptack_geojsonHandler är inte definierad.");
         }
     }
 
