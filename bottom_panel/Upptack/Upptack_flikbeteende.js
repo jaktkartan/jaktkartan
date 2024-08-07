@@ -136,7 +136,7 @@ function openUpptack() {
 
     // Skapa flikarna
     const tabButtons = [
-        { id: 'upptackTab', text: 'Kommande evenemang', contentId: 'upptackContent' },
+        { id: 'upptackTab', text: 'Upptäck', contentId: 'upptackContent' },
         { id: 'filterTab', text: 'Filtrera', contentId: 'filterContent' },
         { id: 'rekommendationerTab', text: 'Rekommendationer', contentId: 'rekommendationerContent' }
     ];
@@ -278,6 +278,11 @@ function openUpptack() {
                     zoomButton.className = 'link-button';
                     zoomButton.textContent = 'Zooma till';
                     zoomButton.onclick = () => {
+                        // Tänd alla lager
+                        if (typeof Upptack_geojsonHandler !== 'undefined') {
+                            Upptack_geojsonHandler.toggleLayer('Visa_allt');
+                        }
+                        // Zooma till koordinaterna
                         zoomToCoordinates(feature.geometry.coordinates);
                     };
                     buttonsContainer.appendChild(zoomButton);
