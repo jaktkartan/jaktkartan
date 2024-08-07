@@ -186,6 +186,12 @@ function openUpptack() {
             button.classList.remove('active');
         }
         document.getElementById(tabId).classList.add('active');
+
+        // Om upptäck fliken visas, kör "Visa allt"-funktionen
+        if (contentId === 'upptackContent' && typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Activating all layers');
+            Upptack_geojsonHandler.toggleLayer('Visa_allt');
+        }
     }
 
     function createUpptackContent(contentDiv) {
