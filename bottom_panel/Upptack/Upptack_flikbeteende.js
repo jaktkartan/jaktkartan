@@ -277,21 +277,22 @@ function openUpptack() {
                     featureContainer.appendChild(featureDiv);
                 }
 
-                function zoomToCoordinates(coordinates) {
-                    // Använd Leaflet för att zooma till koordinaterna med offset
-                    if (typeof map !== 'undefined') {
-                        var mapHeight = map.getSize().y;
-                        var offsetY = mapHeight / 3; // En tredjedel från toppen
+               function zoomToCoordinates(coordinates) {
+    // Använd Leaflet för att zooma till koordinaterna med offset
+    if (typeof map !== 'undefined') {
+        var mapHeight = map.getSize().y;
+        var offsetY = mapHeight / 3; // En tredjedel från toppen
 
-                        // Beräkna den nya punkten med offset
-                        var targetPoint = map.project([coordinates[1], coordinates[0]], map.getZoom()).subtract([0, offsetY]);
-                        var targetLatLng = map.unproject(targetPoint, map.getZoom());
+        // Beräkna den nya punkten med offset
+        var targetPoint = map.project([coordinates[1], coordinates[0]], map.getZoom()).subtract([0, offsetY]);
+        var targetLatLng = map.unproject(targetPoint, map.getZoom());
 
-                        map.setView(targetLatLng, map.getZoom());
-                    } else {
-                        console.error("Kartan är inte definierad.");
-                    }
-                }
+        map.setView(targetLatLng, map.getZoom());
+    } else {
+        console.error("Kartan är inte definierad.");
+    }
+}
+
 
                 updateFeatureDisplay();
             })
