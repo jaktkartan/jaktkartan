@@ -1,12 +1,3 @@
-// Knappen tab1 (upptäck) rensar geojson-lager och WMS från tab2 (kartor) fliken.
-document.getElementById('tab1').addEventListener('click', function() {
-    if (typeof Kartor_geojsonHandler !== 'undefined') {
-        Kartor_geojsonHandler.deactivateAllLayersKartor();
-    } else {
-        console.error("Kartor_geojsonHandler är inte definierad.");
-    }
-});
-
 // Knappen tab2 (kartor) rensar geojson-lager från tab1 (upptäck) fliken.
 document.getElementById('tab2').addEventListener('click', function() {
     if (typeof Upptack_geojsonHandler !== 'undefined') {
