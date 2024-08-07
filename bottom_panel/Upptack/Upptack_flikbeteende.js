@@ -136,7 +136,7 @@ function openUpptack() {
 
     // Skapa flikarna
     const tabButtons = [
-        { id: 'upptackTab', text: 'Kommande evenemang', contentId: 'upptackContent' },
+        { id: 'upptackTab', text: 'Upptäck', contentId: 'upptackContent' },
         { id: 'filterTab', text: 'Filtrera', contentId: 'filterContent' },
         { id: 'rekommendationerTab', text: 'Rekommendationer', contentId: 'rekommendationerContent' }
     ];
