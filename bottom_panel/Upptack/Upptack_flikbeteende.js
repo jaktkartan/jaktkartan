@@ -188,8 +188,7 @@ function openUpptack() {
         document.getElementById(tabId).classList.add('active');
 
         // Om upptäck fliken visas, kör funktioner som "Visa allt" skulle köra
-        if (contentId === 'upptackContent' && typeof Upptack_geojsonHandler !== 'undefined') {
-            console.log('Activating all layers');
+        if (contentId === 'upptackContent') {
             runShowAllFunctions();
         }
     }
