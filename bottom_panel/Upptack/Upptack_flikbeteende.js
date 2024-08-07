@@ -184,7 +184,7 @@ function openUpptack() {
         document.getElementById(tabId).classList.add('active');
     }
 
-    function createUpptackContent(contentDiv) {
+function createUpptackContent(contentDiv) {
     fetch('bottom_panel/Upptack/Massor.geojson')
         .then(response => response.json())
         .then(data => {
@@ -246,11 +246,11 @@ function openUpptack() {
                 featureDiv.appendChild(name);
 
                 const dates = document.createElement('p');
-                dates.textContent = Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL};
+                dates.textContent = `Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL}`;
                 featureDiv.appendChild(dates);
 
                 const info = document.createElement('p');
-                info.textContent = Info: ${feature.properties.INFO};
+                info.textContent = `Info: ${feature.properties.INFO}`;
                 featureDiv.appendChild(info);
 
                 const linkButton = document.createElement('button');
@@ -292,6 +292,7 @@ function openUpptack() {
             console.error('Error loading GeoJSON:', error);
         });
 }
+
 
     function createFilterContent(contentDiv) {
         // Skapa en container div för att centrera innehållet
