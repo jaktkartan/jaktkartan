@@ -278,13 +278,21 @@ function openUpptack() {
             }
 
             function zoomToCoordinates(coordinates) {
-                // Använd Leaflet för att zooma till koordinaterna
-                if (typeof map !== 'undefined') {
-                    map.setView([coordinates[1], coordinates[0]], 13); // Justera zoomnivån efter behov
-                } else {
-                    console.error("Kartan är inte definierad.");
-                }
-            }
+    // Använd Leaflet för att zooma till koordinaterna
+    if (typeof map !== 'undefined') {
+        const zoomLevel = 13; // Justera zoomnivån efter behov
+        const latLng = L.latLng(coordinates[1], coordinates[0]);
+        
+        // Zooma till koordinaterna först
+        map.setView(latLng, zoomLevel);
+
+        // Lägg till en offset
+        const offset = [0, -100]; // Justera offsetten (x, y) i pixlar
+        map.panBy(offset);
+    } else {
+        console.error("Kartan är inte definierad.");
+    }
+}
 
             updateFeatureDisplay();
         })
