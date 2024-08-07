@@ -185,113 +185,116 @@ function openUpptack() {
     }
 
     function createUpptackContent(contentDiv) {
-    fetch('bottom_panel/Upptack/Massor.geojson')
-        .then(response => response.json())
-        .then(data => {
-            const today = new Date();
-            let currentIndex = 0;
-            const features = data.features.filter(feature => new Date(feature.properties.DATUM_TILL) >= today);
+        fetch('bottom_panel/Upptack/Massor.geojson')
+            .then(response => response.json())
+            .then(data => {
+                const today = new Date();
+                let currentIndex = 0;
+                const features = data.features.filter(feature => new Date(feature.properties.DATUM_TILL) >= today);
 
-            features.sort((a, b) => new Date(a.properties.DATUM_FRAN) - new Date(b.properties.DATUM_FRAN));
+                features.sort((a, b) => new Date(a.properties.DATUM_FRAN) - new Date(b.properties.DATUM_FRAN));
 
-            const container = document.createElement('div');
-            container.className = 'geojson-container';
-            contentDiv.appendChild(container);
+                const container = document.createElement('div');
+                container.className = 'geojson-container';
+                contentDiv.appendChild(container);
 
-            const navButtonsContainer = document.createElement('div');
-            navButtonsContainer.className = 'geojson-feature-container';
+                const navButtonsContainer = document.createElement('div');
+                navButtonsContainer.className = 'geojson-feature-container';
 
-            const prevButton = document.createElement('button');
-            prevButton.className = 'nav-button';
-            prevButton.textContent = '<';
-            prevButton.onclick = () => {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    updateFeatureDisplay();
-                }
-            };
-
-            const nextButton = document.createElement('button');
-            nextButton.className = 'nav-button';
-            nextButton.textContent = '>';
-            nextButton.onclick = () => {
-                if (currentIndex < features.length - 1) {
-                    currentIndex++;
-                    updateFeatureDisplay();
-                }
-            };
-
-            navButtonsContainer.appendChild(prevButton);
-
-            const featureContainer = document.createElement('div');
-            featureContainer.className = 'geojson-feature';
-
-            navButtonsContainer.appendChild(featureContainer);
-            navButtonsContainer.appendChild(nextButton);
-            container.appendChild(navButtonsContainer);
-
-            function updateFeatureDisplay() {
-                featureContainer.innerHTML = '';
-
-                const feature = features[currentIndex];
-                const featureDiv = document.createElement('div');
-
-                const img = document.createElement('img');
-                img.src = feature.properties.Bild_massor;
-                img.alt = feature.properties.NAMN;
-                featureDiv.appendChild(img);
-
-                const name = document.createElement('h3');
-                name.textContent = feature.properties.NAMN;
-                featureDiv.appendChild(name);
-
-                const dates = document.createElement('p');
-                dates.textContent = `Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL}`;
-                featureDiv.appendChild(dates);
-
-                const info = document.createElement('p');
-                info.textContent = `Info: ${feature.properties.INFO}`;
-                featureDiv.appendChild(info);
-
-                const linkButton = document.createElement('button');
-                linkButton.className = 'link-button';
-                linkButton.onclick = () => {
-                    window.open(feature.properties.LINK, '_blank');
+                const prevButton = document.createElement('button');
+                prevButton.className = 'nav-button';
+                prevButton.textContent = '<';
+                prevButton.onclick = () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateFeatureDisplay();
+                    }
                 };
-                linkButton.textContent = 'Mer info';
-                const linkImg = document.createElement('img');
-                linkImg.src = 'bilder/extern_link.png'; 
-                linkImg.alt = 'Extern länk';
-                linkImg.className = 'custom-image';
-                linkButton.appendChild(linkImg);
-                featureDiv.appendChild(linkButton);
 
-                const zoomButton = document.createElement('button');
-                zoomButton.className = 'link-button';
-                zoomButton.textContent = 'Zooma till';
-                zoomButton.onclick = () => {
-                    zoomToCoordinates(feature.geometry.coordinates);
+                const nextButton = document.createElement('button');
+                nextButton.className = 'nav-button';
+                nextButton.textContent = '>';
+                nextButton.onclick = () => {
+                    if (currentIndex < features.length - 1) {
+                        currentIndex++;
+                        updateFeatureDisplay();
+                    }
                 };
-                featureDiv.appendChild(zoomButton);
 
-                featureContainer.appendChild(featureDiv);
-            }
+                navButtonsContainer.appendChild(prevButton);
 
-            function zoomToCoordinates(coordinates) {
-                // Använd Leaflet för att zooma till koordinaterna
-                if (typeof map !== 'undefined') {
-                    map.setView([coordinates[1], coordinates[0]], 13); // Justera zoomnivån efter behov
-                } else {
-                    console.error("Kartan är inte definierad.");
+                const featureContainer = document.createElement('div');
+                featureContainer.className = 'geojson-feature';
+
+                navButtonsContainer.appendChild(featureContainer);
+                navButtonsContainer.appendChild(nextButton);
+                container.appendChild(navButtonsContainer);
+
+                function updateFeatureDisplay() {
+                    featureContainer.innerHTML = '';
+
+                    const feature = features[currentIndex];
+                    const featureDiv = document.createElement('div');
+
+                    const img = document.createElement('img');
+                    img.src = feature.properties.Bild_massor;
+                    img.alt = feature.properties.NAMN;
+                    featureDiv.appendChild(img);
+
+                    const name = document.createElement('h3');
+                    name.textContent = feature.properties.NAMN;
+                    featureDiv.appendChild(name);
+
+                    const dates = document.createElement('p');
+                    dates.textContent = `Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL}`;
+                    featureDiv.appendChild(dates);
+
+                    const info = document.createElement('p');
+                    info.textContent = `Info: ${feature.properties.INFO}`;
+                    featureDiv.appendChild(info);
+
+                    const linkButton = document.createElement('button');
+                    linkButton.className = 'link-button';
+                    linkButton.onclick = () => {
+                        window.open(feature.properties.LINK, '_blank');
+                    };
+                    linkButton.textContent = 'Mer info';
+                    const linkImg = document.createElement('img');
+                    linkImg.src = 'bilder/extern_link.png'; 
+                    linkImg.alt = 'Extern länk';
+                    linkImg.className = 'custom-image';
+                    linkButton.appendChild(linkImg);
+                    featureDiv.appendChild(linkButton);
+
+                    const zoomButton = document.createElement('button');
+                    zoomButton.className = 'link-button';
+                    zoomButton.textContent = 'Zooma till';
+                    zoomButton.onclick = () => {
+                        zoomToCoordinates(feature.geometry.coordinates);
+                    };
+                    featureDiv.appendChild(zoomButton);
+
+                    featureContainer.appendChild(featureDiv);
                 }
-            }
 
-            updateFeatureDisplay();
-        })
-        .catch(error => {
-            console.error('Error loading GeoJSON:', error);
-        });
-}
+                function zoomToCoordinates(coordinates) {
+                    // Använd Leaflet för att zooma till koordinaterna med offset
+                    if (typeof map !== 'undefined') {
+                        var offsetY = map.getSize().y / 3; // En tredjedel från toppen
+                        var targetPoint = map.project([coordinates[1], coordinates[0]], map.getZoom()).subtract([0, offsetY]);
+                        var targetLatLng = map.unproject(targetPoint, map.getZoom());
+                        map.setView(targetLatLng, map.getZoom());
+                    } else {
+                        console.error("Kartan är inte definierad.");
+                    }
+                }
+
+                updateFeatureDisplay();
+            })
+            .catch(error => {
+                console.error('Error loading GeoJSON:', error);
+            });
+    }
 
     function createFilterContent(contentDiv) {
         // Skapa en container div för att centrera innehållet
