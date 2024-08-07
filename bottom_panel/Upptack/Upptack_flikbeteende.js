@@ -287,7 +287,7 @@ function openUpptack() {
         map.setView(latLng, zoomLevel);
 
         // Lägg till en offset
-        const offset = [0, -100]; // Justera offsetten (x, y) i pixlar
+        const offset = [0, 100]; // Justera offsetten (x, y) i pixlar
         map.panBy(offset);
     } else {
         console.error("Kartan är inte definierad.");
