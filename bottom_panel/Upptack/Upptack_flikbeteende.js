@@ -277,22 +277,30 @@ function openUpptack() {
                 featureContainer.appendChild(featureDiv);
             }
 
-            function zoomToCoordinates(coordinates) {
+function zoomToCoordinates(coordinates) {
     // Använd Leaflet för att zooma till koordinaterna
     if (typeof map !== 'undefined') {
         const zoomLevel = 13; // Justera zoomnivån efter behov
         const latLng = L.latLng(coordinates[1], coordinates[0]);
-        
+
         // Zooma till koordinaterna först
         map.setView(latLng, zoomLevel);
 
         // Lägg till en offset
         const offset = [0, 100]; // Justera offsetten (x, y) i pixlar
-        map.panBy(offset);
+
+        // Konvertera offset till latLng
+        const point = map.latLngToContainerPoint(latLng); // Konvertera latLng till pixelpunkter
+        const newPoint = L.point(point.x + offset[0], point.y + offset[1]); // Lägg till offset
+        const newLatLng = map.containerPointToLatLng(newPoint); // Konvertera tillbaka till latLng
+
+        // Panorera till den nya positionen med offset
+        map.setView(newLatLng, zoomLevel);
     } else {
         console.error("Kartan är inte definierad.");
     }
 }
+
 
             updateFeatureDisplay();
         })
