@@ -187,10 +187,21 @@ function openUpptack() {
         }
         document.getElementById(tabId).classList.add('active');
 
-        // Om upptäck fliken visas, kör "Visa allt"-funktionen
+        // Om upptäck fliken visas, kör funktioner som "Visa allt" skulle köra
         if (contentId === 'upptackContent' && typeof Upptack_geojsonHandler !== 'undefined') {
             console.log('Activating all layers');
-            Upptack_geojsonHandler.toggleLayer('Visa_allt');
+            runShowAllFunctions();
+        }
+    }
+
+    function runShowAllFunctions() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Running show all functions');
+            Upptack_geojsonHandler.showAllLayers();
+            Upptack_geojsonHandler.zoomToAllFeatures();
+            // Lägg till fler funktioner om det behövs
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
         }
     }
 
@@ -284,11 +295,6 @@ function openUpptack() {
                     zoomButton.className = 'link-button';
                     zoomButton.textContent = 'Zooma till';
                     zoomButton.onclick = () => {
-                        // Tänd alla lager
-                        if (typeof Upptack_geojsonHandler !== 'undefined') {
-                            Upptack_geojsonHandler.toggleLayer('Visa_allt');
-                        }
-                        // Zooma till koordinaterna
                         zoomToCoordinates(feature.geometry.coordinates);
                     };
                     buttonsContainer.appendChild(zoomButton);
@@ -332,28 +338,6 @@ function openUpptack() {
         // Skapa en container div för att centrera innehållet
         const container = document.createElement('div');
         container.className = 'button-container';
-
-        // Skapa "Visa allt"-knappen
-        const showAllButton = document.createElement('button');
-        showAllButton.className = 'styled-button';
-        showAllButton.id = 'show-all-button';
-        showAllButton.onclick = function() {
-            if (typeof Upptack_geojsonHandler !== 'undefined') {
-                console.log('Activating all layers');
-                Upptack_geojsonHandler.toggleLayer('Visa_allt');
-            } else {
-                console.error("Upptack_geojsonHandler är inte definierad.");
-            }
-        };
-        const showAllImg = document.createElement('img');
-        showAllImg.src = 'bottom_panel/Upptack/bilder/visa_allt_ikon.png';
-        showAllImg.alt = 'Visa allt';
-        showAllButton.appendChild(showAllImg);
-        const showAllText = document.createElement('div');
-        showAllText.className = 'text-content';
-        showAllText.textContent = 'Visa allt';
-        showAllButton.appendChild(showAllText);
-        container.appendChild(showAllButton);
 
         // Skapa "Filtrera"-knappen
         const filterButton = document.createElement('button');
@@ -445,7 +429,6 @@ function openUpptack() {
         // Funktion för att återställa de ursprungliga knapparna
         function restoreOriginalButtons() {
             container.innerHTML = '';
-            container.appendChild(showAllButton);
             container.appendChild(filterButton);
         }
     }
