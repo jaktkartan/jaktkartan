@@ -188,10 +188,27 @@ function openUpptack() {
         document.getElementById(tabId).classList.add('active');
 
         // Om upptäck fliken visas, kör funktioner som "Visa allt" skulle köra
-        if (contentId === 'upptackContent' && typeof Upptack_geojsonHandler !== 'undefined') {
-            console.log('Activating all layers');
+        if (contentId === 'upptackContent') {
+            deactivateAllLayersKartor();
+            runShowAllFunctions();
+        }
+    }
+
+    function deactivateAllLayersKartor() {
+        if (typeof Kartor_geojsonHandler !== 'undefined') {
+            console.log('Deactivating all layers in Kartor');
+            Kartor_geojsonHandler.deactivateAllLayersKartor();
+        } else {
+            console.error("Kartor_geojsonHandler är inte definierad.");
+        }
+    }
+
+    function runShowAllFunctions() {
+        if (typeof Upptack_geojsonHandler !== 'undefined') {
+            console.log('Activating all layers in Upptack');
             Upptack_geojsonHandler.toggleLayer('Visa_allt');
-            // Lägg till fler funktioner om det behövs
+        } else {
+            console.error("Upptack_geojsonHandler är inte definierad.");
         }
     }
 
