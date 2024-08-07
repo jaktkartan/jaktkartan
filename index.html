@@ -35,31 +35,30 @@
         <img src="bilder/jaktkartan_logga_liten.png" alt="Jaktkartan.se" style="width: 45px; height: auto;">
     </a>
 
-<!-- Månfas uppe till höger -->
-<div id="moon-phase-container">
-    <span id="moon-phase"></span>
-    <img id="moon-image" src="" alt="Moon Phase Image" />
-    <div id="moon-phase-info" style="display:none;"></div>
-</div>
+    <!-- Månfas uppe till höger -->
+    <div id="moon-phase-container">
+        <span id="moon-phase"></span>
+        <img id="moon-image" src="" alt="Moon Phase Image" />
+        <div id="moon-phase-info" style="display:none;"></div>
+    </div>
 
-    
-<div id="fab-container">
-    <button id="fab-daggdjur" class="fab" style="display:none;">Däggdjur</button>
-    <button id="fab-fagel" class="fab" style="display:none;">Fågel</button>
-    <button id="fab-alg" class="fab" style="display:none;">ÄFO & Jakttid</button>
-    <button id="fab-alg-omraden" class="fab" style="display:none;">Jaktområden</button>
-    <button id="fab-upptack" class="fab" style="display:none;">Upptäck!</button>
-</div>
+    <div id="fab-container">
+        <button id="fab-daggdjur" class="fab" style="display:none;">Däggdjur</button>
+        <button id="fab-fagel" class="fab" style="display:none;">Fågel</button>
+        <button id="fab-alg" class="fab" style="display:none;">ÄFO & Jakttid</button>
+        <button id="fab-alg-omraden" class="fab" style="display:none;">Jaktområden</button>
+        <button id="fab-upptack" class="fab" style="display:none;">Upptäck!</button>
+    </div>
 
-<!-- Modals- till FAB-knapparna -->
-<div id="modal-daggdjur" class="modal"></div>
-<div id="modal-fagel" class="modal"></div>
-<div id="modal-alg" class="modal"></div>
-<div id="modal-alg-omraden" class="modal"></div>    
-<div id="modal-upptack" class="modal"></div>
-<div id="modal-startruta" class="modal"></div>
+    <!-- Modals- till FAB-knapparna -->
+    <div id="modal-daggdjur" class="modal"></div>
+    <div id="modal-fagel" class="modal"></div>
+    <div id="modal-alg" class="modal"></div>
+    <div id="modal-alg-omraden" class="modal"></div>    
+    <div id="modal-upptack" class="modal"></div>
+    <div id="modal-startruta" class="modal"></div>
 
-<div id="top-panel">
+    <div id="top-panel">
         <div id="sunrise-sunset">
         <img id="sunrise-icon" src="https://raw.githubusercontent.com/timothylevin/Testmiljo/main/bilder/soluppgang.png" alt="Sunrise Icon" style="height: 24px;">
         <span id="sunrise"></span>
@@ -127,11 +126,9 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Lägg till lyssnare för zoomhändelser
-        map.on('zoomend', function() {
-            console.log("Zoom level changed to: " + map.getZoom());
-            // Här kan du lägga till din egen logik eller anrop till funktioner vid zoomförändringar
-        });
+        // Skapa ett nytt pane för användarens position
+        map.createPane('userPane');
+        map.getPane('userPane').classList.add('leaflet-pane', 'userPane'); // Lägg till klasser till pane
 
         var accuracyCircle;
         var userMarker;
@@ -155,7 +152,7 @@
                 iconSize: [12, 12],
                 html: `<div class="pulsing-dot" data-lat="${lat}" data-lon="${lon}"></div>`
             });
-            return L.marker([lat, lon], { icon: divIcon }).addTo(map);
+            return L.marker([lat, lon], { icon: divIcon, pane: 'userPane' }).addTo(map);
         }
 
         function updateUserPosition(lat, lon, accuracy) {
@@ -163,6 +160,7 @@
 
             if (!accuracyCircle) {
                 accuracyCircle = L.circle([lat, lon], {
+                    pane: 'userPane', // Använd användarpane
                     radius: accuracy,
                     fillColor: 'green',
                     fillOpacity: 0.5,
@@ -173,7 +171,10 @@
             }
 
             if (!userMarker) {
-                userMarker = L.marker([lat, lon], { icon: L.divIcon({className: 'transparent-marker-icon'}) }).addTo(map);
+                userMarker = L.marker([lat, lon], { 
+                    pane: 'userPane', // Använd användarpane
+                    icon: L.divIcon({className: 'transparent-marker-icon'}) 
+                }).addTo(map);
             } else {
                 userMarker.setLatLng([lat, lon]);
             }
