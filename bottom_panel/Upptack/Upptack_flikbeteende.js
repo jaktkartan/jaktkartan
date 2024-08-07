@@ -11,7 +11,7 @@ function openUpptack() {
 
     // Definiera CSS
     const style = document.createElement('style');
-    style.textContent = 
+    style.textContent = `
         .tabs {
             display: flex;
             width: 100%;
@@ -120,7 +120,7 @@ function openUpptack() {
         .link-button .custom-image {
             border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
         }
-    ;
+    `;
     document.head.appendChild(style);
 
     // Skapa en container för flikarna
@@ -184,7 +184,7 @@ function openUpptack() {
         document.getElementById(tabId).classList.add('active');
     }
 
-function createUpptackContent(contentDiv) {
+    function createUpptackContent(contentDiv) {
     fetch('bottom_panel/Upptack/Massor.geojson')
         .then(response => response.json())
         .then(data => {
@@ -292,7 +292,6 @@ function createUpptackContent(contentDiv) {
             console.error('Error loading GeoJSON:', error);
         });
 }
-
 
     function createFilterContent(contentDiv) {
         // Skapa en container div för att centrera innehållet
