@@ -1,4 +1,3 @@
-// CSS för popup-panelen och knappen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -45,10 +44,6 @@ styleTag.innerHTML = `
         margin-bottom: 10px; /* Marginal under sista elementet */
     }
 
-    #popup-panel .margin-top {
-        margin-top: 10px; /* Marginal upptill */
-    }
-
     #close-button {
         position: absolute;
         top: 5px;
@@ -89,6 +84,10 @@ styleTag.innerHTML = `
     #popup-panel img {
         max-width: 100%;
         border-radius: 10px; /* Rundade hörn för bilder */
+    }
+
+        #popup-panel .margin-top {
+        margin-top: 10px; /* Marginal upptill */
     }
 
     .link-button {
@@ -197,19 +196,20 @@ var länURLTabell = {
 function generatePopupContent(properties) {
     var content = '';
     var förvaltandelän = null;
+    var hasFieldNameAndData = 0;
+
     var elements = [];
-    var hasFieldNameAndDataCount = 0;
 
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
-            if (hideProperties.includes(key) || value == null || value.trim() === '') {
+            if (hideProperties.includes(key) || value == null || value === '') {
                 continue;
             }
 
             if (hideNameOnlyProperties.includes(key)) {
-                if (value.trim()) {
+                if (value) {
                     if (key === 'NAMN' || key === 'Rubrik' || key === 'GRÄNSÄLVSOMR' || key === 'LÄN' || key === 'lan_namn') {
                         elements.push('<p class="bold-center">' + value + '</p>');
                     } else {
@@ -221,7 +221,7 @@ function generatePopupContent(properties) {
 
             if (isImageUrl(value)) {
                 elements.push('<p><img src="' + value + '" alt="Bild"></p>');
-            } else if (key.toLowerCase() === 'link' && value.trim()) {
+            } else if (key.toLowerCase() === 'link' && value) {
                 elements.push(`
                     <p>
                         <button class="link-button" onclick="window.open('${value}', '_blank')">
@@ -231,14 +231,9 @@ function generatePopupContent(properties) {
                     </p>`);
             } else {
                 var translatedKey = translateKey(key);
-                if (translatedKey && value.trim()) {
-                    hasFieldNameAndDataCount++;
-                    var bgClass = hasFieldNameAndDataCount % 2 === 0 ? 'even-bg' : 'odd-bg';
-                    var marginClass = marginTopFields.includes(key) ? ' margin-top' : '';
-                    elements.push('<p class="' + bgClass + ' field-name-data' + marginClass + ' ' + key + '"><strong>' + translatedKey + ':</strong> ' + value + '</p>');
-                } else {
-                    elements.push('<p>' + value + '</p>');
-                }
+                hasFieldNameAndData++;
+                var bgClass = hasFieldNameAndData % 2 === 0 ? 'even-bg' : 'odd-bg';
+                elements.push('<p class="' + bgClass + ' field-name-data"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
             }
 
             // Hämta länkar för Förvaltandelän
