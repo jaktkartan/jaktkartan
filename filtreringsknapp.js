@@ -122,19 +122,55 @@ document.addEventListener("DOMContentLoaded", function() {
                 id: 'massorCheckbox',
                 text: 'Mässor',
                 imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
-                onChange: handleFilterChange,
+                onChange: function(event) {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        if (event.target.checked) {
+                            console.log('Filtering to Mässor layer');
+                            Upptack_geojsonHandler.filterLayer('Mässor');
+                        } else {
+                            Upptack_geojsonHandler.deactivateLayer('Mässor');
+                        }
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    hideFilterMenu(); // Stäng menyn efter att valet gjorts
+                }
             },
             {
                 id: 'jaktkortCheckbox',
                 text: 'Jaktkort',
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
-                onChange: handleFilterChange,
+                onChange: function(event) {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        if (event.target.checked) {
+                            console.log('Filtering to Jaktkort layer');
+                            Upptack_geojsonHandler.filterLayer('Jaktkort');
+                        } else {
+                            Upptack_geojsonHandler.deactivateLayer('Jaktkort');
+                        }
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    hideFilterMenu(); // Stäng menyn efter att valet gjorts
+                }
             },
             {
                 id: 'jaktskyttebanorCheckbox',
                 text: 'Jaktskyttebanor',
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
-                onChange: handleFilterChange,
+                onChange: function(event) {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        if (event.target.checked) {
+                            console.log('Filtering to Jaktskyttebanor layer');
+                            Upptack_geojsonHandler.filterLayer('Jaktskyttebanor');
+                        } else {
+                            Upptack_geojsonHandler.deactivateLayer('Jaktskyttebanor');
+                        }
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                    hideFilterMenu(); // Stäng menyn efter att valet gjorts
+                }
             }
         ];
 
@@ -173,20 +209,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
         container.appendChild(filterList);
         contentDiv.appendChild(container);
-
-        function handleFilterChange(event) {
-            const layerName = event.target.id.replace('Checkbox', '');
-            if (typeof Upptack_geojsonHandler !== 'undefined') {
-                if (event.target.checked) {
-                    console.log(`Filtering to ${layerName} layer`);
-                    Upptack_geojsonHandler.filterLayer(layerName);
-                } else {
-                    Upptack_geojsonHandler.deactivateLayer(layerName);
-                }
-            } else {
-                console.error("Upptack_geojsonHandler är inte definierad.");
-            }
-            hideFilterMenu();
-        }
     }
 });
