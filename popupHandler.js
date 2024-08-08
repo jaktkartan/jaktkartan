@@ -43,6 +43,7 @@ styleTag.innerHTML = `
 
     #popup-panel .margin-top {
         margin-top: 20px; /* Marginal upptill */
+        background-color: #ffffff;
     }
 
     #close-button {
