@@ -9,9 +9,9 @@ var Upptack_geojsonHandler;
 setTimeout(function() {
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': true,
-            'Jaktkort': true,
-            'Jaktskyttebanor': true
+            'Mässor': false,
+            'Jaktkort': false,
+            'Jaktskyttebanor': false
         };
 
         var geojsonLayers = {
@@ -79,14 +79,18 @@ setTimeout(function() {
             }
         }
 
-        function toggleLayer(layerName) {
+        function toggleLayer(layerName, activate) {
             console.log(`Toggling layer: ${layerName}`);
             if (layerName === 'Visa_allt') {
                 activateAllLayers();
             } else if (layerName === 'Rensa_allt') {
                 deactivateAllLayers();
             } else {
-                filterLayer(layerName);
+                if (activate) {
+                    activateLayer(layerName);
+                } else {
+                    deactivateLayer(layerName);
+                }
             }
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager togglas
         }
@@ -134,12 +138,6 @@ setTimeout(function() {
                 }
             });
             updateFabUpptackVisibility();
-        }
-
-        function filterLayer(layerName) {
-            console.log(`Filtering to layer: ${layerName}`);
-            deactivateAllLayers();
-            activateLayer(layerName);
         }
 
         function getIconAnchor(iconSize) {
@@ -231,7 +229,17 @@ setTimeout(function() {
             toggleLayer: toggleLayer,
             deactivateAllLayers: deactivateAllLayers,
             activateAllLayers: activateAllLayers,
-            activateLayer: activateLayer
+            activateLayer: activateLayer,
+            deactivateLayer: deactivateLayer
         };
     })(map);
 }, 1000);
+
+// Knappen tab2 (kartor) rensar geojson-lager från tab1 (upptäck) fliken.
+document.getElementById('tab2').addEventListener('click', function() {
+    if (typeof Upptack_geojsonHandler !== 'undefined') {
+        Upptack_geojsonHandler.deactivateAllLayers();
+    } else {
+        console.error("Upptack_geojsonHandler är inte definierad.");
+    }
+});
