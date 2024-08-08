@@ -1,70 +1,70 @@
 // CSS som en sträng
 const filterKnappCSS = `
     #filter-knapp-container {
-        position: fixed;
-        top: 85%; /* Flytta knappen lägre ned på skärmen */
-        right: 10px;  /* Placera knappen närmre högerkanten */
-        transform: translateY(-50%); /* Justera så att knappen flyttas ned baserat på dess höjd */
-        z-index: 1000; /* Se till att knappen är ovanpå andra element */
+        position: fixed !important;
+        top: 85% !important; /* Flytta knappen lägre ned på skärmen */
+        right: 10px !important;  /* Placera knappen närmre högerkanten */
+        transform: translateY(-50%) !important; /* Justera så att knappen flyttas ned baserat på dess höjd */
+        z-index: 1000 !important; /* Se till att knappen är ovanpå andra element */
     }
 
     #filter-knapp {
-        background-color: #fff; /* Vit bakgrund */
-        border: 1px solid #ccc; /* Mycket smal kantlinje */
-        width: 60px;
-        height: 60px;
-        text-align: center;
-        text-decoration: none;
-        cursor: pointer;
-        border-radius: 5px; /* Gör knappen fyrkantig med lätt rundade hörn */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.3s, box-shadow 0.3s;
-        padding: 0;
+        background-color: #fff !important; /* Vit bakgrund */
+        border: 1px solid #ccc !important; /* Mycket smal kantlinje */
+        width: 60px !important;
+        height: 60px !important;
+        text-align: center !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+        border-radius: 5px !important; /* Gör knappen fyrkantig med lätt rundade hörn */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: background-color 0.3s, box-shadow 0.3s !important;
+        padding: 0 !important;
     }
     #filter-knapp:hover {
-        background-color: #f0f0f0; /* Lättare bakgrund vid hover */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        background-color: #f0f0f0 !important; /* Lättare bakgrund vid hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
     }
     #filter-knapp:active {
-        background-color: #e0e0e0; /* Ändra bakgrundsfärg vid klick */
+        background-color: #e0e0e0 !important; /* Ändra bakgrundsfärg vid klick */
     }
 
     #filter-knapp img {
-        max-width: 80%; /* Gör så att bilden tar upp 80% av knappens yta */
-        max-height: 80%;
+        max-width: 80% !important; /* Gör så att bilden tar upp 80% av knappens yta */
+        max-height: 80% !important;
     }
 
     #filter-container {
-        display: none; /* Dölj containern som standard */
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 250px; /* Bredd på menyn */
-        height: 100%; /* Gör menyn full höjd */
-        z-index: 1001; /* Se till att containern är ovanpå andra element */
-        background-color: #fff;
-        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
-        padding: 10px;
-        border-radius: 0;
-        transform: translateX(100%); /* Starta utanför skärmen till höger */
-        transition: transform 0.3s ease-in-out;
+        display: none !important; /* Dölj containern som standard */
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        width: 250px !important; /* Bredd på menyn */
+        height: 100% !important; /* Gör menyn full höjd */
+        z-index: 1001 !important; /* Se till att containern är ovanpå andra element */
+        background-color: #fff !important;
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2) !important;
+        padding: 10px !important;
+        border-radius: 0 !important;
+        transform: translateX(100%) !important; /* Starta utanför skärmen till höger */
+        transition: transform 0.3s ease-in-out !important;
     }
 
     #filter-container.show {
-        display: block;
-        transform: translateX(0); /* Glid in menyn från höger */
+        display: block !important;
+        transform: translateX(0) !important; /* Glid in menyn från höger */
     }
 
     .button-container {
-        margin-top: 10px;
+        margin-top: 10px !important;
     }
 
     .filter-img {
-        width: 30px; /* Justera denna storlek enligt önskemål */
-        height: auto;
-        margin-right: 10px; /* Lägger till mellanrum mellan bild och text */
+        width: 30px !important; /* Justera denna storlek enligt önskemål */
+        height: auto !important;
+        margin-right: 10px !important; /* Lägger till mellanrum mellan bild och text */
     }
 `;
 
