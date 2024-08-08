@@ -346,10 +346,71 @@ function openUpptack() {
         const container = document.createElement('div');
         container.className = 'button-container';
 
-        // Skapa innehåll för filter (lägg till lämpliga element)
-        const filterContent = document.createElement('p');
-        filterContent.textContent = 'Här kan du använda filtreringsalternativ.';
-        container.appendChild(filterContent);
+        // Lägg till knappar för filtreringsalternativ
+        const filters = [
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating Mässor layer');
+                        Upptack_geojsonHandler.toggleLayer('Mässor');
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                },
+                imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
+                imgAlt: 'Mässor',
+                text: 'Mässor'
+            },
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating Jaktkort layer');
+                        Upptack_geojsonHandler.toggleLayer('Jaktkort');
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                },
+                imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
+                imgAlt: 'Jaktkort',
+                text: 'Jaktkort'
+            },
+            {
+                className: 'styled-button',
+                onclick: function() {
+                    if (typeof Upptack_geojsonHandler !== 'undefined') {
+                        console.log('Activating Jaktskyttebanor layer');
+                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
+                    } else {
+                        console.error("Upptack_geojsonHandler är inte definierad.");
+                    }
+                },
+                imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
+                imgAlt: 'Jaktskyttebanor',
+                text: 'Jaktskytte-<br>banor' // Exempel på radbrytning
+            }
+        ];
+
+        filters.forEach(filter => {
+            const btn = document.createElement('button');
+            btn.className = filter.className;
+            btn.onclick = filter.onclick;
+
+            if (filter.imgSrc) {
+                const img = document.createElement('img');
+                img.src = filter.imgSrc;
+                img.alt = filter.imgAlt;
+                btn.appendChild(img);
+            }
+
+            const textDiv = document.createElement('div');
+            textDiv.className = 'text-content';
+            textDiv.innerHTML = filter.text; // Använd innerHTML för att tolka <br>
+            btn.appendChild(textDiv);
+
+            container.appendChild(btn);
+        });
 
         // Lägg till containern till content-div
         contentDiv.appendChild(container);
