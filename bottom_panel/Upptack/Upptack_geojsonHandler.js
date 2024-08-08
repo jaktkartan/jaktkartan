@@ -206,6 +206,10 @@ setTimeout(function() {
             });
         }
 
+        function isLayerActive(layerName) {
+            return layerIsActive[layerName];
+        }
+
         // Initialisera alla lager från början
         activateAllLayers();
 
@@ -215,6 +219,7 @@ setTimeout(function() {
             activateAllLayers: activateAllLayers,
             activateLayer: activateLayer,
             deactivateLayer: deactivateLayer,
+            isLayerActive: isLayerActive,
             resetFirstClickHandled: function() { firstClickHandled = false; }
         };
     })(map);
