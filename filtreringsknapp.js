@@ -1,91 +1,48 @@
-// CSS som en sträng
-const filterKnappCSS = `
-    #unique-filter-knapp-container {
-        position: fixed;
-        top: 85%; /* Placera knappen lägre ned på skärmen */
-        right: 10px; /* Placera knappen närmre högerkanten */
-        transform: translateY(-50%); /* Justera så att knappen flyttas ned baserat på dess höjd */
-        z-index: 1000; /* Se till att knappen är ovanpå andra element */
-    }
-
-    #unique-filter-knapp {
-        background-color: #fff; /* Vit bakgrund */
-        border: 1px solid #ccc; /* Mycket smal kantlinje */
-        width: 60px;
-        height: 60px;
-        text-align: center;
-        text-decoration: none;
-        cursor: pointer;
-        border-radius: 5px; /* Gör knappen fyrkantig med lätt rundade hörn */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.3s, box-shadow 0.3s;
-        padding: 0;
-    }
-    #unique-filter-knapp:hover {
-        background-color: #f0f0f0; /* Lättare bakgrund vid hover */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    #unique-filter-knapp:active {
-        background-color: #e0e0e0; /* Ändra bakgrundsfärg vid klick */
-    }
-
-    #unique-filter-knapp img {
-        max-width: 80%; /* Gör så att bilden tar upp 80% av knappens yta */
-        max-height: 80%;
-    }
-
-    #unique-filter-container {
-        display: none; /* Dölj containern som standard */
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 250px; /* Bredd på menyn */
-        height: 100%; /* Gör menyn full höjd */
-        z-index: 1001; /* Se till att containern är ovanpå andra element */
-        background-color: #fff;
-        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
-        padding: 10px;
-        border-radius: 0;
-        transform: translateX(100%); /* Starta utanför skärmen till höger */
-        transition: transform 0.3s ease-in-out;
-    }
-
-    #unique-filter-container.show {
-        display: block;
-        transform: translateX(0); /* Glid in menyn från höger */
-    }
-
-    .unique-button-container {
-        margin-top: 10px;
-    }
-
-    .unique-filter-img {
-        width: 30px; /* Justera denna storlek enligt önskemål */
-        height: auto;
-        margin-right: 10px; /* Lägger till mellanrum mellan bild och text */
-    }
-`;
-
-// Skapa ett style-element och lägg till CSS
-const filterKnappStyle = document.createElement('style');
-filterKnappStyle.textContent = filterKnappCSS;
-document.head.appendChild(filterKnappStyle);
-
-// JavaScript för att hantera knapptryckning och visa filtermeny
 document.addEventListener("DOMContentLoaded", function() {
+    // Skapa knappcontainer
     const filterKnappContainer = document.createElement('div');
-    filterKnappContainer.id = 'unique-filter-knapp-container';
+    filterKnappContainer.style.position = 'fixed';
+    filterKnappContainer.style.top = '85%';
+    filterKnappContainer.style.right = '10px';
+    filterKnappContainer.style.transform = 'translateY(-50%)';
+    filterKnappContainer.style.zIndex = '1000';
 
+    // Skapa knapp
     const filterKnapp = document.createElement('button');
-    filterKnapp.id = 'unique-filter-knapp';
-    filterKnapp.className = 'fab';
+    filterKnapp.style.backgroundColor = '#fff';
+    filterKnapp.style.border = '1px solid #ccc';
+    filterKnapp.style.width = '60px';
+    filterKnapp.style.height = '60px';
+    filterKnapp.style.textAlign = 'center';
+    filterKnapp.style.textDecoration = 'none';
+    filterKnapp.style.cursor = 'pointer';
+    filterKnapp.style.borderRadius = '5px';
+    filterKnapp.style.display = 'flex';
+    filterKnapp.style.alignItems = 'center';
+    filterKnapp.style.justifyContent = 'center';
+    filterKnapp.style.padding = '0';
+    filterKnapp.style.transition = 'background-color 0.3s, box-shadow 0.3s';
+
+    filterKnapp.onmouseover = function() {
+        filterKnapp.style.backgroundColor = '#f0f0f0';
+        filterKnapp.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+    };
+
+    filterKnapp.onmouseout = function() {
+        filterKnapp.style.backgroundColor = '#fff';
+        filterKnapp.style.boxShadow = 'none';
+    };
+
+    filterKnapp.onmousedown = function() {
+        filterKnapp.style.backgroundColor = '#e0e0e0';
+    };
 
     // Lägg till bilden i knappen
     const filterImg = document.createElement('img');
-    filterImg.src = 'bilder/filtrera_bild.png'; // Ersätt med sökvägen till din bild
+    filterImg.src = 'bilder/filtrera_bild.png'; // Ersätt med din bilds sökväg
     filterImg.alt = 'Filtrera';
+    filterImg.style.maxWidth = '80%';
+    filterImg.style.maxHeight = '80%';
 
     filterKnapp.appendChild(filterImg);
     filterKnappContainer.appendChild(filterKnapp);
@@ -93,32 +50,51 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Skapa container för filtrering
     const filterContainer = document.createElement('div');
-    filterContainer.id = 'unique-filter-container';
+    filterContainer.style.position = 'fixed';
+    filterContainer.style.top = '0';
+    filterContainer.style.right = '0';
+    filterContainer.style.width = '250px';
+    filterContainer.style.height = '100%';
+    filterContainer.style.zIndex = '1001';
+    filterContainer.style.backgroundColor = '#fff';
+    filterContainer.style.boxShadow = '-2px 0 8px rgba(0, 0, 0, 0.2)';
+    filterContainer.style.padding = '10px';
+    filterContainer.style.borderRadius = '0';
+    filterContainer.style.transform = 'translateX(100%)';
+    filterContainer.style.transition = 'transform 0.3s ease-in-out';
+    filterContainer.style.display = 'none'; // Börjar som dold
+
     document.body.appendChild(filterContainer);
 
-    // Lägg till innehåll i filtercontainern
-    createFilterContent(filterContainer);
-
-    // Lägg till lyssnare för att visa och dölja menyn
+    // Visa eller dölj menyn när knappen klickas
     filterKnapp.addEventListener('click', function() {
-        if (filterContainer.classList.contains('show')) {
-            filterContainer.classList.remove('show');
+        if (filterContainer.style.transform === 'translateX(0px)') {
+            filterContainer.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                filterContainer.style.display = 'none';
+            }, 300); // Vänta på övergången innan du döljer den
         } else {
-            filterContainer.classList.add('show');
+            filterContainer.style.display = 'block';
+            setTimeout(() => {
+                filterContainer.style.transform = 'translateX(0px)';
+            }, 10); // Kort fördröjning för att tillåta displayändringen
         }
     });
 
     // Stäng menyn när man klickar utanför den
     document.addEventListener('click', function(event) {
         if (!filterKnappContainer.contains(event.target) && !filterContainer.contains(event.target)) {
-            filterContainer.classList.remove('show');
+            filterContainer.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                filterContainer.style.display = 'none';
+            }, 300);
         }
     });
 
     function createFilterContent(contentDiv) {
         // Skapa en container div för att centrera innehållet
         const container = document.createElement('div');
-        container.className = 'unique-button-container';
+        container.style.marginTop = '10px';
 
         // Skapa en lista med checkboxar och bilder
         const filterList = document.createElement('ul');
@@ -142,7 +118,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
-                    filterContainer.classList.remove('show'); // Stäng menyn
+                    filterContainer.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        filterContainer.style.display = 'none';
+                    }, 300); // Vänta på övergången innan du döljer den
                 }
             },
             {
@@ -161,7 +140,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
-                    filterContainer.classList.remove('show'); // Stäng menyn
+                    filterContainer.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        filterContainer.style.display = 'none';
+                    }, 300); // Vänta på övergången innan du döljer den
                 }
             },
             {
@@ -180,7 +162,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
-                    filterContainer.classList.remove('show'); // Stäng menyn
+                    filterContainer.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        filterContainer.style.display = 'none';
+                    }, 300); // Vänta på övergången innan du döljer den
                 }
             }
         ];
@@ -204,7 +189,9 @@ document.addEventListener("DOMContentLoaded", function() {
             const img = document.createElement('img');
             img.src = filter.imgSrc;
             img.alt = filter.text;
-            img.className = 'unique-filter-img'; // Lägger till en specifik klass för bildstorlek
+            img.style.width = '30px';
+            img.style.height = 'auto';
+            img.style.marginRight = '10px';
 
             label.appendChild(img);
             label.appendChild(document.createTextNode(filter.text));
@@ -224,4 +211,6 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
     }
+
+    createFilterContent(filterContainer);
 });
