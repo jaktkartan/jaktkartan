@@ -47,6 +47,8 @@ styleTag.innerHTML =
 
     #popup-panel .margin-top {
         margin-top: 20px; /* Marginal upptill på de fält som definieras under marginTopFields */
+        padding: 10px; /* Lägg till padding */
+        background-color: #ffffff; /* Ändra bakgrundsfärg */
     }
 
     #close-button {
