@@ -72,25 +72,21 @@ setTimeout(function() {
                     }
 
                     console.log(`Layer ${layerName} fetched and created.`);
-                    updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager skapas
                 } catch (error) {
                     console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                 }
             }
         }
 
-        function toggleLayer(layerName, activate) {
-            console.log(`Toggling layer: ${layerName}`);
-            if (activate) {
-                activateLayer(layerName);
-            } else {
+        function toggleLayer(layerName) {
+            if (layerIsActive[layerName]) {
                 deactivateLayer(layerName);
+            } else {
+                activateLayer(layerName);
             }
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager togglas
         }
 
         function activateLayer(layerName) {
-            console.log(`Activating layer: ${layerName}`);
             if (!geojsonLayers[layerName].length) {
                 fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
             } else {
@@ -99,30 +95,22 @@ setTimeout(function() {
                 });
             }
             layerIsActive[layerName] = true;
-            console.log(`Layer ${layerName} activated.`);
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager aktiveras
         }
 
         function deactivateLayer(layerName) {
-            console.log(`Deactivating layer: ${layerName}`);
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
             layerIsActive[layerName] = false;
-            console.log(`Layer ${layerName} deactivated.`);
-            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager avaktiveras
         }
 
         function activateAllLayers() {
-            console.log("Activating all layers");
             Object.keys(layerURLs).forEach(function(layerName) {
                 activateLayer(layerName);
             });
-            updateFabUpptackVisibility();
         }
 
         function deactivateAllLayers() {
-            console.log("Deactivating all layers");
             Object.keys(layerIsActive).forEach(function(name) {
                 if (layerIsActive[name]) {
                     geojsonLayers[name].forEach(function(layer) {
@@ -131,13 +119,6 @@ setTimeout(function() {
                     layerIsActive[name] = false;
                 }
             });
-            updateFabUpptackVisibility();
-        }
-
-        function filterLayer(layerName) {
-            console.log(`Filtering to layer: ${layerName}`);
-            deactivateAllLayers();
-            activateLayer(layerName);
         }
 
         function getIconAnchor(iconSize) {
@@ -175,24 +156,6 @@ setTimeout(function() {
             return layerStyles[layerName].fallbackStyle;
         }
 
-        function updateFabUpptackVisibility() {
-            var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive === true);
-            var fabUpptackButton = document.getElementById('fab-upptack');
-            if (anyLayerActive) {
-                fabUpptackButton.style.display = 'flex';
-                fabUpptackButton.classList.add('show'); // Lägg till 'show' klass för säkerhets skull
-                console.log("FAB button set to display: flex");
-            } else {
-                fabUpptackButton.style.display = 'none';
-                fabUpptackButton.classList.remove('show'); // Ta bort 'show' klass för säkerhets skull
-                console.log("FAB button set to display: none");
-            }
-            console.log(`FAB button visibility updated: ${anyLayerActive ? 'visible' : 'hidden'}`);
-        }
-
-        // Initialisera alla lager från början och uppdatera FAB-knappen
-        activateAllLayers();
-
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 geojsonLayers[layerName].forEach(function(layer) {
@@ -203,11 +166,6 @@ setTimeout(function() {
                     });
                 });
             });
-        });
-
-        document.getElementById('fab-upptack').addEventListener('click', function() {
-            var modal = document.getElementById('modal-upptack');
-            modal.classList.toggle('show');
         });
 
         function addClickHandlerToLayer(layer) {
@@ -230,8 +188,7 @@ setTimeout(function() {
             deactivateAllLayers: deactivateAllLayers,
             activateAllLayers: activateAllLayers,
             activateLayer: activateLayer,
-            deactivateLayer: deactivateLayer,
-            filterLayer: filterLayer
+            deactivateLayer: deactivateLayer
         };
     })(map);
 }, 1000);
