@@ -31,6 +31,18 @@ const filterKnappCSS = `
         background-color: #19362E;
     }
 
+    #filter-container {
+        display: none; /* Dölj containern som standard */
+        position: fixed;
+        bottom: 150px; /* Justera beroende på var du vill ha containern */
+        right: 20px;  /* Justera beroende på var du vill ha containern */
+        z-index: 1001; /* Se till att containern är ovanpå andra element */
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        border-radius: 10px;
+    }
+
     .button-container {
         margin-top: 10px;
     }
@@ -39,41 +51,6 @@ const filterKnappCSS = `
         width: 30px; /* Justera denna storlek enligt önskemål */
         height: auto;
         margin-right: 10px; /* Lägger till mellanrum mellan bild och text */
-    }
-
-    .modal {
-        display: none; /* Dölj modal som standard */
-        position: fixed; /* Stanna på samma plats när man skrollar */
-        z-index: 1001; /* Ovanför andra element */
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto; /* Om innehållet är långt, lägg till skroll */
-        background-color: rgb(0,0,0); /* Fallback färg */
-        background-color: rgba(0,0,0,0.4); /* Svart med opacitet */
-    }
-
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto; /* 15% från toppen och centrerad */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%; /* Kan justeras beroende på önskad storlek */
-    }
-
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
     }
 `;
 
@@ -95,34 +72,13 @@ document.addEventListener("DOMContentLoaded", function() {
     filterKnappContainer.appendChild(filterKnapp);
     document.body.appendChild(filterKnappContainer);
 
-    // Skapa modal för filtrering
-    const modal = document.createElement('div');
-    modal.id = 'filterModal';
-    modal.className = 'modal';
-
-    const modalContent = document.createElement('div');
-    modalContent.className = 'modal-content';
-
-    const closeBtn = document.createElement('span');
-    closeBtn.className = 'close';
-    closeBtn.innerHTML = '&times;';
-    modalContent.appendChild(closeBtn);
-
-    modal.appendChild(modalContent);
-    document.body.appendChild(modal);
+    // Skapa container för filtrering
+    const filterContainer = document.createElement('div');
+    filterContainer.id = 'filter-container';
+    document.body.appendChild(filterContainer);
 
     filterKnapp.addEventListener('click', function() {
-        modal.style.display = 'block';
-    });
-
-    closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
+        filterContainer.style.display = filterContainer.style.display === 'block' ? 'none' : 'block';
     });
 
     function createFilterContent(contentDiv) {
@@ -232,5 +188,5 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    createFilterContent(modalContent);
+    createFilterContent(filterContainer);
 });
