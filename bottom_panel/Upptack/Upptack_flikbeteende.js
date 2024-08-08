@@ -346,73 +346,67 @@ function openUpptack() {
         const container = document.createElement('div');
         container.className = 'button-container';
 
-        // Lägg till knappar för filtreringsalternativ
+        // Skapa en lista med checkboxar
+        const filterList = document.createElement('ul');
+        filterList.style.listStyleType = 'none'; // Ta bort punktlistestilen
+        filterList.style.padding = '0'; // Ta bort padding
+
         const filters = [
             {
-                className: 'styled-button',
-                onclick: function() {
+                id: 'massorCheckbox',
+                text: 'Mässor',
+                onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
-                        console.log('Activating Mässor layer');
-                        Upptack_geojsonHandler.toggleLayer('Mässor');
+                        console.log('Toggling Mässor layer');
+                        Upptack_geojsonHandler.toggleLayer('Mässor', event.target.checked);
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
-                },
-                imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
-                imgAlt: 'Mässor',
-                text: 'Mässor'
+                }
             },
             {
-                className: 'styled-button',
-                onclick: function() {
+                id: 'jaktkortCheckbox',
+                text: 'Jaktkort',
+                onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
-                        console.log('Activating Jaktkort layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktkort');
+                        console.log('Toggling Jaktkort layer');
+                        Upptack_geojsonHandler.toggleLayer('Jaktkort', event.target.checked);
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
-                },
-                imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
-                imgAlt: 'Jaktkort',
-                text: 'Jaktkort'
+                }
             },
             {
-                className: 'styled-button',
-                onclick: function() {
+                id: 'jaktskyttebanorCheckbox',
+                text: 'Jaktskyttebanor',
+                onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
-                        console.log('Activating Jaktskyttebanor layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor');
+                        console.log('Toggling Jaktskyttebanor layer');
+                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', event.target.checked);
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
-                },
-                imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
-                imgAlt: 'Jaktskyttebanor',
-                text: 'Jaktskytte-<br>banor' // Exempel på radbrytning
+                }
             }
         ];
 
         filters.forEach(filter => {
-            const btn = document.createElement('button');
-            btn.className = filter.className;
-            btn.onclick = filter.onclick;
+            const listItem = document.createElement('li');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = filter.id;
+            checkbox.onchange = filter.onChange;
 
-            if (filter.imgSrc) {
-                const img = document.createElement('img');
-                img.src = filter.imgSrc;
-                img.alt = filter.imgAlt;
-                btn.appendChild(img);
-            }
+            const label = document.createElement('label');
+            label.htmlFor = filter.id;
+            label.textContent = filter.text;
 
-            const textDiv = document.createElement('div');
-            textDiv.className = 'text-content';
-            textDiv.innerHTML = filter.text; // Använd innerHTML för att tolka <br>
-            btn.appendChild(textDiv);
-
-            container.appendChild(btn);
+            listItem.appendChild(checkbox);
+            listItem.appendChild(label);
+            filterList.appendChild(listItem);
         });
 
-        // Lägg till containern till content-div
+        container.appendChild(filterList);
         contentDiv.appendChild(container);
     }
 
