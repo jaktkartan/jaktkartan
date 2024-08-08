@@ -47,8 +47,6 @@ setTimeout(function() {
             }
         };
 
-        var firstClickHandled = false;
-
         async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
             for (const geojsonURL of geojsonURLs) {
                 try {
@@ -74,6 +72,7 @@ setTimeout(function() {
                     }
 
                     console.log(`Layer ${layerName} fetched and created.`);
+                    updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager skapas
                 } catch (error) {
                     console.log("Error fetching GeoJSON data for " + layerName + ":", error.message);
                 }
@@ -81,21 +80,17 @@ setTimeout(function() {
         }
 
         function toggleLayer(layerName, activate) {
-            if (!firstClickHandled) {
-                // Om detta är första trycket efter att tab1 öppnats, släck alla lager utom det valda
-                deactivateAllLayers();
-                firstClickHandled = true;  // Flagga att första trycket är hanterat
-            }
-            
+            console.log(`Toggling layer: ${layerName}`);
             if (activate) {
                 activateLayer(layerName);
             } else {
                 deactivateLayer(layerName);
             }
-            updateButtonState(layerName, activate);
+            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager togglas
         }
 
         function activateLayer(layerName) {
+            console.log(`Activating layer: ${layerName}`);
             if (!geojsonLayers[layerName].length) {
                 fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
             } else {
@@ -104,44 +99,45 @@ setTimeout(function() {
                 });
             }
             layerIsActive[layerName] = true;
-            updateButtonState(layerName, true);
+            console.log(`Layer ${layerName} activated.`);
+            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager aktiveras
         }
 
         function deactivateLayer(layerName) {
+            console.log(`Deactivating layer: ${layerName}`);
             geojsonLayers[layerName].forEach(function(layer) {
                 map.removeLayer(layer);
             });
             layerIsActive[layerName] = false;
-            updateButtonState(layerName, false);
+            console.log(`Layer ${layerName} deactivated.`);
+            updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager avaktiveras
         }
 
         function activateAllLayers() {
+            console.log("Activating all layers");
             Object.keys(layerURLs).forEach(function(layerName) {
                 activateLayer(layerName);
             });
+            updateFabUpptackVisibility();
         }
 
         function deactivateAllLayers() {
+            console.log("Deactivating all layers");
             Object.keys(layerIsActive).forEach(function(name) {
                 if (layerIsActive[name]) {
                     geojsonLayers[name].forEach(function(layer) {
                         map.removeLayer(layer);
                     });
                     layerIsActive[name] = false;
-                    updateButtonState(name, false);
                 }
             });
+            updateFabUpptackVisibility();
         }
 
-        function updateButtonState(layerName, isActive) {
-            const button = document.getElementById(layerName.toLowerCase() + 'Button');
-            if (button) {
-                if (isActive) {
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
-            }
+        function filterLayer(layerName) {
+            console.log(`Filtering to layer: ${layerName}`);
+            deactivateAllLayers();
+            activateLayer(layerName);
         }
 
         function getIconAnchor(iconSize) {
@@ -179,6 +175,24 @@ setTimeout(function() {
             return layerStyles[layerName].fallbackStyle;
         }
 
+        function updateFabUpptackVisibility() {
+            var anyLayerActive = Object.values(layerIsActive).some(isActive => isActive === true);
+            var fabUpptackButton = document.getElementById('fab-upptack');
+            if (anyLayerActive) {
+                fabUpptackButton.style.display = 'flex';
+                fabUpptackButton.classList.add('show'); // Lägg till 'show' klass för säkerhets skull
+                console.log("FAB button set to display: flex");
+            } else {
+                fabUpptackButton.style.display = 'none';
+                fabUpptackButton.classList.remove('show'); // Ta bort 'show' klass för säkerhets skull
+                console.log("FAB button set to display: none");
+            }
+            console.log(`FAB button visibility updated: ${anyLayerActive ? 'visible' : 'hidden'}`);
+        }
+
+        // Initialisera alla lager från början och uppdatera FAB-knappen
+        activateAllLayers();
+
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
                 geojsonLayers[layerName].forEach(function(layer) {
@@ -189,6 +203,11 @@ setTimeout(function() {
                     });
                 });
             });
+        });
+
+        document.getElementById('fab-upptack').addEventListener('click', function() {
+            var modal = document.getElementById('modal-upptack');
+            modal.classList.toggle('show');
         });
 
         function addClickHandlerToLayer(layer) {
@@ -206,21 +225,13 @@ setTimeout(function() {
             });
         }
 
-        function isLayerActive(layerName) {
-            return layerIsActive[layerName];
-        }
-
-        // Initialisera alla lager från början
-        activateAllLayers();
-
         return {
             toggleLayer: toggleLayer,
             deactivateAllLayers: deactivateAllLayers,
             activateAllLayers: activateAllLayers,
             activateLayer: activateLayer,
             deactivateLayer: deactivateLayer,
-            isLayerActive: isLayerActive,
-            resetFirstClickHandled: function() { firstClickHandled = false; }
+            filterLayer: filterLayer
         };
     })(map);
 }, 1000);
