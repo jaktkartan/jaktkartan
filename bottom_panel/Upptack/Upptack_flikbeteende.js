@@ -346,7 +346,7 @@ function openUpptack() {
         const container = document.createElement('div');
         container.className = 'button-container';
 
-        // Skapa en lista med checkboxar
+        // Skapa en lista med checkboxar och bilder
         const filterList = document.createElement('ul');
         filterList.style.listStyleType = 'none'; // Ta bort punktlistestilen
         filterList.style.padding = '0'; // Ta bort padding
@@ -355,6 +355,7 @@ function openUpptack() {
             {
                 id: 'massorCheckbox',
                 text: 'Mässor',
+                imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Mässor layer');
@@ -367,6 +368,7 @@ function openUpptack() {
             {
                 id: 'jaktkortCheckbox',
                 text: 'Jaktkort',
+                imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktkort layer');
@@ -379,6 +381,7 @@ function openUpptack() {
             {
                 id: 'jaktskyttebanorCheckbox',
                 text: 'Jaktskyttebanor',
+                imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktskyttebanor layer');
@@ -392,6 +395,9 @@ function openUpptack() {
 
         filters.forEach(filter => {
             const listItem = document.createElement('li');
+            listItem.style.display = 'flex';
+            listItem.style.alignItems = 'center';
+
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = filter.id;
@@ -399,7 +405,17 @@ function openUpptack() {
 
             const label = document.createElement('label');
             label.htmlFor = filter.id;
-            label.textContent = filter.text;
+            label.style.display = 'flex';
+            label.style.alignItems = 'center';
+            label.style.cursor = 'pointer'; // Gör labeln klickbar
+
+            const img = document.createElement('img');
+            img.src = filter.imgSrc;
+            img.alt = filter.text;
+            img.style.marginRight = '10px'; // Lägger till mellanrum mellan bild och text
+
+            label.appendChild(img);
+            label.appendChild(document.createTextNode(filter.text));
 
             listItem.appendChild(checkbox);
             listItem.appendChild(label);
