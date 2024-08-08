@@ -54,7 +54,7 @@ const filterKnappCSS = `
 
     #filter-container.show {
         display: block;
-        transform: translateX(-250px); /* Glid in menyn från höger och stanna när innehållet är synligt */
+        transform: translateX(0); /* Glid in menyn från höger */
     }
 
     .button-container {
