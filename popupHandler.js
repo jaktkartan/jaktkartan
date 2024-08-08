@@ -48,7 +48,7 @@ styleTag.innerHTML = `
         z-index: 1001;
     }
 
-    @keyframes slideIn {
+    @keyframes slideInBottom {
         from {
             transform: translateY(100%);
         }
@@ -57,7 +57,7 @@ styleTag.innerHTML = `
         }
     }
 
-    @keyframes slideOut {
+    @keyframes slideOutBottom {
         from {
             transform: translateY(0);
         }
@@ -67,11 +67,11 @@ styleTag.innerHTML = `
     }
 
     .show {
-        animation: slideIn 0.5s forwards;
+        animation: slideInBottom 0.5s forwards;
     }
 
     .hide {
-        animation: slideOut 0.5s forwards;
+        animation: slideOutBottom 0.5s forwards;
     }
 
     #popup-panel img {
@@ -127,6 +127,7 @@ styleTag.innerHTML = `
 
 // Lägg till style-taggen till <head>
 document.head.appendChild(styleTag);
+
 
 
 var popupPanel = document.getElementById('popup-panel');
