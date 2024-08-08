@@ -78,35 +78,48 @@ setTimeout(function() {
             }
         }
 
-Object.keys(layerIsActive).forEach(function(layerName) {
-    fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
-});
+        function toggleLayer(layerName, activate) {
+            if (activate) {
+                activateLayer(layerName);
+            } else {
+                deactivateLayer(layerName);
+            }
+        }
 
-function toggleLayer(layerName, activate) {
-    if (activate) {
-        activateLayer(layerName);
-    } else {
-        deactivateLayer(layerName);
-    }
-}
+        function activateLayer(layerName) {
+            if (!geojsonLayers[layerName].length) {
+                fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
+            } else {
+                geojsonLayers[layerName].forEach(function(layer) {
+                    layer.addTo(map);
+                });
+            }
+            layerIsActive[layerName] = true;
+        }
 
-function activateLayer(layerName) {
-    if (!geojsonLayers[layerName].length) {
-        fetchGeoJSONDataAndCreateLayer(layerName, layerURLs[layerName]);
-    } else {
-        geojsonLayers[layerName].forEach(function(layer) {
-            layer.addTo(map);
-        });
-    }
-    layerIsActive[layerName] = true;
-}
+        function deactivateLayer(layerName) {
+            geojsonLayers[layerName].forEach(function(layer) {
+                map.removeLayer(layer);
+            });
+            layerIsActive[layerName] = false;
+        }
 
-function deactivateLayer(layerName) {
-    geojsonLayers[layerName].forEach(function(layer) {
-        map.removeLayer(layer);
-    });
-    layerIsActive[layerName] = false;
-}
+        function activateAllLayers() {
+            Object.keys(layerURLs).forEach(function(layerName) {
+                activateLayer(layerName);
+            });
+        }
+
+        function deactivateAllLayers() {
+            Object.keys(layerIsActive).forEach(function(name) {
+                if (layerIsActive[name]) {
+                    geojsonLayers[name].forEach(function(layer) {
+                        map.removeLayer(layer);
+                    });
+                    layerIsActive[name] = false;
+                }
+            });
+        }
 
         function getIconAnchor(iconSize) {
             return [iconSize[0] / 2, iconSize[1] / 2];
