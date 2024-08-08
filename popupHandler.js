@@ -1,3 +1,4 @@
+// CSS för popup-panelen och knappen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -44,6 +45,10 @@ styleTag.innerHTML = `
         margin-bottom: 10px; /* Marginal under sista elementet */
     }
 
+    #popup-panel .margin-top {
+        margin-top: 10px; /* Marginal upptill */
+    }
+
     #close-button {
         position: absolute;
         top: 5px;
@@ -84,10 +89,6 @@ styleTag.innerHTML = `
     #popup-panel img {
         max-width: 100%;
         border-radius: 10px; /* Rundade hörn för bilder */
-    }
-
-        #popup-panel .margin-top {
-        margin-top: 100px; /* Marginal upptill */
     }
 
     .link-button {
@@ -233,7 +234,8 @@ function generatePopupContent(properties) {
                 var translatedKey = translateKey(key);
                 hasFieldNameAndData++;
                 var bgClass = hasFieldNameAndData % 2 === 0 ? 'even-bg' : 'odd-bg';
-                elements.push('<p class="' + bgClass + ' field-name-data"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
+                var marginClass = marginTopFields.includes(key) ? ' margin-top' : '';
+                elements.push('<p class="' + bgClass + ' field-name-data' + marginClass + '"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
             }
 
             // Hämta länkar för Förvaltandelän
