@@ -2,8 +2,8 @@
 const filterKnappCSS = `
     #unique-filter-knapp-container {
         position: fixed;
-        top: 85%; /* Flytta knappen lägre ned på skärmen */
-        right: 10px;  /* Placera knappen närmre högerkanten */
+        top: 85%; /* Placera knappen lägre ned på skärmen */
+        right: 10px; /* Placera knappen närmre högerkanten */
         transform: translateY(-50%); /* Justera så att knappen flyttas ned baserat på dess höjd */
         z-index: 1000; /* Se till att knappen är ovanpå andra element */
     }
