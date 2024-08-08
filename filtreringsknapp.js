@@ -93,19 +93,15 @@ document.addEventListener("DOMContentLoaded", function() {
     // Skapa container för filtrering
     const filterContainer = document.createElement('div');
     filterContainer.id = 'filter-container';
-    filterKnappContainer.appendChild(filterContainer);
+    document.body.appendChild(filterContainer);
 
     filterKnapp.addEventListener('click', function() {
-        if (filterContainer.classList.contains('show')) {
-            filterContainer.classList.remove('show');
-        } else {
-            filterContainer.classList.add('show');
-        }
+        filterContainer.classList.toggle('show');
     });
 
     // Stäng menyn när man klickar utanför den
     document.addEventListener('click', function(event) {
-        if (!filterKnappContainer.contains(event.target)) {
+        if (!filterKnappContainer.contains(event.target) && !filterContainer.contains(event.target)) {
             filterContainer.classList.remove('show');
         }
     });
