@@ -196,6 +196,7 @@ function openUpptack() {
         if (contentId === 'upptackContent') {
             deactivateAllLayersKartor();
             runShowAllFunctions();
+            Upptack_geojsonHandler.resetFirstClickHandled();  // Återställ flaggan varje gång tab1 öppnas
         }
     }
 
