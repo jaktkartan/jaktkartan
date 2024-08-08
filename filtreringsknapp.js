@@ -2,10 +2,10 @@
 const filterKnappCSS = `
     #filter-knapp-container {
         position: fixed;
-        top: 50%; /* Placera knappen högre upp på skärmen */
-        right: 20px;  /* Justera beroende på var du vill ha knappen */
+        top: 85%; /* Flytta knappen lägre ned på skärmen */
+        right: 10px;  /* Placera knappen närmre högerkanten */
+        transform: translateY(-50%); /* Justera så att knappen flyttas ned baserat på dess höjd */
         z-index: 1000; /* Se till att knappen är ovanpå andra element */
-        transform: translateY(-50%); /* Justera så att knappen centreras vertikalt */
     }
 
     #filter-knapp {
@@ -38,24 +38,22 @@ const filterKnappCSS = `
 
     #filter-container {
         display: none; /* Dölj containern som standard */
-        position: absolute; /* Absolut positionering relativt knappen */
-        top: 70px; /* Placera containern precis under knappen */
+        position: fixed;
+        top: 0;
         right: 0;  
+        width: 250px; /* Bredd på menyn */
+        height: 100%; /* Gör menyn full höjd */
         z-index: 1001; /* Se till att containern är ovanpå andra element */
         background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
         padding: 10px;
-        border-radius: 10px;
-        transform-origin: top right;
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        opacity: 0;
-        transform: scale(0.95);
+        border-radius: 0;
+        transform: translateX(100%); /* Starta utanför skärmen till höger */
+        transition: transform 0.3s ease-in-out;
     }
 
     #filter-container.show {
-        display: block;
-        opacity: 1;
-        transform: scale(1);
+        transform: translateX(0); /* Glid in menyn från höger */
     }
 
     .button-container {
