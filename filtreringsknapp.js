@@ -4,7 +4,7 @@ const filterKnappCSS = `
         position: fixed;
         top: 85%; /* Flytta knappen lägre ned på skärmen */
         right: 10px;  /* Placera knappen närmre högerkanten */
-        transform: translateY(-50%); /* Justera så att knappen flyttas ned baserat på dess höjd */
+        transform: translateY(-15%); /* Justera så att knappen flyttas ned baserat på dess höjd */
         z-index: 1000; /* Se till att knappen är ovanpå andra element */
     }
 
@@ -53,6 +53,7 @@ const filterKnappCSS = `
     }
 
     #filter-container.show {
+        display: block;
         transform: translateX(0); /* Glid in menyn från höger */
     }
 
@@ -95,8 +96,16 @@ document.addEventListener("DOMContentLoaded", function() {
     filterContainer.id = 'filter-container';
     document.body.appendChild(filterContainer);
 
+    // Lägg till innehåll i filtercontainern
+    createFilterContent(filterContainer);
+
+    // Lägg till lyssnare för att visa och dölja menyn
     filterKnapp.addEventListener('click', function() {
-        filterContainer.classList.toggle('show');
+        if (filterContainer.classList.contains('show')) {
+            filterContainer.classList.remove('show');
+        } else {
+            filterContainer.classList.add('show');
+        }
     });
 
     // Stäng menyn när man klickar utanför den
@@ -215,6 +224,4 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
     }
-
-    createFilterContent(filterContainer);
 });
