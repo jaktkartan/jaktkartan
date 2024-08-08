@@ -129,22 +129,6 @@ function openUpptack() {
             height: auto;
             margin-right: 10px; /* Lägger till mellanrum mellan bild och text */
         }
-        .button-container ul {
-            padding: 0;
-            margin: 0;
-        }
-        .button-container li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            justify-content: space-between;
-        }
-        .button-container input[type="checkbox"] {
-            margin-left: 10px;
-        }
     `;
     document.head.appendChild(style);
 
@@ -249,52 +233,117 @@ function openUpptack() {
                 contentDiv.appendChild(container);
 
                 const navButtonsContainer = document.createElement('div');
-                navButtonsContainer.className = 'nav-buttons';
+                navButtonsContainer.className = 'geojson-feature-container';
+
+                const prevButton = document.createElement('button');
+                prevButton.className = 'nav-button';
+                prevButton.textContent = '<';
+                prevButton.onclick = () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateFeatureDisplay();
+                    }
+                };
+
+                const nextButton = document.createElement('button');
+                nextButton.className = 'nav-button';
+                nextButton.textContent = '>';
+                nextButton.onclick = () => {
+                    if (currentIndex < features.length - 1) {
+                        currentIndex++;
+                        updateFeatureDisplay();
+                    }
+                };
+
+                navButtonsContainer.appendChild(prevButton);
+
+                const featureContainer = document.createElement('div');
+                featureContainer.className = 'geojson-feature';
+
+                navButtonsContainer.appendChild(featureContainer);
+                navButtonsContainer.appendChild(nextButton);
                 container.appendChild(navButtonsContainer);
 
-                const leftButton = document.createElement('button');
-                leftButton.className = 'nav-button';
-                leftButton.textContent = '<';
-                leftButton.onclick = () => showFeature(currentIndex - 1);
-                navButtonsContainer.appendChild(leftButton);
+                function updateFeatureDisplay() {
+                    featureContainer.innerHTML = '';
 
-                const rightButton = document.createElement('button');
-                rightButton.className = 'nav-button';
-                rightButton.textContent = '>';
-                rightButton.onclick = () => showFeature(currentIndex + 1);
-                navButtonsContainer.appendChild(rightButton);
-
-                function showFeature(index) {
-                    if (index < 0 || index >= features.length) return;
-
-                    currentIndex = index;
                     const feature = features[currentIndex];
-
-                    container.innerHTML = '';
-
-                    const featureContainer = document.createElement('div');
-                    featureContainer.className = 'geojson-feature-container';
-                    container.appendChild(featureContainer);
-
-                    const featureElement = document.createElement('div');
-                    featureElement.className = 'geojson-feature';
-                    featureContainer.appendChild(featureElement);
-
-                    const title = document.createElement('h3');
-                    title.textContent = feature.properties.NAMN;
-                    featureElement.appendChild(title);
-
-                    const date = document.createElement('p');
-                    date.textContent = `${new Date(feature.properties.DATUM_FRAN).toLocaleDateString()} - ${new Date(feature.properties.DATUM_TILL).toLocaleDateString()}`;
-                    featureElement.appendChild(date);
+                    const featureDiv = document.createElement('div');
 
                     const img = document.createElement('img');
-                    img.src = feature.properties.IMAGE_URL; // Byt till rätt URL-fält
+                    img.src = feature.properties.Bild_massor;
                     img.alt = feature.properties.NAMN;
-                    featureElement.appendChild(img);
+                    featureDiv.appendChild(img);
+
+                    const name = document.createElement('h3');
+                    name.textContent = feature.properties.NAMN;
+                    featureDiv.appendChild(name);
+
+                    const dates = document.createElement('p');
+                    dates.textContent = `Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL}`;
+                    featureDiv.appendChild(dates);
+
+                    const info = document.createElement('p');
+                    info.textContent = `Info: ${feature.properties.INFO}`;
+                    featureDiv.appendChild(info);
+
+                    const buttonsContainer = document.createElement('div');
+                    buttonsContainer.style.display = 'flex';
+                    buttonsContainer.style.justifyContent = 'space-between'; /* Fördela utrymmet mellan knapparna */
+
+                    const linkButton = document.createElement('button');
+                    linkButton.className = 'link-button';
+                    linkButton.onclick = () => {
+                        window.open(feature.properties.LINK, '_blank');
+                    };
+                    linkButton.textContent = 'Mer info';
+                    const linkImg = document.createElement('img');
+                    linkImg.src = 'bilder/extern_link.png';
+                    linkImg.alt = 'Extern länk';
+                    linkImg.className = 'custom-image';
+                    linkButton.appendChild(linkImg);
+                    buttonsContainer.appendChild(linkButton);
+
+                    const zoomButton = document.createElement('button');
+                    zoomButton.className = 'link-button';
+                    zoomButton.textContent = 'Zooma till';
+                    zoomButton.onclick = () => {
+                        zoomToCoordinates(feature.geometry.coordinates);
+                    };
+                    buttonsContainer.appendChild(zoomButton);
+
+                    featureDiv.appendChild(buttonsContainer);
+                    featureContainer.appendChild(featureDiv);
                 }
 
-                showFeature(currentIndex);
+                function zoomToCoordinates(coordinates) {
+                    // Använd Leaflet för att zooma till koordinaterna
+                    if (typeof map !== 'undefined') {
+                        const zoomLevel = 13; // Justera zoomnivån efter behov
+                        const latLng = L.latLng(coordinates[1], coordinates[0]);
+
+                        // Zooma till koordinaterna först
+                        map.setView(latLng, zoomLevel);
+
+                        // Lägg till en offset
+                        const offset = [0, 100]; // Justera offsetten (x, y) i pixlar
+
+                        // Konvertera offset till latLng
+                        const point = map.latLngToContainerPoint(latLng); // Konvertera latLng till pixelpunkter
+                        const newPoint = L.point(point.x + offset[0], point.y + offset[1]); // Lägg till offset
+                        const newLatLng = map.containerPointToLatLng(newPoint); // Konvertera tillbaka till latLng
+
+                        // Panorera till den nya positionen med offset
+                        map.setView(newLatLng, zoomLevel);
+                    } else {
+                        console.error("Kartan är inte definierad.");
+                    }
+                }
+
+                updateFeatureDisplay();
+            })
+            .catch(error => {
+                console.error('Error loading GeoJSON:', error);
             });
     }
 
@@ -303,16 +352,14 @@ function openUpptack() {
         container.className = 'button-container';
 
         const filterList = document.createElement('ul');
-        filterList.style.listStyleType = 'none'; // Ingen standardpunkt eller nummer
-        filterList.style.padding = '0'; // Ta bort standard padding
-        filterList.style.margin = '0'; // Ta bort standard margin
+        filterList.style.listStyleType = 'none';
+        filterList.style.padding = '0';
 
         const filters = [
             {
                 id: 'massorCheckbox',
                 text: 'Mässor',
                 imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
-                checkmarkSrc: 'bottom_panel/Upptack/bilder/checkmark.png', // Kontrollera sökvägen
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Mässor layer');
@@ -326,7 +373,6 @@ function openUpptack() {
                 id: 'jaktkortCheckbox',
                 text: 'Jaktkort',
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
-                checkmarkSrc: 'bottom_panel/Upptack/bilder/checkmark.png', // Kontrollera sökvägen
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktkort layer');
@@ -340,7 +386,6 @@ function openUpptack() {
                 id: 'jaktskyttebanorCheckbox',
                 text: 'Jaktskyttebanor',
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
-                checkmarkSrc: 'bottom_panel/Upptack/bilder/checkmark.png', // Kontrollera sökvägen
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktskyttebanor layer');
@@ -356,44 +401,29 @@ function openUpptack() {
             const listItem = document.createElement('li');
             listItem.style.display = 'flex';
             listItem.style.alignItems = 'center';
-            listItem.style.marginBottom = '10px'; // Avstånd mellan listobjekt
-            listItem.style.padding = '5px'; // Padding för listobjekt
-            listItem.style.border = '1px solid #ddd'; // Border för listobjekt
-            listItem.style.borderRadius = '5px'; // Rundade hörn
-
-            const img = document.createElement('img');
-            img.src = filter.imgSrc;
-            img.alt = filter.text;
-            img.className = 'filter-img'; // Använd CSS-klass för bildstorlek
-
-            const text = document.createElement('span');
-            text.textContent = filter.text;
-            text.style.marginLeft = '10px'; // Margin mellan bild och text
 
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = filter.id;
             checkbox.checked = true; // Initialt är alla lager aktiva
             checkbox.onchange = filter.onChange;
-            checkbox.style.marginLeft = '10px'; // Margin mellan text och checkbox
 
-            const checkmarkImg = document.createElement('img');
-            checkmarkImg.src = filter.checkmarkSrc;
-            checkmarkImg.alt = 'Checkmark';
-            checkmarkImg.className = 'filter-img'; // Använd CSS-klass för bildstorlek
-            checkmarkImg.style.display = 'none'; // Dölj standard checkmark, kan styras via JavaScript
+            const label = document.createElement('label');
+            label.htmlFor = filter.id;
+            label.style.display = 'flex';
+            label.style.alignItems = 'center';
+            label.style.cursor = 'pointer';
 
-            // Skapa en container för text, checkbox och checkmark
-            const textContainer = document.createElement('div');
-            textContainer.style.display = 'flex';
-            textContainer.style.alignItems = 'center';
+            const img = document.createElement('img');
+            img.src = filter.imgSrc;
+            img.alt = filter.text;
+            img.className = 'filter-img';
 
-            textContainer.appendChild(img);
-            textContainer.appendChild(text);
-            textContainer.appendChild(checkbox);
+            label.appendChild(img);
+            label.appendChild(document.createTextNode(filter.text));
 
-            listItem.appendChild(textContainer);
-            listItem.appendChild(checkmarkImg);
+            listItem.appendChild(checkbox);
+            listItem.appendChild(label);
             filterList.appendChild(listItem);
         });
 
@@ -402,7 +432,13 @@ function openUpptack() {
     }
 
     function createRekommendationerContent(contentDiv) {
-        // Implementera innehåll för rekommendationer här
-        contentDiv.innerHTML = '<p>Här kommer rekommendationer att visas.</p>';
+        const container = document.createElement('div');
+        container.className = 'button-container';
+
+        const rekommendationerContent = document.createElement('p');
+        rekommendationerContent.textContent = 'Här hittar du rekommendationer.';
+        container.appendChild(rekommendationerContent);
+
+        contentDiv.appendChild(container);
     }
 }
