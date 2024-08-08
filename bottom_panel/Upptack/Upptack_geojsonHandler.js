@@ -104,6 +104,7 @@ setTimeout(function() {
                 });
             }
             layerIsActive[layerName] = true;
+            document.getElementById(layerName.toLowerCase() + 'Checkbox').checked = true;
         }
 
         function deactivateLayer(layerName) {
@@ -111,6 +112,7 @@ setTimeout(function() {
                 map.removeLayer(layer);
             });
             layerIsActive[layerName] = false;
+            document.getElementById(layerName.toLowerCase() + 'Checkbox').checked = false;
         }
 
         function activateAllLayers() {
