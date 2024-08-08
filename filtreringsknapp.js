@@ -5,6 +5,7 @@ const filterKnappCSS = `
         top: 50%; /* Placera knappen högre upp på skärmen */
         right: 20px;  /* Justera beroende på var du vill ha knappen */
         z-index: 1000; /* Se till att knappen är ovanpå andra element */
+        transform: translateY(-50%); /* Justera så att knappen centreras vertikalt */
     }
 
     #filter-knapp {
