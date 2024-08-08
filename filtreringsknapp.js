@@ -4,7 +4,7 @@ const filterKnappCSS = `
         position: fixed;
         top: 85%; /* Flytta knappen lägre ned på skärmen */
         right: 10px;  /* Placera knappen närmre högerkanten */
-        transform: translateY(-15%); /* Justera så att knappen flyttas ned baserat på dess höjd */
+        transform: translateY(-50%); /* Justera så att knappen flyttas ned baserat på dess höjd */
         z-index: 1000; /* Se till att knappen är ovanpå andra element */
     }
 
@@ -40,7 +40,7 @@ const filterKnappCSS = `
         display: none; /* Dölj containern som standard */
         position: fixed;
         top: 0;
-        right: 0;  
+        right: 0;
         width: 250px; /* Bredd på menyn */
         height: 100%; /* Gör menyn full höjd */
         z-index: 1001; /* Se till att containern är ovanpå andra element */
@@ -54,7 +54,7 @@ const filterKnappCSS = `
 
     #filter-container.show {
         display: block;
-        transform: translateX(0); /* Glid in menyn från höger */
+        transform: translateX(-250px); /* Glid in menyn från höger och stanna när innehållet är synligt */
     }
 
     .button-container {
