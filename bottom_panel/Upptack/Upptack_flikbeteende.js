@@ -124,6 +124,11 @@ function openUpptack() {
         .link-button .custom-image {
             border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
         }
+        .filter-img {
+            width: 30px; /* Justera denna storlek enligt önskemål */
+            height: auto;
+            margin-right: 10px; /* Lägger till mellanrum mellan bild och text */
+        }
     `;
     document.head.appendChild(style);
 
@@ -412,7 +417,7 @@ function openUpptack() {
             const img = document.createElement('img');
             img.src = filter.imgSrc;
             img.alt = filter.text;
-            img.style.marginRight = '10px'; // Lägger till mellanrum mellan bild och text
+            img.className = 'filter-img'; // Lägger till en specifik klass för bildstorlek
 
             label.appendChild(img);
             label.appendChild(document.createTextNode(filter.text));
