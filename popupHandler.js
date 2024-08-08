@@ -41,10 +41,6 @@ styleTag.innerHTML = `
         background-color: #dcdcdc; /* Grå bakgrundsfärg */
     }
 
-    #popup-panel .last-field-name-data {
-        margin-bottom: 10px; /* Marginal under sista elementet */
-    }
-
     #popup-panel .margin-top {
         margin-top: 20px; /* Marginal upptill */
     }
@@ -242,14 +238,6 @@ function generatePopupContent(properties) {
             if (key === 'Förvaltandelän' && value) {
                 förvaltandelän = value;
             }
-        }
-    }
-
-    // Lägg till en marginal under sista elementet med fältnamn och data
-    for (var i = elements.length - 1; i >= 0; i--) {
-        if (elements[i].includes('field-name-data')) {
-            elements[i] = elements[i].replace('<p ', '<p class="last-field-name-data" ');
-            break;
         }
     }
 
