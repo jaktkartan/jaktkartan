@@ -84,13 +84,14 @@ setTimeout(function() {
             if (!firstClickHandled) {
                 // Om detta är första trycket efter att tab1 öppnats, släck alla lager utom det valda
                 deactivateAllLayers();
-                firstClickHandled = true;  // Flagga att första trycket är hanterat
-            }
-            
-            if (activate) {
                 activateLayer(layerName);
+                firstClickHandled = true;  // Flagga att första trycket är hanterat
             } else {
-                deactivateLayer(layerName);
+                if (activate) {
+                    activateLayer(layerName);
+                } else {
+                    deactivateLayer(layerName);
+                }
             }
         }
 
