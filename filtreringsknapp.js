@@ -2,7 +2,7 @@
 const filterKnappCSS = `
     #filter-knapp-container {
         position: fixed;
-        top: 20%; /* Placera knappen högre upp på skärmen */
+        top: 50%; /* Placera knappen högre upp på skärmen */
         right: 20px;  /* Justera beroende på var du vill ha knappen */
         z-index: 1000; /* Se till att knappen är ovanpå andra element */
     }
