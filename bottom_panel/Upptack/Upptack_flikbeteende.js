@@ -28,22 +28,9 @@ function openUpptack() {
             outline: none;
             transition: background-color 0.3s;
         }
-
-.tab-button.active {
-    background-color: #bbb;
-    position: relative; /* Lägg till position: relative för att placera bockbilden korrekt */
-}
-
-.tab-button.active::after {
-    content: url('bottom_panel/Upptack/bilder/check_bock_upptack.png'); /* Lägg till bockbild */
-    position: absolute;
-    right: 10px; /* Justera avståndet till höger */
-    top: 50%; /* Centrera vertikalt */
-    transform: translateY(-50%); /* Justera för vertikal centrering */
-    width: 20px; /* Justera storlek enligt behov */
-    height: auto;
-}
-
+        .tab-button.active {
+            background-color: #bbb;
+        }
         .tab-content-container {
             display: flex;
             flex-direction: column;
