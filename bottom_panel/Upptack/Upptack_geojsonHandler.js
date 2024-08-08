@@ -92,6 +92,7 @@ setTimeout(function() {
             } else {
                 deactivateLayer(layerName);
             }
+            updateButtonState(layerName, activate);
         }
 
         function activateLayer(layerName) {
@@ -103,10 +104,7 @@ setTimeout(function() {
                 });
             }
             layerIsActive[layerName] = true;
-            const checkbox = document.getElementById(layerName.toLowerCase() + 'Checkbox');
-            if (checkbox) {
-                checkbox.checked = true;
-            }
+            updateButtonState(layerName, true);
         }
 
         function deactivateLayer(layerName) {
@@ -114,10 +112,7 @@ setTimeout(function() {
                 map.removeLayer(layer);
             });
             layerIsActive[layerName] = false;
-            const checkbox = document.getElementById(layerName.toLowerCase() + 'Checkbox');
-            if (checkbox) {
-                checkbox.checked = false;
-            }
+            updateButtonState(layerName, false);
         }
 
         function activateAllLayers() {
@@ -133,12 +128,20 @@ setTimeout(function() {
                         map.removeLayer(layer);
                     });
                     layerIsActive[name] = false;
-                    const checkbox = document.getElementById(name.toLowerCase() + 'Checkbox');
-                    if (checkbox) {
-                        checkbox.checked = false;
-                    }
+                    updateButtonState(name, false);
                 }
             });
+        }
+
+        function updateButtonState(layerName, isActive) {
+            const button = document.getElementById(layerName.toLowerCase() + 'Button');
+            if (button) {
+                if (isActive) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            }
         }
 
         function getIconAnchor(iconSize) {
@@ -212,7 +215,7 @@ setTimeout(function() {
             activateAllLayers: activateAllLayers,
             activateLayer: activateLayer,
             deactivateLayer: deactivateLayer,
-            resetFirstClickHandled: function() { firstClickHandled = false; }  // Lägg till denna metod
+            resetFirstClickHandled: function() { firstClickHandled = false; }
         };
     })(map);
 }, 1000);
