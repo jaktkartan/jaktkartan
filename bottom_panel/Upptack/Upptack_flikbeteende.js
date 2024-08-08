@@ -399,12 +399,16 @@ function openUpptack() {
         listItem.style.display = 'flex';
         listItem.style.alignItems = 'center';
         listItem.style.marginBottom = '10px'; // Avstånd mellan listobjekt
+        listItem.style.padding = '5px'; // Padding för listobjekt
+        listItem.style.border = '1px solid #ddd'; // Border för listobjekt
+        listItem.style.borderRadius = '5px'; // Rundade hörn
 
         const label = document.createElement('label');
         label.htmlFor = filter.id;
         label.style.display = 'flex';
         label.style.alignItems = 'center';
         label.style.cursor = 'pointer';
+        label.style.marginRight = '10px'; // Margin mellan label och checkbox
 
         const img = document.createElement('img');
         img.src = filter.imgSrc;
@@ -419,6 +423,7 @@ function openUpptack() {
         checkbox.id = filter.id;
         checkbox.checked = true; // Initialt är alla lager aktiva
         checkbox.onchange = filter.onChange;
+        checkbox.style.marginLeft = '10px'; // Margin mellan text och checkbox
 
         listItem.appendChild(label);
         listItem.appendChild(checkbox);
@@ -428,6 +433,7 @@ function openUpptack() {
     container.appendChild(filterList);
     contentDiv.appendChild(container);
 }
+
 
     function createRekommendationerContent(contentDiv) {
         const container = document.createElement('div');
