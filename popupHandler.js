@@ -33,17 +33,8 @@ styleTag.innerHTML = `
         margin: 0 0 2px 0; /* Marginal endast nedåt */
     }
 
-    #popup-panel .odd-bg {
-        background-color: #f0f0f0; /* Ljusgrå bakgrundsfärg */
-    }
-
-    #popup-panel .even-bg {
-        background-color: #dcdcdc; /* Grå bakgrundsfärg */
-    }
-
     #popup-panel .margin-top {
         margin-top: 20px; /* Marginal upptill */
-        background-color: #ffffff;
     }
 
     #close-button {
@@ -136,6 +127,7 @@ styleTag.innerHTML = `
 
 // Lägg till style-taggen till <head>
 document.head.appendChild(styleTag);
+
 
 var popupPanel = document.getElementById('popup-panel');
 var popupPanelVisible = false; // Definiera popupPanelVisible här
@@ -230,9 +222,9 @@ function generatePopupContent(properties) {
             } else {
                 var translatedKey = translateKey(key);
                 hasFieldNameAndData++;
-                var bgClass = hasFieldNameAndData % 2 === 0 ? 'even-bg' : 'odd-bg';
+                // Ta bort bakgrundsfärgsklasser
                 var marginClass = marginTopFields.includes(key) ? ' margin-top' : '';
-                elements.push('<p class="' + bgClass + ' field-name-data' + marginClass + '"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
+                elements.push('<p class="field-name-data' + marginClass + '"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
             }
 
             // Hämta länkar för Förvaltandelän
