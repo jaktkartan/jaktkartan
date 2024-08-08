@@ -1,4 +1,7 @@
-styleTag.innerHTML = `
+// CSS för popup-panelen och knappen
+var styleTag = document.createElement('style');
+styleTag.type = 'text/css';
+styleTag.innerHTML = 
     #popup-panel {
         position: fixed;
         bottom: 0px;
@@ -42,10 +45,10 @@ styleTag.innerHTML = `
         margin-bottom: 10px; /* Marginal under sista elementet */
     }
 
-    #popup-panel .art-rubriker {
+    #popup-panel .margin-top {
         margin-top: 20px; /* Marginal upptill */
         padding: 10px; /* Lägg till padding */
-        background-color: #f5f5f5; /* Ändra bakgrundsfärg */
+        background-color: white; /* Ändra bakgrundsfärg */
     }
 
     #close-button {
@@ -117,7 +120,7 @@ styleTag.innerHTML = `
         border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
     }
 
-    .Länsnamn-rubrik {
+    .bold-center {
         font-weight: bold;
         font-size: 1.2em; /* Ändrar textstorleken */
     }
@@ -134,7 +137,7 @@ styleTag.innerHTML = `
             width: 30%;
         }
     }
-`;
+;
 
 // Lägg till style-taggen till <head>
 document.head.appendChild(styleTag);
@@ -211,7 +214,7 @@ function generatePopupContent(properties) {
             if (hideNameOnlyProperties.includes(key)) {
                 if (value) {
                     if (key === 'NAMN' || key === 'Rubrik' || key === 'GRÄNSÄLVSOMR' || key === 'LÄN' || key === 'lan_namn') {
-                        elements.push('<p class="Länsnamn-rubrik">' + value + '</p>');
+                        elements.push('<p class="bold-center">' + value + '</p>');
                     } else {
                         elements.push('<p>' + value + '</p>');
                     }
@@ -222,18 +225,18 @@ function generatePopupContent(properties) {
             if (isImageUrl(value)) {
                 elements.push('<p><img src="' + value + '" alt="Bild"></p>');
             } else if (key.toLowerCase() === 'link' && value) {
-                elements.push(`
+                elements.push(
                     <p>
                         <button class="link-button" onclick="window.open('${value}', '_blank')">
                             Besök sidan
                             <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                         </button>
-                    </p>`);
+                    </p>);
             } else {
                 var translatedKey = translateKey(key);
                 hasFieldNameAndData++;
                 var bgClass = hasFieldNameAndData % 2 === 0 ? 'even-bg' : 'odd-bg';
-                var marginClass = (Array.isArray(marginTopFields) && marginTopFields.includes(key)) ? ' art-rubriker' : '';
+                var marginClass = marginTopFields.includes(key) ? ' margin-top' : '';
                 elements.push('<p class="' + bgClass + ' field-name-data' + marginClass + '"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
             }
 
@@ -253,36 +256,13 @@ function generatePopupContent(properties) {
     }
 
     if (förvaltandelän && länURLTabell[förvaltandelän]) {
-        elements.push(`
+        elements.push(
             <p>
                 <button class="link-button" onclick="window.open('${länURLTabell[förvaltandelän]}', '_blank')">
                     Jakttid: ${förvaltandelän}
                     <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                 </button>
-            </p>`);
-    }
-
-    content = elements.join('');
-    return content;
-}
-
-
-    // Lägg till en marginal under sista elementet med fältnamn och data
-    for (var i = elements.length - 1; i >= 0; i--) {
-        if (elements[i].includes('field-name-data')) {
-            elements[i] = elements[i].replace('<p ', '<p class="last-field-name-data" ');
-            break;
-        }
-    }
-
-    if (förvaltandelän && länURLTabell[förvaltandelän]) {
-        elements.push(`
-            <p>
-                <button class="link-button" onclick="window.open('${länURLTabell[förvaltandelän]}', '_blank')">
-                    Jakttid: ${förvaltandelän}
-                    <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
-                </button>
-            </p>`);
+            </p>);
     }
 
     content = elements.join('');
