@@ -40,6 +40,10 @@ styleTag.innerHTML = `
         background-color: #dcdcdc; /* Grå bakgrundsfärg */
     }
 
+    #popup-panel .last-field-name-data {
+        margin-bottom: 10px; /* Marginal under sista elementet */
+    }
+
     #close-button {
         position: absolute;
         top: 5px;
@@ -181,6 +185,8 @@ function generatePopupContent(properties) {
     var förvaltandelän = null;
     var hasFieldNameAndData = 0;
 
+    var elements = [];
+
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
@@ -192,29 +198,29 @@ function generatePopupContent(properties) {
             if (hideNameOnlyProperties.includes(key)) {
                 if (value) {
                     if (key === 'NAMN' || key === 'Rubrik' || key === 'GRÄNSÄLVSOMR' || key === 'LÄN' || key === 'lan_namn') {
-                        content += '<p class="bold-center">' + value + '</p>';
+                        elements.push('<p class="bold-center">' + value + '</p>');
                     } else {
-                        content += '<p>' + value + '</p>';
+                        elements.push('<p>' + value + '</p>');
                     }
                 }
                 continue;
             }
 
             if (isImageUrl(value)) {
-                content += '<p><img src="' + value + '" alt="Bild"></p>';
+                elements.push('<p><img src="' + value + '" alt="Bild"></p>');
             } else if (key.toLowerCase() === 'link' && value) {
-                content += `
+                elements.push(`
                     <p>
                         <button class="link-button" onclick="window.open('${value}', '_blank')">
                             Besök sidan
                             <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                         </button>
-                    </p>`;
+                    </p>`);
             } else {
                 var translatedKey = translateKey(key);
                 hasFieldNameAndData++;
                 var bgClass = hasFieldNameAndData % 2 === 0 ? 'even-bg' : 'odd-bg';
-                content += '<p class="' + bgClass + '"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
+                elements.push('<p class="' + bgClass + ' field-name-data"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
             }
 
             // Hämta länkar för Förvaltandelän
@@ -224,16 +230,25 @@ function generatePopupContent(properties) {
         }
     }
 
+    // Lägg till en marginal under sista elementet med fältnamn och data
+    for (var i = elements.length - 1; i >= 0; i--) {
+        if (elements[i].includes('field-name-data')) {
+            elements[i] = elements[i].replace('<p ', '<p class="last-field-name-data" ');
+            break;
+        }
+    }
+
     if (förvaltandelän && länURLTabell[förvaltandelän]) {
-        content += `
+        elements.push(`
             <p>
                 <button class="link-button" onclick="window.open('${länURLTabell[förvaltandelän]}', '_blank')">
                     Jakttid: ${förvaltandelän}
                     <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                 </button>
-            </p>`;
+            </p>`);
     }
 
+    content = elements.join('');
     return content;
 }
 
