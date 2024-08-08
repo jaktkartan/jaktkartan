@@ -441,4 +441,53 @@ function openUpptack() {
 
         contentDiv.appendChild(container);
     }
+
+    // Uppdatera knapparna
+    updateButtons();
+}
+
+function updateButtons() {
+    // Array av knappar med id:n och bildkällor
+    const buttons = [
+        { id: 'massor', imgSrc: 'bottom_panel/Upptack/bilder/check_bock_upptack.png' },
+        { id: 'jaktkort', imgSrc: 'bottom_panel/Upptack/bilder/check_bock_upptack.png' },
+        { id: 'jaktskyttebanor', imgSrc: 'bottom_panel/Upptack/bilder/check_bock_upptack.png' }
+    ];
+
+    buttons.forEach(button => {
+        // Hitta knappen med id
+        const buttonElement = document.getElementById(button.id);
+
+        if (buttonElement) {
+            // Skapa ny layout container
+            const container = document.createElement('div');
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column';
+            container.style.alignItems = 'center';
+
+            // Hämta befintlig bild och text
+            const existingImg = buttonElement.querySelector('img');
+            const existingText = buttonElement.textContent;
+
+            // Skapa och lägg till första bilden
+            const firstImg = existingImg.cloneNode();
+            container.appendChild(firstImg);
+
+            // Skapa och lägg till texten
+            const textDiv = document.createElement('div');
+            textDiv.textContent = existingText;
+            container.appendChild(textDiv);
+
+            // Skapa och lägg till nya bilden
+            const newImg = document.createElement('img');
+            newImg.src = button.imgSrc;
+            container.appendChild(newImg);
+
+            // Töm knappen och lägg till nya layouten
+            buttonElement.innerHTML = '';
+            buttonElement.appendChild(container);
+        } else {
+            console.error(`Button with id ${button.id} not found.`);
+        }
+    });
 }
