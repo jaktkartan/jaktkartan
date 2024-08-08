@@ -1,7 +1,7 @@
 // CSS för popup-panelen och knappen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
-styleTag.innerHTML = 
+styleTag.innerHTML = `
     #popup-panel {
         position: fixed;
         bottom: 0px;
@@ -46,7 +46,7 @@ styleTag.innerHTML =
     }
 
     #popup-panel .margin-top {
-        margin-top: 20px; /* Marginal upptill på de fält som definieras under marginTopFields */
+        margin-top: 10px; /* Marginal upptill */
     }
 
     #close-button {
@@ -135,7 +135,7 @@ styleTag.innerHTML =
             width: 30%;
         }
     }
-;
+`;
 
 // Lägg till style-taggen till <head>
 document.head.appendChild(styleTag);
@@ -223,13 +223,13 @@ function generatePopupContent(properties) {
             if (isImageUrl(value)) {
                 elements.push('<p><img src="' + value + '" alt="Bild"></p>');
             } else if (key.toLowerCase() === 'link' && value) {
-                elements.push(
+                elements.push(`
                     <p>
                         <button class="link-button" onclick="window.open('${value}', '_blank')">
                             Besök sidan
                             <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                         </button>
-                    </p>);
+                    </p>`);
             } else {
                 var translatedKey = translateKey(key);
                 hasFieldNameAndData++;
@@ -254,13 +254,13 @@ function generatePopupContent(properties) {
     }
 
     if (förvaltandelän && länURLTabell[förvaltandelän]) {
-        elements.push(
+        elements.push(`
             <p>
                 <button class="link-button" onclick="window.open('${länURLTabell[förvaltandelän]}', '_blank')">
                     Jakttid: ${förvaltandelän}
                     <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
                 </button>
-            </p>);
+            </p>`);
     }
 
     content = elements.join('');
