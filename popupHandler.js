@@ -1,4 +1,4 @@
-// CSS för popup-panelen och knappen
+<script>
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -31,6 +31,14 @@ styleTag.innerHTML = `
 
     #popup-panel p {
         margin: 0 0 2px 0; /* Marginal endast nedåt */
+    }
+
+    #popup-panel .odd-bg {
+        background-color: #f0f0f0; /* Ljusgrå bakgrundsfärg */
+    }
+
+    #popup-panel .even-bg {
+        background-color: #dcdcdc; /* Grå bakgrundsfärg */
     }
 
     #close-button {
@@ -172,6 +180,7 @@ var länURLTabell = {
 function generatePopupContent(properties) {
     var content = '';
     var förvaltandelän = null;
+    var hasFieldNameAndData = 0;
 
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
@@ -204,7 +213,9 @@ function generatePopupContent(properties) {
                     </p>`;
             } else {
                 var translatedKey = translateKey(key);
-                content += '<p><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
+                hasFieldNameAndData++;
+                var bgClass = hasFieldNameAndData % 2 === 0 ? 'even-bg' : 'odd-bg';
+                content += '<p class="' + bgClass + '"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>';
             }
 
             // Hämta länkar för Förvaltandelän
@@ -303,3 +314,4 @@ document.addEventListener('click', function(event) {
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
+</script>
