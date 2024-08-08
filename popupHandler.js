@@ -46,7 +46,7 @@ styleTag.innerHTML = `
     }
 
     #popup-panel .margin-top {
-        margin-top: 10px; /* Marginal upptill */
+        margin-top: 20px; /* Marginal upptill */
     }
 
     #close-button {
