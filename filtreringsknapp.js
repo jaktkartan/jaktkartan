@@ -2,7 +2,7 @@
 const filterKnappCSS = `
     #filter-knapp-container {
         position: fixed;
-        top: 10%; /* Placera knappen högre upp på skärmen */
+        top: 20%; /* Placera knappen högre upp på skärmen */
         right: 20px;  /* Justera beroende på var du vill ha knappen */
         z-index: 1000; /* Se till att knappen är ovanpå andra element */
     }
@@ -45,13 +45,16 @@ const filterKnappCSS = `
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         padding: 10px;
         border-radius: 10px;
-        transition: transform 0.3s ease-in-out;
         transform-origin: top right;
-        transform: scale(0); /* Starta i skalat läge */
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+        transform: scale(0.95);
     }
 
     #filter-container.show {
-        transform: scale(1); /* Skalad upp till full storlek när den visas */
+        display: block;
+        opacity: 1;
+        transform: scale(1);
     }
 
     .button-container {
@@ -94,7 +97,11 @@ document.addEventListener("DOMContentLoaded", function() {
     filterKnappContainer.appendChild(filterContainer);
 
     filterKnapp.addEventListener('click', function() {
-        filterContainer.classList.toggle('show');
+        if (filterContainer.classList.contains('show')) {
+            filterContainer.classList.remove('show');
+        } else {
+            filterContainer.classList.add('show');
+        }
     });
 
     // Stäng menyn när man klickar utanför den
