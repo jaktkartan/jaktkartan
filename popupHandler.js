@@ -1,4 +1,3 @@
-<script>
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -133,7 +132,7 @@ styleTag.innerHTML = `
 document.head.appendChild(styleTag);
 
 var popupPanel = document.getElementById('popup-panel');
-var popupPanelVisible = false;
+var popupPanelVisible = false; // Definiera popupPanelVisible här
 
 // Skapa och lägg till stäng-knappen
 var closeButton = document.createElement('button');
@@ -314,4 +313,3 @@ document.addEventListener('click', function(event) {
 if (!popupPanel || !document.getElementById('popup-panel-content')) {
     console.error('Popup-panelen eller dess innehåll hittades inte i DOM.');
 }
-</script>
