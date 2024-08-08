@@ -87,7 +87,7 @@ styleTag.innerHTML = `
     }
 
         #popup-panel .margin-top {
-        margin-top: 10px; /* Marginal upptill */
+        margin-top: 100px; /* Marginal upptill */
     }
 
     .link-button {
