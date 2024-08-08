@@ -140,6 +140,12 @@ setTimeout(function() {
             updateFabUpptackVisibility();
         }
 
+        function filterLayer(layerName) {
+            console.log(`Filtering to layer: ${layerName}`);
+            deactivateAllLayers();
+            activateLayer(layerName);
+        }
+
         function getIconAnchor(iconSize) {
             return [iconSize[0] / 2, iconSize[1] / 2];
         }
@@ -230,7 +236,8 @@ setTimeout(function() {
             deactivateAllLayers: deactivateAllLayers,
             activateAllLayers: activateAllLayers,
             activateLayer: activateLayer,
-            deactivateLayer: deactivateLayer
+            deactivateLayer: deactivateLayer,
+            filterLayer: filterLayer
         };
     })(map);
 }, 1000);
