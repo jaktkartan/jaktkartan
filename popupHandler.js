@@ -233,7 +233,7 @@ function generatePopupContent(properties) {
                 var translatedKey = translateKey(key);
                 hasFieldNameAndData++;
                 var bgClass = hasFieldNameAndData % 2 === 0 ? 'even-bg' : 'odd-bg';
-                var marginClass = marginTopFields.includes(key) ? ' art-rubriker' : '';
+                var marginClass = (Array.isArray(marginTopFields) && marginTopFields.includes(key)) ? ' art-rubriker' : '';
                 elements.push('<p class="' + bgClass + ' field-name-data' + marginClass + '"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
             }
 
@@ -243,6 +243,29 @@ function generatePopupContent(properties) {
             }
         }
     }
+
+    // Lägg till en marginal under sista elementet med fältnamn och data
+    for (var i = elements.length - 1; i >= 0; i--) {
+        if (elements[i].includes('field-name-data')) {
+            elements[i] = elements[i].replace('<p ', '<p class="last-field-name-data" ');
+            break;
+        }
+    }
+
+    if (förvaltandelän && länURLTabell[förvaltandelän]) {
+        elements.push(`
+            <p>
+                <button class="link-button" onclick="window.open('${länURLTabell[förvaltandelän]}', '_blank')">
+                    Jakttid: ${förvaltandelän}
+                    <img src="bilder/extern_link.png" alt="Extern länk" class="custom-image">
+                </button>
+            </p>`);
+    }
+
+    content = elements.join('');
+    return content;
+}
+
 
     // Lägg till en marginal under sista elementet med fältnamn och data
     for (var i = elements.length - 1; i >= 0; i--) {
