@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const filterKnappContainer = document.createElement('div');
     Object.assign(filterKnappContainer.style, {
         position: 'fixed',
-        top: '85%',
-        right: '10px',
+        top: '75%',
+        right: '3px',
         transform: 'translateY(-50%)',
         zIndex: '1000',
     });
