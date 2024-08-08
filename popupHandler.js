@@ -1,3 +1,4 @@
+// CSS för popup-panelen och knappen
 var styleTag = document.createElement('style');
 styleTag.type = 'text/css';
 styleTag.innerHTML = `
@@ -42,6 +43,10 @@ styleTag.innerHTML = `
 
     #popup-panel .last-field-name-data {
         margin-bottom: 10px; /* Marginal under sista elementet */
+    }
+
+    #popup-panel .margin-top {
+        margin-top: 10px; /* Marginal upptill */
     }
 
     #close-button {
@@ -156,6 +161,15 @@ function translateKey(key) {
     return translationTable[key] || key;
 }
 
+var marginTopFields = [
+    'BÄVER', 'DOVVILT', 'FÄLTHARE', 'GRÄVLING', 'ILLER', 'KRONVILT', 'RÅDJUR', 'RÖDRÄV', 'SKOGSHARE',
+    'SKOGSMÅRD', 'VILDSVIN', 'ÄLG', 'blasand__1', 'blasgas__1', 'dalripa__1', 'fasan_ajt', 'fiskmas__1',
+    'fjallripa1', 'gragas_ajt', 'gratrut__1', 'grasand__1', 'jarpe_info', 'kaja_ajt', 'kanadagas1', 'knipa_ajt',
+    'kricka_ajt', 'kraka_ajt', 'morkulla_1', 'notskrika1', 'orre_ajt', 'orrtupp_in', 'rapphona_1', 'ringduva_1',
+    'raka_info', 'sjoorre__1', 'skata_ajt', 'storkrake1', 'tjader_ajt', 'tjadertu_1', 'trana_ajt', 'vigg_info',
+    'vitkindad1'
+];
+
 // Tabell som matchar "Förvaltandelän" med motsvarande URL
 var länURLTabell = {
     'Länsstyrelsen i Blekinge län': 'https://www.lansstyrelsen.se/blekinge/djur/jakt-och-vilt/algjakt.html',
@@ -183,20 +197,19 @@ var länURLTabell = {
 function generatePopupContent(properties) {
     var content = '';
     var förvaltandelän = null;
-    var hasFieldNameAndData = 0;
-
     var elements = [];
+    var hasFieldNameAndDataCount = 0;
 
     for (var key in properties) {
         if (properties.hasOwnProperty(key)) {
             var value = properties[key];
 
-            if (hideProperties.includes(key) || value == null || value === '') {
+            if (hideProperties.includes(key) || value == null || value.trim() === '') {
                 continue;
             }
 
             if (hideNameOnlyProperties.includes(key)) {
-                if (value) {
+                if (value.trim()) {
                     if (key === 'NAMN' || key === 'Rubrik' || key === 'GRÄNSÄLVSOMR' || key === 'LÄN' || key === 'lan_namn') {
                         elements.push('<p class="bold-center">' + value + '</p>');
                     } else {
@@ -208,7 +221,7 @@ function generatePopupContent(properties) {
 
             if (isImageUrl(value)) {
                 elements.push('<p><img src="' + value + '" alt="Bild"></p>');
-            } else if (key.toLowerCase() === 'link' && value) {
+            } else if (key.toLowerCase() === 'link' && value.trim()) {
                 elements.push(`
                     <p>
                         <button class="link-button" onclick="window.open('${value}', '_blank')">
@@ -218,9 +231,14 @@ function generatePopupContent(properties) {
                     </p>`);
             } else {
                 var translatedKey = translateKey(key);
-                hasFieldNameAndData++;
-                var bgClass = hasFieldNameAndData % 2 === 0 ? 'even-bg' : 'odd-bg';
-                elements.push('<p class="' + bgClass + ' field-name-data"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
+                if (translatedKey && value.trim()) {
+                    hasFieldNameAndDataCount++;
+                    var bgClass = hasFieldNameAndDataCount % 2 === 0 ? 'even-bg' : 'odd-bg';
+                    var marginClass = marginTopFields.includes(key) ? ' margin-top' : '';
+                    elements.push('<p class="' + bgClass + ' field-name-data' + marginClass + ' ' + key + '"><strong>' + translatedKey + ':</strong> ' + value + '</p>');
+                } else {
+                    elements.push('<p>' + value + '</p>');
+                }
             }
 
             // Hämta länkar för Förvaltandelän
