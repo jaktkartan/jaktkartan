@@ -103,7 +103,10 @@ setTimeout(function() {
                 });
             }
             layerIsActive[layerName] = true;
-            document.getElementById(layerName.toLowerCase() + 'Checkbox').checked = true;
+            const checkbox = document.getElementById(layerName.toLowerCase() + 'Checkbox');
+            if (checkbox) {
+                checkbox.checked = true;
+            }
         }
 
         function deactivateLayer(layerName) {
@@ -111,7 +114,10 @@ setTimeout(function() {
                 map.removeLayer(layer);
             });
             layerIsActive[layerName] = false;
-            document.getElementById(layerName.toLowerCase() + 'Checkbox').checked = false;
+            const checkbox = document.getElementById(layerName.toLowerCase() + 'Checkbox');
+            if (checkbox) {
+                checkbox.checked = false;
+            }
         }
 
         function activateAllLayers() {
@@ -127,6 +133,10 @@ setTimeout(function() {
                         map.removeLayer(layer);
                     });
                     layerIsActive[name] = false;
+                    const checkbox = document.getElementById(name.toLowerCase() + 'Checkbox');
+                    if (checkbox) {
+                        checkbox.checked = false;
+                    }
                 }
             });
         }
