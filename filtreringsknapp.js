@@ -2,7 +2,7 @@
 const filterKnappCSS = `
     #filter-knapp-container {
         position: fixed;
-        top: 35%; /* Placera knappen högre upp på skärmen */
+        top: 10%; /* Placera knappen högre upp på skärmen */
         right: 20px;  /* Justera beroende på var du vill ha knappen */
         z-index: 1000; /* Se till att knappen är ovanpå andra element */
     }
@@ -37,14 +37,21 @@ const filterKnappCSS = `
 
     #filter-container {
         display: none; /* Dölj containern som standard */
-        position: fixed;
-        top: 30%; /* Justera beroende på var du vill ha containern */
-        right: 20px;  /* Justera beroende på var du vill ha containern */
+        position: absolute; /* Absolut positionering relativt knappen */
+        top: 70px; /* Placera containern precis under knappen */
+        right: 0;  
         z-index: 1001; /* Se till att containern är ovanpå andra element */
         background-color: #fff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         padding: 10px;
         border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+        transform-origin: top right;
+        transform: scale(0); /* Starta i skalat läge */
+    }
+
+    #filter-container.show {
+        transform: scale(1); /* Skalad upp till full storlek när den visas */
     }
 
     .button-container {
@@ -84,10 +91,17 @@ document.addEventListener("DOMContentLoaded", function() {
     // Skapa container för filtrering
     const filterContainer = document.createElement('div');
     filterContainer.id = 'filter-container';
-    document.body.appendChild(filterContainer);
+    filterKnappContainer.appendChild(filterContainer);
 
     filterKnapp.addEventListener('click', function() {
-        filterContainer.style.display = filterContainer.style.display === 'block' ? 'none' : 'block';
+        filterContainer.classList.toggle('show');
+    });
+
+    // Stäng menyn när man klickar utanför den
+    document.addEventListener('click', function(event) {
+        if (!filterKnappContainer.contains(event.target)) {
+            filterContainer.classList.remove('show');
+        }
     });
 
     function createFilterContent(contentDiv) {
@@ -117,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
+                    filterContainer.classList.remove('show'); // Stäng menyn
                 }
             },
             {
@@ -135,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
+                    filterContainer.classList.remove('show'); // Stäng menyn
                 }
             },
             {
@@ -153,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
+                    filterContainer.classList.remove('show'); // Stäng menyn
                 }
             }
         ];
