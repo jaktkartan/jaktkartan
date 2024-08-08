@@ -9,9 +9,9 @@ var Upptack_geojsonHandler;
 setTimeout(function() {
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
-            'Mässor': false,
-            'Jaktkort': false,
-            'Jaktskyttebanor': false
+            'Mässor': true,
+            'Jaktkort': true,
+            'Jaktskyttebanor': true
         };
 
         var geojsonLayers = {
@@ -81,16 +81,10 @@ setTimeout(function() {
 
         function toggleLayer(layerName, activate) {
             console.log(`Toggling layer: ${layerName}`);
-            if (layerName === 'Visa_allt') {
-                activateAllLayers();
-            } else if (layerName === 'Rensa_allt') {
-                deactivateAllLayers();
+            if (activate) {
+                activateLayer(layerName);
             } else {
-                if (activate) {
-                    activateLayer(layerName);
-                } else {
-                    deactivateLayer(layerName);
-                }
+                deactivateLayer(layerName);
             }
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager togglas
         }
@@ -138,6 +132,12 @@ setTimeout(function() {
                 }
             });
             updateFabUpptackVisibility();
+        }
+
+        function filterLayer(layerName) {
+            console.log(`Filtering to layer: ${layerName}`);
+            deactivateAllLayers();
+            activateLayer(layerName);
         }
 
         function getIconAnchor(iconSize) {
@@ -191,7 +191,7 @@ setTimeout(function() {
         }
 
         // Initialisera alla lager från början och uppdatera FAB-knappen
-        deactivateAllLayers();
+        activateAllLayers();
 
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
@@ -230,7 +230,8 @@ setTimeout(function() {
             deactivateAllLayers: deactivateAllLayers,
             activateAllLayers: activateAllLayers,
             activateLayer: activateLayer,
-            deactivateLayer: deactivateLayer
+            deactivateLayer: deactivateLayer,
+            filterLayer: filterLayer
         };
     })(map);
 }, 1000);
