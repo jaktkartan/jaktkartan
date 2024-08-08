@@ -40,6 +40,41 @@ const filterKnappCSS = `
         height: auto;
         margin-right: 10px; /* Lägger till mellanrum mellan bild och text */
     }
+
+    .modal {
+        display: none; /* Dölj modal som standard */
+        position: fixed; /* Stanna på samma plats när man skrollar */
+        z-index: 1001; /* Ovanför andra element */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* Om innehållet är långt, lägg till skroll */
+        background-color: rgb(0,0,0); /* Fallback färg */
+        background-color: rgba(0,0,0,0.4); /* Svart med opacitet */
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% från toppen och centrerad */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Kan justeras beroende på önskad storlek */
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
 `;
 
 // Skapa ett style-element och lägg till CSS
@@ -60,25 +95,34 @@ document.addEventListener("DOMContentLoaded", function() {
     filterKnappContainer.appendChild(filterKnapp);
     document.body.appendChild(filterKnappContainer);
 
+    // Skapa modal för filtrering
+    const modal = document.createElement('div');
+    modal.id = 'filterModal';
+    modal.className = 'modal';
+
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal-content';
+
+    const closeBtn = document.createElement('span');
+    closeBtn.className = 'close';
+    closeBtn.innerHTML = '&times;';
+    modalContent.appendChild(closeBtn);
+
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+
     filterKnapp.addEventListener('click', function() {
-        // Hämta tab-pane för upptäck
-        const tabPane = document.getElementById('tab1');
-        if (!tabPane) {
-            console.error('Tab pane for upptäck not found.');
-            return;
+        modal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
         }
-
-        // Rensa tidigare innehåll
-        tabPane.innerHTML = '';
-
-        // Skapa innehåll för filtrering
-        const contentDiv = document.createElement('div');
-        tabPane.appendChild(contentDiv);
-
-        createFilterContent(contentDiv);
-
-        // Visa panelen
-        openTab('tab1', '');
     });
 
     function createFilterContent(contentDiv) {
@@ -187,4 +231,6 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
     }
+
+    createFilterContent(modalContent);
 });
