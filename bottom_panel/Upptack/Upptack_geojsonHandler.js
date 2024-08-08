@@ -140,12 +140,6 @@ setTimeout(function() {
             updateFabUpptackVisibility();
         }
 
-        function filterLayer(layerName) {
-            console.log(`Filtering to layer: ${layerName}`);
-            deactivateAllLayers();
-            activateLayer(layerName);
-        }
-
         function getIconAnchor(iconSize) {
             return [iconSize[0] / 2, iconSize[1] / 2];
         }
@@ -197,7 +191,7 @@ setTimeout(function() {
         }
 
         // Initialisera alla lager från början och uppdatera FAB-knappen
-        activateAllLayers();
+        deactivateAllLayers();
 
         map.on('zoomend', function() {
             Object.keys(geojsonLayers).forEach(function(layerName) {
@@ -236,8 +230,7 @@ setTimeout(function() {
             deactivateAllLayers: deactivateAllLayers,
             activateAllLayers: activateAllLayers,
             activateLayer: activateLayer,
-            deactivateLayer: deactivateLayer,
-            filterLayer: filterLayer
+            deactivateLayer: deactivateLayer
         };
     })(map);
 }, 1000);
