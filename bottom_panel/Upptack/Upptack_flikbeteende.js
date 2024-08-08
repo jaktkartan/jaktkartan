@@ -364,7 +364,11 @@ function openUpptack() {
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Mässor layer');
-                        Upptack_geojsonHandler.toggleLayer('Mässor', event.target.checked);
+                        if (event.target.checked) {
+                            Upptack_geojsonHandler.activateLayer('Mässor');
+                        } else {
+                            Upptack_geojsonHandler.deactivateLayer('Mässor');
+                        }
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
@@ -377,7 +381,11 @@ function openUpptack() {
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktkort layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktkort', event.target.checked);
+                        if (event.target.checked) {
+                            Upptack_geojsonHandler.activateLayer('Jaktkort');
+                        } else {
+                            Upptack_geojsonHandler.deactivateLayer('Jaktkort');
+                        }
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
@@ -390,7 +398,11 @@ function openUpptack() {
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktskyttebanor layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', event.target.checked);
+                        if (event.target.checked) {
+                            Upptack_geojsonHandler.activateLayer('Jaktskyttebanor');
+                        } else {
+                            Upptack_geojsonHandler.deactivateLayer('Jaktskyttebanor');
+                        }
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
