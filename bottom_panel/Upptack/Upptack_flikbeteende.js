@@ -379,14 +379,14 @@ function openUpptack() {
                 text: 'Mässor',
                 imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
                 onClick: function(event) {
-                    const isActive = event.target.classList.contains('active');
+                    const isActive = Upptack_geojsonHandler.isLayerActive('Mässor');
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Mässor layer');
                         Upptack_geojsonHandler.toggleLayer('Mässor', !isActive);
-                        event.target.classList.toggle('active');
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
+                    updateAllButtonStates();
                 }
             },
             {
@@ -394,14 +394,14 @@ function openUpptack() {
                 text: 'Jaktkort',
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
                 onClick: function(event) {
-                    const isActive = event.target.classList.contains('active');
+                    const isActive = Upptack_geojsonHandler.isLayerActive('Jaktkort');
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktkort layer');
                         Upptack_geojsonHandler.toggleLayer('Jaktkort', !isActive);
-                        event.target.classList.toggle('active');
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
+                    updateAllButtonStates();
                 }
             },
             {
@@ -409,14 +409,14 @@ function openUpptack() {
                 text: 'Jaktskyttebanor',
                 imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
                 onClick: function(event) {
-                    const isActive = event.target.classList.contains('active');
+                    const isActive = Upptack_geojsonHandler.isLayerActive('Jaktskyttebanor');
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktskyttebanor layer');
                         Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', !isActive);
-                        event.target.classList.toggle('active');
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
+                    updateAllButtonStates();
                 }
             }
         ];
@@ -428,7 +428,7 @@ function openUpptack() {
 
             const button = document.createElement('button');
             button.id = filter.id;
-            button.className = 'filter-button active'; // Initialt är alla lager aktiva
+            button.className = 'filter-button'; // Initialt är alla lager aktiva
             button.onclick = filter.onClick;
 
             const img = document.createElement('img');
@@ -445,6 +445,29 @@ function openUpptack() {
 
         container.appendChild(filterList);
         contentDiv.appendChild(container);
+
+        // Uppdatera alla knapparnas tillstånd vid initiering
+        updateAllButtonStates();
+    }
+
+    function updateAllButtonStates() {
+        const filters = [
+            'Mässor',
+            'Jaktkort',
+            'Jaktskyttebanor'
+        ];
+
+        filters.forEach(filter => {
+            const button = document.getElementById(filter.toLowerCase() + 'Button');
+            if (button) {
+                const isActive = Upptack_geojsonHandler.isLayerActive(filter);
+                if (isActive) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            }
+        });
     }
 
     function createRekommendationerContent(contentDiv) {
