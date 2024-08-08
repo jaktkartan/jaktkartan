@@ -364,10 +364,7 @@ function openUpptack() {
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Mässor layer');
-                        Upptack_geojsonHandler.filterLayer('Mässor');
-                        if (!event.target.checked) {
-                            Upptack_geojsonHandler.deactivateLayer('Mässor');
-                        }
+                        Upptack_geojsonHandler.toggleLayer('Mässor', event.target.checked);
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
@@ -380,10 +377,7 @@ function openUpptack() {
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktkort layer');
-                        Upptack_geojsonHandler.filterLayer('Jaktkort');
-                        if (!event.target.checked) {
-                            Upptack_geojsonHandler.deactivateLayer('Jaktkort');
-                        }
+                        Upptack_geojsonHandler.toggleLayer('Jaktkort', event.target.checked);
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
@@ -396,10 +390,7 @@ function openUpptack() {
                 onChange: function(event) {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Toggling Jaktskyttebanor layer');
-                        Upptack_geojsonHandler.filterLayer('Jaktskyttebanor');
-                        if (!event.target.checked) {
-                            Upptack_geojsonHandler.deactivateLayer('Jaktskyttebanor');
-                        }
+                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', event.target.checked);
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
