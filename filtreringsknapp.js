@@ -2,39 +2,43 @@
 const filterKnappCSS = `
     #filter-knapp-container {
         position: fixed;
-        bottom: 80px; /* Justera beroende på var du vill ha knappen */
+        top: 20%; /* Placera knappen högre upp på skärmen */
         right: 20px;  /* Justera beroende på var du vill ha knappen */
         z-index: 1000; /* Se till att knappen är ovanpå andra element */
     }
 
     #filter-knapp {
-        background-color: #326E58;
-        color: white;
-        border: none;
+        background-color: #fff; /* Vit bakgrund */
+        border: 1px solid #ccc; /* Mycket smal kantlinje */
         width: 60px;
         height: 60px;
         text-align: center;
         text-decoration: none;
-        font-size: 20px;
         cursor: pointer;
-        border-radius: 50%;
+        border-radius: 5px; /* Gör knappen fyrkantig med lätt rundade hörn */
         display: flex;
         align-items: center;
         justify-content: center;
         transition: background-color 0.3s, box-shadow 0.3s;
+        padding: 0;
     }
     #filter-knapp:hover {
-        background-color: #274E44;
+        background-color: #f0f0f0; /* Lättare bakgrund vid hover */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     #filter-knapp:active {
-        background-color: #19362E;
+        background-color: #e0e0e0; /* Ändra bakgrundsfärg vid klick */
+    }
+
+    #filter-knapp img {
+        max-width: 80%; /* Gör så att bilden tar upp 80% av knappens yta */
+        max-height: 80%;
     }
 
     #filter-container {
         display: none; /* Dölj containern som standard */
         position: fixed;
-        bottom: 150px; /* Justera beroende på var du vill ha containern */
+        top: 30%; /* Justera beroende på var du vill ha containern */
         right: 20px;  /* Justera beroende på var du vill ha containern */
         z-index: 1001; /* Se till att containern är ovanpå andra element */
         background-color: #fff;
@@ -67,8 +71,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const filterKnapp = document.createElement('button');
     filterKnapp.id = 'filter-knapp';
     filterKnapp.className = 'fab';
-    filterKnapp.textContent = 'Filtrera';
 
+    // Lägg till bilden i knappen
+    const filterImg = document.createElement('img');
+    filterImg.src = 'bilder/filtrera_bild.png'; // Ersätt med sökvägen till din bild
+    filterImg.alt = 'Filtrera';
+
+    filterKnapp.appendChild(filterImg);
     filterKnappContainer.appendChild(filterKnapp);
     document.body.appendChild(filterKnappContainer);
 
