@@ -47,6 +47,8 @@ setTimeout(function() {
             }
         };
 
+        var firstClick = true;  // Flagga för att spåra första trycket
+
         async function fetchGeoJSONDataAndCreateLayer(layerName, geojsonURLs) {
             for (const geojsonURL of geojsonURLs) {
                 try {
@@ -79,10 +81,17 @@ setTimeout(function() {
         }
 
         function toggleLayer(layerName, activate) {
-            if (activate) {
+            if (firstClick) {
+                // Om det är första trycket, släck alla lager utom det valda
+                deactivateAllLayers();
                 activateLayer(layerName);
+                firstClick = false;  // Uppdatera flaggan efter första trycket
             } else {
-                deactivateLayer(layerName);
+                if (activate) {
+                    activateLayer(layerName);
+                } else {
+                    deactivateLayer(layerName);
+                }
             }
         }
 
