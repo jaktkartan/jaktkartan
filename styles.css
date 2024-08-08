@@ -7,7 +7,7 @@
 }
 
 .leaflet-pane.userPane {
-    z-index: 650 !important; /* Högre z-index för användarens position */
+    z-index: 999 !important; /* Högre z-index för användarens position */
 }
 
 body, button, span, div {
