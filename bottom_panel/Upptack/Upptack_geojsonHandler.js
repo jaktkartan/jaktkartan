@@ -183,6 +183,9 @@ setTimeout(function() {
             });
         }
 
+        // Initialisera alla lager från början
+        activateAllLayers();
+
         return {
             toggleLayer: toggleLayer,
             deactivateAllLayers: deactivateAllLayers,
