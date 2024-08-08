@@ -345,89 +345,89 @@ function openUpptack() {
     }
 
     function createFilterContent(contentDiv) {
-        const container = document.createElement('div');
-        container.className = 'button-container';
+    const container = document.createElement('div');
+    container.className = 'button-container';
 
-        const filterList = document.createElement('ul');
-        filterList.style.listStyleType = 'none'; // Ingen standardpunkt eller nummer
-        filterList.style.padding = '0'; // Ta bort standard padding
+    const filterList = document.createElement('ul');
+    filterList.style.listStyleType = 'none'; // Ingen standardpunkt eller nummer
+    filterList.style.padding = '0'; // Ta bort standard padding
 
-        const filters = [
-            {
-                id: 'massorCheckbox',
-                text: 'Mässor',
-                imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
-                onChange: function(event) {
-                    if (typeof Upptack_geojsonHandler !== 'undefined') {
-                        console.log('Toggling Mässor layer');
-                        Upptack_geojsonHandler.toggleLayer('Mässor', event.target.checked);
-                    } else {
-                        console.error("Upptack_geojsonHandler är inte definierad.");
-                    }
-                }
-            },
-            {
-                id: 'jaktkortCheckbox',
-                text: 'Jaktkort',
-                imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
-                onChange: function(event) {
-                    if (typeof Upptack_geojsonHandler !== 'undefined') {
-                        console.log('Toggling Jaktkort layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktkort', event.target.checked);
-                    } else {
-                        console.error("Upptack_geojsonHandler är inte definierad.");
-                    }
-                }
-            },
-            {
-                id: 'jaktskyttebanorCheckbox',
-                text: 'Jaktskyttebanor',
-                imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
-                onChange: function(event) {
-                    if (typeof Upptack_geojsonHandler !== 'undefined') {
-                        console.log('Toggling Jaktskyttebanor layer');
-                        Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', event.target.checked);
-                    } else {
-                        console.error("Upptack_geojsonHandler är inte definierad.");
-                    }
+    const filters = [
+        {
+            id: 'massorCheckbox',
+            text: 'Mässor',
+            imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
+            onChange: function(event) {
+                if (typeof Upptack_geojsonHandler !== 'undefined') {
+                    console.log('Toggling Mässor layer');
+                    Upptack_geojsonHandler.toggleLayer('Mässor', event.target.checked);
+                } else {
+                    console.error("Upptack_geojsonHandler är inte definierad.");
                 }
             }
-        ];
+        },
+        {
+            id: 'jaktkortCheckbox',
+            text: 'Jaktkort',
+            imgSrc: 'bottom_panel/Upptack/bilder/jaktkort_ikon.png',
+            onChange: function(event) {
+                if (typeof Upptack_geojsonHandler !== 'undefined') {
+                    console.log('Toggling Jaktkort layer');
+                    Upptack_geojsonHandler.toggleLayer('Jaktkort', event.target.checked);
+                } else {
+                    console.error("Upptack_geojsonHandler är inte definierad.");
+                }
+            }
+        },
+        {
+            id: 'jaktskyttebanorCheckbox',
+            text: 'Jaktskyttebanor',
+            imgSrc: 'bottom_panel/Upptack/bilder/jaktskyttebanor_ikon.png',
+            onChange: function(event) {
+                if (typeof Upptack_geojsonHandler !== 'undefined') {
+                    console.log('Toggling Jaktskyttebanor layer');
+                    Upptack_geojsonHandler.toggleLayer('Jaktskyttebanor', event.target.checked);
+                } else {
+                    console.error("Upptack_geojsonHandler är inte definierad.");
+                }
+            }
+        }
+    ];
 
-        filters.forEach(filter => {
-            const listItem = document.createElement('li');
-            listItem.style.display = 'flex';
-            listItem.style.alignItems = 'center';
-            listItem.style.marginBottom = '10px'; // Avstånd mellan listobjekt
+    filters.forEach(filter => {
+        const listItem = document.createElement('li');
+        listItem.style.display = 'flex';
+        listItem.style.alignItems = 'center';
+        listItem.style.marginBottom = '10px'; // Avstånd mellan listobjekt
 
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = filter.id;
-            checkbox.checked = true; // Initialt är alla lager aktiva
-            checkbox.onchange = filter.onChange;
+        const label = document.createElement('label');
+        label.htmlFor = filter.id;
+        label.style.display = 'flex';
+        label.style.alignItems = 'center';
+        label.style.cursor = 'pointer';
 
-            const label = document.createElement('label');
-            label.htmlFor = filter.id;
-            label.style.display = 'flex';
-            label.style.alignItems = 'center';
-            label.style.cursor = 'pointer';
+        const img = document.createElement('img');
+        img.src = filter.imgSrc;
+        img.alt = filter.text;
+        img.className = 'filter-img'; // Använd CSS-klass för bildstorlek
 
-            const img = document.createElement('img');
-            img.src = filter.imgSrc;
-            img.alt = filter.text;
-            img.className = 'filter-img'; // Använd CSS-klass för bildstorlek
+        label.appendChild(img);
+        label.appendChild(document.createTextNode(filter.text));
 
-            label.appendChild(img);
-            label.appendChild(document.createTextNode(filter.text));
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = filter.id;
+        checkbox.checked = true; // Initialt är alla lager aktiva
+        checkbox.onchange = filter.onChange;
 
-            listItem.appendChild(checkbox);
-            listItem.appendChild(label);
-            filterList.appendChild(listItem);
-        });
+        listItem.appendChild(label);
+        listItem.appendChild(checkbox);
+        filterList.appendChild(listItem);
+    });
 
-        container.appendChild(filterList);
-        contentDiv.appendChild(container);
-    }
+    container.appendChild(filterList);
+    contentDiv.appendChild(container);
+}
 
     function createRekommendationerContent(contentDiv) {
         const container = document.createElement('div');
