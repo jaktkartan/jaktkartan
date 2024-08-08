@@ -1,6 +1,3 @@
-// CSS för popup-panelen och knappen
-var styleTag = document.createElement('style');
-styleTag.type = 'text/css';
 styleTag.innerHTML = `
     #popup-panel {
         position: fixed;
@@ -45,8 +42,10 @@ styleTag.innerHTML = `
         margin-bottom: 10px; /* Marginal under sista elementet */
     }
 
-    #popup-panel .margin-top {
-        margin-top: 20px; /* Marginal upptill på de fält som definieras under marginTopFields */
+    #popup-panel .art-rubriker {
+        margin-top: 20px; /* Marginal upptill */
+        padding: 10px; /* Lägg till padding */
+        background-color: #f5f5f5; /* Ändra bakgrundsfärg */
     }
 
     #close-button {
@@ -118,7 +117,7 @@ styleTag.innerHTML = `
         border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
     }
 
-    .bold-center {
+    .Länsnamn-rubrik {
         font-weight: bold;
         font-size: 1.2em; /* Ändrar textstorleken */
     }
@@ -212,7 +211,7 @@ function generatePopupContent(properties) {
             if (hideNameOnlyProperties.includes(key)) {
                 if (value) {
                     if (key === 'NAMN' || key === 'Rubrik' || key === 'GRÄNSÄLVSOMR' || key === 'LÄN' || key === 'lan_namn') {
-                        elements.push('<p class="bold-center">' + value + '</p>');
+                        elements.push('<p class="Länsnamn-rubrik">' + value + '</p>');
                     } else {
                         elements.push('<p>' + value + '</p>');
                     }
@@ -234,7 +233,7 @@ function generatePopupContent(properties) {
                 var translatedKey = translateKey(key);
                 hasFieldNameAndData++;
                 var bgClass = hasFieldNameAndData % 2 === 0 ? 'even-bg' : 'odd-bg';
-                var marginClass = marginTopFields.includes(key) ? ' margin-top' : '';
+                var marginClass = marginTopFields.includes(key) ? ' art-rubriker' : '';
                 elements.push('<p class="' + bgClass + ' field-name-data' + marginClass + '"><strong>' + translatedKey + ':</strong> ' + (value ? value : '') + '</p>');
             }
 
