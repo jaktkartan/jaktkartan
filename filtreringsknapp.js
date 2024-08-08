@@ -1,5 +1,5 @@
 // CSS som en sträng
-const css = `
+const filterKnappCSS = `
     #filter-knapp-container {
         position: fixed;
         bottom: 80px; /* Justera beroende på var du vill ha knappen */
@@ -43,9 +43,9 @@ const css = `
 `;
 
 // Skapa ett style-element och lägg till CSS
-const style = document.createElement('style');
-style.textContent = css;
-document.head.appendChild(style);
+const filterKnappStyle = document.createElement('style');
+filterKnappStyle.textContent = filterKnappCSS;
+document.head.appendChild(filterKnappStyle);
 
 // JavaScript för att hantera knapptryckning och visa filtermeny
 document.addEventListener("DOMContentLoaded", function() {
