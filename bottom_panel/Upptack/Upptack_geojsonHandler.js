@@ -1,3 +1,8 @@
+function notifyLayerStatusChanged() {
+    const event = new Event('layerStatusChanged');
+    document.dispatchEvent(event);
+}
+
 var layerURLs = {
     'Mässor': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/Massor.geojson'],
     'Jaktkort': ['https://raw.githubusercontent.com/jaktkartan/jaktkartan/main/bottom_panel/Upptack/jaktkort.geojson'],
