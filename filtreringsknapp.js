@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         top: '70%',
         right: '3px',
         transform: 'translateY(-40%)',
-        zIndex: '1000',
+        zIndex: '500',  // Lägre z-index
     });
 
     // Skapa filtreringsknappen
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
         right: '0',
         width: '250px',
         height: '100%',
-        zIndex: '1001',
+        zIndex: '501',  // Lägre z-index än tidigare men högre än knappen
         backgroundColor: '#fff',
         boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.2)',
         padding: '10px',
@@ -130,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
                     hideFilterMenu(); // Stäng menyn efter att valet gjorts
+                    updateButtonVisibility(); // Uppdatera knappens synlighet
                 }
             },
             {
@@ -144,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
                     hideFilterMenu(); // Stäng menyn efter att valet gjorts
+                    updateButtonVisibility(); // Uppdatera knappens synlighet
                 }
             },
             {
@@ -158,6 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
                     hideFilterMenu(); // Stäng menyn efter att valet gjorts
+                    updateButtonVisibility(); // Uppdatera knappens synlighet
                 }
             }
         ];
