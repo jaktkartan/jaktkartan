@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
             clearInterval(interval);
             updateButtonVisibility();
         }
-    }, 100); // Kontrollera var 100ms
+    }, 200); // Kontrollera var 200ms
 });
 
 // Anropa denna funktion varje gång du ändrar lagerstatus någon annanstans på sidan
