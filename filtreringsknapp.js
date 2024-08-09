@@ -191,17 +191,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 const listItem = document.createElement('li');
                 listItem.style.display = 'flex';
                 listItem.style.alignItems = 'center';
+                listItem.style.marginBottom = '10px'; // Lägg till lite utrymme mellan knapparna
 
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.id = filter.id;
-                checkbox.onchange = filter.onChange;
-
-                const label = document.createElement('label');
-                label.htmlFor = filter.id;
-                label.style.display = 'flex';
-                label.style.alignItems = 'center';
-                label.style.cursor = 'pointer';
+                const button = document.createElement('button');
+                button.style.display = 'flex';
+                button.style.alignItems = 'center';
+                button.style.width = '100%'; // Gör att knappen täcker hela bredden
+                button.style.padding = '10px';
+                button.style.border = '1px solid rgb(50, 94, 88)';
+                button.style.borderRadius = '5px';
+                button.style.backgroundColor = '#fff';
+                button.style.cursor = 'pointer';
+                button.style.transition = 'background-color 0.3s';
+                button.onmouseover = function() {
+                    button.style.backgroundColor = '#f0f0f0';
+                };
+                button.onmouseout = function() {
+                    button.style.backgroundColor = '#fff';
+                };
 
                 const img = document.createElement('img');
                 Object.assign(img.style, {
@@ -212,11 +219,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 img.src = filter.imgSrc;
                 img.alt = filter.text;
 
-                label.appendChild(img);
-                label.appendChild(document.createTextNode(filter.text));
+                const span = document.createElement('span');
+                span.textContent = filter.text;
 
-                listItem.appendChild(checkbox);
-                listItem.appendChild(label);
+                button.appendChild(img);
+                button.appendChild(span);
+                button.onclick = filter.onChange;
+
+                listItem.appendChild(button);
                 filterList.appendChild(listItem);
             });
 
