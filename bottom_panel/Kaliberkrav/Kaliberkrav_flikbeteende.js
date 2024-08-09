@@ -15,7 +15,6 @@ function openKaliberkravTab(url) {
         });
 }
 
-
 function populateTab4() {
     var tab = document.getElementById('tab4');
     tab.innerHTML = '';
@@ -28,7 +27,15 @@ function populateTab4() {
     paragraph.textContent = 'Kaliberkrav och lämplig hagelstorlek vid jakt';
     tab.appendChild(paragraph);
 
+    // Create a wrapper for the buttons
+    var buttonWrapper = document.createElement('div');
+    buttonWrapper.style.display = 'flex';
+    buttonWrapper.style.flexDirection = 'column';  // Stack buttons vertically
+    buttonWrapper.style.gap = '10px';  // Space between buttons
+    tab.appendChild(buttonWrapper);
+
     var button1 = document.createElement('button');
+    button1.style.width = '100%';  // Make the button take up the full width
     var img1 = document.createElement('img');
     img1.src = 'bottom_panel/Kartor/bilder/daggdjurikon.png';
     img1.alt = 'Kaliberkrav: Däggdjur';
@@ -38,9 +45,10 @@ function populateTab4() {
     button1.onclick = function() {
         openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Daggdjur.html');
     };
-    tab.appendChild(button1);
+    buttonWrapper.appendChild(button1);
 
     var button2 = document.createElement('button');
+    button2.style.width = '100%';  // Make the button take up the full width
     var img2 = document.createElement('img');
     img2.src = 'bottom_panel/Kartor/bilder/fagelikon.png';
     img2.alt = 'Kaliberkrav: Fågel';
@@ -50,5 +58,5 @@ function populateTab4() {
     button2.onclick = function() {
         openKaliberkravTab('bottom_panel/Kaliberkrav/Kaliberkrav_Fagel.html');
     };
-    tab.appendChild(button2);
+    buttonWrapper.appendChild(button2);
 }
