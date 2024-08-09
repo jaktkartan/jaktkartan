@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Lägger till rubriken "Filtrera"
         const header = document.createElement('h2');
-        header.textContent = 'Filtrera';
+        header.textContent = 'Filtrera innehåll:';
         header.style.marginTop = '0'; // Ta bort toppmarginal
         header.style.marginBottom = '15px'; // Lägg till lite utrymme under rubriken
         filterContainer.appendChild(header);
