@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
         right: '3px',
         transform: 'translateY(-40%)',
         zIndex: '500',  // Lägre z-index
+        display: 'none', // Börjar som dold
     });
 
     // Skapa filtreringsknappen
@@ -208,19 +209,15 @@ document.addEventListener("DOMContentLoaded", function() {
         filterKnappContainer.style.display = anyLayerActive ? 'block' : 'none';
     }
 
-    // Lägg till uppdatering av knappens synlighet i filterfunktionerna
-    const originalFilterLayer = Upptack_geojsonHandler.filterLayer;
-    Upptack_geojsonHandler.filterLayer = function(layerName) {
-        originalFilterLayer.call(this, layerName);
-        updateButtonVisibility();
-    };
-
-    const originalDeactivateAllLayers = Upptack_geojsonHandler.deactivateAllLayers;
-    Upptack_geojsonHandler.deactivateAllLayers = function() {
-        originalDeactivateAllLayers.call(this);
-        updateButtonVisibility();
-    };
+    // Event Listener för att uppdatera knappens synlighet från andra delar av sidan
+    document.addEventListener('layerStatusChanged', updateButtonVisibility);
 
     // Initialt, uppdatera knappens synlighet
     updateButtonVisibility();
 });
+
+// Anropa denna funktion varje gång du ändrar lagerstatus någon annanstans på sidan
+function notifyLayerStatusChanged() {
+    const event = new Event('layerStatusChanged');
+    document.dispatchEvent(event);
+}
