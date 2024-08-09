@@ -105,7 +105,7 @@ function openUpptack() {
             background-color: rgb(50, 94, 88); /* Färg på knappen */
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 5px;
             text-align: center;
             text-decoration: none;
             font-size: 16px;
@@ -118,7 +118,7 @@ function openUpptack() {
         .link-button img {
             height: 20px; /* Ändrar storlek på bilden */
             width: auto;
-            margin-left: 10px;
+            margin-left: 5px;
             border-radius: 0 !important; /* Tar bort rundade hörn med !important */
         }
         .link-button .custom-image {
