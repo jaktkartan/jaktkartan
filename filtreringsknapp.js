@@ -8,13 +8,12 @@ document.addEventListener("DOMContentLoaded", function() {
             top: '70%',
             right: '3px',
             transform: 'translateY(-40%)',
-            zIndex: '1000',
+            zIndex: '400',
             display: 'none',
         });
 
         const filterKnapp = document.createElement('button');
         Object.assign(filterKnapp.style, {
-            backgroundColor: '#fff',
             border: '1px solid #ccc',
             width: '60px',
             height: '60px',
