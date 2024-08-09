@@ -74,30 +74,39 @@ document.addEventListener("DOMContentLoaded", function() {
         const filterContainer = document.createElement('div');
         Object.assign(filterContainer.style, {
             position: 'fixed',
-            top: '0',
+            top: '50%', // Starta från mitten av skärmen
             right: '0',
             width: '250px',
-            height: '100%',
-            zIndex: '1001',
+            maxHeight: 'calc(100% - 20px)', // Maximal höjd är nästan hela skärmen
             backgroundColor: '#fff',
             boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.2)',
             padding: '10px',
-            transform: 'translateX(100%)',
+            transform: 'translateX(100%) translateY(-50%)', // Positionera mitt i skärmen
             transition: 'transform 0.3s ease-in-out',
             display: 'none',
+            borderTopLeftRadius: '10px', // Rundade hörn uppe vänster
+            borderBottomLeftRadius: '10px', // Rundade hörn nere vänster
+            overflowY: 'auto', // Lägg till skroll om innehållet överstiger maximal höjd
         });
 
         document.body.appendChild(filterContainer);
 
+        // Lägger till rubriken "Filtrera"
+        const header = document.createElement('h2');
+        header.textContent = 'Filtrera';
+        header.style.marginTop = '0'; // Ta bort toppmarginal
+        header.style.marginBottom = '15px'; // Lägg till lite utrymme under rubriken
+        filterContainer.appendChild(header);
+
         function showFilterMenu() {
             filterContainer.style.display = 'block';
             setTimeout(() => {
-                filterContainer.style.transform = 'translateX(0px)';
+                filterContainer.style.transform = 'translateX(0px) translateY(-50%)';
             }, 10);
         }
 
         function hideFilterMenu() {
-            filterContainer.style.transform = 'translateX(100%)';
+            filterContainer.style.transform = 'translateX(100%) translateY(-50%)';
             setTimeout(() => {
                 filterContainer.style.display = 'none';
             }, 300);
