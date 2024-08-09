@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
                     hideFilterMenu(); // Stäng menyn efter att valet gjorts
-                    updateButtonVisibility(); // Uppdatera knappens synlighet
+                    notifyLayerStatusChanged(); // Uppdatera knappens synlighet
                 }
             },
             {
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
                     hideFilterMenu(); // Stäng menyn efter att valet gjorts
-                    updateButtonVisibility(); // Uppdatera knappens synlighet
+                    notifyLayerStatusChanged(); // Uppdatera knappens synlighet
                 }
             },
             {
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
                     hideFilterMenu(); // Stäng menyn efter att valet gjorts
-                    updateButtonVisibility(); // Uppdatera knappens synlighet
+                    notifyLayerStatusChanged(); // Uppdatera knappens synlighet
                 }
             }
         ];
@@ -205,15 +205,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Funktion för att uppdatera knappens synlighet
     function updateButtonVisibility() {
-        const anyLayerActive = Object.values(Upptack_geojsonHandler.layerIsActive).some(isActive => isActive);
-        filterKnappContainer.style.display = anyLayerActive ? 'block' : 'none';
+        if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.layerIsActive) {
+            const anyLayerActive = Object.values(Upptack_geojsonHandler.layerIsActive).some(isActive => isActive);
+            filterKnappContainer.style.display = anyLayerActive ? 'block' : 'none';
+        }
     }
 
     // Event Listener för att uppdatera knappens synlighet från andra delar av sidan
     document.addEventListener('layerStatusChanged', updateButtonVisibility);
 
-    // Initialt, uppdatera knappens synlighet
-    updateButtonVisibility();
+    // Vänta tills Upptack_geojsonHandler är definierad, uppdatera då knappens synlighet
+    const interval = setInterval(function() {
+        if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.layerIsActive) {
+            clearInterval(interval);
+            updateButtonVisibility();
+        }
+    }, 100); // Kontrollera var 100ms
 });
 
 // Anropa denna funktion varje gång du ändrar lagerstatus någon annanstans på sidan
