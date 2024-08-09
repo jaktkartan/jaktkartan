@@ -1,3 +1,6 @@
+console.log("filtreringsknapp.js is loaded and running.");
+
+
 document.addEventListener("DOMContentLoaded", function() {
     // Skapa container för filtreringsknappen
     const filterKnappContainer = document.createElement('div');
