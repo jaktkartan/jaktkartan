@@ -1,16 +1,16 @@
 /* Anpassad CSS för FAB knappar och Modal */
 .fab {
     position: fixed;
-    bottom: 100px;
-    right: 20px;
+    bottom: 30%; /* Justera denna för att placera den under "filtrera"-knappen */
+    right: 3px; /* Samma som "filtrera"-knappen i sidled */
     min-width: 60px;
     height: 60px;
-    padding: 0 10px;
-    border-radius: 30px;
-    background-color: rgb(50, 94, 88);
-    color: white;
+    padding: 0;
+    border-radius: 5px; /* Liknar "filtrera"-knappen */
+    background-color: #fff; /* Samma bakgrundsfärg som "filtrera"-knappen */
+    color: rgb(50, 94, 88); /* Textfärg som liknar kanten på "filtrera"-knappen */
     font-size: 12px;
-    border: none;
+    border: 1px solid rgb(50, 94, 88); /* Samma kantlinje som "filtrera"-knappen */
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     z-index: 1000;
@@ -19,14 +19,15 @@
     justify-content: center;
     white-space: nowrap;
     overflow: hidden;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Lägg till övergångar för bakgrundsfärg och skugga */
 }
 
 .fab.show {
-    display: flex !important; /* Visa när klassen "show" läggs till, använd !important för att säkerställa visning */
+    display: flex !important; /* Visa när klassen "show" läggs till */
 }
 
 .fab:hover {
-    background-color: #004d3a; /* Mörkare grön färg vid hovring */
+    background-color: #f0f0f0; /* Mörkare färg vid hovring, liknar "filtrera"-knappen */
 }
 
 /* CSS för modalen */
