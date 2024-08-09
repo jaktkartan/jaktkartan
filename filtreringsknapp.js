@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
             borderTopLeftRadius: '10px', // Rundade hörn uppe vänster
             borderBottomLeftRadius: '10px', // Rundade hörn nere vänster
             overflowY: 'auto', // Lägg till skroll om innehållet överstiger maximal höjd
+            zIndex: '401',
         });
 
         document.body.appendChild(filterContainer);
