@@ -1,19 +1,18 @@
 /* Anpassad CSS för FAB knappar och Modal */
 .fab {
     position: fixed;
-    top: calc(70% + 70px); /* Placerar knappen precis under "filtrera"-knappen */
+    top: calc(70% + 30px); /* Placerar knappen precis under "filtrera"-knappen */
     right: 3px; /* Samma som "filtrera"-knappen i sidled */
     min-width: 60px;
     height: 60px;
     padding: 0;
     border-radius: 5px; /* Liknar "filtrera"-knappen */
-    background-color: #fff; /* Samma bakgrundsfärg som "filtrera"-knappen */
     color: rgb(50, 94, 88); /* Textfärg som liknar kanten på "filtrera"-knappen */
     font-size: 12px;
     border: 1px solid rgb(50, 94, 88); /* Samma kantlinje som "filtrera"-knappen */
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    z-index: 1000;
+    z-index: 400;
     display: none; /* Bör vara dold från början */
     align-items: center;
     justify-content: center;
