@@ -1,7 +1,7 @@
 /* Anpassad CSS för FAB knappar och Modal */
 .fab {
     position: fixed;
-    top: calc(70% + 30px); /* Placerar knappen precis under "filtrera"-knappen */
+    top: calc(70% + 38px); /* Placerar knappen precis under "filtrera"-knappen */
     right: 3px; /* Samma som "filtrera"-knappen i sidled */
     min-width: 60px;
     height: 60px;
