@@ -87,6 +87,7 @@ setTimeout(function() {
                 deactivateLayer(layerName);
             }
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager togglas
+            notifyLayerStatusChanged(); // Uppdatera filtreringsknappens synlighet
         }
 
         function activateLayer(layerName) {
@@ -101,6 +102,7 @@ setTimeout(function() {
             layerIsActive[layerName] = true;
             console.log(`Layer ${layerName} activated.`);
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager aktiveras
+            notifyLayerStatusChanged(); // Uppdatera filtreringsknappens synlighet
         }
 
         function deactivateLayer(layerName) {
@@ -111,6 +113,7 @@ setTimeout(function() {
             layerIsActive[layerName] = false;
             console.log(`Layer ${layerName} deactivated.`);
             updateFabUpptackVisibility(); // Uppdatera FAB-knappen när lager avaktiveras
+            notifyLayerStatusChanged(); // Uppdatera filtreringsknappens synlighet
         }
 
         function activateAllLayers() {
@@ -119,6 +122,7 @@ setTimeout(function() {
                 activateLayer(layerName);
             });
             updateFabUpptackVisibility();
+            notifyLayerStatusChanged(); // Uppdatera filtreringsknappens synlighet
         }
 
         function deactivateAllLayers() {
@@ -132,12 +136,14 @@ setTimeout(function() {
                 }
             });
             updateFabUpptackVisibility();
+            notifyLayerStatusChanged(); // Uppdatera filtreringsknappens synlighet
         }
 
         function filterLayer(layerName) {
             console.log(`Filtering to layer: ${layerName}`);
             deactivateAllLayers();
             activateLayer(layerName);
+            notifyLayerStatusChanged(); // Uppdatera filtreringsknappens synlighet
         }
 
         function getIconAnchor(iconSize) {
