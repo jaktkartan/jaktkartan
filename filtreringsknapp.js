@@ -127,11 +127,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Filtering to Mässor layer');
                         Upptack_geojsonHandler.filterLayer('Mässor');
+                        notifyLayerStatusChanged(); // Uppdatera knappens synlighet
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
                     hideFilterMenu(); // Stäng menyn efter att valet gjorts
-                    notifyLayerStatusChanged(); // Uppdatera knappens synlighet
                 }
             },
             {
@@ -142,11 +142,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Filtering to Jaktkort layer');
                         Upptack_geojsonHandler.filterLayer('Jaktkort');
+                        notifyLayerStatusChanged(); // Uppdatera knappens synlighet
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
                     hideFilterMenu(); // Stäng menyn efter att valet gjorts
-                    notifyLayerStatusChanged(); // Uppdatera knappens synlighet
                 }
             },
             {
@@ -157,11 +157,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (typeof Upptack_geojsonHandler !== 'undefined') {
                         console.log('Filtering to Jaktskyttebanor layer');
                         Upptack_geojsonHandler.filterLayer('Jaktskyttebanor');
+                        notifyLayerStatusChanged(); // Uppdatera knappens synlighet
                     } else {
                         console.error("Upptack_geojsonHandler är inte definierad.");
                     }
                     hideFilterMenu(); // Stäng menyn efter att valet gjorts
-                    notifyLayerStatusChanged(); // Uppdatera knappens synlighet
                 }
             }
         ];
@@ -208,6 +208,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.layerIsActive) {
             const anyLayerActive = Object.values(Upptack_geojsonHandler.layerIsActive).some(isActive => isActive);
             filterKnappContainer.style.display = anyLayerActive ? 'block' : 'none';
+            console.log('Button visibility updated:', anyLayerActive ? 'Visible' : 'Hidden');
+        } else {
+            console.log('Upptack_geojsonHandler or layerIsActive not defined.');
         }
     }
 
