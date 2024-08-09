@@ -203,27 +203,33 @@ document.addEventListener("DOMContentLoaded", function() {
         contentDiv.appendChild(container);
     }
 
-    // Funktion för att uppdatera knappens synlighet
-    function updateButtonVisibility() {
-        if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.layerIsActive) {
+    // Funktion för att vänta på att Upptack_geojsonHandler ska vara definierad
+    function waitForUpptackHandler() {
+        return new Promise((resolve, reject) => {
+            const interval = setInterval(function() {
+                if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.layerIsActive) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 100); // Kontrollera var 100ms
+        });
+    }
+
+    // Använd waitForUpptackHandler för att vänta tills Upptack_geojsonHandler är definierad
+    waitForUpptackHandler().then(() => {
+        // Funktion för att uppdatera knappens synlighet
+        function updateButtonVisibility() {
             const anyLayerActive = Object.values(Upptack_geojsonHandler.layerIsActive).some(isActive => isActive);
             filterKnappContainer.style.display = anyLayerActive ? 'block' : 'none';
             console.log('Button visibility updated:', anyLayerActive ? 'Visible' : 'Hidden');
-        } else {
-            console.log('Upptack_geojsonHandler or layerIsActive not defined.');
         }
-    }
 
-    // Event Listener för att uppdatera knappens synlighet från andra delar av sidan
-    document.addEventListener('layerStatusChanged', updateButtonVisibility);
+        // Event Listener för att uppdatera knappens synlighet från andra delar av sidan
+        document.addEventListener('layerStatusChanged', updateButtonVisibility);
 
-    // Vänta tills Upptack_geojsonHandler är definierad, uppdatera då knappens synlighet
-    const interval = setInterval(function() {
-        if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.layerIsActive) {
-            clearInterval(interval);
-            updateButtonVisibility();
-        }
-    }, 200); // Kontrollera var 200ms
+        // Initial uppdatering av knappens synlighet
+        updateButtonVisibility();
+    });
 });
 
 // Anropa denna funktion varje gång du ändrar lagerstatus någon annanstans på sidan
