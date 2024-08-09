@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const filterKnapp = document.createElement('button');
         Object.assign(filterKnapp.style, {
-            border: '1px solid #ccc',
+            border: '1px solid rgb(50, 94, 88)',
             width: '60px',
             height: '60px',
             textAlign: 'center',
