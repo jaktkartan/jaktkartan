@@ -49,16 +49,21 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    // Vänta tills Upptack_geojsonHandler är definierad, uppdatera då knappens synlighet
+    function waitForUpptackHandler() {
+        if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.layerIsActive) {
+            updateButtonVisibility();
+        } else {
+            console.log('Waiting for Upptack_geojsonHandler to be defined...');
+            setTimeout(waitForUpptackHandler, 100); // Kontrollera var 100ms
+        }
+    }
+
+    // Starta väntan på Upptack_geojsonHandler
+    waitForUpptackHandler();
+
     // Event Listener för att uppdatera knappens synlighet från andra delar av sidan
     document.addEventListener('layerStatusChanged', updateButtonVisibility);
-
-    // Vänta tills Upptack_geojsonHandler är definierad, uppdatera då knappens synlighet
-    const interval = setInterval(function() {
-        if (typeof Upptack_geojsonHandler !== 'undefined' && Upptack_geojsonHandler.layerIsActive) {
-            clearInterval(interval);
-            updateButtonVisibility();
-        }
-    }, 200); // Kontrollera var 200ms
 
     // Visa eller dölj filtermenyn när knappen klickas
     filterKnapp.addEventListener('click', function() {
