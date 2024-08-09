@@ -11,6 +11,9 @@ var layerURLs = {
 
 var Upptack_geojsonHandler;
 
+// Logga när vi börjar initiera Upptack_geojsonHandler
+console.log("Initializing Upptack_geojsonHandler...");
+
 setTimeout(function() {
     Upptack_geojsonHandler = (function(map) {
         var layerIsActive = {
@@ -242,10 +245,21 @@ setTimeout(function() {
             activateAllLayers: activateAllLayers,
             activateLayer: activateLayer,
             deactivateLayer: deactivateLayer,
-            filterLayer: filterLayer
+            filterLayer: filterLayer,
+            layerIsActive: layerIsActive // Exponera layerIsActive
         };
     })(map);
+
+    // Logga att Upptack_geojsonHandler är definierad
+    console.log("Upptack_geojsonHandler has been defined:", Upptack_geojsonHandler);
 }, 1000);
+
+// Kontrollera om Upptack_geojsonHandler är globalt tillgänglig
+if (typeof Upptack_geojsonHandler !== 'undefined') {
+    console.log("Upptack_geojsonHandler is globally accessible:", Upptack_geojsonHandler);
+} else {
+    console.log("Upptack_geojsonHandler is NOT globally accessible.");
+}
 
 // Knappen tab2 (kartor) rensar geojson-lager från tab1 (upptäck) fliken.
 document.getElementById('tab2').addEventListener('click', function() {
