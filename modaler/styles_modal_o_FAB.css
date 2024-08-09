@@ -1,9 +1,9 @@
 .fab {
     position: fixed;
     top: calc(70% + 38px); /* Placerar knappen precis under "filtrera"-knappen */
-    right: 3px; /* Samma som "filtrera"-knappen i sidled */
-    width: 60px;
-    height: 60px;
+    right: 7px; /* Samma som "filtrera"-knappen i sidled */
+    width: 55px;
+    height: 55px;
     padding: 0;
     border-radius: 5px; /* Liknar "filtrera"-knappen */
     border: 1px solid rgb(50, 94, 88); /* Samma kantlinje som "filtrera"-knappen */
