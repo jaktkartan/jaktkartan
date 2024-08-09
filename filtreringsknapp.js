@@ -198,5 +198,26 @@ document.addEventListener("DOMContentLoaded", function() {
         container.appendChild(filterList);
         contentDiv.appendChild(container);
     }
-});
 
+    // Funktion för att uppdatera knappens synlighet
+    function updateButtonVisibility() {
+        const anyLayerActive = Object.values(Upptack_geojsonHandler.layerIsActive).some(isActive => isActive);
+        filterKnappContainer.style.display = anyLayerActive ? 'block' : 'none';
+    }
+
+    // Lägg till uppdatering av knappens synlighet i filterfunktionerna
+    const originalFilterLayer = Upptack_geojsonHandler.filterLayer;
+    Upptack_geojsonHandler.filterLayer = function(layerName) {
+        originalFilterLayer.call(this, layerName);
+        updateButtonVisibility();
+    };
+
+    const originalDeactivateAllLayers = Upptack_geojsonHandler.deactivateAllLayers;
+    Upptack_geojsonHandler.deactivateAllLayers = function() {
+        originalDeactivateAllLayers.call(this);
+        updateButtonVisibility();
+    };
+
+    // Initialt, uppdatera knappens synlighet
+    updateButtonVisibility();
+});
