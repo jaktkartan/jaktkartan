@@ -105,7 +105,7 @@ function openUpptack() {
             background-color: rgb(50, 94, 88); /* Färg på knappen */
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 3px;
             text-align: center;
             text-decoration: none;
             font-size: 16px;
