@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         Object.assign(filterKnappContainer.style, {
             position: 'fixed',
             top: '70%',
-            right: '3px',
+            right: '7px',
             transform: 'translateY(-40%)',
             zIndex: '400',
             display: 'none',
@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const filterKnapp = document.createElement('button');
         Object.assign(filterKnapp.style, {
             border: '1px solid rgb(50, 94, 88)',
-            width: '60px',
-            height: '60px',
+            width: '55px',
+            height: '55px',
             textAlign: 'center',
             textDecoration: 'none',
             cursor: 'pointer',
