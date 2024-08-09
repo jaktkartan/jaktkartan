@@ -57,10 +57,11 @@ document.addEventListener("DOMContentLoaded", function() {
         document.addEventListener('layerStatusChanged', updateButtonVisibility);
 
         filterKnapp.addEventListener('click', function() {
-            if (filterContainer.style.transform === 'translateX(0px)') {
-                hideFilterMenu();
-            } else {
+            // Toggle logik för att visa eller dölja filtermenyn
+            if (filterContainer.style.display === 'none' || filterContainer.style.transform === 'translateX(100%) translateY(-50%)') {
                 showFilterMenu();
+            } else {
+                hideFilterMenu();
             }
         });
 
