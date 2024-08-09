@@ -11,7 +11,7 @@ function openUpptack() {
 
     // Definiera CSS
     const style = document.createElement('style');
-    style.textContent = 
+    style.textContent = `
         .tabs {
             display: flex;
             width: 100%;
@@ -105,7 +105,7 @@ function openUpptack() {
             background-color: rgb(50, 94, 88); /* Färg på knappen */
             color: white;
             border: none;
-            padding: 10px 3px;
+            padding: 10px 20px;
             text-align: center;
             text-decoration: none;
             font-size: 16px;
@@ -124,7 +124,7 @@ function openUpptack() {
         .link-button .custom-image {
             border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
         }
-    ;
+    `;
     document.head.appendChild(style);
 
     // Skapa en container för flikarna
@@ -272,11 +272,11 @@ function openUpptack() {
                     featureDiv.appendChild(name);
 
                     const dates = document.createElement('p');
-                    dates.textContent = Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL};
+                    dates.textContent = `Datum: ${feature.properties.DATUM_FRAN} - ${feature.properties.DATUM_TILL}`;
                     featureDiv.appendChild(dates);
 
                     const info = document.createElement('p');
-                    info.textContent = Info: ${feature.properties.INFO};
+                    info.textContent = `Info: ${feature.properties.INFO}`;
                     featureDiv.appendChild(info);
 
                     const buttonsContainer = document.createElement('div');
