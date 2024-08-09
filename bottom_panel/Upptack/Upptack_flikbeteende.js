@@ -1,131 +1,129 @@
-function openUpptack() {
-    // Hitta tab-pane för upptäck
-    const tabPane = document.getElementById('tab1');
-    if (!tabPane) {
-        console.error('Tab pane for upptäck not found.');
-        return;
+const style = document.createElement('style');
+style.textContent = `
+    .tabs {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        background-color: #f1f1f1;
+    }
+    .tab-button {
+        flex: 1;
+        padding: 5px 8px; /* Minska padding för knapparna */
+        cursor: pointer;
+        text-align: center;
+        background-color: #ddd;
+        border: none;
+        outline: none;
+        transition: background-color 0.3s;
+        font-size: 16px; /* Standard textstorlek */
+    }
+    .tab-button.active {
+        background-color: #bbb;
+    }
+    .tab-content-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px 0px; /* Minska padding */
+        box-sizing: border-box;
+    }
+    .tab-content {
+        display: none;
+    }
+    .geojson-container {
+        margin-bottom: 5px; /* Minska marginalen mellan rader */
+    }
+    .geojson-feature-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .geojson-feature {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 5px; /* Minska marginalen mellan funktionerna */
+        padding: 8px; /* Minska padding */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        flex-grow: 1;
+    }
+    .geojson-feature h3 {
+        margin: 0;
+        padding: 3px 0; /* Minska padding */
+    }
+    .geojson-feature p {
+        margin: 0;
+        padding: 2px 0; /* Minska padding */
+    }
+    .geojson-feature img {
+        width: 85%; /* Minska bildstorleken något */
+        display: block;
+        margin: 0 auto 3px auto; /* Minska marginalen runt bilden */
+    }
+    .nav-button {
+        background-color: #326E58; /* Bakgrundsfärg */
+        color: white; /* Textfärg */
+        border: none;
+        width: 35px; /* Minska storleken på knapparna */
+        height: 35px; /* Minska storleken på knapparna */
+        text-align: center;
+        text-decoration: none;
+        font-size: 18px; /* Minska textstorleken */
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background-color 0.3s, box-shadow 0.3s; /* Övergångseffekt */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .nav-button:hover {
+        background-color: #274E44; /* Mörkare bakgrundsfärg vid hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Skugga vid hover */
+    }
+    .nav-button:active {
+        background-color: #19362E; /* Ännu mörkare bakgrundsfärg vid klick */
+    }
+    .button-container {
+        margin-top: 8px; /* Minska marginalen ovanför knappcontainern */
+    }
+    .link-button {
+        display: inline-flex;
+        align-items: center;
+        background-color: rgb(50, 94, 88); /* Färg på knappen */
+        color: white;
+        border: none;
+        padding: 8px 16px; /* Minska padding i knapparna */
+        text-align: center;
+        text-decoration: none;
+        font-size: 14px; /* Minska textstorleken */
+        margin: 2px; /* Minska marginalerna mellan knapparna */
+        cursor: pointer;
+        border-radius: 5px;
+        white-space: nowrap; /* Förhindra radbrytning */
+        justify-content: center; /* Centrera innehållet horisontellt */
+    }
+    .link-button img {
+        height: 18px; /* Minska storlek på bilden */
+        width: auto;
+        margin-left: 8px; /* Minska marginalen mellan text och bild */
+        border-radius: 0 !important; /* Tar bort rundade hörn med !important */
+    }
+    .link-button .custom-image {
+        border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
     }
 
-    // Rensa tidigare innehåll
-    tabPane.innerHTML = '';
-
-    // Definiera CSS
-    const style = document.createElement('style');
-    style.textContent = `
-        .tabs {
-            display: flex;
-            width: 100%;
-            justify-content: space-around;
-            background-color: #f1f1f1;
-        }
+    /* Media query för mindre skärmar */
+    @media (max-width: 375px) {
         .tab-button {
-            flex: 1;
-            padding: 10px;
-            cursor: pointer;
-            text-align: center;
-            background-color: #ddd;
-            border: none;
-            outline: none;
-            transition: background-color 0.3s;
+            font-size: 12px; /* Minska textstorleken på knapparna för små skärmar */
+            padding: 4px 6px; /* Minska padding för små skärmar */
         }
-        .tab-button.active {
-            background-color: #bbb;
-        }
-        .tab-content-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            padding: 15px 0px 5px 0px;
-            box-sizing: border-box;
-        }
-        .tab-content {
-            display: none;
-        }
-        .geojson-container {
-            margin-bottom: 10px; /* Minska avståndet mellan rader */
-        }
-        .geojson-feature-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .geojson-feature {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 10px; /* Minska avståndet mellan funktionerna */
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            flex-grow: 1;
-        }
-        .geojson-feature h3 {
-            margin: 0;
-            padding: 5px 0; /* Minska padding */
-        }
-        .geojson-feature p {
-            margin: 0;
-            padding: 3px 0; /* Minska padding */
-        }
-        .geojson-feature img {
-            width: 90%; /* Gör så att bilden tar upp 90% av tillgänglig plats */
-            display: block;
-            margin: 0 auto 5px auto; /* Centrera bilden horisontellt och lägg till marginal nedåt */
-        }
-        .nav-button {
-            background-color: #326E58; /* Bakgrundsfärg */
-            color: white; /* Textfärg */
-            border: none;
-            width: 40px;
-            height: 40px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 20px;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: background-color 0.3s, box-shadow 0.3s; /* Övergångseffekt */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .nav-button:hover {
-            background-color: #274E44; /* Mörkare bakgrundsfärg vid hover */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Skugga vid hover */
-        }
-        .nav-button:active {
-            background-color: #19362E; /* Ännu mörkare bakgrundsfärg vid klick */
-        }
-        .button-container {
-            margin-top: 10px;
-        }
-        .link-button {
-            display: inline-flex;
-            align-items: center;
-            background-color: rgb(50, 94, 88); /* Färg på knappen */
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-            white-space: nowrap; /* Förhindra radbrytning */
-            justify-content: center; /* Lägg till detta för att centrera innehållet horisontellt */
-        }
-        .link-button img {
-            height: 20px; /* Ändrar storlek på bilden */
-            width: auto;
-            margin-left: 10px;
-            border-radius: 0 !important; /* Tar bort rundade hörn med !important */
-        }
-        .link-button .custom-image {
-            border-radius: 0 !important; /* Tar bort rundade hörn specifikt för denna bild */
-        }
-    `;
-    document.head.appendChild(style);
+    }
+`;
+document.head.appendChild(style);
+
 
     // Skapa en container för flikarna
     const tabsContainer = document.createElement('div');
