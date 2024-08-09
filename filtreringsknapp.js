@@ -126,6 +126,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const filters = [
                 {
+                    id: 'visaAlltButton',
+                    text: 'Visa allt',
+                    imgSrc: 'bottom_panel/Upptack/bilder/visa_allt_ikon.png',
+                    onChange: function() {
+                        if (typeof Upptack_geojsonHandler !== 'undefined') {
+                            console.log('Activating all layers');
+                            Upptack_geojsonHandler.activateAllLayers();
+                            notifyLayerStatusChanged(); // Uppdatera knappens synlighet
+                        } else {
+                            console.error("Upptack_geojsonHandler är inte definierad.");
+                        }
+                        hideFilterMenu(); // Stäng menyn efter att valet gjorts
+                    }
+                },
+                {
                     id: 'massorCheckbox',
                     text: 'Mässor',
                     imgSrc: 'bottom_panel/Upptack/bilder/massa_ikon.png',
