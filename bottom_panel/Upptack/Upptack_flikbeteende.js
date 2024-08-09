@@ -42,26 +42,19 @@ function openUpptack() {
             display: none;
         }
         .geojson-container {
-            width: 100%; /* Säkerställer att containern tar upp hela bredden av skärmen */
-            overflow: hidden; /* Döljer eventuell overflow för att förhindra sidoscroll */
             margin-bottom: 10px; /* Minska avståndet mellan rader */
         }
         .geojson-feature-container {
             display: flex;
-            flex-wrap: wrap; /* Gör så att barnen wrappar om det behövs */
+            align-items: center;
             justify-content: space-between;
-            width: 100%; /* Säkerställer att containern tar upp hela bredden av skärmen */
-            box-sizing: border-box; /* Inkluderar padding och border i bredd */
         }
         .geojson-feature {
-            flex: 1 1 auto; /* Flexibelt element som växer med tillgänglig plats */
-            min-width: 0; /* Förhindrar att den får ett minimumsbredd och orsakar sidoscroll */
-            padding: 10px;
-            box-sizing: border-box; /* Inkluderar padding och border i bredd */
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 0 10px; /* Minska avståndet mellan funktionerna */
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             flex-grow: 1;
@@ -75,11 +68,9 @@ function openUpptack() {
             padding: 3px 0; /* Minska padding */
         }
         .geojson-feature img {
-            width: 100%; /* Gör så att bilden anpassar sig till sin behållare */
-            height: auto; /* Behåller bildens proportioner */
+            width: 90%; /* Gör så att bilden tar upp 90% av tillgänglig plats */
             display: block;
-            margin: 0 auto 5px auto; /* Centrera bilden horisontellt */
-            object-fit: cover; /* Anpassar bilden så den täcker hela utrymmet */
+            margin: 0 auto 5px auto; /* Centrera bilden horisontellt och lägg till marginal nedåt */
         }
         .nav-button {
             background-color: #326E58; /* Bakgrundsfärg */
